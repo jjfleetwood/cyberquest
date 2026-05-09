@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getProgress } from "@/lib/progress";
+import { getSession } from "@/lib/auth";
 
 type Player = {
   name: string;
@@ -33,15 +34,20 @@ export default function LeaderboardPage() {
   const [myXP, setMyXP] = useState(0);
   const [myStages, setMyStages] = useState(0);
   const [myBadges, setMyBadges] = useState(0);
+  const [myName, setMyName] = useState("Guest");
 
   useEffect(() => {
+    const sessionUsername = getSession();
+    const displayName = sessionUsername ?? "Guest";
+    setMyName(displayName);
+
     const p = getProgress();
     setMyXP(p.xp);
     setMyStages(p.completedStages.length);
     setMyBadges(p.badges.length);
 
     const me: Player = {
-      name: "You",
+      name: displayName,
       xp: p.xp,
       stages: p.completedStages.length,
       badges: p.badges.length,

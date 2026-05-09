@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { stages as allStages } from "@/data/stages";
 import { getProgress } from "@/lib/progress";
+import { getSession, clearSession } from "@/lib/auth";
 
 const categoryColors: Record<string, string> = {
   cybersecurity: "text-cyan-400 bg-cyan-400/10 border-cyan-400/30",
@@ -18,14 +20,25 @@ const categoryLabel: Record<string, string> = {
 };
 
 export default function StagesPage() {
+  const router = useRouter();
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [totalXp, setTotalXp] = useState(0);
+  const [username, setUsername] = useState<string | null>(null);
 
   useEffect(() => {
+    const session = getSession();
+    setUsername(session);
     const progress = getProgress();
     setCompletedStages(progress.completedStages);
     setTotalXp(progress.xp);
   }, []);
+
+  function handleLogout() {
+    clearSession();
+    router.refresh();
+    // Re-read session after clearing
+    setUsername(null);
+  }
 
   const maxXp = allStages.reduce((sum, s) => sum + s.xp, 0);
 
@@ -66,6 +79,31 @@ export default function StagesPage() {
             <span className="text-cyan-400 font-mono text-sm">{totalXp} XP</span>
           </div>
         </div>
+
+        {/* Auth banner */}
+        {username ? (
+          <div className="flex items-center justify-between bg-cyan-500/5 border border-cyan-500/20 rounded-xl px-5 py-3 mb-6">
+            <span className="text-sm text-gray-300">
+              👤 Welcome, <span className="text-cyan-400 font-semibold">{username}</span>!
+            </span>
+            <button
+              onClick={handleLogout}
+              className="text-xs text-gray-500 hover:text-red-400 transition-colors"
+            >
+              Log out
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center justify-between gap-3 bg-white/3 border border-white/10 rounded-xl px-5 py-3 mb-6">
+            <span className="text-sm text-gray-400">
+              👤 Playing as Guest —{" "}
+              <Link href="/login" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                Sign in
+              </Link>{" "}
+              to save your progress across devices.
+            </span>
+          </div>
+        )}
 
         {/* Stage list */}
         <div className="flex flex-col gap-4">

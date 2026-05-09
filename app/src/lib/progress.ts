@@ -1,15 +1,24 @@
+import { getSession } from "@/lib/auth";
+
 export type UserProgress = {
   xp: number;
   completedStages: string[];
   badges: string[];
 };
 
-const KEY = "cyberquest_progress";
+const BASE_KEY = "cyberquest_progress";
+
+/** Returns the localStorage key scoped to the current session user, or the
+ *  anonymous fallback key if no session is active. */
+function progressKey(): string {
+  const username = getSession();
+  return username ? `${BASE_KEY}_${username}` : BASE_KEY;
+}
 
 function load(): UserProgress {
   if (typeof window === "undefined") return { xp: 0, completedStages: [], badges: [] };
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(progressKey());
     return raw ? (JSON.parse(raw) as UserProgress) : { xp: 0, completedStages: [], badges: [] };
   } catch {
     return { xp: 0, completedStages: [], badges: [] };
@@ -17,7 +26,7 @@ function load(): UserProgress {
 }
 
 function save(p: UserProgress) {
-  if (typeof window !== "undefined") localStorage.setItem(KEY, JSON.stringify(p));
+  if (typeof window !== "undefined") localStorage.setItem(progressKey(), JSON.stringify(p));
 }
 
 export function getProgress(): UserProgress {
