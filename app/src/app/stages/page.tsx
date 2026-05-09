@@ -19,7 +19,7 @@ const stages = [
     description: "How AI is used to detect and respond to cyber threats.",
     category: "ai",
     xp: 150,
-    unlocked: false,
+    unlocked: true,
     completed: false,
     activities: 3,
   },
@@ -116,6 +116,11 @@ export default function StagesPage() {
                     >
                       {stage.category === "ai" ? "AI" : "Cybersecurity"}
                     </span>
+                    {stage.id === "stage-02" && (
+                      <span className="text-xs px-2 py-0.5 rounded-full border text-purple-400 bg-purple-400/10 border-purple-400/30">
+                        🚩 CTF
+                      </span>
+                    )}
                   </div>
                   <p className="text-gray-400 text-sm mb-3">{stage.description}</p>
 
