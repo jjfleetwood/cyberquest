@@ -8,8 +8,8 @@
  * auth library (NextAuth, Lucia, etc.) with a database.
  */
 
-const USERS_KEY = "cyberquest_users";
-const SESSION_KEY = "cyberquest_session";
+const USERS_KEY = "kryptos_users";
+const SESSION_KEY = "kryptos_session";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

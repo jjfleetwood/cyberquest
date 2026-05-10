@@ -14,7 +14,7 @@ type UserRow = StoredUser & {
 
 function getUserProgress(username: string) {
   try {
-    const raw = localStorage.getItem(`cyberquest_progress_${username}`);
+    const raw = localStorage.getItem(`kryptos_progress_${username}`);
     if (!raw) return { xp: 0, completedStages: 0, badges: 0 };
     const p = JSON.parse(raw);
     return {

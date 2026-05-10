@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CyberQuest — Learn Cybersecurity & AI",
-  description: "A gamified training platform for cybersecurity and AI skills.",
+  title: "Kryptós CronOS (κρυπτός χρόνος) — Defend Through Time",
+  description: "A gamified cybersecurity training platform. Break ciphers, exploit real vulnerabilities, and defend through the ages.",
 };
 
 export default function RootLayout({

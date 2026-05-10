@@ -38,7 +38,7 @@ export default function Nav() {
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-2xl">🛡️</span>
           <span className="text-white font-bold text-lg tracking-tight">
-            Cyber<span className="text-cyan-400">Quest</span>
+            Kryptós <span className="text-cyan-400">CronOS</span>
           </span>
         </Link>
 

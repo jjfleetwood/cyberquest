@@ -6,7 +6,7 @@ export type UserProgress = {
   badges: string[];
 };
 
-const BASE_KEY = "cyberquest_progress";
+const BASE_KEY = "kryptos_progress";
 
 /** Returns the localStorage key scoped to the current session user, or the
  *  anonymous fallback key if no session is active. */

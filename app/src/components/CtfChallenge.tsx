@@ -185,7 +185,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>([
     { type: "sys", text: "╔══════════════════════════════════════════╗" },
-    { type: "sys", text: `║   CyberQuest Terminal  v1.0              ║` },
+    { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
     { type: "sys", text: `║   Stage ${String(stage.order).padEnd(2)}: ${stage.subtitle.slice(0, 28).padEnd(28)}║` },
     { type: "sys", text: "╚══════════════════════════════════════════╝" },
     { type: "sys", text: "" },
@@ -435,7 +435,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
               <div className="w-3 h-3 rounded-full bg-red-500/70" />
               <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
               <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-2 text-gray-600 text-xs">cyberquest-terminal — bash</span>
+              <span className="ml-2 text-gray-600 text-xs">kryptos-cronos — bash</span>
             </div>
 
             {/* Output */}

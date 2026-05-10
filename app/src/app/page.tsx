@@ -258,14 +258,14 @@ export default function Home() {
         <footer className="border-t border-white/5 py-8 px-4 text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
             <span className="text-xl">🛡️</span>
-            <span className="text-white font-bold">Cyber<span className="text-cyan-400">Quest</span></span>
+            <span className="text-white font-bold">Kryptós <span className="text-cyan-400">CronOS</span></span>
           </div>
           <div className="flex justify-center gap-6 text-sm text-gray-600 mb-3">
             <Link href="/stages" className="hover:text-gray-400 transition-colors">Stages</Link>
             <Link href="/leaderboard" className="hover:text-gray-400 transition-colors">Leaderboard</Link>
             <Link href="/login" className="hover:text-gray-400 transition-colors">Sign In</Link>
           </div>
-          <p className="text-xs text-gray-700">© 2026 CyberQuest · Built for defenders</p>
+          <p className="text-xs text-gray-700">© 2026 Kryptós CronOS (κρυπτός χρόνος) · Built for defenders</p>
         </footer>
       </main>
     </>
