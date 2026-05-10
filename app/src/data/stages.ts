@@ -2127,7 +2127,7 @@ curl -u hacker:hacked123 https://target-iosxe/webui/
       ],
     },
     ctf: {
-      scenario: "A network gateway at the Hagia Sophia communications hub in Istanbul has been flagged by your handler. The device's admin panel accepts new user registrations without any authentication — anyone who reaches it can appoint themselves administrator. Register a backdoor account and pull the classified network records before the window closes.",
+      scenario: "In October 2023, a suspected Chinese state-sponsored group silently compromised over 40,000 Cisco IOS XE devices before Cisco disclosed the flaw. The technique: the admin panel registered new users without any authentication check. One request, administrator access, no credentials needed. Replicate the initial access method used in the largest IOS XE campaign ever recorded.",
       hint: "The admin panel's registration endpoint requires no credentials. Create an account, then use it to access the restricted configuration.",
       hints: [
         "Probe the target to confirm the vulnerability. Run: probe-target",
@@ -2270,7 +2270,7 @@ python extrabacon.py exploit -t target-asa \\
       ],
     },
     ctf: {
-      scenario: "A hardened communications node at the Tower of London facility runs a legacy monitoring protocol with a known buffer overflow. Your handler has pulled the default access code from a prior intercept. Send an oversized query packet to crash the protocol handler and bypass the access controls — then read the classified records inside.",
+      scenario: "EXTRABACON was the NSA's weapon for owning Cisco ASA firewalls — engineered by the Equation Group and leaked to the world by the Shadow Brokers in August 2016. The attack targets SNMP, a protocol most organizations leave wide open for network monitoring, often still running on the default community string. Overflow the handler's buffer with an oversized packet — the same technique that instantly handed every nation-state adversary the NSA's own playbook.",
       hint: "The monitoring protocol uses a default access code of 'public'. Once you confirm access, send an oversized packet to trigger the overflow and get in.",
       hints: [
         "Test the monitoring protocol with the default access code. Run: probe-snmp public",
@@ -2415,7 +2415,7 @@ python siet.py -i 192.168.1.1 -e shell.bin
       ],
     },
     ctf: {
-      scenario: "An asset near Angkor Wat has flagged a network switch with a forgotten provisioning port — port 4786, enabled during the facility's original setup and never disabled. It accepts connections with no credentials. Get in, pull the device configuration, and extract the classified data before the maintenance window closes.",
+      scenario: "In 2018, Russian GRU-linked operators used Cisco's Smart Install feature as the initial access vector for the VPNFilter malware campaign — infecting 500,000 routers and switches across 54 countries. The provisioning port, TCP 4786, was designed for internal setup and never meant to be exposed. No authentication. Replicate the Smart Install exploitation that gave GRU operators a foothold in critical infrastructure worldwide.",
       hint: "Scan the target to find the open provisioning port. Connect to it — no credentials required — and pull the configuration.",
       hints: [
         "Scan the target for open ports. Run: scan-target",
@@ -2568,7 +2568,7 @@ curl -k 'https://target-rv320/cgi-bin/export_debug_msg.exp' \\
       ],
     },
     ctf: {
-      scenario: "A router at the Notre-Dame administrative network in Paris exposes a configuration endpoint that returns the full device config — VPN keys, credentials, network topology — with no authentication required. One request. Your handler wants those keys. Make it.",
+      scenario: "CVE-2019-1653 was weaponized within hours of public disclosure — automated scanners harvested VPN pre-shared keys from thousands of exposed Cisco RV320 routers the same day Cisco published the advisory. One unauthenticated GET request to the config endpoint returns everything: credentials, network topology, PSK keys. This is what APT tooling does at scale the moment a CVE drops. Make the request.",
       hint: "The management interface has an unauthenticated config endpoint. Hit the right path and it hands over everything.",
       hints: [
         "Probe the management interface to map the attack surface. Run: probe-target /",
@@ -2692,7 +2692,7 @@ curl -k 'https://target-asa/+CSCOE+/files/../../+CSCOU+/../running-config'
       ],
     },
     ctf: {
-      scenario: "A VPN gateway at the Great Wall monitoring station is running a file server with a path traversal flaw — directory sequences in the URL aren't sanitized. The web root is locked down, but above it, the device's own config files are readable. Navigate above the web root and pull the classified configuration.",
+      scenario: "CVE-2020-3452 was disclosed on July 22, 2020. Proof-of-concept exploits were on Twitter the same afternoon. As COVID-19 had expanded VPN usage to record levels, APT groups targeting corporate networks immediately pivoted to harvesting ASA configurations — which contained LDAP credentials, VPN PSK keys, and in some cases domain admin paths. The traversal is simple: directory sequences the ASA doesn't sanitize let you read above the web root. Navigate there.",
       hint: "The file server doesn't strip ../ sequences. Use them to climb above the web root and reach the device config directory.",
       hints: [
         "Make a normal request to the file server to orient yourself. Run: request-file /files/index.json",
@@ -2823,7 +2823,7 @@ curl -X POST https://wlc-management/login \\
       ],
     },
     ctf: {
-      scenario: "Your handler has a tip on the wireless controller at the Alhambra facility in Granada. The device's authentication has a logic flaw: submitting a specific username bypasses all credential checks entirely — any password will do. Get in and pull the access configuration before the next security audit rotates the firmware.",
+      scenario: "CVE-2022-20695 required no prior access and no special tooling — one specific username submitted to the Cisco WLC management interface bypassed all authentication. The WLC controls every access point, RADIUS shared secret, and wireless policy on the network. An adversary with physical proximity or a foothold on any VLAN with WLC reachability gains full control of enterprise wireless infrastructure. No credentials. No noise. Just the right username.",
       hint: "Try logging in with different usernames. One specific value causes the authentication check to short-circuit and grant full access regardless of the password.",
       hints: [
         "Try a standard login to see the failure. Run: attempt-login admin wrongpass",
@@ -2953,7 +2953,7 @@ curl -X POST https://hx-node/hxinstall/install \\
       ],
     },
     ctf: {
-      scenario: "A datacenter node at the Krak des Chevaliers facility runs a provisioning API that passes URLs directly to the system shell without sanitizing special characters. Your handler needs root-level access. Inject a shell command after a semicolon in the URL parameter — the API will execute both the legitimate call and your injected command.",
+      scenario: "Cisco HyperFlex — the hyperconverged infrastructure platform managing enterprise data center compute, storage, and networking — was disclosed with a CVSS 9.8 command injection in May 2021. The provisioning API passes a URL parameter directly to a shell command without sanitizing special characters. Unauthenticated. Root on the node. For APT groups targeting data center infrastructure, this is the kind of access ransomware deployments and long-term implants are built on. Inject through the URL parameter.",
       hint: "The provisioning API passes the URL parameter to a shell command. Append your own command after a semicolon — both will execute.",
       hints: [
         "Send a clean request to see the API's normal response. Run: send-payload http://repo.local/pkg.tar",
@@ -3082,7 +3082,7 @@ curl https://target/webui/menu.json \\
       ],
     },
     ctf: {
-      scenario: "Your backdoor account from the Istanbul operation is still active on the target. Administrator access isn't enough — you need root to deploy a persistent implant that survives reboots. The device's web interface reflects unsanitized input in an authenticated context, which can be used to execute commands as the underlying OS process. Escalate, deploy the implant, and verify it's live.",
+      scenario: "The October 2023 IOS XE campaign was a two-stage operation. CVE-2023-20198 created the backdoor account — that was Stage 1. CVE-2023-20273 chained an XSS flaw in the same web interface to escalate to root and install 'BadCandy': a Lua implant embedded in the IOS XE filesystem that survived reboots and answered commands via a magic HTTP token. Cisco patched both CVEs on October 22. The implant still had to be manually removed. Complete the chain.",
       hint: "Your admin session is active. Inject a payload through the web interface's input reflection to escalate to root, then deploy the persistent implant.",
       hints: [
         "Confirm your current access level. Run: confirm-access",
@@ -3231,7 +3231,7 @@ curl -k "https://prime-infra/shell.jsp?cmd=id"
       ],
     },
     ctf: {
-      scenario: "The network management server at the Chichen Itza research center controls over two thousand devices. Its health monitoring endpoint accepts file uploads with no authentication. Upload an executable payload, trigger it, and you have root access — and through it, credentials for every device the platform manages.",
+      scenario: "Cisco Prime Infrastructure is the nerve center of enterprise Cisco networks — one compromise exposes credentials for every router, switch, and access point it manages. CVE-2019-1821 gave unauthenticated attackers file upload to root via the health monitoring endpoint. Nation-state operators actively target network management platforms because a single foothold cascades into total network visibility. Upload the payload. Own the platform.",
       hint: "The health endpoint takes unauthenticated file uploads. Upload a .jsp payload, then execute it to get a root shell.",
       hints: [
         "Probe the server to confirm the unauthenticated upload endpoint. Run: probe-server",
@@ -3369,7 +3369,7 @@ fetch('/api/v1/users', {method:'POST',
       ],
     },
     ctf: {
-      scenario: "The firewall at the Mont-Saint-Michel coastal facility has an XSS flaw in its management interface — certain parameters reflect back to the browser without encoding. The network administrator reviews all security alerts through that same interface. Craft a payload URL, confirm the reflection works, then get it in front of the admin. Their session token is the target.",
+      scenario: "APT spear-phishing campaigns routinely target network administrators — and when the target device has an XSS vulnerability in its own management interface, a single crafted link is all it takes. CVE-2020-3580 reflects unsanitized input through the Cisco ASA web interface. When an admin clicks a malicious URL, the script runs in their authenticated session — handing the attacker full firewall access through the admin's own browser. No credentials. No brute force. One link.",
       hint: "The error message parameter reflects unsanitized input. Craft a script payload, test it, then deliver the URL to the admin.",
       hints: [
         "Test the reflection — see if your input comes back unmodified. Run: craft-payload test123",
@@ -3516,7 +3516,7 @@ curl -k -X DELETE \\
       ],
     },
     ctf: {
-      scenario: "Your handler has two objectives at the Edinburgh Castle security hub. First: read the VPN configuration — it contains credentials your team needs. Second: delete it. The firewall's file server allows unauthenticated DELETE requests on traversable paths. Read the config for the intel, then wipe it to deny the defenders access to their own VPN.",
+      scenario: "CVE-2020-3187 is CVE-2020-3452's destructive sibling — the same path traversal, but with HTTP DELETE instead of GET. During the COVID VPN surge, both were chained: steal the credentials with a read, then destroy the config file to deny defenders access to their own infrastructure. Unauthenticated. No trace beyond the deletion itself. Two objectives: read the VPN config, then wipe it.",
       hint: "Use path traversal (../) to navigate above the web root and reach the VPN config. Read it first, then delete it.",
       hints: [
         "Survey the accessible file paths. Run: locate-file /files/",
@@ -3659,7 +3659,7 @@ sendp(pkt, iface="eth0")
       ],
     },
     ctf: {
-      scenario: "You're inside the Topkapi Palace network in Istanbul. The local router's DHCP server has a buffer overflow in its packet parser — no credentials needed, just network access. Send an oversized DHCP packet to corrupt the handler's memory and execute your commands on the device. This is the final op.",
+      scenario: "Network infrastructure protocol parsers are implemented in C and run at high privilege — the same class of vulnerability that enabled EternalBlue. CVE-2017-6736 is a buffer overflow in Cisco IOS's DHCP server: the option 82 field gets copied into a fixed-size buffer with no length check. Any device on the local network can send a DHCP packet. No credentials. No external access required. This is what lateral movement looks like once an adversary is already inside.",
       hint: "Send a normal DHCP packet first to confirm the server is live. Then send an oversized one to trigger the overflow.",
       hints: [
         "Confirm the DHCP server is running. Run: probe-dhcp",
