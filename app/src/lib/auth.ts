@@ -133,6 +133,14 @@ export async function register(
 
   saveUser(newUser);
   setSession(newUser.username);
+
+  // Fire-and-forget admin notification — non-blocking
+  fetch("/api/notify-registration", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username: newUser.username, email: newUser.email }),
+  }).catch(() => {});
+
   return { success: true };
 }
 
