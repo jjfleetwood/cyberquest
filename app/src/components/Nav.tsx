@@ -2,17 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getSession, clearSession } from "@/lib/auth";
+import { getSession, clearSession, isAdmin } from "@/lib/auth";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Nav() {
   const router = useRouter();
   const pathname = usePathname();
   const [username, setUsername] = useState<string | null>(null);
+  const [admin, setAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     setUsername(getSession());
+    setAdmin(isAdmin());
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -43,6 +45,11 @@ export default function Nav() {
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/stages" className="text-gray-400 hover:text-white transition-colors">Stages</Link>
           <Link href="/leaderboard" className="text-gray-400 hover:text-white transition-colors">Leaderboard</Link>
+          {admin && (
+            <Link href="/admin" className="text-red-400 hover:text-red-300 transition-colors font-semibold">
+              Admin ⚙️
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">

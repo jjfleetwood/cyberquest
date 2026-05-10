@@ -13,13 +13,22 @@ const SESSION_KEY = "cyberquest_session";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+export const ADMIN_USERNAME = "jjb";
+
 export type StoredUser = {
   username: string;
   email: string;
   passwordHash: string;
   salt: string;
   createdAt: number;
+  isAdmin?: boolean;
 };
+
+/** Returns true if the current session user is the admin. */
+export function isAdmin(): boolean {
+  const session = getSession();
+  return session?.toLowerCase() === ADMIN_USERNAME.toLowerCase();
+}
 
 // ─── Crypto helpers ───────────────────────────────────────────────────────────
 
@@ -119,6 +128,7 @@ export async function register(
     passwordHash,
     salt,
     createdAt: Date.now(),
+    isAdmin: username.trim().toLowerCase() === ADMIN_USERNAME.toLowerCase(),
   };
 
   saveUser(newUser);
