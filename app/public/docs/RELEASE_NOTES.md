@@ -2,6 +2,22 @@
 
 ---
 
+## v0.4.1 — 2026-05-10
+
+**Security hardening**
+
+- Admin username removed from source code — moved to server-side env var (`ADMIN_USERNAME`)
+- Admin cookie grant now server-side only via signed HMAC token (`ADMIN_SECRET`)
+- Added Next.js middleware — `/admin/**` routes blocked at the edge without valid HttpOnly cookie
+- New API route `/api/admin-session` handles admin cookie issuance and revocation
+- `isAdmin()` reads from stored user record instead of comparing against hardcoded string
+- Registration no longer auto-grants admin based on username match in client code
+- Admin notification email moved from hardcoded string to `ADMIN_EMAIL` env var
+- Added Content Security Policy header (`default-src 'self'`, `frame-ancestors 'none'`, restricted `connect-src`)
+- Fixed hardcoded admin username display in admin dashboard UI
+
+---
+
 ## v0.4.0 — 2026-05-10
 
 **Curriculum tracks + Cisco ops rewrite**

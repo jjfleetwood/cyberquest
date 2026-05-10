@@ -1,19 +1,7 @@
-/**
- * auth.ts — Client-side auth utilities for Kryptós CronOS.
- *
- * SECURITY CAVEAT: This is a demo app. Passwords are hashed with SHA-256 via
- * the Web Crypto API, but everything is stored in plain localStorage (no
- * server, no HttpOnly cookies, no HTTPS enforcement). Do NOT use this pattern
- * for real production apps. A proper implementation would use a server-side
- * auth library (NextAuth, Lucia, etc.) with a database.
- */
-
 const USERS_KEY = "kryptos_users";
 const SESSION_KEY = "kryptos_session";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-
-export const ADMIN_USERNAME = "jjb";
 
 export type StoredUser = {
   username: string;
@@ -24,15 +12,17 @@ export type StoredUser = {
   isAdmin?: boolean;
 };
 
-/** Returns true if the current session user is the admin. */
+/** Returns true if the current session user has admin privileges. */
 export function isAdmin(): boolean {
   const session = getSession();
-  return session?.toLowerCase() === ADMIN_USERNAME.toLowerCase();
+  if (!session) return false;
+  const users = getUsers();
+  const user = users.find((u) => u.username.toLowerCase() === session.toLowerCase());
+  return user?.isAdmin === true;
 }
 
 // ─── Crypto helpers ───────────────────────────────────────────────────────────
 
-/** Returns 32 random hex chars (16 bytes) as a salt. */
 export function generateSalt(): string {
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
@@ -41,7 +31,6 @@ export function generateSalt(): string {
     .join("");
 }
 
-/** PBKDF2-SHA-256 (100,000 iterations) of password + salt, returned as hex. */
 export async function hashPassword(password: string, salt: string): Promise<string> {
   const encoder = new TextEncoder();
   const keyMaterial = await crypto.subtle.importKey(
@@ -82,7 +71,6 @@ export function saveUser(user: StoredUser): void {
 
 // ─── Session ──────────────────────────────────────────────────────────────────
 
-/** Returns the logged-in username, or null if no session. */
 export function getSession(): string | null {
   if (typeof window === "undefined") return null;
   try {
@@ -100,6 +88,38 @@ export function setSession(username: string): void {
 export function clearSession(): void {
   if (typeof window === "undefined") return;
   sessionStorage.removeItem(SESSION_KEY);
+  fetch("/api/admin-session", { method: "DELETE" }).catch(() => {});
+}
+
+// ─── Admin session ────────────────────────────────────────────────────────────
+
+async function grantAdminIfEligible(username: string): Promise<boolean> {
+  try {
+    const res = await fetch("/api/admin-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username }),
+    });
+    const data = await res.json();
+    return data.isAdmin === true;
+  } catch {
+    return false;
+  }
+}
+
+function markUserAdmin(username: string): void {
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    if (!raw) return;
+    const users: StoredUser[] = JSON.parse(raw);
+    const user = users.find((u) => u.username.toLowerCase() === username.toLowerCase());
+    if (user) {
+      user.isAdmin = true;
+      localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    }
+  } catch {
+    // ignore
+  }
 }
 
 // ─── Auth actions ─────────────────────────────────────────────────────────────
@@ -138,13 +158,15 @@ export async function register(
     passwordHash,
     salt,
     createdAt: Date.now(),
-    isAdmin: username.trim().toLowerCase() === ADMIN_USERNAME.toLowerCase(),
+    isAdmin: false,
   };
 
   saveUser(newUser);
   setSession(newUser.username);
 
-  // Fire-and-forget admin notification — non-blocking
+  const adminGranted = await grantAdminIfEligible(newUser.username);
+  if (adminGranted) markUserAdmin(newUser.username);
+
   fetch("/api/notify-registration", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -173,5 +195,6 @@ export async function login(
   }
 
   setSession(user.username);
+  await grantAdminIfEligible(user.username);
   return { success: true };
 }

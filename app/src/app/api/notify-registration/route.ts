@@ -4,7 +4,8 @@ export async function POST(req: NextRequest) {
   const { username, email } = await req.json();
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
+  const adminEmail = process.env.ADMIN_EMAIL;
+  if (!apiKey || !adminEmail) {
     return NextResponse.json({ error: "Email service not configured" }, { status: 500 });
   }
 
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
     },
     body: JSON.stringify({
       from: "Kryptós CronOS <onboarding@resend.dev>",
-      to: ["jjbolotin@yahoo.com"],
+      to: [adminEmail],
       subject: `New user registered: ${username}`,
       html: `
         <div style="font-family: monospace; background: #0d1117; color: #e2e8f0; padding: 32px; border-radius: 8px; max-width: 480px;">

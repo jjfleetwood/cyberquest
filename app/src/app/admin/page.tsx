@@ -82,7 +82,7 @@ export default function AdminPage() {
                   ADMIN
                 </span>
               </div>
-              <p className="text-gray-600 text-sm">Logged in as <span className="text-cyan-400">jjb</span></p>
+              <p className="text-gray-600 text-sm">Logged in as <span className="text-cyan-400">{getSession()}</span></p>
             </div>
             <Link
               href="/admin/docs"
