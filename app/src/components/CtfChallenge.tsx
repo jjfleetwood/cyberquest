@@ -65,6 +65,47 @@ function TerminalLine({ line }: { line: Line }) {
   );
 }
 
+function HintDrawer({ hints, onClose }: { hints: string[]; onClose: () => void }) {
+  const [revealed, setRevealed] = useState(1);
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div
+        className="relative w-full max-w-sm bg-gray-950 border-l border-white/10 flex flex-col overflow-hidden"
+        style={{ maxHeight: "100dvh" }}
+      >
+        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 flex-shrink-0">
+          <span className="text-amber-400 font-semibold text-sm">💡 Hints</span>
+          <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors text-lg leading-none">✕</button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 text-sm">
+          <p className="text-gray-600 text-xs">
+            Each hint reveals a bit more. Use them only when you're genuinely stuck.
+          </p>
+          {hints.slice(0, revealed).map((hint, i) => (
+            <div key={i} className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
+              <p className="text-xs text-amber-600 mb-1.5 font-semibold uppercase tracking-wider">
+                Hint {i + 1} of {hints.length}
+              </p>
+              <p className="text-gray-300 leading-relaxed font-mono text-xs">{hint}</p>
+            </div>
+          ))}
+          {revealed < hints.length ? (
+            <button
+              onClick={() => setRevealed((r) => r + 1)}
+              className="w-full py-2.5 text-sm text-amber-400 border border-amber-500/30 rounded-lg hover:bg-amber-500/5 transition-colors"
+            >
+              Reveal hint {revealed + 1} →
+            </button>
+          ) : (
+            <p className="text-center text-xs text-gray-700 py-2">All hints revealed.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ReferenceDrawer({ stage, onClose }: { stage: StageConfig; onClose: () => void }) {
   const { info } = stage;
   return (
@@ -177,12 +218,14 @@ function ReferenceDrawer({ stage, onClose }: { stage: StageConfig; onClose: () =
 
 export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const ctf = stage.ctf!;
+  const hints = ctf.hints ?? [ctf.hint];
   const [cwd, setCwd] = useState("/");
   const [input, setInput] = useState("");
   const [solved, setSolved] = useState(false);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [hintsOpen, setHintsOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>([
     { type: "sys", text: "╔══════════════════════════════════════════╗" },
     { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
@@ -387,6 +430,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
 
   return (
     <>
+      {hintsOpen && <HintDrawer hints={hints} onClose={() => setHintsOpen(false)} />}
       {drawerOpen && <ReferenceDrawer stage={stage} onClose={() => setDrawerOpen(false)} />}
 
       <div
@@ -404,7 +448,13 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
                 <h1 className="text-white font-bold text-xl">{stage.title}</h1>
                 <p className="text-gray-500 text-sm">Stage {stage.order} — CTF: {stage.subtitle}</p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  onClick={() => setHintsOpen(true)}
+                  className="text-xs px-3 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
+                >
+                  💡 Hints ({hints.length})
+                </button>
                 <button
                   onClick={() => setDrawerOpen(true)}
                   className="text-xs px-3 py-1.5 border border-cyan-500/40 hover:border-cyan-400 text-cyan-400 rounded-lg transition-colors"
@@ -412,7 +462,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
                   📖 Reference
                 </button>
                 <span className="text-xs text-purple-400 bg-purple-400/10 border border-purple-400/30 rounded-full px-3 py-1">
-                  🚩 Capture the Flag
+                  🚩 CTF
                 </span>
               </div>
             </div>

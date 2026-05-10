@@ -32,6 +32,7 @@ export type CtfCommand = (args: string[]) => CtfCommandResult;
 export type CtfConfig = {
   scenario: string;
   hint: string;
+  hints?: string[];
   flag: string;
   files: Record<string, string>;
   dirs: Record<string, { name: string; isDir: boolean; hidden?: boolean }[]>;

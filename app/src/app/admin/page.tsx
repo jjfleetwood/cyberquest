@@ -84,6 +84,12 @@ export default function AdminPage() {
               </div>
               <p className="text-gray-600 text-sm">Logged in as <span className="text-cyan-400">jjb</span></p>
             </div>
+            <Link
+              href="/admin/docs"
+              className="flex items-center gap-2 px-4 py-2 border border-cyan-500/30 hover:border-cyan-400 text-cyan-400 rounded-lg text-sm transition-colors"
+            >
+              📄 View Docs
+            </Link>
           </div>
         </div>
 
