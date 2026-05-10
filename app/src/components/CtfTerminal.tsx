@@ -103,7 +103,7 @@ export default function CtfTerminal() {
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [lines, setLines] = useState<Line[]>([
     { type: "sys", text: "╔══════════════════════════════════════════╗" },
-    { type: "sys", text: "║   CyberQuest Terminal  v1.0              ║" },
+    { type: "sys", text: "║   Kryptós CronOS Terminal  v1.0          ║" },
     { type: "sys", text: "║   Stage 2: Rogue Model Recon             ║" },
     { type: "sys", text: "╚══════════════════════════════════════════╝" },
     { type: "sys", text: "" },
@@ -323,7 +323,7 @@ export default function CtfTerminal() {
             <div className="w-3 h-3 rounded-full bg-red-500/70" />
             <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
             <div className="w-3 h-3 rounded-full bg-green-500/70" />
-            <span className="ml-2 text-gray-600 text-xs">cyberquest-terminal — bash</span>
+            <span className="ml-2 text-gray-600 text-xs">kryptos-cronos — bash</span>
           </div>
 
           {/* Output area */}

@@ -1,13 +1,13 @@
-# CyberQuest — Technical Architecture
+# Kryptós CronOS — Technical Architecture
 **Version:** 1.0  
 **Date:** 2026-05-09  
-**Codebase:** github.com/jjfleetwood/cyberquest (branch: master, commit: 51ca22d)
+**Codebase:** github.com/jjfleetwood/kryptos-cronos (branch: master, commit: 51ca22d)
 
 ---
 
 ## 1. System Overview
 
-CyberQuest is a fully client-side Next.js application with zero backend infrastructure. All state (user accounts, progress, XP) lives in the browser's localStorage/sessionStorage. The app is deployed as a static + serverless hybrid on Vercel's global CDN.
+Kryptós CronOS is a fully client-side Next.js application with zero backend infrastructure. All state (user accounts, progress, XP) lives in the browser's localStorage/sessionStorage. The app is deployed as a static + serverless hybrid on Vercel's global CDN.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -31,7 +31,7 @@ CyberQuest is a fully client-side Next.js application with zero backend infrastr
                 │    GitHub       │
                 │  (Source Truth) │
                 │ jjfleetwood/    │
-                │   cyberquest    │
+                │ kryptos-cronos  │
                 └─────────────────┘
 ```
 
@@ -40,7 +40,7 @@ CyberQuest is a fully client-side Next.js application with zero backend infrastr
 ## 2. Repository Structure
 
 ```
-cyberquest/
+kryptos-cronos/
 ├── app/                          # Next.js application root
 │   ├── src/
 │   │   ├── app/                  # App Router pages
@@ -213,8 +213,8 @@ User types command → runCommand(raw)
 Registration:
   password + username → generateSalt() → 16-char hex salt
   (password + salt) → SHA-256 (Web Crypto) → passwordHash
-  { username, email, passwordHash, salt } → localStorage["cyberquest_users"]
-  username → sessionStorage["cyberquest_session"]
+  { username, email, passwordHash, salt } → localStorage["kryptos_users"]
+  username → sessionStorage["kryptos_session"]
 
 Login:
   username lookup → retrieve salt + storedHash
@@ -229,8 +229,8 @@ Login:
 function progressKey(): string {
   const user = getSession();           // reads sessionStorage
   return user
-    ? `cyberquest_progress_${user}`    // per-user key
-    : "cyberquest_progress";           // anonymous fallback
+    ? `kryptos_progress_${user}`    // per-user key
+    : "kryptos_progress";           // anonymous fallback
 }
 ```
 
@@ -240,10 +240,10 @@ function progressKey(): string {
 
 | Data | Storage | Key | Scope |
 |---|---|---|---|
-| User registry | localStorage | `cyberquest_users` | Browser/device |
-| Active session | sessionStorage | `cyberquest_session` | Tab lifetime |
-| User progress (XP, badges, completed stages) | localStorage | `cyberquest_progress_<username>` | Browser/device |
-| Anonymous progress | localStorage | `cyberquest_progress` | Browser/device |
+| User registry | localStorage | `kryptos_users` | Browser/device |
+| Active session | sessionStorage | `kryptos_session` | Tab lifetime |
+| User progress (XP, badges, completed stages) | localStorage | `kryptos_progress_<username>` | Browser/device |
+| Anonymous progress | localStorage | `kryptos_progress` | Browser/device |
 
 **Limitation:** Progress is device-local. A user signing in on a different device starts fresh. This is a known demo limitation; production would use a cloud database.
 
@@ -267,7 +267,7 @@ Developer (local)
                     ├── Output: .next/ folder
                     └── Deploy: serverless functions + static assets → iad1 (us-east)
                             │
-                            └── Production URL: cyberquest-jjfleetwood.vercel.app
+                            └── Production URL: kryptochron.vercel.app
 ```
 
 ### 8.2 Deployment Configuration

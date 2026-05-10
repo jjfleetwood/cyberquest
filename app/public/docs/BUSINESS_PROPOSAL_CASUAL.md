@@ -1,4 +1,4 @@
-# CyberQuest — The Pitch
+# Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
 
 ---
@@ -13,7 +13,7 @@ We're fixing that.
 
 ## What we built
 
-CyberQuest teaches cybersecurity the way it should have always been taught — by actually doing it.
+Kryptós CronOS teaches cybersecurity the way it should have always been taught — by actually doing it.
 
 Not watching a guy on YouTube explain SQL injection. Not reading a 400-page study guide. **Actually running the exploit in a simulated environment, on a replica of the real server where it happened.**
 
@@ -112,8 +112,8 @@ This isn't a pitch deck with a mockup. It's a working product:
 - 12 fully built stages with real CTF challenges
 - Auth system (register, login, per-user progress)
 - Leaderboard with live XP ranking
-- Deployed and running: **cyberquest-jjfleetwood.vercel.app**
-- GitHub: **github.com/jjfleetwood/cyberquest**
+- Deployed and running: **kryptochron.vercel.app**
+- GitHub: **github.com/jjfleetwood/kryptos-cronos**
 
 Built by one founder with an AI coding environment in one sprint. No engineering team yet. The tech is production-grade Next.js — not a throwaway demo that needs to be rebuilt.
 
@@ -135,10 +135,10 @@ At $1.2M ARR with a 50,000-user base and a clear enterprise pipeline, Series A i
 
 ## The one-liner version
 
-**CyberQuest is Duolingo for cybersecurity — except instead of translating Spanish sentences, you're exploiting the same vulnerability that cost Equifax $575 million.**
+**Kryptós CronOS is Duolingo for cybersecurity — except instead of translating Spanish sentences, you're exploiting the same vulnerability that cost Equifax $575 million.**
 
 If that sounds like something people will pay for, let's talk.
 
 ---
 
-*cyberquest-jjfleetwood.vercel.app | github.com/jjfleetwood/cyberquest*
+*kryptochron.vercel.app | github.com/jjfleetwood/kryptos-cronos*

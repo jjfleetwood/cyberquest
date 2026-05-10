@@ -1,5 +1,5 @@
 /**
- * auth.ts — Client-side auth utilities for CyberQuest.
+ * auth.ts — Client-side auth utilities for Kryptós CronOS.
  *
  * SECURITY CAVEAT: This is a demo app. Passwords are hashed with SHA-256 via
  * the Web Crypto API, but everything is stored in plain localStorage (no

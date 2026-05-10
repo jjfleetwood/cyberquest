@@ -1,4 +1,4 @@
-# CyberQuest
+# Kryptós CronOS
 ## Investor Briefing & Commercial Opportunity
 **Confidential — May 2026**
 
@@ -19,7 +19,7 @@ The result is a workforce that knows *about* security but cannot *do* security.
 
 ## The Opportunity
 
-CyberQuest is a **gamified, AI-personalized cybersecurity and AI-safety training platform** targeting three converging markets:
+Kryptós CronOS is a **gamified, AI-personalized cybersecurity and AI-safety training platform** targeting three converging markets:
 
 | Market | Size (2025) | CAGR |
 |---|---|---|
@@ -35,7 +35,7 @@ We are building at the intersection of all three.
 
 ### Core Experience
 
-CyberQuest delivers training through **stage-based missions** that simulate real attacks and real defenses. Each stage follows a four-part structure:
+Kryptós CronOS delivers training through **stage-based missions** that simulate real attacks and real defenses. Each stage follows a four-part structure:
 
 1. **Threat Briefing** — A detailed, technically accurate overview of a vulnerability class: its history, how it works mechanically, and the real-world incident where it caused maximum damage (Target breach, Equifax, WannaCry, Log4Shell).
 
@@ -139,7 +139,7 @@ This creates a tripartite flywheel: learners build skills → employers find cer
 | HackTheBox | Expert-focused | Too hard for beginners, no personalization |
 | Cybrary | Video courses | No hands-on, low completion |
 | KnowBe4 | Phishing simulation only | No technical depth |
-| **CyberQuest** | **Gamified + AI + CTF + curriculum** | **Early stage** |
+| **Kryptós CronOS** | **Gamified + AI + CTF + curriculum** | **Early stage** |
 
 Our differentiation: the only platform combining structured curriculum, real-exploit CTF challenges, AI personalization, and a social/competitive layer in a single product.
 
@@ -149,8 +149,8 @@ Our differentiation: the only platform combining structured curriculum, real-exp
 
 - **Product:** Fully functional demo with 12 stages, auth system, leaderboard, and CTF terminal
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at cyberquest-jjfleetwood.vercel.app
-- **GitHub:** github.com/jjfleetwood/cyberquest
+- **Deployment:** Live at kryptochron.vercel.app
+- **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---
 
@@ -172,7 +172,7 @@ Our differentiation: the only platform combining structured curriculum, real-exp
 
 ## Team
 
-CyberQuest is being built by a founder with domain expertise in the problem space and a commitment to AI-first product development. The technical foundation — architecture, security model, content, and deployment pipeline — was validated in a single accelerated build sprint.
+Kryptós CronOS is being built by a founder with domain expertise in the problem space and a commitment to AI-first product development. The technical foundation — architecture, security model, content, and deployment pipeline — was validated in a single accelerated build sprint.
 
 Advisory and engineering capacity available to discuss upon request.
 

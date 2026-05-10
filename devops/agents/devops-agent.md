@@ -1,7 +1,7 @@
-# CyberQuest DevOps Agent
+# Kryptós CronOS DevOps Agent
 
 ## Purpose
-This agent handles routine DevOps tasks for the CyberQuest project: starting the dev server, running build checks, managing local data, and monitoring for errors.
+This agent handles routine DevOps tasks for the Kryptós CronOS project: starting the dev server, running build checks, managing local data, and monitoring for errors.
 
 ## Trigger Phrases
 - "start the dev server" → run `devops/scripts/start-dev.sh`

@@ -1,4 +1,4 @@
-# CyberQuest Security Briefing
+# Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-09  
 **Reviewed by:** Claude Sonnet 4.6 (Automated Security Analysis)  
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-CyberQuest is a client-side Next.js application with no traditional backend. The attack surface is limited, but several areas require attention before a production launch with real user data. This briefing documents every finding, its severity, remediation status, and recommended next steps.
+Kryptós CronOS is a client-side Next.js application with no traditional backend. The attack surface is limited, but several areas require attention before a production launch with real user data. This briefing documents every finding, its severity, remediation status, and recommended next steps.
 
 **Overall Risk Rating: MEDIUM** — Acceptable for a VC demo. Requires hardening before handling sensitive user data at scale.
 
@@ -34,7 +34,7 @@ const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.enco
 
 ### 1.2 Client-Side User Storage — HIGH RISK for Production, Acceptable for Demo
 
-**Finding:** User credentials (username, email, SHA-256 hash, salt) are stored in `localStorage` under the key `cyberquest_users`. Any JavaScript running on the page can read this.
+**Finding:** User credentials (username, email, SHA-256 hash, salt) are stored in `localStorage` under the key `kryptos_users`. Any JavaScript running on the page can read this.
 
 **Impact:** XSS attacks could exfiltrate all user records. There is no server-side validation of session tokens.
 
@@ -44,7 +44,7 @@ const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.enco
 
 ### 1.3 Session Management — LOW RISK
 
-**Finding:** Sessions are stored in `sessionStorage` under `cyberquest_session` as a plain username string. There is no cryptographic session token, expiry, or server-side revocation.
+**Finding:** Sessions are stored in `sessionStorage` under `kryptos_session` as a plain username string. There is no cryptographic session token, expiry, or server-side revocation.
 
 **Impact:** A physically proximate attacker on a shared machine could read an active session. Sessions expire naturally on tab close (sessionStorage behavior).
 

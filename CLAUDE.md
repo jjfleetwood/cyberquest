@@ -1,7 +1,7 @@
-# CyberQuest — Claude Code Project Guide
+# Kryptós CronOS — Claude Code Project Guide
 
 ## Project Overview
-CyberQuest is a gamified cybersecurity and AI training platform built with Next.js (TypeScript + Tailwind CSS). Users progress through staged training activities that teach cybersecurity and AI concepts through interactive challenges.
+Kryptós CronOS is a gamified cybersecurity and AI training platform built with Next.js (TypeScript + Tailwind CSS). Users progress through staged training activities that teach cybersecurity and AI concepts through interactive challenges.
 
 ## Project Structure
 ```
