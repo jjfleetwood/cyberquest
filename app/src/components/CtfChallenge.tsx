@@ -226,6 +226,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hintsOpen, setHintsOpen] = useState(false);
+  const [briefingOpen, setBriefingOpen] = useState(false);
   const [lines, setLines] = useState<Line[]>([
     { type: "sys", text: "╔══════════════════════════════════════════╗" },
     { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
@@ -428,68 +429,82 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     }
   }
 
+  // Shorten cwd for display in the prompt on narrow screens
+  const promptCwd = cwd === "/" ? "/" : cwd.split("/").pop() + "";
+
+  function handleSend() {
+    runCommand(input);
+    setInput("");
+    inputRef.current?.focus();
+  }
+
   return (
     <>
       {hintsOpen && <HintDrawer hints={hints} onClose={() => setHintsOpen(false)} />}
       {drawerOpen && <ReferenceDrawer stage={stage} onClose={() => setDrawerOpen(false)} />}
 
       <div
-        className="min-h-screen flex flex-col px-4 py-8"
-        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)" }}
+        className="flex flex-col px-3 sm:px-4 py-3 sm:py-6"
+        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)", minHeight: "100dvh" }}
       >
-        <div className="max-w-4xl mx-auto w-full flex flex-col" style={{ minHeight: "calc(100vh - 4rem)" }}>
+        <div className="max-w-4xl mx-auto w-full flex flex-col flex-1">
           {/* Header */}
-          <div className="mb-4 flex-shrink-0">
-            <Link href="/stages" className="text-gray-500 hover:text-cyan-400 text-sm mb-3 inline-block transition-colors">
+          <div className="mb-3 flex-shrink-0">
+            <Link href="/stages" className="text-gray-500 hover:text-cyan-400 text-sm mb-2 inline-block transition-colors">
               ← Stage Map
             </Link>
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h1 className="text-white font-bold text-xl">{stage.title}</h1>
-                <p className="text-gray-500 text-sm">Stage {stage.order} — CTF: {stage.subtitle}</p>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="min-w-0">
+                <h1 className="text-white font-bold text-base sm:text-xl truncate">{stage.title}</h1>
+                <p className="text-gray-500 text-xs sm:text-sm">Stage {stage.order} · {stage.subtitle}</p>
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-1.5 flex-wrap">
+                <button
+                  onClick={() => setBriefingOpen((o) => !o)}
+                  className="text-xs px-2.5 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
+                >
+                  📋 {briefingOpen ? "Hide" : "Brief"}
+                </button>
                 <button
                   onClick={() => setHintsOpen(true)}
-                  className="text-xs px-3 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
+                  className="text-xs px-2.5 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
                 >
-                  💡 Hints ({hints.length})
+                  💡 Hints
                 </button>
                 <button
                   onClick={() => setDrawerOpen(true)}
-                  className="text-xs px-3 py-1.5 border border-cyan-500/40 hover:border-cyan-400 text-cyan-400 rounded-lg transition-colors"
+                  className="text-xs px-2.5 py-1.5 border border-cyan-500/40 hover:border-cyan-400 text-cyan-400 rounded-lg transition-colors"
                 >
-                  📖 Reference
+                  📖 Ref
                 </button>
-                <span className="text-xs text-purple-400 bg-purple-400/10 border border-purple-400/30 rounded-full px-3 py-1">
-                  🚩 CTF
-                </span>
               </div>
             </div>
           </div>
 
-          {/* Briefing */}
-          <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-4 mb-4 text-sm flex-shrink-0">
-            <p className="text-amber-400 font-semibold mb-1">Mission Briefing</p>
-            <p className="text-gray-400">{ctf.scenario}</p>
-          </div>
+          {/* Collapsible briefing */}
+          {briefingOpen && (
+            <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3 mb-3 text-sm flex-shrink-0">
+              <p className="text-amber-400 font-semibold mb-1 text-xs uppercase tracking-wider">Mission Briefing</p>
+              <p className="text-gray-400 text-sm leading-relaxed">{ctf.scenario}</p>
+            </div>
+          )}
 
           {/* Terminal */}
           <div
-            className="flex-1 bg-black/70 border border-white/10 rounded-xl overflow-hidden flex flex-col font-mono text-sm cursor-text"
+            className="flex-1 bg-black/70 border border-white/10 rounded-xl overflow-hidden flex flex-col font-mono text-xs sm:text-sm cursor-text"
             onClick={() => inputRef.current?.focus()}
-            style={{ minHeight: "420px" }}
+            style={{ minHeight: "0" }}
           >
             {/* Title bar */}
-            <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10 bg-white/5 flex-shrink-0">
-              <div className="w-3 h-3 rounded-full bg-red-500/70" />
-              <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-              <div className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-2 text-gray-600 text-xs">kryptos-cronos — bash</span>
+            <div className="flex items-center gap-2 px-3 py-2 border-b border-white/10 bg-white/5 flex-shrink-0">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+              <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
+              <span className="ml-1 text-gray-600 text-xs truncate">kryptos-cronos — bash</span>
             </div>
 
             {/* Output */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-0.5">
+            <div className="flex-1 overflow-y-auto p-3 space-y-0.5">
               {lines.map((line, i) => (
                 <TerminalLine key={i} line={line} />
               ))}
@@ -498,35 +513,47 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
 
             {/* Input */}
             {!solved ? (
-              <div className="flex items-center gap-2 px-4 py-3 border-t border-white/10 flex-shrink-0">
-                <span className="text-cyan-400 select-none whitespace-nowrap">{cwd}$</span>
+              <div className="flex items-center gap-2 px-3 py-2.5 border-t border-white/10 flex-shrink-0">
+                <span className="text-cyan-400 select-none whitespace-nowrap text-xs sm:text-sm">
+                  <span className="hidden sm:inline">{cwd}</span>
+                  <span className="sm:hidden">~/{promptCwd === "/" ? "" : promptCwd}</span>
+                  $
+                </span>
                 <input
                   ref={inputRef}
-                  autoFocus
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-transparent text-green-300 outline-none caret-green-400 min-w-0"
+                  className="flex-1 bg-transparent text-green-300 outline-none caret-green-400 min-w-0 text-xs sm:text-sm"
                   spellCheck={false}
                   autoComplete="off"
-                  autoCapitalize="off"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  inputMode="text"
+                  enterKeyHint="send"
                 />
+                <button
+                  onClick={handleSend}
+                  className="sm:hidden flex-shrink-0 px-3 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 rounded text-xs font-semibold transition-colors"
+                >
+                  ↵
+                </button>
               </div>
             ) : (
-              <div className="px-4 py-4 border-t border-green-500/30 bg-green-500/5 flex flex-col sm:flex-row gap-3 items-center flex-shrink-0">
+              <div className="px-3 py-3 border-t border-green-500/30 bg-green-500/5 flex flex-col sm:flex-row gap-3 items-center flex-shrink-0">
                 <span className="text-green-400 font-semibold text-sm">
                   Mission complete. +{stage.xp} XP earned.
                 </span>
-                <div className="sm:ml-auto flex gap-3">
+                <div className="sm:ml-auto flex gap-2 w-full sm:w-auto">
                   <Link
                     href="/leaderboard"
-                    className="px-5 py-2 border border-purple-500/50 hover:border-purple-400 text-purple-400 font-semibold rounded-lg text-sm transition-colors"
+                    className="flex-1 sm:flex-none text-center px-4 py-2 border border-purple-500/50 hover:border-purple-400 text-purple-400 font-semibold rounded-lg text-sm transition-colors"
                   >
-                    Leaderboard 🏆
+                    🏆 Ranks
                   </Link>
                   <Link
                     href="/stages"
-                    className="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-sm transition-colors"
+                    className="flex-1 sm:flex-none text-center px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-sm transition-colors"
                   >
                     Stage Map →
                   </Link>
@@ -535,8 +562,8 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
             )}
           </div>
 
-          <p className="text-gray-700 text-xs mt-3 text-center flex-shrink-0">
-            Tip: Not all files are visible by default. Use arrow keys for command history. Click 📖 Reference for the briefing.
+          <p className="text-gray-700 text-xs mt-2 text-center flex-shrink-0">
+            Type <span className="text-gray-600">help</span> for commands · tap 📋 for briefing · 💡 for hints
           </p>
         </div>
       </div>
