@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac } from "crypto";
 
 function signToken(username: string): string {
-  const secret = process.env.ADMIN_SECRET ?? "";
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) throw new Error("ADMIN_SECRET is not configured");
   return createHmac("sha256", secret).update(username).digest("hex");
 }
 
@@ -15,7 +16,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ isAdmin: false });
   }
 
-  const token = `${username}:${signToken(username)}`;
+  let token: string;
+  try {
+    token = `${username}:${signToken(username)}`;
+  } catch {
+    return NextResponse.json({ isAdmin: false });
+  }
+
   const res = NextResponse.json({ isAdmin: true });
   res.cookies.set("admin_token", token, {
     httpOnly: true,

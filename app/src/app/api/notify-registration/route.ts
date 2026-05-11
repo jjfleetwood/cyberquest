@@ -1,7 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
+import { redis } from "@/lib/redis";
+
+async function isRateLimited(ip: string): Promise<boolean> {
+  const key = `rate:register:${ip}`;
+  const count = await redis.incr(key);
+  if (count === 1) await redis.expire(key, 3600); // 1-hour window
+  return count > 5;
+}
 
 export async function POST(req: NextRequest) {
-  const { username, email } = await req.json();
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+
+  if (await isRateLimited(ip)) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const { username, email } = await req.json().catch(() => ({})) as { username?: string; email?: string };
+  if (!username || !email) return NextResponse.json({ ok: true });
 
   const apiKey = process.env.RESEND_API_KEY;
   const adminEmail = process.env.ADMIN_EMAIL;

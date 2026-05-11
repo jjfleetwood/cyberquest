@@ -225,7 +225,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-xs text-gray-800 mt-5">
-          Credentials stored locally in your browser · No server required
+          Credentials stored locally · Progress synced to server
         </p>
       </div>
     </div>

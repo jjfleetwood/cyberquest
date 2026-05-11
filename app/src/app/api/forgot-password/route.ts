@@ -2,15 +2,26 @@ import { NextRequest, NextResponse } from "next/server";
 import { randomBytes } from "crypto";
 import { redis } from "@/lib/redis";
 
-const RESET_TTL = 3600; // 1 hour
+const RESET_TTL = 3600;
+
+async function isRateLimited(ip: string): Promise<boolean> {
+  const key = `rate:forgot:${ip}`;
+  const count = await redis.incr(key);
+  if (count === 1) await redis.expire(key, 900); // 15-minute window
+  return count > 3;
+}
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+
+  if (await isRateLimited(ip)) {
+    return NextResponse.json({ ok: true }); // silent — don't reveal rate limiting
+  }
+
   const body = await req.json().catch(() => null) as { email?: string } | null;
   const email = body?.email?.trim().toLowerCase();
 
-  // Always return success to avoid email enumeration
   const ok = NextResponse.json({ ok: true });
-
   if (!email) return ok;
 
   const username = await redis.get<string>(`email:${email}`);
@@ -20,8 +31,7 @@ export async function POST(req: NextRequest) {
   await redis.set(`reset:${token}`, username, { ex: RESET_TTL });
 
   const apiKey = process.env.RESEND_API_KEY;
-  const adminEmail = process.env.ADMIN_EMAIL;
-  if (!apiKey || !adminEmail) return ok;
+  if (!apiKey) return ok;
 
   const resetUrl = `https://kryptochron.vercel.app/reset-password?token=${token}`;
 

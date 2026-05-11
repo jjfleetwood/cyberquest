@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { generateSalt, hashPassword, saveUser, setSession, getUsers } from "@/lib/auth";
+import { generateSalt, hashPassword, setSession, getUsers } from "@/lib/auth";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -50,17 +50,15 @@ function ResetPasswordForm() {
         return;
       }
 
-      const { username, email } = data as { username: string; email: string };
+      const { username } = data as { username: string };
 
-      // Update or create the user record in localStorage
+      // Update the local user record if it exists on this device
       const users = getUsers();
       const existing = users.find((u) => u.username.toLowerCase() === username.toLowerCase());
       if (existing) {
         existing.passwordHash = passwordHash;
         existing.salt = salt;
         localStorage.setItem("kryptos_users", JSON.stringify(users));
-      } else {
-        saveUser({ username, email, passwordHash, salt, createdAt: Date.now(), isAdmin: false });
       }
 
       setSession(username);

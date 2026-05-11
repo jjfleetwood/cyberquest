@@ -78,7 +78,7 @@ export default function DocsViewer() {
 
     Promise.all(
       DOCS.map((doc) =>
-        fetch(`/docs/${doc.file}`)
+        fetch(`/api/docs/${doc.file}`)
           .then((r) => r.text())
           .then((text) => [doc.id, text] as [string, string])
       )
@@ -141,8 +141,8 @@ export default function DocsViewer() {
             <span className={`font-semibold text-sm ${currentDoc.color}`}>{currentDoc.label}</span>
             <span className="text-xs text-gray-700 font-mono ml-auto">{currentDoc.file}</span>
             <a
-              href={`/docs/${currentDoc.file}`}
-              download
+              href={`/api/docs/${currentDoc.file}`}
+              download={currentDoc.file}
               className="text-xs text-gray-600 hover:text-gray-400 transition-colors border border-white/8 hover:border-white/20 px-2 py-1 rounded"
             >
               ↓ Download

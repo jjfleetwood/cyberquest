@@ -1,7 +1,7 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-10  
-**Version:** 2.0  
+**Version:** 2.1  
 **Reviewed by:** Internal Security Analysis
 
 ---
@@ -10,7 +10,7 @@
 
 Kryptós CronOS has a hybrid architecture: client-side auth (localStorage/sessionStorage), server-side progress persistence (Upstash Redis), admin route protection via HMAC-signed HttpOnly cookies, and transactional email via Resend. The attack surface has been meaningfully reduced since v1.0 of this document. Several items remain acceptable for demo-stage use but require hardening before a scaled production launch.
 
-**Overall Risk Rating: LOW-MEDIUM** — Suitable for public demo and early users. The most significant remaining risk is client-side credential storage (inherent to the localStorage auth model).
+**Overall Risk Rating: LOW** — Suitable for public demo and early users. The most significant remaining risk is client-side credential storage (inherent to the localStorage auth model).
 
 ---
 
@@ -48,20 +48,14 @@ const bits = await crypto.subtle.deriveBits(
 
 ### 1.3 Admin Session — ✅ RESOLVED
 
-**Previous finding:** Admin access was determined by comparing the session username to a hardcoded string (`"jjb"`) in client code. This was trivially bypassable.
+**Previous finding:** Admin access was determined by comparing the session username to a hardcoded string in client code. This was trivially bypassable.
 
 **Resolution:** Admin sessions are now fully server-side:
 
 1. On login/register, the client POSTs `{ username }` to `/api/admin-session`
 2. The server compares username to `ADMIN_USERNAME` env var using constant-time comparison
 3. If matched, the server issues a signed cookie: `admin_token = "username:HMAC-SHA256(ADMIN_SECRET, username)"`
-4. `src/proxy.ts` verifies this HMAC on every request to `/admin/**` before serving the page
-
-```typescript
-// Constant-time HMAC verification in proxy.ts
-const expected = createHmac("sha256", secret).update(username).digest("hex");
-return timingSafeEqual(Buffer.from(signature, "hex"), Buffer.from(expected, "hex"));
-```
+4. `src/middleware.ts` verifies this HMAC on every request to `/admin/**` before serving the page
 
 **Status:** ✅ Admin username and secret live in server-side env vars only. The client never sees them. Cookie is HttpOnly, Secure (in production), SameSite: Lax.
 
@@ -130,17 +124,13 @@ All secrets are stored in Vercel environment variables and accessed server-side 
 
 **Status:** ✅ Clean. `.gitignore` excludes all `.env*` files.
 
-### 3.2 Git Remote URL — ⚠️ ACTION REQUIRED
+### 3.2 Internal Documents — ✅ RESOLVED
 
-**Finding:** The git remote URL embeds a GitHub PAT in plaintext: `https://jjfleetwood:ghp_...@github.com/...`
+**Previous finding:** Internal documents (this briefing, architecture doc, business proposals) were served as static files from `public/docs/` — unauthenticated and publicly accessible.
 
-**Impact:** Anyone with access to the local `.git/config` file or shell history can extract this token.
+**Resolution:** All internal documents moved to `secured-docs/` (outside of `public/`). Access is now gated behind `/api/docs/[file]` which verifies the admin HMAC cookie before serving.
 
-**Action:** Revoke the embedded PAT at github.com/settings/tokens and update the remote to use SSH or a new token stored in the OS credential manager.
-
-```bash
-git remote set-url origin git@github.com:jjfleetwood/kryptos-cronos.git
-```
+**Status:** ✅ Docs are no longer publicly accessible.
 
 ---
 
@@ -189,6 +179,7 @@ All security headers are applied via `next.config.ts`:
 
 | Header | Value | Purpose |
 |---|---|---|
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | HTTPS enforcement |
 | `X-Frame-Options` | `DENY` | Prevent iframe embedding |
 | `X-Content-Type-Options` | `nosniff` | Prevent MIME sniffing |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Limit referrer leakage |
@@ -196,11 +187,31 @@ All security headers are applied via `next.config.ts`:
 | `X-DNS-Prefetch-Control` | `on` | Performance |
 | `Content-Security-Policy` | (see §2.3) | Restrict resource loading |
 
-Vercel enforces HTTPS and HSTS automatically on all production domains.
+---
+
+## 7. API Security
+
+### 7.1 Progress Endpoint XP Validation — ✅ RESOLVED
+
+**Previous finding:** `POST /api/progress` accepted client-supplied `xp` integer with no validation.
+
+**Resolution:** XP is now computed server-side from the submitted list of completed stage IDs. Client-supplied `xp` values are ignored. Leaderboard scores cannot be manipulated.
+
+### 7.2 Rate Limiting — ✅ RESOLVED
+
+**Previous finding:** `/api/forgot-password` and `/api/notify-registration` had no rate limiting.
+
+**Resolution:** Redis-based rate limiting added. `forgot-password` is limited to 3 requests per IP per 15 minutes. `notify-registration` is limited to 5 per IP per hour.
+
+### 7.3 User Credential Sync — ✅ RESOLVED
+
+**Previous finding:** `POST /api/sync-user` allowed overwriting any user's credentials by username.
+
+**Resolution:** `sync-user` now only stores a user record if no record for that username exists in Redis (first-write-wins). Existing credentials cannot be overwritten via this endpoint.
 
 ---
 
-## 7. Dependency Security
+## 8. Dependency Security
 
 | Package | Version | Notes |
 |---|---|---|
@@ -214,13 +225,17 @@ Run `npm audit` before each release. No known critical vulnerabilities at time o
 
 ---
 
-## 8. Remediation Priority Matrix
+## 9. Remediation Priority Matrix
 
 | Finding | Severity | Status |
 |---|---|---|
-| Revoke embedded GitHub PAT in git remote | High | ⚠️ Action required |
-| Admin route protection via HMAC proxy | High | ✅ Done |
+| Admin route protection via HMAC middleware | High | ✅ Done |
 | Admin credentials moved to env vars | High | ✅ Done |
+| Internal docs behind auth gate | High | ✅ Done |
+| Progress XP computed server-side | High | ✅ Done |
+| Credential sync first-write-wins | High | ✅ Done |
+| HSTS header added | Medium | ✅ Done |
+| Rate limiting on email endpoints | Medium | ✅ Done |
 | CSP header added | Medium | ✅ Done |
 | Password hashing upgraded to PBKDF2 | Medium | ✅ Done |
 | HTTP security headers | Medium | ✅ Done |
@@ -231,7 +246,7 @@ Run `npm audit` before each release. No known critical vulnerabilities at time o
 
 ---
 
-## 9. Production Security Path
+## 10. Production Security Path
 
 ```
 Current (Demo):                    Recommended (Production):
@@ -239,7 +254,7 @@ Current (Demo):                    Recommended (Production):
 localStorage user credentials  →   Server-side auth (NextAuth / Lucia)
 PBKDF2 client-side hash        →   Argon2id server-side (via auth library)
 sessionStorage username        →   HttpOnly JWT (server-signed, short TTL)
-HMAC admin cookie ✅           →   Role-based access control (RBAC)
+HMAC admin middleware ✅       →   Role-based access control (RBAC)
 Upstash Redis progress ✅      →   Retain (or migrate to Postgres for joins)
 CSP headers ✅                 →   Nonce-based CSP (remove unsafe-inline)
 CTF flags in bundle            →   Server-side flag validation (/api/validate-flag)

@@ -20,11 +20,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid or expired reset link." }, { status: 400 });
   }
 
-  const userData = await redis.hgetall(`user:${username}`);
-  const email = (userData?.email as string) ?? "";
-
   await redis.hset(`user:${username}`, { passwordHash, salt });
   await redis.del(`reset:${token}`);
 
-  return NextResponse.json({ username, email });
+  return NextResponse.json({ username });
 }
