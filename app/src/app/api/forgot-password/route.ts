@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return ok;
 
-  const resetUrl = `https://kryptochron.vercel.app/reset-password?token=${token}`;
+  const baseUrl = process.env.APP_URL ?? "http://localhost:3000";
+  const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
   await fetch("https://api.resend.com/emails", {
     method: "POST",

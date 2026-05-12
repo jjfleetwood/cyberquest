@@ -1,10 +1,14 @@
 import type { StageConfig, EpochConfig } from "./types";
+import { beforeTimesEpoch, beforeTimesStages } from "./before-times";
+import { beforeTimesStages2 } from "./before-times-2";
+import { beforeTimesStages3 } from "./before-times-3";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
 }
 
 export const epochs: EpochConfig[] = [
+  beforeTimesEpoch,
   {
     id: "ancient",
     name: "Foundations",
@@ -26,6 +30,10 @@ export const epochs: EpochConfig[] = [
 ];
 
 export const stages: StageConfig[] = [
+  ...beforeTimesStages,
+  ...beforeTimesStages2,
+  ...beforeTimesStages3,
+
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────
   {
