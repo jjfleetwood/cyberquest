@@ -65,6 +65,26 @@ export default function StagesPage() {
   const currentEpoch = epochs.find((e) => e.id === activeEpoch)!;
   const accent = epochAccent[activeEpoch] ?? epochAccent.ancient;
 
+  const cardBorder: Record<string, string> = {
+    "before-times": "border-emerald-500/40 hover:border-emerald-400/80",
+    ancient: "border-amber-500/40 hover:border-amber-400/80",
+    medieval: "border-blue-500/40 hover:border-blue-400/80",
+  };
+  const cardEmojiBg: Record<string, string> = {
+    "before-times": "from-emerald-950 to-slate-950",
+    ancient: "from-amber-950 to-stone-950",
+    medieval: "from-blue-950 to-slate-950",
+  };
+
+  const nextStageId = epochStages.find(
+    (s) => !completedStages.includes(s.id) && isUnlocked(s.epochId, s.order)
+  )?.id;
+
+  const gridCols =
+    activeEpoch === "before-times"
+      ? "grid-cols-3 sm:grid-cols-4 lg:grid-cols-5"
+      : "grid-cols-3 lg:grid-cols-4";
+
   const maxXp = allStages.reduce((sum, s) => sum + s.xp, 0);
 
   function isEpochUnlocked(epochIndex: number): boolean {
@@ -176,102 +196,111 @@ export default function StagesPage() {
           </div>
         )}
 
-        {/* Stage list */}
-        <div className="flex flex-col gap-4">
+        {/* Stage map grid */}
+        <div className={`grid gap-3 ${gridCols}`}>
           {epochStages.map((stage) => {
             const unlocked = isUnlocked(stage.epochId, stage.order);
             const completed = completedStages.includes(stage.id);
+            const isNext = stage.id === nextStageId;
 
-            return (
-              <div
-                key={stage.id}
-                className={`relative border rounded-xl p-6 transition-all ${
-                  completed
-                    ? "border-green-500/40 bg-green-500/5"
-                    : unlocked
-                    ? `${accent.active} hover:brightness-110`
-                    : "border-white/5 bg-white/2 opacity-50"
-                }`}
-              >
-                <div className="flex items-start gap-4">
-                  {/* Stage number / status */}
-                  <div
-                    className={`w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold flex-shrink-0 ${
-                      completed
-                        ? "bg-green-500 text-black"
-                        : unlocked
-                        ? `${accent.bar} text-black`
-                        : "bg-white/10 text-gray-600"
+            const borderClass = completed
+              ? "border-green-500/50 hover:border-green-400/80"
+              : unlocked
+              ? cardBorder[activeEpoch]
+              : "border-white/8";
+
+            const ringClass = isNext
+              ? "ring-2 ring-offset-2 ring-offset-slate-950 ring-current"
+              : "";
+
+            const cardContent = (
+              <>
+                {/* Emoji panel */}
+                <div
+                  className={`relative flex items-center justify-center py-7 bg-gradient-to-b ${
+                    completed
+                      ? "from-green-950 to-slate-950"
+                      : unlocked
+                      ? cardEmojiBg[activeEpoch]
+                      : "from-slate-950 to-slate-950"
+                  }`}
+                >
+                  <span
+                    className={`text-5xl leading-none drop-shadow-lg transition-transform duration-200 ${
+                      unlocked ? "group-hover:scale-110" : "grayscale opacity-30"
                     }`}
                   >
-                    {completed ? "✓" : unlocked ? stage.order : "🔒"}
+                    {stage.wonder.emoji}
+                  </span>
+
+                  {/* Completed overlay */}
+                  {completed && (
+                    <div className="absolute inset-0 flex items-end justify-end p-2 pointer-events-none">
+                      <span className="text-xs bg-green-500 text-black font-bold px-1.5 py-0.5 rounded-full leading-none">✓</span>
+                    </div>
+                  )}
+
+                  {/* Locked overlay */}
+                  {!unlocked && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                      <span className="text-xl opacity-50">🔒</span>
+                    </div>
+                  )}
+
+                  {/* Stage number */}
+                  <div className="absolute top-2 left-2">
+                    <span
+                      className={`text-xs font-mono font-bold px-1.5 py-0.5 rounded-md leading-none ${
+                        completed
+                          ? "bg-green-500/20 text-green-400"
+                          : unlocked
+                          ? "bg-black/50 text-gray-300"
+                          : "bg-black/40 text-gray-600"
+                      }`}
+                    >
+                      {stage.order}
+                    </span>
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    {/* Wonder badge */}
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className="text-base">{stage.wonder.emoji}</span>
-                      <span className="text-xs text-amber-600/80 font-medium">{stage.wonder.name}</span>
-                      <span className="text-xs text-gray-600">·</span>
-                      <span className="text-xs text-gray-600">{stage.wonder.location}</span>
-                      <span className="text-xs text-gray-600">·</span>
-                      <span className="text-xs text-gray-600">{stage.wonder.era}</span>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <h2 className="text-white font-semibold text-lg">{stage.title}</h2>
-                      <span className={`text-xs px-2 py-0.5 rounded-full border ${categoryColors[stage.category]}`}>
-                        {categoryLabel[stage.category]}
+                  {/* CTF / CVE badge */}
+                  {(stage.challengeType === "ctf" || stage.cveId) && unlocked && (
+                    <div className="absolute top-2 right-2">
+                      <span className="text-xs bg-black/60 text-gray-400 px-1 py-0.5 rounded font-mono leading-none">
+                        {stage.cveId ? "CVE" : "CTF"}
                       </span>
-                      {stage.owaspRef && (
-                        <span className="text-xs px-2 py-0.5 rounded-full border text-orange-400 bg-orange-400/10 border-orange-400/30">
-                          {stage.owaspRef}
-                        </span>
-                      )}
-                      {stage.cveId && (
-                        <span className="text-xs px-2 py-0.5 rounded-full border text-red-400 bg-red-400/10 border-red-400/30">
-                          {stage.cveId}
-                        </span>
-                      )}
-                      {stage.challengeType === "ctf" && (
-                        <span className="text-xs px-2 py-0.5 rounded-full border text-purple-400 bg-purple-400/10 border-purple-400/30">
-                          🚩 CTF
-                        </span>
-                      )}
                     </div>
-                    <p className="text-gray-400 text-sm mb-3">{stage.subtitle}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
-                      <span className="text-amber-600">+{stage.xp} XP</span>
-                      <span>{stage.badge.emoji} {stage.badge.name}</span>
-                      {completed && <span className="text-green-400">✓ Completed</span>}
-                    </div>
-                  </div>
-
-                  {/* CTA */}
-                  <div className="flex-shrink-0">
-                    {unlocked ? (
-                      <Link
-                        href={`/stages/${stage.id}`}
-                        className={`px-5 py-2 font-semibold rounded-lg text-sm transition-colors ${
-                          completed
-                            ? "bg-green-500/20 hover:bg-green-500/30 text-green-400 border border-green-500/30"
-                            : `${accent.bar} hover:brightness-110 text-black`
-                        }`}
-                      >
-                        {completed ? "Replay →" : "Enter →"}
-                      </Link>
-                    ) : (
-                      <div className="px-5 py-2 bg-white/5 text-gray-600 rounded-lg text-sm cursor-not-allowed">
-                        Locked
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </div>
 
-                {/* Connector line */}
-                {stage.order < epochStages.length && (
-                  <div className="absolute left-10 -bottom-4 w-0.5 h-4 bg-white/10" />
-                )}
+                {/* Info panel */}
+                <div className="px-2.5 py-2.5 bg-black/20">
+                  <p className="text-xs text-gray-600 truncate leading-tight mb-0.5">{stage.wonder.name}</p>
+                  <p className={`text-xs font-semibold truncate leading-tight ${unlocked ? "text-gray-200" : "text-gray-600"}`}>
+                    {stage.title}
+                  </p>
+                  <div className="flex items-center gap-1.5 mt-1.5">
+                    <span className="text-xs text-amber-600 font-mono">+{stage.xp}</span>
+                    <span className="text-xs text-gray-700">XP</span>
+                    <span className="text-xs ml-auto">{stage.badge.emoji}</span>
+                  </div>
+                </div>
+              </>
+            );
+
+            return unlocked ? (
+              <Link
+                key={stage.id}
+                href={`/stages/${stage.id}`}
+                className={`group relative rounded-xl overflow-hidden border-2 transition-all duration-200 hover:-translate-y-0.5 ${borderClass} ${ringClass} ${isNext ? (accent.bar === "bg-emerald-500" ? "text-emerald-400" : accent.bar === "bg-amber-500" ? "text-amber-400" : "text-blue-400") : ""}`}
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <div
+                key={stage.id}
+                className={`relative rounded-xl overflow-hidden border-2 opacity-45 cursor-not-allowed ${borderClass}`}
+              >
+                {cardContent}
               </div>
             );
           })}
