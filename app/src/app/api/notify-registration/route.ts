@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Kryptós CronOS <noreply@kryptocronos.com>",
+      from: "Kryptós CronOS <noreply@kryptoscronos.com>",
       to: [adminEmail],
       subject: `New user registered: ${username}`,
       html: `
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
             </tr>
           </table>
           <p style="color: #334155; margin: 24px 0 0; font-size: 12px;">
-            (κρυπτός χρόνος) · kryptocronos.com
+            (κρυπτός χρόνος) · kryptoscronos.com
           </p>
         </div>
       `,
