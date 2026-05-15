@@ -45,7 +45,17 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **Reference Panel** — Available at any point during the challenge. A slide-in panel containing the full briefing, technical reference, and attack diagram — modeling how real security professionals work with documentation open.
 
-### Curriculum (12 Stages, v1.0)
+### Curriculum (54 Stages across Three Epochs, v0.6.0)
+
+The platform ships with 54 fully built stages organized into three curriculum epochs:
+
+| Epoch | Name | Stages | Focus |
+|---|---|---|---|
+| 1 | The Before Times | 30 (bt-01 → bt-30) | Historical attacks and foundational threat patterns |
+| 2 | Foundations | 12 (stage-01 → stage-12) | Core vulnerability classes and landmark incidents |
+| 3 | Cisco | 12 (stage-m01 → stage-m12) | Network security, enterprise defense, CyberOps alignment |
+
+The Foundations epoch (Stage 1–12) is shown below as a representative sample of stage depth and breadth:
 
 | Stage | Topic | CVE / OWASP | XP |
 |---|---|---|---|
@@ -96,6 +106,15 @@ Weekly AI-generated challenge updates based on real CVEs published in the past 7
 - **Free tier:** Stages 1–3 (acquisition funnel)
 - **Pro:** $19/month or $149/year — full curriculum + AI personalization + badge certificates
 - **Team:** $12/seat/month (10+ seats) — cohort dashboards, completion reporting
+- **Ad-supported hints:** Free-tier users watch a 30-second sponsor ad to unlock hints 2–3 per stage. Contextually matched (EDR vendors on malware stages, cloud providers on SSRF stages). Projected CPM: $50–$200. Creates a fourth revenue stream and a natural Pro upgrade prompt at the moment of user friction.
+
+#### Ad-Supported Hints — Revenue Model Detail
+
+The hint monetization system operates on a tiered access model. Each stage provides one hint at no cost. Hints 2 and 3 require either a 30-second sponsor ad view or a Pro subscription upgrade. Ads are contextually matched to stage content: endpoint detection vendors appear on malware and ransomware stages; cloud security providers appear on SSRF and misconfiguration stages. This context-relevance drives ad quality scores and justifies premium CPMs.
+
+At $50–$200 CPM with a verified security practitioner audience — comparable to LinkedIn Sponsored Content targeting information security professionals — the economics are favorable even at modest scale. At 50,000 free users with an average of 0.5 ad impressions per session, projected revenue is approximately $2,500/month, scaling linearly with user growth at zero marginal cost.
+
+Critically, the hint friction point is the highest-intent moment in the product: a learner who is stuck and reaching for help is the ideal audience for a Pro upgrade prompt. Every ad impression doubles as conversion-rate optimization for Pro subscriptions. This is the Duolingo model applied to a higher-value professional audience.
 
 ### B2B (Enterprise)
 - **Enterprise:** $8/seat/month (100+ seats) — SSO, compliance reporting, custom curriculum, dedicated success manager
@@ -164,7 +183,7 @@ Our differentiation: the only platform combining structured curriculum, real-exp
 
 ## Traction & Validation
 
-- **Product:** Fully functional demo with 12 stages, auth system, leaderboard, and CTF terminal
+- **Product:** Fully functional platform with 54 stages across three curriculum epochs, auth system, leaderboard, and CTF terminal
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
 - **Deployment:** Live at kryptoscronos.com
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos

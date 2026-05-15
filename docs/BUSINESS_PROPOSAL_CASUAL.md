@@ -27,7 +27,7 @@ It's a game. It's also real security training. And that combination is genuinely
 
 ---
 
-## The 12 stages we have today
+## The 54 stages we have today
 
 1. CIA Triad — the fundamentals (with a Caesar cipher challenge)
 2. AI & Threat Detection — rogue models, SolarWinds
@@ -98,6 +98,16 @@ Security vendors spend a fortune on brand awareness with practitioners. We give 
 
 The math: 50,000 learners earning security badges is an audience security vendors would pay $50–$200 CPM to reach on LinkedIn. We deliver them a far more engaged audience at a fraction of the cost, with measurable outcomes.
 
+### Hints — the Candy Crush model
+
+Free users get one hint per stage, on the house. Hint 2 and hint 3? You've got two options: watch a 30-second sponsor ad, or upgrade to Pro.
+
+The ads aren't random banner garbage. They're contextually matched. If you're stuck on the WannaCry stage, the hint comes from CrowdStrike — who actually detected WannaCry. If you're grinding on SSRF and can't find the metadata endpoint, AWS shows you 30 seconds about cloud security. The ad is relevant, the audience is verified security practitioners, and the CPM reflects that: $50–$200, same as LinkedIn Sponsored Content targeting "Information Security" — except our audience is actively doing security right now, not scrolling their feed.
+
+The math at 50K free users: average 0.5 ad views per session × $0.10 per view = $2,500/month. That's not life-changing on its own, but it scales linearly with the user base and costs nothing to operate.
+
+The part investors usually miss: every ad impression is also a Pro upgrade prompt. The user is already frustrated enough to want a hint. That's the highest-intent moment in the entire product. Duolingo built a billion-dollar business on exactly this model. We're applying it to the most high-value professional audience in enterprise tech.
+
 ---
 
 ## Why now
@@ -115,7 +125,7 @@ We're bringing that model to the most high-stakes skill gap in enterprise tech.
 
 This isn't a pitch deck with a mockup. It's a working product:
 
-- 12 fully built stages with real CTF challenges
+- 54 fully built stages across three epochs (The Before Times, Foundations, and Cisco) with real CTF challenges
 - Auth system (register, login, per-user progress)
 - Leaderboard with live XP ranking
 - Deployed and running: **kryptoscronos.com**
