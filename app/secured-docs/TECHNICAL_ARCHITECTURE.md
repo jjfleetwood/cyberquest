@@ -1,4 +1,4 @@
-# Kryptós CronOS — Technical Architecture
+﻿# Kryptós CronOS — Technical Architecture
 **Version:** 2.0  
 **Date:** 2026-05-10  
 **Codebase:** github.com/jjfleetwood/kryptos-cronos (branch: master, commit: 35796cd)
@@ -371,7 +371,7 @@ git push origin master
                 ├── Build:   next build (Turbopack)
                 └── Deploy:  serverless functions + static assets → iad1 (us-east)
                         │
-                        └── Production: kryptocronos.com
+                        └── Production: kryptoscronos.com
 ```
 
 **Note:** Vercel GitHub auto-deploy integration is not active. Deployments are triggered manually via the Vercel CLI.

@@ -1,189 +1,185 @@
-# Kryptós CronOS Security Briefing
-**Classification:** Internal — Pre-Production  
-**Date:** 2026-05-09  
-**Reviewed by:** Internal Security Analysis  
-**Version:** 1.0
+# Kryptós CronOS — Security Briefing
+**Classification:** Internal  
+**Version:** 2.0  
+**Date:** 2026-05-11  
+**Current version:** v0.6.0
 
 ---
 
 ## Executive Summary
 
-Kryptós CronOS is a client-side Next.js application with no traditional backend. The attack surface is limited, but several areas require attention before a production launch with real user data. This briefing documents every finding, its severity, remediation status, and recommended next steps.
-
-**Overall Risk Rating: MEDIUM** — Acceptable for a VC demo. Requires hardening before handling sensitive user data at scale.
+Kryptós CronOS is a Next.js 16 application with serverless API routes, Redis-backed persistence, and a full security hardening sprint completed in v0.6.0. The overall risk rating is **LOW** — all critical and medium findings have been remediated. The remaining items are acceptable demo limitations with documented production remediation paths.
 
 ---
 
 ## 1. Authentication & Session Management
 
-### 1.1 Password Hashing — ✅ RESOLVED
+### 1.1 Password Hashing — ✅ RESOLVED (v0.2.0)
 
-**Finding:** Passwords were previously hashed with SHA-256. Now upgraded to PBKDF2-SHA-256 with 100,000 iterations and a 16-byte random salt via the Web Crypto API.
-
-**Status:** ✅ PBKDF2 implemented in `src/lib/auth.ts`. Brute-force resistance is ~100,000× stronger than plain SHA-256.
+**Status:** PBKDF2-SHA-256 with 100,000 iterations and a 16-byte random salt via Web Crypto API.
 
 ```typescript
-// Current implementation: PBKDF2 with 100,000 iterations
 const keyMaterial = await crypto.subtle.importKey("raw", encoder.encode(password), "PBKDF2", false, ["deriveBits"]);
 const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.encode(salt), iterations: 100_000, hash: "SHA-256" }, keyMaterial, 256);
 ```
 
-### 1.2 Client-Side User Storage — HIGH RISK for Production, Acceptable for Demo
+### 1.2 Admin Authentication — ✅ RESOLVED (v0.4.1)
 
-**Finding:** User credentials (username, email, SHA-256 hash, salt) are stored in `localStorage` under the key `kryptos_users`. Any JavaScript running on the page can read this.
+**Status:** Admin credentials moved to server-side env vars. Admin cookie is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Strict. Admin routes blocked at middleware (`proxy.ts`). `admin-session` route throws if `ADMIN_SECRET` env var is missing.
 
-**Impact:** XSS attacks could exfiltrate all user records. There is no server-side validation of session tokens.
+### 1.3 Client-Side User Storage — ACCEPTABLE for demo, HIGH for production
 
-**Current mitigation:** No user financial data or sensitive PII beyond email is stored.
+**Finding:** User credentials (username, email, password hash, salt) stored in localStorage. Any XSS on the page could read them.
 
-**Remediation (Pre-launch):** Migrate to a backend auth service — Supabase Auth, Auth0, or NextAuth.js with a PostgreSQL database. This eliminates client-side credential storage entirely.
+**Current mitigation:** No financial data or sensitive PII beyond email. PBKDF2 hashes are computationally expensive to crack.
 
-### 1.3 Session Management — LOW RISK
+**Production path:** Migrate to Supabase Auth (Argon2id, server-side) + HttpOnly session cookies.
 
-**Finding:** Sessions are stored in `sessionStorage` under `kryptos_session` as a plain username string. There is no cryptographic session token, expiry, or server-side revocation.
+### 1.4 Session Tokens — LOW RISK
 
-**Impact:** A physically proximate attacker on a shared machine could read an active session. Sessions expire naturally on tab close (sessionStorage behavior).
+**Finding:** Sessions stored as plain username string in sessionStorage. No signed JWT.
 
-**Remediation:** Replace plain username with a signed JWT (using Web Crypto HMAC) or migrate to server-side sessions.
+**Impact:** Physical access to an unlocked shared device. Sessions expire on tab close.
 
----
-
-## 2. Cross-Site Scripting (XSS)
-
-### 2.1 React JSX Escaping — LOW RISK (Mitigated by Framework)
-
-**Finding:** All user-facing content is rendered via React JSX, which escapes HTML entities by default. No use of `dangerouslySetInnerHTML` was found in the codebase.
-
-**Status:** ✅ No XSS vectors identified in the current codebase.
-
-### 2.2 CTF Terminal Input — LOW RISK
-
-**Finding:** The `CtfChallenge.tsx` terminal accepts user input and displays it back in the terminal output. Input is split on whitespace and displayed as React text nodes (not HTML).
-
-**Status:** ✅ No injection possible — output is rendered as plain text, not HTML.
+**Production path:** Replace with signed JWT or server-side session.
 
 ---
 
-## 3. Secret / Token Exposure
+## 2. API Security
 
-### 3.1 GitHub Personal Access Token — CRITICAL (Resolved)
+### 2.1 Rate Limiting — ✅ RESOLVED (v0.6.0)
 
-**Finding:** During setup, a GitHub PAT (`ghp_Q5FcfP...`) was used in a shell command. This token has `repo` scope.
+| Endpoint | Limit | Key |
+|---|---|---|
+| `/api/forgot-password` | 3/IP/15min | `rl:forgot:<ip>` in Redis |
+| `/api/notify-registration` | 5/IP/hour | `rl:notify:<ip>` in Redis |
 
-**Action Required:** **Revoke this token immediately at github.com/settings/tokens.** Generate a new one only when needed. Never store tokens in code or shell history.
+### 2.2 Server-Side XP Computation — ✅ RESOLVED (v0.6.0)
 
-**Status:** ⚠️ Token should be revoked. It was used in a Bash command (not committed to the repo).
+**Status:** XP is computed server-side in `/api/progress` POST from a hardcoded `STAGE_XP` map. Client-submitted XP values are ignored entirely.
 
-### 3.2 Vercel API Token — CRITICAL (Resolved for Repo)
+### 2.3 User Record Integrity — ✅ RESOLVED (v0.6.0)
 
-**Finding:** A Vercel token (`vcp_6NczeI1...`) was used in deployment commands. It was not committed to the repository.
+**Status:** `/api/sync-user` is first-write-wins — existing Redis user records cannot be overwritten by re-submitting registration.
 
-**Action Required:** Revoke at vercel.com/account/tokens after deploying. For CI/CD, use GitHub Actions secrets (`VERCEL_TOKEN` env var) — never paste tokens in chat or CLI history.
+### 2.4 Password Reset — ✅ RESOLVED (v0.5.0)
 
-**Status:** ⚠️ Token should be revoked post-deployment.
-
-### 3.3 No Secrets in Source Code — ✅ CLEAN
-
-**Finding:** No API keys, tokens, or credentials were found committed to the repository. The `.gitignore` excludes `.env*` files.
-
-**Status:** ✅ Clean.
+**Status:** Reset tokens are random, stored in Redis with 1-hour TTL, deleted on use. Password reset response returns only username, never email.
 
 ---
 
-## 4. CTF Flag Visibility
+## 3. HTTP Security Headers — ✅ RESOLVED (v0.2.0 + v0.6.0)
 
-### 4.1 Flags in Client Bundle — MEDIUM RISK (By Design)
+All headers applied via `next.config.ts` to every route:
 
-**Finding:** CTF flags (e.g., `FLAG{SQL_1NJ3CT10N_BYPASS3D}`) are defined in `src/data/stages.ts`, which is bundled into the client-side JavaScript. A determined user can find flags by inspecting the JS bundle.
+| Header | Value | Status |
+|---|---|---|
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` | ✅ |
+| `X-Frame-Options` | `DENY` | ✅ |
+| `X-Content-Type-Options` | `nosniff` | ✅ |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` | ✅ |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | ✅ |
+| `Content-Security-Policy` | See below | ✅ |
 
-**Context:** This is inherent to a client-side CTF. The educational value is in the journey, not flag security. Many browser-based CTF platforms work this way.
-
-**Mitigation options (if needed):** Move flag validation to a serverless API route (`/api/submit`) that accepts the flag and validates server-side. Flags are never sent to the client.
-
-**Status:** Acceptable for demo. Flag an issue for production.
-
----
-
-## 5. Content Security Policy & HTTP Headers
-
-### 5.1 Security Headers — ✅ RESOLVED
-
-**Finding:** Security headers are now configured in `next.config.ts` and applied to all routes.
-
-**Status:** ✅ The following headers are active on every response:
-
-```typescript
-{ key: "X-Frame-Options", value: "DENY" },
-{ key: "X-Content-Type-Options", value: "nosniff" },
-{ key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-{ key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-{ key: "X-DNS-Prefetch-Control", value: "on" },
+**CSP:**
+```
+default-src 'self';
+script-src 'self' 'unsafe-inline';
+style-src 'self' 'unsafe-inline';
+img-src 'self' data: https:;
+font-src 'self';
+connect-src 'self' https://api.resend.com;
+frame-ancestors 'none'
 ```
 
-Vercel automatically enforces HTTPS and provides HSTS, which covers transport-layer protection.
+**Note:** `unsafe-inline` is required by Next.js 15+ for hydration. A nonce-based CSP would eliminate this but requires Next.js App Router nonce support.
 
 ---
 
-## 6. Dependency Security
+## 4. Internal Documents — ✅ RESOLVED (v0.6.0)
 
-### 6.1 npm Dependencies — LOW RISK
+**Status:** All internal documents moved from `public/docs/` to `app/secured-docs/`. Served only via `/api/docs/[file]` which requires a valid admin HMAC cookie. `outputFileTracingIncludes` in `next.config.ts` ensures Vercel bundles the folder without exposing it as static assets.
 
-**Key dependencies and their security posture:**
+---
+
+## 5. CTF Flag Visibility — ACCEPTABLE (by design)
+
+**Finding:** CTF flags defined in `src/data/stages.ts`, which is bundled into the client JS. A determined user can find flags in the bundle.
+
+**Context:** Standard browser-based CTF limitation. The educational value is in the journey.
+
+**Production mitigation:** Move flag validation to `/api/validate-flag` (server-side); flags never sent to client.
+
+---
+
+## 6. XSS
+
+**Status:** ✅ No XSS vectors identified.
+- All user content rendered via React JSX (HTML-escaped by default)
+- No `dangerouslySetInnerHTML` in the codebase
+- CTF terminal input displayed as plain text React nodes
+
+---
+
+## 7. Dependency Security
 
 | Package | Version | Notes |
 |---|---|---|
-| next | 16.2.6 | Latest stable; actively maintained |
-| react | 19.x | Latest stable |
-| tailwindcss | 4.x | CSS-only; no runtime JS risk |
-| typescript | 5.x | Dev-only; no runtime impact |
+| next | 16.2.6 | Latest stable |
+| react | 19.2.4 | Latest stable |
+| @upstash/redis | 1.38.0 | Actively maintained |
+| react-markdown | 10.x | Used in admin panel only |
 
-**Action:** Run `npm audit` before each release. As of this writing, no known critical vulnerabilities in the dependency tree.
+**Action:** Run `npm audit` before each release.
 
 ---
 
-## 7. Data Privacy
+## 8. Secrets in Source Code — ✅ CLEAN
 
-### 7.1 User Data Collected
+No API keys, tokens, or credentials committed to the repository. `.gitignore` excludes `.env*`. All secrets in Vercel environment variables.
 
-| Data Point | Storage | Transmitted to Server? |
+**GitHub PATs and Vercel tokens** used in one-off CLI commands must be revoked after use.
+
+---
+
+## 9. Data Privacy
+
+| Data | Storage | Sent to Server? |
 |---|---|---|
-| Username | localStorage | No |
-| Email address | localStorage | No |
-| Password hash + salt | localStorage | No |
-| XP / progress | localStorage | No |
+| Username | localStorage + Redis | On registration only |
+| Email | localStorage + Redis | On registration only |
+| Password hash + salt | localStorage + Redis | Hash stored in Redis on registration |
+| XP / progress | localStorage + Redis | On each stage completion |
 | Session identifier | sessionStorage | No |
 
-**Assessment:** Zero user data leaves the browser in the current architecture. This is exceptionally privacy-friendly. No GDPR, CCPA, or COPPA obligations apply to data that never reaches a server.
-
-**Caveat:** Vercel logs HTTP access logs (IP addresses, user agents) for all requests. This is standard CDN/hosting behavior and is covered by Vercel's privacy policy.
+**Note:** Vercel logs HTTP access logs (IP, user agent) for all requests — standard CDN behavior, covered by Vercel's privacy policy.
 
 ---
 
-## 8. Remediation Priority Matrix
+## 10. Remediation Status Summary
 
-| Finding | Severity | Effort | Status |
-|---|---|---|---|
-| Revoke GitHub PAT | Critical | 1 min | ⚠️ Action required |
-| Revoke old Vercel token | Critical | 1 min | ⚠️ Action required |
-| Upgrade password hash to PBKDF2 | Medium | 1 hour | ✅ Done |
-| Add HTTP security headers | Medium | 30 min | ✅ Done |
-| Migrate auth to server-side | High | 2–3 days | Before production |
-| Move flag validation server-side | Low | 4 hours | Optional |
-
----
-
-## 9. Security Architecture Recommendation (Production Path)
-
-```
-Current (Demo):          Recommended (Production):
-──────────────           ──────────────────────────
-Browser localStorage  →  Supabase PostgreSQL (server)
-PBKDF2 password hash  →  Argon2id via Supabase Auth
-Plain sessionStorage  →  HttpOnly cookie + JWT (server-signed)
-Client-side flags     →  /api/validate-flag serverless route
-Security headers ✅   →  Strict CSP via next.config.ts (done)
-```
+| Finding | Severity | Status |
+|---|---|---|
+| Admin credentials in source code | Critical | ✅ Resolved v0.4.1 |
+| Internal docs in public/ | High | ✅ Resolved v0.6.0 |
+| Missing HSTS | Medium | ✅ Resolved v0.6.0 |
+| Client-supplied XP accepted | Medium | ✅ Resolved v0.6.0 |
+| No rate limiting on email endpoints | Medium | ✅ Resolved v0.6.0 |
+| sync-user allows overwrite | Medium | ✅ Resolved v0.6.0 |
+| admin-session accepts empty secret | Medium | ✅ Resolved v0.6.0 |
+| Password reset leaks email | Low | ✅ Resolved v0.6.0 |
+| Client-side auth storage | High | Acceptable for demo; documented production path |
+| CTF flags in client bundle | Low | Acceptable for demo; documented production path |
+| No signed session tokens | Low | Acceptable for demo; documented production path |
 
 ---
 
-*Updated: 2026-05-09. PBKDF2 hashing and security headers implemented. Remaining action items: revoke old GitHub PAT and Vercel token at their respective dashboards.*
+## 11. Production Readiness Gaps
+
+| Item | Effort | Priority |
+|---|---|---|
+| Migrate auth to server-side (Supabase Auth) | 2–3 days | Before user data at scale |
+| Server-side flag validation | 4 hours | Optional for demo |
+| Signed JWT sessions | 1 day | Before production launch |
+| Add CI pipeline (lint, tsc, audit) | 4 hours | Before team scaling |
+| Redis backup / point-in-time recovery | 1 hour | Before production scale |

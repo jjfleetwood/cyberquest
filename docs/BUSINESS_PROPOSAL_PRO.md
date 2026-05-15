@@ -1,4 +1,4 @@
-# Kryptós CronOS
+﻿# Kryptós CronOS
 ## Investor Briefing & Commercial Opportunity
 **Confidential — May 2026**
 
@@ -149,7 +149,7 @@ Our differentiation: the only platform combining structured curriculum, real-exp
 
 - **Product:** Fully functional demo with 12 stages, auth system, leaderboard, and CTF terminal
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptocronos.com
+- **Deployment:** Live at kryptoscronos.com
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---

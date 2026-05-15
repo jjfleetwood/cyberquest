@@ -1,4 +1,4 @@
-# Kryptós CronOS — Technical Architecture
+﻿# Kryptós CronOS — Technical Architecture
 **Version:** 1.0  
 **Date:** 2026-05-09  
 **Codebase:** github.com/jjfleetwood/kryptos-cronos (branch: master, commit: 51ca22d)
@@ -267,7 +267,7 @@ Developer (local)
                     ├── Output: .next/ folder
                     └── Deploy: serverless functions + static assets → iad1 (us-east)
                             │
-                            └── Production URL: kryptocronos.com
+                            └── Production URL: kryptoscronos.com
 ```
 
 ### 8.2 Deployment Configuration
