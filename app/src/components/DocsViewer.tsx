@@ -8,9 +8,15 @@ import remarkGfm from "remark-gfm";
 import { isAdmin } from "@/lib/auth";
 
 const DOCS = [
+  { id: "readme", label: "Overview", file: "README.md", icon: "📖", color: "text-white" },
   { id: "release-notes", label: "Release Notes", file: "RELEASE_NOTES.md", icon: "📋", color: "text-amber-400" },
   { id: "security", label: "Security Briefing", file: "SECURITY_BRIEFING.md", icon: "🔐", color: "text-red-400" },
   { id: "architecture", label: "Technical Architecture", file: "TECHNICAL_ARCHITECTURE.md", icon: "🏗️", color: "text-cyan-400" },
+  { id: "architecture-md", label: "Architecture", file: "ARCHITECTURE.md", icon: "🗺️", color: "text-cyan-300" },
+  { id: "build", label: "Build & Deploy", file: "BUILD.md", icon: "⚙️", color: "text-gray-400" },
+  { id: "ops", label: "Operations", file: "OPS.md", icon: "🖥️", color: "text-green-400" },
+  { id: "curriculum", label: "Curriculum", file: "CURRICULUM.md", icon: "🎓", color: "text-emerald-400" },
+  { id: "partners", label: "Partners", file: "PARTNERS.md", icon: "🤝", color: "text-blue-400" },
   { id: "proposal-pro", label: "Business Proposal", file: "BUSINESS_PROPOSAL_PRO.md", icon: "💼", color: "text-purple-400" },
   { id: "proposal-casual", label: "Pitch Deck", file: "BUSINESS_PROPOSAL_CASUAL.md", icon: "🚀", color: "text-green-400" },
 ];

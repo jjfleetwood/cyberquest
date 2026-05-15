@@ -4,9 +4,15 @@ import fs from "fs";
 import path from "path";
 
 const ALLOWED_FILES = new Set([
+  "README.md",
   "SECURITY_BRIEFING.md",
   "TECHNICAL_ARCHITECTURE.md",
+  "ARCHITECTURE.md",
   "RELEASE_NOTES.md",
+  "BUILD.md",
+  "OPS.md",
+  "CURRICULUM.md",
+  "PARTNERS.md",
   "BUSINESS_PROPOSAL_PRO.md",
   "BUSINESS_PROPOSAL_CASUAL.md",
 ]);
