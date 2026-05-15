@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v0.6.0 (as of 2026-05-11)
+**Current version:** v0.7.0 (as of 2026-05-15)
 
 ---
 
@@ -141,15 +141,16 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v0.6.0, 2026-05-11)
+## Where We Left Off (v0.7.0, 2026-05-15)
 
-Security hardening sprint is complete. The Before Times epoch is the default tab with emerald theming. The platform is stable and deployed.
+Multi-step CTF fragment engine shipped across all 54 stages. Homepage updated with job outcomes section and accurate stats (54 stages, 12+ CVEs, 3.5M jobs). Business docs updated with hints-as-ads monetization model. PITCH_TARGETS.md created. Stage map redesigned from vertical list to large card grid with wonder emoji tiles (2-col mobile, up to 5-col desktop). GitGuardian connected; `.gitguardian.yaml` added to exclude CTF data files from secret scanning.
 
 **Next logical work areas:**
-1. AI personalization layer (in-terminal tutor, adaptive difficulty) — requires Anthropic API integration
+1. AI personalization layer (in-terminal tutor, adaptive difficulty) — requires Anthropic API integration (v0.8.0)
 2. CI pipeline setup (GitHub Actions: lint + tsc + build + audit)
-3. Production auth migration (Supabase Auth, server-side)
-4. Weekly CVE challenge drop system
+3. Streaks and milestone badges
+4. Cisco product integrations (Talos, Umbrella, SecureX, Firepower, CyberOps, DevNet)
+5. Production auth migration (Supabase Auth, server-side)
 
 ---
 
