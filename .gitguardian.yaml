@@ -1,0 +1,10 @@
+# GitGuardian configuration
+# CTF stage data files contain intentional fictional credentials used as
+# educational challenge content. They are not real secrets.
+paths-ignore:
+  - "app/src/data/stages.ts"
+  - "app/src/data/before-times.ts"
+  - "app/src/data/before-times-2.ts"
+  - "app/src/data/before-times-3.ts"
+  - "docs/**"
+  - "app/secured-docs/**"
