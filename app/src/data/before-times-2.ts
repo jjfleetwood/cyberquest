@@ -86,9 +86,27 @@ curl -I http://google.com
         "Read the HTTP traffic capture. Run: cat http-capture.txt",
         "Extract the credentials from the HTTP stream. Run: extract-creds http",
         "Try to read the HTTPS capture. Run: extract-creds https",
-        "Submit the stolen credentials. Run: submit-creds <username> <password>",
+        "Submit the stolen credentials. Run: submit-creds tidal_wave_tom surfsup1969",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{HTTP_1S_PL41NT3XT_HTTPS_1S_3NCRYPT3D}",
+      fragments: [
+        {
+          trigger: "/http-capture.txt",
+          value: "FLAG{HTTP_1S_",
+          label: "HTTP Capture — Plaintext Credentials Exposed",
+        },
+        {
+          trigger: "/https-capture.txt",
+          value: "PL41NT3XT_",
+          label: "HTTPS Capture — Encrypted Traffic Confirmed",
+        },
+        {
+          trigger: "submit-creds tidal_wave_tom surfsup1969",
+          value: "HTTPS_1S_3NCRYPT3D}",
+          label: "Credential Submission — HTTP Danger Demonstrated",
+        },
+      ],
       files: {
         "/http-capture.txt": [
           "HTTP TRAFFIC CAPTURE — Steamer Lane WiFi",
@@ -160,13 +178,8 @@ curl -I http://google.com
                 "Credentials submitted. Logged in as: tidal_wave_tom",
                 "This is how easy HTTP credential theft is.",
                 "",
-                "  ┌─────────────────────────────────────────────────────┐",
-                "  │  HTTP DANGER DEMONSTRATED. ALWAYS USE HTTPS.        │",
-                "  │                                                     │",
-                "  │  FLAG{HTTP_1S_PL41NT3XT_HTTPS_1S_3NCRYPT3D}         │",
-                "  └─────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: ["Wrong credentials. Read the HTTP capture first."] };
@@ -262,8 +275,26 @@ curl -A "Mozilla/5.0" https://example.com`,
         "Check the HTTP response headers. Run: inspect-headers /",
         "Access the hidden path you found. Run: browse /admin-reef-42",
         "Read the admin panel contents. Run: cat /admin-reef-42/flag.txt",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{BR0WS3R_D3VT00LS_R3V34L_3V3RYTH1NG}",
+      fragments: [
+        {
+          trigger: "/index.html",
+          value: "FLAG{BR0WS3R_",
+          label: "Page Source — Hidden Admin Path Discovered",
+        },
+        {
+          trigger: "/admin-reef-42/flag.txt",
+          value: "D3VT00LS_R3V34L_",
+          label: "Admin Panel — Flag File Located",
+        },
+        {
+          trigger: "cat /admin-reef-42/flag.txt",
+          value: "3V3RYTH1NG}",
+          label: "Flag Retrieval — DevTools Mastered",
+        },
+      ],
       files: {
         "/index.html": [
           "<html>",
@@ -276,7 +307,7 @@ curl -A "Mozilla/5.0" https://example.com`,
           "</body>",
           "</html>",
         ].join("\n"),
-        "/admin-reef-42/flag.txt": "FLAG{BR0WS3R_D3VT00LS_R3V34L_3V3RYTH1NG}",
+        "/admin-reef-42/flag.txt": "Run 'assemble' to retrieve your fragment.",
       },
       dirs: {
         "/": [{ name: "index.html", isDir: false }, { name: "admin-reef-42", isDir: true }],
@@ -419,10 +450,53 @@ print(resp.json())   # parse JSON response`,
         "Try adjacent IDs. Run: api-get /students/1",
         "Keep trying low IDs to find admin. Run: api-get /students/0",
         "Try the admin ID. Run: api-get /students/admin",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{1D0R_S3RV3R_MUST_4UTH0R1Z3_3V3RY_R3QU3ST}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/api-brief.txt",
+          value: "FLAG{1D0R_S3RV3R_",
+          label: "API Brief — IDOR Vulnerability Identified",
+        },
+        {
+          trigger: "/students.txt",
+          value: "MUST_4UTH0R1Z3_",
+          label: "Student Roster — Unauthorized Record Found",
+        },
+        {
+          trigger: "api-get /students/0",
+          value: "3V3RY_R3QU3ST}",
+          label: "Admin Record — Server Failed to Authorize",
+        },
+      ],
+      files: {
+        "/api-brief.txt": [
+          "SURF SCHOOL API — IDOR INVESTIGATION",
+          "=====================================",
+          "You are logged in as student ID 7.",
+          "The API exposes student records at /students/<id>.",
+          "The server does not check if you own the record.",
+          "",
+          "Objective: access the admin record by manipulating the ID.",
+          "Try: api-get /students/7 to start.",
+        ].join("\n"),
+        "/students.txt": [
+          "Known student IDs (from enrollment form leak):",
+          "  ID 0  — admin (instructor account)",
+          "  ID 1  — betty_barrelhouse",
+          "  ID 7  — wave_rider_7 (you)",
+          "",
+          "The server trusts whichever ID you send.",
+          "No authorization check is performed.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "api-brief.txt", isDir: false },
+          { name: "students.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "api-get": (args) => {
           const path = args[0] || "";
@@ -430,7 +504,7 @@ print(resp.json())   # parse JSON response`,
           const responses: Record<string, string[]> = {
             "7": ["200 OK — Student #7:", "  name: wave_rider_7", "  level: beginner", "  courses: [surf-101]"],
             "1": ["200 OK — Student #1:", "  name: betty_barrelhouse", "  level: intermediate", "  courses: [surf-201, surf-301]"],
-            "0": ["200 OK — Student #0:", "  name: admin", "  level: instructor", '  secret_flag: FLAG{1D0R_S3RV3R_MUST_4UTH0R1Z3_3V3RY_R3QU3ST}', "  note: Server returned admin record to an unauthorized student. IDOR vulnerability."],
+            "0": ["200 OK — Student #0:", "  name: admin", "  level: instructor", "  note: Server returned admin record to an unauthorized student. IDOR vulnerability.", "", "Run 'assemble' to retrieve your fragment."],
             "admin": ["400 Bad Request — ID must be numeric. Try /students/0"],
           };
           const resp = responses[id];
@@ -529,10 +603,54 @@ curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
         "Check the certificate issuer. Run: check-issuer",
         "Check the expiry date. Run: check-expiry",
         "Check if the domain matches. Run: check-domain lifeguard-server.sc",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{TLS_C3RT_V3R1F1C4T10N_PR3V3NTS_1MP3RS0N4T10N}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/cert-brief.txt",
+          value: "FLAG{TLS_C3RT_",
+          label: "Certificate Brief — Investigation Started",
+        },
+        {
+          trigger: "/tls-notes.txt",
+          value: "V3R1F1C4T10N_PR3V3NTS_",
+          label: "TLS Notes — Untrusted Issuer Confirmed",
+        },
+        {
+          trigger: "check-domain lifeguard-server.sc",
+          value: "1MP3RS0N4T10N}",
+          label: "Domain Check — All Certificate Issues Identified",
+        },
+      ],
+      files: {
+        "/cert-brief.txt": [
+          "TLS CERTIFICATE INVESTIGATION — Lifeguard Tower #3",
+          "====================================================",
+          "Server: lifeguard-server.sc",
+          "Port: 443",
+          "",
+          "Task: inspect the certificate for issues.",
+          "Run: check-cert lifeguard-server.sc",
+          "Then: check-issuer, check-expiry, check-domain",
+        ].join("\n"),
+        "/tls-notes.txt": [
+          "TLS VERIFICATION CHECKLIST",
+          "==========================",
+          "1. Issuer must be a trusted CA (DigiCert, Let's Encrypt, etc.)",
+          "2. Certificate must not be expired",
+          "3. Subject CN must match the domain you are connecting to",
+          "",
+          "If any check fails: DO NOT trust the connection.",
+          "An untrusted issuer means anyone could have signed this cert.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "cert-brief.txt", isDir: false },
+          { name: "tls-notes.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "check-cert": (args) => ({
           lines: [
@@ -580,13 +698,8 @@ curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
               "Combined issues found: UNTRUSTED ISSUER + EXPIRED.",
               "This certificate should not be trusted.",
               "",
-              "  ┌──────────────────────────────────────────────────────────────┐",
-              "  │  CERTIFICATE ISSUES IDENTIFIED. TLS VERIFICATION MASTERED.  │",
-              "  │                                                              │",
-              "  │  FLAG{TLS_C3RT_V3R1F1C4T10N_PR3V3NTS_1MP3RS0N4T10N}         │",
-              "  └──────────────────────────────────────────────────────────────┘",
+              "Run 'assemble' to retrieve your fragment.",
             ],
-            solved: domain === "lifeguard-server.sc",
           };
         },
       },
@@ -675,11 +788,57 @@ curl -I https://example.com | grep Set-Cookie
       hints: [
         "Read the page's cookies via JavaScript. Run: js-read-cookies",
         "Find the admin session token. Run: read-session admin",
-        "Use the stolen token to access admin. Run: access-as-admin <token>",
+        "Use the stolen token to access admin. Run: access-as-admin sess_ADMIN_9f3e2b1a",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{HTTP_0NLY_PREV3NTS_C00K13_TH3FT}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/cookie-policy.txt",
+          value: "FLAG{HTTP_0NLY_",
+          label: "Cookie Policy — Missing HttpOnly Attribute Found",
+        },
+        {
+          trigger: "/session-log.txt",
+          value: "PREV3NTS_C00K13_",
+          label: "Session Log — Admin Token Identified",
+        },
+        {
+          trigger: "access-as-admin sess_ADMIN_9f3e2b1a",
+          value: "TH3FT}",
+          label: "Admin Access — Session Hijack Demonstrated",
+        },
+      ],
+      files: {
+        "/cookie-policy.txt": [
+          "SURF CLUB SESSION COOKIE CONFIGURATION",
+          "=======================================",
+          "Cookie: session_admin",
+          "  Secure: true",
+          "  HttpOnly: MISSING  ← vulnerability",
+          "  SameSite: not set",
+          "",
+          "Because HttpOnly is not set, JavaScript (document.cookie)",
+          "can read this cookie — enabling XSS-based theft.",
+          "Run: js-read-cookies",
+        ].join("\n"),
+        "/session-log.txt": [
+          "SESSION LOG — Surf Club Admin Panel",
+          "=====================================",
+          "Active sessions:",
+          "  session_user=sess_7abc23    (wave_rider_7, regular member)",
+          "  session_admin=sess_ADMIN_9f3e2b1a  (admin, full access)",
+          "",
+          "Both tokens are readable via document.cookie.",
+          "Use: access-as-admin <token> to hijack the admin session.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "cookie-policy.txt", isDir: false },
+          { name: "session-log.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "js-read-cookies": () => ({
           lines: [
@@ -711,13 +870,8 @@ curl -I https://example.com | grep Set-Cookie
                 "Server response: 200 OK — Welcome, admin",
                 "Admin panel access granted.",
                 "",
-                "  ┌──────────────────────────────────────────────────────────┐",
-                "  │  COOKIE THEFT SUCCEEDED. ALWAYS SET HttpOnly.           │",
-                "  │                                                          │",
-                "  │  FLAG{HTTP_0NLY_PREV3NTS_C00K13_TH3FT}                  │",
-                "  └──────────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: ["Invalid session token. Steal the admin cookie first."] };
@@ -815,10 +969,58 @@ print(resp.json())`,
         "Try the conditions endpoint. Run: api /v1/conditions",
         "Try to find undocumented endpoints. Run: api /v1/admin",
         "Try the internal endpoint. Run: api /internal/config",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{4P1_3NUM3R4T10N_F1NDS_H1DD3N_3NDP01NTS}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/api-docs.txt",
+          value: "FLAG{4P1_3NUM3R4T10N_",
+          label: "API Docs — Documented Endpoints Reviewed",
+        },
+        {
+          trigger: "/endpoint-hints.txt",
+          value: "F1NDS_H1DD3N_",
+          label: "Endpoint Hints — Internal Path Discovered",
+        },
+        {
+          trigger: "api /internal/config",
+          value: "3NDP01NTS}",
+          label: "Internal Config — Unauthenticated Endpoint Found",
+        },
+      ],
+      files: {
+        "/api-docs.txt": [
+          "SURF CONDITIONS API — PUBLIC DOCUMENTATION",
+          "==========================================",
+          "Base URL: https://api.surfconditions.com",
+          "",
+          "Documented endpoints:",
+          "  GET /v1/forecast    — wave height, wind, conditions",
+          "  GET /v1/conditions  — per-break surf status",
+          "  GET /v1/admin       — requires X-Admin-Token header",
+          "",
+          "Note: some internal endpoints are not listed here.",
+          "Enumerate to discover them.",
+        ].join("\n"),
+        "/endpoint-hints.txt": [
+          "API ENUMERATION NOTES",
+          "=====================",
+          "Common undocumented path patterns:",
+          "  /internal/*     — backend config endpoints",
+          "  /debug/*        — diagnostic endpoints",
+          "  /v0/*           — legacy versions",
+          "",
+          "Try: api /internal/config",
+          "Internal endpoints often lack authentication.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "api-docs.txt", isDir: false },
+          { name: "endpoint-hints.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         api: (args) => {
           const path = args[0] || "/";
@@ -841,9 +1043,10 @@ print(resp.json())`,
               "{",
               '  "db_host": "10.0.1.5",',
               '  "admin_key": "SECRET_SURF_ADMIN_KEY_42",',
-              '  "flag": "FLAG{4P1_3NUM3R4T10N_F1NDS_H1DD3N_3NDP01NTS}",',
               '  "note": "Internal endpoint — should not be publicly accessible"',
               "}",
+              "",
+              "Run 'assemble' to retrieve your fragment.",
             ],
           };
           const resp = routes[path];
@@ -941,10 +1144,56 @@ traceroute google.com
         "Find where traffic is spiking. Run: trace-congestion",
         "Identify attack source. Run: top-talkers",
         "Block the attack traffic. Run: block-ip 185.220.101.0/24",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{B4NDW1DTH_S4TUR4T10N_1S_D0S}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/network-topology.txt",
+          value: "FLAG{B4NDW1DTH_",
+          label: "Network Topology — Uplink Bottleneck Located",
+        },
+        {
+          trigger: "/traffic-report.txt",
+          value: "S4TUR4T10N_1S_",
+          label: "Traffic Report — Attack Source Identified",
+        },
+        {
+          trigger: "block-ip 185.220.101.0/24",
+          value: "D0S}",
+          label: "IP Block — DDoS Mitigated",
+        },
+      ],
+      files: {
+        "/network-topology.txt": [
+          "PLEASURE POINT SURF SERVER — NETWORK TOPOLOGY",
+          "===============================================",
+          "  [Internet] ←→ [ISP Uplink: 1 Gbps] ←→ [Firewall] ←→ [Server: 10 Gbps]",
+          "",
+          "The ISP uplink is the narrowest link — 1 Gbps max.",
+          "If inbound traffic exceeds 1 Gbps, the uplink saturates.",
+          "Legitimate traffic: ~50 Mbps baseline.",
+          "",
+          "Run: bandwidth-check to see current utilization.",
+        ].join("\n"),
+        "/traffic-report.txt": [
+          "TRAFFIC ANOMALY REPORT — Pleasure Point",
+          "========================================",
+          "Alert: ISP uplink at 99.7% utilization.",
+          "Known attack range: 185.220.101.0/24 (Tor exit / DDoS botnet)",
+          "",
+          "Steps to mitigate:",
+          "  1. Run: trace-congestion",
+          "  2. Run: top-talkers",
+          "  3. Run: block-ip 185.220.101.0/24",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "network-topology.txt", isDir: false },
+          { name: "traffic-report.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "bandwidth-check": () => ({
           lines: [
@@ -990,13 +1239,8 @@ traceroute google.com
                 "Attack traffic: BLOCKED",
                 "Legitimate traffic: RESTORED",
                 "",
-                "  ┌──────────────────────────────────────────────────┐",
-                "  │  DDoS MITIGATED. BANDWIDTH CONCEPTS MASTERED.   │",
-                "  │                                                  │",
-                "  │  FLAG{B4NDW1DTH_S4TUR4T10N_1S_D0S}               │",
-                "  └──────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`Unknown IP range: ${args[0]}. Check top-talkers output.`] };
@@ -1093,10 +1337,58 @@ ping 9.9.9.9     # Quad9`,
         "Ping the second server. Run: ping cdn-central",
         "Ping the third server. Run: ping cdn-east",
         "Connect to the fastest. Run: connect-cdn cdn-west",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{L0W_L4T3NCY_W1NS_TH3_R4C3}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/cdn-map.txt",
+          value: "FLAG{L0W_L4T3NCY_",
+          label: "CDN Map — Server Locations Reviewed",
+        },
+        {
+          trigger: "/ping-guide.txt",
+          value: "W1NS_TH3_",
+          label: "Ping Guide — Latency Comparison Complete",
+        },
+        {
+          trigger: "connect-cdn cdn-west",
+          value: "R4C3}",
+          label: "Optimal CDN — Fastest Server Connected",
+        },
+      ],
+      files: {
+        "/cdn-map.txt": [
+          "CDN SERVER MAP — Surf Forecast Network",
+          "=======================================",
+          "  cdn-west     → Santa Cruz, CA (closest to you)",
+          "  cdn-central  → Dallas, TX",
+          "  cdn-east     → Ashburn, VA",
+          "",
+          "Expected latency increases with distance.",
+          "Run: ping cdn-west | ping cdn-central | ping cdn-east",
+          "Then connect to the lowest-latency server.",
+        ].join("\n"),
+        "/ping-guide.txt": [
+          "LATENCY MEASUREMENT GUIDE",
+          "=========================",
+          "RTT (round-trip time) = 2 × one-way latency.",
+          "Lower is better for real-time applications.",
+          "",
+          "Thresholds:",
+          "  < 20ms   — Excellent (local/regional)",
+          "  20–100ms — Moderate (cross-country)",
+          "  > 100ms  — High (intercontinental)",
+          "",
+          "After pinging all three, run: connect-cdn <fastest>",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "cdn-map.txt", isDir: false },
+          { name: "ping-guide.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         ping: (args) => {
           const host = args[0] || "";
@@ -1120,13 +1412,8 @@ ping 9.9.9.9     # Quad9`,
                 "",
                 "Surf forecast loaded in 12ms.",
                 "",
-                "  ┌─────────────────────────────────────────────────┐",
-                "  │  OPTIMAL SERVER SELECTED. LATENCY MASTERED.     │",
-                "  │                                                 │",
-                "  │  FLAG{L0W_L4T3NCY_W1NS_TH3_R4C3}                │",
-                "  └─────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`cdn-${args[0] || "?"}: ${args[0] === "cdn-central" ? "67ms" : "142ms"} — not the fastest. Check your ping results.`] };
@@ -1221,10 +1508,56 @@ dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
         "Query the authoritative server directly. Run: dns-auth surf-archive.sc",
         "Compare the two answers. Run: compare-dns surf-archive.sc",
         "Flush the poisoned cache entry. Run: flush-cache surf-archive.sc",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{DNS_C4CH3_P01S0N1NG_1S_D3T3CT4BL3}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/resolver-config.txt",
+          value: "FLAG{DNS_C4CH3_",
+          label: "Resolver Config — Poisoned Cache Detected",
+        },
+        {
+          trigger: "/dns-notes.txt",
+          value: "P01S0N1NG_1S_",
+          label: "DNS Notes — IP Mismatch Confirmed",
+        },
+        {
+          trigger: "flush-cache surf-archive.sc",
+          value: "D3T3CT4BL3}",
+          label: "Cache Flush — Poisoned Entry Purged",
+        },
+      ],
+      files: {
+        "/resolver-config.txt": [
+          "LOCAL DNS RESOLVER — CACHE DUMP",
+          "================================",
+          "surf-archive.sc  A  185.220.101.50  TTL=287s  [CACHED]",
+          "",
+          "This IP does not match the authoritative answer.",
+          "The cache entry was injected by an attacker.",
+          "",
+          "Run: dns-auth surf-archive.sc to see the real IP.",
+          "Run: compare-dns surf-archive.sc to confirm mismatch.",
+        ].join("\n"),
+        "/dns-notes.txt": [
+          "DNS CACHE POISONING — INVESTIGATION NOTES",
+          "==========================================",
+          "Attacker IP:      185.220.101.50  (known malicious)",
+          "Legitimate IP:    198.51.100.77   (authoritative answer)",
+          "",
+          "All users on this resolver are being sent to the attacker.",
+          "DNSSEC would have prevented this — signatures would not match.",
+          "",
+          "To remediate: flush-cache surf-archive.sc",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "resolver-config.txt", isDir: false },
+          { name: "dns-notes.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "dns-cache": (args) => ({
           lines: [
@@ -1262,13 +1595,8 @@ dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
                 "  Fresh lookup: 198.51.100.77  ✓",
                 "  Cache updated with legitimate address.",
                 "",
-                "  ┌──────────────────────────────────────────────────────────┐",
-                "  │  CACHE POISONING DETECTED AND PURGED. DNS HARDENED.     │",
-                "  │                                                          │",
-                "  │  FLAG{DNS_C4CH3_P01S0N1NG_1S_D3T3CT4BL3}                │",
-                "  └──────────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`Unknown entry: ${args[0]}`] };
@@ -1367,10 +1695,57 @@ server {
         "Probe backend 1 directly. Run: probe-backend 10.0.1.10",
         "Probe backend 2 directly. Run: probe-backend 10.0.1.11",
         "Probe backend 3 directly. Run: probe-backend 10.0.1.12",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{L04D_B4L4NC3R_D1STR1BUT3S_TH3_W4V3S}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "/lb-config.txt",
+          value: "FLAG{L04D_B4L4NC3R_",
+          label: "LB Config — Backend Pool Identified",
+        },
+        {
+          trigger: "/backend-map.txt",
+          value: "D1STR1BUT3S_TH3_",
+          label: "Backend Map — Admin Server Located",
+        },
+        {
+          trigger: "probe-backend 10.0.1.12",
+          value: "W4V3S}",
+          label: "Backend Probe — Flag Server Found",
+        },
+      ],
+      files: {
+        "/lb-config.txt": [
+          "LOAD BALANCER CONFIGURATION — Four Mile Surf Server",
+          "=====================================================",
+          "Algorithm: round-robin",
+          "Backend pool:",
+          "  10.0.1.10  — surf forecast data",
+          "  10.0.1.11  — wave height data",
+          "  10.0.1.12  — admin backend",
+          "",
+          "Health check: GET /health every 10s",
+          "Run: probe-lb to see which backend responds.",
+          "Run: probe-backend <ip> to hit a specific backend.",
+        ].join("\n"),
+        "/backend-map.txt": [
+          "BACKEND SERVER MAP",
+          "==================",
+          "10.0.1.10  — public content (surf forecast)",
+          "10.0.1.11  — public content (wave data)",
+          "10.0.1.12  — admin backend (should be internal-only)",
+          "",
+          "The load balancer exposes all three backends equally.",
+          "Probe each to find the one with sensitive content.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [
+          { name: "lb-config.txt", isDir: false },
+          { name: "backend-map.txt", isDir: false },
+        ],
+      },
       extraCommands: {
         "probe-lb": () => ({
           lines: [
@@ -1394,13 +1769,8 @@ server {
                 `Backend ${ip}: 200 OK`,
                 "  Content: ADMIN BACKEND — this server has the flag.",
                 "",
-                "  ┌──────────────────────────────────────────────────────────┐",
-                "  │  BACKEND FOUND. LOAD BALANCING FULLY UNDERSTOOD.        │",
-                "  │                                                          │",
-                "  │  FLAG{L04D_B4L4NC3R_D1STR1BUT3S_TH3_W4V3S}              │",
-                "  └──────────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`No backend at ${ip}. Try: 10.0.1.10, 10.0.1.11, or 10.0.1.12`] };

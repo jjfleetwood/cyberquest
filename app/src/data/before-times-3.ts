@@ -87,10 +87,28 @@ dig TXT example.com | grep spf
         "Read the second email. Run: read-email 2",
         "Read the third email. Run: read-email 3",
         "Report the phishing email. Run: report-phish <email-number>",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{PH1SH1NG_H1D3S_B3H1ND_F4K3_D0M41NS}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "read-email 1",
+          value: "FLAG{PH1SH1NG_",
+          label: "Inbox Scan — Legitimate Email Identified",
+        },
+        {
+          trigger: "read-email 2",
+          value: "H1D3S_B3H1ND_",
+          label: "Header Analysis — Typosquatted Domain Spotted",
+        },
+        {
+          trigger: "report-phish 2",
+          value: "F4K3_D0M41NS}",
+          label: "Threat Reported — Phishing Campaign Neutralised",
+        },
+      ],
       extraCommands: {
         "read-email": (args) => {
           const num = args[0] || "1";
@@ -147,10 +165,9 @@ dig TXT example.com | grep spf
                 "  ┌──────────────────────────────────────────────────────────┐",
                 "  │  PHISHING IDENTIFIED. NEVER TRUST DISPLAY NAMES ALONE.  │",
                 "  │                                                          │",
-                "  │  FLAG{PH1SH1NG_H1D3S_B3H1ND_F4K3_D0M41NS}               │",
+                "  │  Run 'assemble' to retrieve your fragment.               │",
                 "  └──────────────────────────────────────────────────────────┘",
               ],
-              solved: true,
             };
           }
           return { lines: [`Email #${args[0]} is legitimate. Check all three emails carefully.`] };
@@ -247,10 +264,28 @@ print(f"Valid: {is_valid}")`,
         "Try the account with 2FA. Run: login captain-2fa P4ssw0rd",
         "Attempt to bypass 2FA. Run: bypass-2fa captain-2fa",
         "Enable 2FA on the vulnerable account. Run: enable-2fa captain-no2fa",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{2F4_ST0PS_ST0L3N_P4SSW0RDS}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "login captain-no2fa P4ssw0rd",
+          value: "FLAG{2F4_",
+          label: "Weak Account — Password Alone Grants Access",
+        },
+        {
+          trigger: "bypass-2fa captain-2fa",
+          value: "ST0PS_ST0L3N_",
+          label: "Bypass Attempted — Second Factor Cannot Be Skipped",
+        },
+        {
+          trigger: "enable-2fa captain-no2fa",
+          value: "P4SSW0RDS}",
+          label: "Account Hardened — 2FA Now Blocks Stolen Credentials",
+        },
+      ],
       extraCommands: {
         login: (args) => {
           const user = args[0] || "";
@@ -303,10 +338,9 @@ print(f"Valid: {is_valid}")`,
                 "  ┌──────────────────────────────────────────────────────┐",
                 "  │  2FA ENABLED. STOLEN PASSWORD NOW USELESS ALONE.    │",
                 "  │                                                      │",
-                "  │  FLAG{2F4_ST0PS_ST0L3N_P4SSW0RDS}                   │",
+                "  │  Run 'assemble' to retrieve your fragment.           │",
                 "  └──────────────────────────────────────────────────────┘",
               ],
-              solved: true,
             };
           }
           return { lines: [`Unknown account: ${args[0]}`] };
@@ -404,10 +438,28 @@ def password_entropy(length, charset_size):
         "Attempt to crack the strong password hash. Run: crack strong-hash",
         "Analyze what makes the difference. Run: analyze-strength",
         "Confirm your understanding. Run: submit-analysis",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{L3NGTH_4ND_R4ND0MN3SS_W1N_3V3RY_T1M3}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "crack weak-hash",
+          value: "FLAG{L3NGTH_",
+          label: "Weak Hash Cracked — Dictionary Attack Succeeds Instantly",
+        },
+        {
+          trigger: "analyze-strength",
+          value: "4ND_R4ND0MN3SS_W1N_",
+          label: "Entropy Analysed — Length and Randomness Define Strength",
+        },
+        {
+          trigger: "submit-analysis",
+          value: "3V3RY_T1M3}",
+          label: "Analysis Confirmed — Password Manager Is the Answer",
+        },
+      ],
       extraCommands: {
         crack: (args) => {
           const target = args[0] || "";
@@ -464,10 +516,9 @@ def password_entropy(length, charset_size):
             "  ┌────────────────────────────────────────────────────────────┐",
             "  │  PASSWORD STRENGTH MASTERED. USE A PASSWORD MANAGER.     │",
             "  │                                                           │",
-            "  │  FLAG{L3NGTH_4ND_R4ND0MN3SS_W1N_3V3RY_T1M3}              │",
+            "  │  Run 'assemble' to retrieve your fragment.                │",
             "  └────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -559,10 +610,28 @@ def password_entropy(length, charset_size):
         "Filter for HTTP traffic only. Run: filter http",
         "Find the POST request with credentials. Run: find-creds",
         "Extract the stolen credentials. Run: extract",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{0P3N_W1F1_3XP0S3S_4LL_PL41NT3XT_TR4FF1C}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "capture-traffic",
+          value: "FLAG{0P3N_W1F1_",
+          label: "Network Scanned — Devices Visible on Open Frequency",
+        },
+        {
+          trigger: "find-creds",
+          value: "3XP0S3S_4LL_PL41NT3XT_",
+          label: "POST Request Captured — Credentials in Plain Sight",
+        },
+        {
+          trigger: "extract",
+          value: "TR4FF1C}",
+          label: "Credentials Extracted — Passive Eavesdrop Complete",
+        },
+      ],
       extraCommands: {
         "capture-traffic": () => ({
           lines: [
@@ -618,10 +687,9 @@ def password_entropy(length, charset_size):
             "  ┌──────────────────────────────────────────────────────────────┐",
             "  │  OPEN WIFI DANGER DEMONSTRATED. USE VPN OR HTTPS ALWAYS.   │",
             "  │                                                              │",
-            "  │  FLAG{0P3N_W1F1_3XP0S3S_4LL_PL41NT3XT_TR4FF1C}              │",
+            "  │  Run 'assemble' to retrieve your fragment.                  │",
             "  └──────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -714,8 +782,26 @@ RESPONSE PROTOCOL:
         "Identify the techniques used. Run: identify-technique urgency",
         "Identify the authority claim. Run: identify-technique authority",
         "Report all techniques found. Run: submit-report",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{S0C14L_3NG1N33R1NG_3XPL01TS_TRUST}",
+      fragments: [
+        {
+          trigger: "/transcript.txt",
+          value: "FLAG{S0C14L_",
+          label: "Transcript Reviewed — Attack Script Uncovered",
+        },
+        {
+          trigger: "identify-technique urgency",
+          value: "3NG1N33R1NG_3XPL01TS_",
+          label: "Technique Identified — Urgency Overrides Caution",
+        },
+        {
+          trigger: "submit-report",
+          value: "TRUST}",
+          label: "Report Filed — All Social Engineering Vectors Named",
+        },
+      ],
       files: {
         "/transcript.txt": [
           "PHONE CALL TRANSCRIPT — Monterey Marina",
@@ -777,10 +863,9 @@ RESPONSE PROTOCOL:
             "  ┌──────────────────────────────────────────────────────────────┐",
             "  │  ALL TECHNIQUES IDENTIFIED. SOCIAL ENGINEERING MASTERED.   │",
             "  │                                                              │",
-            "  │  FLAG{S0C14L_3NG1N33R1NG_3XPL01TS_TRUST}                    │",
+            "  │  Run 'assemble' to retrieve your fragment.                  │",
             "  └──────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -874,10 +959,28 @@ sudo apt install unattended-upgrades`,
         "Look up the CVE for that version. Run: lookup-cve harbor-service 2.3.1",
         "Exploit the unpatched service. Run: exploit",
         "Apply the patch and verify. Run: apply-patch",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{P4TCH_1MM3D14T3LY_0R_G3T_PWN3D}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "check-version",
+          value: "FLAG{P4TCH_",
+          label: "Version Checked — Critical CVE Found in Outdated Service",
+        },
+        {
+          trigger: "exploit",
+          value: "1MM3D14T3LY_0R_",
+          label: "Exploit Demonstrated — Root Shell in Four Seconds",
+        },
+        {
+          trigger: "apply-patch",
+          value: "G3T_PWN3D}",
+          label: "Patch Applied — Vulnerability Closed, System Hardened",
+        },
+      ],
       extraCommands: {
         "check-version": () => ({
           lines: [
@@ -934,10 +1037,9 @@ sudo apt install unattended-upgrades`,
             "  ┌──────────────────────────────────────────────────────────────┐",
             "  │  SYSTEM PATCHED. PATCH MANAGEMENT MASTERED.                │",
             "  │                                                              │",
-            "  │  FLAG{P4TCH_1MM3D14T3LY_0R_G3T_PWN3D}                       │",
+            "  │  Run 'assemble' to retrieve your fragment.                  │",
             "  └──────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -1029,10 +1131,28 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
         "Check which sites used that password. Run: check-reuse",
         "Assess your exposure level. Run: assess-damage",
         "Begin remediation. Run: remediate",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{BR34CH_CH3CK_R3M3D14T3_AND_US3_2F4}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "search-breach fisher_agent@example.com",
+          value: "FLAG{BR34CH_",
+          label: "Breach Found — Credentials Exposed in Three Dumps",
+        },
+        {
+          trigger: "assess-damage",
+          value: "CH3CK_R3M3D14T3_AND_",
+          label: "Damage Assessed — Password Reuse Creates Critical Risk",
+        },
+        {
+          trigger: "remediate",
+          value: "US3_2F4}",
+          label: "Account Remediated — Unique Passwords and 2FA Enabled",
+        },
+      ],
       extraCommands: {
         "search-breach": (args) => {
           const email = args[0] || "";
@@ -1090,10 +1210,9 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
             "  ┌──────────────────────────────────────────────────────────────┐",
             "  │  BREACH REMEDIATED. NEVER REUSE PASSWORDS. USE 2FA.        │",
             "  │                                                              │",
-            "  │  FLAG{BR34CH_CH3CK_R3M3D14T3_AND_US3_2F4}                   │",
+            "  │  Run 'assemble' to retrieve your fragment.                  │",
             "  └──────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -1187,10 +1306,28 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Inspect the third URL. Run: inspect-url 3",
         "Inspect the fourth URL. Run: inspect-url 4",
         "Flag all malicious ones. Run: flag-malicious 2 4",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{URL_1NSP3CT10N_SAV3S_Y0U_FR0M_M4LW4R3}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "inspect-url 2",
+          value: "FLAG{URL_1NSP3CT10N_",
+          label: "Fake Subdomain Detected — Real Domain Is the Attacker's",
+        },
+        {
+          trigger: "inspect-url 4",
+          value: "SAV3S_Y0U_FR0M_",
+          label: "Malicious Download Spotted — Misspelled Domain and .exe",
+        },
+        {
+          trigger: "flag-malicious 2 4",
+          value: "M4LW4R3}",
+          label: "Both Threats Flagged — Safe Browsing Protocol Complete",
+        },
+      ],
       extraCommands: {
         "inspect-url": (args) => {
           const num = args[0] || "1";
@@ -1242,10 +1379,9 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
                 "  ┌────────────────────────────────────────────────────────────┐",
                 "  │  ALL MALICIOUS URLs IDENTIFIED. SAFE BROWSING MASTERED.  │",
                 "  │                                                            │",
-                "  │  FLAG{URL_1NSP3CT10N_SAV3S_Y0U_FR0M_M4LW4R3}              │",
+                "  │  Run 'assemble' to retrieve your fragment.                │",
                 "  └────────────────────────────────────────────────────────────┘",
               ],
-              solved: true,
             };
           }
           return { lines: [`Incorrect. You flagged: #${args.join(" #")}. Re-inspect all four URLs carefully.`] };
@@ -1342,10 +1478,28 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Revoke unnecessary location access. Run: revoke location always-on",
         "Revoke unnecessary contacts access. Run: revoke contacts",
         "Confirm minimal permissions are set. Run: audit-permissions",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{PR1V4CY_S3TT1NGS_R3DUC3_4TT4CK_SURF4C3}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "show-permissions",
+          value: "FLAG{PR1V4CY_",
+          label: "Permissions Revealed — Three Over-Permissioned Settings Found",
+        },
+        {
+          trigger: "revoke location",
+          value: "S3TT1NGS_R3DUC3_",
+          label: "Location Restricted — Always-On Access Revoked",
+        },
+        {
+          trigger: "audit-permissions",
+          value: "4TT4CK_SURF4C3}",
+          label: "Audit Complete — Minimal Permissions, Minimal Exposure",
+        },
+      ],
       extraCommands: {
         "show-permissions": () => ({
           lines: [
@@ -1384,10 +1538,9 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
             "  ┌────────────────────────────────────────────────────────────────┐",
             "  │  PERMISSIONS AUDITED. PRIVACY SETTINGS MASTERED.             │",
             "  │                                                                │",
-            "  │  FLAG{PR1V4CY_S3TT1NGS_R3DUC3_4TT4CK_SURF4C3}                │",
+            "  │  Run 'assemble' to retrieve your fragment.                    │",
             "  └────────────────────────────────────────────────────────────────┘",
           ],
-          solved: true,
         }),
       },
     },
@@ -1490,10 +1643,28 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Assess the damage. Run: assess",
         "Eradicate the threat. Run: eradicate",
         "Recover your account. Run: recover",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{1NC1D3NT_R3SP0NS3_PR0T0C0L_C0MPL3T3}",
       files: {},
       dirs: { "/": [] },
+      fragments: [
+        {
+          trigger: "contain",
+          value: "FLAG{1NC1D3NT_",
+          label: "Breach Contained — Attacker's Active Session Terminated",
+        },
+        {
+          trigger: "eradicate",
+          value: "R3SP0NS3_PR0T0C0L_",
+          label: "Threat Eradicated — Persistence Mechanism Removed",
+        },
+        {
+          trigger: "recover",
+          value: "C0MPL3T3}",
+          label: "Account Recovered — Incident Response Protocol Complete",
+        },
+      ],
       extraCommands: {
         contain: () => ({
           lines: [
@@ -1547,10 +1718,9 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
             "  ║  30/30 stages finished. Athens to Santa Cruz to Monterey Bay.  ║",
             "  ║  You are no longer a beginner.                                 ║",
             "  ║                                                                ║",
-            "  ║  FLAG{1NC1D3NT_R3SP0NS3_PR0T0C0L_C0MPL3T3}                    ║",
+            "  ║  Run 'assemble' to retrieve your fragment.                     ║",
             "  ╚══════════════════════════════════════════════════════════════════╝",
           ],
-          solved: true,
         }),
       },
     },

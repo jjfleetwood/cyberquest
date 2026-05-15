@@ -227,6 +227,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [hintsOpen, setHintsOpen] = useState(false);
   const [briefingOpen, setBriefingOpen] = useState(false);
+  const [collectedFragments, setCollectedFragments] = useState<Set<string>>(new Set());
   const [lines, setLines] = useState<Line[]>([
     { type: "sys", text: "╔══════════════════════════════════════════╗" },
     { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
@@ -237,6 +238,11 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     { type: "out", text: "" },
     { type: "out", text: `Hint: ${ctf.hint}` },
     { type: "out", text: "" },
+    ...(ctf.fragments?.length ? [
+      { type: "out" as LineType, text: `Objective: Collect ${ctf.fragments.length} intelligence fragments to assemble the flag.` },
+      { type: "out" as LineType, text: "Run 'assemble' at any time to check your progress." },
+      { type: "out" as LineType, text: "" },
+    ] : []),
     { type: "out", text: "Type 'help' for available commands." },
     { type: "out", text: "" },
   ]);
@@ -250,6 +256,20 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
 
   function push(...newLines: Line[]) {
     setLines((prev) => [...prev, ...newLines]);
+  }
+
+  function checkFragment(key: string) {
+    if (!ctf.fragments?.length) return;
+    const frag = ctf.fragments.find((f) => f.trigger === key);
+    if (!frag || collectedFragments.has(key)) return;
+    const nextCount = collectedFragments.size + 1;
+    const total = ctf.fragments.length;
+    setCollectedFragments((prev) => new Set([...prev, key]));
+    push(
+      { type: "warn", text: `🔑 Fragment ${nextCount}/${total} recovered — [ ${frag.value} ]` },
+      { type: "warn", text: `   ${frag.label}` },
+      { type: "out", text: "" },
+    );
   }
 
   function runCommand(raw: string) {
@@ -270,6 +290,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     // Built-in: help
     if (cmd === "help") {
       const extraCmds = ctf.extraCommands ? Object.keys(ctf.extraCommands) : [];
+      const hasFragments = Boolean(ctf.fragments?.length);
       push(
         { type: "out", text: "Available commands:" },
         { type: "out", text: "  ls [-a] [path]   list directory contents (-a shows hidden files)" },
@@ -278,9 +299,40 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
         { type: "out", text: "  pwd               print working directory" },
         { type: "out", text: "  clear             clear the terminal" },
         { type: "out", text: "  submit <flag>     submit a captured flag" },
+        ...(hasFragments ? [{ type: "out" as LineType, text: "  assemble          show collected fragments and assembled flag" }] : []),
         ...extraCmds.map((c) => ({ type: "out" as LineType, text: `  ${c.padEnd(17)}(stage-specific)` })),
         { type: "out", text: "" },
       );
+      return;
+    }
+
+    // Built-in: assemble
+    if (cmd === "assemble") {
+      if (!ctf.fragments?.length) {
+        push({ type: "err", text: "assemble: no fragments defined for this stage" }, { type: "out", text: "" });
+        return;
+      }
+      const total = ctf.fragments.length;
+      push({ type: "out", text: "Fragment Status:" });
+      for (const f of ctf.fragments) {
+        const found = collectedFragments.has(f.trigger);
+        push({ type: "out", text: `  ${found ? "✓" : "✗"} ${f.label}: ${found ? f.value : "[ not yet recovered ]"}` });
+      }
+      push({ type: "out", text: "" });
+      if (collectedFragments.size === total) {
+        push(
+          { type: "ok", text: "All fragments recovered. Assembled flag:" },
+          { type: "ok", text: `  ${ctf.flag}` },
+          { type: "out", text: "" },
+          { type: "out", text: `Use: submit ${ctf.flag}` },
+          { type: "out", text: "" },
+        );
+      } else {
+        push(
+          { type: "warn", text: `${collectedFragments.size}/${total} fragments recovered. Keep investigating.` },
+          { type: "out", text: "" },
+        );
+      }
       return;
     }
 
@@ -362,6 +414,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
       }
       const contentLines = content.split("\n").map((t) => ({ type: "out" as LineType, text: t }));
       push(...contentLines, { type: "out", text: "" });
+      checkFragment(resolved);
       return;
     }
 
@@ -399,6 +452,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     if (ctf.extraCommands && cmd in ctf.extraCommands) {
       const result = ctf.extraCommands[cmd](args);
       push(...result.lines.map((t) => ({ type: "out" as LineType, text: t })));
+      checkFragment(trimmed);
       if (result.solved) {
         awardStage(stage.id, stage.xp, stage.badge.id);
         setSolved(true);
@@ -458,7 +512,12 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
                 <h1 className="text-white font-bold text-base sm:text-xl truncate">{stage.title}</h1>
                 <p className="text-gray-500 text-xs sm:text-sm">Stage {stage.order} · {stage.subtitle}</p>
               </div>
-              <div className="flex gap-1.5 flex-wrap">
+              <div className="flex gap-1.5 flex-wrap items-center">
+                {ctf.fragments?.length ? (
+                  <span className="text-xs px-2 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-lg font-mono">
+                    🔑 {collectedFragments.size}/{ctf.fragments.length}
+                  </span>
+                ) : null}
                 <button
                   onClick={() => setBriefingOpen((o) => !o)}
                   className="text-xs px-2.5 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"

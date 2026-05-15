@@ -94,6 +94,7 @@ traceroute google.com`,
         "List all available routes. Run: list-routes",
         "Trace the route to your destination. Run: trace-route santa-cruz",
         "Confirm your departure. Run: depart",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{N3TW0RK_1S_JUST_N0D3S_AND_P4THS}",
       files: {
@@ -128,6 +129,11 @@ traceroute google.com`,
       dirs: {
         "/": [{ name: "port-map.txt", isDir: false }],
       },
+      fragments: [
+        { trigger: "/port-map.txt", value: "FLAG{N3TW0RK_", label: "Port Map — Network Topology Identified" },
+        { trigger: "trace-route santa-cruz", value: "1S_JUST_N0D3S_", label: "Route Trace — 5-Hop Path Confirmed" },
+        { trigger: "depart", value: "AND_P4THS}", label: "Departure Confirmed — Journey Begins" },
+      ],
       extraCommands: {
         "list-routes": () => ({
           lines: [
@@ -166,13 +172,8 @@ traceroute google.com`,
             "Data travels the same way — hopping from node to node",
             "until it reaches its destination.",
             "",
-            "  ┌──────────────────────────────────────────────┐",
-            "  │  NETWORK UNDERSTOOD. BON VOYAGE, AGENT.      │",
-            "  │                                              │",
-            "  │  FLAG{N3TW0RK_1S_JUST_N0D3S_AND_P4THS}      │",
-            "  └──────────────────────────────────────────────┘",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -260,6 +261,7 @@ ping google.com       # shows Google's IP address`,
         "Look up the destination IP. Run: lookup santacruz",
         "Check your own device's IP. Run: myip",
         "Check in with both addresses. Run: checkin",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{1P_4DDR3SS_R0UT3S_EV3RY_P4CK3T}",
       files: {
@@ -280,6 +282,11 @@ ping google.com       # shows Google's IP address`,
       dirs: {
         "/": [{ name: "itinerary.txt", isDir: false }],
       },
+      fragments: [
+        { trigger: "/itinerary.txt", value: "FLAG{1P_4DDR3SS_", label: "Itinerary Read — Origin and Destination Found" },
+        { trigger: "myip", value: "R0UT3S_EV3RY_", label: "Device IP Confirmed — Source Address Identified" },
+        { trigger: "checkin", value: "P4CK3T}", label: "Check-In Complete — IP Routing Mastered" },
+      ],
       extraCommands: {
         myip: () => ({
           lines: [
@@ -316,13 +323,8 @@ ping google.com       # shows Google's IP address`,
             "two fields — source IP and destination IP — so routers",
             "know where the packet came from and where it's going.",
             "",
-            "  ┌──────────────────────────────────────────────────┐",
-            "  │  BOARDING PASS ISSUED. IP ADDRESSING UNDERSTOOD. │",
-            "  │                                                  │",
-            "  │  FLAG{1P_4DDR3SS_R0UT3S_EV3RY_P4CK3T}           │",
-            "  └──────────────────────────────────────────────────┘",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -412,6 +414,7 @@ sudo tcpdump -w capture.pcap`,
         "Inspect each fragment. Run: inspect fragment-1 (then 2, 3)",
         "Reassemble in sequence order. Run: reassemble 2 1 3",
         "Try different orderings until the message is coherent.",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3}",
       files: {
@@ -427,6 +430,11 @@ sudo tcpdump -w capture.pcap`,
           { name: "fragment-3.bag", isDir: false },
         ],
       },
+      fragments: [
+        { trigger: "/fragments/fragment-2.bag", value: "FLAG{P4CK3TS_", label: "Fragment SEQ:1 — First Payload Recovered" },
+        { trigger: "/fragments/fragment-1.bag", value: "R3ASSEMBL3D_", label: "Fragment SEQ:2 — Second Payload Recovered" },
+        { trigger: "reassemble 2 1 3", value: "1N_S3QU3NC3}", label: "Packets Reassembled — Sequence Order Confirmed" },
+      ],
       extraCommands: {
         inspect: (args) => {
           const frag = args[0] || "";
@@ -450,13 +458,8 @@ sudo tcpdump -w capture.pcap`,
                 "",
                 "Message: P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3",
                 "",
-                "  ┌────────────────────────────────────────────────────┐",
-                "  │  FRAGMENTS REASSEMBLED. THIS IS HOW TCP WORKS.     │",
-                "  │                                                    │",
-                "  │  FLAG{P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3}             │",
-                "  └────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return {
@@ -553,10 +556,31 @@ tracert google.com         # Windows
         "Look up the route to Santa Cruz. Run: lookup-route 198.51.100.23",
         "Set the correct next hop. Run: set-route west",
         "Confirm and drive. Run: drive",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{R0UT3R_F0RW4RDS_T0_N3XT_H0P}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/routing-table.txt": [
+          "DENVER INTERCHANGE — ROUTING TABLE",
+          "===================================",
+          "",
+          "Destination          Next Hop        Interface",
+          "10.0.0.0/8           192.168.1.1     eth0 (east)",
+          "172.16.0.0/12        10.0.0.1        eth1 (north)",
+          "198.51.100.0/24      203.0.113.1     eth2 (west)  ← your target range",
+          "0.0.0.0/0            203.0.113.1     eth2 (west)  default",
+          "",
+          "Use: show-routes | lookup-route <ip> | set-route <direction> | drive",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "routing-table.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/routing-table.txt", value: "FLAG{R0UT3R_", label: "Routing Table Read — Denver Interchange Mapped" },
+        { trigger: "lookup-route 198.51.100.23", value: "F0RW4RDS_T0_", label: "Route Lookup — Longest Prefix Match Found" },
+        { trigger: "drive", value: "N3XT_H0P}", label: "Route Confirmed — Hop-by-Hop Forwarding Understood" },
+      ],
       extraCommands: {
         "show-routes": () => ({
           lines: [
@@ -604,13 +628,8 @@ tracert google.com         # Windows
             "The internet works the same way — no single router",
             "knows the full path, just the next hop.",
             "",
-            "  ┌────────────────────────────────────────────┐",
-            "  │  ROUTE CONFIRMED. ROUTING UNDERSTOOD.      │",
-            "  │                                            │",
-            "  │  FLAG{R0UT3R_F0RW4RDS_T0_N3XT_H0P}        │",
-            "  └────────────────────────────────────────────┘",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -702,10 +721,31 @@ cat /etc/resolv.conf     # Linux/Mac`,
         "Check if the response is cached or fresh. Run: check-ttl santacruz.ca",
         "Verify the response against the authoritative server. Run: verify-dns santacruz.ca",
         "Accept the verified address. Run: accept-route 198.51.100.23",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{DNS_TR4NSL4T3S_N4M3S_T0_1PS}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/dns-cache.txt": [
+          "LOCAL DNS CACHE — Travel Office Terminal",
+          "=========================================",
+          "",
+          "Cached entries:",
+          "  santacruz.ca    → 198.51.100.23  TTL: 300s  (fresh)",
+          "  chicago.hub     → 10.0.0.1       TTL: 60s   (expiring)",
+          "  aaa-office.local → 192.168.5.1   TTL: 86400s (permanent)",
+          "",
+          "Use: dns-lookup <host> | check-ttl <host> | verify-dns <host>",
+          "Then: accept-route <ip> once verified.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "dns-cache.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/dns-cache.txt", value: "FLAG{DNS_TR4NSL4T3S_", label: "DNS Cache Read — Cached Records Inspected" },
+        { trigger: "verify-dns santacruz.ca", value: "N4M3S_T0_", label: "DNS Verified — Response Not Poisoned" },
+        { trigger: "accept-route 198.51.100.23", value: "1PS}", label: "Route Accepted — GPS Locked to Destination" },
+      ],
       extraCommands: {
         "dns-lookup": (args) => {
           const host = args[0] || "";
@@ -756,13 +796,8 @@ cat /etc/resolv.conf     # Linux/Mac`,
                 "Route accepted: Santa Cruz = 198.51.100.23",
                 "GPS locked. You know where you're going.",
                 "",
-                "  ┌──────────────────────────────────────────────────┐",
-                "  │  DNS UNDERSTOOD. THE INTERNET'S GPS MASTERED.    │",
-                "  │                                                  │",
-                "  │  FLAG{DNS_TR4NSL4T3S_N4M3S_T0_1PS}               │",
-                "  └──────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`Wrong IP: ${args[0]}. Run: dns-lookup santacruz.ca first.`] };
@@ -856,10 +891,33 @@ curl https://api.macvendors.com/00:1A:2B
         "Scan devices on the local network. Run: arp-scan",
         "Look up the manufacturer of each MAC. Run: oui-lookup 00:1A:2B",
         "Find the device that doesn't belong. Run: flag-device <mac>",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{MAC_4DDR3SS_1D3NT1F13S_H4RDW4R3}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/device-registry.txt": [
+          "AIRPORT SECURE NETWORK — DEVICE REGISTRY",
+          "==========================================",
+          "",
+          "Authorized devices:",
+          "  00:1A:2B:AA:BB:CC   router.local         (Cisco Systems)",
+          "  F8:FF:C2:11:22:33   agent-laptop         (Apple, Inc.)",
+          "  DC:A6:32:44:55:66   customs-terminal     (Raspberry Pi Trading)",
+          "",
+          "Unknown devices flagged for review:",
+          "  B8:27:EB:DE:AD:BE   ??? NOT IN REGISTRY ???",
+          "",
+          "Use: arp-scan | oui-lookup <oui> | flag-device <mac>",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "device-registry.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/device-registry.txt", value: "FLAG{MAC_4DDR3SS_", label: "Device Registry Read — Authorized Devices Listed" },
+        { trigger: "arp-scan", value: "1D3NT1F13S_", label: "ARP Scan Complete — Unknown Device Detected" },
+        { trigger: "flag-device b8:27:eb:de:ad:be", value: "H4RDW4R3}", label: "Unauthorized Device Flagged — Hardware ID Confirmed" },
+      ],
       extraCommands: {
         "arp-scan": () => ({
           lines: [
@@ -894,13 +952,8 @@ curl https://api.macvendors.com/00:1A:2B
                 "Status: NOT AUTHORIZED — not in device registry",
                 "Action: Device isolated from network.",
                 "",
-                "  ┌──────────────────────────────────────────────────────┐",
-                "  │  UNAUTHORIZED DEVICE FOUND. MAC ADDRESSING MASTERED. │",
-                "  │                                                      │",
-                "  │  FLAG{MAC_4DDR3SS_1D3NT1F13S_H4RDW4R3}               │",
-                "  └──────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`Device ${args[0]} is authorized. The unknown device has MAC B8:27:EB:DE:AD:BE`] };
@@ -996,10 +1049,31 @@ sudo iptables -A OUTPUT -j ACCEPT`,
         "Test which traffic is currently blocked. Run: test-traffic",
         "Fix the misconfigured rules. Run: fix-rule <rule-number>",
         "Verify the firewall is correctly configured. Run: verify",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{F1R3W4LL_RUL3S_PR0T3CT_TH3_N3TW0RK}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/firewall-rules.txt": [
+          "SANTA CRUZ CHECKPOINT — FIREWALL RULESET",
+          "==========================================",
+          "",
+          "Rule 1: ALLOW  src=ANY          dst=ANY       port=ANY  ← MISCONFIGURED",
+          "Rule 2: DENY   src=ANY          dst=10.0.0.5  port=22   (SSH block — never fires)",
+          "Rule 3: ALLOW  src=10.0.0.0/24  dst=ANY      port=443  (HTTPS — correct)",
+          "Rule 4: DENY   src=ANY          dst=ANY       port=ANY  (default deny — never reached)",
+          "",
+          "Problem: Rule 1 is too broad. Fix it with: fix-rule 1",
+          "Then verify with: verify",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "firewall-rules.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/firewall-rules.txt", value: "FLAG{F1R3W4LL_", label: "Firewall Rules Read — Misconfiguration Identified" },
+        { trigger: "test-traffic", value: "RUL3S_PR0T3CT_", label: "Traffic Tested — Attack Surface Measured" },
+        { trigger: "verify", value: "TH3_N3TW0RK}", label: "Firewall Verified — Checkpoint Secured" },
+      ],
       extraCommands: {
         "show-rules": () => ({
           lines: [
@@ -1048,13 +1122,8 @@ sudo iptables -A OUTPUT -j ACCEPT`,
             "  HTTPS browsing (established):      ALLOWED ✓",
             "  SSH to 10.0.0.5 from internet:     DENIED  ✓",
             "",
-            "  ┌──────────────────────────────────────────────────────────┐",
-            "  │  FIREWALL SECURED. CHECKPOINT OPERATIONAL.               │",
-            "  │                                                          │",
-            "  │  FLAG{F1R3W4LL_RUL3S_PR0T3CT_TH3_N3TW0RK}               │",
-            "  └──────────────────────────────────────────────────────────┘",
+            "Run 'assemble' to retrieve your fragment.",
           ],
-          solved: true,
         }),
       },
     },
@@ -1144,10 +1213,35 @@ nc -zv 192.168.1.1 22    # test port 22 (SSH)`,
         "Connect to the web port. Run: connect 80",
         "Connect to the SSH port. Run: connect 22",
         "Connect to the unusual port. Run: connect 8888",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{P0RTS_AR3_D00RS_T0_S3RV1C3S}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/port-list.txt": [
+          "SANTA CRUZ HARBOR — KNOWN SERVICE SLIPS",
+          "=========================================",
+          "",
+          "Standard slips (well-known ports):",
+          "  Slip 22   — SSH   (secure shell access)",
+          "  Slip 80   — HTTP  (web traffic)",
+          "  Slip 443  — HTTPS (encrypted web)",
+          "  Slip 3306 — MySQL (database — should be internal only!)",
+          "",
+          "Non-standard slips:",
+          "  Slip 8888 — ??? (unknown service — investigate)",
+          "",
+          "Use: port-scan <host> to enumerate open slips.",
+          "Then: connect <port> to interact with each service.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "port-list.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/port-list.txt", value: "FLAG{P0RTS_AR3_", label: "Port List Read — Harbor Slip Map Reviewed" },
+        { trigger: "port-scan harbor-server", value: "D00RS_T0_", label: "Port Scan Complete — Open Services Enumerated" },
+        { trigger: "connect 8888", value: "S3RV1C3S}", label: "Hidden Service Found — Port 8888 Unlocked" },
+      ],
       extraCommands: {
         "port-scan": (args) => {
           const host = args[0] || "target";
@@ -1179,16 +1273,12 @@ nc -zv 192.168.1.1 22    # test port 22 (SSH)`,
               "====================",
               "Welcome, agent. You found the hidden service.",
               "",
-              "  ┌──────────────────────────────────────────────┐",
-              "  │  OPEN PORT FOUND. PORTS FULLY UNDERSTOOD.    │",
-              "  │                                              │",
-              "  │  FLAG{P0RTS_AR3_D00RS_T0_S3RV1C3S}          │",
-              "  └──────────────────────────────────────────────┘",
+              "Run 'assemble' to retrieve your fragment.",
             ],
           };
           const resp = responses[port];
           if (resp) {
-            return { lines: resp, solved: port === 8888 };
+            return { lines: resp, solved: port === 8888 ? false : undefined };
           }
           return { lines: [`Connection to port ${port} refused or timed out.`] };
         },
@@ -1281,10 +1371,38 @@ ipcalc 192.168.1.0/24
         "Check subnet membership for each device. Run: subnet-check 10.0.1.50",
         "Find the device on the wrong subnet. Run: subnet-check 10.0.2.15",
         "Report the violation. Run: report-violation <ip>",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
       flag: "FLAG{SUBN3TS_1S0L4T3_N3TW0RK_Z0N3S}",
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/network-map.txt": [
+          "SANTA CRUZ CITY NETWORK — SUBNET MAP",
+          "======================================",
+          "",
+          "Defined subnets:",
+          "  10.0.1.0/24  — Servers district    (web, database)",
+          "  10.0.2.0/24  — Workstations district (staff computers)",
+          "  10.0.3.0/24  — IoT/Cameras district  (sensors, cameras)",
+          "",
+          "Registered devices:",
+          "  10.0.1.5   web-server-01      → Servers       ✓",
+          "  10.0.1.20  database-01        → Servers       ✓",
+          "  10.0.2.15  camera-lobby-01    → Workstations  ← WRONG SUBNET",
+          "  10.0.3.8   iot-sensor-01      → IoT           ✓",
+          "  10.0.2.44  workstation-alice  → Workstations  ✓",
+          "",
+          "Use: subnet-check <ip> to verify placement.",
+          "Then: report-violation <ip> to flag misplaced devices.",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "network-map.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "/network-map.txt", value: "FLAG{SUBN3TS_", label: "Network Map Read — Subnet Layout Inspected" },
+        { trigger: "subnet-check 10.0.2.15", value: "1S0L4T3_N3TW0RK_", label: "Violation Found — Camera on Wrong Subnet" },
+        { trigger: "report-violation 10.0.2.15", value: "Z0N3S}", label: "Violation Reported — Segmentation Mastered" },
+      ],
       extraCommands: {
         "show-network": () => ({
           lines: [
@@ -1331,13 +1449,8 @@ ipcalc 192.168.1.0/24
                 "  Camera is on the Workstations subnet — should be IoT subnet.",
                 "  Risk: if camera is compromised, attacker is on workstations network.",
                 "",
-                "  ┌──────────────────────────────────────────────────────┐",
-                "  │  SUBNET VIOLATION FOUND. SEGMENTATION UNDERSTOOD.   │",
-                "  │                                                      │",
-                "  │  FLAG{SUBN3TS_1S0L4T3_N3TW0RK_Z0N3S}                │",
-                "  └──────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`${ip} is correctly placed. Check all devices with subnet-check.`] };
@@ -1430,8 +1543,9 @@ curl -v https://example.com 2>&1 | grep -E "SSL|TLS|Connected"`,
         "Inspect the second capture. Run: analyze capture-2",
         "Identify which is TCP. Run: identify tcp",
         "Decode the TCP stream payload. Run: decode capture-1",
+        "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{TC P_1S_R3L14BL3_UDP_1S_F4ST}",
+      flag: "FLAG{TCP_1S_R3L14BL3_UDP_1S_F4ST}",
       files: {
         "/capture-1.log": [
           "PACKET CAPTURE — capture-1.log",
@@ -1460,6 +1574,11 @@ curl -v https://example.com 2>&1 | grep -E "SSL|TLS|Connected"`,
           { name: "capture-2.log", isDir: false },
         ],
       },
+      fragments: [
+        { trigger: "/capture-1.log", value: "FLAG{TCP_1S_R3L14BL3_", label: "TCP Capture Read — Three-Way Handshake Observed" },
+        { trigger: "/capture-2.log", value: "UDP_1S_", label: "UDP Capture Read — Connectionless Datagrams Observed" },
+        { trigger: "decode capture-1", value: "F4ST}", label: "TCP Stream Decoded — Protocol Stack Mastered" },
+      ],
       extraCommands: {
         analyze: (args) => {
           const cap = args[0] || "";
@@ -1511,13 +1630,8 @@ curl -v https://example.com 2>&1 | grep -E "SSL|TLS|Connected"`,
                 "   UDP is fast — no handshake, no guarantees.",
                 "   Protocols are just agreed rules.'",
                 "",
-                "  ┌─────────────────────────────────────────────────────┐",
-                "  │  PROTOCOLS DECODED. NETWORK STACK MASTERED.         │",
-                "  │                                                     │",
-                "  │  FLAG{TC P_1S_R3L14BL3_UDP_1S_F4ST}                 │",
-                "  └─────────────────────────────────────────────────────┘",
+                "Run 'assemble' to retrieve your fragment.",
               ],
-              solved: true,
             };
           }
           return { lines: [`Decode which capture? Try: decode capture-1`] };

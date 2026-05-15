@@ -29,6 +29,12 @@ export type StageInfo = {
 export type CtfCommandResult = { lines: string[]; solved?: boolean };
 export type CtfCommand = (args: string[]) => CtfCommandResult;
 
+export type CtfFragment = {
+  trigger: string; // file path (starts with "/") matched on cat, or full command string matched on any command
+  value: string;   // the fragment piece, e.g. "FLAG{C1A_"
+  label: string;   // display label shown on collection, e.g. "King's Chamber — Confidentiality"
+};
+
 export type CtfConfig = {
   scenario: string;
   hint: string;
@@ -37,6 +43,7 @@ export type CtfConfig = {
   files: Record<string, string>;
   dirs: Record<string, { name: string; isDir: boolean; hidden?: boolean }[]>;
   extraCommands?: Record<string, CtfCommand>;
+  fragments?: CtfFragment[];
 };
 
 export type Wonder = {
