@@ -1,0 +1,19 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "agent",
+            "if": "Bash(git push*)",
+            "prompt": "A git push just completed on the CyberQuest project at C:\\Users\\Ajax\\Projects\\cyberquest\\app.\n\nDo all of the following:\n\n## 1. Understand what changed\nRun these commands:\n- `git log -1 --stat` — see the latest commit\n- `git diff HEAD~1 HEAD -- '*.ts' '*.tsx' '*.md' '*.json'` — see actual code changes\n\n## 2. Update CHANGELOG.md\nUpdate or create `C:\\Users\\Ajax\\Projects\\cyberquest\\app\\CHANGELOG.md`. Add a new dated entry (today's date: use the date from git log) at the top with:\n- Version / commit hash\n- What was added, changed, or fixed (new epochs, stages, bug fixes, UI changes)\n- Keep prior entries intact below\n\n## 3. Deep security analysis\nAnalyze every changed file (from the git diff) for:\n- Hardcoded secrets, API keys, passwords, or tokens\n- XSS vulnerabilities in JSX/TSX (dangerouslySetInnerHTML, unescaped user input)\n- Unsafe eval(), Function(), or innerHTML usage\n- Insecure localStorage handling (sensitive data stored unencrypted)\n- OWASP Top 10 issues relevant to a Next.js app\n- CTF flag exposure: verify flags are only revealed via correct terminal commands, not leaked in page source or accessible via direct URL\n- Any content in stage data files that could be genuinely exploitable (real credentials, real internal IPs, real exploit payloads that work outside the sandbox)\n\n## 4. Update SECURITY.md\nUpdate or create `C:\\Users\\Ajax\\Projects\\cyberquest\\app\\SECURITY.md`. Structure it as:\n- **Last analyzed**: date and commit hash\n- **Files reviewed**: list of changed files analyzed\n- **Findings**: each issue with severity (Critical/High/Medium/Low/Info), file:line, description, and recommendation\n- **Clean items**: what was checked and found clean\n- **Overall posture**: one-paragraph summary\n\nIf any Critical or High severity issues are found, output a clear warning summary so the user sees it.",
+            "timeout": 180,
+            "statusMessage": "Updating docs and running security analysis...",
+            "async": true
+          }
+        ]
+      }
+    ]
+  }
+}
