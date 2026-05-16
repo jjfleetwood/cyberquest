@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v0.7.0 (as of 2026-05-15)
+**Current version:** v0.8.0 (as of 2026-05-16)
 
 ---
 
@@ -53,9 +53,17 @@ npm run lint         # ESLint
 
 | Epoch | Name | Stages | IDs | Color | Unlock |
 |---|---|---|---|---|---|
-| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald | Default |
+| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald | Always |
 | 2 | Foundations | 12 | stage-01 → stage-12 | Amber | Always |
-| 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue | After Foundations complete |
+| 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue | Always |
+| 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple | Always |
+| 5 | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet | Always |
+| 6 | Tech Audit: Agentic | 12 | audit-a01 → audit-a12 | Indigo | Always |
+| 7 | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red | Always |
+| 8 | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia | Always |
+| 9 | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange | Always |
+
+Total: 126 stages across 9 epochs.
 
 ---
 
@@ -64,8 +72,15 @@ npm run lint         # ESLint
 | File | Why it matters |
 |---|---|
 | `src/proxy.ts` | Active middleware — wrong name = no admin protection |
-| `src/data/stages.ts` | Foundations + Cisco stage configs (24 stages) |
+| `src/data/stages.ts` | Epoch registry + stage array — import all epoch files here |
 | `src/data/before-times*.ts` | Before Times epoch (30 stages, 3 files) |
+| `src/data/tech-audit-1.ts` | Tech Audit: Foundations (12 stages, ISACA/COBIT/CISA) |
+| `src/data/tech-audit-2.ts` | Tech Audit: Technical (12 stages, APIs/secrets/cloud/IAM) |
+| `src/data/tech-audit-3.ts` | Tech Audit: Agentic (12 stages, Claude tool use / MCP) |
+| `src/data/mitre.ts` | MITRE ATT&CK (12 stages, all 12 tactic phases) |
+| `src/data/mitre-atlas.ts` | MITRE ATLAS (12 stages, AI/ML adversarial attacks) |
+| `src/data/owasp-llm.ts` | OWASP LLM Top 10 2025 (12 stages) |
+| `src/app/stages/page.tsx` | Stage map UI — epochAccent/cardBorder/cardEmojiBg per epoch |
 | `src/lib/auth.ts` | PBKDF2 hashing — don't change without testing |
 | `src/lib/redis.ts` | Upstash client — needs `UPSTASH_REDIS_*` env vars |
 | `src/app/api/progress/route.ts` | XP computed server-side here (STAGE_XP map) |
@@ -141,15 +156,22 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v0.7.0, 2026-05-15)
+## Where We Left Off (v0.8.0, 2026-05-16)
 
-Multi-step CTF fragment engine shipped across all 54 stages. Homepage updated with job outcomes section and accurate stats (54 stages, 12+ CVEs, 3.5M jobs). Business docs updated with hints-as-ads monetization model. PITCH_TARGETS.md created. Stage map redesigned from vertical list to large card grid with wonder emoji tiles (2-col mobile, up to 5-col desktop). GitGuardian connected; `.gitguardian.yaml` added to exclude CTF data files from secret scanning.
+Added 6 new curriculum epochs (72 new stages) — Tech Audit: Foundations (ISACA/COBIT/CISA/CRISC, purple), Tech Audit: Technical (APIs/secrets/cloud/IAM/IaC/SAST, violet), Tech Audit: Agentic (Claude tool use / MCP / agentic pipelines, indigo), MITRE ATT&CK (all 12 tactic phases as CTF missions, red), MITRE ATLAS (AI/ML adversarial attacks, fuchsia), OWASP LLM Top 10 2025 (12 stages, orange). All epochs unlocked. Total: 9 epochs, 126 stages. Deployed to kryptoscronos.com.
+
+**Adding a new epoch — checklist:**
+1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`
+2. Add import + epoch entry + stage spread to `src/data/stages.ts`
+3. Add `epochAccent`, `cardBorder`, `cardEmojiBg` entries to `src/app/stages/page.tsx`
+4. Run `node app/node_modules/typescript/bin/tsc --noEmit --project app/tsconfig.json`
+5. Build: `node app/node_modules/next/dist/bin/next build app`
 
 **Next logical work areas:**
-1. AI personalization layer (in-terminal tutor, adaptive difficulty) — requires Anthropic API integration (v0.8.0)
-2. CI pipeline setup (GitHub Actions: lint + tsc + build + audit)
-3. Streaks and milestone badges
-4. Cisco product integrations (Talos, Umbrella, SecureX, Firepower, CyberOps, DevNet)
+1. Update homepage stats to reflect 126 stages and 9 epochs
+2. AI personalization layer (in-terminal tutor, adaptive difficulty) — Anthropic API integration
+3. CI pipeline setup (GitHub Actions: lint + tsc + build + audit)
+4. Streaks and milestone badges
 5. Production auth migration (Supabase Auth, server-side)
 
 ---
