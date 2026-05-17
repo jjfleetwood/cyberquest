@@ -10,32 +10,32 @@ import { getSession, clearSession } from "@/lib/auth";
 // ── Track groupings ────────────────────────────────────────────────────────────
 const epochGroups = [
   {
-    label: "Track 1 — Core Security",
+    label: "Core Security",
     desc: "Foundations → Real CVEs",
     epochIds: ["before-times", "ancient"],
   },
   {
-    label: "Track 2 — Tech Audit",
+    label: "Tech Audit",
     desc: "IT Governance → Cloud → AI Agents",
     epochIds: ["tech-audit-1", "tech-audit-2", "tech-audit-3"],
   },
   {
-    label: "Track 3 — Threat Frameworks",
+    label: "Threat Frameworks",
     desc: "MITRE ATT&CK → MITRE ATLAS",
     epochIds: ["mitre", "mitre-atlas"],
   },
   {
-    label: "Track 4 — AI Security",
+    label: "AI Security",
     desc: "OWASP LLM Top 10",
     epochIds: ["owasp-llm"],
   },
   {
-    label: "Track 5 — Quantum Era",
+    label: "Quantum Era",
     desc: "Threats → PQC → QKD Infrastructure",
     epochIds: ["quantum-1", "quantum-2", "quantum-3"],
   },
   {
-    label: "Track 6 — Cisco Enterprise",
+    label: "Cisco Enterprise",
     desc: "Real CVEs · DNS Security · Cloud SASE",
     epochIds: ["medieval", "umbrella"],
   },

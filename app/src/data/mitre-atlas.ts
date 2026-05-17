@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const mitreAtlasEpoch: EpochConfig = {
   id: "mitre-atlas",
-  name: "3b. MITRE ATLAS",
+  name: "MITRE ATLAS",
   subtitle: "AI/ML Adversarial Threat Landscape",
   description: "Attack AI and ML systems using MITRE ATLAS tactics — reconnaissance against ML pipelines, adversarial input crafting, model poisoning, model theft via extraction, and full AI kill chain synthesis using real incident case studies.",
   emoji: "🧠",

@@ -22,7 +22,7 @@ export const epochs: EpochConfig[] = [
   beforeTimesEpoch,
   {
     id: "ancient",
-    name: "1b. Foundations",
+    name: "Foundations",
     subtitle: "Core Security Principles",
     description: "Master the concepts every security professional builds on — from the CIA Triad to SQL injection, from phishing to zero-day exploits. Each challenge is set inside one of the great sites of the ancient world.",
     emoji: "🛡️",
@@ -31,7 +31,7 @@ export const epochs: EpochConfig[] = [
   },
   {
     id: "medieval",
-    name: "1c. Cisco",
+    name: "Cisco",
     subtitle: "Real-World CVE Operations",
     description: "Field operations against real Cisco vulnerabilities — buffer overflows, authentication bypasses, command injection, path traversal. Each mission places you at a landmark location around the world.",
     emoji: "🌐",

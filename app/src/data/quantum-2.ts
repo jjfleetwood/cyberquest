@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const quantum2Epoch: EpochConfig = {
   id: "quantum-2",
-  name: "4b. Post-Quantum Cryptography",
+  name: "Post-Quantum Cryptography",
   subtitle: "NIST PQC Standards & Implementation",
   description: "Master the post-quantum cryptography standards that will replace RSA and ECC — CRYSTALS-Kyber (ML-KEM), CRYSTALS-Dilithium (ML-DSA), FALCON (FN-DSA), and SPHINCS+ (SLH-DSA). Learn the mathematics behind lattice-based cryptography and implement PQC in real systems.",
   emoji: "🔐",

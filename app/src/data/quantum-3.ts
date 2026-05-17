@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const quantum3Epoch: EpochConfig = {
   id: "quantum-3",
-  name: "4c. Quantum Security",
+  name: "Quantum Security",
   subtitle: "QKD, Agility & Enterprise Migration",
   description:
     "Deploy quantum-safe infrastructure end-to-end — BB84 QKD protocols, quantum key distribution networks, cryptographic agility frameworks, quantum-safe VPNs and PKI, liboqs integration, FIPS 140-3 compliance, and full enterprise PQC migration planning.",

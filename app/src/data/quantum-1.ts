@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const quantum1Epoch: EpochConfig = {
   id: "quantum-1",
-  name: "4a. Quantum Foundations",
+  name: "Quantum Foundations",
   subtitle: "Qubits, Algorithms & Cryptographic Threats",
   description: "Understand how quantum computing threatens the cryptographic foundations of the modern internet — from RSA to AES. Explore superposition, entanglement, Shor's Algorithm, and the Harvest Now, Decrypt Later threat that is already underway.",
   emoji: "⚛️",

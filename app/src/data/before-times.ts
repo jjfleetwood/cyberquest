@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const beforeTimesEpoch: EpochConfig = {
   id: "before-times",
-  name: "1a. Our First Journey",
+  name: "Our First Journey",
   subtitle: "Athens → Santa Cruz → Monterey Bay",
   description: "A beginner's journey across the world. Networking is the highway system that gets you from Athens to Santa Cruz. The internet is the surf you ride when you arrive. Security hygiene is what keeps you safe on a fishing trip in Monterey Bay.",
   emoji: "🌊",

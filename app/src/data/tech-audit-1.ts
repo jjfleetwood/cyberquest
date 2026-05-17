@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const techAudit1Epoch: EpochConfig = {
   id: "tech-audit-1",
-  name: "2a. Tech Audit: Foundations",
+  name: "Tech Audit: Foundations",
   subtitle: "ISACA Audit Methodology",
   description: "Master IT audit methodology using ISACA standards — COBIT, CISA, CRISC, and ITGC. Each stage simulates a real audit engagement at a major institution, from risk assessment to audit reporting.",
   emoji: "🔍",

@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const mitreEpoch: EpochConfig = {
   id: "mitre",
-  name: "3a. MITRE ATT&CK",
+  name: "MITRE ATT&CK",
   subtitle: "Adversary Tactics & Techniques",
   description: "Walk through all 12 ATT&CK tactic phases as the attacker — from reconnaissance to impact. Understand how real APTs operate and how defenders detect each phase using the industry-standard adversary framework.",
   emoji: "⚔️",

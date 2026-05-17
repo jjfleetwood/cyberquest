@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const techAudit2Epoch: EpochConfig = {
   id: "tech-audit-2",
-  name: "2b. Tech Audit: Technical",
+  name: "Tech Audit: Technical",
   subtitle: "API Security, Secrets & Cloud Guardrails",
   description: "Hands-on technical audit testing — enumerate and exploit API misconfigurations, hunt for exposed secrets, audit IAM policies, test cloud guardrails, scan IaC templates, and validate container security controls.",
   emoji: "🛠️",

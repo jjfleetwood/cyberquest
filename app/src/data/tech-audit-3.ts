@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const techAudit3Epoch: EpochConfig = {
   id: "tech-audit-3",
-  name: "2c. Tech Audit: Agentic",
+  name: "Tech Audit: Agentic",
   subtitle: "Automated Audit with Claude Tools",
   description: "Automate the full audit lifecycle using Claude's tool use API and MCP servers — agentic API enumeration, AI-powered secrets scanning, automated compliance report generation, and multi-agent audit pipeline design.",
   emoji: "🤖",

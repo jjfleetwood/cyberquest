@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const owaspLlmEpoch: EpochConfig = {
   id: "owasp-llm",
-  name: "3c. OWASP LLM Top 10",
+  name: "OWASP LLM Top 10",
   subtitle: "AI Application Security",
   description: "Master the OWASP LLM Top 10 (2025) — the definitive catalog of vulnerabilities in large language model applications. From prompt injection to unbounded consumption, learn to attack and defend AI systems through hands-on CTF missions based on real-world LLM exploits.",
   emoji: "🦙",
