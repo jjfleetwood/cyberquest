@@ -109,6 +109,21 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
             </div>
           </div>
 
+          {/* Skills Acquired */}
+          {stage.info?.keyTakeaways && stage.info.keyTakeaways.length > 0 && (
+            <div className="mb-6 rounded-xl border border-white/8 bg-white/2 p-4">
+              <p className="text-gray-600 text-xs uppercase tracking-widest mb-3">Skills Acquired</p>
+              <ul className="space-y-1.5">
+                {stage.info.keyTakeaways.slice(0, 3).map((takeaway, i) => (
+                  <li key={i} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
+                    <span className="text-green-500 mt-0.5 flex-shrink-0">›</span>
+                    {takeaway}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Action buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
             <Link

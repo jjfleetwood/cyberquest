@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
     scenario?: string;
     hint?: string;
     chatbotContext?: string;
+    keyTakeaways?: string[];
+    tagline?: string;
   } | null;
 
   if (!body?.message || typeof body.message !== "string") {
@@ -34,13 +36,16 @@ export async function POST(req: NextRequest) {
 
   const systemPrompt = [
     "You are ARIA — an AI cyber-intelligence assistant inside Kryptós CronOS, a gamified cybersecurity training platform.",
-    "Your role is to help trainees learn, not to give away answers directly.",
-    "Provide hints, ask guiding questions, and explain concepts — but never directly reveal flag values, file paths to exact fragments, or command sequences that solve the challenge outright.",
-    "Keep responses concise (2–4 sentences). Use a professional but encouraging tone. Speak like a mission controller guiding a field agent.",
+    "Your role is to guide trainees to discover answers themselves — never hand answers over directly.",
+    "Use the Socratic method: respond with a probing question or a partial nudge that makes the trainee think. If they're close, confirm what's right and push further. If they're lost, reframe the concept as a question.",
+    "Never reveal flag values, exact file paths to fragments, or command sequences that solve the challenge outright.",
+    "Keep responses concise (2–4 sentences). Speak like a mission controller — calm, precise, mission-focused.",
     body.stageTitle ? `Current mission: "${body.stageTitle}".` : "",
     body.scenario ? `Mission briefing: ${body.scenario}` : "",
-    body.hint ? `The built-in hint is: "${body.hint}"` : "",
-    body.chatbotContext ? `Additional context: ${body.chatbotContext}` : "",
+    body.tagline ? `Core concept for this mission: ${body.tagline}` : "",
+    body.hint ? `Built-in hint (paraphrase — do not quote verbatim): ${body.hint}` : "",
+    body.keyTakeaways?.length ? `Learning objectives the trainee should walk away with:\n${body.keyTakeaways.map((k) => `- ${k}`).join("\n")}` : "",
+    body.chatbotContext ? `Additional mission context: ${body.chatbotContext}` : "",
   ].filter(Boolean).join("\n");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {

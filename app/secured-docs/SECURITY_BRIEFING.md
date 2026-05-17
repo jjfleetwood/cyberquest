@@ -1,8 +1,15 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
-**Date:** 2026-05-16  
-**Version:** 2.3  
+**Date:** 2026-05-17  
+**Version:** 2.4  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v2.4 (2026-05-17)
+
+- **ARIA system prompt hardening** — ARIA system prompt rewritten to Socratic method. Hint field is now paraphrased (not quoted verbatim) to reduce risk of prompt-injection via crafted hint strings. `keyTakeaways` and `tagline` fields added to context; neither contains flag values. Security constraint (never reveal flag values, file paths, or exact commands) is retained and clarified. No change to overall security posture — LOW risk remains.
+- **No new attack surface** — v1.1.0 changes are UI/UX only (terminal annotations, modal debrief). No new API routes, no new data written to Redis, no new env vars required.
 
 ---
 

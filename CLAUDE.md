@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v0.8.0 (as of 2026-05-16)
+**Current version:** v1.1.0 (as of 2026-05-17)
 
 ---
 
@@ -156,9 +156,9 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v0.8.0, 2026-05-16)
+## Where We Left Off (v1.1.0, 2026-05-17)
 
-Added 6 new curriculum epochs (72 new stages) — Tech Audit: Foundations (ISACA/COBIT/CISA/CRISC, purple), Tech Audit: Technical (APIs/secrets/cloud/IAM/IaC/SAST, violet), Tech Audit: Agentic (Claude tool use / MCP / agentic pipelines, indigo), MITRE ATT&CK (all 12 tactic phases as CTF missions, red), MITRE ATLAS (AI/ML adversarial attacks, fuchsia), OWASP LLM Top 10 2025 (12 stages, orange). All epochs unlocked. Total: 9 epochs, 126 stages. Deployed to kryptoscronos.com.
+Educational content sprint + ARIA improvements. Every CTF terminal interaction across all 9 epochs now has inline `>> LEARN:` educational callouts. ARIA chatbot rewritten to use the Socratic method — receives `keyTakeaways` and `tagline` per stage, asks guiding questions, never quotes hints verbatim. FlagSuccessModal shows a "Skills Acquired" debrief (up to 3 `keyTakeaways`) on stage completion. bt-03 bugs fixed: terminal scroll-lock and `inspect fragment-3` fragment recovery. Deployed to both Vercel projects.
 
 **Adding a new epoch — checklist:**
 1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`

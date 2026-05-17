@@ -2,6 +2,18 @@
 
 ---
 
+## v1.1.0 — 2026-05-17
+
+**Educational annotations, Socratic ARIA, Skills Acquired debrief, bt-03 fixes**
+
+- **Terminal learning annotations** — Every CTF terminal interaction across all 9 epochs now includes `>> LEARN:` educational callouts inline in command output. Covers all `extraCommands` stages in Before Times (bt-01–30), Tech Audit: Technical (audit-02), Tech Audit: Agentic (audit-a03 Secrets Hunter), Cisco, Quantum, Umbrella, and MITRE epochs. File-read-only stages (Tech Audit: Foundations, remaining Agentic stages) embed `WHAT YOU'RE LEARNING:` sections directly in file content.
+- **Socratic ARIA** — ARIA system prompt rewritten to use the Socratic method: asks guiding questions rather than providing direct answers. Now receives `keyTakeaways` (learning objectives) and `tagline` (core concept) from every stage; uses them to frame questions and assess whether the trainee is on track. Hint is paraphrased rather than quoted verbatim.
+- **ARIA opener** — Opening message now surfaces the stage's core concept tagline: `ARIA online. Mission "X" loaded. Core concept: "Y". What are you stuck on?`
+- **Skills Acquired debrief** — `FlagSuccessModal` now shows a "Skills Acquired" section on successful flag capture, listing up to 3 key takeaways from `stage.info.keyTakeaways`. Only renders when takeaways are present.
+- **bt-03 bug fixes** — (a) Terminal scroll-lock: users can now scroll up to review earlier output without auto-scroll fighting them; auto-scroll resumes only when already at the bottom. (b) `inspect fragment-3` now correctly marks the third fragment as recovered, unblocking stage completion.
+
+---
+
 ## v1.0.0 — 2026-05-16
 
 **Cisco Umbrella epoch, server-side flag validation, admin user list**

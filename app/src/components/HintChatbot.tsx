@@ -18,7 +18,7 @@ export default function HintChatbot({ stage, onClose }: Props) {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "aria",
-      text: `ARIA online. I'm here to help you with "${stage.title}". What are you stuck on? I'll guide you without giving away the answer directly.`,
+      text: `ARIA online. Mission "${stage.title}" loaded.${stage.info?.tagline ? ` Core concept: "${stage.info.tagline}"` : ""} What are you stuck on? I'll guide — not give it away.`,
     },
   ]);
   const [input, setInput] = useState("");
@@ -69,6 +69,8 @@ export default function HintChatbot({ stage, onClose }: Props) {
           scenario: ctf?.scenario ?? "",
           hint: ctf?.hint ?? "",
           chatbotContext: ctf?.chatbotContext ?? "",
+          keyTakeaways: stage.info?.keyTakeaways ?? [],
+          tagline: stage.info?.tagline ?? "",
         }),
       });
       const data = await res.json();
