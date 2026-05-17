@@ -90,7 +90,7 @@ function HintDrawer({ hints, onClose }: { hints: string[]; onClose: () => void }
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 text-sm">
           <p className="text-gray-600 text-xs">
-            Each hint reveals a bit more. Use them only when you're genuinely stuck.
+            Each hint reveals a bit more. Use them only when you&apos;re genuinely stuck.
           </p>
           {hints.slice(0, revealed).map((hint, i) => (
             <div key={i} className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">

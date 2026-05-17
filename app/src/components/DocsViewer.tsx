@@ -179,6 +179,7 @@ export default function DocsViewer() {
               </div>
             ) : (
               <div className="min-w-0">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 <ReactMarkdown remarkPlugins={[remarkGfm]} components={makeComponents(setActiveDoc) as any}>
                   {content[activeDoc] ?? ""}
                 </ReactMarkdown>
