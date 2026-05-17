@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const umbrellaEpoch: EpochConfig = {
   id: "umbrella",
-  name: "2a. Cisco Umbrella",
+  name: "6a. Cisco Umbrella",
   subtitle: "DNS Security & Threat Intelligence",
   description: "Master DNS-layer security with Cisco Umbrella — the world's most deployed cloud security platform. From DNS tunneling to DGA detection, from lookalike domains to DoH evasion, each mission puts you inside a real Umbrella SOC investigation.",
   emoji: "☂️",
