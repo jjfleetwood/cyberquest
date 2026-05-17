@@ -206,7 +206,7 @@ export default function Home() {
           />
 
           {/* Glow orbs */}
-          <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full blur-3xl pointer-events-none"
+          <div className="absolute top-16 left-1/2 -translate-x-1/2 w-[min(800px,100vw)] h-[400px] rounded-full blur-3xl pointer-events-none"
             style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.07) 0%, transparent 70%)" }} />
           <div className="absolute top-40 left-1/4 w-[300px] h-[250px] rounded-full blur-3xl pointer-events-none"
             style={{ background: "radial-gradient(ellipse, rgba(168,85,247,0.06) 0%, transparent 70%)" }} />

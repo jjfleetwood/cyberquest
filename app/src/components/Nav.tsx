@@ -11,6 +11,7 @@ export default function Nav() {
   const [username, setUsername] = useState<string | null>(null);
   const [admin, setAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     setUsername(getSession());
@@ -20,17 +21,21 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [pathname]);
 
+  // Close mobile menu on route change
+  useEffect(() => { setMobileOpen(false); }, [pathname]);
+
   function handleLogout() {
     clearSession();
     setUsername(null);
+    setMobileOpen(false);
     router.push("/");
   }
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled
-          ? "bg-gray-950/90 backdrop-blur-md border-b border-white/10"
+        scrolled || mobileOpen
+          ? "bg-gray-950/95 backdrop-blur-md border-b border-white/10"
           : "bg-transparent"
       }`}
     >
@@ -42,6 +47,7 @@ export default function Nav() {
           </span>
         </Link>
 
+        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/stages" className="text-gray-400 hover:text-white transition-colors">Stages</Link>
           <Link href="/leaderboard" className="text-gray-400 hover:text-white transition-colors">Leaderboard</Link>
@@ -52,7 +58,8 @@ export default function Nav() {
           )}
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* Desktop auth */}
+        <div className="hidden md:flex items-center gap-3">
           {username ? (
             <>
               <span className="text-sm text-gray-400 hidden sm:block">
@@ -67,10 +74,7 @@ export default function Nav() {
             </>
           ) : (
             <>
-              <Link
-                href="/login"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
-              >
+              <Link href="/login" className="text-sm text-gray-400 hover:text-white transition-colors">
                 Sign in
               </Link>
               <Link
@@ -82,7 +86,60 @@ export default function Nav() {
             </>
           )}
         </div>
+
+        {/* Mobile: hamburger */}
+        <button
+          onClick={() => setMobileOpen((o) => !o)}
+          className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-lg hover:bg-white/5 transition-colors"
+          aria-label="Toggle menu"
+        >
+          <span className={`block w-5 h-0.5 bg-gray-400 transition-all duration-200 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-gray-400 transition-all duration-200 ${mobileOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-gray-400 transition-all duration-200 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
       </div>
+
+      {/* Mobile menu drawer */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-white/10 px-4 py-4 space-y-1" style={{ background: "rgba(6,10,16,0.98)" }}>
+          <Link href="/stages" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
+            🗺️ Stages
+          </Link>
+          <Link href="/leaderboard" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
+            🏆 Leaderboard
+          </Link>
+          {admin && (
+            <Link href="/admin" className="block px-3 py-2.5 rounded-lg text-red-400 hover:text-red-300 hover:bg-white/5 transition-colors text-sm font-semibold">
+              ⚙️ Admin
+            </Link>
+          )}
+          <div className="border-t border-white/5 pt-3 mt-3">
+            {username ? (
+              <div className="space-y-1">
+                <p className="px-3 py-1 text-xs text-gray-600">Signed in as <span className="text-cyan-400">{username}</span></p>
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-3 py-2.5 rounded-lg text-gray-500 hover:text-red-400 hover:bg-white/5 transition-colors text-sm"
+                >
+                  Log out
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                <Link href="/login" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
+                  Sign in
+                </Link>
+                <Link
+                  href="/login"
+                  className="block px-3 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-sm text-center transition-colors"
+                >
+                  Get Started
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 }

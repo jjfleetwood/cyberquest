@@ -159,7 +159,7 @@ export default function StagesPage() {
           <p className="text-gray-400">Six tracks covering the full spectrum — from core CVEs to AI security and quantum cryptography.</p>
 
           {/* XP bar + streak */}
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-6 flex items-center gap-3 flex-wrap">
             <div className="flex-1 bg-white/5 rounded-full h-3">
               <div
                 className={`${accent.bar} h-3 rounded-full transition-all duration-700`}
@@ -197,7 +197,7 @@ export default function StagesPage() {
                     {group.label}
                   </span>
                   <div className="flex-1 h-px bg-white/5" />
-                  <span className="text-[10px] text-gray-700 whitespace-nowrap">{group.desc}</span>
+                  <span className="hidden sm:block text-[10px] text-gray-700 whitespace-nowrap">{group.desc}</span>
                 </div>
 
                 {/* Epoch buttons for this track */}
