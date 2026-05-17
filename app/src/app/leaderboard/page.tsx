@@ -14,6 +14,7 @@ type Player = {
   badges: number;
   lastActive: number | null;
   isCurrentPlayer?: boolean;
+  recencyFallback?: boolean;
 };
 
 const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
@@ -30,6 +31,12 @@ const PERIOD_DESC: Record<Period, string> = {
   daily: "XP earned today",
 };
 
+const FALLBACK_DESC: Record<Period, string> = {
+  alltime: "",
+  weekly: "Showing agents active this week · period XP tracking begins with new completions",
+  daily: "Showing agents active today · period XP tracking begins with new completions",
+};
+
 function timeAgo(ts: number | null): string {
   if (!ts) return "—";
   const diff = Date.now() - ts;
@@ -44,6 +51,7 @@ function timeAgo(ts: number | null): string {
 export default function LeaderboardPage() {
   const [period, setPeriod] = useState<Period>("alltime");
   const [rows, setRows] = useState<(Player & { rank: number })[]>([]);
+  const [isRecencyFallback, setIsRecencyFallback] = useState(false);
   const [myRank, setMyRank] = useState<number | null>(null);
   const [myXP, setMyXP] = useState(0);
   const [myStages, setMyStages] = useState(0);
@@ -97,6 +105,7 @@ export default function LeaderboardPage() {
 
         const ranked = all.map((player, i) => ({ ...player, rank: i + 1 }));
         setRows(ranked);
+        setIsRecencyFallback(serverPlayers.some((p) => p.recencyFallback));
         setMyRank(ranked.find((r) => r.isCurrentPlayer)?.rank ?? null);
       })
       .catch(() => {
@@ -136,7 +145,9 @@ export default function LeaderboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-white">Leaderboard</h1>
-              <p className="text-gray-500 text-sm mt-1">{PERIOD_DESC[period]}</p>
+              <p className="text-gray-500 text-sm mt-1">
+                {isRecencyFallback && period !== "alltime" ? FALLBACK_DESC[period] : PERIOD_DESC[period]}
+              </p>
             </div>
             <div className="flex items-center gap-2 text-xs text-green-400 bg-green-400/10 border border-green-400/30 rounded-full px-3 py-1.5">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />

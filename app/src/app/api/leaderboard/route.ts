@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
 
+type PlayerRow = {
+  username: string;
+  xp: number;
+  stages: number;
+  badges: number;
+  lastActive: number | null;
+  recencyFallback?: boolean;
+};
+
 function getDayKey(): string {
   return `lb:d:${new Date().toISOString().slice(0, 10)}`;
 }
@@ -13,35 +22,49 @@ function getWeekKey(): string {
   return `lb:w:${monday.toISOString().slice(0, 10)}`;
 }
 
-export async function GET(req: NextRequest) {
-  const period = req.nextUrl.searchParams.get("period") ?? "alltime";
-
-  let boardKey: string;
-  if (period === "daily") {
-    boardKey = getDayKey();
-  } else if (period === "weekly") {
-    boardKey = getWeekKey();
-  } else {
-    boardKey = "leaderboard";
-  }
-
-  const top = await redis.zrange(boardKey, 0, 49, { rev: true, withScores: true });
-
-  if (!top || top.length === 0) return NextResponse.json([]);
-
-  const players = [];
-  for (let i = 0; i < top.length; i += 2) {
-    const username = top[i] as string;
-    const xp = Number(top[i + 1]);
-
-    // For daily/weekly we show period XP but still fetch profile data
+async function buildPlayers(pairs: unknown[]): Promise<PlayerRow[]> {
+  const players: PlayerRow[] = [];
+  for (let i = 0; i < pairs.length; i += 2) {
+    const username = pairs[i] as string;
+    const xp = Number(pairs[i + 1]);
     const data = await redis.hgetall(`progress:${username}`);
     const stages = data?.stages ? (JSON.parse(data.stages as string) as string[]).length : 0;
     const badges = data?.badges ? (JSON.parse(data.badges as string) as string[]).length : 0;
     const lastActive = data?.lastActive ? Number(data.lastActive) : null;
-
     players.push({ username, xp, stages, badges, lastActive });
   }
+  return players;
+}
 
-  return NextResponse.json(players);
+export async function GET(req: NextRequest) {
+  const period = req.nextUrl.searchParams.get("period") ?? "alltime";
+
+  if (period === "alltime") {
+    const top = await redis.zrange("leaderboard", 0, 49, { rev: true, withScores: true });
+    if (!top || top.length === 0) return NextResponse.json([]);
+    return NextResponse.json(await buildPlayers(top));
+  }
+
+  // Daily or weekly — try period-specific board first
+  const boardKey = period === "daily" ? getDayKey() : getWeekKey();
+  const top = await redis.zrange(boardKey, 0, 49, { rev: true, withScores: true });
+
+  if (top && top.length > 0) {
+    return NextResponse.json(await buildPlayers(top));
+  }
+
+  // Period board empty (feature just launched, no new completions yet) —
+  // fall back to all-time board filtered by recency so boards aren't blank
+  const cutoffMs = period === "daily" ? 86_400_000 : 7 * 86_400_000;
+  const cutoff = Date.now() - cutoffMs;
+
+  const allTop = await redis.zrange("leaderboard", 0, 99, { rev: true, withScores: true });
+  if (!allTop || allTop.length === 0) return NextResponse.json([]);
+
+  const allPlayers = await buildPlayers(allTop);
+  const filtered = allPlayers
+    .filter((p) => p.lastActive !== null && p.lastActive > cutoff)
+    .map((p) => ({ ...p, recencyFallback: true }));
+
+  return NextResponse.json(filtered);
 }
