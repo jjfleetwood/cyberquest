@@ -32,12 +32,15 @@ export async function awardStageInRedis(
   const key = `progress:${username.toLowerCase()}`;
   const data = await redis.hgetall(key);
 
-  const completedStages: string[] = data?.stages
-    ? JSON.parse(data.stages as string)
-    : [];
-  const badges: string[] = data?.badges
-    ? JSON.parse(data.badges as string)
-    : [];
+  function parseArr(val: unknown): string[] {
+    if (!val) return [];
+    if (Array.isArray(val)) return val as string[];
+    const s = String(val);
+    try { const p = JSON.parse(s); return Array.isArray(p) ? p : []; } catch { return s.split(",").filter(Boolean); }
+  }
+
+  const completedStages: string[] = parseArr(data?.stages);
+  const badges: string[] = parseArr(data?.badges);
 
   const isNew = !completedStages.includes(stageId);
 

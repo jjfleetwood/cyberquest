@@ -22,14 +22,26 @@ function getWeekKey(): string {
   return `lb:w:${monday.toISOString().slice(0, 10)}`;
 }
 
+function parseStringArray(val: unknown): string[] {
+  if (!val) return [];
+  if (Array.isArray(val)) return val as string[];
+  const s = String(val);
+  try {
+    const parsed = JSON.parse(s);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return s.split(",").filter(Boolean);
+  }
+}
+
 async function buildPlayers(pairs: unknown[]): Promise<PlayerRow[]> {
   const players: PlayerRow[] = [];
   for (let i = 0; i < pairs.length; i += 2) {
     const username = pairs[i] as string;
     const xp = Number(pairs[i + 1]);
     const data = await redis.hgetall(`progress:${username}`);
-    const stages = data?.stages ? (JSON.parse(data.stages as string) as string[]).length : 0;
-    const badges = data?.badges ? (JSON.parse(data.badges as string) as string[]).length : 0;
+    const stages = parseStringArray(data?.stages).length;
+    const badges = parseStringArray(data?.badges).length;
     const lastActive = data?.lastActive ? Number(data.lastActive) : null;
     players.push({ username, xp, stages, badges, lastActive });
   }
@@ -37,34 +49,38 @@ async function buildPlayers(pairs: unknown[]): Promise<PlayerRow[]> {
 }
 
 export async function GET(req: NextRequest) {
-  const period = req.nextUrl.searchParams.get("period") ?? "alltime";
+  try {
+    const period = req.nextUrl.searchParams.get("period") ?? "alltime";
 
-  if (period === "alltime") {
-    const top = await redis.zrange("leaderboard", 0, 49, { rev: true, withScores: true });
-    if (!top || top.length === 0) return NextResponse.json([]);
-    return NextResponse.json(await buildPlayers(top));
+    if (period === "alltime") {
+      const top = await redis.zrange("leaderboard", 0, 49, { rev: true, withScores: true });
+      if (!top || top.length === 0) return NextResponse.json([]);
+      return NextResponse.json(await buildPlayers(top));
+    }
+
+    // Daily or weekly — try period-specific board first
+    const boardKey = period === "daily" ? getDayKey() : getWeekKey();
+    const top = await redis.zrange(boardKey, 0, 49, { rev: true, withScores: true });
+
+    if (top && top.length > 0) {
+      return NextResponse.json(await buildPlayers(top));
+    }
+
+    // Period board empty — fall back to all-time board filtered by recency
+    const cutoffMs = period === "daily" ? 86_400_000 : 7 * 86_400_000;
+    const cutoff = Date.now() - cutoffMs;
+
+    const allTop = await redis.zrange("leaderboard", 0, 99, { rev: true, withScores: true });
+    if (!allTop || allTop.length === 0) return NextResponse.json([]);
+
+    const allPlayers = await buildPlayers(allTop);
+    const filtered = allPlayers
+      .filter((p) => p.lastActive !== null && p.lastActive > cutoff)
+      .map((p) => ({ ...p, recencyFallback: true }));
+
+    return NextResponse.json(filtered);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
-
-  // Daily or weekly — try period-specific board first
-  const boardKey = period === "daily" ? getDayKey() : getWeekKey();
-  const top = await redis.zrange(boardKey, 0, 49, { rev: true, withScores: true });
-
-  if (top && top.length > 0) {
-    return NextResponse.json(await buildPlayers(top));
-  }
-
-  // Period board empty (feature just launched, no new completions yet) —
-  // fall back to all-time board filtered by recency so boards aren't blank
-  const cutoffMs = period === "daily" ? 86_400_000 : 7 * 86_400_000;
-  const cutoff = Date.now() - cutoffMs;
-
-  const allTop = await redis.zrange("leaderboard", 0, 99, { rev: true, withScores: true });
-  if (!allTop || allTop.length === 0) return NextResponse.json([]);
-
-  const allPlayers = await buildPlayers(allTop);
-  const filtered = allPlayers
-    .filter((p) => p.lastActive !== null && p.lastActive > cutoff)
-    .map((p) => ({ ...p, recencyFallback: true }));
-
-  return NextResponse.json(filtered);
 }

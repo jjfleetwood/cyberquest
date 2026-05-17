@@ -10,10 +10,13 @@ export default async function StagePage({
   const { stageId } = await params;
   const stage = getStage(stageId) ?? null;
 
-  // Strip secrets before serializing to the client — validation happens server-side
+  // Strip secrets and non-serializable values before passing to client
   let safeStage: StageConfig | null = stage;
   if (safeStage?.ctf) {
-    safeStage = { ...safeStage, ctf: { ...safeStage.ctf, flag: undefined } };
+    safeStage = {
+      ...safeStage,
+      ctf: { ...safeStage.ctf, flag: undefined, extraCommands: undefined },
+    };
   }
   if (safeStage?.quiz) {
     safeStage = {

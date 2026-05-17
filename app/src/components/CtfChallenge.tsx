@@ -7,6 +7,7 @@ import AttackDiagram from "./AttackDiagram";
 import FlagSuccessModal from "./FlagSuccessModal";
 import HintChatbot from "./HintChatbot";
 import type { CtfConfig, StageConfig } from "@/data/types";
+import { getExtraCommands } from "@/data/stage-commands";
 
 type LineType = "cmd" | "out" | "err" | "ok" | "warn" | "sys";
 type Line = { type: LineType; text: string };
@@ -221,6 +222,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const ctf = stage.ctf!;
   const hints = ctf.hints ?? [ctf.hint];
   const minFragments = ctf.minFragments ?? ctf.fragments?.length ?? 0;
+  const extraCommands = getExtraCommands(stage.id);
 
   const [cwd, setCwd] = useState("/");
   const [input, setInput] = useState("");
@@ -311,7 +313,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     const args = parts.slice(1);
 
     if (cmd === "help") {
-      const extraCmds = ctf.extraCommands ? Object.keys(ctf.extraCommands) : [];
+      const extraCmds = extraCommands ? Object.keys(extraCommands) : [];
       const hasFragments = Boolean(ctf.fragments?.length);
       push(
         { type: "out", text: "Available commands:" },
@@ -483,8 +485,8 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
       return;
     }
 
-    if (ctf.extraCommands && cmd in ctf.extraCommands) {
-      const result = ctf.extraCommands[cmd](args);
+    if (extraCommands && cmd in extraCommands) {
+      const result = extraCommands[cmd](args);
       push(...result.lines.map((t) => ({ type: "out" as LineType, text: t })));
       checkFragment(trimmed);
       if (result.solved) {
