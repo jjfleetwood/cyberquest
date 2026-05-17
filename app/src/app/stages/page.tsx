@@ -303,13 +303,16 @@ export default function StagesPage() {
                     completed ? "from-green-950 to-slate-950" : cardEmojiBg[activeEpoch]
                   }`}
                 >
-                  <span className="text-5xl leading-none drop-shadow-lg transition-transform duration-200 group-hover:scale-110">
+                  <span className={`text-5xl leading-none drop-shadow-lg transition-transform duration-200 group-hover:scale-110 ${completed ? "opacity-30" : ""}`}>
                     {stage.wonder.emoji}
                   </span>
 
+                  {/* Completed overlay */}
                   {completed && (
-                    <div className="absolute inset-0 flex items-end justify-end p-2 pointer-events-none">
-                      <span className="text-xs bg-green-500 text-black font-bold px-1.5 py-0.5 rounded-full leading-none">✓</span>
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-12 h-12 rounded-full bg-green-500/20 border-2 border-green-400/60 flex items-center justify-center">
+                        <span className="text-green-400 text-2xl font-black leading-none">✓</span>
+                      </div>
                     </div>
                   )}
 
@@ -331,12 +334,18 @@ export default function StagesPage() {
                 </div>
 
                 {/* Info panel */}
-                <div className="px-2.5 py-2.5 bg-black/20">
+                <div className={`px-2.5 py-2.5 ${completed ? "bg-green-950/40" : "bg-black/20"}`}>
                   <p className="text-xs text-gray-600 truncate leading-tight mb-0.5">{stage.wonder.name}</p>
-                  <p className="text-xs font-semibold truncate leading-tight text-gray-200">{stage.title}</p>
+                  <p className={`text-xs font-semibold truncate leading-tight ${completed ? "text-green-300/70" : "text-gray-200"}`}>{stage.title}</p>
                   <div className="flex items-center gap-1.5 mt-1.5">
-                    <span className="text-xs text-amber-600 font-mono">+{stage.xp}</span>
-                    <span className="text-xs text-gray-700">XP</span>
+                    {completed ? (
+                      <span className="text-xs text-green-500 font-semibold">Completed</span>
+                    ) : (
+                      <>
+                        <span className="text-xs text-amber-600 font-mono">+{stage.xp}</span>
+                        <span className="text-xs text-gray-700">XP</span>
+                      </>
+                    )}
                     <span className="text-xs ml-auto">{stage.badge.emoji}</span>
                   </div>
                 </div>
