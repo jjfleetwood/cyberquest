@@ -96,7 +96,6 @@ exiftool annual-report.pdf | grep -E "Author|Creator|Producer|Company"`,
         "passive-intel.txt contains the first fragment.",
         "Read all three files to assemble the flag.",
       ],
-      flag: "FLAG{TA0043_R3C0N_APT29}",
       files: {
         "/recon-op/passive-intel.txt": `# Passive Intelligence Gathered
 # Target: AcmeCorp — no packets sent to target
@@ -229,7 +228,6 @@ zeek -r capture.pcap -e 'print c$ssl$ja3' | sort | uniq -c`,
         "The domain registration notes contain the first fragment.",
         "Read all three files to complete the flag.",
       ],
-      flag: "FLAG{TA0042_R3S_D3V_C2}",
       files: {
         "/c2-dev/domains.txt": `# Domain Registration Notes
 # All registered via Njalla (anonymous) with Monero payment
@@ -358,7 +356,6 @@ dig TXT selector._domainkey.sender.com
         "The email template contains the first fragment.",
         "Read the landing page and credential log for the remaining pieces.",
       ],
-      flag: "FLAG{TA0001_SPH1SH_1N1T14L}",
       files: {
         "/phish-kit/email-template.html": `<!-- Spear Phish Email Template -->
 <!-- Target: IT staff at acme.com -->
@@ -486,7 +483,6 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" |
         "The PowerShell log contains the first fragment.",
         "Read wmi.log and psexec.log for the remaining fragments.",
       ],
-      flag: "FLAG{TA0002_3X3C_L0LB1N}",
       files: {
         "/exec-logs/powershell-4104.log": `# PowerShell Script Block Log — Event ID 4104
 # Timestamp: 2024-11-15 03:14:22 UTC
@@ -620,7 +616,6 @@ Get-ScheduledTask | Where-Object {$_.TaskPath -notmatch "\\\\Microsoft\\\\"} |
         "The registry dump contains the first fragment.",
         "Read the scheduled task and service entries for the rest.",
       ],
-      flag: "FLAG{TA0003_P3RS1ST_L4Y3R}",
       files: {
         "/persist-evidence/registry-runkeys.txt": `# Registry Run Key Dump — HKCU\\..\\CurrentVersion\\Run
 # Forensic export — infected workstation WS-ACME-047
@@ -757,7 +752,6 @@ Get-WinEvent -LogName Security | Where-Object {
         "The Kerberoast output contains the first fragment.",
         "Read dcsync.log and golden-saml.txt for the remaining pieces.",
       ],
-      flag: "FLAG{TA0004_PR1VU_3SC_DA}",
       files: {
         "/privesc/kerberoast-hashes.txt": `# Kerberoast Output — Rubeus.exe
 # Event ID 4769 triggered (RC4 etype 23)
@@ -897,7 +891,6 @@ New-NetFirewallRule -DisplayName "Block certutil outbound" \`
         "The LOLBin log contains the first fragment.",
         "Read byovd.log and edrkill.txt for the remaining fragments.",
       ],
-      flag: "FLAG{TA0005_3V4S10N_BYOVD}",
       files: {
         "/evasion-forensics/lolbin-log.txt": `# LOLBin Execution Log
 # Timestamp: 2024-11-15 04:01:22 UTC
@@ -1040,7 +1033,6 @@ Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Where-Object {
         "The Mimikatz output contains the first fragment.",
         "Read the NTLM dump and detection log for the remaining fragments.",
       ],
-      flag: "FLAG{TA0006_M1M1K4TZ_DUMP}",
       files: {
         "/cred-dump/mimikatz-output.txt": `# Mimikatz sekurlsa::logonpasswords output
 
@@ -1182,7 +1174,6 @@ Get-WinEvent -LogName Security | Where-Object {
         "The PtH log contains the first fragment.",
         "Read smb-spread.log and dc-access.log for the remaining fragments.",
       ],
-      flag: "FLAG{TA0008_L4T_MOV_PTH}",
       files: {
         "/lateral-move/pth-log.txt": `# Pass-the-Hash Authentication Log
 # Event ID 4624, Logon Type 3, NtLmSsp
@@ -1321,7 +1312,6 @@ Get-ChildItem -Path \\\\fileserver\\shares -Recurse -Include *.docx,*.xlsx,*.pdf
         "The discovery log contains the first fragment.",
         "Read collection.log and staging.txt for the remaining fragments.",
       ],
-      flag: "FLAG{TA0009_C0LL3CT_APT29}",
       files: {
         "/apt29-op/discovery.log": `# Network Discovery Log — APT29 Midnight Blizzard
 
@@ -1459,7 +1449,6 @@ cat dns.log | awk '{print $10}' | awk -F'.' '{print length($1), $0}' | sort -rn 
         "The SSL inspection log reveals the blind spot — and the first fragment.",
         "Read exfil-traffic.log and detection.txt for the remaining fragments.",
       ],
-      flag: "FLAG{TA0010_3XF1L_76D4YS}",
       files: {
         "/exfil-op/ssl-blind-spot.txt": `# SSL Inspection Status Report
 # Network Monitoring System — Equifax Corp
@@ -1600,7 +1589,6 @@ aws s3api put-bucket-object-lock-configuration \
         "The VSS deletion log contains the first fragment.",
         "The ransom note contains the final fragment.",
       ],
-      flag: "FLAG{TA0040_R4NS0M_1MP4CT}",
       files: {
         "/ransomware-op/vss-deletion.log": `# Pre-Encryption: Shadow Copy Deletion
 # Timestamp: 2021-07-02 22:47:13 UTC

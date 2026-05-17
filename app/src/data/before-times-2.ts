@@ -89,7 +89,6 @@ curl -I http://google.com
         "Submit the stolen credentials. Run: submit-creds tidal_wave_tom surfsup1969",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{HTTP_1S_PL41NT3XT_HTTPS_1S_3NCRYPT3D}",
       fragments: [
         {
           trigger: "/http-capture.txt",
@@ -277,7 +276,6 @@ curl -A "Mozilla/5.0" https://example.com`,
         "Read the admin panel contents. Run: cat /admin-reef-42/flag.txt",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{BR0WS3R_D3VT00LS_R3V34L_3V3RYTH1NG}",
       fragments: [
         {
           trigger: "/index.html",
@@ -452,7 +450,6 @@ print(resp.json())   # parse JSON response`,
         "Try the admin ID. Run: api-get /students/admin",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{1D0R_S3RV3R_MUST_4UTH0R1Z3_3V3RY_R3QU3ST}",
       fragments: [
         {
           trigger: "/api-brief.txt",
@@ -605,7 +602,6 @@ curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
         "Check if the domain matches. Run: check-domain lifeguard-server.sc",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{TLS_C3RT_V3R1F1C4T10N_PR3V3NTS_1MP3RS0N4T10N}",
       fragments: [
         {
           trigger: "/cert-brief.txt",
@@ -791,7 +787,6 @@ curl -I https://example.com | grep Set-Cookie
         "Use the stolen token to access admin. Run: access-as-admin sess_ADMIN_9f3e2b1a",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{HTTP_0NLY_PREV3NTS_C00K13_TH3FT}",
       fragments: [
         {
           trigger: "/cookie-policy.txt",
@@ -971,7 +966,6 @@ print(resp.json())`,
         "Try the internal endpoint. Run: api /internal/config",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{4P1_3NUM3R4T10N_F1NDS_H1DD3N_3NDP01NTS}",
       fragments: [
         {
           trigger: "/api-docs.txt",
@@ -1146,7 +1140,6 @@ traceroute google.com
         "Block the attack traffic. Run: block-ip 185.220.101.0/24",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{B4NDW1DTH_S4TUR4T10N_1S_D0S}",
       fragments: [
         {
           trigger: "/network-topology.txt",
@@ -1339,7 +1332,6 @@ ping 9.9.9.9     # Quad9`,
         "Connect to the fastest. Run: connect-cdn cdn-west",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{L0W_L4T3NCY_W1NS_TH3_R4C3}",
       fragments: [
         {
           trigger: "/cdn-map.txt",
@@ -1510,7 +1502,6 @@ dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
         "Flush the poisoned cache entry. Run: flush-cache surf-archive.sc",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{DNS_C4CH3_P01S0N1NG_1S_D3T3CT4BL3}",
       fragments: [
         {
           trigger: "/resolver-config.txt",
@@ -1697,7 +1688,6 @@ server {
         "Probe backend 3 directly. Run: probe-backend 10.0.1.12",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{L04D_B4L4NC3R_D1STR1BUT3S_TH3_W4V3S}",
       fragments: [
         {
           trigger: "/lb-config.txt",

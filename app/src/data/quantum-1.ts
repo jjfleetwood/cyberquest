@@ -101,7 +101,6 @@ print(counts)  # {'0': ~500, '1': ~500}
         "Calculate the qubit count needed to break RSA-2048 with Shor's. Run: shor-estimate RSA-2048",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{Q_SUPERPOS1TION_SHOR_RSA_THREAT}",
       fragments: [
         { trigger: "/threat-brief.txt", value: "FLAG{Q_SUPER", label: "Threat Brief — Quantum Computing Overview" },
         { trigger: "qubit-sim superposition", value: "POS1TION_SHOR_", label: "Superposition Observed — Quantum Parallelism Confirmed" },
@@ -234,7 +233,6 @@ print(result.factors)  # [[3, 5]]
         "Estimate CRQC readiness for RSA-2048. Run: crqc-timeline",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{SHORS_ALG0_RSA_FACTOR3D_CR0C}",
       fragments: [
         { trigger: "/shor-brief.txt", value: "FLAG{SHORS_", label: "Algorithm Brief — Shor's RSA Threat" },
         { trigger: "quantum-factor 3127", value: "ALG0_RSA_", label: "RSA Semiprime Factored — p=53, q=59" },
@@ -368,7 +366,6 @@ HMAC-SHA256     128 bits*           64 bits               WEAKENED*
         "Identify the recommended replacements and audit the config. Run: crypto-audit-run",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{GROVERS_AES128_WEAK3N3D_256_SAFE}",
       fragments: [
         { trigger: "/crypto-audit.txt", value: "FLAG{GROVERS_", label: "Crypto Audit — AES-128 Deployment Found" },
         { trigger: "grover-analyze AES-128", value: "AES128_WEAK3N3D_", label: "Grover's Analysis — 64-bit Post-Quantum Security" },
@@ -505,7 +502,6 @@ HMAC-SHA256     128 bits*           64 bits               WEAKENED*
         "Decrypt the stored TLS session using the recovered private key. Run: decrypt-session",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{HNDL_HARVEST_NOW_DECRYPT_L4T3R}",
       fragments: [
         { trigger: "/intercept-log.txt", value: "FLAG{HNDL_", label: "Intercept Log — 3-Year-Old TLS Session Found" },
         { trigger: "shor-factor-cert", value: "HARVEST_NOW_", label: "RSA Key Factored — Private Key Recovered" },
@@ -641,7 +637,6 @@ print(counts)  # {'00': ~500, '11': ~500}
         "Run the E91 key generation using entanglement correlations. Run: e91-keygen",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{ENTANGL3D_B3LL_E91_QKD_K3Y}",
       fragments: [
         { trigger: "/e91-brief.txt", value: "FLAG{ENTANGL3D_", label: "E91 Brief — Cisco Universal Quantum Switch Protocol" },
         { trigger: "bell-sim 100", value: "B3LL_E91_", label: "Bell State Verified — Cisco Entanglement Chip Online" },
@@ -799,7 +794,6 @@ Time estimate:   Hours to days on a CRQC
         "Calculate CRQC threat timeline for 10-year sensitivity data. Run: crqc-risk 10",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{NISQ_ERA_CR0C_TIMELINE_MIGR8}",
       fragments: [
         { trigger: "/nisq-brief.txt", value: "FLAG{NISQ_ERA_", label: "NISQ Brief — Current Quantum Landscape" },
         { trigger: "nisq-status", value: "CR0C_TIMELINE_", label: "Hardware Status — Willow Milestone Confirmed" },
@@ -933,7 +927,6 @@ Physical Error Rate | Code Distance | Physical/Logical | Notes
         "Determine total physical qubits for CRQC scale. Run: crqc-scale RSA-2048",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QEC_SURF4CE_CODE_CR0C_SC4LE}",
       fragments: [
         { trigger: "/qec-brief.txt", value: "FLAG{QEC_", label: "QEC Brief — Surface Code Architecture" },
         { trigger: "surface-code-calc 0.001", value: "SURF4CE_CODE_", label: "Distance Calculated — Overhead Determined" },
@@ -1071,7 +1064,6 @@ print(quantum_risk("session_tokens", 0.001, False)) # MEDIUM`,
         "Generate the quantum risk classification and migration priorities. Run: quantum-risk-report",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QUANTUM_RISK_CISA_MIGR4TION_PLAN}",
       fragments: [
         { trigger: "/cisa-framework.txt", value: "FLAG{QUANTUM_", label: "CISA Framework — Quantum Risk Assessment Guide" },
         { trigger: "crypto-inventory", value: "RISK_CISA_", label: "Crypto Inventory — 47 RSA/ECC Assets Found" },
@@ -1212,7 +1204,6 @@ fallback_key = secrets.token_bytes(32)
         "Generate a replacement key using QRNG. Run: qrng-keygen 256",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{DUAL_EC_BACKD00R_QRNG_TRUE_RAND}",
       fragments: [
         { trigger: "/dual-ec-analysis.txt", value: "FLAG{DUAL_EC_", label: "Analysis — Dual EC Backdoor Constants Identified" },
         { trigger: "dual-ec-predict", value: "BACKD00R_QRNG_", label: "PRNG Output Predicted — Backdoor Confirmed" },
@@ -1350,7 +1341,6 @@ SHA-1               IMMEDIATE      IMMEDIATE      SHA-384
         "Generate the complete CISO quantum readiness report. Run: ciso-quantum-report",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QDAY_C0UNTDOWN_MIGRATE_NOW_FIPS203}",
       fragments: [
         { trigger: "/ciso-template.txt", value: "FLAG{QDAY_", label: "CISO Template — Executive Quantum Brief Format" },
         { trigger: "quantum-intel-brief", value: "C0UNTDOWN_MIGRATE_", label: "Intel Brief — Five Eyes Timeline Confirmed" },

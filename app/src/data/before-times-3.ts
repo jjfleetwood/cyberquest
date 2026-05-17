@@ -89,7 +89,6 @@ dig TXT example.com | grep spf
         "Report the phishing email. Run: report-phish <email-number>",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{PH1SH1NG_H1D3S_B3H1ND_F4K3_D0M41NS}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -266,7 +265,6 @@ print(f"Valid: {is_valid}")`,
         "Enable 2FA on the vulnerable account. Run: enable-2fa captain-no2fa",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{2F4_ST0PS_ST0L3N_P4SSW0RDS}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -440,7 +438,6 @@ def password_entropy(length, charset_size):
         "Confirm your understanding. Run: submit-analysis",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{L3NGTH_4ND_R4ND0MN3SS_W1N_3V3RY_T1M3}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -612,7 +609,6 @@ def password_entropy(length, charset_size):
         "Extract the stolen credentials. Run: extract",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{0P3N_W1F1_3XP0S3S_4LL_PL41NT3XT_TR4FF1C}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -784,7 +780,6 @@ RESPONSE PROTOCOL:
         "Report all techniques found. Run: submit-report",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{S0C14L_3NG1N33R1NG_3XPL01TS_TRUST}",
       fragments: [
         {
           trigger: "/transcript.txt",
@@ -961,7 +956,6 @@ sudo apt install unattended-upgrades`,
         "Apply the patch and verify. Run: apply-patch",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{P4TCH_1MM3D14T3LY_0R_G3T_PWN3D}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -1133,7 +1127,6 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
         "Begin remediation. Run: remediate",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{BR34CH_CH3CK_R3M3D14T3_AND_US3_2F4}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -1308,7 +1301,6 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Flag all malicious ones. Run: flag-malicious 2 4",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{URL_1NSP3CT10N_SAV3S_Y0U_FR0M_M4LW4R3}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -1480,7 +1472,6 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Confirm minimal permissions are set. Run: audit-permissions",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{PR1V4CY_S3TT1NGS_R3DUC3_4TT4CK_SURF4C3}",
       files: {},
       dirs: { "/": [] },
       fragments: [
@@ -1645,7 +1636,6 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         "Recover your account. Run: recover",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{1NC1D3NT_R3SP0NS3_PR0T0C0L_C0MPL3T3}",
       files: {},
       dirs: { "/": [] },
       fragments: [

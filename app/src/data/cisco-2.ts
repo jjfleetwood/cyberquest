@@ -86,7 +86,6 @@ python3 cve-2016-1287.py --target 203.0.113.1 --port 500
         "Exploit the heap overflow to dump the SNMP community string. Run: ike-exploit 203.0.113.1",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2016_1287_IK3_H3AP_0WN3D}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2016_", label: "Mission Brief — Shadow Brokers ASA Target" },
         { trigger: "ike-probe 203.0.113.1", value: "1287_IK3_", label: "IKE Version Confirmed — Device Vulnerable" },
@@ -215,7 +214,6 @@ python3 cve-2017-3881.py --target 10.0.0.1
         "Exploit CMP Telnet option overflow for unauthenticated RCE. Run: cmp-exploit 10.0.1.1",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2017_3881_CMP_T3LN3T_RCE}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2017_", label: "Mission Brief — Vault 7 CMP Target" },
         { trigger: "check-ios 10.0.1.1", value: "3881_CMP_", label: "IOS Version Confirmed — CMP Vulnerable" },
@@ -348,7 +346,6 @@ python3 cdpwn.py --interface eth0 --target aa:bb:cc:dd:ee:ff
         "Send the crafted CDP packet with format string payload. Run: cdpwn-exploit eth0 aa:bb:cc:dd:ee:ff",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2020_3118_CDPWN_L2_RCE}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2020_", label: "Mission Brief — CDPwn Layer 2 Target" },
         { trigger: "cdp-scan eth0", value: "3118_CDPWN_", label: "CDP Device Discovered — IOS XR Vulnerable" },
@@ -476,7 +473,6 @@ curl -k https://192.168.1.1/api/v1/diag_ping_stop
         "Exploit the unauthenticated command injection. Run: rv-exploit 198.51.100.1",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2021_1609_SOHO_RCE_ROOT}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2021_", label: "Mission Brief — RV Series Branch Target" },
         { trigger: "rv-check 198.51.100.1", value: "1609_SOHO_", label: "Firmware Confirmed — RV345 Vulnerable" },
@@ -606,7 +602,6 @@ curl -k 'https://vpn.target.com/+CSCOE+/' \\
         "Use the leaked token to hijack the active VPN session. Run: session-hijack vpn.target.com",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2020_3259_M3M_L3AK_VPN}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2020_", label: "Mission Brief — Akira VPN Target" },
         { trigger: "memleak-probe vpn.target.com", value: "3259_M3M_", label: "Memory Leaked — Session Token Extracted" },
@@ -731,7 +726,6 @@ curl -k -X POST https://192.168.1.1/cgi-bin/userLogin.cgi \\
         "Send the stack overflow payload. Run: stack-exploit 192.168.10.1",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2019_1663_ST4CK_OV3RFLOW_ROOT}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2019_", label: "Mission Brief — Tokyo Branch RV130W" },
         { trigger: "rv130-check 192.168.10.1", value: "1663_ST4CK_", label: "Firmware Confirmed — No Stack Canary" },
@@ -864,7 +858,6 @@ curl -k -u apiuser:apipass -X PUT \\
         "Exploit path traversal to read /etc/shadow. Run: path-traverse expressway.corp.com",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2022_20812_PATH_TRAV3RSAL}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2022_", label: "Mission Brief — Expressway DMZ Target" },
         { trigger: "expressway-check expressway.corp.com", value: "20812_PATH_", label: "API Access Confirmed — Version Vulnerable" },
@@ -996,7 +989,6 @@ nexus# show version | head -1 ; \\
         "Inject OS command via the vulnerable CLI parameter. Run: nxos-inject 10.0.0.254",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2024_20399_NXOS_CLI_INJ3CT}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2024_", label: "Mission Brief — Velvet Ant Nexus Target" },
         { trigger: "nxos-enum 10.0.0.254", value: "20399_NXOS_", label: "NX-OS Version Confirmed — Injection Point Identified" },
@@ -1128,7 +1120,6 @@ admin
         "Send the crafted HTTP request to crash the firewall. Run: arcanedoor-dos asa.gov.target",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2024_20353_ASA_D0S_L0GS_CL34R}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2024_", label: "Mission Brief — ArcaneDoor Government Target" },
         { trigger: "asa-check asa.gov.target", value: "20353_ASA_", label: "ASA Version Confirmed — DoS Vulnerability Present" },
@@ -1260,7 +1251,6 @@ curl -k -X POST https://asa.target.gov/+CSCOE+/logon.html \\
         "Trigger Line Dancer and execute the routing table exfil payload. Run: ld-trigger asa.gov.target",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2024_20359_L1N3_DANC3R_IMPL4NT}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2024_", label: "Mission Brief — Line Dancer Phase 2" },
         { trigger: "ld-discover asa.gov.target", value: "20359_L1N3_", label: "Host-Knock Value Discovered — Implant Located" },
@@ -1392,7 +1382,6 @@ curl -k -b "JSESSIONID=authenticated_session" \\
         "Extract the Dallas branch PSK via SQL injection. Run: sqli-extract vmanage.corp.com",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2021_1291_VMANAGE_SQL1_WAN}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2021_", label: "Mission Brief — vManage SD-WAN Target" },
         { trigger: "vmanage-enum vmanage.corp.com", value: "1291_VMANAGE_", label: "Injectable Parameter Identified" },
@@ -1525,7 +1514,6 @@ python3 cve-2023-20109.py \\
         "Broadcast the malicious rekey to all group members. Run: gdoi-rekey CORP-GETVPN",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2023_20109_GDOI_MASS_RCE}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2023_", label: "Mission Brief — GET VPN Key Server Compromised" },
         { trigger: "gdoi-enum CORP-GETVPN", value: "20109_GDOI_", label: "47 Group Members Enumerated — All Vulnerable" },
@@ -1658,7 +1646,6 @@ curl -k 'https://asa.corp.com/+CSCOT+/%2E%2E%2F%2E%2E%2F%2E%2E%2F'
         "Trigger the DoS reload via the crash variant. Run: asa-dos asa.corp.com",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CVE_2018_0296_ASA_PATH_D0S}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{CVE_2018_", label: "Mission Brief — ASA Web Interface Target" },
         { trigger: "asa-enum asa.corp.com", value: "0296_ASA_", label: "Directory Listing — Filesystem Mapped" },

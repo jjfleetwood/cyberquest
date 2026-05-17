@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stages } from "@/data/stages";
+import { stageFlags } from "@/data/stage-flags";
 import { getServerSession } from "@/lib/server-session";
 import { awardStageInRedis } from "@/lib/server-progress";
 
@@ -9,12 +10,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ correct: false }, { status: 400 });
   }
 
-  const stage = stages.find((s) => s.id === body.stageId);
-  if (!stage?.ctf?.flag) {
+  const correctFlag = stageFlags[body.stageId];
+  if (!correctFlag) {
     return NextResponse.json({ correct: false }, { status: 404 });
   }
 
-  const correct = body.flag.trim() === stage.ctf.flag;
+  const stage = stages.find((s) => s.id === body.stageId);
+  if (!stage) {
+    return NextResponse.json({ correct: false }, { status: 404 });
+  }
+
+  const correct = body.flag.trim() === correctFlag;
   if (!correct) {
     return NextResponse.json({ correct: false });
   }

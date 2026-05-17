@@ -96,7 +96,6 @@ APO12 Risk Mgmt      2        4      2    HIGH`,
         "Find the highest-risk gap: cat domains/GAP-REPORT.txt",
         "Run 'assemble' then submit the flag",
       ],
-      flag: "FLAG{C0B1T_3DM_G4P_CR1T1C4L}",
       fragments: [
         { trigger: "/COBIT-ASSESSMENT.txt", value: "FLAG{C0B1T_", label: "Assessment Loaded — Framework Identified" },
         { trigger: "/domains/EDM.txt", value: "3DM_G4P_", label: "EDM Domain — Governance Gap Found" },
@@ -251,7 +250,6 @@ R-004    Ransomware via RDP        4       5      20       None       20     CRI
         "Confirm the treatment: cat risks/TREATMENT-PLAN.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{CR1SC_R3S1DU4L_R1SK_3XC33DS}",
       fragments: [
         { trigger: "/RISK-REGISTER.txt", value: "FLAG{CR1SC_", label: "Risk Register — Loaded" },
         { trigger: "/risks/R-004.txt", value: "R3S1DU4L_R1SK_", label: "R-004 — Critical Risk Identified" },
@@ -403,7 +401,6 @@ Compare-Object active_accounts terminated | Where {$_.SideIndicator -eq "=="}
         "Identify the anomaly: cat findings/UNAUTHORIZED-CHANGE.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{1TGC_CH4NG3_BYPASSS_F1ND1NG}",
       fragments: [
         { trigger: "/CHANGE-LOG.txt", value: "FLAG{1TGC_", label: "Change Log — Loaded" },
         { trigger: "/APPROVED-TICKETS.txt", value: "CH4NG3_BYPASSS_", label: "Approved Tickets — Compared" },
@@ -538,7 +535,6 @@ ORDER BY last_recert_date ASC;
         "Read privileged account finding: cat findings/PRIV-ACCOUNT.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{4CC3SS_CTR1L_T3RM_US3R_CR1T1C4L}",
       fragments: [
         { trigger: "/ACCESS-REVIEW.txt", value: "FLAG{4CC3SS_", label: "Access Review — Loaded" },
         { trigger: "/findings/TERM-USER.txt", value: "CTR1L_T3RM_US3R_", label: "Terminated User — Critical Finding" },
@@ -681,7 +677,6 @@ ORDER BY change_date;
         "Find the violation: cat findings/SoD-VIOLATION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{CH4NG3_M4N4G3M3NT_S0D_W1ND0W}",
       fragments: [
         { trigger: "/CHANGE-LOG.txt", value: "FLAG{CH4NG3_", label: "Change Log — Reviewed" },
         { trigger: "/MAINTENANCE-WINDOWS.txt", value: "M4N4G3M3NT_S0D_", label: "Maintenance Windows — Compared" },
@@ -812,7 +807,6 @@ FINDINGS:
         "View the gap: cat findings/RTO-GAP.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{BCP_DR_RT0_T4RG3T_M1SS3D}",
       fragments: [
         { trigger: "/DR-TEST-RESULTS.txt", value: "FLAG{BCP_DR_", label: "DR Test Results — Loaded" },
         { trigger: "/RTO-RPO-TARGETS.txt", value: "RT0_T4RG3T_", label: "RTO/RPO Targets — Compared" },
@@ -953,7 +947,6 @@ ORDER BY severity DESC;
         "View the finding: cat findings/IR-GAP.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{1R_PL4N_0UTDAT3D_T4BL3T0P_F41L}",
       fragments: [
         { trigger: "/IR-PLAN-METADATA.txt", value: "FLAG{1R_PL4N_", label: "IR Plan — Metadata Loaded" },
         { trigger: "/TABLETOP-RESULTS.txt", value: "0UTDAT3D_T4BL3T0P_", label: "Tabletop — Results Reviewed" },
@@ -1097,7 +1090,6 @@ ORDER BY tier, days_since_assessment DESC;`,
         "View the finding: cat findings/OVERDUE-VENDOR.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{V3ND0R_T13R1_4SS3SSM3NT_0V3RDUE}",
       fragments: [
         { trigger: "/VENDOR-REGISTER.txt", value: "FLAG{V3ND0R_", label: "Vendor Register — Loaded" },
         { trigger: "/TIER1-ASSESSMENTS.txt", value: "T13R1_4SS3SSM3NT_", label: "Tier 1 Assessments — Reviewed" },
@@ -1242,7 +1234,6 @@ ORDER BY days_retained DESC;
         "View finding: cat findings/RETENTION-VIOLATION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{GDPR_D4T4_R3T3NT10N_V10L4T10N}",
       fragments: [
         { trigger: "/DATA-INVENTORY.txt", value: "FLAG{GDPR_", label: "Data Inventory — Loaded" },
         { trigger: "/RETENTION-SCHEDULE.txt", value: "D4T4_R3T3NT10N_", label: "Retention Schedule — Compared" },
@@ -1395,7 +1386,6 @@ def is_authorized(target_ip):
         "View finding: cat findings/SCOPE-VIOLATION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{P3NT3ST_SC0P3_V10L4T10N_CFAA}",
       fragments: [
         { trigger: "/SCOPE-DOCUMENT.txt", value: "FLAG{P3NT3ST_", label: "Scope Document — Loaded" },
         { trigger: "/TESTER-ACTIVITY-LOG.txt", value: "SC0P3_V10L4T10N_", label: "Activity Log — Compared" },
@@ -1550,7 +1540,6 @@ if sample_deviation_rate > 0.05:  # exceeds 5% tolerable rate
         "View conclusion: cat findings/CONTROL-CONCLUSION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{4UD1T_S4MPL1NG_D3V14T10N_EXCE3DS}",
       fragments: [
         { trigger: "/SAMPLE-RESULTS.txt", value: "FLAG{4UD1T_", label: "Sample Results — Loaded" },
         { trigger: "/SAMPLING-PARAMETERS.txt", value: "S4MPL1NG_D3V14T10N_", label: "Parameters — Reviewed" },
@@ -1704,7 +1693,6 @@ ORDER BY risk_rating DESC, status;`,
         "View escalation: cat findings/REPEAT-FINDING-ESCALATION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{4UD1T_R3P34T_F1ND1NG_3SC4L4T3}",
       fragments: [
         { trigger: "/DRAFT-FINDINGS.txt", value: "FLAG{4UD1T_", label: "Draft Findings — Loaded" },
         { trigger: "/PRIOR-YEAR-FINDINGS.txt", value: "R3P34T_F1ND1NG_", label: "Prior Year — Compared" },

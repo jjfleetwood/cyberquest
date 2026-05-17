@@ -106,7 +106,6 @@ def analyze_patterns(results):
         "The architecture probe contains the first fragment.",
         "Read boundary-map.txt and training-data.txt for the remaining pieces.",
       ],
-      flag: "FLAG{AML_TA0001_ML_R3CON}",
       files: {
         "/ml-recon/arch-probe.txt": `# ML Architecture Probe Results
 # AML.T0000 — Model architecture inference
@@ -255,7 +254,6 @@ def train_substitute_model(target_api, query_budget=10000):
         "The query log contains the first fragment.",
         "Read training-results.txt and transfer-eval.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0002_SUBST_MDL}",
       files: {
         "/subst-model/query-log.txt": `# Target API Query Log — KnockoffNets extraction
 # Budget: 10,000 queries @ $0.0001/query = $1.00
@@ -400,7 +398,6 @@ def safe_load_model(model_name: str, model_path: Path) -> torch.nn.Module:
         "The typosquat analysis contains the first fragment.",
         "Read pickle-payload.txt and ioc.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0003_ML_SUPPL_CHN}",
       files: {
         "/ml-supply-chain/typosquat-analysis.txt": `# HuggingFace Typosquat Analysis
 
@@ -547,7 +544,6 @@ adversarial_examples = attack.generate(x=clean_images)`,
         "The query log contains the first fragment.",
         "Read data-extraction.log and analysis.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0004_BB_4CC3SS}",
       files: {
         "/bb-probe/query-log.txt": `# Black-Box Probe Log — ChatGPT API
 # Technique: Divergence attack for training data extraction
@@ -697,7 +693,6 @@ def pgd_attack(model, images, labels, eps=0.03, alpha=0.007, steps=40):
         "The perturbation recipe contains the first fragment.",
         "Read physical-patch.txt and test-results.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0005_4DV_1NPUT}",
       files: {
         "/adv-craft/perturbation-recipe.txt": `# Adversarial Perturbation Recipe — PGD Attack
 # Target: Autonomous vehicle stop sign classifier
@@ -844,7 +839,6 @@ Fragment-3: 1NPUT}`,
         "The detection baseline contains the first fragment.",
         "Read evasion-technique.txt and result.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0006_ML_3V4S10N}",
       files: {
         "/ml-evasion/detection-baseline.txt": `# ML Malware Detection — Baseline
 # Cylance AI Engine v2.4
@@ -986,7 +980,6 @@ attack_surface = {
         "The CI/CD analysis contains the first fragment.",
         "Read data-sources.txt and registry-access.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0007_PIPE_D1SC}",
       files: {
         "/pipeline-map/cicd-analysis.txt": `# CI/CD Pipeline Analysis — GitHub Actions Workflow
 # Source: .github/workflows/train.yml (read via compromised dev account)
@@ -1132,7 +1125,6 @@ def membership_inference_attack(target_model, train_data, test_data):
         "The shadow model file contains the first fragment.",
         "Read inference-results.txt and privacy-impact.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0008_M3MB_INF}",
       files: {
         "/mem-inf/shadow-model.txt": `# Shadow Model Training — Membership Inference Attack
 
@@ -1284,7 +1276,6 @@ def craft_universal_perturbation(model, dataset, eps=0.03, fooling_rate=0.9):
         "The trigger analysis contains the first fragment.",
         "Read behavior-test.txt and detection.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0009_B4CKDR_TR1G}",
       files: {
         "/backdoor-analysis/trigger-analysis.txt": `# Backdoor Trigger Analysis — BadNets Pattern
 
@@ -1433,7 +1424,6 @@ def add_dp_noise_to_gradient(gradient, noise_multiplier=1.0, max_grad_norm=1.0):
         "The query campaign log contains the first fragment.",
         "Read substitute-eval.txt and ip-value.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0010_MDL_STLN}",
       files: {
         "/model-theft/query-campaign.txt": `# Model Extraction Query Campaign
 
@@ -1591,7 +1581,6 @@ def detect_backdoor_via_activation_clustering(model, dataset, n_classes=10):
         "The feedback loop exploitation file contains the first fragment.",
         "Read poison-samples.txt and corruption-timeline.txt for the rest.",
       ],
-      flag: "FLAG{AML_TA0011_D4T4_P01S0N}",
       files: {
         "/poison-op/feedback-exploit.txt": `# Feedback Loop Exploitation
 
@@ -1745,7 +1734,6 @@ AI_RISK_ASSESSMENT = {
         "The kill chain summary contains the first fragment.",
         "Read case-studies.txt and nist-rmf.txt for the remaining fragments.",
       ],
-      flag: "FLAG{ATLAS_K1LL_CH41N_M4ST3R}",
       files: {
         "/atlas-synthesis/kill-chain-summary.txt": `# ATLAS Full Kill Chain Summary
 

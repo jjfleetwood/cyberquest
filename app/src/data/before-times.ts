@@ -96,7 +96,6 @@ traceroute google.com`,
         "Confirm your departure. Run: depart",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{N3TW0RK_1S_JUST_N0D3S_AND_P4THS}",
       files: {
         "/port-map.txt": [
           "PORT OF PIRAEUS — NETWORK MAP",
@@ -263,7 +262,6 @@ ping google.com       # shows Google's IP address`,
         "Check in with both addresses. Run: checkin",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{1P_4DDR3SS_R0UT3S_EV3RY_P4CK3T}",
       files: {
         "/itinerary.txt": [
           "TRAVEL ITINERARY — AGENT DEPARTURE",
@@ -416,7 +414,6 @@ sudo tcpdump -w capture.pcap`,
         "Try different orderings until the message is coherent.",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3}",
       files: {
         "/fragments/fragment-1.bag": "SEQ:2 | PAYLOAD: ASSEMBL3D_",
         "/fragments/fragment-2.bag": "SEQ:1 | PAYLOAD: P4CK3TS_R3",
@@ -558,7 +555,6 @@ tracert google.com         # Windows
         "Confirm and drive. Run: drive",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{R0UT3R_F0RW4RDS_T0_N3XT_H0P}",
       files: {
         "/routing-table.txt": [
           "DENVER INTERCHANGE — ROUTING TABLE",
@@ -723,7 +719,6 @@ cat /etc/resolv.conf     # Linux/Mac`,
         "Accept the verified address. Run: accept-route 198.51.100.23",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{DNS_TR4NSL4T3S_N4M3S_T0_1PS}",
       files: {
         "/dns-cache.txt": [
           "LOCAL DNS CACHE — Travel Office Terminal",
@@ -893,7 +888,6 @@ curl https://api.macvendors.com/00:1A:2B
         "Find the device that doesn't belong. Run: flag-device <mac>",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{MAC_4DDR3SS_1D3NT1F13S_H4RDW4R3}",
       files: {
         "/device-registry.txt": [
           "AIRPORT SECURE NETWORK — DEVICE REGISTRY",
@@ -1051,7 +1045,6 @@ sudo iptables -A OUTPUT -j ACCEPT`,
         "Verify the firewall is correctly configured. Run: verify",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{F1R3W4LL_RUL3S_PR0T3CT_TH3_N3TW0RK}",
       files: {
         "/firewall-rules.txt": [
           "SANTA CRUZ CHECKPOINT — FIREWALL RULESET",
@@ -1215,7 +1208,6 @@ nc -zv 192.168.1.1 22    # test port 22 (SSH)`,
         "Connect to the unusual port. Run: connect 8888",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{P0RTS_AR3_D00RS_T0_S3RV1C3S}",
       files: {
         "/port-list.txt": [
           "SANTA CRUZ HARBOR — KNOWN SERVICE SLIPS",
@@ -1373,7 +1365,6 @@ ipcalc 192.168.1.0/24
         "Report the violation. Run: report-violation <ip>",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{SUBN3TS_1S0L4T3_N3TW0RK_Z0N3S}",
       files: {
         "/network-map.txt": [
           "SANTA CRUZ CITY NETWORK — SUBNET MAP",
@@ -1545,7 +1536,6 @@ curl -v https://example.com 2>&1 | grep -E "SSL|TLS|Connected"`,
         "Decode the TCP stream payload. Run: decode capture-1",
         "Run 'assemble' to see collected fragments, then submit the flag",
       ],
-      flag: "FLAG{TCP_1S_R3L14BL3_UDP_1S_F4ST}",
       files: {
         "/capture-1.log": [
           "PACKET CAPTURE — capture-1.log",

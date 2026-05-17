@@ -110,7 +110,6 @@ response = client.messages.create(
         "The tool schema is split across three files — read each one carefully.",
         "Use `cat /audit-lab/tool-spec/fragment-c.json` for the final piece.",
       ],
-      flag: "FLAG{T00L_USE_4UD1T_P1PEL1NE}",
       files: {
         "/audit-lab/tool-spec/fragment-a.json": `{
   "_fragment": "A/3",
@@ -265,7 +264,6 @@ while True:
         "The fragments are in the discovery/, auth-check/, and summary/ subdirectories.",
         "Cat each findings file in order.",
       ],
-      flag: "FLAG{4G3NT1C_4P1_3NUM3R4T10N}",
       files: {
         "/api-enum/discovery/undocumented-routes.txt": `# Undocumented Routes — api.target.com
 # Found by agentic enumeration agent (Claude claude-opus-4-7)
@@ -419,7 +417,6 @@ Then explain your reasoning in one sentence."""
         "Check phase1/ for regex findings and phase2/ for Claude classifications.",
         "The triage-summary.txt in /secrets-scan contains the final fragment.",
       ],
-      flag: "FLAG{S3CR3TS_4I_SCN_TR14G3}",
       files: {
         "/secrets-scan/phase1/regex-hits.txt": `# Phase 1 — Regex Scanner Output
 # Tool: truffleHog v3.4.1
@@ -568,7 +565,6 @@ response = client.messages.create(
         "Check s3-findings.txt and iam-findings.txt for the first two fragments.",
         "The risk-summary.txt file contains the final fragment.",
       ],
-      flag: "FLAG{CL0UD_3NUM_4G3NT_SW33P}",
       files: {
         "/cloud-enum/s3-findings.txt": `# S3 Bucket Enumeration — Claude Audit Agent
 # Account: 123456789012  Region: us-east-1
@@ -712,7 +708,6 @@ Format as JSON with keys: findings, escalation_paths, severity, remediation"""}]
         "Start with policy-findings.txt for the first fragment.",
         "The escalation-chain.txt and remediation.txt contain the remaining fragments.",
       ],
-      flag: "FLAG{14M_PR1V_3SC_CH41N}",
       files: {
         "/iam-analysis/policy-findings.txt": `# IAM Policy Analysis — Claude claude-opus-4-7
 
@@ -866,7 +861,6 @@ Fragment-3: CH41N}
         "The fragments are split across servers/, config/, and keys/ directories.",
         "Read all three files to collect the flag pieces.",
       ],
-      flag: "FLAG{MCP_4UD1T_PR0T0C0L}",
       files: {
         "/mcp-lab/servers/filesystem-server.json": `{
   "server": "filesystem",
@@ -1003,7 +997,6 @@ Severity: CRITICAL | HIGH | MEDIUM | LOW"""}]
         "Check s3/, rds/, and sg/ directories for findings.",
         "Each findings file contains one flag fragment.",
       ],
-      flag: "FLAG{14C_CL4UD3_R3V13W}",
       files: {
         "/iac-review/s3/s3-findings.txt": `# S3 Bucket — IaC Review Finding
 
@@ -1159,7 +1152,6 @@ Use the available tools to:
         "Check patch-mgmt/, access-ctrl/, and audit-log/ for evidence files.",
         "Each evidence file contains one flag fragment.",
       ],
-      flag: "FLAG{3V1D3NC3_P4CK_4G3NT}",
       files: {
         "/evidence-pkg/patch-mgmt/patch-evidence.txt": `# Evidence — Patch Management Control
 # Control: CM-8 (NIST) — All systems patched within 30 days of critical CVE release
@@ -1321,7 +1313,6 @@ Fragment-3: 4G3NT}
         "The orchestrator log contains the first fragment.",
         "The synthesis report contains the final fragment.",
       ],
-      flag: "FLAG{MULT1_4G3NT_4UD1T}",
       files: {
         "/multi-agent/orchestrator/orchestrator-log.txt": `# Orchestrator Agent Log
 
@@ -1475,7 +1466,6 @@ Fragment-3: 4UD1T}
         "Start with executive-summary.txt for the first fragment.",
         "The roadmap.txt file contains the final fragment.",
       ],
-      flag: "FLAG{4I_R3P0RT_G3N3R4T0R}",
       files: {
         "/audit-report/executive-summary.txt": `# ACME Corp IT Security Audit — Executive Summary
 
@@ -1627,7 +1617,6 @@ def lambda_handler(event, context):
         "The scheduler.log contains the first fragment.",
         "Check drift-alert.txt and incident-ticket.txt for the remaining fragments.",
       ],
-      flag: "FLAG{C0NT1N_C0MPL14NC3}",
       files: {
         "/sentinel-logs/scheduler.log": `# Compliance Sentinel — Scheduled Run Log
 # AWS EventBridge cron: 0 6 * * * (daily at 06:00 UTC)
@@ -1785,7 +1774,6 @@ Fragment-3: CAUGHT}
         "Phase 1 (inventory) contains the first fragment.",
         "Phase 3 (synthesis + output) contains the final fragment.",
       ],
-      flag: "FLAG{3ND_T0_3ND_4G3NT1C_4UD1T}",
       files: {
         "/pipeline-run/phase1-inventory.log": `# Phase 1 — Inventory Agent
 # Agentic Audit Pipeline v2.0 — Full Run

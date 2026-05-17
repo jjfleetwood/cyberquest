@@ -110,7 +110,6 @@ print(f"QBER: {qber:.1%}")  # ~0% without Eve, ~25% with Eve`,
         "Calculate QBER to detect eavesdropper. Run: eve-check",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QKD_BB84_SIFTED_KEY_PHYSICS_SECURE}",
       fragments: [
         { trigger: "/briefing.txt", value: "FLAG{QKD_BB84_", label: "Session Log — BB84 Transmission Analyzed" },
         { trigger: "sift", value: "SIFTED_KEY_", label: "Sifted Key Extracted — Matching Bases Identified" },
@@ -282,7 +281,6 @@ print(f"600km: {qkd_key_rate(600):.6f} bps")   # ~0.000001 bps (TF-QKD helps)`,
         "Assess satellite QKD security. Run: satellite-check",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QKD_TRUSTED_NODES_ARE_CLASSICAL_ENDPOINTS}",
       fragments: [
         { trigger: "/network.txt", value: "FLAG{QKD_TRUSTED_", label: "Network Brief — QKD Topology Reviewed" },
         { trigger: "topology-scan", value: "NODES_ARE_CLASSICAL_", label: "Relay Audit — Classical Attack Surface Identified" },
@@ -441,7 +439,6 @@ satellite_qkd_loss(500, 0)   # 500km altitude, directly overhead`,
         "Model SIGINT implications. Run: sigint-impact",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QKD_MICIUS_SATELLITE_SIGINT_GAP}",
       fragments: [
         { trigger: "/intel-brief.txt", value: "FLAG{QKD_MICIUS_", label: "Intel Brief — Micius Network Reviewed" },
         { trigger: "network-assess", value: "SATELLITE_", label: "Network Assessment — Strategic Coverage Analyzed" },
@@ -596,7 +593,6 @@ def pack_ciphertext(algo_id: AlgoID, version: int, ct: bytes) -> bytes:
         "Validate the proposed architecture. Run: agility-test",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{CRYPTO_AGILITY_SAVES_MIGRATIONS}",
       fragments: [
         { trigger: "/agility-brief.txt", value: "FLAG{CRYPTO_AGILITY_", label: "Agility Brief — Requirements Reviewed" },
         { trigger: "audit-current", value: "SAVES_", label: "Current Audit — Anti-Patterns Identified" },
@@ -741,7 +737,6 @@ Endpoint = peer.example.com:51820
         "Validate the WireGuard PQC config. Run: wireguard-pqc",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{VPN_QUANTUM_SAFE_HYBRID}",
       fragments: [
         { trigger: "/vpn-brief.txt", value: "FLAG{VPN_", label: "VPN Brief — Migration Requirements Reviewed" },
         { trigger: "vpn-audit", value: "QUANTUM_SAFE_", label: "OpenVPN Audit — Vulnerabilities Identified" },
@@ -893,7 +888,6 @@ openssl x509 -in root-ca-mldsa65.crt -text -noout | head -30
         "Assess HSM firmware support. Run: hsm-check",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{PKI_MIGRATION_HSM_FIRST}",
       fragments: [
         { trigger: "/pki-brief.txt", value: "FLAG{PKI_MIGRATION_", label: "PKI Brief — Migration Requirements Reviewed" },
         { trigger: "ca-inventory", value: "HSM_", label: "CA Inventory — Risk Priority Established" },
@@ -1052,7 +1046,6 @@ int generate_session_key(uint8_t *session_key, size_t key_len,
         "Check for common PQC implementation pitfalls. Run: pitfalls-check",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{LIBOQS_SECURE_FREE_MATTERS}",
       fragments: [
         { trigger: "/liboqs-brief.txt", value: "FLAG{LIBOQS_", label: "liboqs Brief — API Requirements Reviewed" },
         { trigger: "api-review", value: "SECURE_FREE_", label: "Code Review — Memory Safety Issues Found" },
@@ -1207,7 +1200,6 @@ kms = boto3.client('kms', region_name='us-east-1')
         "Document the interim exception approach. Run: exception-path",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{FIPS140_EXCEPTION_PATH_VALID}",
       fragments: [
         { trigger: "/fips-brief.txt", value: "FLAG{FIPS140_", label: "FIPS Brief — Compliance Requirements Reviewed" },
         { trigger: "compliance-scan", value: "EXCEPTION_", label: "Compliance Scan — Validation Gaps Identified" },
@@ -1368,7 +1360,6 @@ for asset, data in assets.items():
         "Construct the 5-year program budget. Run: budget-build",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{GOVERNANCE_BOARD_APPROVED}",
       fragments: [
         { trigger: "/governance-brief.txt", value: "FLAG{GOVERNANCE_", label: "Governance Brief — Board Requirements Reviewed" },
         { trigger: "risk-quantify", value: "BOARD_", label: "Risk Model — Financial Exposure Quantified" },
@@ -1539,7 +1530,6 @@ for name, check in checks.items():
         "Confirm all threat surfaces addressed. Run: threat-model",
         "Run 'assemble' to view the assembled flag and get the submit command",
       ],
-      flag: "FLAG{QUANTUM_SAFE_STACK_COMPLETE}",
       fragments: [
         { trigger: "/synthesis-brief.txt", value: "FLAG{QUANTUM_SAFE_", label: "Synthesis Brief — Full Stack Requirements Reviewed" },
         { trigger: "architecture-review", value: "STACK_", label: "Architecture Validated — All 10 Layers Confirmed" },

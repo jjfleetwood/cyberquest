@@ -99,7 +99,6 @@ curl -H "Authorization: Bearer USER_A_TOKEN" \\
         "Document: cat findings/BOLA-FINDING.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{B0L4_4P1_0W4SP_CR1T1C4L}",
       fragments: [
         { trigger: "/API-DOCS.txt", value: "FLAG{B0L4_", label: "API Docs — Loaded" },
         { trigger: "test-api GET /payments/PAY-2099 --token USER_A", value: "4P1_0W4SP_", label: "BOLA — Confirmed via Cross-Account Access" },
@@ -266,7 +265,6 @@ gitleaks detect --source . --log-opts="--all" --report-format json
         "Check Vault config: cat VAULT-CONFIG.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{S3CR3TS_3XP0S3D_G1T_H1ST0RY}",
       fragments: [
         { trigger: "/repo/config/database.yml", value: "FLAG{S3CR3TS_", label: "Hardcoded Secret — Found in Config" },
         { trigger: "scan-secrets repo/", value: "3XP0S3D_G1T_", label: "Secrets Scan — Completed" },
@@ -438,7 +436,6 @@ aws s3api list-buckets --query 'Buckets[*].Name' | xargs -I{} \\
         "Check Config Rules: cat aws-audit/CONFIG-RULES.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{4WS_SCPs_CL0UDT4R41L_C0NF1G_G4PS}",
       fragments: [
         { trigger: "/aws-audit/SCP-REVIEW.txt", value: "FLAG{4WS_SCPs_", label: "SCP Review — Gaps Found" },
         { trigger: "/aws-audit/CLOUDTRAIL-STATUS.txt", value: "CL0UDT4R41L_", label: "CloudTrail — Status Reviewed" },
@@ -586,7 +583,6 @@ aws iam list-users --query 'Users[*].UserName' | xargs -I{} \\
         "View finding: cat findings/IAM-VIOLATIONS.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{14M_PR1V3SC_W1LDC4RD_FOUND}",
       fragments: [
         { trigger: "/iam-policies/dev-user-policy.json", value: "FLAG{14M_", label: "Dev Policy — Excessive Permissions Found" },
         { trigger: "/iam-policies/app-service-role.json", value: "PR1V3SC_W1LDC4RD_", label: "Service Role — Privilege Escalation Path" },
@@ -729,7 +725,6 @@ kubectl get pod app-pod -o yaml | grep -E "privileged|runAsRoot|hostPath|docker.
         "View finding: cat findings/CONTAINER-VIOLATIONS.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{C0NT41N3R_R00T_S0CK3T_CVE_CR1T}",
       fragments: [
         { trigger: "/k8s/deployment.yaml", value: "FLAG{C0NT41N3R_", label: "Deployment — Root User and Socket Mount Found" },
         { trigger: "/k8s/IMAGE-SCAN.txt", value: "R00T_S0CK3T_CVE_", label: "Image Scan — Critical CVE Confirmed" },
@@ -886,7 +881,6 @@ Passed: 47  Failed: 3 (CRITICAL: 1, HIGH: 2)`,
         "View finding: cat findings/IAC-FINDINGS.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{14C_SC4N_S3_0P3N_SG_CR1T1C4L}",
       fragments: [
         { trigger: "/terraform/main.tf", value: "FLAG{14C_SC4N_", label: "Terraform — Misconfigurations Found" },
         { trigger: "/SCAN-RESULTS.txt", value: "S3_0P3N_SG_", label: "Scan Results — Critical Confirmed" },
@@ -1046,7 +1040,6 @@ $ snyk test
         "View the blocking finding: cat findings/RELEASE-BLOCKER.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{S4ST_SQLI_SC4_CV3_R3L34S3_BL0CK}",
       fragments: [
         { trigger: "/SAST-RESULTS.txt", value: "FLAG{S4ST_SQLI_", label: "SAST — SQL Injection Found" },
         { trigger: "/SCA-RESULTS.txt", value: "SC4_CV3_", label: "SCA — Critical CVE Found" },
@@ -1192,7 +1185,6 @@ aws ec2 describe-flow-logs --query 'FlowLogs[?ResourceId==\`vpc-xxx\`]'`,
         "Check flow logs: cat VPC-FLOW-LOGS.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{N3TW0RK_S3G_FL4T_VPC_F10W_LOGS}",
       fragments: [
         { trigger: "/VPC-CONFIG.txt", value: "FLAG{N3TW0RK_S3G_", label: "VPC Config — Flat Network Found" },
         { trigger: "/SECURITY-GROUPS.txt", value: "FL4T_VPC_", label: "Security Groups — Open Rules Found" },
@@ -1346,7 +1338,6 @@ WHERE role = 'SYSADMIN' OR role = 'ACCOUNTADMIN';
         "Check encryption: cat db-audit/ENCRYPTION-STATUS.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{DB_RB4C_M4SK1NG_3NCRYPT10N_G4P}",
       fragments: [
         { trigger: "/db-audit/RBAC-REVIEW.txt", value: "FLAG{DB_RB4C_", label: "RBAC — Overprivileged Role Found" },
         { trigger: "/db-audit/COLUMN-MASKING.txt", value: "M4SK1NG_", label: "Column Masking — PII Exposed" },
@@ -1494,7 +1485,6 @@ Compare-Object (Get-Content asset_inventory.txt) (Get-Content siem_log_sources.t
         "Check retention: cat siem-audit/RETENTION-POLICY.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{S13M_C0V3R4G3_4L3RT_R3T3NT10N_G4P}",
       fragments: [
         { trigger: "/siem-audit/LOG-COVERAGE.txt", value: "FLAG{S13M_C0V3R4G3_", label: "Log Coverage — Gaps Found" },
         { trigger: "/siem-audit/ALERT-BACKLOG.txt", value: "4L3RT_", label: "Alert Backlog — Alert Fatigue Confirmed" },
@@ -1644,7 +1634,6 @@ Gap: 7 points — 3 year roadmap required`,
         "Check network: cat zt-assessment/NETWORK-PILLAR.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{Z3R0_TRUST_M4TUR1TY_1N1T14L}",
       fragments: [
         { trigger: "/zt-assessment/IDENTITY-PILLAR.txt", value: "FLAG{Z3R0_TRUST_", label: "Identity Pillar — Maturity Assessed" },
         { trigger: "/zt-assessment/DEVICE-PILLAR.txt", value: "M4TUR1TY_", label: "Device Pillar — Maturity Assessed" },
@@ -1794,7 +1783,6 @@ aws securityhub get-insights --insight-arns arn:aws:securityhub:::insight/securi
         "Check auto-remediation: cat compliance/AUTO-REMEDIATION.txt",
         "Run 'assemble' then submit",
       ],
-      flag: "FLAG{C0MPL14NC3_4UT0M4T10N_SCH3D1LUD_R3M3D}",
       fragments: [
         { trigger: "/compliance/SECURITY-HUB-SCORE.txt", value: "FLAG{C0MPL14NC3_", label: "Security Hub — Score Reviewed" },
         { trigger: "/compliance/CONFIG-RULES.txt", value: "4UT0M4T10N_SCH3D1LUD_", label: "Config Rules — Coverage Gaps Found" },
