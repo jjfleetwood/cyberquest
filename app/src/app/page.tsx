@@ -33,7 +33,7 @@ const tracks = [
     desc: "Nation-states are harvesting encrypted traffic today. Understand the post-quantum transition.",
   },
   {
-    id: "cisco", label: "Cisco Enterprise", stages: "22", icon: "🌐",
+    id: "cisco", label: "Defend the Enterprise", stages: "22", icon: "🌐",
     border: "border-indigo-500/25", textColor: "text-indigo-400", glow: "rgba(99,102,241,0.08)",
     topics: ["DNS Tunneling", "DGA Detection", "Fast Flux", "Cisco Umbrella", "VOLT TYPHOON"],
     desc: "Enterprise-grade DNS-layer defense, real Cisco CVEs, and nation-state scenarios.",

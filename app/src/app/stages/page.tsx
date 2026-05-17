@@ -35,7 +35,7 @@ const epochGroups = [
     epochIds: ["quantum-1", "quantum-2", "quantum-3"],
   },
   {
-    label: "Cisco Enterprise",
+    label: "Defend the Enterprise",
     desc: "Real CVEs · DNS Security · Cloud SASE",
     epochIds: ["medieval", "umbrella"],
   },
