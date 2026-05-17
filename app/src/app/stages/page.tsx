@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { stages as allStages, epochs } from "@/data/stages";
-import { getProgress } from "@/lib/progress";
+import { getProgress, applyServerProgress } from "@/lib/progress";
 import { getSession, clearSession } from "@/lib/auth";
 import OnboardingModal from "@/components/OnboardingModal";
 
@@ -106,6 +106,21 @@ export default function StagesPage() {
     setCompletedStages(progress.completedStages);
     setTotalXp(progress.xp);
     setStreak(progress.streak ?? 0);
+
+    // Sync from server to pick up progress earned on other devices (or seeded data)
+    if (session) {
+      fetch("/api/progress")
+        .then((r) => r.ok ? r.json() : null)
+        .then((data) => {
+          if (!data) return;
+          applyServerProgress(data);
+          const merged = getProgress();
+          setCompletedStages(merged.completedStages);
+          setTotalXp(merged.xp);
+          setStreak(merged.streak ?? 0);
+        })
+        .catch(() => {});
+    }
   }, []);
 
   function handleLogout() {
