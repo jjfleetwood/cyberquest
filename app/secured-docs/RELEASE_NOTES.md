@@ -2,6 +2,30 @@
 
 ---
 
+## v1.0.0 — 2026-05-16
+
+**Cisco Umbrella epoch, server-side flag validation, admin user list**
+
+- **Cisco Umbrella epoch (2a)** — 10 new CTF stages covering DNS-layer security: Umbrella architecture (Trickbot/WIZARD SPIDER), DNS tunneling (OilRig/APT34 DNSpionage), DGA detection (Emotet v4/NHS London), fast flux (Storm Worm double-flux), DNS rebinding (IoT homograph), lookalike domains (NOBELIUM/APT29), policy enforcement (LockBit wildcard bypass), DoH evasion (Godlua trojan), Talos threat intelligence (Scattered Spider/UNC3944), and full DNS-based IR (VOLT TYPHOON/ERCOT critical infrastructure)
+- **Server-side flag validation** — All 169 CTF flags moved from stage data files to `src/data/stage-flags.ts` with `import 'server-only'`. Next.js enforces at build time that this module never reaches the client bundle. `/api/check-flag` uses the registry exclusively. The `flag:` property removed from all 14 data files.
+- **Admin user list** — `GET /api/admin/users` endpoint scans all `user:*` Redis keys, fetches user + progress in parallel, returns sorted user list (by XP). Admin dashboard rewritten to fetch from API; shows rank, username+email, XP bar, stages/total, badges, last active, join date. Redirects to `/stages` on 401.
+- **`createdAt` field** — `/api/sync-user` now stores `createdAt: Date.now()` in user Redis hash; displayed as join date in admin table.
+- **Cisco quantum product references** — quantum-1 through quantum-3 stages updated with real Cisco product details: Universal Quantum Switch (UQS, April 2026), Silicon One P200 (800G ML-KEM hardware, Oct 2025) and G300 (102.4 Tbit/s, Feb 2026), full-stack PQC (ML-DSA in IOS-XE boot/IPsec/MACsec/TLS, Cisco Live 2026), SKIP algorithm-agnostic interface for QKD → IPsec bridging.
+- **Security briefing updated** — Flag validation status changed to RESOLVED; ANTHROPIC_API_KEY added to secrets table; production security path updated.
+
+---
+
+## v0.9.1 — 2026-05-16
+
+**RSC serialization fix, leaderboard 500 fix, admin API**
+
+- **Stage page 500 errors fixed** — `extraCommands` (JS functions) stripped in `page.tsx` before RSC serialization; client re-hydrates via `stage-commands.ts` registry. Fixes all CTF stage pages returning 500 on kryptoscronos.com.
+- **Leaderboard 500 fix** — `parseStringArray()` helper handles legacy comma-separated Redis data (old format) alongside new JSON-array format. Wrapped in try/catch for surfaced error messages.
+- **`/api/admin/users`** — New admin-only endpoint; HMAC-verified; Redis SCAN cursor loop + parallel hgetall for user + progress data.
+- **`stage-commands.ts`** — Client-safe extraCommands registry; iterates all stages at module load time; `getExtraCommands(stageId)` used by `CtfChallenge.tsx` instead of prop drilling.
+
+---
+
 ## v0.9.0 — 2026-05-16
 
 **AI chatbot, animated success modal, daily/weekly leaderboard, level timer, CTF easter-egg engine**

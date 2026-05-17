@@ -116,7 +116,7 @@ export default function AdminPage() {
           ) : (
             <div>
               {/* Table header */}
-              <div className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_6rem_6rem] gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider">
+              <div className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_5rem_6rem] gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider">
                 <div>#</div>
                 <div>User</div>
                 <div>XP</div>
@@ -129,7 +129,7 @@ export default function AdminPage() {
               {users.map((user, i) => (
                 <div
                   key={user.username}
-                  className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_6rem_6rem] gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors"
+                  className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_5rem_6rem] gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors"
                 >
                   {/* Rank */}
                   <div className="text-xs text-gray-600 font-mono">{i + 1}</div>

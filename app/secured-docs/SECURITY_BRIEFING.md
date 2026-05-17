@@ -137,6 +137,7 @@ All secrets are stored in Vercel environment variables and accessed server-side 
 | `RESEND_API_KEY` | Vercel env (production) | Server-side only |
 | `UPSTASH_REDIS_REST_URL` | Vercel env (production) | Server-side only |
 | `UPSTASH_REDIS_REST_TOKEN` | Vercel env (production) | Server-side only |
+| `ANTHROPIC_API_KEY` | Vercel env (production) | Server-side only — `/api/hint` route |
 
 **Status:** ✅ Clean. `.gitignore` excludes all `.env*` files.
 
@@ -152,15 +153,13 @@ All secrets are stored in Vercel environment variables and accessed server-side 
 
 ## 4. CTF Flag Visibility
 
-### 4.1 Flags in Client Bundle — MEDIUM RISK (By Design)
+### 4.1 Flags in Client Bundle — ✅ RESOLVED
 
-CTF flags (e.g., `FLAG{SQL_1NJ3CT10N_BYPASS3D}`) are defined in `src/data/stages.ts`, which is bundled client-side. A determined user can find flags by inspecting the JS bundle in DevTools.
+**Previous finding:** CTF flags were defined in `src/data/stages.ts`, bundled client-side and readable in DevTools.
 
-**Context:** This is inherent to browser-based CTF platforms. The educational value is in the journey (reading the briefing, executing the exploit sequence) rather than flag secrecy. Most similar platforms operate the same way.
+**Resolution (v1.0.0):** All 169 flags moved to `src/data/stage-flags.ts`, which carries `import 'server-only'` at the top. Next.js enforces this at build time — any attempt to import this module in a client component causes a build error. The `/api/check-flag` route imports from this registry exclusively. The `flag:` property has been removed from all 14 stage data files. Flags are never serialized to the client bundle.
 
-**Production option:** Move flag validation to `/api/validate-flag` — server checks the submitted string, flag never reaches the client. Moderate effort (~4 hours).
-
-**Status:** Accepted for demo. Flag for production backlog.
+**Status:** ✅ Resolved. Flag values are server-only.
 
 ---
 
@@ -256,7 +255,7 @@ Run `npm audit` before each release. No known critical vulnerabilities at time o
 | Password hashing upgraded to PBKDF2 | Medium | ✅ Done |
 | HTTP security headers | Medium | ✅ Done |
 | Client-side user credential storage | Medium | Accepted (demo); pre-scale fix |
-| CTF flags in client bundle | Low | Accepted (by design) |
+| CTF flags in client bundle | Low | ✅ Done (server-only registry, v1.0.0) |
 | Regular session cryptographic token | Low | Pre-scale fix |
 | Privacy policy + data deletion endpoint | Medium | Required before scale |
 
@@ -273,7 +272,7 @@ sessionStorage username        →   HttpOnly JWT (server-signed, short TTL)
 HMAC admin middleware ✅       →   Role-based access control (RBAC)
 Upstash Redis progress ✅      →   Retain (or migrate to Postgres for joins)
 CSP headers ✅                 →   Nonce-based CSP (remove unsafe-inline)
-CTF flags in bundle            →   Server-side flag validation (/api/validate-flag)
+CTF flags in bundle ✅         →   (done — stage-flags.ts, server-only)
 No privacy policy              →   Privacy policy + GDPR deletion endpoint
 ```
 
