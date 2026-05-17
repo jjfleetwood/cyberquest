@@ -191,8 +191,5 @@ export async function login(
   const adminGranted = await grantAdminIfEligible(data.username);
   if (adminGranted) markUserAdmin(data.username);
 
-  const { restoreFromServer } = await import("@/lib/progress");
-  await restoreFromServer(data.username);
-
   return { success: true };
 }
