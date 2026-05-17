@@ -246,7 +246,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <Link
                 href="/login"
-                className="cta-shimmer px-10 py-4 font-black rounded-xl text-lg text-black transition-all hover:scale-105 hover:shadow-2xl"
+                className="cta-shimmer px-7 py-2.5 font-black rounded-lg text-sm text-black transition-all hover:scale-105 hover:shadow-2xl"
                 style={{
                   background: "linear-gradient(90deg, #22d3ee, #818cf8, #6366f1)",
                   boxShadow: "0 0 40px rgba(34,211,238,0.25), 0 0 80px rgba(99,102,241,0.15)",
@@ -256,7 +256,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/stages"
-                className="px-10 py-4 border rounded-xl text-lg font-semibold transition-all hover:scale-105"
+                className="px-7 py-2.5 border rounded-lg text-sm font-semibold transition-all hover:scale-105"
                 style={{
                   borderColor: "rgba(255,255,255,0.15)",
                   color: "rgba(209,213,219,1)",
