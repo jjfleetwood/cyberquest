@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { generateSalt, hashPassword, setSession } from "@/lib/auth";
+import { setSession } from "@/lib/auth";
 
 function ResetPasswordForm() {
   const router = useRouter();
@@ -35,13 +35,10 @@ function ResetPasswordForm() {
 
     setLoading(true);
     try {
-      const salt = generateSalt();
-      const passwordHash = await hashPassword(password, salt);
-
       const res = await fetch("/api/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, passwordHash, salt }),
+        body: JSON.stringify({ token, password }),
       });
 
       const data = await res.json();

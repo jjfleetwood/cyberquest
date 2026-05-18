@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { fetchProgress } from "@/lib/progress";
-import { getSession } from "@/lib/auth";
+import { getSession, setSession } from "@/lib/auth";
 
 type Period = "alltime" | "weekly" | "daily";
 
@@ -60,17 +60,21 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const username = getSession();
-    const displayName = username ?? "Guest";
-    setMyName(displayName);
-    if (username) {
-      fetchProgress().then((p) => {
-        if (!p) return;
-        setMyXP(p.xp);
-        setMyStages(p.completedStages.length);
-        setMyBadges(p.badges.length);
-      });
-    }
+    setMyName(getSession() ?? "Guest");
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { username: string } | null) => {
+        if (!data) return;
+        setMyName(data.username);
+        setSession(data.username);
+        fetchProgress().then((p) => {
+          if (!p) return;
+          setMyXP(p.xp);
+          setMyStages(p.completedStages.length);
+          setMyBadges(p.badges.length);
+        });
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {

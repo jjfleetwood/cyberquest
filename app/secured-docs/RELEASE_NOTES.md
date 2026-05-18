@@ -2,6 +2,21 @@
 
 ---
 
+## v1.3.0 — 2026-05-18
+
+**Server-side auth migration — localStorage eliminated**
+
+- **`/api/auth/register`** — New endpoint handles registration server-side: client sends plaintext password over HTTPS; server generates salt, PBKDF2 hashes, stores in Redis, and sets `session_token` + `admin_token` cookies in a single response. Rate-limited 5/IP/hour.
+- **`/api/auth/me`** — New endpoint returns `{ username, email, isAdmin }` from the `session_token` cookie. Used by all client components that previously read from localStorage.
+- **`/api/auth/login`** — Now grants `admin_token` cookie inline if the username matches `ADMIN_USERNAME`. Client no longer calls `/api/admin-session` separately after login.
+- **`/api/reset-password`** — Now accepts `{ token, password }` plaintext instead of `{ token, passwordHash, salt }`. Hashing is server-side.
+- **`src/lib/auth.ts`** — Stripped to session cache only. Removed: `getUsers()`, `saveUser()`, `isAdmin()`, `markUserAdmin()`, `grantAdminIfEligible()`, `USERS_KEY`. `register()` now POSTs plaintext to `/api/auth/register`. `login()` no longer writes to localStorage.
+- **`Nav.tsx`** — Replaces `getSession()` + `isAdmin()` with `/api/auth/me`; sessionStorage used as fast-path initial render, server validates on mount. Admin link now reliably appears after login.
+- **`AuthGuard`, `stages/page`, `leaderboard/page`, `admin/page`** — All replace localStorage reads with `/api/auth/me`. Cross-session persistence fixed: cookie-authenticated users no longer lose their session on browser restart.
+- **`reset-password/page.tsx`** — Removed `generateSalt`/`hashPassword` imports; sends plaintext to server.
+
+---
+
 ## v1.2.0 — 2026-05-18
 
 **NDA gate, admin docs fix, Launch & Legal guide**

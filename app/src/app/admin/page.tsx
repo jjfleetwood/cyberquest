@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getSession } from "@/lib/auth";
+import { getSession, setSession } from "@/lib/auth";
 import { stages } from "@/data/stages";
 
 type UserRow = {
@@ -115,7 +115,17 @@ export default function AdminPage() {
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("xp");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [currentUser, setCurrentUser] = useState<string | null>(getSession());
   const now = useMemo(() => Date.now(), []);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { username: string } | null) => {
+        if (data) { setCurrentUser(data.username); setSession(data.username); }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     fetch("/api/admin/users")
@@ -205,7 +215,7 @@ export default function AdminPage() {
                   ADMIN
                 </span>
               </div>
-              <p className="text-gray-600 text-sm">Logged in as <span className="text-cyan-400">{getSession()}</span></p>
+              <p className="text-gray-600 text-sm">Logged in as <span className="text-cyan-400">{currentUser}</span></p>
             </div>
             <Link
               href="/admin/docs"

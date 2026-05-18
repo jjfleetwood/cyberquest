@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { stages as allStages, epochs } from "@/data/stages";
 import { fetchProgress } from "@/lib/progress";
-import { getSession, clearSession } from "@/lib/auth";
+import { getSession, setSession, clearSession } from "@/lib/auth";
 import OnboardingModal from "@/components/OnboardingModal";
 
 // ── Track groupings ────────────────────────────────────────────────────────────
@@ -100,16 +100,21 @@ export default function StagesPage() {
   const [activeEpoch, setActiveEpoch] = useState("before-times");
 
   useEffect(() => {
-    const session = getSession();
-    setUsername(session);
-    if (session) {
-      fetchProgress().then((p) => {
-        if (!p) return;
-        setCompletedStages(p.completedStages);
-        setTotalXp(p.xp);
-        setStreak(p.streak ?? 0);
-      });
-    }
+    setUsername(getSession());
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { username: string } | null) => {
+        if (!data) return;
+        setUsername(data.username);
+        setSession(data.username);
+        fetchProgress().then((p) => {
+          if (!p) return;
+          setCompletedStages(p.completedStages);
+          setTotalXp(p.xp);
+          setStreak(p.streak ?? 0);
+        });
+      })
+      .catch(() => {});
   }, []);
 
   function handleLogout() {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getSession, clearSession, isAdmin } from "@/lib/auth";
+import { getSession, clearSession, setSession } from "@/lib/auth";
 import { useRouter, usePathname } from "next/navigation";
 
 export default function Nav() {
@@ -14,8 +14,21 @@ export default function Nav() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
+    // Render immediately from sessionStorage cache, then validate via cookie
     setUsername(getSession());
-    setAdmin(isAdmin());
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data: { username: string; isAdmin: boolean } | null) => {
+        if (data) {
+          setUsername(data.username);
+          setAdmin(data.isAdmin);
+          setSession(data.username);
+        } else {
+          setUsername(null);
+          setAdmin(false);
+        }
+      })
+      .catch(() => {});
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);

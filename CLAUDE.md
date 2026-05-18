@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.2.0 (as of 2026-05-18)
+**Current version:** v1.3.0 (as of 2026-05-18)
 
 ---
 
@@ -156,9 +156,9 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v1.2.0, 2026-05-18)
+## Where We Left Off (v1.3.0, 2026-05-18)
 
-NDA gate + admin docs fix + legal guide. `/demo` page has a clickwrap NDA form (name + email + agreement) that stores acceptance in Redis (`nda:{email}` hash) and sets an HMAC-signed `nda_token` cookie. Admin dashboard now shows all NDA signatories. Admin docs viewer (`/admin/docs`) fixed — was redirecting admins due to localStorage-based auth check; now uses API-first pattern (redirect on 401 from `/api/docs/`). `LAUNCH_LEGAL.md` added to secured-docs covering incorporation, copyright, patent, NDA, contractor agreements, and pre-fundraise checklist. Delete-account now also removes NDA record.
+Full server-side auth migration. `/api/auth/register` now takes plaintext password over HTTPS, hashes server-side, sets both session + admin cookies in one response. `/api/auth/me` returns `{ username, email, isAdmin }` from cookie — all client components (Nav, AuthGuard, stages, leaderboard, admin) replaced localStorage reads with this endpoint. `/api/auth/login` and `/api/reset-password` both grant admin cookie inline now. localStorage user store (`getUsers`, `saveUser`, `isAdmin`, `markUserAdmin`) fully removed from `auth.ts`. Cross-session persistence bug fixed: cookie-authenticated users no longer appear logged out on browser restart.
 
 **Adding a new epoch — checklist:**
 1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`

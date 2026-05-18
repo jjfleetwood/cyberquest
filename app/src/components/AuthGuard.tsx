@@ -16,7 +16,10 @@ export default function AuthGuard() {
   const [isLoggedIn, setIsLoggedIn] = useState(true); // default true to avoid flash
 
   useEffect(() => {
-    setIsLoggedIn(getSession() !== null);
+    if (getSession()) { setIsLoggedIn(true); return; }
+    fetch("/api/auth/me")
+      .then((r) => setIsLoggedIn(r.ok))
+      .catch(() => setIsLoggedIn(false));
   }, []);
 
   if (isLoggedIn || dismissed) return null;

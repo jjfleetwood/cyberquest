@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { timingSafeEqual } from "crypto";
+import { timingSafeEqual, createHmac } from "crypto";
 import { redis } from "@/lib/redis";
 import { hashPassword } from "@/lib/crypto-utils";
 import { signSessionToken, sessionCookieOptions } from "@/lib/server-session";
@@ -51,5 +51,20 @@ export async function POST(req: NextRequest) {
   const token = signSessionToken(username);
   const res = NextResponse.json({ ok: true, username, email: data.email ?? "" });
   res.cookies.set("session_token", token, sessionCookieOptions());
+
+  // Grant admin cookie inline if eligible
+  const adminUsername = process.env.ADMIN_USERNAME;
+  const secret = process.env.ADMIN_SECRET;
+  if (adminUsername && secret && username === adminUsername.toLowerCase()) {
+    const sig = createHmac("sha256", secret).update(username).digest("hex");
+    res.cookies.set("admin_token", `${username}:${sig}`, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24,
+    });
+  }
+
   return res;
 }

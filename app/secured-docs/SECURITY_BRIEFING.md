@@ -1,8 +1,19 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-18  
-**Version:** 2.5  
+**Version:** 2.6  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v2.6 (2026-05-18)
+
+- **RESOLVED: Client-side password hashing** — Registration previously generated salt + PBKDF2 hash on the client and sent the hash to `/api/sync-user`. Now `/api/auth/register` receives the plaintext password over HTTPS and hashes server-side. The old `/api/sync-user` route is retained for compatibility but new registrations bypass it.
+- **RESOLVED: Client-side admin grant** — Login previously called `/api/admin-session` from the client to obtain the admin cookie. Both login and register now grant the `admin_token` cookie inline on the server if the username matches `ADMIN_USERNAME`, eliminating the client-side post-login grant call.
+- **RESOLVED: localStorage user data** — `getUsers()`, `saveUser()`, `isAdmin()`, `markUserAdmin()` removed from `src/lib/auth.ts`. No user data (even non-sensitive username/email/isAdmin) is written to localStorage. The `isAdmin` state is now derived solely from the HMAC-verified `admin_token` cookie via `/api/auth/me`.
+- **RESOLVED: Cross-session persistence bug** — Pages that called `getSession()` from sessionStorage would show "not logged in" on browser restart even with a valid 30-day cookie. All session-dependent components now call `/api/auth/me` to verify the cookie, with sessionStorage as a fast-path cache only.
+- **NEW: `/api/auth/me`** — Read-only endpoint; verifies `session_token` cookie + `admin_token` cookie; returns `{ username, email, isAdmin }`. No PII written; read-only from Redis.
+- **Updated security posture:** client-side credential storage risk is now RESOLVED, not just "accepted for demo."
 
 ---
 
