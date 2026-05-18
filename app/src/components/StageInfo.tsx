@@ -8,12 +8,14 @@ const categoryColors: Record<string, string> = {
   cybersecurity: "text-cyan-400 bg-cyan-400/10 border-cyan-400/30",
   ai: "text-purple-400 bg-purple-400/10 border-purple-400/30",
   owasp: "text-orange-400 bg-orange-400/10 border-orange-400/30",
+  arts: "text-yellow-400 bg-yellow-400/10 border-yellow-400/30",
 };
 
 const categoryLabel: Record<string, string> = {
   cybersecurity: "Cybersecurity",
   ai: "AI",
   owasp: "OWASP",
+  arts: "Arts & Craft",
 };
 
 export default function StageInfo({

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { quizStage01 } from "@/data/quiz-stage-01";
 import { getServerSession } from "@/lib/server-session";
 import { awardStageInRedis } from "@/lib/server-progress";
-import { stages } from "@/data/stages";
+import { stages, getStage } from "@/data/stages";
 
 const quizRegistry: Record<string, typeof quizStage01> = {
   "stage-01": quizStage01,
@@ -19,7 +19,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ correct: false }, { status: 400 });
   }
 
-  const quiz = quizRegistry[body.stageId];
+  // Look up quiz questions: check hardcoded registry first, then fall back to stages data
+  const registryQuiz = quizRegistry[body.stageId];
+  const stageData = registryQuiz ? null : getStage(body.stageId);
+  const quiz = registryQuiz ?? stageData?.quiz;
+
   if (!quiz) {
     return NextResponse.json({ correct: false }, { status: 404 });
   }

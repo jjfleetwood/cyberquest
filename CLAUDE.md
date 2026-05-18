@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.5.1 (as of 2026-05-18)
+**Current version:** v1.5.2 (as of 2026-05-18)
 
 ---
 
@@ -166,9 +166,9 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v1.5.0, 2026-05-18)
+## Where We Left Off (v1.5.2, 2026-05-18)
 
-Feedback widget shipped (`FeedbackWidget.tsx` — fixed top-right, sends to jjbolotin@yahoo.com via `/api/feedback`). Business proposals fully refreshed to v1.5.0 facts. Previously: Continuous Monitoring 2.0 epoch shipped: `src/data/tech-audit-4.ts` — 12 CTF stages (audit-cm01 → audit-cm12) covering ISCM/NIST 800-137, Next-Gen SIEM, UEBA, NDR, CSPM, STIX/TAXII threat intel, SOAR, deception/honeytokens, Zero Trust CARTA, XDR, continuous compliance, and SOC maturity (MTTD/MTTR). Rose accent color. Previously (v1.4.0): DocuSign NDA integration — admin dashboard has a "Send DocuSign NDA" form, backend `src/lib/docusign.ts`, `/api/admin/send-nda`, `/api/webhooks/docusign`. Requires 5 `DOCUSIGN_*` env vars in Vercel.
+Tapestry epoch shipped: `src/data/tapestry.ts` — 12 quiz stages (tapestry-01 → tapestry-12) covering tapestry history, Flemish golden age, Asian traditions, Americas, color theory, warp/weft structure, equipment, techniques (hatching, soumak, slits, rya knots), design, optical color mixing, contemporary practice, and first project. Yellow accent. New `"arts"` category type added. `check-answer` route now falls back to stages array so any quiz epoch works without manual registration. Previously (v1.5.1): Feedback widget (`FeedbackWidget.tsx` — fixed top-right, sends to jjbolotin@yahoo.com via `/api/feedback`), business proposals refreshed. Previously (v1.5.0): Continuous Monitoring 2.0 epoch (`tech-audit-4.ts`, 12 CTF stages, rose accent). Previously (v1.4.0): DocuSign NDA integration — admin dashboard, `src/lib/docusign.ts`, `/api/admin/send-nda`, `/api/webhooks/docusign`, 5 `DOCUSIGN_*` env vars.
 
 **Adding a new epoch — checklist:**
 1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`

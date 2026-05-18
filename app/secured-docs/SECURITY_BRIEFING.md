@@ -1,8 +1,14 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-18  
-**Version:** 3.0  
+**Version:** 3.1  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v3.1 (2026-05-18)
+
+- **No new attack surface** — v1.5.2 adds curriculum content only (new tapestry epoch data file, type extension, stage map color entries, quiz answer fallback logic). No new API routes, no new Redis keys, no new env vars. The `check-answer` route fallback reads from the already-loaded stages array — no additional trust boundary.
 
 ---
 

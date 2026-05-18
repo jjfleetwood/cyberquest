@@ -40,6 +40,11 @@ const epochGroups = [
     desc: "Real CVEs · DNS Security · Cloud SASE",
     epochIds: ["medieval", "umbrella"],
   },
+  {
+    label: "Arts & Craft",
+    desc: "Tapestry — History, Tradition & Modern Practice",
+    epochIds: ["tapestry"],
+  },
 ];
 
 // ── Accent palette ─────────────────────────────────────────────────────────────
@@ -58,6 +63,7 @@ const epochAccent: Record<string, { tab: string; active: string; bar: string }> 
   "quantum-2":    { tab: "text-teal-400 border-teal-400 bg-teal-400/10",         active: "border-teal-400/60 bg-teal-500/5",     bar: "bg-teal-500" },
   "quantum-3":    { tab: "text-sky-400 border-sky-400 bg-sky-400/10",            active: "border-sky-400/60 bg-sky-500/5",       bar: "bg-sky-500" },
   umbrella:       { tab: "text-green-400 border-green-400 bg-green-400/10",      active: "border-green-400/60 bg-green-500/5",   bar: "bg-green-500" },
+  tapestry:       { tab: "text-yellow-400 border-yellow-400 bg-yellow-400/10",   active: "border-yellow-400/60 bg-yellow-500/5", bar: "bg-yellow-500" },
 };
 
 const cardBorder: Record<string, string> = {
@@ -75,6 +81,7 @@ const cardBorder: Record<string, string> = {
   "quantum-2":    "border-teal-500/40 hover:border-teal-400/80",
   "quantum-3":    "border-sky-500/40 hover:border-sky-400/80",
   umbrella:       "border-green-500/40 hover:border-green-400/80",
+  tapestry:       "border-yellow-500/40 hover:border-yellow-400/80",
 };
 
 const cardEmojiBg: Record<string, string> = {
@@ -92,6 +99,7 @@ const cardEmojiBg: Record<string, string> = {
   "quantum-2":    "from-teal-950 to-slate-950",
   "quantum-3":    "from-sky-950 to-slate-950",
   umbrella:       "from-green-950 to-slate-950",
+  tapestry:       "from-yellow-950 to-slate-950",
 };
 
 export default function StagesPage() {

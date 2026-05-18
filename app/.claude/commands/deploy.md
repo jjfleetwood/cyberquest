@@ -34,6 +34,38 @@ Run this skill whenever the user says "deploy", "/deploy", or asks to ship to pr
 
 6. **Report completion** — confirm both Vercel projects are updated and summarize what was shipped.
 
+7. **Update all relevant documentation** — review what changed in this release and update every doc file in `docs/` and its mirror in `app/secured-docs/` that is affected. At minimum check:
+   - `README.md` — stage count, epoch list, version
+   - `ARCHITECTURE.md` — any new API routes, data structures, or system components
+   - `CURRICULUM.md` — any new epochs or stages
+   - `BUILD.md` — any new env vars, dependencies, or build steps
+   - `OPS.md` — any new services, integrations, or runbook changes
+   - `PARTNERS.md` — any new third-party services
+   
+   Update both the `docs/` copy and the `app/secured-docs/` mirror for each file changed. If a doc is unchanged by this release, leave it alone.
+
+8. **Security check + display top risks** — review the changes shipped in this release for new attack surface, then:
+   - Scan for: new API routes (auth? rate-limited?), new env vars (secret handling?), new Redis keys (data exposure?), new third-party integrations (trust boundary?), new client-side data handling, any use of `eval`, `dangerouslySetInnerHTML`, unvalidated input, or hardcoded secrets.
+   - Update `app/secured-docs/SECURITY_BRIEFING.md` with a new changelog entry under the incremented version number reflecting any new findings or confirming no new attack surface.
+   - **Print a "Security Summary" block directly to the screen** (as plain text output, not just in the doc) in this format:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SECURITY SUMMARY — vX.Y.Z
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ New attack surface: [none / brief description]
+
+ TOP RISKS (open):
+   1. [Risk] — [Severity] — [Mitigation path]
+   2. [Risk] — [Severity] — [Mitigation path]
+   ...
+
+ Resolved this release: [none / brief description]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+   Pull the open risks list from the current `SECURITY_BRIEFING.md` — don't invent risks. Display the top 3–5 unresolved findings by severity.
+
 ## Rules
 
 - Never add Co-Authored-By lines to commits.
@@ -42,3 +74,4 @@ Run this skill whenever the user says "deploy", "/deploy", or asks to ship to pr
 - The two Vercel projects are: `app` (deployed via `npx vercel --prod`) and `kryptos-cronos` (auto-deploys from GitHub push). Both must be updated on every deploy.
 - If the user provides a version number explicitly, use it. Otherwise infer from the nature of the changes.
 - Today's date is always available in the system context — use it for release notes.
+- Steps 7 and 8 run after the GitHub push — they are post-deploy documentation and audit steps, not blockers to shipping.

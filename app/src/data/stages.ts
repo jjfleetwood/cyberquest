@@ -14,6 +14,7 @@ import { quantum2Epoch, quantum2Stages } from "./quantum-2";
 import { quantum3Epoch, quantum3Stages } from "./quantum-3";
 import { cisco2Stages } from "./cisco-2";
 import { umbrellaEpoch, umbrellaStages } from "./umbrella";
+import { tapestryEpoch, tapestryStages } from "./tapestry";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
@@ -50,6 +51,7 @@ export const epochs: EpochConfig[] = [
   quantum2Epoch,
   quantum3Epoch,
   umbrellaEpoch,
+  tapestryEpoch,
 ];
 
 export const stages: StageConfig[] = [
@@ -67,6 +69,7 @@ export const stages: StageConfig[] = [
   ...quantum2Stages,
   ...quantum3Stages,
   ...umbrellaStages,
+  ...tapestryStages,
 
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────

@@ -2,6 +2,19 @@
 
 ---
 
+## v1.5.2 — 2026-05-18
+
+**Tapestry epoch — The Woven World (12 stages)**
+
+- **`src/data/tapestry.ts`** — New "Arts & Craft" epoch: "The Woven World" (yellow color). 12 quiz stages covering tapestry history, Flemish golden age, Asian traditions (kesi, tsuzure-ori), Americas (Andean, Navajo), color theory, warp/weft structure, equipment, core techniques (hatching, soumak, slit tapestry, rya knots), design and cartoon, optical color mixing, contemporary practice, and starting your first project.
+- **`src/data/types.ts`** — Added `"arts"` to the category union type.
+- **`src/components/StageInfo.tsx`** — Added `arts` to `categoryColors` (yellow theme) and `categoryLabel` ("Arts & Craft").
+- **`src/app/api/check-answer/route.ts`** — Added fallback to `getStage()` from stages array so any quiz epoch works without manual registration in the route.
+- **`src/data/stages.ts`** — `tapestryEpoch` and `tapestryStages` imported and registered.
+- **`src/app/stages/page.tsx`** — "Arts & Craft" epoch group added; "tapestry" added to epoch group, epochAccent, cardBorder, and cardEmojiBg (yellow palette).
+
+---
+
 ## v1.5.1 — 2026-05-18
 
 **Feedback widget + business proposal refresh**
