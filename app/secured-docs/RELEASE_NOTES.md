@@ -2,6 +2,16 @@
 
 ---
 
+## v1.5.0 — 2026-05-18
+
+**Continuous Monitoring 2.0 epoch (12 stages)**
+
+- **`src/data/tech-audit-4.ts`** — New epoch: "Continuous Monitoring 2.0" (rose color). 12 CTF stages covering ISCM/NIST 800-137, Next-Gen SIEM + ML detection, UEBA risk chaining, NDR beaconing detection, CSPM attack path analysis, STIX/TAXII threat intel, SOAR playbooks, deception/honeytokens, Zero Trust CARTA, XDR cross-source correlation, continuous compliance, and SOC maturity metrics (MTTD/MTTR).
+- **`src/data/stages.ts`** — `techAudit4Epoch` and `techAudit4Stages` imported and registered.
+- **`src/app/stages/page.tsx`** — "tech-audit-4" added to Tech Audit epoch group; rose accent, border, and emoji-bg colors added.
+
+---
+
 ## v1.4.0 — 2026-05-18
 
 **DocuSign NDA integration**

@@ -18,7 +18,7 @@ const epochGroups = [
   {
     label: "Tech Audit",
     desc: "IT Governance → Cloud → AI Agents",
-    epochIds: ["tech-audit-1", "tech-audit-2", "tech-audit-3"],
+    epochIds: ["tech-audit-1", "tech-audit-2", "tech-audit-3", "tech-audit-4"],
   },
   {
     label: "Threat Frameworks",
@@ -50,6 +50,7 @@ const epochAccent: Record<string, { tab: string; active: string; bar: string }> 
   "tech-audit-1": { tab: "text-purple-400 border-purple-400 bg-purple-400/10",   active: "border-purple-400/60 bg-purple-500/5", bar: "bg-purple-500" },
   "tech-audit-2": { tab: "text-violet-400 border-violet-400 bg-violet-400/10",   active: "border-violet-400/60 bg-violet-500/5", bar: "bg-violet-500" },
   "tech-audit-3": { tab: "text-indigo-400 border-indigo-400 bg-indigo-400/10",   active: "border-indigo-400/60 bg-indigo-500/5", bar: "bg-indigo-500" },
+  "tech-audit-4": { tab: "text-rose-400 border-rose-400 bg-rose-400/10",         active: "border-rose-400/60 bg-rose-500/5",     bar: "bg-rose-500" },
   mitre:          { tab: "text-red-400 border-red-400 bg-red-400/10",            active: "border-red-400/60 bg-red-500/5",       bar: "bg-red-500" },
   "mitre-atlas":  { tab: "text-fuchsia-400 border-fuchsia-400 bg-fuchsia-400/10",active: "border-fuchsia-400/60 bg-fuchsia-500/5",bar: "bg-fuchsia-500" },
   "owasp-llm":    { tab: "text-orange-400 border-orange-400 bg-orange-400/10",   active: "border-orange-400/60 bg-orange-500/5", bar: "bg-orange-500" },
@@ -66,6 +67,7 @@ const cardBorder: Record<string, string> = {
   "tech-audit-1": "border-purple-500/40 hover:border-purple-400/80",
   "tech-audit-2": "border-violet-500/40 hover:border-violet-400/80",
   "tech-audit-3": "border-indigo-500/40 hover:border-indigo-400/80",
+  "tech-audit-4": "border-rose-500/40 hover:border-rose-400/80",
   mitre:          "border-red-500/40 hover:border-red-400/80",
   "mitre-atlas":  "border-fuchsia-500/40 hover:border-fuchsia-400/80",
   "owasp-llm":    "border-orange-500/40 hover:border-orange-400/80",
@@ -82,6 +84,7 @@ const cardEmojiBg: Record<string, string> = {
   "tech-audit-1": "from-purple-950 to-slate-950",
   "tech-audit-2": "from-violet-950 to-slate-950",
   "tech-audit-3": "from-indigo-950 to-slate-950",
+  "tech-audit-4": "from-rose-950 to-slate-950",
   mitre:          "from-red-950 to-slate-950",
   "mitre-atlas":  "from-fuchsia-950 to-slate-950",
   "owasp-llm":    "from-orange-950 to-slate-950",

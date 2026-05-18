@@ -5,6 +5,7 @@ import { beforeTimesStages3 } from "./before-times-3";
 import { techAudit1Epoch, techAudit1Stages } from "./tech-audit-1";
 import { techAudit2Epoch, techAudit2Stages } from "./tech-audit-2";
 import { techAudit3Epoch, techAudit3Stages } from "./tech-audit-3";
+import { techAudit4Epoch, techAudit4Stages } from "./tech-audit-4";
 import { mitreEpoch, mitreStages } from "./mitre";
 import { mitreAtlasEpoch, mitreAtlasStages } from "./mitre-atlas";
 import { owaspLlmEpoch, owaspLlmStages } from "./owasp-llm";
@@ -41,6 +42,7 @@ export const epochs: EpochConfig[] = [
   techAudit1Epoch,
   techAudit2Epoch,
   techAudit3Epoch,
+  techAudit4Epoch,
   mitreEpoch,
   mitreAtlasEpoch,
   owaspLlmEpoch,
@@ -57,6 +59,7 @@ export const stages: StageConfig[] = [
   ...techAudit1Stages,
   ...techAudit2Stages,
   ...techAudit3Stages,
+  ...techAudit4Stages,
   ...mitreStages,
   ...mitreAtlasStages,
   ...owaspLlmStages,

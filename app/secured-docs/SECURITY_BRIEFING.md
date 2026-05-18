@@ -1,8 +1,14 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-18  
-**Version:** 2.8  
+**Version:** 2.9  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v2.9 (2026-05-18)
+
+- **No new attack surface** — v1.5.0 adds curriculum content only (new epoch data file, stage map color entries). No new API routes, no new Redis keys, no new env vars.
 
 ---
 

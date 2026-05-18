@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF s
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.4.0 (as of 2026-05-18)
+**Current version:** v1.5.0 (as of 2026-05-18)
 
 ---
 
@@ -59,6 +59,7 @@ npm run lint         # ESLint
 | 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple | Always |
 | 5 | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet | Always |
 | 6 | Tech Audit: Agentic Continuous Monitoring | 12 | audit-a01 → audit-a12 | Indigo | Always |
+| 10 | Continuous Monitoring 2.0 | 12 | audit-cm01 → audit-cm12 | Rose | Always |
 | 7 | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red | Always |
 | 8 | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia | Always |
 | 9 | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange | Always |
@@ -165,9 +166,9 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v1.4.0, 2026-05-18)
+## Where We Left Off (v1.5.0, 2026-05-18)
 
-DocuSign NDA integration: admin dashboard has a "Send DocuSign NDA" form (name + email). Backend: `src/lib/docusign.ts` (JWT auth + envelope creation), `/api/admin/send-nda` (sends envelope, stores in Redis), `/api/webhooks/docusign` (receives signed/declined events). Status badges in admin panel distinguish Clickwrap vs DocuSign sent/signed/declined. Requires 5 `DOCUSIGN_*` env vars in Vercel (setup guide in LAUNCH_LEGAL.md admin doc). Previously (v1.3.1): CTF terminal scroll race condition fixed.
+Continuous Monitoring 2.0 epoch shipped: `src/data/tech-audit-4.ts` — 12 CTF stages (audit-cm01 → audit-cm12) covering ISCM/NIST 800-137, Next-Gen SIEM, UEBA, NDR, CSPM, STIX/TAXII threat intel, SOAR, deception/honeytokens, Zero Trust CARTA, XDR, continuous compliance, and SOC maturity (MTTD/MTTR). Rose accent color. Previously (v1.4.0): DocuSign NDA integration — admin dashboard has a "Send DocuSign NDA" form, backend `src/lib/docusign.ts`, `/api/admin/send-nda`, `/api/webhooks/docusign`. Requires 5 `DOCUSIGN_*` env vars in Vercel.
 
 **Adding a new epoch — checklist:**
 1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`
