@@ -28,7 +28,7 @@ Run this skill whenever the user says "deploy", "/deploy", or asks to ship to pr
    
    **`CLAUDE.md`** (at `C:\Users\Ajax\Projects\cyberquest\CLAUDE.md`) — update `**Current version:**` and the `## Where We Left Off` paragraph to reflect the current state of the codebase.
 
-4. **Commit doc changes** — from `C:\Users\Ajax\Projects\cyberquest`, stage only the doc files (RELEASE_NOTES.md, SECURITY_BRIEFING.md, CLAUDE.md) and commit with message: `docs: vX.Y.Z release notes and security briefing`
+4. **Commit ALL changes** — from `C:\Users\Ajax\Projects\cyberquest`, stage ALL modified and untracked files under `app/src/`, `app/.claude/`, `app/secured-docs/`, and `CLAUDE.md`. Do NOT stage `devops/` files. Commit with message: `vX.Y.Z: <short summary of what shipped>`
 
 5. **Push to GitHub** — run `git push origin master` from `C:\Users\Ajax\Projects\cyberquest`. This triggers auto-deploy on kryptoscronos.com via the `kryptos-cronos` Vercel project.
 
