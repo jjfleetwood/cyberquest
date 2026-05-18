@@ -1,197 +1,400 @@
-﻿# Kryptós CronOS — Technical Architecture
-**Version:** 2.0  
-**Date:** 2026-05-10  
-**Codebase:** github.com/jjfleetwood/kryptos-cronos (branch: master, commit: 35796cd)
+# Kryptós CronOS — Technical Architecture Reference
+**Version:** 3.0  
+**Date:** 2026-05-18  
+**Codebase:** github.com/jjfleetwood/kryptos-cronos (branch: master)
 
 ---
 
 ## 1. System Overview
 
-Kryptós CronOS is a Next.js 16 application with a hybrid architecture: client-side auth and UI state in localStorage/sessionStorage, server-side persistence and leaderboard via Upstash Redis, and transactional email via Resend. Admin routes are protected at the proxy layer with HMAC-signed HttpOnly cookies.
+Kryptós CronOS is a hybrid Next.js 16 App Router application. All authentication, progress tracking, and sensitive operations are server-side. The browser renders interactive UI and calls API routes over HTTPS using HttpOnly cookies — no credentials or user identity data are stored client-side.
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         Browser                              │
-│                                                              │
-│  Next.js App (React 19, TypeScript, Tailwind CSS)           │
-│  ┌──────────────┐  ┌─────────────┐  ┌────────────────────┐ │
-│  │  localStorage│  │sessionStorage│  │   React State (UI) │ │
-│  │  users, XP  │  │  username   │  │                    │ │
-│  │  progress   │  │  session    │  │                    │ │
-│  └──────────────┘  └─────────────┘  └────────────────────┘ │
-└───────────────────────┬─────────────────────────────────────┘
-                        │ HTTPS
-               ┌────────▼────────┐
-               │  Vercel (iad1)  │
-               │  Node.js proxy  │◄── Admin HMAC cookie check
-               │  API routes     │
-               │  Static assets  │
-               └───┬─────────┬───┘
-                   │         │
-        ┌──────────▼──┐   ┌──▼──────────┐
-        │Upstash Redis│   │   Resend     │
-        │(REST API)   │   │(Email API)   │
-        │leaderboard  │   │Registration  │
-        │progress     │   │notifications │
-        └─────────────┘   └─────────────┘
-```
-
----
-
-## 2. Repository Structure
-
-```
-kryptos-cronos/
-├── app/                              # Next.js application root
-│   ├── src/
-│   │   ├── app/                      # App Router pages + API routes
-│   │   │   ├── page.tsx              # Landing page (/)
-│   │   │   ├── login/
-│   │   │   │   └── page.tsx          # Login/signup (/login)
-│   │   │   ├── stages/
-│   │   │   │   ├── page.tsx          # Stage map (/stages)
-│   │   │   │   └── [stageId]/
-│   │   │   │       └── page.tsx      # Dynamic stage (/stages/stage-XX)
-│   │   │   ├── leaderboard/
-│   │   │   │   └── page.tsx          # Live leaderboard (/leaderboard)
-│   │   │   ├── admin/
-│   │   │   │   ├── page.tsx          # Admin dashboard (/admin)
-│   │   │   │   └── docs/
-│   │   │   │       └── page.tsx      # Docs viewer (/admin/docs)
-│   │   │   └── api/
-│   │   │       ├── admin-session/
-│   │   │       │   └── route.ts      # POST/DELETE admin HMAC cookie
-│   │   │       ├── progress/
-│   │   │       │   └── route.ts      # GET/POST user progress (Upstash)
-│   │   │       ├── leaderboard/
-│   │   │       │   └── route.ts      # GET top 50 players (Upstash)
-│   │   │       └── notify-registration/
-│   │   │           └── route.ts      # POST registration email (Resend)
-│   │   ├── components/               # Reusable UI components
-│   │   │   ├── AttackDiagram.tsx     # CSS flow diagram (no SVG library)
-│   │   │   ├── AuthGuard.tsx         # Soft auth prompt banner
-│   │   │   ├── CtfChallenge.tsx      # Generic CTF terminal
-│   │   │   ├── DocsViewer.tsx        # Admin markdown docs viewer
-│   │   │   ├── Nav.tsx               # Top navigation bar
-│   │   │   ├── QuizChallenge.tsx     # CIA Triad scenario quiz
-│   │   │   ├── StageContainer.tsx    # Info→Challenge phase orchestrator
-│   │   │   └── StageInfo.tsx         # Stage briefing page
-│   │   ├── data/
-│   │   │   ├── types.ts              # TypeScript type definitions
-│   │   │   └── stages.ts             # 24 stage configs (2 epochs)
-│   │   ├── lib/
-│   │   │   ├── auth.ts               # Auth: PBKDF2, sessions, admin cookie
-│   │   │   ├── progress.ts           # XP/progress: localStorage + Redis sync
-│   │   │   └── redis.ts              # Upstash Redis client singleton
-│   │   └── proxy.ts                  # Admin route protection (HMAC cookie)
-│   ├── public/
-│   │   └── docs/                     # Docs served to admin docs viewer
-│   │       ├── RELEASE_NOTES.md
-│   │       ├── TECHNICAL_ARCHITECTURE.md
-│   │       ├── SECURITY_BRIEFING.md
-│   │       ├── BUSINESS_PROPOSAL_PRO.md
-│   │       └── BUSINESS_PROPOSAL_CASUAL.md
-│   ├── next.config.ts                # Security headers + CSP
-│   └── package.json
-├── devops/
-│   ├── scripts/                      # Dev utility scripts
-│   └── logs/                         # Local dev server logs
-└── CLAUDE.md                         # AI assistant project guide
+┌─────────────────────────────────────────────────────────┐
+│                       Browser                            │
+│  React 19 / Tailwind CSS 4 / TypeScript                 │
+│  sessionStorage: UI cache only (no credentials)         │
+│  HttpOnly cookies set by server (not readable by JS)    │
+└─────────────────────┬───────────────────────────────────┘
+                      │ HTTPS
+             ┌────────▼────────┐
+             │  Vercel Edge    │  ← proxy.ts (middleware)
+             │  CDN + Runtime  │    blocks /admin/** without
+             │  iad1 (US East) │    valid kryptos_admin cookie
+             └────┬─────┬──────┘
+                  │     │
+        ┌─────────▼┐   ┌▼──────────────┐
+        │ Next.js  │   │  Upstash Redis │
+        │ API      │   │  (global edge) │
+        │ Routes   │   │               │
+        │ /api/*   │   │  users        │
+        └─────┬────┘   │  progress     │
+              │        │  leaderboard  │
+              │        │  streaks      │
+              │        │  NDA records  │
+              │        │  rate limits  │
+              │        │  pwd reset    │
+              └────────┘
+              │
+    ┌─────────┼──────────┬────────────────┐
+    │         │          │                │
+┌───▼────┐ ┌─▼──────┐ ┌─▼──────────┐ ┌──▼──────────┐
+│ Resend │ │Anthropic│ │  DocuSign  │ │  GitHub CI  │
+│ (email)│ │  Haiku  │ │ eSignature │ │  (Actions)  │
+└────────┘ └────────┘ └────────────┘ └─────────────┘
 ```
 
 ---
 
-## 3. Curriculum Structure
+## 2. Stack
 
-The platform has 24 stages across 2 epochs. Epochs unlock sequentially — Cisco unlocks only after all 12 Foundations stages are completed.
-
-### Foundations Epoch (amber)
-12 stages set inside ancient world landmarks. Covers core cybersecurity principles using real-world breach incidents.
-
-| Stage | Setting | Topic | CVE/OWASP |
-|---|---|---|---|
-| 01 | Great Pyramid, Giza | CIA Triad | — |
-| 02 | Hanging Gardens, Babylon | AI & Threat Detection | — |
-| 03 | Statue of Zeus, Olympia | SQL Injection | OWASP A03 |
-| 04 | Temple of Artemis, Ephesus | XSS | OWASP A03 |
-| 05 | Mausoleum at Halicarnassus | Heartbleed | CVE-2014-0160 |
-| 06 | Colossus of Rhodes | Broken Access Control | OWASP A01 |
-| 07 | Lighthouse of Alexandria | Auth Failures | OWASP A07 |
-| 08 | Colosseum, Rome | Log4Shell | CVE-2021-44228 |
-| 09 | Great Wall of China | WannaCry/EternalBlue | CVE-2017-0144 |
-| 10 | Petra, Jordan | SSRF | OWASP A10 |
-| 11 | Machu Picchu, Peru | Equifax/Struts RCE | CVE-2017-5638 |
-| 12 | Angkor Wat, Cambodia | MongoDB Misconfiguration | OWASP A05 |
-
-### Cisco Epoch (blue)
-12 APT field operation stages, each set at a real-world landmark. Covers real Cisco CVEs with threat-actor framing.
-
-| Stage | Location | CVE | Attack Type |
-|---|---|---|---|
-| M01 | Hagia Sophia, Istanbul | CVE-2023-20198 | Privilege escalation |
-| M02 | Tower of London | CVE-2016-6366 | Buffer overflow (EXTRABACON) |
-| M03 | Golden Gate Bridge | CVE-2018-0171 | Smart Install RCE |
-| M04 | Kremlin, Moscow | CVE-2019-1653 | Auth bypass / info disclosure |
-| M05 | Sydney Opera House | CVE-2020-3452 | Path traversal |
-| M06 | Eiffel Tower, Paris | CVE-2022-20695 | Auth bypass |
-| M07 | Burj Khalifa, Dubai | CVE-2021-1497 | Command injection |
-| M08 | Forbidden City, Beijing | CVE-2023-20273 | Web UI command injection |
-| M09 | Vatican, Rome | CVE-2019-1821 | Unauthenticated RCE |
-| M10 | Colosseum, Rome | CVE-2020-3580 | XSS |
-| M11 | Acropolis, Athens | CVE-2020-3187 | Path traversal / file deletion |
-| M12 | Chichen Itza, Mexico | CVE-2017-6736 | SNMP RCE |
-
----
-
-## 4. Next.js App Router Architecture
-
-### 4.1 Routing
-
-| Route | Type | Rendering |
+| Layer | Technology | Version |
 |---|---|---|
-| `/` | Static | SSG |
-| `/login` | Static | SSG (client hydration) |
-| `/stages` | Static | SSG (client hydration) |
-| `/stages/[stageId]` | Dynamic | SSR on demand |
-| `/leaderboard` | Static | SSG (client hydration, fetches /api/leaderboard) |
-| `/admin` | Static | SSG (client hydration, proxy-protected) |
-| `/admin/docs` | Static | SSG (proxy-protected) |
-| `/api/admin-session` | Serverless | Node.js runtime |
-| `/api/progress` | Serverless | Node.js runtime |
-| `/api/leaderboard` | Serverless | Node.js runtime |
-| `/api/notify-registration` | Serverless | Node.js runtime |
+| Framework | Next.js (App Router) | 16.2.6 |
+| Language | TypeScript | 5.x |
+| UI | React | 19.2.4 |
+| Styling | Tailwind CSS | 4.x |
+| Data store | Upstash Redis | REST API |
+| Email | Resend | HTTP API |
+| AI chatbot | Anthropic Claude Haiku | API |
+| eSignature | DocuSign eSignature API | REST + JWT |
+| Hosting | Vercel | Hobby plan |
+| CI | GitHub Actions | — |
 
-### 4.2 Proxy (Admin Route Protection)
+---
 
-`src/proxy.ts` runs on every request to `/admin/**`. It reads the `admin_token` HttpOnly cookie and verifies the HMAC-SHA256 signature server-side. Unsigned or missing tokens redirect to `/stages`.
+## 3. Repository Structure
 
-```typescript
-// src/proxy.ts
-export function proxy(req: NextRequest) {
-  const token = req.cookies.get("admin_token")?.value;
-  if (!token || !verifyAdminToken(token)) {
-    return NextResponse.redirect(new URL("/stages", req.url));
-  }
-  return NextResponse.next();
-}
+```
+cyberquest/
+├── app/                              # Next.js application root (Vercel root dir)
+│   ├── src/
+│   │   ├── proxy.ts                  # Edge middleware — admin route gating
+│   │   ├── app/                      # App Router: pages + API routes
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx              # Landing page
+│   │   │   ├── login/page.tsx
+│   │   │   ├── demo/page.tsx         # NDA-gated demo
+│   │   │   ├── stages/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── [stageId]/page.tsx
+│   │   │   ├── leaderboard/page.tsx
+│   │   │   ├── forgot-password/page.tsx
+│   │   │   ├── reset-password/page.tsx
+│   │   │   ├── admin/
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── docs/page.tsx
+│   │   │   └── api/
+│   │   │       ├── auth/
+│   │   │       │   ├── register/route.ts
+│   │   │       │   ├── login/route.ts
+│   │   │       │   ├── session/route.ts   # DELETE = logout
+│   │   │       │   └── me/route.ts
+│   │   │       ├── admin-session/route.ts
+│   │   │       ├── admin/
+│   │   │       │   ├── users/route.ts
+│   │   │       │   └── send-nda/route.ts
+│   │   │       ├── check-flag/route.ts
+│   │   │       ├── check-answer/route.ts
+│   │   │       ├── docs/[file]/route.ts
+│   │   │       ├── forgot-password/route.ts
+│   │   │       ├── hint/route.ts
+│   │   │       ├── leaderboard/route.ts
+│   │   │       ├── nda/route.ts
+│   │   │       ├── notify-registration/route.ts
+│   │   │       ├── progress/route.ts
+│   │   │       ├── reset-password/route.ts
+│   │   │       ├── sync-user/route.ts
+│   │   │       └── webhooks/
+│   │   │           └── docusign/route.ts
+│   │   ├── components/
+│   │   │   ├── ARIAChatbot.tsx
+│   │   │   ├── AttackDiagram.tsx
+│   │   │   ├── AuthGuard.tsx
+│   │   │   ├── CtfChallenge.tsx
+│   │   │   ├── DocsViewer.tsx
+│   │   │   ├── FlagSuccessModal.tsx
+│   │   │   ├── Nav.tsx
+│   │   │   ├── QuizChallenge.tsx
+│   │   │   ├── StageContainer.tsx
+│   │   │   └── StageInfo.tsx
+│   │   ├── data/
+│   │   │   ├── types.ts
+│   │   │   ├── stages.ts             # Foundations + Cisco (24 stages)
+│   │   │   ├── before-times.ts       # Before Times 1–10
+│   │   │   ├── before-times-2.ts     # Before Times 11–20
+│   │   │   ├── before-times-3.ts     # Before Times 21–30
+│   │   │   ├── tech-audit.ts         # Tech Audit epochs (36 stages)
+│   │   │   ├── mitre.ts              # MITRE ATT&CK + ATLAS (24 stages)
+│   │   │   └── owasp-llm.ts          # OWASP LLM Top 10 (12 stages)
+│   │   └── lib/
+│   │       ├── auth.ts               # PBKDF2 hashing + HMAC cookie utils
+│   │       ├── progress.ts           # XP/progress helpers
+│   │       └── redis.ts              # Upstash Redis client
+│   ├── secured-docs/                 # Admin-only docs (never in public/)
+│   ├── public/                       # Static assets
+│   ├── next.config.ts                # Security headers + outputFileTracingIncludes
+│   ├── package.json
+│   └── tsconfig.json
+├── docs/                             # External docs (mirrors secured-docs/)
+├── .github/workflows/ci.yml          # GitHub Actions CI
+├── content/                          # Legacy stage JSON (superseded)
+├── assets/                           # Raw images + audio
+└── devops/
+    ├── scripts/
+    └── logs/
+```
 
-export const config = { matcher: ["/admin/:path*"] };
+---
+
+## 4. Auth System
+
+### 4.1 Design Principles
+
+- No credentials or user data in localStorage or sessionStorage
+- All auth operations are server-side
+- Session identity resolved by server on every request via `/api/auth/me`
+- HMAC-signed cookies prevent tampering without access to `ADMIN_SECRET`
+
+### 4.2 Registration
+
+```
+Client: POST /api/auth/register  { username, email, password }
+Server:
+  1. Check user:{username} does not already exist in Redis
+  2. generateSalt() → 16-byte hex salt
+  3. PBKDF2-SHA-256(password, salt, 100k iterations) → passwordHash
+  4. HSET user:{username} email passwordHash salt createdAt
+  5. HMAC-sign session payload → set session_token cookie (HttpOnly, Secure, SameSite=Strict, 30d)
+  6. If username === ADMIN_USERNAME: HMAC-sign admin payload → set kryptos_admin cookie (24h)
+  7. POST /api/notify-registration (async, rate-limited)
+Client receives: cookies only — no user data in response body
+```
+
+### 4.3 Login
+
+```
+Client: POST /api/auth/login  { username, password }
+Server:
+  1. HGETALL user:{username} from Redis
+  2. PBKDF2-SHA-256(password, storedSalt) → computedHash
+  3. computedHash !== storedHash → 401
+  4. HMAC-sign session payload → set session_token cookie (30d)
+  5. If admin: set kryptos_admin cookie (24h)
+Client receives: cookies only
+```
+
+### 4.4 Session Resolution
+
+Every client component that needs user identity calls:
+
+```
+GET /api/auth/me
+Server:
+  1. Read session_token cookie
+  2. HMAC-verify signature using ADMIN_SECRET
+  3. Decode username from verified payload
+  4. HGETALL user:{username} from Redis
+  5. Return { username, email, isAdmin }
+```
+
+If the cookie is missing, expired, or tampered: returns 401. The client shows the login prompt.
+
+### 4.5 Logout
+
+```
+DELETE /api/auth/session
+Server: clear session_token cookie (MaxAge=0)
+```
+
+### 4.6 Cookie Specification
+
+| Cookie | Algorithm | TTL | Flags |
+|---|---|---|---|
+| `session_token` | HMAC-SHA-256 (ADMIN_SECRET) | 30 days | HttpOnly, Secure, SameSite=Strict |
+| `kryptos_admin` | HMAC-SHA-256 (ADMIN_SECRET) | 24 hours | HttpOnly, Secure, SameSite=Strict |
+
+### 4.7 Password Reset
+
+```
+POST /api/forgot-password  { email }  (rate: 3/IP/15min)
+  → find username by email in Redis
+  → generate crypto-random token
+  → SET reset:{token} username EX 3600
+  → Resend: send email with https://kryptoscronos.com/reset-password?token={token}
+
+POST /api/reset-password  { token, newPassword }
+  → GET reset:{token} → resolve username
+  → PBKDF2 hash newPassword
+  → HSET user:{username} passwordHash salt
+  → DEL reset:{token}
 ```
 
 ---
 
 ## 5. Data Layer
 
-### 5.1 Stage Configuration (`src/data/stages.ts`)
+### 5.1 Redis Key Schema
 
-Single source of truth for all 24 stages. Each `StageConfig` contains:
+All persistent state lives in Upstash Redis. There is no other database.
+
+```
+user:{username}         Hash    email, passwordHash, salt, createdAt
+progress:{username}     Hash    stageIds (JSON array), xp, badges (JSON array), updatedAt
+leaderboard             ZSet    score=xp, member=username  (all-time)
+lb:d:YYYY-MM-DD         ZSet    score=xp, member=username  (daily, TTL 48h)
+lb:w:YYYY-MM-DD         ZSet    score=xp, member=username  (weekly Mon date, TTL 14d)
+streak:{username}       Hash    current, longest, lastDate
+nda:{email}             Hash    name, email, acceptedAt/sentAt/signedAt, ip, method,
+                                status, envelopeId
+reset:{token}           String  username  (TTL 1h)
+rate:nda:{ip}           String  counter   (TTL 15m)
+rate:forgot:{ip}        String  counter   (TTL 15m)
+rate:reg:{ip}           String  counter   (TTL 1h)
+```
+
+### 5.2 Client-Side Storage
+
+sessionStorage is used only for ephemeral UI state (e.g., stage phase, cached render data). It holds no credentials, tokens, or persistent user data.
+
+localStorage is not used for any application state in v1.3.0+.
+
+### 5.3 Progress Write Path
+
+On stage completion:
+1. Client POSTs to `/api/progress` with `{ stageId }`
+2. Server looks up XP from its internal STAGE_XP map (ignores any client-submitted XP value)
+3. Server updates `progress:{username}` hash in Redis
+4. Server atomically updates all three leaderboard sorted sets (`ZADD`)
+5. Server checks milestone badge thresholds; awards new badges if earned
+6. Server updates `streak:{username}` if this is the first completion today
+
+---
+
+## 6. API Routes
+
+### Auth
+
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/auth/register` | POST | None | PBKDF2 registration; sets session + admin cookies |
+| `/api/auth/login` | POST | None | PBKDF2 login; sets session + admin cookies |
+| `/api/auth/session` | DELETE | Session cookie | Logout — clears session_token cookie |
+| `/api/auth/me` | GET | Session cookie | Returns { username, email, isAdmin } |
+
+### Platform
+
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/check-flag` | POST | Session cookie | Server-side CTF flag validation |
+| `/api/check-answer` | POST | Session cookie | Server-side quiz answer validation |
+| `/api/progress` | GET/POST | Session cookie | Fetch/update Redis progress + XP |
+| `/api/leaderboard` | GET | None | Top XP rankings (daily/weekly/alltime) |
+| `/api/hint` | POST | Session cookie | Claude Haiku AI hints (15/IP/15min) |
+| `/api/forgot-password` | POST | None (rate: 3/IP/15min) | Send reset token via Resend |
+| `/api/reset-password` | POST | Reset token | Validate token, hash + store new password |
+| `/api/nda` | POST | None | Record NDA clickwrap acceptance |
+| `/api/notify-registration` | POST | None (rate: 5/IP/hour) | Admin email alert on new user |
+| `/api/sync-user` | POST | None | Legacy first-write-wins user record (compatibility) |
+
+### Admin
+
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/admin-session` | POST | Admin creds | Issue admin HMAC cookie |
+| `/api/admin/users` | GET | Admin cookie | Full user table from Redis |
+| `/api/admin/send-nda` | POST | Admin cookie | Send DocuSign NDA envelope |
+| `/api/nda` | GET | Admin cookie | List NDA signatories with status |
+| `/api/docs/[file]` | GET | Admin cookie | Serve secured-docs files |
+
+### Webhooks
+
+| Route | Method | Auth | Purpose |
+|---|---|---|---|
+| `/api/webhooks/docusign` | POST | HMAC signature | DocuSign event updates (signed/declined/voided) |
+
+---
+
+## 7. ARIA AI Chatbot
+
+ARIA is the in-platform AI hint assistant, available on every stage page.
+
+**Implementation:** `/api/hint` calls Anthropic Claude Haiku with a system prompt that enforces Socratic questioning — ARIA never gives direct answers, only guiding questions and conceptual nudges.
+
+**Request shape:**
+```typescript
+POST /api/hint
+{
+  message: string,        // user's question
+  stageId: string,        // current stage for context injection
+  history: Message[]      // last N messages (trimmed to fit context window)
+}
+```
+
+**Constraints:**
+- Rate limited: 15 requests per IP per 15-minute window (Redis counter)
+- Session cap: 10 messages per stage visit (client-enforced)
+- Cooldown: 30 seconds between messages (client-enforced)
+- Model: Claude Haiku (fastest + cheapest Anthropic model)
+
+---
+
+## 8. DocuSign Integration
+
+### Flow
+
+```
+Admin dashboard → NDA Signatories table → "Send DocuSign NDA" button
+    → POST /api/admin/send-nda { recipientEmail, recipientName }
+    → JWT auth: DOCUSIGN_PRIVATE_KEY + DOCUSIGN_USER_ID → access token
+    → Create envelope with NDA template → send to recipient
+    → HSET nda:{email} sentAt:{timestamp} status:pending envelopeId:{id}
+
+DocuSign → recipient email → recipient signs
+    → POST /api/webhooks/docusign (DocuSign Connect)
+    → Verify HMAC signature (DOCUSIGN_WEBHOOK_SECRET)
+    → Parse event type: completed / declined / voided
+    → HSET nda:{email} signedAt:{timestamp} status:{event}
+```
+
+### Environment Variables Required
+
+```
+DOCUSIGN_INTEGRATION_KEY   App integration key (UUID)
+DOCUSIGN_USER_ID           API username (UUID)
+DOCUSIGN_ACCOUNT_ID        Account ID
+DOCUSIGN_PRIVATE_KEY       RSA private key (JWT auth)
+DOCUSIGN_BASE_URL          https://demo.docusign.net or https://na4.docusign.net
+DOCUSIGN_WEBHOOK_SECRET    Optional — HMAC verification of webhook callbacks
+```
+
+---
+
+## 9. Epoch / Stage System
+
+### 9.1 Epoch Table
+
+| Epoch | Name | Stages | IDs | Color |
+|---|---|---|---|---|
+| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald |
+| 2 | Foundations | 12 | stage-01 → stage-12 | Amber |
+| 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue |
+| 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple |
+| 5 | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet |
+| 6 | Tech Audit: Agentic | 12 | audit-a01 → audit-a12 | Indigo |
+| 7 | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red |
+| 8 | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia |
+| 9 | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange |
+
+**Total: 126 stages**
+
+### 9.2 Stage Config Shape
 
 ```typescript
 type StageConfig = {
-  epochId: string;           // "ancient" | "medieval"
-  wonder: Wonder;            // { name, location, era, emoji }
-  id: string;                // "stage-01" through "stage-m12"
-  order: number;             // 1–12, sequential within epoch
+  id: string;
+  order: number;
+  epoch: EpochId;
   title: string;
   subtitle: string;
   category: "cybersecurity" | "ai" | "owasp";
@@ -201,195 +404,107 @@ type StageConfig = {
   xp: number;
   badge: { id: string; name: string; emoji: string };
   challengeType: "quiz" | "ctf";
-  info: StageInfo;           // Briefing page content
-  ctf?: CtfConfig;           // Terminal filesystem + commands
+  wonder?: Wonder;
+  info: StageInfo;
+  ctf?: CtfConfig;
 };
 ```
 
-CTF `extraCommands` are TypeScript closures — stage-specific terminal commands that cannot be JSON-serialized, which is why stages.ts is TypeScript rather than JSON.
-
-### 5.2 Epoch Gating
-
-Epochs unlock sequentially. Stage 1 of each epoch is always unlocked; subsequent stages unlock after the previous stage in the same epoch is completed. The Cisco epoch tab is locked until all 12 Foundations stages are complete.
-
-```typescript
-function isEpochUnlocked(epochIndex: number): boolean {
-  if (epochIndex === 0) return true;
-  const prevEpoch = epochs[epochIndex - 1];
-  const prevStages = allStages.filter(s => s.epochId === prevEpoch.id);
-  return prevStages.every(s => completedStages.includes(s.id));
-}
-```
-
----
-
-## 6. Component Architecture
-
-### 6.1 Stage Flow
-
-```
-/stages/[stageId]
-    └── StageContainer (client, reads stageId)
-            │
-            ├── [phase === "info"]  → StageInfo
-            │       ├── AttackDiagram
-            │       └── "Start Challenge" → setPhase("challenge")
-            │
-            └── [phase === "challenge"]
-                    ├── [challengeType === "ctf"]  → CtfChallenge
-                    │       ├── Reference drawer (slide-in StageInfo)
-                    │       └── Terminal (ls, cat, cd, submit, hint, extraCommands)
-                    │
-                    └── [challengeType === "quiz"] → QuizChallenge
-                            └── Scenario card + multiple choice
-```
-
-### 6.2 Terminal Command Dispatch
+### 9.3 CTF Terminal Architecture
 
 ```
 User input → runCommand(raw)
-    ├── Built-in: help, pwd, clear, cd, ls, cat, submit, hint
-    └── Extra: ctf.extraCommands[cmd](args)
-                └── Returns { lines: string[], solved?: boolean }
-                        └── solved → awardStage() + POST /api/progress
+    ├── Built-ins: help, pwd, clear, cd, ls, cat, submit, hint
+    └── extraCommands: TypeScript closures in stage data files
+            └── Returns { lines: string[], solved?: boolean }
+                    └── solved=true → POST /api/check-flag → awardStage()
+```
+
+Server validates the flag against its stored value — the client never has access to the correct flag.
+
+---
+
+## 10. Component Architecture
+
+```
+/stages/[stageId]
+    └── StageContainer (client, calls /api/auth/me + /api/progress)
+            ├── [phase=info]  → StageInfo
+            │       └── AttackDiagram
+            └── [phase=challenge]
+                    ├── [type=ctf]  → CtfChallenge
+                    │       ├── ReferenceDrawer → StageInfo (condensed)
+                    │       └── ARIAChatbot
+                    └── [type=quiz] → QuizChallenge
+                            └── ARIAChatbot
+
+/admin  (requires kryptos_admin cookie — enforced by proxy.ts)
+    └── AdminDashboard (client)
+            ├── UserTable (GET /api/admin/users)
+            ├── NDASignatories (GET /api/nda, with DocuSign status + send button)
+            └── StageAnalytics
+
+/demo  (NDA gate)
+    └── NDAGate (POST /api/nda on accept → sets nda cookie → shows demo content)
 ```
 
 ---
 
-## 7. Auth System (`src/lib/auth.ts`)
+## 11. Security Headers
 
-### 7.1 User Auth Flow
+Set in `next.config.ts` and applied to all responses:
 
-```
-Registration:
-  password → PBKDF2-SHA256 (100k iterations, 16-byte random salt)
-  → { username, email, passwordHash, salt, isAdmin: false } → localStorage
-  → setSession(username) → sessionStorage
-  → POST /api/admin-session (server checks ADMIN_USERNAME env var)
-      → if match: set admin_token HttpOnly cookie + mark user.isAdmin = true
-
-Login:
-  username → look up salt from localStorage
-  password + salt → PBKDF2-SHA256 → compare hash
-  → setSession(username) → sessionStorage
-  → POST /api/admin-session (same admin check)
-  → GET /api/progress?username=X → merge server progress into localStorage
-```
-
-### 7.2 Admin Session Flow
-
-```
-POST /api/admin-session { username }
-    → compare username to ADMIN_USERNAME env var (server-side, constant-time)
-    → if match: sign token = "username:HMAC-SHA256(ADMIN_SECRET, username)"
-    → set admin_token HttpOnly cookie (secure, sameSite: lax, 24h)
-    → return { isAdmin: true }
-
-proxy.ts (every /admin/** request):
-    → read admin_token cookie
-    → verify HMAC signature with ADMIN_SECRET
-    → redirect to /stages if invalid
-```
-
-### 7.3 Session Storage
-
-| Data | Storage | Key | Lifetime |
-|---|---|---|---|
-| User registry | localStorage | `kryptos_users` | Until cleared |
-| Active session | sessionStorage | `kryptos_session` | Tab close |
-| Admin cookie | HttpOnly cookie | `admin_token` | 24 hours |
-
----
-
-## 8. Persistence Model
-
-### 8.1 Local (client-side)
-
-| Data | Storage | Key |
-|---|---|---|
-| User registry | localStorage | `kryptos_users` |
-| Active session | sessionStorage | `kryptos_session` |
-| Progress (logged in) | localStorage | `kryptos_progress_<username>` |
-| Progress (guest) | localStorage | `kryptos_progress` |
-
-### 8.2 Server-side (Upstash Redis)
-
-| Data | Structure | Key |
-|---|---|---|
-| User progress | Hash | `progress:{username}` |
-| Global leaderboard | Sorted set | `leaderboard` |
-
-**Progress hash fields:** `xp` (int), `stages` (JSON array), `badges` (JSON array), `lastActive` (Unix ms timestamp)
-
-**Sync strategy:** Progress is written to Redis on every `awardStage()` call (fire-and-forget). On login, server progress is fetched and merged with local state — taking the max XP and union of completed stages and badges. This enables cross-device progress restore.
-
----
-
-## 9. API Routes
-
-| Route | Method | Auth | Description |
-|---|---|---|---|
-| `/api/admin-session` | POST | None | Issue admin cookie if username matches env var |
-| `/api/admin-session` | DELETE | None | Revoke admin cookie |
-| `/api/progress` | GET | Username param | Fetch user progress from Redis |
-| `/api/progress` | POST | Username in body | Upsert progress + update leaderboard sorted set |
-| `/api/leaderboard` | GET | None | Top 50 players from Redis sorted set |
-| `/api/notify-registration` | POST | None | Send registration email via Resend |
-
----
-
-## 10. Third-Party Services
-
-| Service | Purpose | Auth Method | Cost |
-|---|---|---|---|
-| **GitHub** | Source control | PAT | Free |
-| **Vercel** | Hosting, CDN, serverless | Linked via CLI | Free (Hobby) |
-| **Upstash Redis** | Progress persistence, leaderboard | REST URL + token (env vars) | Free tier |
-| **Resend** | Registration email | API key (env var) | Free tier |
-
-### Environment Variables (Vercel Production)
-
-| Variable | Purpose |
+| Header | Value |
 |---|---|
-| `ADMIN_USERNAME` | Admin account identifier (server-side only) |
-| `ADMIN_SECRET` | HMAC signing secret for admin cookie |
-| `ADMIN_EMAIL` | Recipient for registration notifications |
-| `RESEND_API_KEY` | Resend transactional email |
-| `UPSTASH_REDIS_REST_URL` | Upstash Redis endpoint |
-| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis auth token |
+| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` |
+| `X-Frame-Options` | `DENY` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` |
+| `Content-Security-Policy` | `default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://api.resend.com https://api.anthropic.com; frame-ancestors 'none'` |
 
 ---
 
-## 11. CI/CD Pipeline
+## 12. CI/CD Pipeline
 
 ```
 git push origin master
         │
-        └── Developer runs: npx vercel --prod
-                │
-                ├── Install: npm install
-                ├── Build:   next build (Turbopack)
-                └── Deploy:  serverless functions + static assets → iad1 (us-east)
-                        │
-                        └── Production: kryptoscronos.com
-```
-
-**Note:** Vercel GitHub auto-deploy integration is not active. Deployments are triggered manually via the Vercel CLI.
-
-### Recommended CI additions (not yet implemented)
-
-```
-- npm run lint
-- npx tsc --noEmit
-- npm audit
+        ├── GitHub Actions (.github/workflows/ci.yml)
+        │       runs-on: ubuntu-latest, Node 24.x
+        │       ├── npm ci
+        │       ├── npm run lint        (ESLint)
+        │       ├── npx tsc --noEmit   (TypeScript)
+        │       ├── npm run build      (Next.js production build)
+        │       └── npm audit          (dependency security)
+        │
+        └── Vercel GitHub App (auto-trigger)
+                ├── npm install (Node 24.x)
+                ├── next build (Turbopack)
+                ├── Bundle secured-docs/ via outputFileTracingIncludes
+                └── Deploy to iad1 → kryptoscronos.com (~90s)
 ```
 
 ---
 
-## 12. Performance Characteristics
+## 13. Third-Party Services
+
+| Service | Auth Method | Env Var(s) | Cost |
+|---|---|---|---|
+| Upstash Redis | REST token | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Free tier |
+| Resend | API key | `RESEND_API_KEY` | Free tier |
+| Anthropic Claude Haiku | API key | `ANTHROPIC_API_KEY` | Pay-per-token |
+| DocuSign eSignature | JWT (RSA) | `DOCUSIGN_*` (6 vars) | Free developer tier |
+| Vercel | GitHub App (auto) | — | Free Hobby plan |
+| GitHub | GitHub App (auto) | — | Free |
+
+---
+
+## 14. Performance Characteristics
 
 - **Initial page load:** ~200–400ms (Vercel CDN, static shell)
 - **Time to interactive:** ~500–800ms (React hydration)
-- **Leaderboard load:** +50–150ms (Upstash Redis REST call, serverless cold start ~25ms)
-- **Stage completion:** +50–100ms (Upstash write, fire-and-forget — non-blocking)
-- **Bundle size:** ~200KB gzipped (Next.js + React + Tailwind + Upstash client)
+- **Stage page:** SSR on first request, cached at edge after
+- **Auth check (`/api/auth/me`):** ~50–100ms (Upstash Redis edge latency)
+- **ARIA hint response:** ~500–1500ms (Claude Haiku, depends on Anthropic API load)
+- **Bundle size:** ~200KB gzipped (Next.js + React + Tailwind)

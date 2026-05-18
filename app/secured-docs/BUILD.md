@@ -1,6 +1,6 @@
-﻿# Kryptós CronOS — Build Guide
-**Version:** 2.0  
-**Date:** 2026-05-11
+# Kryptós CronOS — Build Guide
+**Version:** 3.0  
+**Date:** 2026-05-18
 
 ---
 
@@ -35,7 +35,7 @@ npm install
 Create `app/.env.local` (never commit this file):
 
 ```env
-# Upstash Redis — required for leaderboard, progress sync, rate limiting
+# Upstash Redis — required for users, progress, leaderboard, streaks, NDA records, rate limiting
 UPSTASH_REDIS_REST_URL=https://<your-instance>.upstash.io
 UPSTASH_REDIS_REST_TOKEN=<your-token>
 
@@ -46,6 +46,17 @@ ADMIN_EMAIL=<email to receive registration alerts>
 # Admin auth — required for /admin dashboard
 ADMIN_USERNAME=<admin username>
 ADMIN_SECRET=<32+ char random secret for HMAC signing>
+
+# Anthropic — required for ARIA AI hint chatbot (/api/hint)
+ANTHROPIC_API_KEY=sk-ant-<your-key>
+
+# DocuSign eSignature — required for NDA sending from admin dashboard
+DOCUSIGN_INTEGRATION_KEY=<UUID>
+DOCUSIGN_USER_ID=<UUID>
+DOCUSIGN_ACCOUNT_ID=<account ID>
+DOCUSIGN_PRIVATE_KEY=<RSA private key for JWT auth>
+DOCUSIGN_BASE_URL=https://demo.docusign.net
+DOCUSIGN_WEBHOOK_SECRET=<optional: HMAC secret for webhook verification>
 ```
 
 ### 4. Start the dev server
@@ -116,7 +127,7 @@ app/
 │   ├── proxy.ts              ← Next.js 16 middleware (NOT middleware.ts)
 │   ├── app/                  ← App Router: pages + API routes
 │   ├── components/           ← React components
-│   ├── data/                 ← Stage configs (TypeScript)
+│   ├── data/                 ← Stage configs (TypeScript, all 9 epochs)
 │   └── lib/                  ← Auth, progress, Redis utilities
 ├── secured-docs/             ← Admin-only markdown docs (gated via /api/docs)
 ├── public/                   ← Static assets
@@ -135,6 +146,13 @@ app/
 ```
 git push origin master
         │
+        ├── GitHub Actions (ci.yml) — runs on every push
+        │       ├── npm ci (Node 24.x)
+        │       ├── npm run lint
+        │       ├── npx tsc --noEmit
+        │       ├── npm run build
+        │       └── npm audit --audit-level=moderate
+        │
         └── Vercel GitHub App detects push
                 ├── Installs: npm install (Node 24.x)
                 ├── Builds: next build (Turbopack)
@@ -144,9 +162,7 @@ git push origin master
 
 Deploy takes approximately 60–90 seconds. Monitor at vercel.com/dashboard.
 
-### Recommended CI (Not Yet Implemented)
-
-Create `.github/workflows/ci.yml`:
+### CI Configuration (`.github/workflows/ci.yml`)
 
 ```yaml
 name: CI
@@ -180,7 +196,14 @@ Set at: vercel.com → Project → Settings → Environment Variables
 | `RESEND_API_KEY` | Yes | Resend API key for email |
 | `ADMIN_EMAIL` | Yes | Admin notification recipient |
 | `ADMIN_USERNAME` | Yes | Admin dashboard login username |
-| `ADMIN_SECRET` | Yes | 32+ char secret for HMAC admin cookie |
+| `ADMIN_SECRET` | Yes | 32+ char secret for HMAC cookie signing (session + admin) |
+| `ANTHROPIC_API_KEY` | Yes | Anthropic API key for ARIA chatbot (Claude Haiku) |
+| `DOCUSIGN_INTEGRATION_KEY` | Yes | DocuSign app integration key (UUID) |
+| `DOCUSIGN_USER_ID` | Yes | DocuSign API username (UUID) |
+| `DOCUSIGN_ACCOUNT_ID` | Yes | DocuSign account ID |
+| `DOCUSIGN_PRIVATE_KEY` | Yes | RSA private key for DocuSign JWT auth |
+| `DOCUSIGN_BASE_URL` | Yes | `https://demo.docusign.net` or `https://na4.docusign.net` |
+| `DOCUSIGN_WEBHOOK_SECRET` | Optional | HMAC secret for DocuSign webhook verification |
 
 ### Local Only
 
@@ -195,9 +218,18 @@ Set at: vercel.com → Project → Settings → Environment Variables
 | File | Why it matters |
 |---|---|
 | `src/proxy.ts` | Active Next.js middleware — wrong name = middleware not running |
-| `src/data/stages.ts` | All Foundations + Cisco stage definitions (24 stages) |
-| `src/data/before-times*.ts` | Before Times epoch (30 stages split across 3 files) |
-| `src/lib/auth.ts` | PBKDF2 hashing — do not change without testing |
+| `src/app/api/auth/register/route.ts` | Server-side PBKDF2 registration + cookie issuance |
+| `src/app/api/auth/login/route.ts` | Server-side PBKDF2 login + cookie issuance |
+| `src/app/api/auth/me/route.ts` | Cookie-to-identity resolver used by all client components |
+| `src/app/api/hint/route.ts` | ARIA chatbot — Claude Haiku integration |
+| `src/app/api/admin/send-nda/route.ts` | DocuSign envelope dispatch |
+| `src/app/api/webhooks/docusign/route.ts` | DocuSign status webhook handler |
+| `src/data/stages.ts` | Foundations + Cisco stage definitions (24 stages) |
+| `src/data/before-times*.ts` | Before Times epoch (30 stages across 3 files) |
+| `src/data/tech-audit.ts` | Tech Audit epochs (36 stages) |
+| `src/data/mitre.ts` | MITRE ATT&CK + ATLAS epochs (24 stages) |
+| `src/data/owasp-llm.ts` | OWASP LLM Top 10 epoch (12 stages) |
+| `src/lib/auth.ts` | PBKDF2 hashing + HMAC cookie utilities |
 | `src/lib/redis.ts` | Upstash client — requires env vars at runtime |
 | `next.config.ts` | Security headers + `outputFileTracingIncludes` for secured-docs |
 | `secured-docs/` | Never move to `public/` — gated behind admin HMAC cookie |
@@ -210,6 +242,10 @@ Set at: vercel.com → Project → Settings → Environment Variables
 - Confirm the file is named `src/proxy.ts` (not `middleware.ts`)
 - Build output must show `ƒ Proxy (Middleware)`
 
+**Login / registration failing:**
+- Confirm all `UPSTASH_REDIS_*` and `ADMIN_SECRET` vars are set in Vercel
+- Auth is fully server-side — no localStorage fallback exists
+
 **Leaderboard empty / progress not syncing:**
 - Check `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` in Vercel env vars
 - Verify Upstash instance is active at console.upstash.com
@@ -217,6 +253,17 @@ Set at: vercel.com → Project → Settings → Environment Variables
 **Emails not sending:**
 - Check `RESEND_API_KEY` is set and the sending domain is verified in Resend
 - Rate limits: forgot-password (3/IP/15min), notify-registration (5/IP/hour)
+
+**ARIA chatbot not responding:**
+- Confirm `ANTHROPIC_API_KEY` is set in Vercel env vars
+- Check `/api/hint` logs in Vercel Functions for API errors
+- Rate limit: 15 requests per IP per 15 minutes
+
+**DocuSign NDA send failing:**
+- Confirm all `DOCUSIGN_*` vars are set correctly
+- For production: set `DOCUSIGN_BASE_URL=https://na4.docusign.net`
+- For sandbox/testing: set `DOCUSIGN_BASE_URL=https://demo.docusign.net`
+- Check `/api/admin/send-nda` logs in Vercel Functions
 
 **Admin dashboard locked out:**
 - POST `/api/admin-session` with `{ username, password }` to re-issue cookie

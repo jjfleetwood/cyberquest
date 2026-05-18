@@ -1,6 +1,6 @@
-﻿# Kryptós CronOS — Partners & Supporting Infrastructure
-**Version:** 2.0  
-**Date:** 2026-05-11
+# Kryptós CronOS — Partners & Supporting Infrastructure
+**Version:** 3.0  
+**Date:** 2026-05-18
 
 ---
 
@@ -12,7 +12,7 @@
 **URL:** vercel.com  
 **Dashboard:** vercel.com/dashboard
 
-Vercel hosts the entire application. Every `git push` to `master` triggers an automatic build and deploy. The Next.js serverless API routes run as Vercel Edge Functions. Assets are served from a global CDN with the primary region in `iad1` (US East, Washington DC).
+Vercel hosts the entire application. Every `git push` to `master` triggers an automatic build and deploy. The Next.js serverless API routes run as Vercel serverless functions. Assets are served from a global CDN with the primary region in `iad1` (US East, Washington DC).
 
 **What it handles:**
 - Static asset delivery (JS, CSS, images)
@@ -28,19 +28,21 @@ Vercel hosts the entire application. Every `git push` to `master` triggers an au
 ---
 
 ### Upstash
-**Role:** Serverless Redis — leaderboard, progress sync, rate limiting, password reset  
+**Role:** Serverless Redis — users, progress, leaderboard, streaks, NDA records, rate limiting, password reset  
 **Plan:** Free tier  
 **URL:** upstash.com  
 **Dashboard:** console.upstash.com
 
-Upstash provides a globally distributed, REST-accessible Redis instance. It's the backbone of everything server-side in the app: real-time leaderboard rankings, cross-device progress sync, IP-based rate limiting, and time-limited password reset tokens.
+Upstash provides a globally distributed, REST-accessible Redis instance. It is the sole backend data store: user accounts (with PBKDF2-hashed passwords), progress, real-time leaderboard rankings, daily streaks, NDA acceptance records, IP-based rate limiting, and password reset tokens.
 
 **What it handles:**
-- Global leaderboard (Redis sorted set, ranked by XP)
-- Server-side user progress persistence (Redis hash per user)
+- User record storage (`user:{username}` hash: email, passwordHash, salt, createdAt)
+- Server-side progress persistence (`progress:{username}` hash)
+- Global, daily, and weekly leaderboards (Redis sorted sets)
+- Daily login streaks (`streak:{username}` hash)
+- NDA clickwrap and DocuSign status records (`nda:{email}` hash)
 - Password reset token storage (with 1-hour TTL)
-- Rate limiting for forgot-password (3/IP/15min) and registration notifications (5/IP/hour)
-- User record storage (first-write-wins on registration)
+- Rate limiting for forgot-password, NDA, and registration notifications
 
 **Integration:** `@upstash/redis` npm package, REST API with `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`  
 **Limits (Free):** 10,000 commands/day, 256 MB storage  
@@ -54,7 +56,7 @@ Upstash provides a globally distributed, REST-accessible Redis instance. It's th
 **URL:** resend.com  
 **Dashboard:** resend.com/dashboard
 
-Resend handles all outbound emails: admin alerts when new users register, and password reset links. It's called from serverless API routes with rate limiting to prevent abuse.
+Resend handles all outbound emails: admin alerts when new users register, and password reset links. It is called from serverless API routes with rate limiting to prevent abuse.
 
 **What it handles:**
 - Admin notification when a new user registers (`/api/notify-registration`)
@@ -72,14 +74,54 @@ Resend handles all outbound emails: admin alerts when new users register, and pa
 **Plan:** Free  
 **URL:** github.com/jjfleetwood/kryptos-cronos
 
-GitHub is the source of truth for all code. The Vercel GitHub App is connected to the repo — every push to `master` automatically triggers a production deploy. Pull requests trigger preview deployments.
+GitHub is the source of truth for all code. The Vercel GitHub App is connected to the repo — every push to `master` automatically triggers a production deploy. GitHub Actions runs the CI pipeline (lint + tsc + build + audit) on every push.
 
 **What it handles:**
 - Version control and history
+- GitHub Actions CI pipeline (`.github/workflows/ci.yml`)
 - Automated Vercel deploy trigger on push
 - Issue tracking and project management (when used)
 
 **Security note:** GitHub Personal Access Tokens used in CLI commands should be revoked immediately after use. Never store tokens in the repo or shell history permanently.
+
+---
+
+### Anthropic
+**Role:** Claude Haiku — ARIA AI hint chatbot  
+**Plan:** API key (pay-per-token)  
+**URL:** anthropic.com  
+**Dashboard:** console.anthropic.com
+
+Anthropic's Claude Haiku model powers ARIA, the in-platform AI hint assistant. ARIA uses a Socratic method system prompt — it asks guiding questions rather than giving direct answers, encouraging learners to think through the problem. Requests are rate-limited to 15 per IP per 15-minute window to control costs.
+
+**What it handles:**
+- Stage-aware AI hints via `/api/hint`
+- Socratic coaching during CTF and quiz challenges
+- 10-message session cap per stage; 30-second cooldown between messages
+
+**Integration:** Anthropic SDK with `ANTHROPIC_API_KEY`; model: `claude-haiku-*`  
+**CSP note:** `connect-src` in `next.config.ts` explicitly allows `https://api.anthropic.com`  
+**Cost:** Pay-per-token; kept low by rate limiting and the Haiku model tier
+
+---
+
+### DocuSign
+**Role:** eSignature API — NDA envelope sending and status tracking  
+**Plan:** Free developer tier  
+**URL:** docusign.com  
+**Dashboard:** admindemo.docusign.com
+
+DocuSign enables the admin to send formal NDA envelopes to users directly from the admin dashboard. When a user completes the clickwrap NDA at `/demo`, their record is logged in Redis. The admin can then escalate to a formal DocuSign eSignature from the NDA Signatories panel.
+
+**What it handles:**
+- NDA envelope creation and delivery from admin dashboard (`/api/admin/send-nda`)
+- Signer status tracking via webhook (`/api/webhooks/docusign`): signed / declined / voided
+- Redis `nda:{email}` record updated with `envelopeId`, `status`, `signedAt` upon webhook receipt
+
+**Integration:** DocuSign eSignature REST API, JWT Grant auth (`DOCUSIGN_PRIVATE_KEY`, `DOCUSIGN_USER_ID`, `DOCUSIGN_INTEGRATION_KEY`)  
+**Webhook:** DocuSign Connect POSTs to `/api/webhooks/docusign`; verified with HMAC signature (`DOCUSIGN_WEBHOOK_SECRET`)  
+**Limits (Developer):** 1,000 envelopes/month  
+**Upgrade trigger:** Paid plan when production NDA volume grows
 
 ---
 
@@ -103,7 +145,6 @@ These are not yet active integrations — they are named in the business model a
 | **Cisco** | Full platform integration across curriculum, threat intelligence, and certification (see below) |
 | **SentinelOne** | Weekly CVE challenge sponsor ("SentinelOne Threat Intelligence Challenge") |
 | **AWS** | Co-brand the SSRF stage (Capital One breach); AWS free-tier credit for completions |
-| **Azure / Microsoft** | Cloud security curriculum track |
 | **CompTIA** | Certificate discount integration; co-brand cert verification |
 | **ISC²** | CISSP pathway alignment; exam vouchers for badge completions |
 
@@ -122,7 +163,7 @@ Cisco is the deepest planned sponsor integration — anchored by the existing Ci
 
 ---
 
-## Technology Stack (No-Cost)
+## Technology Stack (No-Cost / Open Source)
 
 | Technology | License | Version | Role |
 |---|---|---|---|
@@ -130,7 +171,7 @@ Cisco is the deepest planned sponsor integration — anchored by the existing Ci
 | React | MIT | 19.2.4 | UI rendering |
 | TypeScript | Apache 2.0 | 5.x | Type safety |
 | Tailwind CSS | MIT | 4.x | Styling |
-| Web Crypto API | Browser built-in | — | Password hashing (PBKDF2) |
+| Web Crypto API | Browser built-in | — | Server-side PBKDF2 password hashing |
 | react-markdown | MIT | 10.x | Admin docs viewer |
 | remark-gfm | MIT | 4.x | GitHub-flavored markdown in docs viewer |
 | @upstash/redis | MIT | 1.38.x | Redis client |

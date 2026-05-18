@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 2.0  
-**Date:** 2026-05-11  
-**Total stages:** 54 across 3 epochs
+**Version:** 3.0  
+**Date:** 2026-05-18  
+**Total stages:** 126 across 9 epochs
 
 ---
 
@@ -70,6 +70,72 @@ Cisco epoch stages are written in a field-operative tone: the learner is an APT 
 
 ---
 
+## Epoch 4: Tech Audit — Foundations
+**Theme:** Technology audit methodology — foundational concepts and frameworks  
+**Stages:** 12 (audit-01 through audit-12)  
+**Color:** Purple  
+**Unlock:** Sequential unlock after completing prior epochs  
+**Gating:** Sequential within epoch
+
+Covers the fundamentals of conducting technology audits: scope definition, risk frameworks, evidence collection, audit trails, and reporting standards. Designed for learners moving into compliance, assurance, and governance roles.
+
+---
+
+## Epoch 5: Tech Audit — Technical
+**Theme:** Technical audit execution — hands-on system and infrastructure assessment  
+**Stages:** 12 (audit-t01 through audit-t12)  
+**Color:** Violet  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Hands-on technical audit scenarios: network scanning, configuration review, log analysis, vulnerability assessment, and evidence documentation. Bridges cybersecurity skills with formal audit methodology.
+
+---
+
+## Epoch 6: Tech Audit — Agentic
+**Theme:** AI-assisted and autonomous audit techniques  
+**Stages:** 12 (audit-a01 through audit-a12)  
+**Color:** Indigo  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Covers the emerging field of agentic security auditing: AI-assisted threat modeling, automated control testing, LLM-powered log analysis, and the risks of deploying autonomous agents in security-sensitive environments.
+
+---
+
+## Epoch 7: MITRE ATT&CK
+**Theme:** Adversarial tactics, techniques, and procedures mapped to the MITRE ATT&CK framework  
+**Stages:** 12 (mitre-01 through mitre-12)  
+**Color:** Red  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Each stage maps to a specific ATT&CK tactic (Reconnaissance, Initial Access, Execution, Persistence, Privilege Escalation, Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command & Control, Exfiltration, Impact). Learners simulate both attacker and defender roles using the ATT&CK navigator framework.
+
+---
+
+## Epoch 8: MITRE ATLAS
+**Theme:** AI threat landscape — adversarial attacks on machine learning systems  
+**Stages:** 12 (atlas-01 through atlas-12)  
+**Color:** Fuchsia  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) covers ML-specific attack vectors: adversarial examples, model inversion, data poisoning, model theft, prompt injection, and evasion attacks on AI classifiers. Each stage maps to an ATLAS technique.
+
+---
+
+## Epoch 9: OWASP LLM Top 10
+**Theme:** Security risks specific to Large Language Model applications  
+**Stages:** 12 (llm-01 through llm-12)  
+**Color:** Orange  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Covers the OWASP Top 10 for Large Language Model Applications: prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, and model theft. Stages simulate real LLM application attack scenarios.
+
+---
+
 ## XP Summary
 
 | Epoch | Stages | Max XP |
@@ -77,7 +143,13 @@ Cisco epoch stages are written in a field-operative tone: the learner is an APT 
 | The Before Times | 30 | ~1,500 (varies) |
 | Foundations | 12 | 2,950 |
 | Cisco | 12 | 4,200 |
-| **Total** | **54** | **~8,650** |
+| Tech Audit: Foundations | 12 | ~3,600 (varies) |
+| Tech Audit: Technical | 12 | ~3,600 (varies) |
+| Tech Audit: Agentic | 12 | ~3,600 (varies) |
+| MITRE ATT&CK | 12 | ~4,200 (varies) |
+| MITRE ATLAS | 12 | ~4,200 (varies) |
+| OWASP LLM Top 10 | 12 | ~4,200 (varies) |
+| **Total** | **126** | **~31,050** |
 
 ---
 
@@ -86,19 +158,20 @@ Cisco epoch stages are written in a field-operative tone: the learner is an APT 
 Every stage follows this four-part flow:
 
 ### 1. Stage Briefing (StageInfo component)
-- **Overview:** Plain-language explanation of the vulnerability
+- **Overview:** Plain-language explanation of the vulnerability or concept
 - **Attack Flow Diagram:** Visual showing attacker → system → victim → outcome
 - **Technical Deep Dive:** Mechanism, code examples, how it works
-- **Historical Incident:** The real-world breach that made this vulnerability famous
+- **Historical Incident:** The real-world breach or case study that made this topic relevant
 - **Timeline:** Key events in the incident
-- **References:** CVE entries, OWASP links, post-mortems
+- **References:** CVE entries, OWASP links, MITRE ATT&CK/ATLAS entries, post-mortems
 
 ### 2. CTF Challenge (CtfChallenge component)
 - Simulated bash terminal
 - Filesystem modeled on the real affected system (e.g., Log4Shell-vulnerable logging server)
 - Built-in commands: `ls`, `cat`, `cd`, `submit`, `hint`, `help`, `pwd`, `clear`
-- Stage-specific commands implemented as TypeScript closures in `stages.ts`
+- Stage-specific commands implemented as TypeScript closures in stage data files
 - Progressive hints: up to 3, revealed one at a time via `hint`
+- ARIA chatbot available for AI-assisted coaching
 
 ### 3. Reference Drawer
 - Slide-in panel available during CTF — full briefing accessible without leaving the terminal
@@ -107,13 +180,28 @@ Every stage follows this four-part flow:
 ### 4. Completion
 - XP awarded server-side (computed from STAGE_XP map in `/api/progress`, not client-submitted)
 - Badge unlocked (displayed on leaderboard and stage map)
+- Skills Acquired summary shown in FlagSuccessModal
+- Streak updated in Redis; milestone badges checked (m-xp-1k, m-xp-5k, m-streak-3, m-streak-7)
 - Next stage unlocked in sequence
 
 ---
 
-## Badge Library
+## Milestone Badges
 
-Each stage awards a unique badge. Examples:
+In addition to per-stage badges, milestone badges are awarded for XP and streak thresholds:
+
+| Badge ID | Trigger | Description |
+|---|---|---|
+| `m-xp-1k` | 1,000 XP total | XP milestone |
+| `m-xp-5k` | 5,000 XP total | XP milestone |
+| `m-streak-3` | 3-day login streak | Consistency milestone |
+| `m-streak-7` | 7-day login streak | Consistency milestone |
+
+---
+
+## Badge Library (Foundations Epoch Examples)
+
+Each stage awards a unique badge:
 
 | Badge | Stage | Emoji |
 |---|---|---|
@@ -129,16 +217,3 @@ Each stage awards a unique badge. Examples:
 | SSRF Agent | SSRF | 🌐 |
 | Equifax Breaker | Equifax/Struts | 💳 |
 | MongoDB Marshal | MongoDB | 🗄️ |
-
----
-
-## Roadmap: Content Additions
-
-Planned content for v1.x:
-
-- **Streaks & milestones** — daily login streaks, weekly challenge events
-- **AI adaptive difficulty** — harder variants unlock based on solve time
-- **Personalized paths** — role-based sequencing (developer, sysadmin, executive)
-- **In-terminal AI tutor** — natural language Q&A during CTF (Anthropic API)
-- **Weekly CVE drops** — new challenge each week based on real CVEs published in the last 7 days
-- **Additional epochs** — Cloud Security (AWS/Azure misconfigs), Mobile Security, Social Engineering

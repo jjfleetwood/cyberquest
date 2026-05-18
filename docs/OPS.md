@@ -1,6 +1,6 @@
-﻿# Kryptós CronOS — Operations Runbook
-**Version:** 2.0  
-**Date:** 2026-05-11
+# Kryptós CronOS — Operations Runbook
+**Version:** 3.0  
+**Date:** 2026-05-18
 
 ---
 
@@ -9,9 +9,11 @@
 | Service | Role | URL | Cost |
 |---|---|---|---|
 | **Vercel** | Hosting, CDN, serverless runtime | vercel.com/dashboard | Free (Hobby) |
-| **Upstash** | Redis — leaderboard, progress, rate limits, pwd reset | console.upstash.com | Free tier |
+| **Upstash** | Redis — users, progress, leaderboard, streaks, NDA records, rate limits, pwd reset | console.upstash.com | Free tier |
 | **Resend** | Transactional email | resend.com/dashboard | Free tier |
 | **GitHub** | Source control, CI trigger | github.com/jjfleetwood/kryptos-cronos | Free |
+| **Anthropic** | Claude Haiku — ARIA AI hint chatbot | console.anthropic.com | API key required |
+| **DocuSign** | eSignature API — NDA envelope sending and tracking | admindemo.docusign.com | Free developer tier |
 
 ---
 
@@ -29,9 +31,18 @@
 | `RESEND_API_KEY` | From Resend dashboard → API Keys |
 | `ADMIN_EMAIL` | Email that receives new-user registration alerts |
 | `ADMIN_USERNAME` | Admin dashboard username |
-| `ADMIN_SECRET` | 32+ char random string — used for HMAC admin cookie signing |
+| `ADMIN_SECRET` | 32+ char random string — used for HMAC signing of both session_token and kryptos_admin cookies |
+| `ANTHROPIC_API_KEY` | From console.anthropic.com → API Keys — powers ARIA chatbot |
+| `DOCUSIGN_INTEGRATION_KEY` | DocuSign app integration key (UUID) |
+| `DOCUSIGN_USER_ID` | DocuSign API username (UUID) |
+| `DOCUSIGN_ACCOUNT_ID` | DocuSign account ID |
+| `DOCUSIGN_PRIVATE_KEY` | RSA private key for DocuSign JWT auth |
+| `DOCUSIGN_BASE_URL` | `https://demo.docusign.net` (sandbox) or `https://na4.docusign.net` (production) |
+| `DOCUSIGN_WEBHOOK_SECRET` | Optional — HMAC secret for DocuSign webhook signature verification |
 
 **Rotation:** If you rotate any of these, redeploy immediately (Vercel redeploy button) — the old values stay live until the next deploy.
+
+**Note on `ADMIN_SECRET` rotation:** Rotating this key invalidates all active session_token and kryptos_admin cookies. All users will be logged out and must re-authenticate.
 
 ---
 
@@ -43,7 +54,7 @@
 git push origin master
 ```
 
-Vercel auto-deploys in ~90 seconds. No action required.
+GitHub Actions CI runs first (lint + tsc + build + audit). Vercel auto-deploys in ~90 seconds. No action required.
 
 ### Manual redeploy (e.g., after env var change)
 
@@ -66,10 +77,13 @@ Vercel auto-deploys in ~90 seconds. No action required.
 | Signal | Where to check | Threshold |
 |---|---|---|
 | Build failures | Vercel Deployments tab — red status | Any failure = investigate |
+| CI failures | GitHub Actions tab | Any failure before merge |
 | Function errors | Vercel → Functions → Logs | Error rate > 1% |
 | Redis exhaustion | Upstash console → Usage | > 80% of free tier commands/day |
 | Email bounces | Resend dashboard → Logs | Any hard bounces |
-| Rate limit spikes | Upstash Redis keys `rl:forgot:*` and `rl:notify:*` | Sustained hits from single IP |
+| Anthropic API errors | Vercel → `/api/hint` function logs | Repeated 429 or 5xx from Anthropic |
+| DocuSign webhook failures | Vercel → `/api/webhooks/docusign` function logs | Any HMAC verification failures or 5xx |
+| Rate limit spikes | Upstash Redis keys `rate:forgot:*`, `rate:nda:*`, `rate:reg:*` | Sustained hits from single IP |
 
 ### Vercel function logs
 
@@ -88,17 +102,22 @@ vercel logs --follow
 
 | Key | Type | TTL | Purpose |
 |---|---|---|---|
-| `leaderboard` | Sorted Set | None | Global XP rankings |
-| `progress:<username>` | Hash | None | Server-side progress per user |
-| `user:<username>` | Hash | None | User record (first-write-wins) |
-| `rl:forgot:<ip>` | String (counter) | 15 minutes | Forgot-password rate limit |
-| `rl:notify:<ip>` | String (counter) | 1 hour | Registration email rate limit |
-| `reset:<token>` | String | 1 hour | Password reset token |
+| `user:{username}` | Hash | None | User record: email, passwordHash, salt, createdAt |
+| `progress:{username}` | Hash | None | Server-side progress per user: stageIds, xp, badges, updatedAt |
+| `leaderboard` | Sorted Set | None | Global all-time XP rankings |
+| `lb:d:YYYY-MM-DD` | Sorted Set | 48h | Daily leaderboard |
+| `lb:w:YYYY-MM-DD` | Sorted Set | 14d | Weekly leaderboard (Monday date key) |
+| `streak:{username}` | Hash | None | current, longest, lastDate |
+| `nda:{email}` | Hash | None | name, email, acceptedAt/sentAt/signedAt, ip, method, status, envelopeId |
+| `reset:{token}` | String | 1h | Password reset token |
+| `rate:nda:{ip}` | String (counter) | 15m | NDA clickwrap rate limit |
+| `rate:forgot:{ip}` | String (counter) | 15m | Forgot-password rate limit |
+| `rate:reg:{ip}` | String (counter) | 1h | Registration notification rate limit |
 
 ### Useful Redis commands (Upstash console → CLI tab)
 
 ```bash
-# View leaderboard
+# View all-time leaderboard (top 10)
 ZREVRANGE leaderboard 0 9 WITHSCORES
 
 # View a user's progress
@@ -107,8 +126,14 @@ HGETALL progress:ajax
 # View a user's stored record
 HGETALL user:ajax
 
+# View a user's streak
+HGETALL streak:ajax
+
+# View an NDA record
+HGETALL nda:user@example.com
+
 # Delete a stale rate limit key manually
-DEL rl:forgot:192.168.1.1
+DEL rate:forgot:192.168.1.1
 
 # Count all users
 ZCARD leaderboard
@@ -136,6 +161,9 @@ Or use the admin login form at `/admin`.
 ### Admin capabilities
 
 - View all registered users and their XP
+- View NDA signatories with DocuSign envelope status (pending / signed / declined / voided)
+- Send DocuSign NDA envelope to a recipient directly from the dashboard
+- View stage completion analytics
 - Access secured internal documents (business proposals, security briefing, release notes, architecture)
 - Revoke admin session
 
@@ -157,16 +185,37 @@ To add a new secured document:
 ### Site down / 5xx errors
 
 1. Check Vercel Deployments — is the latest deploy green?
-2. Check Vercel Function Logs for errors
-3. Check Upstash console — is the Redis instance up?
-4. If a bad deploy: rollback immediately (see Deployment → Rollback)
+2. Check GitHub Actions — did CI pass?
+3. Check Vercel Function Logs for errors
+4. Check Upstash console — is the Redis instance up?
+5. If a bad deploy: rollback immediately (see Deployment → Rollback)
+
+### Auth failures (users cannot log in)
+
+1. Confirm `ADMIN_SECRET` is set correctly in Vercel — this signs all session cookies
+2. Confirm `UPSTASH_REDIS_*` vars are correct — user records are in Redis
+3. Check `/api/auth/login` function logs for specific errors
+4. Auth is fully server-side — no localStorage fallback; a misconfigured Redis means no logins
 
 ### Data loss (user progress wiped)
 
-1. Redis is the source of truth for server-side progress
-2. Client localStorage is the fallback — users retain progress on the same device
+1. Redis is the sole source of truth for all user data and progress
+2. No localStorage fallback exists in v1.3.0+
 3. No backup system currently in place — Redis free tier does not include snapshots
 4. **Action:** Upgrade to Upstash Pro for point-in-time recovery before production scale
+
+### ARIA chatbot down
+
+1. Check `ANTHROPIC_API_KEY` is set in Vercel env vars
+2. Check `/api/hint` function logs for Anthropic API errors (429 = rate limited, 5xx = API outage)
+3. ARIA failing silently is acceptable — the rest of the platform continues working
+
+### DocuSign webhook failures
+
+1. Check `/api/webhooks/docusign` function logs
+2. If HMAC verification failing: confirm `DOCUSIGN_WEBHOOK_SECRET` matches what is configured in DocuSign Connect
+3. If envelopes sent but status not updating: trigger a manual webhook resend from DocuSign admin console
+4. NDA clickwrap acceptance is independent of DocuSign — users are logged in Redis on clickwrap regardless
 
 ### Admin locked out
 
@@ -176,9 +225,9 @@ To add a new secured document:
 
 ### Rate limit false positive
 
-1. Identify the IP hitting the limit (`rl:forgot:<ip>` or `rl:notify:<ip>`)
-2. Delete the Redis key manually via Upstash console CLI
-3. Rate limits: forgot-password = 3/IP/15min, notify-registration = 5/IP/hour
+1. Identify the IP hitting the limit in Upstash console
+2. Delete the Redis key manually: `DEL rate:forgot:<ip>` or `DEL rate:nda:<ip>`
+3. Rate limits: forgot-password = 3/IP/15min, NDA = per-IP/15min, registration notify = 5/IP/hour
 
 ---
 
@@ -192,6 +241,8 @@ To add a new secured document:
 | Vercel Build Minutes | 6,000/month | ~2/deploy |
 | Upstash Commands | 10,000/day | Low |
 | Resend Emails | 3,000/month | Low |
+| Anthropic (Claude Haiku) | Pay-per-token | Low (15 req/IP/15min rate limit) |
+| DocuSign | 1,000 envelopes/month (developer tier) | Low |
 
 ### Upgrade Triggers
 
@@ -200,6 +251,8 @@ To add a new secured document:
 | > 1 team member needs Vercel deploy access | Upgrade to Vercel Pro ($20/month) |
 | > 10,000 Redis commands/day | Upgrade to Upstash Pay-as-you-go |
 | > 3,000 emails/month | Upgrade to Resend Pro ($20/month) |
+| Anthropic costs exceed budget | Review ARIA rate limits; consider caching common hints |
+| > 1,000 DocuSign envelopes/month | Move to DocuSign paid plan |
 | Enterprise sales conversations begin | Upgrade all to paid tiers for SLA |
 
 ---
@@ -208,7 +261,9 @@ To add a new secured document:
 
 - **Never commit** `.env.local` or any file containing tokens
 - **GitHub PATs and Vercel tokens** used in one-off CLI commands should be **revoked immediately after use**
-- **Rotate `ADMIN_SECRET`** if you suspect it was exposed — redeploy after rotation
+- **Rotate `ADMIN_SECRET`** if you suspect it was exposed — redeploy after rotation (this logs out all users)
+- **Rotate `ANTHROPIC_API_KEY`** if exposed — update in Vercel, redeploy
+- **Rotate DocuSign keys** via DocuSign admin console if exposed
 - All secrets are stored in Vercel environment variables, not in the repository
 
 ---

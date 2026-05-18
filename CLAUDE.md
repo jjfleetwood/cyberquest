@@ -99,7 +99,14 @@ UPSTASH_REDIS_REST_TOKEN
 RESEND_API_KEY
 ADMIN_EMAIL
 ADMIN_USERNAME
-ADMIN_SECRET       ← 32+ char random string for HMAC cookie signing
+ADMIN_SECRET              ← 32+ char random string for HMAC cookie signing
+ANTHROPIC_API_KEY         ← Claude Haiku for ARIA chatbot
+DOCUSIGN_INTEGRATION_KEY  ← DocuSign app integration key (UUID)
+DOCUSIGN_USER_ID          ← DocuSign API username (UUID)
+DOCUSIGN_ACCOUNT_ID       ← DocuSign account ID
+DOCUSIGN_PRIVATE_KEY      ← RSA private key for JWT auth (full PEM)
+DOCUSIGN_BASE_URL         ← https://demo.docusign.net or https://na4.docusign.net
+DOCUSIGN_WEBHOOK_SECRET   ← optional: HMAC verification of webhook callbacks
 ```
 
 Local dev: `.env.local` in `app/` (gitignored).
@@ -143,6 +150,8 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 | **Upstash** | Serverless Redis (free tier) |
 | **Resend** | Transactional email (free tier) |
 | **GitHub** | Source control + CI trigger |
+| **Anthropic** | Claude Haiku for ARIA AI chatbot (`/api/hint`) |
+| **DocuSign** | eSignature API for NDA sending from admin dashboard |
 
 ---
 
