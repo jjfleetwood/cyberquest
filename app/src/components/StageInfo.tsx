@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import AttackDiagram from "./AttackDiagram";
+import BackLink from "./BackLink";
 import type { StageConfig } from "@/data/types";
 
 const categoryColors: Record<string, string> = {
@@ -34,12 +34,7 @@ export default function StageInfo({
     >
       <div className="max-w-3xl mx-auto">
         {/* Back nav */}
-        <Link
-          href="/stages"
-          className="text-gray-500 hover:text-cyan-400 text-sm mb-6 inline-block transition-colors"
-        >
-          ← Stage Map
-        </Link>
+        <BackLink />
 
         {/* Hero */}
         <div className="mb-8">

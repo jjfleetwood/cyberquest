@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import BackLink from "./BackLink";
 import type { QuizQuestion, StageConfig } from "@/data/types";
 
 type SafeQuestion = Omit<QuizQuestion, "correctIndex" | "explanation">;
@@ -123,9 +124,7 @@ export default function QuizChallenge({ stage }: { stage: StageConfig }) {
       <div className="max-w-2xl w-full">
         {/* Header */}
         <div className="mb-6">
-          <Link href="/stages" className="text-gray-500 hover:text-cyan-400 text-sm mb-4 inline-block transition-colors">
-            ← Stage Map
-          </Link>
+          <BackLink className="text-gray-500 hover:text-cyan-400 text-sm mb-4 inline-block transition-colors" />
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-white font-bold text-xl">{stage.title}</h1>

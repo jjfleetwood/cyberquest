@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { awardStage } from "@/lib/progress";
+import BackLink from "./BackLink";
 import AttackDiagram from "./AttackDiagram";
 import FlagSuccessModal from "./FlagSuccessModal";
 import HintChatbot from "./HintChatbot";
@@ -10,6 +10,14 @@ import type { CtfConfig, StageConfig } from "@/data/types";
 import { getExtraCommands } from "@/data/stage-commands";
 
 type LineType = "cmd" | "out" | "err" | "ok" | "warn" | "sys";
+
+type CtfSavedState = {
+  lines: Line[];
+  cwd: string;
+  cmdHistory: string[];
+  collectedFragments: string[];
+  elapsedMs: number;
+};
 type Line = { type: LineType; text: string };
 
 function resolvePath(cwd: string, target: string): string {
@@ -28,6 +36,32 @@ function formatTimer(ms: number): string {
   const m = Math.floor(totalSeconds / 60);
   const s = totalSeconds % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function makeInitialLines(stage: StageConfig, ctf: CtfConfig, minFragments: number): Line[] {
+  return [
+    { type: "sys", text: "╔══════════════════════════════════════════╗" },
+    { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
+    { type: "sys", text: `║   Stage ${String(stage.order).padEnd(2)}: ${stage.subtitle.slice(0, 28).padEnd(28)}║` },
+    { type: "sys", text: "╚══════════════════════════════════════════╝" },
+    { type: "sys", text: "" },
+    { type: "out", text: ctf.scenario },
+    { type: "out", text: "" },
+    { type: "out", text: `Hint: ${ctf.hint}` },
+    { type: "out", text: "" },
+    ...(ctf.fragments?.length ? [
+      {
+        type: "out" as LineType,
+        text: minFragments < ctf.fragments.length
+          ? `Objective: Collect any ${minFragments} of ${ctf.fragments.length} intelligence fragments to assemble the flag.`
+          : `Objective: Collect ${ctf.fragments.length} intelligence fragments to assemble the flag.`,
+      },
+      { type: "out" as LineType, text: "Run 'assemble' at any time to check your progress." },
+      { type: "out" as LineType, text: "" },
+    ] : []),
+    { type: "out", text: "Type 'help' for available commands." },
+    { type: "out", text: "" },
+  ];
 }
 
 function TerminalLine({ line }: { line: Line }) {
@@ -227,6 +261,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const [cwd, setCwd] = useState("/");
   const [input, setInput] = useState("");
   const [solved, setSolved] = useState(false);
+  const [restoredComplete, setRestoredComplete] = useState(false);
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -239,6 +274,9 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   const [successData, setSuccessData] = useState<{
     flag: string; timeTakenMs: number; timePenaltyXp: number; effectiveXp: number;
   } | null>(null);
+  const [lines, setLines] = useState<Line[]>(() => makeInitialLines(stage, ctf, minFragments));
+
+  const storageKey = `ctf-state:${stage.id}`;
 
   // Timer
   const startedAt = useRef(Date.now());
@@ -249,29 +287,37 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
     return () => clearInterval(t);
   }, [solved]);
 
-  const [lines, setLines] = useState<Line[]>([
-    { type: "sys", text: "╔══════════════════════════════════════════╗" },
-    { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
-    { type: "sys", text: `║   Stage ${String(stage.order).padEnd(2)}: ${stage.subtitle.slice(0, 28).padEnd(28)}║` },
-    { type: "sys", text: "╚══════════════════════════════════════════╝" },
-    { type: "sys", text: "" },
-    { type: "out", text: ctf.scenario },
-    { type: "out", text: "" },
-    { type: "out", text: `Hint: ${ctf.hint}` },
-    { type: "out", text: "" },
-    ...(ctf.fragments?.length ? [
-      {
-        type: "out" as LineType,
-        text: minFragments < ctf.fragments.length
-          ? `Objective: Collect any ${minFragments} of ${ctf.fragments.length} intelligence fragments to assemble the flag.`
-          : `Objective: Collect ${ctf.fragments.length} intelligence fragments to assemble the flag.`,
-      },
-      { type: "out" as LineType, text: "Run 'assemble' at any time to check your progress." },
-      { type: "out" as LineType, text: "" },
-    ] : []),
-    { type: "out", text: "Type 'help' for available commands." },
-    { type: "out", text: "" },
-  ]);
+  // Restore saved state on mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      const data: CtfSavedState = JSON.parse(raw);
+      setLines(data.lines);
+      setCwd(data.cwd);
+      setCmdHistory(data.cmdHistory);
+      setCollectedFragments(new Set(data.collectedFragments));
+      startedAt.current = Date.now() - data.elapsedMs;
+      setElapsed(data.elapsedMs);
+      setSolved(true);
+      setRestoredComplete(true);
+    } catch { /* ignore malformed saves */ }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Save state to localStorage when solved
+  useEffect(() => {
+    if (!solved || restoredComplete) return;
+    const data: CtfSavedState = {
+      lines,
+      cwd,
+      cmdHistory,
+      collectedFragments: [...collectedFragments],
+      elapsedMs: elapsed,
+    };
+    localStorage.setItem(storageKey, JSON.stringify(data));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [solved]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
@@ -295,6 +341,24 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
   function push(...newLines: Line[]) {
     setLines((prev) => [...prev, ...newLines]);
   }
+
+  const handleReset = useCallback(() => {
+    localStorage.removeItem(storageKey);
+    setLines(makeInitialLines(stage, ctf, minFragments));
+    setCwd("/");
+    setInput("");
+    setSolved(false);
+    setRestoredComplete(false);
+    setCmdHistory([]);
+    setHistoryIdx(-1);
+    setCollectedFragments(new Set());
+    setSubmitting(false);
+    setSuccessData(null);
+    setUnknownCmdCount(0);
+    startedAt.current = Date.now();
+    setElapsed(0);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stage.id]);
 
   function checkFragment(key: string) {
     if (!ctf.fragments?.length) return;
@@ -474,12 +538,15 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
         });
         const { correct, progress, timePenaltyXp = 0 } = await res.json();
         if (correct) {
-          const effectiveXp = (progress?.xp != null)
-            ? stage.xp - timePenaltyXp
-            : stage.xp - timePenaltyXp;
+          const effectiveXp = stage.xp - timePenaltyXp;
           if (!progress) {
             awardStage(stage.id, stage.xp, stage.badge.id);
           }
+          push(
+            { type: "ok", text: `✓ Flag accepted: ${flag}` },
+            { type: "ok", text: `  Time: ${formatTimer(timeTakenMs)}  ·  XP earned: ${Math.max(0, effectiveXp)}` },
+            { type: "out", text: "" },
+          );
           setSolved(true);
           setSuccessData({ flag, timeTakenMs, timePenaltyXp, effectiveXp: Math.max(0, effectiveXp) });
         } else {
@@ -573,9 +640,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
         <div className="max-w-4xl mx-auto w-full flex flex-col flex-1">
           {/* Header */}
           <div className="mb-3 flex-shrink-0">
-            <Link href="/stages" className="text-gray-500 hover:text-cyan-400 text-sm mb-2 inline-block transition-colors">
-              ← Stage Map
-            </Link>
+            <BackLink className="text-gray-500 hover:text-cyan-400 text-sm mb-2 inline-block transition-colors" />
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="min-w-0">
                 <h1 className="text-white font-bold text-base sm:text-xl truncate">{stage.title}</h1>
@@ -587,6 +652,14 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
                   <span className={`text-xs px-2 py-1 bg-black/40 border border-white/10 rounded-lg font-mono ${timerColor}`}>
                     ⏱ {formatTimer(elapsed)}
                   </span>
+                )}
+                {restoredComplete && (
+                  <button
+                    onClick={handleReset}
+                    className="text-xs px-2.5 py-1 border border-gray-600 hover:border-gray-400 text-gray-400 hover:text-white rounded-lg transition-colors"
+                  >
+                    ↺ Replay
+                  </button>
                 )}
                 {ctf.fragments?.length ? (
                   <span className="text-xs px-2 py-1 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-lg font-mono">
@@ -669,7 +742,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
               ))}
             </div>
 
-            {/* Input */}
+            {/* Input / status bar */}
             {!solved ? (
               <div className="flex items-center gap-2 px-3 py-2.5 border-t border-white/10 flex-shrink-0">
                 <span className="text-cyan-400 select-none whitespace-nowrap text-xs sm:text-sm">
@@ -698,11 +771,19 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
                   ↵
                 </button>
               </div>
+            ) : restoredComplete ? (
+              <div className="px-3 py-2.5 border-t border-green-500/30 bg-green-500/5 flex items-center justify-between flex-shrink-0">
+                <span className="text-green-400 font-semibold text-sm">✓ Stage Complete</span>
+                <button
+                  onClick={handleReset}
+                  className="text-xs px-3 py-1.5 border border-gray-600 hover:border-gray-400 text-gray-400 hover:text-white rounded-lg transition-colors"
+                >
+                  ↺ Replay
+                </button>
+              </div>
             ) : (
               <div className="px-3 py-3 border-t border-green-500/30 bg-green-500/5 flex items-center justify-center flex-shrink-0">
-                <span className="text-green-400 font-semibold text-sm animate-pulse">
-                  Decrypting results…
-                </span>
+                <span className="text-green-400 font-semibold text-sm">✓ Flag captured!</span>
               </div>
             )}
           </div>

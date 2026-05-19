@@ -2,6 +2,17 @@
 
 ---
 
+## v1.5.3 — 2026-05-18
+
+**Back navigation, CTF persistence, and replay**
+
+- **`BackLink.tsx`** — New shared component. All back buttons (`StageInfo`, `CtfChallenge`, `QuizChallenge`) now call `router.back()` so the user returns to wherever they came from, not always `/stages`.
+- **CTF persistence** — `CtfChallenge` saves terminal state (lines, cwd, command history, collected fragments, elapsed time) to localStorage on solve (`ctf-state:<stageId>`). On return, the terminal is restored exactly as it was at completion — including the flag submission output line.
+- **Replay button** — When a completed CTF is restored, the bottom bar shows "✓ Stage Complete" with a "↺ Replay" button (also in the header toolbar). Clicking it clears the saved state and resets the terminal to fresh.
+- **Success lines in terminal** — When a flag is accepted, "✓ Flag accepted: FLAG{...}" + time + XP lines are pushed to the terminal before saving, so the saved state shows what happened.
+
+---
+
 ## v1.5.2 — 2026-05-18
 
 **Tapestry epoch — The Woven World (12 stages)**

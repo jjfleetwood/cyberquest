@@ -1,8 +1,14 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
 **Date:** 2026-05-18  
-**Version:** 3.1  
+**Version:** 3.2  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v3.2 (2026-05-18)
+
+- **CTF localStorage persistence** — Terminal state saved client-side under `ctf-state:<stageId>`. Data stays in the user's own browser; nothing new written to Redis or sent to server. No new attack surface — this is local data only, no server reads of this key.
 
 ---
 
