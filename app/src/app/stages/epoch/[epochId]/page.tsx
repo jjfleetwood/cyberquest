@@ -7,6 +7,7 @@ import { stages as allStages, epochs } from "@/data/stages";
 import { fetchProgress } from "@/lib/progress";
 import { getSession, setSession } from "@/lib/auth";
 import { epochAccent, cardBorder, cardEmojiBg } from "@/app/stages/epoch-theme";
+import { getContentFlag } from "@/data/content-flags";
 
 export default function EpochPage() {
   const { epochId } = useParams<{ epochId: string }>();
@@ -31,6 +32,7 @@ export default function EpochPage() {
   const epoch = epochs.find((e) => e.id === epochId);
   const epochStages = allStages.filter((s) => s.epochId === epochId).sort((a, b) => a.order - b.order);
   const accent = epochAccent[epochId] ?? epochAccent.ancient;
+  const contentFlag = getContentFlag(epochId);
   const doneCount = epochStages.filter((s) => completedStages.includes(s.id)).length;
   const nextStageId = epochStages.find((s) => !completedStages.includes(s.id))?.id;
 
@@ -99,6 +101,34 @@ export default function EpochPage() {
             </div>
           )}
         </div>
+
+        {/* Attribution banner */}
+        {contentFlag && contentFlag.risk !== "verified-safe" && (
+          <div className="flex items-start gap-3 bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 mb-6 text-xs text-amber-200/60">
+            <span className="text-amber-400 text-base leading-none flex-shrink-0 mt-0.5">©</span>
+            <p className="leading-relaxed">
+              {contentFlag.attributionText}
+              {contentFlag.attributionUrl && (
+                <>
+                  {" "}
+                  <a
+                    href={contentFlag.attributionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-400/80 underline underline-offset-2 hover:text-amber-300 transition-colors"
+                  >
+                    Learn more ↗
+                  </a>
+                </>
+              )}
+              {contentFlag.license && (
+                <span className="ml-2 px-1.5 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500/70 font-mono">
+                  {contentFlag.license}
+                </span>
+              )}
+            </p>
+          </div>
+        )}
 
         {/* Auth note */}
         {!username && (

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSession, setSession } from "@/lib/auth";
 import { stages } from "@/data/stages";
+import { CONTENT_FLAGS, type ContentFlag } from "@/data/content-flags";
 
 type UserRow = {
   username: string;
@@ -207,6 +208,108 @@ function NdaSignatories() {
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+const RISK_META: Record<ContentFlag["risk"], { label: string; color: string; bg: string; border: string }> = {
+  "needs-attribution": { label: "Needs Attribution", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30" },
+  "fair-use":          { label: "Fair Use",          color: "text-blue-400",  bg: "bg-blue-500/10",  border: "border-blue-500/30" },
+  "trademark-reference":{ label: "Trademark Ref",   color: "text-orange-400",bg: "bg-orange-500/10",border: "border-orange-500/30" },
+  "verified-safe":     { label: "Verified Safe",     color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/30" },
+};
+
+function ContentAudit() {
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const needsAction = CONTENT_FLAGS.filter((f) => f.risk === "needs-attribution");
+  const fairUse     = CONTENT_FLAGS.filter((f) => f.risk === "fair-use");
+  const safe        = CONTENT_FLAGS.filter((f) => f.risk === "verified-safe");
+
+  return (
+    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+      <div className="px-6 py-4 border-b border-white/8">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 className="text-white font-bold">Content IP Audit</h2>
+            <p className="text-xs text-gray-600 mt-0.5">Third-party content, licenses, and attribution requirements</p>
+          </div>
+          <div className="flex items-center gap-2 text-xs">
+            <span className={`px-2 py-0.5 rounded-full border ${RISK_META["needs-attribution"].bg} ${RISK_META["needs-attribution"].border} ${RISK_META["needs-attribution"].color}`}>
+              {needsAction.length} need attribution
+            </span>
+            <span className={`px-2 py-0.5 rounded-full border ${RISK_META["fair-use"].bg} ${RISK_META["fair-use"].border} ${RISK_META["fair-use"].color}`}>
+              {fairUse.length} fair use
+            </span>
+            <span className={`px-2 py-0.5 rounded-full border ${RISK_META["verified-safe"].bg} ${RISK_META["verified-safe"].border} ${RISK_META["verified-safe"].color}`}>
+              {safe.length} safe
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="divide-y divide-white/5">
+        {CONTENT_FLAGS.map((flag) => {
+          const meta = RISK_META[flag.risk];
+          const open = expanded === flag.epochId;
+          return (
+            <div key={flag.epochId}>
+              <button
+                onClick={() => setExpanded(open ? null : flag.epochId)}
+                className="w-full px-6 py-3.5 flex items-center gap-4 text-left hover:bg-white/2 transition-colors"
+              >
+                <span className={`flex-shrink-0 text-xs px-2 py-0.5 rounded border font-mono ${meta.bg} ${meta.border} ${meta.color}`}>
+                  {meta.label}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm text-gray-300 font-medium">{flag.source}</span>
+                  <span className="ml-2 text-xs text-gray-700 font-mono">/{flag.epochId}</span>
+                </div>
+                {flag.license && (
+                  <span className="text-xs text-gray-600 font-mono hidden sm:block">{flag.license}</span>
+                )}
+                <span className="text-gray-700 text-xs flex-shrink-0">{open ? "▲" : "▼"}</span>
+              </button>
+
+              {open && (
+                <div className="px-6 pb-4 space-y-3 border-t border-white/5 pt-3">
+                  <div>
+                    <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Attribution text</div>
+                    <p className="text-xs text-gray-400 bg-white/3 rounded-lg px-3 py-2.5 leading-relaxed border border-white/5">
+                      {flag.attributionText}
+                    </p>
+                  </div>
+                  <div className="flex items-start gap-6 flex-wrap">
+                    <div>
+                      <div className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Admin note</div>
+                      <p className="text-xs text-gray-500 leading-relaxed max-w-lg">{flag.adminNote}</p>
+                    </div>
+                    <div className="flex gap-4">
+                      {flag.attributionUrl && (
+                        <a
+                          href={flag.attributionUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-cyan-400 underline underline-offset-2 hover:text-cyan-300 transition-colors"
+                        >
+                          Source ↗
+                        </a>
+                      )}
+                      <span className="text-xs text-gray-700">Reviewed {flag.reviewedAt}</span>
+                      <Link
+                        href={`/stages/epoch/${flag.epochId}`}
+                        className="text-xs text-purple-400 hover:text-purple-300 transition-colors"
+                      >
+                        View epoch →
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -499,6 +602,9 @@ export default function AdminPage() {
 
         {/* NDA Signatories */}
         <NdaSignatories />
+
+        {/* Content IP Audit */}
+        <ContentAudit />
 
         {/* Stage catalog */}
         <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden">
