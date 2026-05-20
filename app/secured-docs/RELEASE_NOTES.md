@@ -2,6 +2,14 @@
 
 ---
 
+## v1.6.3 — 2026-05-20
+
+**CAE doc added to admin docs viewer**
+
+- `PITCH_CAE_CONTINUOUS_MONITORING.md` added to `ALLOWED_FILES` in `/api/docs/[file]` route and to the `DOCS` tab list in `DocsViewer` (📡 CAE: Continuous Monitoring, rose color)
+
+---
+
 ## v1.6.2 — 2026-05-20
 
 **Draggable feedback widget**
