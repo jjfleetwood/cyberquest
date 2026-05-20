@@ -38,6 +38,12 @@ const tracks = [
     topics: ["DNS Tunneling", "DGA Detection", "Fast Flux", "Cisco Umbrella", "VOLT TYPHOON"],
     desc: "Enterprise-grade DNS-layer defense, real Cisco CVEs, and nation-state scenarios.",
   },
+  {
+    id: "crafts", label: "Crafts", stages: "40", icon: "✂️",
+    border: "border-pink-500/25", textColor: "text-pink-400", glow: "rgba(236,72,153,0.08)",
+    topics: ["Nail Prep", "Dry Manicure", "Hair Coloring", "Bleaching & Toning", "Braiding", "Client Consultation"],
+    desc: "Professional nail arts, hair coloring science, and styling techniques — from first client to running your own studio.",
+  },
 ];
 
 const bgThreats = [
@@ -240,7 +246,7 @@ export default function Home() {
               style={{ color: "rgba(156,163,175,0.85)" }}>
               The threats have changed — train on the same exploits behind Equifax, the NHS breach,
               and VOLT TYPHOON&apos;s ERCOT grid campaign, then step into AI prompt injection and
-              post-quantum cryptography. Six tracks. All in your browser.
+              post-quantum cryptography. Seven tracks. All in your browser.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -320,7 +326,7 @@ export default function Home() {
             </p>
             <div className="grid md:grid-cols-3 gap-5">
               {[
-                { n: "01", icon: "🗺️", title: "Pick a track", desc: "Six curriculum paths — core CVEs, threat frameworks, AI security, quantum, and enterprise defense. Start anywhere." },
+                { n: "01", icon: "🗺️", title: "Pick a track", desc: "Seven curriculum paths — core CVEs, threat frameworks, AI security, quantum, enterprise defense, and professional crafts. Start anywhere." },
                 { n: "02", icon: "💻", title: "Hack the terminal", desc: "A simulated vulnerable environment in your browser. Real commands, real exploit mechanics — no videos, no multiple choice." },
                 { n: "03", icon: "🏁", title: "Capture the flag", desc: "Find the hidden flag, submit it, earn XP. ARIA AI hints keep you moving without giving the answer away." },
               ].map((s) => (
@@ -436,7 +442,7 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(34,211,238,0.6)" }}>
-                  Six curriculum tracks
+                  Seven curriculum tracks
                 </p>
                 <h2 className="text-4xl font-black text-white mb-2">A complete security education</h2>
                 <p style={{ color: "rgba(107,114,128,1)" }}>From SQL injection to post-quantum cryptography. Every track is hands-on CTF.</p>
@@ -685,7 +691,7 @@ export default function Home() {
                   The future of defense starts here
                 </p>
                 <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-                  Six tracks. 169 stages.<br />
+                  Seven tracks. 209 stages.<br />
                   <span className="hero-glow">All in your browser.</span>
                 </h2>
                 <p className="mb-8" style={{ color: "rgba(107,114,128,1)" }}>

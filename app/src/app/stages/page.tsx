@@ -41,9 +41,9 @@ const epochGroups = [
     epochIds: ["medieval", "umbrella"],
   },
   {
-    label: "Arts & Craft",
-    desc: "Tapestry — History, Tradition & Modern Practice",
-    epochIds: ["tapestry"],
+    label: "Crafts",
+    desc: "Tapestry · Nail Arts · Hair Coloring · Hair Styling",
+    epochIds: ["tapestry", "nails", "hair-color", "hair-styling"],
   },
 ];
 
@@ -64,6 +64,9 @@ const epochAccent: Record<string, { tab: string; active: string; bar: string }> 
   "quantum-3":    { tab: "text-sky-400 border-sky-400 bg-sky-400/10",            active: "border-sky-400/60 bg-sky-500/5",       bar: "bg-sky-500" },
   umbrella:       { tab: "text-green-400 border-green-400 bg-green-400/10",      active: "border-green-400/60 bg-green-500/5",   bar: "bg-green-500" },
   tapestry:       { tab: "text-yellow-400 border-yellow-400 bg-yellow-400/10",   active: "border-yellow-400/60 bg-yellow-500/5", bar: "bg-yellow-500" },
+  nails:          { tab: "text-pink-400 border-pink-400 bg-pink-400/10",          active: "border-pink-400/60 bg-pink-500/5",     bar: "bg-pink-500" },
+  "hair-color":   { tab: "text-rose-400 border-rose-400 bg-rose-400/10",          active: "border-rose-400/60 bg-rose-500/5",     bar: "bg-rose-500" },
+  "hair-styling": { tab: "text-violet-300 border-violet-300 bg-violet-300/10",    active: "border-violet-300/60 bg-violet-400/5", bar: "bg-violet-400" },
 };
 
 const cardBorder: Record<string, string> = {
@@ -82,6 +85,9 @@ const cardBorder: Record<string, string> = {
   "quantum-3":    "border-sky-500/40 hover:border-sky-400/80",
   umbrella:       "border-green-500/40 hover:border-green-400/80",
   tapestry:       "border-yellow-500/40 hover:border-yellow-400/80",
+  nails:          "border-pink-500/40 hover:border-pink-400/80",
+  "hair-color":   "border-rose-500/40 hover:border-rose-400/80",
+  "hair-styling": "border-violet-500/40 hover:border-violet-400/80",
 };
 
 const cardEmojiBg: Record<string, string> = {
@@ -100,6 +106,9 @@ const cardEmojiBg: Record<string, string> = {
   "quantum-3":    "from-sky-950 to-slate-950",
   umbrella:       "from-green-950 to-slate-950",
   tapestry:       "from-yellow-950 to-slate-950",
+  nails:          "from-pink-950 to-slate-950",
+  "hair-color":   "from-rose-950 to-slate-950",
+  "hair-styling": "from-violet-950 to-slate-950",
 };
 
 export default function StagesPage() {

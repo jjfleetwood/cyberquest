@@ -15,6 +15,9 @@ import { quantum3Epoch, quantum3Stages } from "./quantum-3";
 import { cisco2Stages } from "./cisco-2";
 import { umbrellaEpoch, umbrellaStages } from "./umbrella";
 import { tapestryEpoch, tapestryStages } from "./tapestry";
+import { nailsEpoch, nailsStages } from "./nails";
+import { hairColorEpoch, hairColorStages } from "./hair-color";
+import { hairStylingEpoch, hairStylingStages } from "./hair-styling";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
@@ -52,6 +55,9 @@ export const epochs: EpochConfig[] = [
   quantum3Epoch,
   umbrellaEpoch,
   tapestryEpoch,
+  nailsEpoch,
+  hairColorEpoch,
+  hairStylingEpoch,
 ];
 
 export const stages: StageConfig[] = [
@@ -70,6 +76,9 @@ export const stages: StageConfig[] = [
   ...quantum3Stages,
   ...umbrellaStages,
   ...tapestryStages,
+  ...nailsStages,
+  ...hairColorStages,
+  ...hairStylingStages,
 
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────
