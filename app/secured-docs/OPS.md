@@ -9,7 +9,7 @@
 | Service | Role | URL | Cost |
 |---|---|---|---|
 | **Vercel** | Hosting, CDN, serverless runtime | vercel.com/dashboard | Free (Hobby) |
-| **Upstash** | Redis — users, progress, leaderboard, streaks, NDA records, rate limits, pwd reset | console.upstash.com | Free tier |
+| **Upstash** | Redis — users, progress, leaderboard, streaks, NDA records, rate limits, pwd reset | console.upstash.com | Pay-as-you-go (daily backups enabled) |
 | **Resend** | Transactional email | resend.com/dashboard | Free tier |
 | **GitHub** | Source control, CI trigger | github.com/jjfleetwood/kryptos-cronos | Free |
 | **Anthropic** | Claude Haiku — ARIA AI hint chatbot | console.anthropic.com | API key required |
@@ -79,7 +79,7 @@ GitHub Actions CI runs first (lint + tsc + build + audit). Vercel auto-deploys i
 | Build failures | Vercel Deployments tab — red status | Any failure = investigate |
 | CI failures | GitHub Actions tab | Any failure before merge |
 | Function errors | Vercel → Functions → Logs | Error rate > 1% |
-| Redis exhaustion | Upstash console → Usage | > 80% of free tier commands/day |
+| Redis exhaustion | Upstash console → Usage | > 80% of plan limit |
 | Email bounces | Resend dashboard → Logs | Any hard bounces |
 | Anthropic API errors | Vercel → `/api/hint` function logs | Repeated 429 or 5xx from Anthropic |
 | DocuSign webhook failures | Vercel → `/api/webhooks/docusign` function logs | Any HMAC verification failures or 5xx |
@@ -201,8 +201,8 @@ To add a new secured document:
 
 1. Redis is the sole source of truth for all user data and progress
 2. No localStorage fallback exists in v1.3.0+
-3. No backup system currently in place — Redis free tier does not include snapshots
-4. **Action:** Upgrade to Upstash Pro for point-in-time recovery before production scale
+3. Daily backups are enabled — restore via Upstash console → Backups tab → select snapshot → Restore
+4. If within backup window: restore the most recent snapshot before the data loss event
 
 ### ARIA chatbot down
 
@@ -239,7 +239,7 @@ To add a new secured document:
 |---|---|---|
 | Vercel Bandwidth | 100 GB/month | Minimal |
 | Vercel Build Minutes | 6,000/month | ~2/deploy |
-| Upstash Commands | 10,000/day | Low |
+| Upstash Commands | Pay-as-you-go (daily backups enabled) | Low |
 | Resend Emails | 3,000/month | Low |
 | Anthropic (Claude Haiku) | Pay-per-token | Low (15 req/IP/15min rate limit) |
 | DocuSign | 1,000 envelopes/month (developer tier) | Low |
@@ -249,7 +249,7 @@ To add a new secured document:
 | Condition | Action |
 |---|---|
 | > 1 team member needs Vercel deploy access | Upgrade to Vercel Pro ($20/month) |
-| > 10,000 Redis commands/day | Upgrade to Upstash Pay-as-you-go |
+| Redis costs rising unexpectedly | Review command volume in Upstash console |
 | > 3,000 emails/month | Upgrade to Resend Pro ($20/month) |
 | Anthropic costs exceed budget | Review ARIA rate limits; consider caching common hints |
 | > 1,000 DocuSign envelopes/month | Move to DocuSign paid plan |
