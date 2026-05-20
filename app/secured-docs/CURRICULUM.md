@@ -1,6 +1,6 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.2  
-**Date:** 2026-05-19  
+**Version:** 3.1  
+**Date:** 2026-05-18  
 **Total stages:** 198 across 15 epochs
 
 ---
@@ -101,51 +101,6 @@ Hands-on technical audit scenarios: network scanning, configuration review, log 
 
 Covers the emerging field of agentic security auditing: AI-assisted threat modeling, automated control testing, LLM-powered log analysis, and the risks of deploying autonomous agents in security-sensitive environments.
 
-Each stage includes a **downloadable Python MCP server template** — a self-contained, runnable implementation of the agentic audit tool taught in that lesson. Templates follow the Claude tool use agentic loop pattern and can be run locally with `pip install anthropic`.
-
-| Stage | ID | MCP Template |
-|---|---|---|
-| 1 | audit-a01 | IAM audit tool use — core agentic loop pattern |
-| 2 | audit-a02 | API enumeration via OpenAPI spec fetching |
-| 3 | audit-a03 | Secrets scanning — regex + Claude semantic detection |
-| 4 | audit-a04 | Cloud enumeration — boto3 S3/EC2/IAM/CloudTrail |
-| 5 | audit-a05 | IAM privilege escalation path detection |
-| 6 | audit-a06 | MCP integration — filesystem + git + web fetch |
-| 7 | audit-a07 | IaC review — Terraform plan + CIS Benchmark checks |
-| 8 | audit-a08 | SOC 2 evidence collection across CC6.1, CC7.2, CC6.7, A1.2 |
-| 9 | audit-a09 | Multi-agent orchestration — coordinator + specialist pattern |
-| 10 | audit-a10 | Risk report writing with framework mapping (SOC2/ISO/NIST/CIS) |
-| 11 | audit-a11 | Sentinel — scheduled compliance agent with drift detection |
-| 12 | audit-a12 | Full pipeline — collect → analyze → report → alert |
-
----
-
-## Epoch 6b: Tech Audit — Continuous Monitoring 2.0
-**Theme:** Automated, always-on security monitoring and SOC operations  
-**Stages:** 12 (audit-cm01 through audit-cm12)  
-**Color:** Rose  
-**Unlock:** Sequential  
-**Gating:** Sequential within epoch
-
-Covers the operational layer of enterprise security: continuous monitoring frameworks, next-gen SIEM with ML anomaly detection, UEBA behavioral risk scoring, network detection, cloud posture management, threat intelligence integration, SOAR automation, deception technology, Zero Trust architecture, XDR cross-source correlation, continuous compliance, and SOC maturity measurement.
-
-Each stage includes a **downloadable Python MCP server template** implementing the monitoring tool or pipeline taught in the lesson.
-
-| Stage | ID | MCP Template | Real Incident Anchor |
-|---|---|---|---|
-| 1 | audit-cm01 | NIST SP 800-137 ISCM baseline + posture scoring | OPM breach — 14-month dwell time |
-| 2 | audit-cm02 | SIEM + ML anomaly detection + attack chain correlation | SolarWinds SUNBURST — signature detection failure |
-| 3 | audit-cm03 | UEBA risk scoring + insider threat chain detection | Tesla insider exfiltration |
-| 4 | audit-cm04 | NDR beaconing detection via Zeek conn.log | Hafnium Exchange zero-day |
-| 5 | audit-cm05 | CSPM attack path mapping (SSRF → IMDS → IAM → S3) | Capital One — IMDSv1 + s3:* chain |
-| 6 | audit-cm06 | STIX/TAXII threat intel + Sigma rule generation | Volt Typhoon Five Eyes advisory |
-| 7 | audit-cm07 | SOAR playbook automation (P1–P4 triage) | Twilio cascade breach |
-| 8 | audit-cm08 | Honeytoken deployment + trigger event analysis | Uber hard-coded credential breach |
-| 9 | audit-cm09 | Zero Trust CARTA scoring + access decision engine | Google Aurora → BeyondCorp origin |
-| 10 | audit-cm10 | XDR cross-source correlation (EDR + NDR + IdP graph) | Lapsus$ Microsoft source code breach |
-| 11 | audit-cm11 | Continuous compliance engine (NIST SP 800-53) | FTC Drizly CEO personal liability order |
-| 12 | audit-cm12 | SOC maturity scorecard (MTTD/MTTR benchmarking) | MGM Resorts $100M+ ransomware event |
-
 ---
 
 ## Epoch 7: MITRE ATT&CK
@@ -215,7 +170,6 @@ Every stage follows this four-part flow:
 - **Historical Incident:** The real-world breach or case study that made this topic relevant
 - **Timeline:** Key events in the incident
 - **References:** CVE entries, OWASP links, MITRE ATT&CK/ATLAS entries, post-mortems
-- **Code Templates** (Tech Audit epochs only): downloadable Python MCP server file implementing the agentic tool taught in the lesson; runnable locally with `pip install anthropic`
 
 ### 2. CTF Challenge (CtfChallenge component)
 - Simulated bash terminal

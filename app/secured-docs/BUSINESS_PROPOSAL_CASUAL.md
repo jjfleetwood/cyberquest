@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-19 (v1.5.4)**
+**Last updated: 2026-05-18 (v1.5.0)**
 
 ---
 
@@ -28,16 +28,14 @@ It's a game. It's also real security training. And that combination is genuinely
 
 ---
 
-## What exists today (v1.5.4 — live at kryptoscronos.com)
+## What exists today (v1.5.0 — live at kryptoscronos.com)
 
 This isn't a pitch deck with a mockup. It's a working product:
 
-- **198 fully built stages** across 15 curriculum epochs and 6 learning tracks
+- **186 fully built stages** across 14 curriculum epochs and 6 learning tracks
 - **ARIA AI tutor** — live in production, powered by Claude Haiku, uses Socratic coaching (guides thinking, doesn't give away answers)
-- **24 downloadable MCP server templates** — every Tech Audit lesson ships with a runnable Python implementation of the agentic security tool it teaches; learners take working code home
 - **Daily streaks and milestone badges** — engagement loop that works
 - **Real-time leaderboard** — competitive XP ranking
-- **Feedback email notifications** — user submissions route to admin in real time
 - **Admin dashboard** — user management, NDA signatories, DocuSign e-signature integration
 - **Auth system** — server-side PBKDF2 hashing, HMAC-signed HttpOnly cookies, rate limiting
 - **CI pipeline** — automated lint + type check + build + security audit on every commit
@@ -61,11 +59,11 @@ The entry point. Our First Journey (30 beginner-friendly CTF stages) + Foundatio
 - Equifax / Apache Struts (147 million Americans' SSNs, $575M FTC fine)
 
 ### Track 2: Tech Audit (48 stages)
-The enterprise compliance and SOC operations track. Four epochs — each with downloadable Python MCP server code templates:
+The enterprise compliance and SOC operations track. Four epochs:
 - **Foundations** — ISACA, COBIT, CISA audit frameworks
 - **Technical** — API security, secrets management, cloud IAM
-- **Agentic** — Claude tool use, MCP server design, AI-powered audit pipelines; 12 working Python templates (IAM audit, secrets scanning, cloud enum, IaC review, multi-agent orchestration, full pipeline)
-- **Continuous Monitoring 2.0** — SIEM + ML, UEBA, NDR, CSPM, SOAR, deception/honeytokens, Zero Trust CARTA, XDR, continuous compliance, SOC maturity (MTTD/MTTR); 12 working Python templates tied to real breach case studies
+- **Agentic Continuous Monitoring** — Claude tool use, MCP servers, AI-powered audit pipelines
+- **Continuous Monitoring 2.0** — SIEM + ML, UEBA, NDR, CSPM, SOAR, deception/honeytokens, Zero Trust, XDR, continuous compliance, SOC maturity (MTTD/MTTR)
 
 ### Track 3: Threat Frameworks (24 stages)
 - **MITRE ATT&CK** — All 12 tactic phases, nation-state TTPs

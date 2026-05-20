@@ -5,9 +5,7 @@
 
 ## The ask: $1.5M seed
 
-Gamified cybersecurity + AI training platform. **198 stages live across 15 epochs.** Deployed at kryptoscronos.com. Seeking first institutional check.
-
-**What's shipped (v1.5.4):** 198-stage curriculum, ARIA AI tutor (Claude Haiku, live), real-time leaderboard, DocuSign NDA integration, 24 downloadable MCP server code templates (one per Tech Audit lesson), CI pipeline, HMAC auth, feedback email notifications. One founder, one AI dev environment, production-grade from day one.
+Gamified cybersecurity + AI training platform. 54 stages live. Deployed at kryptoscronos.com. Seeking first institutional check.
 
 ---
 
@@ -144,7 +142,6 @@ When talking to any investor, frame the competitive landscape clearly:
 | Cybrary | Video-only, low completion rates | Hands-on CTF: completion rates 3–5× higher than video |
 | KnowBe4 | Phishing simulation only, no technical depth | Full OWASP + CVE curriculum with real exploit environments |
 | Coursera/Udemy | Generic content, no gamification | Purpose-built security platform, leaderboards, badges, real CVEs |
-| Any competitor | No runnable code templates | 24 downloadable MCP server templates — learners take working agentic audit tools home |
 
 The honest answer: no one has built the category-defining security training platform. That is the opportunity.
 

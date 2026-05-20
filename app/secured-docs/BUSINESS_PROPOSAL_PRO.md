@@ -45,19 +45,18 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **ARIA AI Tutor** — A live, stage-aware AI assistant (powered by Claude Haiku) that uses Socratic coaching: it answers questions and guides thinking without giving away the flag. Available throughout every challenge.
 
-### Curriculum — 198 Stages across 15 Epochs and 6 Tracks (v1.5.4)
+### Curriculum — 186 Stages across 14 Epochs and 6 Tracks (v1.5.0)
 
 The platform ships with 186 fully built stages organized into 14 curriculum epochs and 6 learning tracks:
 
 | Track | Epochs | Stages | Focus |
 |---|---|---|---|
 | Core Security | Our First Journey, Foundations | 42 | Historical attacks, foundational vulnerability classes |
-| Tech Audit | Foundations, Technical, Agentic, Continuous Monitoring 2.0 | 48 | IT governance, cloud security, AI agents, SOC operations |
+| Tech Audit | Foundations, Technical, Agentic CM, Continuous Monitoring 2.0 | 48 | IT governance, cloud security, AI agents, SOC operations |
 | Threat Frameworks | MITRE ATT&CK, MITRE ATLAS | 24 | Nation-state TTPs, AI/ML adversarial attacks |
 | AI Security | OWASP LLM Top 10 | 12 | LLM-specific vulnerabilities and defenses |
 | Quantum Era | Quantum Threats, PQC, QKD | 36 | Post-quantum cryptography and quantum infrastructure |
 | Defend the Enterprise | Cisco CVEs, Umbrella/DNS | 24 | Real enterprise network defense scenarios |
-| Arts & Craft | The Woven World (Tapestry) | 12 | History of textiles and modern craft practice |
 
 **Selected curriculum depth — Tech Audit: Continuous Monitoring 2.0 (12 stages, v1.5.0):**
 
@@ -76,7 +75,7 @@ The platform ships with 186 fully built stages organized into 14 curriculum epoc
 | audit-cm11 | Continuous Compliance | FTC Drizly CEO liability order |
 | audit-cm12 | SOC Maturity — MTTD/MTTR | MGM Resorts $100M+ ransomware event |
 
-### Live Features (Shipped — v1.5.4)
+### Live Features (Shipped — v1.5.0)
 
 - **ARIA AI Tutor** — Claude Haiku, Socratic coaching, stage-aware context, 10-message session cap, rate-limited
 - **Daily Streaks** — Redis-backed streak tracking with streak-based milestone badges
@@ -84,9 +83,6 @@ The platform ships with 186 fully built stages organized into 14 curriculum epoc
 - **Real-time Leaderboard** — XP rankings via Upstash Redis sorted sets
 - **Admin Dashboard** — User management, NDA signatories panel, DocuSign integration, streak monitoring
 - **DocuSign NDA Integration** — Admin can send legally-binding NDA envelopes from the dashboard; signer status tracked via webhook
-- **MCP Code Templates** — Every Tech Audit stage (24 total) ships with a downloadable Python MCP server template; self-contained, runnable, demonstrates the exact agentic audit technique taught in the lesson
-- **Feedback Email Notifications** — User feedback submissions routed to admin email in real time via Resend
-- **CTF Terminal Scroll** — Fixed scroll behavior in all CTF terminal environments; progress persists to localStorage across navigation
 - **CI Pipeline** — GitHub Actions: lint + tsc + build + security audit on every push
 - **Server-side Auth** — PBKDF2-SHA-256, HMAC-signed HttpOnly cookies, no localStorage credentials
 
@@ -172,19 +168,19 @@ Cisco is the deepest planned sponsor relationship, anchored by an existing 12-st
 | KnowBe4 | Phishing simulation only | No technical depth |
 | **Kryptós CronOS** | **Gamified + AI + CTF + curriculum** | **Early stage** |
 
-Our differentiation: the only platform combining structured multi-track curriculum (198 stages), real-exploit CTF challenges, a live AI Socratic tutor, downloadable MCP server code templates, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
+Our differentiation: the only platform combining structured multi-track curriculum (186 stages), real-exploit CTF challenges, a live AI Socratic tutor, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
 
 ---
 
 ## Traction & Validation
 
-- **Product:** Fully functional platform — 198 stages across 15 epochs and 6 curriculum tracks
+- **Product:** Fully functional platform — 186 stages across 14 epochs and 6 curriculum tracks
 - **AI tutor:** ARIA live in production — Claude Haiku, Socratic coaching, stage-aware
 - **Gamification:** Streaks, milestone badges, and real-time leaderboard all live
 - **Admin infrastructure:** NDA management with DocuSign e-signature integration
 - **Security posture:** Server-side auth, HMAC cookies, CSP headers, rate limiting, CI security audit
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptoscronos.com (version v1.5.4)
+- **Deployment:** Live at kryptoscronos.com (version v1.5.0)
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---

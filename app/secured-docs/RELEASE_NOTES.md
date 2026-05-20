@@ -2,158 +2,6 @@
 
 ---
 
-## v1.5.3 — 2026-05-18
-
-**Back navigation, CTF persistence, and replay**
-
-- **`BackLink.tsx`** — New shared component. All back buttons (`StageInfo`, `CtfChallenge`, `QuizChallenge`) now call `router.back()` so the user returns to wherever they came from, not always `/stages`.
-- **CTF persistence** — `CtfChallenge` saves terminal state (lines, cwd, command history, collected fragments, elapsed time) to localStorage on solve (`ctf-state:<stageId>`). On return, the terminal is restored exactly as it was at completion — including the flag submission output line.
-- **Replay button** — When a completed CTF is restored, the bottom bar shows "✓ Stage Complete" with a "↺ Replay" button (also in the header toolbar). Clicking it clears the saved state and resets the terminal to fresh.
-- **Success lines in terminal** — When a flag is accepted, "✓ Flag accepted: FLAG{...}" + time + XP lines are pushed to the terminal before saving, so the saved state shows what happened.
-
----
-
-## v1.5.2 — 2026-05-18
-
-**Tapestry epoch — The Woven World (12 stages)**
-
-- **`src/data/tapestry.ts`** — New "Arts & Craft" epoch: "The Woven World" (yellow color). 12 quiz stages covering tapestry history, Flemish golden age, Asian traditions (kesi, tsuzure-ori), Americas (Andean, Navajo), color theory, warp/weft structure, equipment, core techniques (hatching, soumak, slit tapestry, rya knots), design and cartoon, optical color mixing, contemporary practice, and starting your first project.
-- **`src/data/types.ts`** — Added `"arts"` to the category union type.
-- **`src/components/StageInfo.tsx`** — Added `arts` to `categoryColors` (yellow theme) and `categoryLabel` ("Arts & Craft").
-- **`src/app/api/check-answer/route.ts`** — Added fallback to `getStage()` from stages array so any quiz epoch works without manual registration in the route.
-- **`src/data/stages.ts`** — `tapestryEpoch` and `tapestryStages` imported and registered.
-- **`src/app/stages/page.tsx`** — "Arts & Craft" epoch group added; "tapestry" added to epoch group, epochAccent, cardBorder, and cardEmojiBg (yellow palette).
-
----
-
-## v1.5.1 — 2026-05-18
-
-**Feedback widget + business proposal refresh**
-
-- **`src/components/FeedbackWidget.tsx`** — Fixed-position "What do you want to see?" textarea in the top-right corner of every page. Sends to jjbolotin@yahoo.com via Resend. Supports ⌘↵ keyboard shortcut. Auto-resizes up to 160px. Includes page path in email for context.
-- **`/api/feedback`** — POST endpoint that calls Resend API with message + page. No rate limiting yet (low-volume internal use).
-- **Business proposals updated** — Both `BUSINESS_PROPOSAL_PRO.md` and `BUSINESS_PROPOSAL_CASUAL.md` refreshed to v1.5.0 facts: 186 stages, 14 epochs, 6 tracks, ARIA AI tutor live, streaks/badges live, DocuSign live, all 6 active tech partners documented.
-
----
-
-## v1.5.0 — 2026-05-18
-
-**Continuous Monitoring 2.0 epoch (12 stages)**
-
-- **`src/data/tech-audit-4.ts`** — New epoch: "Continuous Monitoring 2.0" (rose color). 12 CTF stages covering ISCM/NIST 800-137, Next-Gen SIEM + ML detection, UEBA risk chaining, NDR beaconing detection, CSPM attack path analysis, STIX/TAXII threat intel, SOAR playbooks, deception/honeytokens, Zero Trust CARTA, XDR cross-source correlation, continuous compliance, and SOC maturity metrics (MTTD/MTTR).
-- **`src/data/stages.ts`** — `techAudit4Epoch` and `techAudit4Stages` imported and registered.
-- **`src/app/stages/page.tsx`** — "tech-audit-4" added to Tech Audit epoch group; rose accent, border, and emoji-bg colors added.
-
----
-
-## v1.4.0 — 2026-05-18
-
-**DocuSign NDA integration**
-
-- **`src/lib/docusign.ts`** — DocuSign JWT auth (RSA-SHA256, no external deps), NDA HTML document builder, `sendNdaEnvelope()` creates and sends a remote-signing envelope with anchor-based SignHere + DateSigned tabs.
-- **`/api/admin/send-nda`** — Admin-only POST endpoint. Validates name/email, calls DocuSign, stores `nda:{email}` in Redis with `{ method: "docusign", status: "sent", sentAt, envelopeId }`. Returns 503 with setup instructions if DocuSign env vars are absent.
-- **`/api/webhooks/docusign`** — Receives DocuSign per-envelope event notifications. On `completed`, updates Redis record with `{ status: "signed", signedAt }`. Supports optional HMAC verification via `DOCUSIGN_WEBHOOK_SECRET`.
-- **Admin NDA panel** — "Send DocuSign NDA" form (name + email) added to the NDA Signatories section. Status badges distinguish Clickwrap ✓ / Sent (pending) / DocuSign ✓ / Declined / Voided. Timestamp shows `signedAt` → `acceptedAt` → `sentAt` in priority order.
-- **`LAUNCH_LEGAL.md`** — DocuSign setup guide added: one-time steps (Integration Key, RSA keypair, consent grant), required env vars, sandbox vs production base URL.
-
----
-
-## v1.3.1 — 2026-05-18
-
-**CTF terminal scroll fix**
-
-- **`CtfChallenge.tsx`** — Replaced `scrollIntoView({ behavior: "smooth" })` with instant `outputRef.current.scrollTop = outputRef.current.scrollHeight`. Eliminates the race condition where smooth-scroll animation fired intermediate scroll events that reset `userScrolledUp`, causing auto-scroll to override manual user scrolling. Terminal now correctly lets users scroll up to review output while still auto-scrolling on new output when already at the bottom.
-
----
-
-## v1.3.0 — 2026-05-18
-
-**Server-side auth migration — localStorage eliminated**
-
-- **`/api/auth/register`** — New endpoint handles registration server-side: client sends plaintext password over HTTPS; server generates salt, PBKDF2 hashes, stores in Redis, and sets `session_token` + `admin_token` cookies in a single response. Rate-limited 5/IP/hour.
-- **`/api/auth/me`** — New endpoint returns `{ username, email, isAdmin }` from the `session_token` cookie. Used by all client components that previously read from localStorage.
-- **`/api/auth/login`** — Now grants `admin_token` cookie inline if the username matches `ADMIN_USERNAME`. Client no longer calls `/api/admin-session` separately after login.
-- **`/api/reset-password`** — Now accepts `{ token, password }` plaintext instead of `{ token, passwordHash, salt }`. Hashing is server-side.
-- **`src/lib/auth.ts`** — Stripped to session cache only. Removed: `getUsers()`, `saveUser()`, `isAdmin()`, `markUserAdmin()`, `grantAdminIfEligible()`, `USERS_KEY`. `register()` now POSTs plaintext to `/api/auth/register`. `login()` no longer writes to localStorage.
-- **`Nav.tsx`** — Replaces `getSession()` + `isAdmin()` with `/api/auth/me`; sessionStorage used as fast-path initial render, server validates on mount. Admin link now reliably appears after login.
-- **`AuthGuard`, `stages/page`, `leaderboard/page`, `admin/page`** — All replace localStorage reads with `/api/auth/me`. Cross-session persistence fixed: cookie-authenticated users no longer lose their session on browser restart.
-- **`reset-password/page.tsx`** — Removed `generateSalt`/`hashPassword` imports; sends plaintext to server.
-
----
-
-## v1.2.0 — 2026-05-18
-
-**NDA gate, admin docs fix, Launch & Legal guide**
-
-- **NDA gate at `/demo`** — Clickwrap NDA form (name + email + agreement checkbox); acceptance stored in Redis as `nda:{email}` with name, email, timestamp, and IP. Sets HMAC-signed `nda_token` cookie (90-day). Rate-limited to 5 submissions/IP/hour.
-- **`/api/nda`** — POST: record NDA acceptance; GET (admin-only): list all signatories sorted by date.
-- **Admin NDA Signatories panel** — New section on `/admin` dashboard shows all demo signees with name, email, IP, and acceptance timestamp.
-- **Admin docs fixed** — `DocsViewer` was guarding access via `isAdmin()` from localStorage, which broke after server-side login. Replaced with API-first auth: attempts to fetch the first doc and redirects on 401, matching the pattern used by the admin user table.
-- **`LAUNCH_LEGAL.md`** — New admin-only doc covering: incorporation (Delaware C-Corp vs Wyoming LLC, Stripe Atlas/Clerky), copyright registration ($65, copyright.gov), patent guidance (skip for now, provisional option), NDA instructions, employment/contractor agreements, and pre-fundraise checklist.
-- **`DocsViewer` — Launch & Legal tab** added to the docs viewer tab bar.
-
----
-
-## v1.1.0 — 2026-05-17
-
-**Educational annotations, Socratic ARIA, Skills Acquired debrief, bt-03 fixes**
-
-- **Terminal learning annotations** — Every CTF terminal interaction across all 9 epochs now includes `>> LEARN:` educational callouts inline in command output. Covers all `extraCommands` stages in Our First Journey (bt-01–30), Tech Audit: Technical (audit-02), Tech Audit: Agentic (audit-a03 Secrets Hunter), Cisco, Quantum, Umbrella, and MITRE epochs. File-read-only stages (Tech Audit: Foundations, remaining Agentic stages) embed `WHAT YOU'RE LEARNING:` sections directly in file content.
-- **Socratic ARIA** — ARIA system prompt rewritten to use the Socratic method: asks guiding questions rather than providing direct answers. Now receives `keyTakeaways` (learning objectives) and `tagline` (core concept) from every stage; uses them to frame questions and assess whether the trainee is on track. Hint is paraphrased rather than quoted verbatim.
-- **ARIA opener** — Opening message now surfaces the stage's core concept tagline: `ARIA online. Mission "X" loaded. Core concept: "Y". What are you stuck on?`
-- **Skills Acquired debrief** — `FlagSuccessModal` now shows a "Skills Acquired" section on successful flag capture, listing up to 3 key takeaways from `stage.info.keyTakeaways`. Only renders when takeaways are present.
-- **bt-03 bug fixes** — (a) Terminal scroll-lock: users can now scroll up to review earlier output without auto-scroll fighting them; auto-scroll resumes only when already at the bottom. (b) `inspect fragment-3` now correctly marks the third fragment as recovered, unblocking stage completion.
-
----
-
-## v1.0.0 — 2026-05-16
-
-**Cisco Umbrella epoch, server-side flag validation, admin user list**
-
-- **Cisco Umbrella epoch (2a)** — 10 new CTF stages covering DNS-layer security: Umbrella architecture (Trickbot/WIZARD SPIDER), DNS tunneling (OilRig/APT34 DNSpionage), DGA detection (Emotet v4/NHS London), fast flux (Storm Worm double-flux), DNS rebinding (IoT homograph), lookalike domains (NOBELIUM/APT29), policy enforcement (LockBit wildcard bypass), DoH evasion (Godlua trojan), Talos threat intelligence (Scattered Spider/UNC3944), and full DNS-based IR (VOLT TYPHOON/ERCOT critical infrastructure)
-- **Server-side flag validation** — All 169 CTF flags moved from stage data files to `src/data/stage-flags.ts` with `import 'server-only'`. Next.js enforces at build time that this module never reaches the client bundle. `/api/check-flag` uses the registry exclusively. The `flag:` property removed from all 14 data files.
-- **Admin user list** — `GET /api/admin/users` endpoint scans all `user:*` Redis keys, fetches user + progress in parallel, returns sorted user list (by XP). Admin dashboard rewritten to fetch from API; shows rank, username+email, XP bar, stages/total, badges, last active, join date. Redirects to `/stages` on 401.
-- **`createdAt` field** — `/api/sync-user` now stores `createdAt: Date.now()` in user Redis hash; displayed as join date in admin table.
-- **Cisco quantum product references** — quantum-1 through quantum-3 stages updated with real Cisco product details: Universal Quantum Switch (UQS, April 2026), Silicon One P200 (800G ML-KEM hardware, Oct 2025) and G300 (102.4 Tbit/s, Feb 2026), full-stack PQC (ML-DSA in IOS-XE boot/IPsec/MACsec/TLS, Cisco Live 2026), SKIP algorithm-agnostic interface for QKD → IPsec bridging.
-- **Security briefing updated** — Flag validation status changed to RESOLVED; ANTHROPIC_API_KEY added to secrets table; production security path updated.
-
----
-
-## v0.9.1 — 2026-05-16
-
-**RSC serialization fix, leaderboard 500 fix, admin API**
-
-- **Stage page 500 errors fixed** — `extraCommands` (JS functions) stripped in `page.tsx` before RSC serialization; client re-hydrates via `stage-commands.ts` registry. Fixes all CTF stage pages returning 500 on kryptoscronos.com.
-- **Leaderboard 500 fix** — `parseStringArray()` helper handles legacy comma-separated Redis data (old format) alongside new JSON-array format. Wrapped in try/catch for surfaced error messages.
-- **`/api/admin/users`** — New admin-only endpoint; HMAC-verified; Redis SCAN cursor loop + parallel hgetall for user + progress data.
-- **`stage-commands.ts`** — Client-safe extraCommands registry; iterates all stages at module load time; `getExtraCommands(stageId)` used by `CtfChallenge.tsx` instead of prop drilling.
-
----
-
-## v0.9.0 — 2026-05-16
-
-**AI chatbot, animated success modal, daily/weekly leaderboard, level timer, CTF easter-egg engine**
-
-- **ARIA AI Chatbot** — In-terminal AI hint assistant (Claude Haiku) available on every CTF stage; 🤖 ARIA button in stage header; 30-second free-tier cooldown between messages with visible countdown; 10-message session limit; "Go Pro" upgrade prompt when limit/cooldown reached; also accessible via "Ask ARIA" button inside the mission briefing panel
-- **`/api/hint` endpoint** — Server-side route calls Anthropic claude-haiku-4-5; IP rate-limited (15 msgs/15 min); stage-aware system prompt with scenario, hint, and chatbotContext injected; never reveals flag values directly; returns `{ reply }` or `{ error }`
-- **Animated flag success modal** (`FlagSuccessModal`) — Replaces in-terminal text on correct submission; full-screen overlay with concentric glow rings, captured flag with green glow, XP earned, time taken, badge, and time penalty if applicable; animated scale-in entrance
-- **Live level timer** — Stopwatch in stage header (green → yellow at 5 min → orange at 10 min); time sent to server on submission; XP penalty after 10 minutes: -1 XP/min, capped at 20% of base stage XP; penalty displayed in success modal
-- **Daily / Weekly / All-Time leaderboard** — Three-tab switcher on leaderboard page; daily board uses `lb:d:YYYY-MM-DD` Redis key (48h TTL), weekly uses `lb:w:YYYY-MM-DD` Monday key (14d TTL); `awardStageInRedis` updates all three boards atomically on new stage completion only (idempotent); `/api/leaderboard?period=daily|weekly|alltime`
-- **Easter-egg CTF engine** — `minFragments?: number` added to `CtfConfig`; stages can now hide more fragments than required (collect any N of M); `assemble` command shows partial progress and assembles from collected subset; fragment counter badge shows `(need N)` when `minFragments < total`; `chatbotContext?: string` per-stage context injected into ARIA prompt
-- **Security fixes** (deployed with v0.8.5):
-  - `/api/restore-user` — gutted to 404; was exposing passwordHash+salt publicly
-  - `/api/auth/login` — new server-side login; PBKDF2 hashing server-side; `timingSafeEqual`
-  - `/api/forgot-password` + `/api/notify-registration` — HTML injection patched with `escapeHtml()`
-  - `/api/reset-password` — now sets `session_token` cookie on success
-  - `/api/auth/session` — `timingSafeEqual` for hash comparison
-  - `/api/sync-user` — returns 409 `{ taken: true }` on duplicate username
-  - All rate-limit routes — `x-forwarded-for` replaced with `x-real-ip` (Vercel canonical)
-  - `StoredUser` — `passwordHash` and `salt` removed; no credentials in localStorage
-
-**Environment variables required:** `ANTHROPIC_API_KEY` must be added to Vercel for ARIA chatbot.
-
----
-
 ## v0.7.0 — 2026-05-15
 
 **Multi-step CTF engine, job outcomes homepage, hints monetization, investor targeting**
@@ -168,11 +16,103 @@
 
 ---
 
+## v1.5.4 — 2026-05-19
+
+**CTF scroll fix, feedback email, widget layout, 24-stage MCP templates**
+
+- **CTF terminal scroll** — fixed black-screen terminal not scrolling: added `min-h-0` to wrapper and `overscrollBehavior: contain` to output container; inner flex overflow now works correctly inside nested flex layouts
+- **Feedback email notifications** — feedback submissions now send an email to `jjbolotin@yahoo.com` via Resend; from address corrected to `noreply@kryptoscronos.com` (verified domain)
+- **Feedback widget repositioned** — moved from top-right to top-left (`fixed top-4 left-4`) to prevent overlap with ARIA panel when both are open simultaneously
+- **24 MCP server code templates** — each Tech Audit lesson now has a "Code Templates" section with a downloadable Python MCP server template:
+  - **Agentic epoch** (audit-a01–a12): tool use agentic loop, API enumeration, secrets scanning, cloud enumeration, IAM privilege escalation analysis, MCP integration, IaC review, SOC 2 evidence collection, multi-agent orchestration, risk report writing, sentinel scheduling, full pipeline
+  - **Continuous Monitoring epoch** (audit-cm01–cm12): ISCM baseline, SIEM + ML anomaly detection, UEBA risk scoring, NDR beaconing detection, CSPM attack path mapping, STIX/TAXII threat intel, SOAR playbook automation, deception/honeytokens, Zero Trust CARTA scoring, XDR cross-source correlation, continuous compliance engine, SOC maturity scorecard
+  - All 24 files self-contained and runnable (`pip install anthropic && python <file>.py`); served statically from `/mcp-templates/`
+- **`stage-downloads.ts`** — new data file mapping all 24 stage IDs to their template download URLs
+- **`StageInfo.tsx`** — renders Code Templates section with download links before the CTA button
+
+---
+
+## v1.5.3 — 2026-05-18
+
+**Back navigation + CTF terminal persistence**
+
+- `BackLink.tsx` — all back buttons now call `router.back()` for consistent browser-history navigation
+- `CtfChallenge` saves terminal state to localStorage on solve (`ctf-state:<stageId>`) and restores it on return — progress survives navigation away from a stage
+- "↺ Replay" button resets saved CTF state so users can re-run challenges from scratch
+
+---
+
+## v1.5.2 — 2026-05-18
+
+**Tapestry epoch — arts curriculum track**
+
+- `src/data/tapestry.ts` — 12 quiz stages (tapestry-01 → tapestry-12): tapestry history, Flemish golden age, Asian traditions, Americas, color theory, warp/weft structure, equipment, techniques (hatching, soumak, slits, rya knots), design, optical color mixing, contemporary practice, first project
+- Yellow accent color theme
+- New `"arts"` category type added to stage config
+- `check-answer` route now falls back to the full stages array — any quiz epoch works without manual route registration
+
+---
+
+## v1.5.1 — 2026-05-18
+
+**Feedback widget + business proposal refresh**
+
+- `FeedbackWidget.tsx` — fixed top-right widget; submits to `jjbolotin@yahoo.com` via `/api/feedback`
+- Business proposals updated to reflect current product state and investor positioning
+
+---
+
+## v1.5.0 — 2026-05-18
+
+**Continuous Monitoring 2.0 epoch**
+
+- `src/data/tech-audit-4.ts` — 12 CTF stages (audit-cm01 → audit-cm12): continuous monitoring frameworks, automated control testing, real-time compliance dashboards, SIEM integration, audit trail integrity, anomaly detection, drift detection, evidence collection automation, risk scoring pipelines, reporting cadence, regulatory mapping, and monitoring program maturity
+- Rose accent color theme
+
+---
+
+## v1.4.0 — 2026-05-17
+
+**DocuSign NDA integration**
+
+- `src/lib/docusign.ts` — JWT-grant DocuSign client with envelope creation and status polling
+- `/api/admin/send-nda` — sends NDA envelope to a specified email from the admin dashboard
+- `/api/webhooks/docusign` — receives envelope status callbacks; optional HMAC verification via `DOCUSIGN_WEBHOOK_SECRET`
+- Admin dashboard NDA panel: recipient input, send button, envelope status display
+- Five new env vars: `DOCUSIGN_INTEGRATION_KEY`, `DOCUSIGN_USER_ID`, `DOCUSIGN_ACCOUNT_ID`, `DOCUSIGN_PRIVATE_KEY`, `DOCUSIGN_BASE_URL`
+
+---
+
+## v1.2.0 — 2026-05-17
+
+**MITRE ATT&CK + MITRE ATLAS + OWASP LLM Top 10 epochs**
+
+- `src/data/mitre.ts` — 12 CTF stages (mitre-01 → mitre-12) covering all 12 MITRE ATT&CK tactic phases: Reconnaissance through Impact; red accent
+- `src/data/mitre-atlas.ts` — 12 CTF stages (atlas-01 → atlas-12) covering AI/ML adversarial attacks: model evasion, data poisoning, model inversion, adversarial examples, supply chain compromise, and ATLAS tactic/technique mapping; fuchsia accent
+- `src/data/owasp-llm.ts` — 12 CTF stages (llm-01 → llm-12) aligned to OWASP LLM Top 10 2025 edition: prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, model theft; orange accent
+- Total curriculum grows to 114 stages
+
+---
+
+## v1.0.0 — 2026-05-16
+
+**Tech Audit epoch trilogy + ARIA chatbot + CI pipeline + streaks + badges**
+
+- `src/data/tech-audit-1.ts` — Tech Audit: Foundations (audit-01 → audit-12): ISACA, COBIT, CISA frameworks, audit lifecycle, risk assessment, control testing, evidence collection; purple accent
+- `src/data/tech-audit-2.ts` — Tech Audit: Technical (audit-t01 → audit-t12): API security auditing, secrets management, cloud configuration review, IAM privilege analysis, dependency scanning, container security, network segmentation, logging gaps; violet accent
+- `src/data/tech-audit-3.ts` — Tech Audit: Agentic (audit-a01 → audit-a12): Claude tool use auditing, MCP server security, agentic workflow risk, prompt injection in pipelines, tool permission scoping, output validation; indigo accent
+- **ARIA AI chatbot** — in-terminal Socratic tutor powered by Claude Haiku; stage-aware context; never reveals flags; accessible via `/api/hint`
+- **CI pipeline** — GitHub Actions workflow: ESLint → `tsc --noEmit` → Next.js build → `npm audit`; runs on every push and PR
+- **Daily streaks** — `streak:<username>` Redis key; streak display in admin dashboard and user profile
+- **Milestone badges** — `m-xp-1k`, `m-xp-5k`, `m-streak-3`, `m-streak-7` awarded server-side on progress POST
+- Total curriculum grows to 102 stages across 7 epochs
+
+---
+
 ## v0.8.0 — Planned (Q3 2026)
 
-**AI personalization layer + Cisco product integrations**
+**Cisco product integrations + adaptive difficulty**
 
-- In-terminal AI tutor (Anthropic API) — natural-language Q&A during CTF challenges without revealing flags
 - Adaptive difficulty engine — adjusts challenge complexity based on command patterns and time-on-task
 - **Cisco Talos integration** — weekly CVE challenge drops sourced from Talos threat intelligence feed
 - **Cisco Umbrella epoch** — new curriculum track: DNS tunneling, DGA detection, network policy enforcement
@@ -180,8 +120,6 @@
 - **Cisco Firepower stages** — network defense: firewall rule exploitation, lateral movement detection
 - **Cisco CyberOps Associate alignment** — Cisco epoch badge completions map to CyberOps exam domains; exam voucher redemption flow
 - **Cisco DevNet track** — API security and automation: REST exploitation, OAuth misconfigurations
-- CI pipeline (GitHub Actions: lint + tsc + build + audit)
-- Streaks and milestone badges
 
 ---
 
