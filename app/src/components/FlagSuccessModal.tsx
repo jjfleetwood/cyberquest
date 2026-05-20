@@ -10,6 +10,7 @@ type Props = {
   timeTakenMs: number;
   timePenaltyXp: number;
   effectiveXp: number;
+  backHref?: string;
 };
 
 function formatTime(ms: number): string {
@@ -19,7 +20,7 @@ function formatTime(ms: number): string {
   return m > 0 ? `${m}m ${s}s` : `${s}s`;
 }
 
-export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenaltyXp, effectiveXp }: Props) {
+export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenaltyXp, effectiveXp, backHref = "/stages" }: Props) {
   const [visible, setVisible] = useState(false);
   const [flagVisible, setFlagVisible] = useState(false);
 
@@ -133,7 +134,7 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
               🏆 Leaderboard
             </Link>
             <Link
-              href="/stages"
+              href={backHref}
               className="flex-1 text-center py-2.5 font-bold rounded-xl text-sm transition-colors text-black"
               style={{ background: "linear-gradient(90deg, #22c55e, #4ade80)" }}
             >

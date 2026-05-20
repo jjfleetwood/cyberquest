@@ -17,13 +17,15 @@ export default function StageContainer({ stage }: { stage: StageConfig | null })
     );
   }
 
+  const backHref = `/stages/epoch/${stage.epochId}`;
+
   if (phase === "info") {
     return <StageInfo stage={stage} onStart={() => setPhase("challenge")} />;
   }
 
   if (stage.challengeType === "ctf" && stage.ctf) {
-    return <CtfChallenge stage={stage} />;
+    return <CtfChallenge stage={stage} backHref={backHref} />;
   }
 
-  return <QuizChallenge stage={stage} />;
+  return <QuizChallenge stage={stage} backHref={backHref} />;
 }

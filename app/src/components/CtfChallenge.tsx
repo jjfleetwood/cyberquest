@@ -252,7 +252,7 @@ function ReferenceDrawer({ stage, onClose }: { stage: StageConfig; onClose: () =
   );
 }
 
-export default function CtfChallenge({ stage }: { stage: StageConfig }) {
+export default function CtfChallenge({ stage, backHref = "/stages" }: { stage: StageConfig; backHref?: string }) {
   const ctf = stage.ctf!;
   const hints = ctf.hints ?? [ctf.hint];
   const minFragments = ctf.minFragments ?? ctf.fragments?.length ?? 0;
@@ -627,6 +627,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
           timeTakenMs={successData.timeTakenMs}
           timePenaltyXp={successData.timePenaltyXp}
           effectiveXp={successData.effectiveXp}
+          backHref={backHref}
         />
       )}
       {hintsOpen && <HintDrawer hints={hints} onClose={() => setHintsOpen(false)} />}

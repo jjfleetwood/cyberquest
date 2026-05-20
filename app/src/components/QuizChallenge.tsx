@@ -12,7 +12,7 @@ type AnswerState = {
   explanation: string;
 } | null;
 
-export default function QuizChallenge({ stage }: { stage: StageConfig }) {
+export default function QuizChallenge({ stage, backHref = "/stages" }: { stage: StageConfig; backHref?: string }) {
   const questions: SafeQuestion[] = stage.quiz?.questions ?? [];
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
@@ -105,7 +105,7 @@ export default function QuizChallenge({ stage }: { stage: StageConfig }) {
               Leaderboard 🏆
             </Link>
             <Link
-              href="/stages"
+              href={backHref}
               className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition-colors"
             >
               Stage Map →
