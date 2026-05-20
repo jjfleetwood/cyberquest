@@ -2,11 +2,11 @@
 
 ## What This Is
 
-Gamified cybersecurity + AI training platform. Three curriculum tracks, 54 CTF stages, live leaderboard, admin dashboard. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
+Gamified cybersecurity + AI training platform. 15 curriculum epochs, 198 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.5.3 (as of 2026-05-18)
+**Current version:** v1.5.4 (as of 2026-05-19)
 
 ---
 
@@ -58,13 +58,18 @@ npm run lint         # ESLint
 | 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue | Always |
 | 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple | Always |
 | 5 | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet | Always |
-| 6 | Tech Audit: Agentic Continuous Monitoring | 12 | audit-a01 → audit-a12 | Indigo | Always |
-| 10 | Continuous Monitoring 2.0 | 12 | audit-cm01 → audit-cm12 | Rose | Always |
+| 6 | Tech Audit: Agentic | 12 | audit-a01 → audit-a12 | Indigo | Always |
+| 6b | Continuous Monitoring 2.0 | 12 | audit-cm01 → audit-cm12 | Rose | Always |
 | 7 | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red | Always |
 | 8 | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia | Always |
 | 9 | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange | Always |
+| 10 | Quantum Era: Threats | 12 | quantum-t01 → quantum-t12 | Cyan | Always |
+| 11 | Quantum Era: PQC | 12 | quantum-p01 → quantum-p12 | Teal | Always |
+| 12 | Quantum Era: QKD | 12 | quantum-q01 → quantum-q12 | Sky | Always |
+| 13 | Defend the Enterprise | 12 | enterprise-01 → enterprise-12 | Blue | Always |
+| 14 | Tapestry | 12 | tapestry-01 → tapestry-12 | Yellow | Always |
 
-Total: 126 stages across 9 epochs.
+Total: 198 stages across 15 epochs.
 
 ---
 
@@ -166,9 +171,9 @@ Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS 
 
 ---
 
-## Where We Left Off (v1.5.2, 2026-05-18)
+## Where We Left Off (v1.5.4, 2026-05-19)
 
-Back navigation + CTF persistence shipped: `BackLink.tsx` — all back buttons call `router.back()`. `CtfChallenge` saves terminal state to localStorage on solve (`ctf-state:<stageId>`) and restores on return; "↺ Replay" button resets the saved state. Previously: Tapestry epoch shipped: `src/data/tapestry.ts` — 12 quiz stages (tapestry-01 → tapestry-12) covering tapestry history, Flemish golden age, Asian traditions, Americas, color theory, warp/weft structure, equipment, techniques (hatching, soumak, slits, rya knots), design, optical color mixing, contemporary practice, and first project. Yellow accent. New `"arts"` category type added. `check-answer` route now falls back to stages array so any quiz epoch works without manual registration. Previously (v1.5.1): Feedback widget (`FeedbackWidget.tsx` — fixed top-right, sends to jjbolotin@yahoo.com via `/api/feedback`), business proposals refreshed. Previously (v1.5.0): Continuous Monitoring 2.0 epoch (`tech-audit-4.ts`, 12 CTF stages, rose accent). Previously (v1.4.0): DocuSign NDA integration — admin dashboard, `src/lib/docusign.ts`, `/api/admin/send-nda`, `/api/webhooks/docusign`, 5 `DOCUSIGN_*` env vars.
+**v1.5.4 (current):** CTF terminal scroll fixed (`min-h-0` + `overscrollBehavior: contain` in `CtfChallenge.tsx`). Feedback email from address corrected to `noreply@kryptoscronos.com`. `FeedbackWidget.tsx` repositioned to `top-4 left-4` (was top-right, overlapped ARIA). 24 Python MCP server templates added to `app/public/mcp-templates/` (audit-a01–a12 and audit-cm01–cm12) — each is a self-contained runnable agentic audit tool. `stage-downloads.ts` maps all 24 stage IDs to template URLs. `StageInfo.tsx` renders a "Code Templates" section with download links. All admin docs updated to v1.5.4: RELEASE_NOTES, CURRICULUM, BUSINESS_PROPOSAL_PRO/CASUAL, PITCH_TARGETS, SECURITY_BRIEFING. **v1.5.3:** `BackLink.tsx` — `router.back()` on all back buttons. CTF state persists to localStorage (`ctf-state:<stageId>`); "↺ Replay" resets it. **v1.5.2:** Tapestry epoch (`tapestry.ts`, 12 stages, yellow). **v1.5.1:** Feedback widget. **v1.5.0:** Continuous Monitoring 2.0 epoch (12 stages, rose). **v1.4.0:** DocuSign NDA integration.
 
 **Adding a new epoch — checklist:**
 1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`

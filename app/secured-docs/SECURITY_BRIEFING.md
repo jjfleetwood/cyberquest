@@ -1,8 +1,19 @@
 # Kryptós CronOS Security Briefing
 **Classification:** Internal — Pre-Production  
-**Date:** 2026-05-18  
-**Version:** 3.2  
+**Date:** 2026-05-19  
+**Version:** 3.3  
 **Reviewed by:** Internal Security Analysis
+
+---
+
+## Changelog — v3.3 (2026-05-19)
+
+- **MCP code templates** — 24 Python files added to `app/public/mcp-templates/`. These are intentionally public (educational content, no secrets). Files are static assets served by Next.js with no auth. No new server-side routes, no new Redis keys, no new env vars. The `public/` directory is explicitly not gated — confirmed intentional and appropriate for curriculum downloads.
+- **Feedback email from address corrected** — `noreply@kryptoscronos.com` (verified Resend domain). No change to endpoint logic, rate limiting, or storage. The `/api/feedback` endpoint has no auth and no rate limiting — still an accepted low-risk open item (see active findings).
+- **Feedback widget repositioned (CSS only)** — UI-only change, no new data handling.
+- **`stage-downloads.ts`** — client-side data mapping only; no server interaction.
+- **`StageInfo.tsx`** — renders anchor tags pointing to `/mcp-templates/*.py`; no dynamic input, no server calls, no XSS surface.
+- **New attack surface this release:** None.
 
 ---
 
