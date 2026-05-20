@@ -63,6 +63,7 @@ export default function Nav() {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <Link href="/stages" className="text-gray-400 hover:text-white transition-colors">Stages</Link>
+          <Link href="/journey" className="text-gray-400 hover:text-white transition-colors">Journey</Link>
           <Link href="/leaderboard" className="text-gray-400 hover:text-white transition-colors">Leaderboard</Link>
           {username && (
             <Link href="/shop" className="text-amber-400 hover:text-amber-300 transition-colors">🛒 Shop</Link>
@@ -120,6 +121,9 @@ export default function Nav() {
         <div className="md:hidden border-t border-white/10 px-4 py-4 space-y-1" style={{ background: "rgba(6,10,16,0.98)" }}>
           <Link href="/stages" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
             🗺️ Stages
+          </Link>
+          <Link href="/journey" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
+            🗺️ Journey Map
           </Link>
           <Link href="/leaderboard" className="block px-3 py-2.5 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-colors text-sm">
             🏆 Leaderboard
