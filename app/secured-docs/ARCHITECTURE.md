@@ -104,9 +104,9 @@ cyberquest/
 │   │   ├── data/
 │   │   │   ├── types.ts              # All TypeScript types
 │   │   │   ├── stages.ts             # Foundations + Cisco stages (24)
-│   │   │   ├── before-times.ts       # Before Times stages (10)
-│   │   │   ├── before-times-2.ts     # Before Times stages (10)
-│   │   │   ├── before-times-3.ts     # Before Times stages (10)
+│   │   │   ├── first-journey.ts       # Our First Journey stages (10)
+│   │   │   ├── first-journey-2.ts     # Our First Journey stages (10)
+│   │   │   ├── first-journey-3.ts     # Our First Journey stages (10)
 │   │   │   ├── tech-audit.ts         # Tech Audit epochs (36 stages)
 │   │   │   ├── mitre.ts              # MITRE ATT&CK + ATLAS (24 stages)
 │   │   │   └── owasp-llm.ts          # OWASP LLM Top 10 (12 stages)
@@ -223,7 +223,7 @@ User clicks link → POST /api/reset-password
 
 | Epoch | Name | Stages | IDs | Color |
 |---|---|---|---|---|
-| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald |
+| 1 | The Our First Journey | 30 | bt-01 → bt-30 | Emerald |
 | 2 | Foundations | 12 | stage-01 → stage-12 | Amber |
 | 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue |
 | 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple |
@@ -245,7 +245,7 @@ User clicks link → POST /api/reset-password
 type StageConfig = {
   id: string;
   order: number;
-  epoch: "before-times" | "foundations" | "cisco" | "tech-audit" | "tech-audit-technical" | "tech-audit-agentic" | "mitre" | "atlas" | "owasp-llm";
+  epoch: "first-journey" | "foundations" | "cisco" | "tech-audit" | "tech-audit-technical" | "tech-audit-agentic" | "mitre" | "atlas" | "owasp-llm";
   title: string;
   subtitle: string;
   category: "cybersecurity" | "ai" | "owasp";

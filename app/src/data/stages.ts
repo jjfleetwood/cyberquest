@@ -1,7 +1,7 @@
 import type { StageConfig, EpochConfig } from "./types";
-import { beforeTimesEpoch, beforeTimesStages } from "./before-times";
-import { beforeTimesStages2 } from "./before-times-2";
-import { beforeTimesStages3 } from "./before-times-3";
+import { firstJourneyEpoch, firstJourneyStages } from "./first-journey";
+import { firstJourneyStages2 } from "./first-journey-2";
+import { firstJourneyStages3 } from "./first-journey-3";
 import { techAudit1Epoch, techAudit1Stages } from "./tech-audit-1";
 import { techAudit2Epoch, techAudit2Stages } from "./tech-audit-2";
 import { techAudit3Epoch, techAudit3Stages } from "./tech-audit-3";
@@ -24,7 +24,7 @@ export function getStage(id: string): StageConfig | undefined {
 }
 
 export const epochs: EpochConfig[] = [
-  beforeTimesEpoch,
+  firstJourneyEpoch,
   {
     id: "ancient",
     name: "Foundations",
@@ -61,9 +61,9 @@ export const epochs: EpochConfig[] = [
 ];
 
 export const stages: StageConfig[] = [
-  ...beforeTimesStages,
-  ...beforeTimesStages2,
-  ...beforeTimesStages3,
+  ...firstJourneyStages,
+  ...firstJourneyStages2,
+  ...firstJourneyStages3,
   ...techAudit1Stages,
   ...techAudit2Stages,
   ...techAudit3Stages,

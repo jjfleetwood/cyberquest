@@ -98,7 +98,7 @@
 
 **Educational annotations, Socratic ARIA, Skills Acquired debrief, bt-03 fixes**
 
-- **Terminal learning annotations** — Every CTF terminal interaction across all 9 epochs now includes `>> LEARN:` educational callouts inline in command output. Covers all `extraCommands` stages in Before Times (bt-01–30), Tech Audit: Technical (audit-02), Tech Audit: Agentic (audit-a03 Secrets Hunter), Cisco, Quantum, Umbrella, and MITRE epochs. File-read-only stages (Tech Audit: Foundations, remaining Agentic stages) embed `WHAT YOU'RE LEARNING:` sections directly in file content.
+- **Terminal learning annotations** — Every CTF terminal interaction across all 9 epochs now includes `>> LEARN:` educational callouts inline in command output. Covers all `extraCommands` stages in Our First Journey (bt-01–30), Tech Audit: Technical (audit-02), Tech Audit: Agentic (audit-a03 Secrets Hunter), Cisco, Quantum, Umbrella, and MITRE epochs. File-read-only stages (Tech Audit: Foundations, remaining Agentic stages) embed `WHAT YOU'RE LEARNING:` sections directly in file content.
 - **Socratic ARIA** — ARIA system prompt rewritten to use the Socratic method: asks guiding questions rather than providing direct answers. Now receives `keyTakeaways` (learning objectives) and `tagline` (core concept) from every stage; uses them to frame questions and assess whether the trainee is on track. Hint is paraphrased rather than quoted verbatim.
 - **ARIA opener** — Opening message now surfaces the stage's core concept tagline: `ARIA online. Mission "X" loaded. Core concept: "Y". What are you stuck on?`
 - **Skills Acquired debrief** — `FlagSuccessModal` now shows a "Skills Acquired" section on successful flag capture, listing up to 3 key takeaways from `stage.info.keyTakeaways`. Only renders when takeaways are present.
@@ -159,7 +159,7 @@
 **Multi-step CTF engine, job outcomes homepage, hints monetization, investor targeting**
 
 - **Fragment collection system** — multi-step CTF mechanic: each stage now hides flag fragments behind file reads and exploit commands; `assemble` built-in reveals the full flag only after all fragments are collected; 🔑 N/M counter badge in terminal header
-- **All 54 stages retrofitted** — Before Times (bt-01–bt-30), Foundations (stage-01–12), and Cisco (stage-m01–12) all have `fragments` arrays; `solved: true` pattern removed from all extraCommands; flags no longer appear in command output
+- **All 54 stages retrofitted** — Our First Journey (bt-01–bt-30), Foundations (stage-01–12), and Cisco (stage-m01–12) all have `fragments` arrays; `solved: true` pattern removed from all extraCommands; flags no longer appear in command output
 - **Homepage job outcomes section** — "Train for jobs that are hiring right now" career section added: SOC Analyst, Penetration Tester, Cloud Security Engineer, AppSec/Secure Dev; each card shows salary range, required skills, and which stages cover them
 - **Stats updated** — hero badge and stats bar reflect 54 stages, 12+ real CVEs, 3.5M unfilled cyber jobs
 - **Hints-as-ads monetization** — Candy Crush model documented in both business proposals: first hint free, hints 2–3 require 30-second sponsor ad or Pro upgrade; $50–$200 CPM; contextual ad matching by stage topic
@@ -197,7 +197,7 @@
 - **Rate limiting** — forgot-password (3/IP/15min), notify-registration (5/IP/hour) via Redis incr
 - **admin-session** throws if `ADMIN_SECRET` env var is missing (no empty-string fallback)
 - **reset-password** no longer returns email in response — returns only username
-- Emerald accent theme added to Before Times epoch
+- Emerald accent theme added to Our First Journey epoch
 
 ---
 

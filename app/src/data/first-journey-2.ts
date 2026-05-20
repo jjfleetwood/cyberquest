@@ -1,10 +1,10 @@
 import type { StageConfig } from "./types";
 
-export const beforeTimesStages2: StageConfig[] = [
+export const firstJourneyStages2: StageConfig[] = [
 
   // ─── BT-11: HTTP vs HTTPS ─────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Steamer Lane Surf Report Board", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏄" },
     id: "bt-11",
     order: 11,
@@ -204,7 +204,7 @@ curl -I http://google.com
 
   // ─── BT-12: How Browsers Work ─────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Surf Shop on Pacific Ave", location: "Santa Cruz, USA", era: "Present Day", emoji: "🛒" },
     id: "bt-12",
     order: 12,
@@ -395,7 +395,7 @@ curl -A "Mozilla/5.0" https://example.com`,
 
   // ─── BT-13: Clients and Servers ───────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "O'Neill Surf School", location: "Santa Cruz, USA", era: "Present Day", emoji: "🎓" },
     id: "bt-13",
     order: 13,
@@ -546,7 +546,7 @@ print(resp.json())   # parse JSON response`,
 
   // ─── BT-14: SSL/TLS ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Lifeguard Tower #3, Cowell Beach", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏖️" },
     id: "bt-14",
     order: 14,
@@ -754,7 +754,7 @@ curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
 
   // ─── BT-15: Cookies ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Surf Club Check-In Desk", location: "Santa Cruz, USA", era: "Present Day", emoji: "🎫" },
     id: "bt-15",
     order: 15,
@@ -947,7 +947,7 @@ curl -I https://example.com | grep Set-Cookie
 
   // ─── BT-16: APIs ──────────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Surf Conditions Hotline", location: "Santa Cruz, USA", era: "Present Day", emoji: "📞" },
     id: "bt-16",
     order: 16,
@@ -1137,7 +1137,7 @@ print(resp.json())`,
 
   // ─── BT-17: Bandwidth ─────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Break at Pleasure Point", location: "Santa Cruz, USA", era: "Present Day", emoji: "🌊" },
     id: "bt-17",
     order: 17,
@@ -1344,7 +1344,7 @@ traceroute google.com
 
   // ─── BT-18: Latency ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Surf Forecast Terminal, Boardwalk", location: "Santa Cruz, USA", era: "Present Day", emoji: "⏱️" },
     id: "bt-18",
     order: 18,
@@ -1531,7 +1531,7 @@ ping 9.9.9.9     # Quad9`,
 
   // ─── BT-19: DNS Cache Poisoning ───────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Surf Contest Archive, Beach Flats", location: "Santa Cruz, USA", era: "Present Day", emoji: "📋" },
     id: "bt-19",
     order: 19,
@@ -1733,7 +1733,7 @@ dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
 
   // ─── BT-20: Load Balancing ────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Four Mile Beach", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏖️" },
     id: "bt-20",
     order: 20,

@@ -1,5 +1,5 @@
 export const epochAccent: Record<string, { tab: string; active: string; bar: string }> = {
-  "before-times": { tab: "text-emerald-400 border-emerald-400 bg-emerald-400/10", active: "border-emerald-400/60 bg-emerald-500/5", bar: "bg-emerald-500" },
+  "first-journey": { tab: "text-emerald-400 border-emerald-400 bg-emerald-400/10", active: "border-emerald-400/60 bg-emerald-500/5", bar: "bg-emerald-500" },
   ancient:        { tab: "text-amber-400 border-amber-400 bg-amber-400/10",       active: "border-amber-400/60 bg-amber-500/5",   bar: "bg-amber-500" },
   medieval:       { tab: "text-blue-400 border-blue-400 bg-blue-400/10",          active: "border-blue-400/60 bg-blue-500/5",     bar: "bg-blue-500" },
   "tech-audit-1": { tab: "text-purple-400 border-purple-400 bg-purple-400/10",   active: "border-purple-400/60 bg-purple-500/5", bar: "bg-purple-500" },
@@ -20,7 +20,7 @@ export const epochAccent: Record<string, { tab: string; active: string; bar: str
 };
 
 export const cardBorder: Record<string, string> = {
-  "before-times": "border-emerald-500/40 hover:border-emerald-400/80",
+  "first-journey": "border-emerald-500/40 hover:border-emerald-400/80",
   ancient:        "border-amber-500/40 hover:border-amber-400/80",
   medieval:       "border-blue-500/40 hover:border-blue-400/80",
   "tech-audit-1": "border-purple-500/40 hover:border-purple-400/80",
@@ -41,7 +41,7 @@ export const cardBorder: Record<string, string> = {
 };
 
 export const cardEmojiBg: Record<string, string> = {
-  "before-times": "from-emerald-950 to-slate-950",
+  "first-journey": "from-emerald-950 to-slate-950",
   ancient:        "from-amber-950 to-stone-950",
   medieval:       "from-blue-950 to-slate-950",
   "tech-audit-1": "from-purple-950 to-slate-950",

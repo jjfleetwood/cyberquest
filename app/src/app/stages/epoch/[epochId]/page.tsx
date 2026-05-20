@@ -35,7 +35,7 @@ export default function EpochPage() {
   const nextStageId = epochStages.find((s) => !completedStages.includes(s.id))?.id;
 
   const gridCols =
-    epochId === "before-times"
+    epochId === "first-journey"
       ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
       : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
 

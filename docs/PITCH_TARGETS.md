@@ -138,7 +138,7 @@ When talking to any investor, frame the competitive landscape clearly:
 | Competitor | Their gap | Our edge |
 |---|---|---|
 | TryHackMe | No structured curriculum, no AI, no enterprise | Structured epochs, gamification, Cisco alignment |
-| HackTheBox | Too hard for beginners, no enterprise | Full spectrum: beginner (Before Times) to expert (Cisco CVEs) |
+| HackTheBox | Too hard for beginners, no enterprise | Full spectrum: beginner (Our First Journey) to expert (Cisco CVEs) |
 | Cybrary | Video-only, low completion rates | Hands-on CTF: completion rates 3–5× higher than video |
 | KnowBe4 | Phishing simulation only, no technical depth | Full OWASP + CVE curriculum with real exploit environments |
 | Coursera/Udemy | Generic content, no gamification | Purpose-built security platform, leaderboards, badges, real CVEs |

@@ -7,7 +7,7 @@
 **Multi-step CTF engine, job outcomes homepage, hints monetization, investor targeting**
 
 - **Fragment collection system** — multi-step CTF mechanic: each stage now hides flag fragments behind file reads and exploit commands; `assemble` built-in reveals the full flag only after all fragments are collected; 🔑 N/M counter badge in terminal header
-- **All 54 stages retrofitted** — Before Times (bt-01–bt-30), Foundations (stage-01–12), and Cisco (stage-m01–12) all have `fragments` arrays; `solved: true` pattern removed from all extraCommands; flags no longer appear in command output
+- **All 54 stages retrofitted** — Our First Journey (bt-01–bt-30), Foundations (stage-01–12), and Cisco (stage-m01–12) all have `fragments` arrays; `solved: true` pattern removed from all extraCommands; flags no longer appear in command output
 - **Homepage job outcomes section** — "Train for jobs that are hiring right now" career section added: SOC Analyst, Penetration Tester, Cloud Security Engineer, AppSec/Secure Dev; each card shows salary range, required skills, and which stages cover them
 - **Stats updated** — hero badge and stats bar reflect 54 stages, 12+ real CVEs, 3.5M unfilled cyber jobs
 - **Hints-as-ads monetization** — Candy Crush model documented in both business proposals: first hint free, hints 2–3 require 30-second sponsor ad or Pro upgrade; $50–$200 CPM; contextual ad matching by stage topic
@@ -135,7 +135,7 @@
 - **Rate limiting** — forgot-password (3/IP/15min), notify-registration (5/IP/hour) via Redis incr
 - **admin-session** throws if `ADMIN_SECRET` env var is missing (no empty-string fallback)
 - **reset-password** no longer returns email in response — returns only username
-- Emerald accent theme added to Before Times epoch
+- Emerald accent theme added to Our First Journey epoch
 
 ---
 

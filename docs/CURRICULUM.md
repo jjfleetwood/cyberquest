@@ -5,14 +5,14 @@
 
 ---
 
-## Epoch 1: The Before Times
+## Epoch 1: Our First Journey
 **Theme:** Beginner-friendly CTF challenges — accessible to complete newcomers  
 **Stages:** 30 (bt-01 through bt-30)  
 **Color:** Emerald  
 **Unlock:** Default — shown first on stage map  
 **Gating:** Sequential within epoch
 
-The Before Times is the entry point — low-friction challenges designed to build confidence before learners hit the more technically dense Foundations and Cisco tracks. Each stage presents a simple CTF with real-world framing but beginner-appropriate difficulty.
+Our First Journey is the entry point — low-friction challenges designed to build confidence before learners hit the more technically dense Foundations and Cisco tracks. Each stage presents a simple CTF with real-world framing but beginner-appropriate difficulty.
 
 ---
 
@@ -140,7 +140,7 @@ Covers the OWASP Top 10 for Large Language Model Applications: prompt injection,
 
 | Epoch | Stages | Max XP |
 |---|---|---|
-| The Before Times | 30 | ~1,500 (varies) |
+| Our First Journey | 30 | ~1,500 (varies) |
 | Foundations | 12 | 2,950 |
 | Cisco | 12 | 4,200 |
 | Tech Audit: Foundations | 12 | ~3,600 (varies) |

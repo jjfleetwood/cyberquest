@@ -3,8 +3,8 @@
 # educational challenge content. They are not real secrets.
 paths-ignore:
   - "app/src/data/stages.ts"
-  - "app/src/data/before-times.ts"
-  - "app/src/data/before-times-2.ts"
-  - "app/src/data/before-times-3.ts"
+  - "app/src/data/first-journey.ts"
+  - "app/src/data/first-journey-2.ts"
+  - "app/src/data/first-journey-3.ts"
   - "docs/**"
   - "app/secured-docs/**"

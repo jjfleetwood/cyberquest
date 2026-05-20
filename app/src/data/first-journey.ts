@@ -1,7 +1,7 @@
 import type { StageConfig, EpochConfig } from "./types";
 
-export const beforeTimesEpoch: EpochConfig = {
-  id: "before-times",
+export const firstJourneyEpoch: EpochConfig = {
+  id: "first-journey",
   name: "Our First Journey",
   subtitle: "Athens → Santa Cruz → Monterey Bay",
   description: "A beginner's journey across the world. Networking is the highway system that gets you from Athens to Santa Cruz. The internet is the surf you ride when you arrive. Security hygiene is what keeps you safe on a fishing trip in Monterey Bay.",
@@ -10,11 +10,11 @@ export const beforeTimesEpoch: EpochConfig = {
   unlocked: true,
 };
 
-export const beforeTimesStages: StageConfig[] = [
+export const firstJourneyStages: StageConfig[] = [
 
   // ─── BT-01: What is a Network ────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Port of Piraeus", location: "Athens, Greece", era: "Present Day", emoji: "⚓" },
     id: "bt-01",
     order: 1,
@@ -195,7 +195,7 @@ traceroute google.com`,
 
   // ─── BT-02: IP Addresses ──────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Athens International Airport", location: "Athens, Greece", era: "Present Day", emoji: "✈️" },
     id: "bt-02",
     order: 2,
@@ -355,7 +355,7 @@ ping google.com       # shows Google's IP address`,
 
   // ─── BT-03: Packets ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Baggage Claim, JFK Airport", location: "New York, USA", era: "Present Day", emoji: "🧳" },
     id: "bt-03",
     order: 3,
@@ -533,7 +533,7 @@ sudo tcpdump -w capture.pcap`,
 
   // ─── BT-04: Routers ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "I-80 West, Denver Interchange", location: "Colorado, USA", era: "Present Day", emoji: "🛣️" },
     id: "bt-04",
     order: 4,
@@ -709,7 +709,7 @@ tracert google.com         # Windows
 
   // ─── BT-05: DNS ───────────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "AAA Travel Office", location: "Chicago, USA", era: "Present Day", emoji: "🗺️" },
     id: "bt-05",
     order: 5,
@@ -895,7 +895,7 @@ cat /etc/resolv.conf     # Linux/Mac`,
 
   // ─── BT-06: MAC Addresses ─────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "US Customs & Border Protection", location: "Los Angeles, USA", era: "Present Day", emoji: "🛂" },
     id: "bt-06",
     order: 6,
@@ -1060,7 +1060,7 @@ curl https://api.macvendors.com/00:1A:2B
 
   // ─── BT-07: Firewalls ─────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "City Limits — Santa Cruz", location: "Santa Cruz, USA", era: "Present Day", emoji: "🚧" },
     id: "bt-07",
     order: 7,
@@ -1249,7 +1249,7 @@ sudo iptables -A OUTPUT -j ACCEPT`,
 
   // ─── BT-08: Ports ─────────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Santa Cruz Harbor", location: "Santa Cruz, USA", era: "Present Day", emoji: "⛵" },
     id: "bt-08",
     order: 8,
@@ -1423,7 +1423,7 @@ nc -zv 192.168.1.1 22    # test port 22 (SSH)`,
 
   // ─── BT-09: Subnets ───────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Downtown Santa Cruz", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏙️" },
     id: "bt-09",
     order: 9,
@@ -1613,7 +1613,7 @@ ipcalc 192.168.1.0/24
 
   // ─── BT-10: Protocols ─────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Highway 1, Pacific Coast", location: "California, USA", era: "Present Day", emoji: "🌅" },
     id: "bt-10",
     order: 10,

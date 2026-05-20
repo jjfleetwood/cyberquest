@@ -32,7 +32,7 @@ A gamified cybersecurity and AI training platform where learners progress throug
 
 ## Quick Status (v1.5.2)
 
-- **Epochs:** 15 active — The Before Times (30), Foundations (12), Cisco (12), Tech Audit: Foundations (12), Tech Audit: Technical (12), Tech Audit: Agentic (12), Continuous Monitoring 2.0 (12), MITRE ATT&CK (12), MITRE ATLAS (12), OWASP LLM Top 10 (12), Quantum Era × 3 (36), Defend the Enterprise (12), The Woven World / Tapestry (12)
+- **Epochs:** 15 active — Our First Journey (30), Foundations (12), Cisco (12), Tech Audit: Foundations (12), Tech Audit: Technical (12), Tech Audit: Agentic (12), Continuous Monitoring 2.0 (12), MITRE ATT&CK (12), MITRE ATLAS (12), OWASP LLM Top 10 (12), Quantum Era × 3 (36), Defend the Enterprise (12), The Woven World / Tapestry (12)
 - **Total stages:** 198
 - **Auth:** Fully server-side PBKDF2-SHA-256 — no localStorage for credentials; HMAC-signed HttpOnly cookies for session and admin
 - **ARIA:** AI hint chatbot powered by Claude Haiku (Anthropic), Socratic method, stage-aware, rate-limited

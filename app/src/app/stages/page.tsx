@@ -14,7 +14,7 @@ const epochGroups = [
   {
     label: "Core Security",
     desc: "Foundations → Real CVEs",
-    epochIds: ["before-times", "ancient"],
+    epochIds: ["first-journey", "ancient"],
   },
   {
     label: "Tech Audit",

@@ -1,12 +1,13 @@
-﻿# Kryptós CronOS — Claude Code Project Context
+# Kryptós CronOS — Claude Code Project Context
 
 ## What This Is
 
-Gamified cybersecurity + AI training platform. 15 curriculum epochs, 198 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
+Gamified cybersecurity + AI training platform. 18 curriculum epochs, ~235 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
 
 **Live:** kryptoscronos.com  
+**App:** app-jjfleetwood.vercel.app  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.5.4 (as of 2026-05-19)
+**Current version:** v1.6.0 (as of 2026-05-20)
 
 ---
 
@@ -32,6 +33,7 @@ npm run dev          # Start dev server → localhost:3000
 npm run build        # Production build (verify before push)
 npx tsc --noEmit     # Type check
 npm run lint         # ESLint
+npx vercel --prod    # Deploy to production
 ```
 
 ---
@@ -41,35 +43,55 @@ npm run lint         # ESLint
 **Stack:** Next.js 16 App Router + Upstash Redis + Resend email  
 **Middleware:** `src/proxy.ts` (NOT middleware.ts — Next.js 16 naming)  
 **Admin:** HMAC cookie via `/api/admin-session`; `/admin/**` blocked at edge  
-**Auth:** PBKDF2-SHA-256 (100k iterations) client-side; user records in Redis  
-**Leaderboard:** Upstash Redis sorted set (`leaderboard` key)  
-**Progress:** localStorage (client) + Redis (`progress:<username>`) synced on completion  
+**Auth:** PBKDF2-SHA-256 (100k iterations), server-side; user records in Redis  
+**Sessions:** HMAC-signed HttpOnly `session_token` cookie (30 days) + `admin_token` (24h)  
+**Leaderboard:** Upstash Redis sorted sets (`leaderboard`, `lb:d:YYYY-MM-DD`, `lb:w:YYYY-MM-DD`)  
+**Progress:** Redis (`progress:<username>`) — XP computed server-side  
 **Email:** Resend API for registration alerts + password reset  
+**AI:** Claude Haiku (`claude-haiku-4-5`) for ARIA chatbot via `/api/hint`  
 **Docs:** `app/secured-docs/` — gated behind admin cookie via `/api/docs/[file]`  
+
+---
+
+## Navigation Flow (v1.6.0)
+
+```
+/           → homepage with 7 track marketing cards
+/stages     → stage map hub: all epochs as clickable cards per track group
+/stages/epoch/[epochId]   → per-epoch page: hero + stage grid + progress bar
+/stages/[stageId]         → individual stage (StageInfo → CTF/Quiz challenge)
+/leaderboard              → XP rankings (daily / weekly / all-time)
+/admin                    → admin dashboard (HMAC cookie required)
+```
+
+Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons go to `/stages/epoch/[epochId]` (not `/stages`).
 
 ---
 
 ## Epochs (Curriculum Tracks)
 
-| Epoch | Name | Stages | IDs | Color | Unlock |
+| # | Epoch ID | Display Name | Stages | Stage ID Pattern | Color |
 |---|---|---|---|---|---|
-| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald | Always |
-| 2 | Foundations | 12 | stage-01 → stage-12 | Amber | Always |
-| 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue | Always |
-| 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple | Always |
-| 5 | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet | Always |
-| 6 | Tech Audit: Agentic | 12 | audit-a01 → audit-a12 | Indigo | Always |
-| 6b | Continuous Monitoring 2.0 | 12 | audit-cm01 → audit-cm12 | Rose | Always |
-| 7 | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red | Always |
-| 8 | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia | Always |
-| 9 | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange | Always |
-| 10 | Quantum Era: Threats | 12 | quantum-t01 → quantum-t12 | Cyan | Always |
-| 11 | Quantum Era: PQC | 12 | quantum-p01 → quantum-p12 | Teal | Always |
-| 12 | Quantum Era: QKD | 12 | quantum-q01 → quantum-q12 | Sky | Always |
-| 13 | Defend the Enterprise | 12 | enterprise-01 → enterprise-12 | Blue | Always |
-| 14 | Tapestry | 12 | tapestry-01 → tapestry-12 | Yellow | Always |
+| 1 | `first-journey` | Our First Journey | 30 | bt-01 → bt-30 | Emerald |
+| 2 | `ancient` | Foundations | 12 | stage-01 → stage-12 | Amber |
+| 3 | `medieval` | Cisco | 25 | stage-m01 → stage-m25 | Blue |
+| 4 | `tech-audit-1` | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple |
+| 5 | `tech-audit-2` | Tech Audit: Technical | 12 | audit-t01 → audit-t12 | Violet |
+| 6 | `tech-audit-3` | Tech Audit: Agentic | 12 | audit-a01 → audit-a12 | Indigo |
+| 7 | `tech-audit-4` | Continuous Monitoring 2.0 | 12 | audit-cm01 → audit-cm12 | Rose |
+| 8 | `mitre` | MITRE ATT&CK | 12 | mitre-01 → mitre-12 | Red |
+| 9 | `mitre-atlas` | MITRE ATLAS | 12 | atlas-01 → atlas-12 | Fuchsia |
+| 10 | `owasp-llm` | OWASP LLM Top 10 | 12 | llm-01 → llm-12 | Orange |
+| 11 | `quantum-1` | Quantum Era: Threats | 10 | quantum-t01 → quantum-t10 | Cyan |
+| 12 | `quantum-2` | Quantum Era: PQC | 10 | quantum-p01 → quantum-p10 | Teal |
+| 13 | `quantum-3` | Quantum Era: QKD | 10 | quantum-q01 → quantum-q10 | Sky |
+| 14 | `umbrella` | Cisco Umbrella / SASE | 10 | umbrella-01 → umbrella-10 | Green |
+| 15 | `tapestry` | Tapestry | 12 | tapestry-01 → tapestry-12 | Yellow |
+| 16 | `nails` | Nail Arts | 10 | nails-01 → nails-10 | Pink |
+| 17 | `hair-color` | Hair Coloring | 10 | hair-color-01 → hair-color-10 | Rose |
+| 18 | `hair-styling` | Hair Styling | 10 | hair-styling-01 → hair-styling-10 | Violet |
 
-Total: 198 stages across 15 epochs.
+**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts
 
 ---
 
@@ -79,19 +101,35 @@ Total: 198 stages across 15 epochs.
 |---|---|
 | `src/proxy.ts` | Active middleware — wrong name = no admin protection |
 | `src/data/stages.ts` | Epoch registry + stage array — import all epoch files here |
-| `src/data/before-times*.ts` | Before Times epoch (30 stages, 3 files) |
+| `src/data/first-journey*.ts` | Our First Journey epoch (30 stages, 3 files: first-journey, first-journey-2, first-journey-3) |
 | `src/data/tech-audit-1.ts` | Tech Audit: Foundations (12 stages, ISACA/COBIT/CISA) |
 | `src/data/tech-audit-2.ts` | Tech Audit: Technical (12 stages, APIs/secrets/cloud/IAM) |
 | `src/data/tech-audit-3.ts` | Tech Audit: Agentic (12 stages, Claude tool use / MCP) |
+| `src/data/tech-audit-4.ts` | Continuous Monitoring 2.0 (12 stages) |
 | `src/data/mitre.ts` | MITRE ATT&CK (12 stages, all 12 tactic phases) |
 | `src/data/mitre-atlas.ts` | MITRE ATLAS (12 stages, AI/ML adversarial attacks) |
 | `src/data/owasp-llm.ts` | OWASP LLM Top 10 2025 (12 stages) |
-| `src/app/stages/page.tsx` | Stage map UI — epochAccent/cardBorder/cardEmojiBg per epoch |
+| `src/data/nails.ts` | Nail Arts epoch (10 stages) |
+| `src/data/hair-color.ts` | Hair Coloring epoch (10 stages) |
+| `src/data/hair-styling.ts` | Hair Styling epoch (10 stages) |
+| `src/app/stages/epoch-theme.ts` | Shared color theme records (epochAccent, cardBorder, cardEmojiBg) — add new epochs here |
+| `src/app/stages/page.tsx` | Stage map hub — epoch group nav, links to epoch pages |
+| `src/app/stages/epoch/[epochId]/page.tsx` | Per-epoch detail page with stage grid |
 | `src/lib/auth.ts` | PBKDF2 hashing — don't change without testing |
 | `src/lib/redis.ts` | Upstash client — needs `UPSTASH_REDIS_*` env vars |
-| `src/app/api/progress/route.ts` | XP computed server-side here (STAGE_XP map) |
+| `src/app/api/progress/route.ts` | XP computed server-side (STAGE_XP map) |
 | `next.config.ts` | Security headers + secured-docs file tracing |
 | `secured-docs/` | Admin-only docs — never move to public/ |
+
+---
+
+## Adding a New Epoch — Checklist
+
+1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`
+2. Add import + epoch entry + stage spread to `src/data/stages.ts`
+3. Add `epochAccent`, `cardBorder`, `cardEmojiBg` entries to `src/app/stages/epoch-theme.ts`
+4. Add epoch ID to the appropriate group in `epochGroups` in `src/app/stages/page.tsx`
+5. `npx tsc --noEmit` then `npm run build`
 
 ---
 
@@ -107,12 +145,6 @@ ADMIN_EMAIL
 ADMIN_USERNAME
 ADMIN_SECRET              ← 32+ char random string for HMAC cookie signing
 ANTHROPIC_API_KEY         ← Claude Haiku for ARIA chatbot
-DOCUSIGN_INTEGRATION_KEY  ← DocuSign app integration key (UUID)
-DOCUSIGN_USER_ID          ← DocuSign API username (UUID)
-DOCUSIGN_ACCOUNT_ID       ← DocuSign account ID
-DOCUSIGN_PRIVATE_KEY      ← RSA private key for JWT auth (full PEM)
-DOCUSIGN_BASE_URL         ← https://demo.docusign.net or https://na4.docusign.net
-DOCUSIGN_WEBHOOK_SECRET   ← optional: HMAC verification of webhook callbacks
 ```
 
 Local dev: `.env.local` in `app/` (gitignored).
@@ -123,91 +155,75 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 | Route | Purpose |
 |---|---|
+| `POST /api/auth/register` | Server-side PBKDF2 registration; sets session + admin cookies |
+| `POST /api/auth/login` | Server-side PBKDF2 login; sets session + admin cookies |
+| `DELETE /api/auth/session` | Clear session cookie (logout) |
+| `GET /api/auth/me` | Returns `{ username, email, isAdmin }` from session cookie |
 | `POST /api/admin-session` | Issue admin HMAC cookie |
 | `GET /api/docs/[file]` | Serve secured-docs (admin only) |
 | `POST /api/forgot-password` | Send reset email (rate: 3/IP/15min) |
 | `GET/POST /api/progress` | Fetch/update Redis progress |
-| `GET /api/leaderboard` | Top XP rankings |
-| `POST /api/notify-registration` | Admin email alert (rate: 5/IP/hour) |
-| `POST /api/reset-password` | Validate token, update password |
-| `POST /api/sync-user` | First-write-wins user record |
+| `GET /api/leaderboard` | Top XP rankings (daily/weekly/alltime) |
+| `POST /api/feedback` | Store user feedback |
+| `POST /api/check-flag` | Validate CTF flag server-side |
+| `POST /api/check-answer` | Validate quiz answer server-side |
+| `POST /api/hint` | ARIA AI hint (Claude Haiku, rate-limited) |
+| `POST /api/nda` | Record NDA acceptance; GET returns admin list |
 
 ---
 
-## Security Baseline (v0.6.0 — LOW overall risk)
+## Security Posture (v1.3.0+)
 
-All critical and medium findings from the security review are resolved:
-- HSTS, X-Frame-Options, CSP, X-Content-Type-Options ✅
-- XP computed server-side, client XP ignored ✅  
-- Rate limiting on all email-triggering routes ✅  
-- Admin credentials in env vars, HMAC cookie, edge gating ✅  
-- Internal docs gated behind admin cookie ✅  
-- sync-user first-write-wins ✅  
-
-Remaining acceptable gaps: client-side auth storage (localStorage), flags in JS bundle, no signed sessions — all documented in `docs/SECURITY_BRIEFING.md` with production remediation paths.
+- Passwords: PBKDF2-SHA256, 100k iterations, hashed server-side only
+- Sessions: HMAC-signed HttpOnly cookies (session_token 30d, admin_token 24h)
+- No credentials in localStorage — eliminated entirely
+- All flag/answer/XP validation server-side
+- Rate limiting on all auth + email endpoints
+- HSTS, X-Frame-Options, CSP, X-Content-Type-Options headers set
 
 ---
 
-## Supporting Companies
+## Supporting Services
 
-| Company | Role |
+| Service | Role |
 |---|---|
-| **Vercel** | Hosting, CDN, serverless (free Hobby plan) |
-| **Upstash** | Serverless Redis (free tier) |
-| **Resend** | Transactional email (free tier) |
-| **GitHub** | Source control + CI trigger |
-| **Anthropic** | Claude Haiku for ARIA AI chatbot (`/api/hint`) |
-| **DocuSign** | eSignature API for NDA sending from admin dashboard |
+| **Vercel** | Hosting, CDN, serverless |
+| **Upstash** | Serverless Redis (progress, leaderboard, sessions) |
+| **Resend** | Transactional email |
+| **GitHub** | Source control + CI (Actions: lint + tsc + build) |
+| **Anthropic** | Claude Haiku for ARIA AI chatbot |
 
 ---
 
 ## Business Context
 
 - **Stage:** Pre-seed, seeking $1.5M seed round
-- **Domain:** kryptoscronos.com (live, deployed)
+- **Domain:** kryptoscronos.com
 - **Model:** B2C free/pro ($19/mo) + B2B enterprise ($8/seat/mo) + sponsor integrations
 - **Target sponsors:** CrowdStrike, AWS, SentinelOne, CompTIA, ISC²
-- **GTM Phase 1:** Community launch Q3 2026 (10k users, 1k Pro conversions target)
 
 ---
 
-## Where We Left Off (v1.5.4, 2026-05-19)
+## What's Shipped (v1.6.0)
 
-**v1.5.4 (current):** CTF terminal scroll fixed (`min-h-0` + `overscrollBehavior: contain` in `CtfChallenge.tsx`). Feedback email from address corrected to `noreply@kryptoscronos.com`. `FeedbackWidget.tsx` repositioned to `top-4 left-4` (was top-right, overlapped ARIA). 24 Python MCP server templates added to `app/public/mcp-templates/` (audit-a01–a12 and audit-cm01–cm12) — each is a self-contained runnable agentic audit tool. `stage-downloads.ts` maps all 24 stage IDs to template URLs. `StageInfo.tsx` renders a "Code Templates" section with download links. All admin docs updated to v1.5.4: RELEASE_NOTES, CURRICULUM, BUSINESS_PROPOSAL_PRO/CASUAL, PITCH_TARGETS, SECURITY_BRIEFING. **v1.5.3:** `BackLink.tsx` — `router.back()` on all back buttons. CTF state persists to localStorage (`ctf-state:<stageId>`); "↺ Replay" resets it. **v1.5.2:** Tapestry epoch (`tapestry.ts`, 12 stages, yellow). **v1.5.1:** Feedback widget. **v1.5.0:** Continuous Monitoring 2.0 epoch (12 stages, rose). **v1.4.0:** DocuSign NDA integration.
+- ✅ 18 epochs, ~235 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise, Crafts
+- ✅ Crafts track: Nail Arts (10), Hair Coloring (10), Hair Styling (10)
+- ✅ Per-epoch pages at `/stages/epoch/[epochId]` — hero card, progress bar, stage grid
+- ✅ Stage map hub (`/stages`) — epoch cards per track group, links to epoch pages
+- ✅ Breadcrumb back navigation — "Stage Map →" returns to epoch page, not root
+- ✅ FeedbackWidget — minimizable, fixed top-left
+- ✅ ARIA AI chatbot (Socratic, Haiku, stage-aware, 30s cooldown, 10-msg limit)
+- ✅ Server-side auth v1.3.0 — PBKDF2, HMAC cookies, no localStorage credentials
+- ✅ Daily streaks + milestone badges
+- ✅ NDA gate at /demo + admin signatories panel
+- ✅ 24 downloadable MCP server templates (audit-a / audit-cm stages)
+- ✅ Terminal learning annotations (`>> LEARN:`) across all epochs
+- ✅ Skills Acquired debrief in FlagSuccessModal
 
-**Adding a new epoch — checklist:**
-1. Create `src/data/<epoch-id>.ts` — export `<name>Epoch: EpochConfig` and `<name>Stages: StageConfig[]`
-2. Add import + epoch entry + stage spread to `src/data/stages.ts`
-3. Add `epochAccent`, `cardBorder`, `cardEmojiBg` entries to `src/app/stages/page.tsx`
-4. Run `node app/node_modules/typescript/bin/tsc --noEmit --project app/tsconfig.json`
-5. Build: `node app/node_modules/next/dist/bin/next build app`
+## Genuine Remaining Work
 
-**Already shipped (do not re-suggest):**
-- Homepage: 169 stages, six marketing tracks — ✅
-- ARIA AI chatbot (Socratic, Haiku, stage-aware) — ✅
-- CI pipeline (GitHub Actions: lint + tsc + build + audit) — ✅
-- Daily streaks (`streak:username` Redis key, admin dashboard) — ✅
-- Milestone badges (`m-xp-1k`, `m-xp-5k`, `m-streak-3`, `m-streak-7`) — ✅
-
-**Genuine remaining work:**
-1. Cisco curriculum gaps — Firepower, SecureX/XDR, DevNet, CyberOps Associate stages
-2. Production auth migration — Supabase Auth or Lucia, server-side sessions (intentionally deferred)
-
----
-
-## Documentation
-
-Full docs in `docs/`:
-- `docs/README.md` — master index
-- `docs/ARCHITECTURE.md` — system design, components, data layer
-- `docs/BUILD.md` — local setup, build process, CI/CD
-- `docs/OPS.md` — operations runbook, services, monitoring
-- `docs/PARTNERS.md` — key companies and services
-- `docs/CURRICULUM.md` — full 54-stage catalog
-- `docs/SECURITY_BRIEFING.md` — security posture and findings
-- `docs/RELEASE_NOTES.md` — version history
-
-Admin-viewable docs are mirrored in `app/secured-docs/`.
+1. **Cisco curriculum gaps** — Firepower, SecureX/XDR, DevNet, CyberOps Associate stages
+2. **Production auth migration** — Supabase Auth or Lucia, server-side sessions (intentionally deferred)
 
 ---
 
@@ -215,7 +231,7 @@ Admin-viewable docs are mirrored in `app/secured-docs/`.
 
 - TypeScript strict mode — no `any` types
 - Tailwind CSS for all styling — no external CSS frameworks
-- Components organized by feature under `src/components/`
+- Components in `src/components/`, pages in `src/app/`
 - REST conventions for API routes under `/api/`
 - No comments unless the WHY is non-obvious
-- No co-author lines in git commits
+- No Co-Authored-By lines in git commits

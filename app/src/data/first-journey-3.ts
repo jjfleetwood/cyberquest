@@ -1,10 +1,10 @@
 import type { StageConfig } from "./types";
 
-export const beforeTimesStages3: StageConfig[] = [
+export const firstJourneyStages3: StageConfig[] = [
 
   // ─── BT-21: Phishing ──────────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Fisherman's Wharf", location: "Monterey, USA", era: "Present Day", emoji: "🎣" },
     id: "bt-21",
     order: 21,
@@ -187,7 +187,7 @@ dig TXT example.com | grep spf
 
   // ─── BT-22: Two-Factor Authentication ─────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Charter Boat Dock, Coast Guard Pier", location: "Monterey, USA", era: "Present Day", emoji: "🚢" },
     id: "bt-22",
     order: 22,
@@ -374,7 +374,7 @@ print(f"Valid: {is_valid}")`,
 
   // ─── BT-23: Strong Passwords ──────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Tackle Shop, Cannery Row", location: "Monterey, USA", era: "Present Day", emoji: "🎏" },
     id: "bt-23",
     order: 23,
@@ -568,7 +568,7 @@ def password_entropy(length, charset_size):
 
   // ─── BT-24: Public WiFi ───────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Open Water, Monterey Bay", location: "Monterey Bay, USA", era: "Present Day", emoji: "📡" },
     id: "bt-24",
     order: 24,
@@ -753,7 +753,7 @@ def password_entropy(length, charset_size):
 
   // ─── BT-25: Social Engineering ────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Dockside Cantina", location: "Monterey, USA", era: "Present Day", emoji: "🍺" },
     id: "bt-25",
     order: 25,
@@ -933,7 +933,7 @@ RESPONSE PROTOCOL:
 
   // ─── BT-26: Software Updates ──────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Boat Maintenance Yard, Santa Cruz Harbor", location: "Santa Cruz, USA", era: "Present Day", emoji: "🔧" },
     id: "bt-26",
     order: 26,
@@ -1121,7 +1121,7 @@ sudo apt install unattended-upgrades`,
 
   // ─── BT-27: Data Breaches ─────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Catch Inspection Station, Moss Landing", location: "Moss Landing, USA", era: "Present Day", emoji: "🐟" },
     id: "bt-27",
     order: 27,
@@ -1313,7 +1313,7 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
 
   // ─── BT-28: Safe Browsing ─────────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Kelp Forest, Monterey Bay", location: "Monterey Bay, USA", era: "Present Day", emoji: "🌿" },
     id: "bt-28",
     order: 28,
@@ -1489,7 +1489,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
 
   // ─── BT-29: Privacy Settings ──────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "The Harbor Master's Office", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏢" },
     id: "bt-29",
     order: 29,
@@ -1654,7 +1654,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
 
   // ─── BT-30: Incident Response ─────────────────────────────────────────────
   {
-    epochId: "before-times",
+    epochId: "first-journey",
     wonder: { name: "Santa Cruz Small Craft Harbor — Return to Dock", location: "Santa Cruz, USA", era: "Present Day", emoji: "⚓" },
     id: "bt-30",
     order: 30,
@@ -1742,7 +1742,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
       ],
     },
     ctf: {
-      scenario: "Your personal account has been compromised. Walk through every incident response step correctly — contain, assess, eradicate, recover — to complete The Before Times and earn your Incident Commander badge.",
+      scenario: "Your personal account has been compromised. Walk through every incident response step correctly — contain, assess, eradicate, recover — to complete Our First Journey and earn your Incident Commander badge.",
       hint: "Follow the incident response protocol in order: contain → assess → eradicate → recover.",
       hints: [
         "Start containment. Run: contain",

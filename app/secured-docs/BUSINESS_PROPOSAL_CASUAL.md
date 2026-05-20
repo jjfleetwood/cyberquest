@@ -51,7 +51,7 @@ Built by one founder with an AI development environment. The AI tutor is not a r
 ## The 6 curriculum tracks we have today
 
 ### Track 1: Core Security (42 stages)
-The entry point. The Before Times (30 beginner-friendly CTF stages) + Foundations (12 stages on landmark attacks):
+The entry point. Our First Journey (30 beginner-friendly CTF stages) + Foundations (12 stages on landmark attacks):
 - SQL Injection (Heartland Payment Systems, $130M breach)
 - XSS (Samy Kamkar's MySpace worm, 1 million accounts in 20 hours)
 - Heartbleed (OpenSSL bug that leaked private keys for 2 years)

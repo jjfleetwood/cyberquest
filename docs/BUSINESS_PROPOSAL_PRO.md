@@ -51,7 +51,7 @@ The platform ships with 186 fully built stages organized into 14 curriculum epoc
 
 | Track | Epochs | Stages | Focus |
 |---|---|---|---|
-| Core Security | The Before Times, Foundations | 42 | Historical attacks, foundational vulnerability classes |
+| Core Security | Our First Journey, Foundations | 42 | Historical attacks, foundational vulnerability classes |
 | Tech Audit | Foundations, Technical, Agentic CM, Continuous Monitoring 2.0 | 48 | IT governance, cloud security, AI agents, SOC operations |
 | Threat Frameworks | MITRE ATT&CK, MITRE ATLAS | 24 | Nation-state TTPs, AI/ML adversarial attacks |
 | AI Security | OWASP LLM Top 10 | 12 | LLM-specific vulnerabilities and defenses |

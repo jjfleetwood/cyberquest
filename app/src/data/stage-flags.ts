@@ -44,7 +44,7 @@ export const stageFlags: Record<string, string> = {
   "stage-m24": "FLAG{CVE_2023_20109_GDOI_MASS_RCE}",
   "stage-m25": "FLAG{CVE_2018_0296_ASA_PATH_D0S}",
 
-  // ── Before Times 1 (before-times.ts) ─────────────────────────────────────
+  // ── Our First Journey 1 (first-journey.ts) ─────────────────────────────────────
   "bt-01": "FLAG{N3TW0RK_1S_JUST_N0D3S_AND_P4THS}",
   "bt-02": "FLAG{1P_4DDR3SS_R0UT3S_EV3RY_P4CK3T}",
   "bt-03": "FLAG{P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3}",
@@ -56,7 +56,7 @@ export const stageFlags: Record<string, string> = {
   "bt-09": "FLAG{SUBN3TS_1S0L4T3_N3TW0RK_Z0N3S}",
   "bt-10": "FLAG{TCP_1S_R3L14BL3_UDP_1S_F4ST}",
 
-  // ── Before Times 2 (before-times-2.ts) ───────────────────────────────────
+  // ── Our First Journey 2 (first-journey-2.ts) ───────────────────────────────────
   "bt-11": "FLAG{HTTP_1S_PL41NT3XT_HTTPS_1S_3NCRYPT3D}",
   "bt-12": "FLAG{BR0WS3R_D3VT00LS_R3V34L_3V3RYTH1NG}",
   "bt-13": "FLAG{1D0R_S3RV3R_MUST_4UTH0R1Z3_3V3RY_R3QU3ST}",
@@ -68,7 +68,7 @@ export const stageFlags: Record<string, string> = {
   "bt-19": "FLAG{DNS_C4CH3_P01S0N1NG_1S_D3T3CT4BL3}",
   "bt-20": "FLAG{L04D_B4L4NC3R_D1STR1BUT3S_TH3_W4V3S}",
 
-  // ── Before Times 3 (before-times-3.ts) ───────────────────────────────────
+  // ── Our First Journey 3 (first-journey-3.ts) ───────────────────────────────────
   "bt-21": "FLAG{PH1SH1NG_H1D3S_B3H1ND_F4K3_D0M41NS}",
   "bt-22": "FLAG{2F4_ST0PS_ST0L3N_P4SSW0RDS}",
   "bt-23": "FLAG{L3NGTH_4ND_R4ND0MN3SS_W1N_3V3RY_T1M3}",

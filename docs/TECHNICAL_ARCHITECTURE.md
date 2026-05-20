@@ -121,9 +121,9 @@ cyberquest/
 │   │   ├── data/
 │   │   │   ├── types.ts
 │   │   │   ├── stages.ts             # Foundations + Cisco (24 stages)
-│   │   │   ├── before-times.ts       # Before Times 1–10
-│   │   │   ├── before-times-2.ts     # Before Times 11–20
-│   │   │   ├── before-times-3.ts     # Before Times 21–30
+│   │   │   ├── first-journey.ts       # Our First Journey 1–10
+│   │   │   ├── first-journey-2.ts     # Our First Journey 11–20
+│   │   │   ├── first-journey-3.ts     # Our First Journey 21–30
 │   │   │   ├── tech-audit.ts         # Tech Audit epochs (36 stages)
 │   │   │   ├── mitre.ts              # MITRE ATT&CK + ATLAS (24 stages)
 │   │   │   └── owasp-llm.ts          # OWASP LLM Top 10 (12 stages)
@@ -376,7 +376,7 @@ DOCUSIGN_WEBHOOK_SECRET    Optional — HMAC verification of webhook callbacks
 
 | Epoch | Name | Stages | IDs | Color |
 |---|---|---|---|---|
-| 1 | The Before Times | 30 | bt-01 → bt-30 | Emerald |
+| 1 | The Our First Journey | 30 | bt-01 → bt-30 | Emerald |
 | 2 | Foundations | 12 | stage-01 → stage-12 | Amber |
 | 3 | Cisco | 12 | stage-m01 → stage-m12 | Blue |
 | 4 | Tech Audit: Foundations | 12 | audit-01 → audit-12 | Purple |

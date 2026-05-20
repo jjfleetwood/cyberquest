@@ -225,7 +225,7 @@ Set at: vercel.com → Project → Settings → Environment Variables
 | `src/app/api/admin/send-nda/route.ts` | DocuSign envelope dispatch |
 | `src/app/api/webhooks/docusign/route.ts` | DocuSign status webhook handler |
 | `src/data/stages.ts` | Foundations + Cisco stage definitions (24 stages) |
-| `src/data/before-times*.ts` | Before Times epoch (30 stages across 3 files) |
+| `src/data/first-journey*.ts` | Our First Journey epoch (30 stages across 3 files) |
 | `src/data/tech-audit.ts` | Tech Audit epochs (36 stages) |
 | `src/data/mitre.ts` | MITRE ATT&CK + ATLAS epochs (24 stages) |
 | `src/data/owasp-llm.ts` | OWASP LLM Top 10 epoch (12 stages) |
