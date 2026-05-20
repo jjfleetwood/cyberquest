@@ -1,6 +1,7 @@
 import { getStage } from "@/data/stages";
 import StageContainer from "@/components/StageContainer";
 import type { StageConfig } from "@/data/types";
+import { getStageOverride, applyStageOverride } from "@/lib/cms";
 
 export default async function StagePage({
   params,
@@ -8,7 +9,14 @@ export default async function StagePage({
   params: Promise<{ stageId: string }>;
 }) {
   const { stageId } = await params;
-  const stage = getStage(stageId) ?? null;
+  const stageBase = getStage(stageId) ?? null;
+
+  let stage: StageConfig | null = stageBase;
+
+  if (stage) {
+    const override = await getStageOverride(stageId);
+    stage = applyStageOverride(stage, override);
+  }
 
   // Strip secrets and non-serializable values before passing to client
   let safeStage: StageConfig | null = stage;

@@ -13,21 +13,25 @@ export default function EpochPage() {
   const { epochId } = useParams<{ epochId: string }>();
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [username, setUsername] = useState<string | null>(null);
+  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null);
 
   useEffect(() => {
     setUsername(getSession());
-    fetch("/api/auth/me")
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data: { username: string } | null) => {
-        if (!data) return;
-        setUsername(data.username);
-        setSession(data.username);
+    Promise.all([
+      fetch("/api/auth/me").then((r) => (r.ok ? r.json() : null)),
+      fetch(`/api/cms/access?epochId=${epochId}`).then((r) => (r.ok ? r.json() : { allowed: true })),
+    ])
+      .then(([meData, accessData]: [{ username: string } | null, { allowed: boolean }]) => {
+        setAccessAllowed((accessData as { allowed: boolean }).allowed ?? true);
+        if (!meData) return;
+        setUsername(meData.username);
+        setSession(meData.username);
         fetchProgress().then((p) => {
           if (p) setCompletedStages(p.completedStages);
         });
       })
-      .catch(() => {});
-  }, []);
+      .catch(() => setAccessAllowed(true));
+  }, [epochId]);
 
   const epoch = epochs.find((e) => e.id === epochId);
   const epochStages = allStages.filter((s) => s.epochId === epochId).sort((a, b) => a.order - b.order);
@@ -47,6 +51,25 @@ export default function EpochPage() {
         <div className="text-center">
           <p className="text-gray-500 mb-4">Epoch not found.</p>
           <Link href="/stages" className="text-cyan-400 hover:text-cyan-300 text-sm">← Back to Stages</Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (accessAllowed === false) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4"
+        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0f2027 50%, #1a1a2e 100%)" }}
+      >
+        <div className="text-center max-w-sm">
+          <div className="text-6xl mb-4">🔒</div>
+          <h2 className="text-2xl font-black text-white mb-2">{epoch.name}</h2>
+          <p className="text-gray-500 text-sm mb-6">
+            Access to this module is restricted. Contact an administrator to request access.
+          </p>
+          <Link href="/stages" className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors">
+            ← Back to Stage Map
+          </Link>
         </div>
       </div>
     );

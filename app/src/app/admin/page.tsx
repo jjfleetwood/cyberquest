@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSession, setSession } from "@/lib/auth";
-import { stages } from "@/data/stages";
+import { stages, epochs } from "@/data/stages";
 import { CONTENT_FLAGS, type ContentFlag } from "@/data/content-flags";
 
 type UserRow = {
@@ -211,6 +211,338 @@ function NdaSignatories() {
     </div>
   );
 }
+
+// ── CMS Panel ─────────────────────────────────────────────────────────────────
+
+type AccessConfig = {
+  restricted: string[];
+  allowlists: Record<string, string[]>;
+  epochs: { id: string; name: string; emoji: string }[];
+};
+
+type StageOverrideData = {
+  stageId: string;
+  override: Record<string, string>;
+  defaults: Record<string, string>;
+};
+
+function CmsPanel() {
+  const [tab, setTab] = useState<"access" | "content">("access");
+
+  // ── Access control state ──
+  const [accessConfig, setAccessConfig] = useState<AccessConfig | null>(null);
+  const [accessLoading, setAccessLoading] = useState(true);
+  const [grantInputs, setGrantInputs] = useState<Record<string, string>>({});
+  const [actionMsg, setActionMsg] = useState<string | null>(null);
+
+  function loadAccess() {
+    setAccessLoading(true);
+    fetch("/api/admin/cms/access")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => { if (data) setAccessConfig(data as AccessConfig); })
+      .catch(() => {})
+      .finally(() => setAccessLoading(false));
+  }
+
+  useEffect(() => { loadAccess(); }, []);
+
+  async function doAccessAction(body: object) {
+    setActionMsg(null);
+    const r = await fetch("/api/admin/cms/access", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (r.ok) { loadAccess(); setActionMsg("Saved."); setTimeout(() => setActionMsg(null), 2000); }
+    else { const d = await r.json() as { error?: string }; setActionMsg(d.error ?? "Error"); }
+  }
+
+  // ── Content editor state ──
+  const [selectedStageId, setSelectedStageId] = useState("");
+  const [stageSearch, setStageSearch] = useState("");
+  const [stageData, setStageData] = useState<StageOverrideData | null>(null);
+  const [editFields, setEditFields] = useState<Record<string, string>>({});
+  const [contentLoading, setContentLoading] = useState(false);
+  const [contentMsg, setContentMsg] = useState<string | null>(null);
+
+  const filteredStages = useMemo(() => {
+    const q = stageSearch.toLowerCase();
+    return q ? stages.filter((s) => s.title.toLowerCase().includes(q) || s.id.includes(q)).slice(0, 20) : [];
+  }, [stageSearch]);
+
+  async function loadStageContent(stageId: string) {
+    setContentLoading(true);
+    setStageData(null);
+    setContentMsg(null);
+    const r = await fetch(`/api/admin/cms/stage/${stageId}`);
+    if (r.ok) {
+      const d = await r.json() as StageOverrideData;
+      setStageData(d);
+      setEditFields({ ...d.defaults, ...d.override });
+    }
+    setContentLoading(false);
+  }
+
+  async function saveContent() {
+    if (!selectedStageId) return;
+    setContentMsg(null);
+    const r = await fetch(`/api/admin/cms/stage/${selectedStageId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(editFields),
+    });
+    if (r.ok) {
+      setContentMsg("Saved ✓");
+      loadStageContent(selectedStageId);
+    } else setContentMsg("Save failed");
+    setTimeout(() => setContentMsg(null), 3000);
+  }
+
+  async function revertContent() {
+    if (!selectedStageId || !window.confirm("Revert this stage to TypeScript defaults?")) return;
+    await fetch(`/api/admin/cms/stage/${selectedStageId}`, { method: "DELETE" });
+    loadStageContent(selectedStageId);
+    setContentMsg("Reverted to defaults.");
+    setTimeout(() => setContentMsg(null), 3000);
+  }
+
+  const EDIT_FIELDS = [
+    { key: "title",             label: "Title",           rows: 1 },
+    { key: "subtitle",          label: "Subtitle",        rows: 1 },
+    { key: "info_tagline",      label: "Tagline",         rows: 1 },
+    { key: "info_overview",     label: "Overview (one paragraph per line)",  rows: 5 },
+    { key: "info_keyTakeaways", label: "Key Takeaways (one point per line)", rows: 5 },
+  ] as const;
+
+  return (
+    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+      <div className="px-6 py-4 border-b border-white/8">
+        <h2 className="text-white font-bold">Content Management</h2>
+        <p className="text-xs text-gray-600 mt-0.5">Access control and live content editing — no redeploy required</p>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex border-b border-white/8">
+        {[
+          { id: "access" as const, label: "🔐 Access Control" },
+          { id: "content" as const, label: "✏️ Content Editor" },
+        ].map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => setTab(id)}
+            className="px-5 py-3 text-xs font-semibold transition-colors"
+            style={{
+              color: tab === id ? "#22d3ee" : "#4b5563",
+              borderBottom: tab === id ? "2px solid #22d3ee" : "2px solid transparent",
+              background: tab === id ? "rgba(34,211,238,0.04)" : "transparent",
+            }}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Access Control Tab ── */}
+      {tab === "access" && (
+        <div className="p-4">
+          {accessLoading ? (
+            <div className="text-center py-8 text-gray-600 text-sm">Loading…</div>
+          ) : !accessConfig ? (
+            <div className="text-center py-8 text-red-500 text-sm">Failed to load access config</div>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-xs text-gray-600 px-1 mb-3">
+                Restricted epochs require explicit allowlist. By default all epochs are open to all users.
+              </p>
+              {actionMsg && (
+                <div className="text-xs text-green-400 px-1">{actionMsg}</div>
+              )}
+              {accessConfig.epochs.map((ep) => {
+                const isRestricted = accessConfig.restricted.includes(ep.id);
+                const allowlist = accessConfig.allowlists[ep.id] ?? [];
+                return (
+                  <div
+                    key={ep.id}
+                    className="rounded-xl border border-white/8 overflow-hidden"
+                    style={{ background: isRestricted ? "rgba(251,146,60,0.03)" : "rgba(255,255,255,0.01)" }}
+                  >
+                    <div className="flex items-center gap-3 px-4 py-3">
+                      <span className="text-base leading-none">{ep.emoji}</span>
+                      <div className="flex-1 min-w-0">
+                        <span className="text-sm text-gray-300 font-medium">{ep.name}</span>
+                        <span className="ml-2 text-xs text-gray-700 font-mono">{ep.id}</span>
+                      </div>
+                      <button
+                        onClick={() => doAccessAction({ action: isRestricted ? "unrestrict" : "restrict", epochId: ep.id })}
+                        className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                          isRestricted
+                            ? "border-orange-500/40 text-orange-400 bg-orange-500/10 hover:bg-orange-500/20"
+                            : "border-white/15 text-gray-500 hover:border-white/30 hover:text-gray-300"
+                        }`}
+                      >
+                        {isRestricted ? "🔒 Restricted" : "🔓 Open"}
+                      </button>
+                    </div>
+
+                    {isRestricted && (
+                      <div className="px-4 pb-3 border-t border-white/5 pt-2">
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
+                          {allowlist.length === 0 ? (
+                            <span className="text-xs text-gray-700 italic">No users in allowlist — epoch is blocked for everyone</span>
+                          ) : (
+                            allowlist.map((u) => (
+                              <span key={u} className="flex items-center gap-1 text-xs bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 px-2 py-0.5 rounded-full">
+                                {u}
+                                <button
+                                  onClick={() => doAccessAction({ action: "revoke", epochId: ep.id, username: u })}
+                                  className="hover:text-red-400 transition-colors ml-0.5 leading-none"
+                                  title="Remove"
+                                >
+                                  ×
+                                </button>
+                              </span>
+                            ))
+                          )}
+                        </div>
+                        <form
+                          onSubmit={(e) => {
+                            e.preventDefault();
+                            const u = grantInputs[ep.id]?.trim();
+                            if (!u) return;
+                            doAccessAction({ action: "grant", epochId: ep.id, username: u });
+                            setGrantInputs((prev) => ({ ...prev, [ep.id]: "" }));
+                          }}
+                          className="flex gap-2"
+                        >
+                          <input
+                            value={grantInputs[ep.id] ?? ""}
+                            onChange={(e) => setGrantInputs((prev) => ({ ...prev, [ep.id]: e.target.value }))}
+                            placeholder="username to grant access…"
+                            className="flex-1 text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 placeholder-gray-700 focus:outline-none focus:border-cyan-500/50"
+                          />
+                          <button
+                            type="submit"
+                            className="text-xs px-3 py-1.5 rounded-lg border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+                          >
+                            + Grant
+                          </button>
+                        </form>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ── Content Editor Tab ── */}
+      {tab === "content" && (
+        <div className="p-4">
+          <div className="mb-4">
+            <p className="text-xs text-gray-600 mb-3">Search for a stage to edit its display text. Changes take effect immediately — no redeploy needed.</p>
+            <div className="relative">
+              <input
+                value={stageSearch}
+                onChange={(e) => { setStageSearch(e.target.value); setSelectedStageId(""); setStageData(null); }}
+                placeholder="Search stages by title or ID…"
+                className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-300 placeholder-gray-700 focus:outline-none focus:border-cyan-500/50"
+              />
+              {filteredStages.length > 0 && !selectedStageId && (
+                <div className="absolute top-full left-0 right-0 mt-1 rounded-xl border border-white/10 bg-slate-950/95 backdrop-blur-sm z-20 max-h-64 overflow-y-auto shadow-2xl">
+                  {filteredStages.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => {
+                        setSelectedStageId(s.id);
+                        setStageSearch(s.title);
+                        loadStageContent(s.id);
+                      }}
+                      className="w-full text-left px-4 py-2.5 hover:bg-white/5 transition-colors flex items-center gap-3"
+                    >
+                      <span className="text-base leading-none">{s.wonder.emoji}</span>
+                      <div className="min-w-0">
+                        <div className="text-sm text-gray-300 truncate">{s.title}</div>
+                        <div className="text-xs text-gray-700 font-mono">{s.id}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {contentLoading && (
+            <div className="text-center py-8 text-gray-600 text-sm">Loading stage…</div>
+          )}
+
+          {stageData && !contentLoading && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between mb-1">
+                <div className="text-xs text-gray-500 font-mono">{stageData.stageId}</div>
+                {Object.keys(stageData.override).length > 0 && (
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400">
+                    {Object.keys(stageData.override).length} field{Object.keys(stageData.override).length !== 1 ? "s" : ""} overridden
+                  </span>
+                )}
+              </div>
+
+              {EDIT_FIELDS.map(({ key, label, rows }) => {
+                const hasOverride = key in (stageData.override ?? {});
+                const defaultVal = stageData.defaults[key] ?? "";
+                return (
+                  <div key={key}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <label className="text-xs text-gray-500 uppercase tracking-wider">{label}</label>
+                      {hasOverride && <span className="text-[10px] text-amber-400 font-mono">overridden</span>}
+                    </div>
+                    {rows === 1 ? (
+                      <input
+                        value={editFields[key] ?? ""}
+                        onChange={(e) => setEditFields((p) => ({ ...p, [key]: e.target.value }))}
+                        className="w-full text-sm px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-200 focus:outline-none focus:border-cyan-500/50 font-mono"
+                        placeholder={defaultVal}
+                      />
+                    ) : (
+                      <textarea
+                        value={editFields[key] ?? ""}
+                        onChange={(e) => setEditFields((p) => ({ ...p, [key]: e.target.value }))}
+                        rows={rows}
+                        className="w-full text-xs px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-gray-200 focus:outline-none focus:border-cyan-500/50 font-mono resize-y"
+                        placeholder={defaultVal}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  onClick={saveContent}
+                  className="text-sm px-4 py-2 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/25 transition-colors font-semibold"
+                >
+                  Save Changes
+                </button>
+                {Object.keys(stageData.override).length > 0 && (
+                  <button
+                    onClick={revertContent}
+                    className="text-xs px-3 py-2 rounded-lg border border-white/10 text-gray-500 hover:text-red-400 hover:border-red-500/30 transition-colors"
+                  >
+                    Revert to defaults
+                  </button>
+                )}
+                {contentMsg && <span className="text-xs text-green-400">{contentMsg}</span>}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Content Audit Panel ───────────────────────────────────────────────────────
 
 const RISK_META: Record<ContentFlag["risk"], { label: string; color: string; bg: string; border: string }> = {
   "needs-attribution": { label: "Needs Attribution", color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/30" },
@@ -602,6 +934,9 @@ export default function AdminPage() {
 
         {/* NDA Signatories */}
         <NdaSignatories />
+
+        {/* CMS */}
+        <CmsPanel />
 
         {/* Content IP Audit */}
         <ContentAudit />
