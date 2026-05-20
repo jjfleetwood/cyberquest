@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const DOCS = [
@@ -32,17 +32,17 @@ export default function DocsViewer() {
   const [content, setContent] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
-  function makeComponents(switchTab: (id: string) => void) {
+  function makeComponents(switchTab: (id: string) => void): Components {
     return {
-      h1: ({ children }: { children: React.ReactNode }) => <h1 className="text-2xl font-bold text-white mb-6 mt-2 leading-tight">{children}</h1>,
-      h2: ({ children }: { children: React.ReactNode }) => <h2 className="text-lg font-semibold text-cyan-400 mt-10 mb-3 border-b border-white/10 pb-2">{children}</h2>,
-      h3: ({ children }: { children: React.ReactNode }) => <h3 className="text-sm font-semibold text-gray-200 mt-6 mb-2 uppercase tracking-wide">{children}</h3>,
-      h4: ({ children }: { children: React.ReactNode }) => <h4 className="text-sm font-semibold text-gray-300 mt-4 mb-2">{children}</h4>,
-      p: ({ children }: { children: React.ReactNode }) => <p className="text-gray-400 mb-4 leading-relaxed text-sm">{children}</p>,
-      pre: ({ children }: { children: React.ReactNode }) => (
+      h1: ({ children }: { children?: React.ReactNode }) => <h1 className="text-2xl font-bold text-white mb-6 mt-2 leading-tight">{children}</h1>,
+      h2: ({ children }: { children?: React.ReactNode }) => <h2 className="text-lg font-semibold text-cyan-400 mt-10 mb-3 border-b border-white/10 pb-2">{children}</h2>,
+      h3: ({ children }: { children?: React.ReactNode }) => <h3 className="text-sm font-semibold text-gray-200 mt-6 mb-2 uppercase tracking-wide">{children}</h3>,
+      h4: ({ children }: { children?: React.ReactNode }) => <h4 className="text-sm font-semibold text-gray-300 mt-4 mb-2">{children}</h4>,
+      p: ({ children }: { children?: React.ReactNode }) => <p className="text-gray-400 mb-4 leading-relaxed text-sm">{children}</p>,
+      pre: ({ children }: { children?: React.ReactNode }) => (
         <pre className="bg-black/70 border border-white/10 rounded-lg p-4 overflow-x-auto mb-4 leading-relaxed">{children}</pre>
       ),
-      code: ({ children, className }: { children: React.ReactNode; className?: string }) => {
+      code: ({ children, className }: { children?: React.ReactNode; className?: string }) => {
         const isBlock = className?.startsWith("language-") || String(children).includes("\n");
         return isBlock ? (
           <code className="text-green-300 text-xs font-mono">{children}</code>
@@ -50,12 +50,12 @@ export default function DocsViewer() {
           <code className="bg-white/10 text-green-300 px-1 py-0.5 rounded text-xs font-mono">{children}</code>
         );
       },
-      ul: ({ children }: { children: React.ReactNode }) => <ul className="list-disc pl-5 mb-4 space-y-1">{children}</ul>,
-      ol: ({ children }: { children: React.ReactNode }) => <ol className="list-decimal pl-5 mb-4 space-y-1">{children}</ol>,
-      li: ({ children }: { children: React.ReactNode }) => <li className="text-gray-400 leading-relaxed text-sm">{children}</li>,
-      strong: ({ children }: { children: React.ReactNode }) => <strong className="text-white font-semibold">{children}</strong>,
-      em: ({ children }: { children: React.ReactNode }) => <em className="text-gray-300 italic">{children}</em>,
-      a: ({ href, children }: { href?: string; children: React.ReactNode }) => {
+      ul: ({ children }: { children?: React.ReactNode }) => <ul className="list-disc pl-5 mb-4 space-y-1">{children}</ul>,
+      ol: ({ children }: { children?: React.ReactNode }) => <ol className="list-decimal pl-5 mb-4 space-y-1">{children}</ol>,
+      li: ({ children }: { children?: React.ReactNode }) => <li className="text-gray-400 leading-relaxed text-sm">{children}</li>,
+      strong: ({ children }: { children?: React.ReactNode }) => <strong className="text-white font-semibold">{children}</strong>,
+      em: ({ children }: { children?: React.ReactNode }) => <em className="text-gray-300 italic">{children}</em>,
+      a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
         const docMatch = href ? DOCS.find((d) => d.file === href || href.endsWith(d.file)) : null;
         if (docMatch) {
           return (
@@ -73,20 +73,20 @@ export default function DocsViewer() {
           </a>
         );
       },
-      table: ({ children }: { children: React.ReactNode }) => (
+      table: ({ children }: { children?: React.ReactNode }) => (
         <div className="overflow-x-auto mb-6 rounded-lg border border-white/8">
           <table className="w-full text-sm">{children}</table>
         </div>
       ),
-      thead: ({ children }: { children: React.ReactNode }) => <thead className="border-b border-white/10 bg-white/3">{children}</thead>,
-      tbody: ({ children }: { children: React.ReactNode }) => <tbody>{children}</tbody>,
-      tr: ({ children }: { children: React.ReactNode }) => <tr className="border-b border-white/5 hover:bg-white/2 transition-colors">{children}</tr>,
-      th: ({ children }: { children: React.ReactNode }) => (
+      thead: ({ children }: { children?: React.ReactNode }) => <thead className="border-b border-white/10 bg-white/3">{children}</thead>,
+      tbody: ({ children }: { children?: React.ReactNode }) => <tbody>{children}</tbody>,
+      tr: ({ children }: { children?: React.ReactNode }) => <tr className="border-b border-white/5 hover:bg-white/2 transition-colors">{children}</tr>,
+      th: ({ children }: { children?: React.ReactNode }) => (
         <th className="text-left px-4 py-2 text-xs text-gray-500 uppercase tracking-wider font-semibold">{children}</th>
       ),
-      td: ({ children }: { children: React.ReactNode }) => <td className="px-4 py-2 text-gray-400 text-sm">{children}</td>,
+      td: ({ children }: { children?: React.ReactNode }) => <td className="px-4 py-2 text-gray-400 text-sm">{children}</td>,
       hr: () => <hr className="border-white/10 my-8" />,
-      blockquote: ({ children }: { children: React.ReactNode }) => (
+      blockquote: ({ children }: { children?: React.ReactNode }) => (
         <blockquote className="border-l-2 border-cyan-500/30 pl-4 italic text-gray-500 mb-4 text-sm">{children}</blockquote>
       ),
     };
@@ -184,8 +184,7 @@ export default function DocsViewer() {
               </div>
             ) : (
               <div className="min-w-0">
-                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-                <ReactMarkdown remarkPlugins={[remarkGfm]} components={makeComponents(setActiveDoc) as any}>
+                <ReactMarkdown remarkPlugins={[remarkGfm]} components={makeComponents(setActiveDoc)}>
                   {content[activeDoc] ?? ""}
                 </ReactMarkdown>
               </div>

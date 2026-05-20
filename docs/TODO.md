@@ -1,6 +1,6 @@
 # Kryptós CronOS — To-Do & Roadmap
 
-**Last updated:** 2026-05-20 (v1.6.3)
+**Last updated:** 2026-05-20 (v1.6.5)
 
 ---
 
@@ -56,9 +56,9 @@ The `medieval` epoch (Cisco) is the only epoch with documented content gaps.
 
 | # | Item | Notes |
 |---|---|---|
-| 19 | **`sync-user` route** | Referenced in stale `.next` types but route no longer exists in source. Audit whether any client code still calls it. |
-| 20 | **`unsafe-inline` CSP** | Required by Next.js 16 hydration. Move to nonce-based CSP once Next.js App Router nonce support matures. |
-| 21 | **`any` cast in DocsViewer** | `ReactMarkdown components` prop requires `as any` cast. Resolve when react-markdown ships better TypeScript types. |
+| 19 | ~~**`sync-user` route**~~ | ✅ Audited — route deleted, no client code references it. Stale `.next` cache was the only source of the phantom type error. |
+| 20 | **`unsafe-inline` CSP** | Blocked on framework. Required by Next.js 16 hydration; move to nonce-based CSP once App Router nonce support matures. Accepted as deferred. |
+| 21 | ~~**`any` cast in DocsViewer**~~ | ✅ Fixed — made `children` optional in all component prop types to match react-markdown's `Components` type. `as any` removed; tsc clean. |
 
 ---
 
