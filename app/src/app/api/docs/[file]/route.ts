@@ -19,6 +19,7 @@ const ALLOWED_FILES = new Set([
   "LAUNCH_LEGAL.md",
   "PITCH_CAE_CONTINUOUS_MONITORING.md",
   "TODO.md",
+  "COPYRIGHT_FILING.md",
 ]);
 
 function verifyAdminToken(token: string): boolean {
