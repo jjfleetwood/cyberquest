@@ -2,6 +2,15 @@
 
 ---
 
+## v1.6.4 — 2026-05-20
+
+**To-Do & Roadmap doc in admin viewer**
+
+- **`TODO.md`** — new doc listing 21 open items across 4 priority tiers: production blockers, curriculum gaps, product/UX, and go-to-market; plus known tech debt and recent completed items
+- Added to `ALLOWED_FILES` and `DocsViewer` tab list (✅ To-Do & Roadmap, lime color)
+
+---
+
 ## v1.6.3 — 2026-05-20
 
 **CAE doc added to admin docs viewer**

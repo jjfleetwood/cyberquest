@@ -21,6 +21,7 @@ const DOCS = [
   { id: "proposal-casual", label: "Pitch Deck", file: "BUSINESS_PROPOSAL_CASUAL.md", icon: "🚀", color: "text-green-400" },
   { id: "pitch-targets", label: "Pitch Targets", file: "PITCH_TARGETS.md", icon: "🎯", color: "text-orange-400" },
   { id: "pitch-cae", label: "CAE: Continuous Monitoring", file: "PITCH_CAE_CONTINUOUS_MONITORING.md", icon: "📡", color: "text-rose-400" },
+  { id: "todo", label: "To-Do & Roadmap", file: "TODO.md", icon: "✅", color: "text-lime-400" },
 ];
 
 
