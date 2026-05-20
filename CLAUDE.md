@@ -7,7 +7,7 @@ Gamified cybersecurity + AI training platform. 18 curriculum epochs, ~235 CTF/qu
 **Live:** kryptoscronos.com  
 **App:** app-jjfleetwood.vercel.app  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.6.4 (as of 2026-05-20)
+**Current version:** v1.6.5 (as of 2026-05-20)
 
 ---
 

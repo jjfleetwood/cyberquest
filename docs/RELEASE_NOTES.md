@@ -2,6 +2,16 @@
 
 ---
 
+## v1.6.5 — 2026-05-20
+
+**P1 audit — docs corrected to reflect actual security posture**
+
+- All P1 items confirmed already implemented: PBKDF2 + HMAC session cookies (v1.3.0), server-only flag validation (`stage-flags.ts`), CI pipeline (`.github/workflows/ci.yml`)
+- `SECURITY_BRIEFING.md` sections 1.3, 1.4, and Production Readiness Gaps updated from stale "acceptable for demo" to ✅ Resolved
+- `TODO.md` Priority 1 updated with accurate status for all 5 items; only remaining action is Upstash backup (console setting)
+
+---
+
 ## v1.6.4 — 2026-05-20
 
 **To-Do & Roadmap doc in admin viewer**

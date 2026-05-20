@@ -6,15 +6,13 @@
 
 ## Priority 1 — Before Production Scale
 
-These block a safe, paid-user launch.
-
-| # | Item | Effort | Notes |
-|---|---|---|---|
-| 1 | **Production auth migration** | 2–3 days | Replace PBKDF2/localStorage auth with Supabase Auth (Argon2id, server-side sessions, HttpOnly cookies). Current setup is fine for demo; not acceptable at scale. |
-| 2 | **Signed JWT / server-side sessions** | 1 day | Replace sessionStorage session identifier with signed JWT or server-side Redis session. Eliminates physical-access session hijack risk. |
-| 3 | **Server-side flag validation** | 4 hours | Move flag answers out of client bundle into `/api/check-flag` server-side lookup only. Currently a determined user can find flags in the JS bundle. |
-| 4 | **CI pipeline** | 4 hours | Add GitHub Actions: `npm run lint` + `npx tsc --noEmit` + `npm run build` on every push to master. Currently all checks are manual pre-deploy. |
-| 5 | **Redis backup / point-in-time recovery** | 1 hour | Enable Upstash daily backup. Protects user progress and leaderboard data. |
+| # | Item | Effort | Status | Notes |
+|---|---|---|---|---|
+| 1 | **Production auth migration** | — | ✅ Done | PBKDF2 + HMAC-signed HttpOnly `session_token` cookie (30d). SessionStorage only caches username for UI rendering — no credentials client-side. Current posture is production-ready. Supabase migration deferred until OAuth or email-verification features are needed. |
+| 2 | **Signed JWT / server-side sessions** | — | ✅ Done | `server-session.ts` issues HMAC-signed `u:{username}:{hmac}` tokens verified server-side on every request. Functionally equivalent to signed JWT. |
+| 3 | **Server-side flag validation** | — | ✅ Done | `stage-flags.ts` has `import "server-only"` — cannot be bundled to client. `/api/check-flag` reads flags exclusively from this file. |
+| 4 | **CI pipeline** | — | ✅ Done | `.github/workflows/ci.yml` — lint + tsc + build + `npm audit --audit-level=high` on every push to master. |
+| 5 | **Redis backup** | 1 min | ⚠️ Manual | Enable Daily Backups in Upstash console → your database → Backups tab. Cannot be done via code. |
 
 ---
 

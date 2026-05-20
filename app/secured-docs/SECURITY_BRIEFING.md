@@ -27,21 +27,13 @@ const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.enco
 
 **Status:** Admin credentials moved to server-side env vars. Admin cookie is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Strict. Admin routes blocked at middleware (`proxy.ts`). `admin-session` route throws if `ADMIN_SECRET` env var is missing.
 
-### 1.3 Client-Side User Storage — ACCEPTABLE for demo, HIGH for production
+### 1.3 Client-Side Credential Storage — ✅ RESOLVED (v1.3.0)
 
-**Finding:** User credentials (username, email, password hash, salt) stored in localStorage. Any XSS on the page could read them.
+**Status:** No credentials in localStorage or sessionStorage. `auth.ts` stores only the username string in sessionStorage as a write-through UI cache — the authoritative session is the HMAC-signed HttpOnly `session_token` cookie verified server-side on every API call. XSS cannot extract a password, hash, or salt from the client.
 
-**Current mitigation:** No financial data or sensitive PII beyond email. PBKDF2 hashes are computationally expensive to crack.
+### 1.4 Session Tokens — ✅ RESOLVED (v1.3.0)
 
-**Production path:** Migrate to Supabase Auth (Argon2id, server-side) + HttpOnly session cookies.
-
-### 1.4 Session Tokens — LOW RISK
-
-**Finding:** Sessions stored as plain username string in sessionStorage. No signed JWT.
-
-**Impact:** Physical access to an unlocked shared device. Sessions expire on tab close.
-
-**Production path:** Replace with signed JWT or server-side session.
+**Status:** `server-session.ts` issues HMAC-signed tokens in the format `u:{username}:{hmac-sha256}`, verified server-side via `getServerSession()` on every protected route. HttpOnly, Secure, SameSite=Lax, 30-day maxAge.
 
 ---
 
@@ -168,9 +160,9 @@ No API keys, tokens, or credentials committed to the repository. `.gitignore` ex
 | sync-user allows overwrite | Medium | ✅ Resolved v0.6.0 |
 | admin-session accepts empty secret | Medium | ✅ Resolved v0.6.0 |
 | Password reset leaks email | Low | ✅ Resolved v0.6.0 |
-| Client-side auth storage | High | Acceptable for demo; documented production path |
-| CTF flags in client bundle | Low | Acceptable for demo; documented production path |
-| No signed session tokens | Low | Acceptable for demo; documented production path |
+| Client-side auth storage | High | ✅ Resolved v1.3.0 |
+| No signed session tokens | Low | ✅ Resolved v1.3.0 |
+| CTF flags in client bundle | Low | ✅ Resolved — `stage-flags.ts` is server-only |
 
 ---
 
@@ -188,10 +180,10 @@ No new attack surface. v1.6.1 adds only static documentation files (`docs/PITCH_
 
 ## 11. Production Readiness Gaps
 
-| Item | Effort | Priority |
+| Item | Effort | Status |
 |---|---|---|
-| Migrate auth to server-side (Supabase Auth) | 2–3 days | Before user data at scale |
-| Server-side flag validation | 4 hours | Optional for demo |
-| Signed JWT sessions | 1 day | Before production launch |
-| Add CI pipeline (lint, tsc, audit) | 4 hours | Before team scaling |
-| Redis backup / point-in-time recovery | 1 hour | Before production scale |
+| Migrate auth to server-side (Supabase Auth) | — | ✅ Current PBKDF2 + HMAC cookies is production-ready; Supabase deferred until OAuth/email-verification needed |
+| Server-side flag validation | — | ✅ `stage-flags.ts` uses `server-only` — flags never sent to client |
+| Signed JWT sessions | — | ✅ HMAC-signed `session_token` cookie verified server-side on every request |
+| Add CI pipeline (lint, tsc, audit) | — | ✅ `.github/workflows/ci.yml` — runs on every push to master |
+| Redis backup / point-in-time recovery | 1 min | ⚠️ Enable in Upstash console → database → Backups tab |
