@@ -24,6 +24,7 @@ export type StageInfo = {
   timeline: { year: number; event: string; highlight?: boolean }[];
   keyTakeaways: string[];
   references: { title: string; url: string }[];
+  downloads?: { name: string; url: string; description: string }[];
 };
 
 export type CtfCommandResult = { lines: string[]; solved?: boolean };

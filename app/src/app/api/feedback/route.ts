@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   }
 
   const body = {
-    from: "feedback@kryptoscronos.com",
+    from: "Kryptós CronOS <noreply@kryptoscronos.com>",
     to: "jjbolotin@yahoo.com",
     subject: `Kryptós CronOS Feedback${page ? ` — ${page}` : ""}`,
     text: `New feedback from kryptoscronos.com\n\nPage: ${page || "unknown"}\nTime: ${new Date().toISOString()}\n\n---\n\n${message.trim()}`,

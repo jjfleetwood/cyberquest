@@ -43,7 +43,7 @@ export default function FeedbackWidget() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-50 w-64 flex flex-col gap-1.5 bg-slate-900/95 border border-slate-700/60 rounded-xl shadow-xl backdrop-blur-sm p-3">
+    <div className="fixed top-4 left-4 z-50 w-64 flex flex-col gap-1.5 bg-slate-900/95 border border-slate-700/60 rounded-xl shadow-xl backdrop-blur-sm p-3">
       <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest select-none">
         What do you want to see?
       </p>

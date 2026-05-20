@@ -3,6 +3,7 @@
 import AttackDiagram from "./AttackDiagram";
 import BackLink from "./BackLink";
 import type { StageConfig } from "@/data/types";
+import { stageDownloads } from "@/data/stage-downloads";
 
 const categoryColors: Record<string, string> = {
   cybersecurity: "text-cyan-400 bg-cyan-400/10 border-cyan-400/30",
@@ -26,6 +27,7 @@ export default function StageInfo({
   onStart: () => void;
 }) {
   const { info } = stage;
+  const downloads = info.downloads ?? stageDownloads[stage.id] ?? [];
 
   return (
     <div
@@ -186,6 +188,35 @@ export default function StageInfo({
             ))}
           </ul>
         </section>
+
+        {/* Code Templates */}
+        {downloads.length > 0 && (
+          <section className="mb-8">
+            <h2 className="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">Code Templates</h2>
+            <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
+              <p className="text-gray-500 text-xs mb-3">
+                Runnable MCP server templates for this audit scenario — download, customize, and deploy against real systems.
+              </p>
+              <ul className="space-y-2">
+                {downloads.map((dl, i) => (
+                  <li key={i}>
+                    <a
+                      href={dl.url}
+                      download
+                      className="flex items-center gap-3 px-3 py-2.5 bg-indigo-500/10 border border-indigo-500/30 rounded-lg hover:bg-indigo-500/15 hover:border-indigo-400 transition-colors"
+                    >
+                      <span className="text-indigo-400 text-base flex-shrink-0">↓</span>
+                      <div className="min-w-0">
+                        <p className="text-indigo-300 text-sm font-mono">{dl.name}</p>
+                        <p className="text-gray-500 text-xs">{dl.description}</p>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+        )}
 
         {/* CTA */}
         <div className="bg-white/3 border border-cyan-500/30 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">

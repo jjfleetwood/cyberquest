@@ -637,7 +637,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
         className="flex flex-col px-3 sm:px-4 py-3 sm:py-6"
         style={{ background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)", height: "100dvh", overflow: "hidden" }}
       >
-        <div className="max-w-4xl mx-auto w-full flex flex-col flex-1">
+        <div className="max-w-4xl mx-auto w-full flex flex-col flex-1 min-h-0">
           {/* Header */}
           <div className="mb-3 flex-shrink-0">
             <BackLink className="text-gray-500 hover:text-cyan-400 text-sm mb-2 inline-block transition-colors" />
@@ -736,7 +736,7 @@ export default function CtfChallenge({ stage }: { stage: StageConfig }) {
             </div>
 
             {/* Output */}
-            <div ref={outputRef} onScroll={handleOutputScroll} className="flex-1 overflow-y-auto p-3 space-y-0.5">
+            <div ref={outputRef} onScroll={handleOutputScroll} className="flex-1 overflow-y-auto p-3 space-y-0.5" style={{ overscrollBehavior: "contain" }}>
               {lines.map((line, i) => (
                 <TerminalLine key={i} line={line} />
               ))}
