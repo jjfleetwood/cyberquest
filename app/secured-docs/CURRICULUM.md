@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.1  
-**Date:** 2026-05-18  
-**Total stages:** 198 across 15 epochs
+**Version:** 3.2  
+**Date:** 2026-05-20  
+**Total stages:** 334 across 29 epochs
 
 ---
 
@@ -202,6 +202,33 @@ In addition to per-stage badges, milestone badges are awarded for XP and streak 
 | `m-xp-5k` | 5,000 XP total | XP milestone |
 | `m-streak-3` | 3-day login streak | Consistency milestone |
 | `m-streak-7` | 7-day login streak | Consistency milestone |
+
+---
+
+## New Tracks (v1.7.0)
+
+### Driving Track
+| # | Epoch ID | Name | Stages | Notes |
+|---|---|---|---|---|
+| 19 | `driving-1` | Road to Your License | 8 | CA DMV written test prep |
+| 20 | `driving-2` | First Miles | 8 | Beginning driver skills |
+| 21 | `driving-3` | Rules of the Road | 8 | Advanced road wisdom |
+
+### Health Track
+| # | Epoch ID | Name | Stages | Notes |
+|---|---|---|---|---|
+| 22 | `clubfoot` | Standing Tall | 6 | Locked by default; Ponseti method, history, active living |
+
+### Sports Track — Baseball
+| # | Epoch ID | Name | Stages | Focus |
+|---|---|---|---|---|
+| 23 | `baseball-1` | Play Ball! | 10 | Little League fundamentals |
+| 24 | `baseball-2` | The Art of Hitting | 10 | Mechanics + Dodgers history |
+| 25 | `baseball-3` | Advanced Mechanics | 10 | Hip-shoulder separation, barrel management, sequencing |
+| 26 | `baseball-4` | Elite Mastery | 10 | Statcast, scouting, clutch at-bats, greatest Dodger hitters |
+| 27 | `baseball-5` | The Art of Pitching | 10 | Mechanics, grip, arm care, PFP (Kershaw focus) |
+| 28 | `baseball-6` | Pitch Arsenal | 10 | All pitch types, grips, spin rate, tunneling, age progression |
+| 29 | `baseball-7` | Pitching Strategy | 10 | Count management, sequencing, platoon, Dodger legends |
 
 ---
 

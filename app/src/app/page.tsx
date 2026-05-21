@@ -56,7 +56,7 @@ const tracks = [
     desc: "Understanding clubfoot — from the Ponseti casting revolution to living actively and supporting others.",
   },
   {
-    id: "sports", label: "Sports", stages: "40", icon: "⚾",
+    id: "sports", label: "Sports", stages: "70", icon: "⚾",
     border: "border-red-500/25", textColor: "text-red-400", glow: "rgba(239,68,68,0.08)",
     topics: ["Field & Rules", "Batting", "Pitching", "Fielding", "Baserunning", "Sportsmanship"],
     desc: "Little League fundamentals — learn the game from the ground up, from your first at-bat to playing your position with confidence.",
@@ -240,7 +240,7 @@ export default function Home() {
               style={{ background: "rgba(34,211,238,0.06)" }}>
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-cyan-300 font-mono font-medium tracking-wide">
-                304 Stages · AI · Post-Quantum · Nation-State CTF
+                334 Stages · AI · Post-Quantum · Nation-State CTF
               </span>
             </div>
 
@@ -285,7 +285,7 @@ export default function Home() {
                   backdropFilter: "blur(8px)",
                 }}
               >
-                View 304 Stages
+                View 334 Stages
               </Link>
             </div>
           </div>
@@ -315,7 +315,7 @@ export default function Home() {
           style={{ background: "rgba(255,255,255,0.015)" }}>
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "304", label: "Training Stages",      color: "#22d3ee" },
+              { value: "334", label: "Training Stages",      color: "#22d3ee" },
               { value: "10",  label: "Curriculum Tracks",    color: "#a78bfa" },
               { value: "25+", label: "Real CVEs",            color: "#f97316" },
               { value: "3.5M",label: "Unfilled Cyber Jobs",  color: "#4ade80" },

@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.2  
+**Version:** 2.3  
 **Date:** 2026-05-20  
-**Current version:** v1.6.2
+**Current version:** v1.7.0
+
+---
+
+## Changelog — v2.3 (2026-05-20)
+
+No new attack surface. v1.7.0 ships 30 new quiz stages (baseball-5/6/7), global nav wiring, and a synthetic PII fix. No new API routes, Redis keys, env vars, or third-party integrations. Synthetic SSN `123-45-6789` replaced with `000-00-0001` in two CTF lab virtual files.
 
 ---
 

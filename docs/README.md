@@ -2,14 +2,14 @@
 
 **Live at:** kryptoscronos.com  
 **GitHub:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.5.2  
-**Last updated:** 2026-05-18
+**Current version:** v1.6.5  
+**Last updated:** 2026-05-20
 
 ---
 
 ## What is Kryptós CronOS?
 
-A gamified cybersecurity and AI training platform where learners progress through staged missions that simulate real attacks and defenses. Fifteen curriculum epochs, 198 total stages, CTF terminal challenges, live leaderboard, ARIA AI hint chatbot, daily streaks, milestone badges, NDA gate, DocuSign eSignature integration, and admin tooling. Built on Next.js 16 + Upstash Redis, deployed on Vercel.
+A gamified cybersecurity and AI training platform where learners progress through staged missions that simulate real attacks and defenses. Eighteen curriculum epochs, 234 total stages across 7 tracks, CTF terminal challenges, live leaderboard, ARIA AI hint chatbot, daily streaks, milestone badges, NDA gate, and admin tooling. Built on Next.js 16 + Upstash Redis, deployed on Vercel.
 
 ---
 
@@ -27,19 +27,23 @@ A gamified cybersecurity and AI training platform where learners progress throug
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Version history and changelog |
 | [BUSINESS_PROPOSAL_PRO.md](BUSINESS_PROPOSAL_PRO.md) | Formal investor pitch deck |
 | [BUSINESS_PROPOSAL_CASUAL.md](BUSINESS_PROPOSAL_CASUAL.md) | Founder's plain-language pitch |
+| [PITCH_TARGETS.md](PITCH_TARGETS.md) | Investor and sponsor targeting list |
+| [PITCH_CAE_CONTINUOUS_MONITORING.md](PITCH_CAE_CONTINUOUS_MONITORING.md) | CAE advisory: continuous monitoring via AI agents |
+| [TODO.md](TODO.md) | Open to-do items and roadmap by priority |
 
 ---
 
-## Quick Status (v1.5.2)
+## Quick Status (v1.6.5)
 
-- **Epochs:** 15 active — Our First Journey (30), Foundations (12), Cisco (12), Tech Audit: Foundations (12), Tech Audit: Technical (12), Tech Audit: Agentic (12), Continuous Monitoring 2.0 (12), MITRE ATT&CK (12), MITRE ATLAS (12), OWASP LLM Top 10 (12), Quantum Era × 3 (36), Defend the Enterprise (12), The Woven World / Tapestry (12)
-- **Total stages:** 198
-- **Auth:** Fully server-side PBKDF2-SHA-256 — no localStorage for credentials; HMAC-signed HttpOnly cookies for session and admin
+- **Epochs:** 18 — Core Security (2), Tech Audit (4), Threat Frameworks (2), AI Security (1), Quantum Era (3), Defend the Enterprise (2), Crafts (3)
+- **Total stages:** 234 across 7 tracks
+- **Auth:** Server-side PBKDF2-SHA-256 (100k iterations); HMAC-signed HttpOnly session_token cookie (30d); no credentials client-side
 - **ARIA:** AI hint chatbot powered by Claude Haiku (Anthropic), Socratic method, stage-aware, rate-limited
 - **Leaderboard:** Live, global, Upstash Redis sorted set (daily / weekly / all-time)
 - **Streaks:** Daily login streaks tracked in Redis; milestone badges at XP and streak thresholds
-- **NDA gate:** Clickwrap NDA at /demo — Redis-logged, HMAC cookie; DocuSign eSignature for formal NDA sending from admin
+- **NDA gate:** Clickwrap NDA at /demo — Redis-logged, HMAC cookie
 - **Email:** Resend API — registration alerts + password reset flow
-- **Security:** HSTS, CSP, rate limiting, server-side XP, server-side flag validation, docs gated behind admin HMAC cookie
-- **CI:** GitHub Actions — lint + tsc + build + npm audit on every push
+- **Security:** HSTS, CSP, rate limiting, server-side XP, server-only flag validation, docs gated behind admin HMAC cookie
+- **CI:** GitHub Actions — lint + tsc + build + npm audit on every push to master
+- **Backups:** Upstash daily backups enabled (paid plan)
 - **Deployment:** Vercel (iad1) auto-triggered on GitHub push to master

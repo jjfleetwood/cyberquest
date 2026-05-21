@@ -2,12 +2,12 @@
 
 ## What This Is
 
-Gamified cybersecurity + AI training platform. 18 curriculum epochs, ~235 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
+Gamified cybersecurity + AI training platform. 29 curriculum epochs, ~334 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
 
 **Live:** kryptoscronos.com  
 **App:** app-jjfleetwood.vercel.app  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.6.5 (as of 2026-05-20)
+**Current version:** v1.7.0 (as of 2026-05-20)
 
 ---
 
@@ -56,7 +56,7 @@ npx vercel --prod    # Deploy to production
 ## Navigation Flow (v1.6.0)
 
 ```
-/           → homepage with 7 track marketing cards
+/           → homepage with 10 track marketing cards
 /stages     → stage map hub: all epochs as clickable cards per track group
 /stages/epoch/[epochId]   → per-epoch page: hero + stage grid + progress bar
 /stages/[stageId]         → individual stage (StageInfo → CTF/Quiz challenge)
@@ -90,8 +90,19 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | 16 | `nails` | Nail Arts | 10 | nails-01 → nails-10 | Pink |
 | 17 | `hair-color` | Hair Coloring | 10 | hair-color-01 → hair-color-10 | Rose |
 | 18 | `hair-styling` | Hair Styling | 10 | hair-styling-01 → hair-styling-10 | Violet |
+| 19 | `driving-1` | Road to Your License | 8 | driving-1-01 → driving-1-08 | Yellow |
+| 20 | `driving-2` | First Miles | 8 | driving-2-01 → driving-2-08 | Lime |
+| 21 | `driving-3` | Rules of the Road | 8 | driving-3-01 → driving-3-08 | Orange |
+| 22 | `clubfoot` | Standing Tall | 6 | clubfoot-01 → clubfoot-06 | Teal (locked) |
+| 23 | `baseball-1` | Play Ball! | 10 | baseball-1-01 → baseball-1-10 | Red |
+| 24 | `baseball-2` | The Art of Hitting | 10 | baseball-2-01 → baseball-2-10 | Blue |
+| 25 | `baseball-3` | Advanced Mechanics | 10 | baseball-3-01 → baseball-3-10 | Violet |
+| 26 | `baseball-4` | Elite Mastery | 10 | baseball-4-01 → baseball-4-10 | Amber |
+| 27 | `baseball-5` | The Art of Pitching | 10 | baseball-5-01 → baseball-5-10 | Green |
+| 28 | `baseball-6` | Pitch Arsenal | 10 | baseball-6-01 → baseball-6-10 | Red |
+| 29 | `baseball-7` | Pitching Strategy | 10 | baseball-7-01 → baseball-7-10 | Indigo |
 
-**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts
+**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts · Driving · Health · Sports
 
 ---
 

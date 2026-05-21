@@ -27,6 +27,9 @@ import { baseball1Epoch, baseball1Stages } from "./baseball-1";
 import { baseball2Epoch, baseball2Stages } from "./baseball-2";
 import { baseball3Epoch, baseball3Stages } from "./baseball-3";
 import { baseball4Epoch, baseball4Stages } from "./baseball-4";
+import { baseball5Epoch, baseball5Stages } from "./baseball-5";
+import { baseball6Epoch, baseball6Stages } from "./baseball-6";
+import { baseball7Epoch, baseball7Stages } from "./baseball-7";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
@@ -75,6 +78,9 @@ export const epochs: EpochConfig[] = [
   baseball2Epoch,
   baseball3Epoch,
   baseball4Epoch,
+  baseball5Epoch,
+  baseball6Epoch,
+  baseball7Epoch,
 ];
 
 export const stages: StageConfig[] = [
@@ -104,6 +110,9 @@ export const stages: StageConfig[] = [
   ...baseball2Stages,
   ...baseball3Stages,
   ...baseball4Stages,
+  ...baseball5Stages,
+  ...baseball6Stages,
+  ...baseball7Stages,
 
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────

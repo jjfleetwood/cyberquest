@@ -25,6 +25,9 @@ export const epochAccent: Record<string, { tab: string; active: string; bar: str
   "baseball-2":   { tab: "text-blue-400 border-blue-400 bg-blue-400/10",          active: "border-blue-400/60 bg-blue-500/5",     bar: "bg-blue-500" },
   "baseball-3":   { tab: "text-violet-400 border-violet-400 bg-violet-400/10",    active: "border-violet-400/60 bg-violet-500/5", bar: "bg-violet-500" },
   "baseball-4":   { tab: "text-amber-400 border-amber-400 bg-amber-400/10",       active: "border-amber-400/60 bg-amber-500/5",   bar: "bg-amber-500" },
+  "baseball-5":   { tab: "text-green-400 border-green-400 bg-green-400/10",       active: "border-green-400/60 bg-green-500/5",   bar: "bg-green-500" },
+  "baseball-6":   { tab: "text-red-400 border-red-400 bg-red-400/10",             active: "border-red-400/60 bg-red-500/5",       bar: "bg-red-500" },
+  "baseball-7":   { tab: "text-indigo-400 border-indigo-400 bg-indigo-400/10",    active: "border-indigo-400/60 bg-indigo-500/5", bar: "bg-indigo-500" },
 };
 
 export const cardBorder: Record<string, string> = {
@@ -54,6 +57,9 @@ export const cardBorder: Record<string, string> = {
   "baseball-2":   "border-blue-500/40 hover:border-blue-400/80",
   "baseball-3":   "border-violet-500/40 hover:border-violet-400/80",
   "baseball-4":   "border-amber-500/40 hover:border-amber-400/80",
+  "baseball-5":   "border-green-500/40 hover:border-green-400/80",
+  "baseball-6":   "border-red-500/40 hover:border-red-400/80",
+  "baseball-7":   "border-indigo-500/40 hover:border-indigo-400/80",
 };
 
 export const cardEmojiBg: Record<string, string> = {
@@ -83,4 +89,7 @@ export const cardEmojiBg: Record<string, string> = {
   "baseball-2":   "from-blue-950 to-slate-950",
   "baseball-3":   "from-violet-950 to-slate-950",
   "baseball-4":   "from-amber-950 to-slate-950",
+  "baseball-5":   "from-green-950 to-slate-950",
+  "baseball-6":   "from-red-950 to-slate-950",
+  "baseball-7":   "from-indigo-950 to-slate-950",
 };

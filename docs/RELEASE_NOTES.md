@@ -2,6 +2,19 @@
 
 ---
 
+## v1.7.0 — 2026-05-20
+
+**Baseball pitching curriculum (3 epochs, 30 stages); global nav on all pages; 334 stages total**
+
+- baseball-5 "The Art of Pitching" — 10 stages: rubber/stance, grip, wind-up mechanics, arm action, release point, stretch/holding runners, velocity vs. location, pitch counts, PFP, mental approach (Kershaw focus throughout)
+- baseball-6 "Pitch Arsenal" — 10 stages: four-seam, two-seam/sinker, changeup, curveball, slider, cutter (Rivera/Jansen), splitter/forkball (Nomo), spin rate/Rapsodo, pitch tunneling, age-based repertoire development
+- baseball-7 "Pitching Strategy" — 10 stages: reading batters, working counts, sequencing, times-through-order, high-leverage approach, platoon matchups, video/Statcast prep, fatigue management, Dodger legends (Koufax → Kershaw)
+- Global Nav moved to `layout.tsx` — appears on every page automatically
+- Homepage: 334 stages, 10 tracks, Sports track updated to 70 stages
+- Proprietary content audit complete — synthetic SSN `123-45-6789` replaced with `000-00-0001` in two CTF lab files (`owasp-llm.ts`, `mitre-atlas.ts`)
+
+---
+
 ## v1.6.5 — 2026-05-20
 
 **P1 audit — docs corrected to reflect actual security posture**

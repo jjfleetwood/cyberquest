@@ -1,6 +1,6 @@
 # Kryptós CronOS — Build Guide
-**Version:** 3.0  
-**Date:** 2026-05-18
+**Version:** 3.1  
+**Date:** 2026-05-20
 
 ---
 
@@ -49,14 +49,6 @@ ADMIN_SECRET=<32+ char random secret for HMAC signing>
 
 # Anthropic — required for ARIA AI hint chatbot (/api/hint)
 ANTHROPIC_API_KEY=sk-ant-<your-key>
-
-# DocuSign eSignature — required for NDA sending from admin dashboard
-DOCUSIGN_INTEGRATION_KEY=<UUID>
-DOCUSIGN_USER_ID=<UUID>
-DOCUSIGN_ACCOUNT_ID=<account ID>
-DOCUSIGN_PRIVATE_KEY=<RSA private key for JWT auth>
-DOCUSIGN_BASE_URL=https://demo.docusign.net
-DOCUSIGN_WEBHOOK_SECRET=<optional: HMAC secret for webhook verification>
 ```
 
 ### 4. Start the dev server
@@ -198,12 +190,6 @@ Set at: vercel.com → Project → Settings → Environment Variables
 | `ADMIN_USERNAME` | Yes | Admin dashboard login username |
 | `ADMIN_SECRET` | Yes | 32+ char secret for HMAC cookie signing (session + admin) |
 | `ANTHROPIC_API_KEY` | Yes | Anthropic API key for ARIA chatbot (Claude Haiku) |
-| `DOCUSIGN_INTEGRATION_KEY` | Yes | DocuSign app integration key (UUID) |
-| `DOCUSIGN_USER_ID` | Yes | DocuSign API username (UUID) |
-| `DOCUSIGN_ACCOUNT_ID` | Yes | DocuSign account ID |
-| `DOCUSIGN_PRIVATE_KEY` | Yes | RSA private key for DocuSign JWT auth |
-| `DOCUSIGN_BASE_URL` | Yes | `https://demo.docusign.net` or `https://na4.docusign.net` |
-| `DOCUSIGN_WEBHOOK_SECRET` | Optional | HMAC secret for DocuSign webhook verification |
 
 ### Local Only
 
@@ -224,11 +210,15 @@ Set at: vercel.com → Project → Settings → Environment Variables
 | `src/app/api/hint/route.ts` | ARIA chatbot — Claude Haiku integration |
 | `src/app/api/admin/send-nda/route.ts` | DocuSign envelope dispatch |
 | `src/app/api/webhooks/docusign/route.ts` | DocuSign status webhook handler |
-| `src/data/stages.ts` | Foundations + Cisco stage definitions (24 stages) |
-| `src/data/first-journey*.ts` | Our First Journey epoch (30 stages across 3 files) |
-| `src/data/tech-audit.ts` | Tech Audit epochs (36 stages) |
-| `src/data/mitre.ts` | MITRE ATT&CK + ATLAS epochs (24 stages) |
-| `src/data/owasp-llm.ts` | OWASP LLM Top 10 epoch (12 stages) |
+| `src/data/stages.ts` | Epoch registry — imports and re-exports all 18 epochs |
+| `src/data/first-journey*.ts` | Our First Journey epoch (30 stages, 3 files) |
+| `src/data/tech-audit-[1-4].ts` | Tech Audit epochs (48 stages total) |
+| `src/data/tech-audit-3.ts` | Agentic Continuous Monitoring (12 stages) |
+| `src/data/tech-audit-4.ts` | Continuous Monitoring 2.0 (12 stages) |
+| `src/data/mitre.ts` + `mitre-atlas.ts` | MITRE ATT&CK + ATLAS (24 stages) |
+| `src/data/owasp-llm.ts` | OWASP LLM Top 10 (12 stages) |
+| `src/data/stage-flags.ts` | CTF flag answers — `server-only`, never bundled to client |
+| `src/app/stages/epoch-theme.ts` | Color theme records for all 18 epochs |
 | `src/lib/auth.ts` | PBKDF2 hashing + HMAC cookie utilities |
 | `src/lib/redis.ts` | Upstash client — requires env vars at runtime |
 | `next.config.ts` | Security headers + `outputFileTracingIncludes` for secured-docs |
