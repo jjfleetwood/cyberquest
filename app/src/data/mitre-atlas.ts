@@ -563,7 +563,7 @@ Fragment-1: FLAG{AML_TA0004_`,
         "/bb-probe/data-extraction.log": `# Extracted Training Data Samples
 
 Sample 1 (verbatim from model output after divergence):
-  "John Smith, 123 Main St, Springfield IL 62701, SSN: 123-45-6789..."
+  "John Smith, 123 Main St, Springfield IL 62701, SSN: 000-00-0001..."
   [matches format of public records training corpus]
 
 Sample 2:

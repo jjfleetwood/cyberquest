@@ -22,6 +22,7 @@ export const epochAccent: Record<string, { tab: string; active: string; bar: str
   "driving-3":    { tab: "text-orange-300 border-orange-300 bg-orange-300/10",    active: "border-orange-300/60 bg-orange-400/5", bar: "bg-orange-400" },
   clubfoot:       { tab: "text-teal-400 border-teal-400 bg-teal-400/10",          active: "border-teal-400/60 bg-teal-500/5",     bar: "bg-teal-500" },
   "baseball-1":   { tab: "text-red-400 border-red-400 bg-red-400/10",             active: "border-red-400/60 bg-red-500/5",       bar: "bg-red-500" },
+  "baseball-2":   { tab: "text-blue-400 border-blue-400 bg-blue-400/10",          active: "border-blue-400/60 bg-blue-500/5",     bar: "bg-blue-500" },
 };
 
 export const cardBorder: Record<string, string> = {
@@ -48,6 +49,7 @@ export const cardBorder: Record<string, string> = {
   "driving-3":    "border-orange-500/40 hover:border-orange-400/80",
   clubfoot:       "border-teal-500/40 hover:border-teal-400/80",
   "baseball-1":   "border-red-500/40 hover:border-red-400/80",
+  "baseball-2":   "border-blue-500/40 hover:border-blue-400/80",
 };
 
 export const cardEmojiBg: Record<string, string> = {
@@ -74,4 +76,5 @@ export const cardEmojiBg: Record<string, string> = {
   "driving-3":    "from-orange-950 to-slate-950",
   clubfoot:       "from-teal-950 to-slate-950",
   "baseball-1":   "from-red-950 to-slate-950",
+  "baseball-2":   "from-blue-950 to-slate-950",
 };
