@@ -59,8 +59,8 @@ const epochGroups = [
   },
   {
     label: "Sports",
-    desc: "Little League Baseball · The Art of Hitting",
-    epochIds: ["baseball-1", "baseball-2"],
+    desc: "Little League · The Art of Hitting · Advanced Mechanics · Elite Mastery",
+    epochIds: ["baseball-1", "baseball-2", "baseball-3", "baseball-4"],
   },
 ];
 

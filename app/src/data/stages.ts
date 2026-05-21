@@ -25,6 +25,8 @@ import { driving3Epoch, driving3Stages } from "./driving-3";
 import { clubfootEpoch, clubfootStages } from "./clubfoot";
 import { baseball1Epoch, baseball1Stages } from "./baseball-1";
 import { baseball2Epoch, baseball2Stages } from "./baseball-2";
+import { baseball3Epoch, baseball3Stages } from "./baseball-3";
+import { baseball4Epoch, baseball4Stages } from "./baseball-4";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
@@ -71,6 +73,8 @@ export const epochs: EpochConfig[] = [
   { ...clubfootEpoch, unlocked: false },
   baseball1Epoch,
   baseball2Epoch,
+  baseball3Epoch,
+  baseball4Epoch,
 ];
 
 export const stages: StageConfig[] = [
@@ -98,6 +102,8 @@ export const stages: StageConfig[] = [
   ...clubfootStages,
   ...baseball1Stages,
   ...baseball2Stages,
+  ...baseball3Stages,
+  ...baseball4Stages,
 
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────
