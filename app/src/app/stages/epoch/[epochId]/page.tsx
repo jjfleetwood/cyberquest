@@ -38,7 +38,6 @@ export default function EpochPage() {
   const accent = epochAccent[epochId] ?? epochAccent.ancient;
   const contentFlag = getContentFlag(epochId);
   const doneCount = epochStages.filter((s) => completedStages.includes(s.id)).length;
-  const nextStageId = epochStages.find((s) => !completedStages.includes(s.id))?.id;
 
   const gridCols =
     epochId === "first-journey"
@@ -166,7 +165,6 @@ export default function EpochPage() {
         <div className={`grid gap-3 ${gridCols}`}>
           {epochStages.map((stage) => {
             const completed = completedStages.includes(stage.id);
-            const isNext = stage.id === nextStageId;
             const borderClass = completed
               ? "border-green-500/50 hover:border-green-400/80"
               : cardBorder[epochId] ?? "border-white/20 hover:border-white/40";
@@ -175,9 +173,7 @@ export default function EpochPage() {
               <Link
                 key={stage.id}
                 href={`/stages/${stage.id}`}
-                className={`group relative rounded-xl overflow-hidden border-2 transition-all duration-200 hover:-translate-y-0.5 ${borderClass} ${
-                  isNext ? "ring-2 ring-offset-2 ring-offset-slate-950 ring-current" : ""
-                }`}
+                className={`group relative rounded-xl overflow-hidden border-2 transition-all duration-200 hover:-translate-y-0.5 ${borderClass}`}
               >
                 {/* Emoji panel */}
                 <div
