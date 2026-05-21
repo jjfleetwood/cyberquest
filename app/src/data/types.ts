@@ -89,7 +89,7 @@ export type StageConfig = {
   order: number;
   title: string;
   subtitle: string;
-  category: "cybersecurity" | "ai" | "owasp" | "arts";
+  category: "cybersecurity" | "ai" | "owasp" | "arts" | "driving" | "health" | "sports";
   owaspRef?: string;
   cveId?: string;
   cvssScore?: number;

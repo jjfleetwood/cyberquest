@@ -17,6 +17,11 @@ export const epochAccent: Record<string, { tab: string; active: string; bar: str
   nails:          { tab: "text-pink-400 border-pink-400 bg-pink-400/10",          active: "border-pink-400/60 bg-pink-500/5",     bar: "bg-pink-500" },
   "hair-color":   { tab: "text-rose-400 border-rose-400 bg-rose-400/10",          active: "border-rose-400/60 bg-rose-500/5",     bar: "bg-rose-500" },
   "hair-styling": { tab: "text-violet-300 border-violet-300 bg-violet-300/10",    active: "border-violet-300/60 bg-violet-400/5", bar: "bg-violet-400" },
+  "driving-1":    { tab: "text-yellow-400 border-yellow-400 bg-yellow-400/10",    active: "border-yellow-400/60 bg-yellow-500/5", bar: "bg-yellow-500" },
+  "driving-2":    { tab: "text-lime-400 border-lime-400 bg-lime-400/10",          active: "border-lime-400/60 bg-lime-500/5",     bar: "bg-lime-500" },
+  "driving-3":    { tab: "text-orange-300 border-orange-300 bg-orange-300/10",    active: "border-orange-300/60 bg-orange-400/5", bar: "bg-orange-400" },
+  clubfoot:       { tab: "text-teal-400 border-teal-400 bg-teal-400/10",          active: "border-teal-400/60 bg-teal-500/5",     bar: "bg-teal-500" },
+  "baseball-1":   { tab: "text-red-400 border-red-400 bg-red-400/10",             active: "border-red-400/60 bg-red-500/5",       bar: "bg-red-500" },
 };
 
 export const cardBorder: Record<string, string> = {
@@ -38,6 +43,11 @@ export const cardBorder: Record<string, string> = {
   nails:          "border-pink-500/40 hover:border-pink-400/80",
   "hair-color":   "border-rose-500/40 hover:border-rose-400/80",
   "hair-styling": "border-violet-500/40 hover:border-violet-400/80",
+  "driving-1":    "border-yellow-500/40 hover:border-yellow-400/80",
+  "driving-2":    "border-lime-500/40 hover:border-lime-400/80",
+  "driving-3":    "border-orange-500/40 hover:border-orange-400/80",
+  clubfoot:       "border-teal-500/40 hover:border-teal-400/80",
+  "baseball-1":   "border-red-500/40 hover:border-red-400/80",
 };
 
 export const cardEmojiBg: Record<string, string> = {
@@ -59,4 +69,9 @@ export const cardEmojiBg: Record<string, string> = {
   nails:          "from-pink-950 to-slate-950",
   "hair-color":   "from-rose-950 to-slate-950",
   "hair-styling": "from-violet-950 to-slate-950",
+  "driving-1":    "from-yellow-950 to-slate-950",
+  "driving-2":    "from-lime-950 to-slate-950",
+  "driving-3":    "from-orange-950 to-slate-950",
+  clubfoot:       "from-teal-950 to-slate-950",
+  "baseball-1":   "from-red-950 to-slate-950",
 };

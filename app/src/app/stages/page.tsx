@@ -47,6 +47,21 @@ const epochGroups = [
     desc: "Tapestry · Nail Arts · Hair Coloring · Hair Styling",
     epochIds: ["tapestry", "nails", "hair-color", "hair-styling"],
   },
+  {
+    label: "Driving",
+    desc: "CA License → First Miles → Rules of the Road",
+    epochIds: ["driving-1", "driving-2", "driving-3"],
+  },
+  {
+    label: "Health",
+    desc: "Clubfoot — Understanding & Living With It",
+    epochIds: ["clubfoot"],
+  },
+  {
+    label: "Sports",
+    desc: "Little League Baseball",
+    epochIds: ["baseball-1"],
+  },
 ];
 
 export default function StagesPage() {
