@@ -50,12 +50,6 @@ const tracks = [
     desc: "Everything you need to pass the California DMV written test and become a confident, safe driver.",
   },
   {
-    id: "health", label: "Health", stages: "6", icon: "🦶",
-    border: "border-teal-500/25", textColor: "text-teal-400", glow: "rgba(20,184,166,0.08)",
-    topics: ["Ponseti Method", "Clubfoot Anatomy", "Famous Athletes", "Family Support", "Active Living"],
-    desc: "Understanding clubfoot — from the Ponseti casting revolution to living actively and supporting others.",
-  },
-  {
     id: "sports", label: "Sports", stages: "70", icon: "⚾",
     border: "border-red-500/25", textColor: "text-red-400", glow: "rgba(239,68,68,0.08)",
     topics: ["Field & Rules", "Batting", "Pitching", "Fielding", "Baserunning", "Sportsmanship"],
@@ -261,7 +255,7 @@ export default function Home() {
               style={{ color: "rgba(156,163,175,0.85)" }}>
               The threats have changed — train on the same exploits behind Equifax, the NHS breach,
               and VOLT TYPHOON&apos;s ERCOT grid campaign, then step into AI prompt injection and
-              post-quantum cryptography. Ten tracks. All in your browser.
+              post-quantum cryptography. Nine tracks. All in your browser.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -316,7 +310,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { value: "334", label: "Training Stages",      color: "#22d3ee" },
-              { value: "10",  label: "Curriculum Tracks",    color: "#a78bfa" },
+              { value: "9",   label: "Curriculum Tracks",    color: "#a78bfa" },
               { value: "25+", label: "Real CVEs",            color: "#f97316" },
               { value: "3.5M",label: "Unfilled Cyber Jobs",  color: "#4ade80" },
             ].map((s) => (
