@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.3  
+**Version:** 2.4  
 **Date:** 2026-05-20  
-**Current version:** v1.7.0
+**Current version:** v1.7.1
+
+---
+
+## Changelog — v2.4 (2026-05-20)
+
+Closes CTF flag visibility finding. `stages-meta.ts` introduced as client-safe listing metadata module (no `ctf`, `quiz`, or `info`); both listing pages (`/stages` and `/stages/epoch/[epochId]`) now import from it instead of the full `stages.ts`. Section 5 updated to document final architecture. Section 9 corrected to reflect v1.3.0 auth migration (no credentials in localStorage). No new API routes, Redis keys, or env vars.
 
 ---
 
@@ -100,13 +106,21 @@ frame-ancestors 'none'
 
 ---
 
-## 5. CTF Flag Visibility — ACCEPTABLE (by design)
+## 5. CTF Flag Visibility — ✅ RESOLVED (v1.7.1)
 
-**Finding:** CTF flags defined in `src/data/stages.ts`, which is bundled into the client JS. A determined user can find flags in the bundle.
+**Architecture:**
 
-**Context:** Standard browser-based CTF limitation. The educational value is in the journey.
+- `src/data/stage-flags.ts` — `import "server-only"` at top; authoritative flag store never sent to any client.
+- `/api/check-flag` — validates flags server-side using `stageFlags` from the server-only file. Client submits a guess; server returns only `{ correct: true/false }`.
+- `/stages/[stageId]/page.tsx` — Server Component; strips `ctf.flag` and `extraCommands` before passing stage data to the `CtfChallenge` client component.
+- `src/data/stages-meta.ts` — client-safe listing metadata (no `ctf`, `quiz`, or `info`); imported by both listing pages (`/stages` and `/stages/epoch/[epochId]`) instead of the full `stages.ts`.
 
-**Production mitigation:** Move flag validation to `/api/validate-flag` (server-side); flags never sent to client.
+**Accepted limitations (browser-based CTF by design):**
+
+- CTF stage commands that reveal flags on discovery (e.g., `cat /root/flag.txt` returning a flag token) run client-side via `stage-commands.ts`. This is inherent to in-browser CTF mechanics — the challenge logic must execute locally. The flag value a player sees is the reward for solving the challenge correctly.
+- Fragment `value` fields in `ctf.fragments[]` are partial flag pieces revealed progressively as players explore. This is the intended game mechanic.
+
+**Why this is acceptable:** The canonical flag store (`stage-flags.ts`) is server-only, and all submission validation is server-side. A player who inspects the bundle can find a flag they haven't "earned" yet, but the platform is educational — the learning goal is the journey, not the flag string itself.
 
 ---
 
@@ -144,11 +158,13 @@ No API keys, tokens, or credentials committed to the repository. `.gitignore` ex
 
 | Data | Storage | Sent to Server? |
 |---|---|---|
-| Username | localStorage + Redis | On registration only |
-| Email | localStorage + Redis | On registration only |
-| Password hash + salt | localStorage + Redis | Hash stored in Redis on registration |
-| XP / progress | localStorage + Redis | On each stage completion |
-| Session identifier | sessionStorage | No |
+| Username | sessionStorage (UI cache only) + Redis | On registration only |
+| Email | Redis only | On registration only |
+| Password hash + salt | Redis only | Hash stored in Redis on registration; never in localStorage |
+| XP / progress | Redis | On each stage completion |
+| Session token | HttpOnly cookie (HMAC-signed) | Sent on every request; not accessible via JS |
+
+No credentials, hashes, or salts are stored in `localStorage` or `sessionStorage`. The `sessionStorage` username entry is a write-through UI cache only — the authoritative session is the HMAC-signed `session_token` HttpOnly cookie verified server-side on every API call.
 
 **Note:** Vercel logs HTTP access logs (IP, user agent) for all requests — standard CDN behavior, covered by Vercel's privacy policy.
 

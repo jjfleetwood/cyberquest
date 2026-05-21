@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { stages as allStages, epochs } from "@/data/stages";
+import { stagesMeta as allStages, epochs } from "@/data/stages-meta";
 import { fetchProgress } from "@/lib/progress";
 import { getSession, setSession } from "@/lib/auth";
 import { epochAccent, cardBorder, cardEmojiBg } from "@/app/stages/epoch-theme";
