@@ -112,6 +112,106 @@ export const CONTENT_FLAGS: ContentFlag[] = [
     adminNote: "Public domain. Safe.",
     reviewedAt: "2026-05-20",
   },
+  // ── Driving epochs ────────────────────────────────────────────────────────
+  {
+    epochId: "driving-1",
+    risk: "verified-safe",
+    source: "California DMV — public traffic law",
+    attributionText:
+      "Quiz content is based on California Vehicle Code and public DMV driver handbook topics. All questions are original.",
+    adminNote:
+      "CA DMV handbook is a public government document. Quiz questions are original — not copied from any DMV test. No IP risk.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "driving-2",
+    risk: "verified-safe",
+    source: "California DMV — public traffic law",
+    attributionText:
+      "Quiz content is based on California Vehicle Code and public DMV driver handbook topics. All questions are original.",
+    adminNote: "Same as driving-1. Original questions derived from public law topics.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "driving-3",
+    risk: "verified-safe",
+    source: "California DMV — public traffic law",
+    attributionText:
+      "Quiz content is based on California Vehicle Code and public DMV driver handbook topics. All questions are original.",
+    adminNote: "Same as driving-1. Original questions derived from public law topics.",
+    reviewedAt: "2026-05-21",
+  },
+
+  // ── Baseball epochs ───────────────────────────────────────────────────────
+  {
+    epochId: "baseball-1",
+    risk: "fair-use",
+    source: "MLB / Little League Baseball",
+    attributionText:
+      "Baseball rules, terminology, and historical references are factual information used for educational purposes.",
+    adminNote:
+      "Player names, team names, and statistics are factual data — not copyrightable. 'Little League®' is a registered trademark but is referenced only as a descriptive term. No logos or official marks used. Educational fair use.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-2",
+    risk: "fair-use",
+    source: "MLB / Los Angeles Dodgers historical record",
+    attributionText:
+      "Hitting mechanics and Dodgers history references are based on publicly available statistical records and factual historical information.",
+    adminNote:
+      "Dodgers® is a registered trademark of MLB. References are educational/factual (historical records, stats). No marks reproduced. Fair use for education.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-3",
+    risk: "fair-use",
+    source: "MLB / Statcast / Baseball Savant",
+    attributionText:
+      "Advanced hitting mechanics content references publicly available Statcast data and biomechanics research for educational purposes.",
+    adminNote:
+      "Statcast is MLB/Baseball Savant data, publicly accessible. Referenced factually. No data reproduced verbatim.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-4",
+    risk: "fair-use",
+    source: "MLB historical record / Statcast",
+    attributionText:
+      "Elite hitting content references publicly available MLB statistical records and historical performance data for educational purposes.",
+    adminNote: "Same as baseball-3. Factual stats and records. Educational use.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-5",
+    risk: "fair-use",
+    source: "MLB / Los Angeles Dodgers historical record",
+    attributionText:
+      "Pitching mechanics content references publicly available technique descriptions and historical records for educational purposes.",
+    adminNote:
+      "Clayton Kershaw is referenced by name as a factual pitching example. Player names are not IP. Educational use.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-6",
+    risk: "fair-use",
+    source: "MLB / Rapsodo / Trackman",
+    attributionText:
+      "Pitch arsenal content references publicly available spin rate data and pitch classification information for educational purposes.",
+    adminNote:
+      "Rapsodo® and Trackman® are trademarks referenced descriptively as measurement tools. No marks reproduced. Fair use.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "baseball-7",
+    risk: "fair-use",
+    source: "MLB historical record",
+    attributionText:
+      "Pitching strategy content references publicly available historical records and factual career statistics for educational purposes.",
+    adminNote:
+      "Koufax, Drysdale, Hershiser, Kershaw referenced factually. Historical stats are public record. No IP risk.",
+    reviewedAt: "2026-05-21",
+  },
 ];
 
 const EPOCH_FLAGS = new Map(CONTENT_FLAGS.map((f) => [f.epochId, f]));
