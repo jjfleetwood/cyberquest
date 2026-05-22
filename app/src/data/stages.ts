@@ -48,12 +48,30 @@ export const epochs: EpochConfig[] = [
     unlocked: true,
   },
   {
-    id: "medieval",
-    name: "Cisco",
-    subtitle: "Real-World CVE Operations",
-    description: "Field operations against real Cisco vulnerabilities — buffer overflows, authentication bypasses, command injection, path traversal. Each mission places you at a landmark location around the world.",
+    id: "cisco-core",
+    name: "Cisco: Core CVEs",
+    subtitle: "NSA Exploits & Network Fundamentals",
+    description: "Foundational Cisco network infrastructure attacks — IOS buffer overflows, SNMP exploits, and the NSA's weaponized Cisco tools leaked by Shadow Brokers and Vault 7.",
     emoji: "🌐",
     color: "blue",
+    unlocked: true,
+  },
+  {
+    id: "cisco-enterprise",
+    name: "Cisco: Enterprise Attack",
+    subtitle: "Nation-State Campaigns & Advanced CVEs",
+    description: "Advanced exploitation across Cisco's enterprise portfolio — ASA, NX-OS, SD-WAN, Expressway, and the ArcaneDoor and Velvet Ant nation-state campaigns.",
+    emoji: "🏢",
+    color: "indigo",
+    unlocked: true,
+  },
+  {
+    id: "cisco-secops",
+    name: "Cisco: Security Operations",
+    subtitle: "CyberOps, Threat Hunting & Zero-Day Defense",
+    description: "Cisco security platform operations and CyberOps Associate skills — Firepower, Umbrella, ISE, SecureX/XDR, SOC triage, threat hunting, and the IOS XE CVSS 10.0 zero-day.",
+    emoji: "🔒",
+    color: "violet",
     unlocked: true,
   },
   techAudit1Epoch,
@@ -2156,7 +2174,7 @@ mongod --bind_ip 127.0.0.1 --auth`,
 
   // ─── Medieval Stage 1: Hagia Sophia — CVE-2023-20198 IOS XE CVSS 10.0 ────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Hagia Sophia", location: "Constantinople (Istanbul), Turkey", era: "537 CE", emoji: "🕌" },
     id: "stage-m01",
     order: 1,
@@ -2315,7 +2333,7 @@ curl -u hacker:hacked123 https://target-iosxe/webui/
 
   // ─── Medieval Stage 2: Tower of London — CVE-2016-6366 EXTRABACON ─────────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Tower of London", location: "London, England", era: "1066 CE", emoji: "🗼" },
     id: "stage-m02",
     order: 2,
@@ -2475,7 +2493,7 @@ python extrabacon.py exploit -t target-asa \\
 
   // ─── Medieval Stage 3: Angkor Wat — CVE-2018-0171 Smart Install RCE ───────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Angkor Wat", location: "Siem Reap, Cambodia", era: "1113 CE" , emoji: "🛕" },
     id: "stage-m03",
     order: 3,
@@ -2641,7 +2659,7 @@ python siet.py -i 192.168.1.1 -e shell.bin
 
   // ─── Medieval Stage 4: Notre-Dame — CVE-2019-1653 RV320 Config Dump ───────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Notre-Dame Cathedral", location: "Paris, France", era: "1163 CE", emoji: "⛪" },
     id: "stage-m04",
     order: 4,
@@ -2785,7 +2803,7 @@ curl -k 'https://target-rv320/cgi-bin/export_debug_msg.exp' \\
 
   // ─── Medieval Stage 5: Great Wall — CVE-2020-3452 ASA Path Traversal ──────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Great Wall of China", location: "Northern China", era: "7th–15th century CE", emoji: "🧱" },
     id: "stage-m05",
     order: 5,
@@ -2934,7 +2952,7 @@ curl -k 'https://target-asa/+CSCOE+/files/../../+CSCOU+/../running-config'
 
   // ─── Medieval Stage 6: Alhambra — CVE-2022-20695 WLC Auth Bypass ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Alhambra Palace", location: "Granada, Spain", era: "1238 CE", emoji: "🏰" },
     id: "stage-m06",
     order: 6,
@@ -3082,7 +3100,7 @@ curl -X POST https://wlc-management/login \\
 
   // ─── Medieval Stage 7: Krak des Chevaliers — CVE-2021-1497 HyperFlex ──────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Krak des Chevaliers", location: "Homs, Syria", era: "1031 CE", emoji: "⚔️" },
     id: "stage-m07",
     order: 7,
@@ -3222,7 +3240,7 @@ curl -X POST https://hx-node/hxinstall/install \\
 
   // ─── Medieval Stage 8: Machu Picchu — CVE-2023-20273 IOS XE Root ─────────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Machu Picchu", location: "Cusco Region, Peru", era: "~1450 CE", emoji: "🏔️" },
     id: "stage-m08",
     order: 8,
@@ -3387,7 +3405,7 @@ curl https://target/webui/menu.json \\
 
   // ─── Medieval Stage 9: Chichen Itza — CVE-2019-1821 Prime Infrastructure ──
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Chichen Itza", location: "Yucatán, Mexico", era: "~900 CE", emoji: "🔺" },
     id: "stage-m09",
     order: 9,
@@ -3541,7 +3559,7 @@ curl -k "https://prime-infra/shell.jsp?cmd=id"
 
   // ─── Medieval Stage 10: Mont-Saint-Michel — CVE-2020-3580 ASA XSS ─────────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Mont-Saint-Michel", location: "Normandy, France", era: "8th century CE", emoji: "🌊" },
     id: "stage-m10",
     order: 10,
@@ -3708,7 +3726,7 @@ fetch('/api/v1/users', {method:'POST',
 
   // ─── Medieval Stage 11: Edinburgh Castle — CVE-2020-3187 WebVPN Delete ────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Edinburgh Castle", location: "Edinburgh, Scotland", era: "12th century CE", emoji: "🏴󠁧󠁢󠁳󠁣󠁴󠁿" },
     id: "stage-m11",
     order: 11,
@@ -3863,7 +3881,7 @@ curl -k -X DELETE \\
 
   // ─── Medieval Stage 12: Topkapi Palace — CVE-2017-6736 IOS DHCP ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     wonder: { name: "Topkapi Palace", location: "Istanbul, Turkey", era: "1460 CE", emoji: "👑" },
     id: "stage-m12",
     order: 12,

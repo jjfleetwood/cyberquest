@@ -12,7 +12,9 @@ import { useSkin } from "@/contexts/SkinContext";
 const EPOCH_COLOR: Record<string, string> = {
   "first-journey": "#10b981",
   ancient:         "#f59e0b",
-  medieval:        "#3b82f6",
+  "cisco-core":        "#3b82f6",
+  "cisco-enterprise":  "#6366f1",
+  "cisco-secops":      "#8b5cf6",
   "tech-audit-1":  "#a855f7",
   "tech-audit-2":  "#8b5cf6",
   "tech-audit-3":  "#6366f1",
@@ -65,7 +67,7 @@ const ZONES = [
   {
     label: "Defend the Enterprise",
     icon: "🏰",
-    epochIds: ["medieval", "umbrella"],
+    epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "umbrella"],
     gridArea: "defend",
   },
   {

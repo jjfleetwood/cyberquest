@@ -3,7 +3,7 @@ import type { StageConfig } from "./types";
 export const cisco3Stages: StageConfig[] = [
   // ─── Stage m26: CVE-2022-20828 — Cisco FTD CLI Command Injection ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "Cisco Systems HQ", location: "San Jose, California, USA", era: "2022 CE", emoji: "🏢" },
     id: "stage-m26",
     order: 26,
@@ -168,7 +168,7 @@ ftd-service:x:501:501:FTD Service:/home/ftd:/bin/bash
 
   // ─── Stage m27: CVE-2021-1224 — Cisco Firepower Snort Bypass — Quiz ────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "NSA Texas Cryptologic Center", location: "San Antonio, Texas, USA", era: "2021 CE", emoji: "🔬" },
     id: "stage-m27",
     order: 27,
@@ -322,7 +322,7 @@ ftd-service:x:501:501:FTD Service:/home/ftd:/bin/bash
 
   // ─── Stage m28: CVE-2022-20773 — Cisco Umbrella SAML Auth Bypass ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "INTERPOL Global Complex", location: "Singapore", era: "2022 CE", emoji: "🌏" },
     id: "stage-m28",
     order: 28,
@@ -498,7 +498,7 @@ ftd-service:x:501:501:FTD Service:/home/ftd:/bin/bash
 
   // ─── Stage m29: Cisco SecureX / XDR Platform Security — Quiz ─────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "GCHQ Doughnut", location: "Cheltenham, United Kingdom", era: "2023 CE", emoji: "🇬🇧" },
     id: "stage-m29",
     order: 29,
@@ -633,7 +633,7 @@ grant_type=client_credentials
 
   // ─── Stage m30: CVE-2019-1896 — Cisco IMC REST API Command Injection ───────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "Internet Archive", location: "San Francisco, California, USA", era: "2019 CE", emoji: "🏛️" },
     id: "stage-m30",
     order: 30,
@@ -807,7 +807,7 @@ curl -k -X POST https://10.0.0.5/api/v2/virtual-media/mount \\
 
   // ─── Stage m31: Cisco DevNet API Security — Quiz ──────────────────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "DEF CON / Caesar's Forum", location: "Las Vegas, Nevada, USA", era: "2023 CE", emoji: "🎰" },
     id: "stage-m31",
     order: 31,
@@ -959,7 +959,7 @@ curl -H "X-Auth-Token: $DNAC_TOKEN" \\
 
   // ─── Stage m32: CyberOps — SOC Analyst SIEM Triage — Quiz ────────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "IBM Security Operations Center", location: "Cambridge, Massachusetts, USA", era: "2024 CE", emoji: "🔍" },
     id: "stage-m32",
     order: 32,
@@ -1114,7 +1114,7 @@ index=windows EventCode=4624 Logon_Type=10
 
   // ─── Stage m33: CyberOps — Threat Hunting with IOC Analysis — Quiz ────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "Mandiant (Google Cloud) HQ", location: "Reston, Virginia, USA", era: "2024 CE", emoji: "🕵️" },
     id: "stage-m33",
     order: 33,

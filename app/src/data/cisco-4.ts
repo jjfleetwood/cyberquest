@@ -4,7 +4,7 @@ export const cisco4Stages: StageConfig[] = [
 
   // ─── Stage m34: CVE-2023-20198 — Cisco IOS XE HTTP Privilege Escalation ─────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "CISA Headquarters", location: "Arlington, Virginia, USA", era: "2023 CE", emoji: "🏛️" },
     id: "stage-m34",
     order: 34,
@@ -199,7 +199,7 @@ no ip http secure-server`,
 
   // ─── Stage m35: CVE-2023-20273 — IOS XE Web UI Command Injection (Chained) ──
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "NSA / National Security Operations Center", location: "Fort Meade, Maryland, USA", era: "2023 CE", emoji: "🔐" },
     id: "stage-m35",
     order: 35,
@@ -362,7 +362,7 @@ dir flash:*.lua
 
   // ─── Stage m36: ArcaneDoor — CVE-2024-20359 / CVE-2024-20353 (ASA) ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "Cyber Security Agency of Singapore", location: "Singapore", era: "2024 CE", emoji: "🛡️" },
     id: "stage-m36",
     order: 36,
@@ -541,7 +541,7 @@ show memory detail
 
   // ─── Stage m37: CVE-2018-0171 — Cisco Smart Install RCE (GRU Campaign) ───────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "National Counterintelligence and Security Center", location: "McLean, Virginia, USA", era: "2018 CE", emoji: "🔍" },
     id: "stage-m37",
     order: 37,
@@ -734,7 +734,7 @@ show vstack config | include Mode
 
   // ─── Stage m38: Cisco ISE — Identity Services Engine NAC Security — Quiz ─────
   {
-    epochId: "medieval",
+    epochId: "cisco-secops",
     wonder: { name: "Cisco Campus", location: "San Jose, California, USA", era: "2024 CE", emoji: "🔒" },
     id: "stage-m38",
     order: 38,

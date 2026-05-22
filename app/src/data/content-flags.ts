@@ -49,7 +49,7 @@ export const CONTENT_FLAGS: ContentFlag[] = [
     reviewedAt: "2026-05-20",
   },
   {
-    epochId: "medieval",
+    epochId: "cisco-core",
     risk: "fair-use",
     source: "Cisco CVE Database / NVD",
     license: "Public CVE data (NVD)",
@@ -57,8 +57,32 @@ export const CONTENT_FLAGS: ContentFlag[] = [
     attributionText:
       "CVE identifiers and vulnerability descriptions reference the National Vulnerability Database (NVD) and publicly disclosed Cisco advisories. CVE® is a registered trademark of The MITRE Corporation.",
     adminNote:
-      "cisco-2.ts references real CVE IDs (e.g. CVE-2023-20198). Educational use of public CVE data is fair use. NVD citation recommended.",
-    reviewedAt: "2026-05-20",
+      "cisco-core stages (m01-m12) reference real Cisco CVEs. Educational use of public CVE data is fair use. NVD citation recommended.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "cisco-enterprise",
+    risk: "fair-use",
+    source: "Cisco CVE Database / NVD / Cisco Talos",
+    license: "Public CVE data (NVD)",
+    attributionUrl: "https://nvd.nist.gov/",
+    attributionText:
+      "CVE identifiers and vulnerability descriptions reference the National Vulnerability Database (NVD) and publicly disclosed Cisco advisories. CVE® is a registered trademark of The MITRE Corporation.",
+    adminNote:
+      "cisco-enterprise stages (m13-m25) reference real Cisco CVEs including ArcaneDoor and Velvet Ant campaign data. Educational fair use.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "cisco-secops",
+    risk: "fair-use",
+    source: "Cisco CVE Database / NVD / Cisco Talos / CISA",
+    license: "Public CVE data (NVD)",
+    attributionUrl: "https://nvd.nist.gov/",
+    attributionText:
+      "CVE identifiers and vulnerability descriptions reference the National Vulnerability Database (NVD) and publicly disclosed Cisco advisories. CVE® is a registered trademark of The MITRE Corporation.",
+    adminNote:
+      "cisco-secops stages (m26-m38) reference Cisco security platform CVEs, CyberOps Associate curriculum topics, and public Talos/CISA threat reports. Educational fair use.",
+    reviewedAt: "2026-05-21",
   },
   {
     epochId: "first-journey",

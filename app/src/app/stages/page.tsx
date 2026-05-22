@@ -40,7 +40,7 @@ const epochGroups = [
   {
     label: "Defend the Enterprise",
     desc: "Real CVEs · DNS Security · Cloud SASE",
-    epochIds: ["medieval", "umbrella"],
+    epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "umbrella"],
   },
   {
     label: "Crafts",

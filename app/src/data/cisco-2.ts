@@ -3,7 +3,7 @@ import type { StageConfig } from "./types";
 export const cisco2Stages: StageConfig[] = [
   // ─── Stage m13: CVE-2016-1287 — Cisco ASA IKEv1/IKEv2 Heap Overflow ────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "NSA Headquarters", location: "Fort Meade, Maryland, USA", era: "2016 CE", emoji: "🔭" },
     id: "stage-m13",
     order: 13,
@@ -137,7 +137,7 @@ python3 cve-2016-1287.py --target 203.0.113.1 --port 500
 
   // ─── Stage m14: CVE-2017-3881 — Cisco IOS CMP Telnet RCE ───────────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "CIA Headquarters", location: "Langley, Virginia, USA", era: "2017 CE", emoji: "🏛️" },
     id: "stage-m14",
     order: 14,
@@ -277,7 +277,7 @@ python3 cve-2017-3881.py --target 10.0.0.1
 
   // ─── Stage m15: CVE-2020-3118 — Cisco IOS XR CDP Format String ──────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Cisco Systems HQ", location: "San Jose, California, USA", era: "2020 CE", emoji: "🌐" },
     id: "stage-m15",
     order: 15,
@@ -418,7 +418,7 @@ python3 cdpwn.py --interface eth0 --target aa:bb:cc:dd:ee:ff
 
   // ─── Stage m16: CVE-2021-1609 — Cisco RV Series Web UI RCE ─────────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Silicon Valley Tech Campus", location: "Sunnyvale, California, USA", era: "2021 CE", emoji: "🏢" },
     id: "stage-m16",
     order: 16,
@@ -555,7 +555,7 @@ curl -k https://192.168.1.1/api/v1/diag_ping_stop
 
   // ─── Stage m17: CVE-2020-3259 — Cisco ASA/FTD WebVPN Memory Leak ────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Akamai NOC", location: "Cambridge, Massachusetts, USA", era: "2024 CE", emoji: "☁️" },
     id: "stage-m17",
     order: 17,
@@ -694,7 +694,7 @@ curl -k 'https://vpn.target.com/+CSCOE+/' \\
 
   // ─── Stage m18: CVE-2019-1663 — Cisco RV110W/130W Stack Overflow RCE ────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Tokyo Telecom Exchange", location: "Tokyo, Japan", era: "2019 CE", emoji: "🗼" },
     id: "stage-m18",
     order: 18,
@@ -830,7 +830,7 @@ curl -k -X POST https://192.168.1.1/cgi-bin/userLogin.cgi \\
 
   // ─── Stage m19: CVE-2022-20812 — Cisco Expressway Path Traversal ────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "BT Tower", location: "London, United Kingdom", era: "2022 CE", emoji: "📡" },
     id: "stage-m19",
     order: 19,
@@ -970,7 +970,7 @@ curl -k -u apiuser:apipass -X PUT \\
 
   // ─── Stage m20: CVE-2024-20399 — Cisco NX-OS CLI Injection (Velvet Ant) ─────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "State-Sponsored APT Infrastructure", location: "Asia-Pacific Region", era: "2024 CE", emoji: "🐜" },
     id: "stage-m20",
     order: 20,
@@ -1111,7 +1111,7 @@ nexus# show version | head -1 ; \\
 
   // ─── Stage m21: CVE-2024-20353 — Cisco ASA/FTD DoS (ArcaneDoor) ─────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Communications Security Establishment", location: "Ottawa, Ontario, Canada", era: "2024 CE", emoji: "🍁" },
     id: "stage-m21",
     order: 21,
@@ -1253,7 +1253,7 @@ admin
 
   // ─── Stage m22: CVE-2024-20359 — Cisco ASA/FTD Persistent RCE (ArcaneDoor) ──
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "ANSSI HQ", location: "Paris, France", era: "2024 CE", emoji: "🗼" },
     id: "stage-m22",
     order: 22,
@@ -1396,7 +1396,7 @@ curl -k -X POST https://asa.target.gov/+CSCOE+/logon.html \\
 
   // ─── Stage m23: CVE-2021-1291 — Cisco SD-WAN vManage SQL Injection ──────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "Cisco SDWAN Lab", location: "Austin, Texas, USA", era: "2021 CE", emoji: "🌵" },
     id: "stage-m23",
     order: 23,
@@ -1535,7 +1535,7 @@ curl -k -b "JSESSIONID=authenticated_session" \\
 
   // ─── Stage m24: CVE-2023-20109 — Cisco IOS/IOS XE GDOI/G-IKEv2 RCE ─────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "NATO Cyber Defence Centre", location: "Tallinn, Estonia", era: "2023 CE", emoji: "🛡️" },
     id: "stage-m24",
     order: 24,
@@ -1679,7 +1679,7 @@ python3 cve-2023-20109.py \\
 
   // ─── Stage m25: CVE-2018-0296 — Cisco ASA Denial of Service ────────────────
   {
-    epochId: "medieval",
+    epochId: "cisco-enterprise",
     wonder: { name: "ASD Cyber Centre", location: "Sydney, Australia", era: "2018 CE", emoji: "🦘" },
     id: "stage-m25",
     order: 25,
