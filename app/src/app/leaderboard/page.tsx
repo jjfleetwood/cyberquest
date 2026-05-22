@@ -229,12 +229,12 @@ export default function LeaderboardPage() {
 
         {/* Table */}
         <div className="bg-white/3 border border-white/10 rounded-xl overflow-hidden">
-          <div className="grid grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-3 border-b border-white/10 text-xs text-gray-500 font-semibold uppercase tracking-wider">
+          <div className="grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-3 border-b border-white/10 text-xs text-gray-500 font-semibold uppercase tracking-wider">
             <div>#</div>
             <div>Player</div>
-            <div>Coins {period !== "alltime" ? `(${PERIOD_LABELS[period]})` : ""}</div>
-            <div className="text-center">Stages</div>
-            <div className="text-center">Badges</div>
+            <div>Coins {period !== "alltime" ? <span className="hidden sm:inline">({PERIOD_LABELS[period]})</span> : ""}</div>
+            <div className="text-center hidden sm:block">Stages</div>
+            <div className="text-center hidden sm:block">Badges</div>
             <div className="text-right hidden sm:block">Active</div>
           </div>
 
@@ -249,7 +249,7 @@ export default function LeaderboardPage() {
             rows.map((player) => (
               <div
                 key={player.username}
-                className={`grid grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-4 border-b border-white/5 last:border-0 items-center transition-colors ${
+                className={`grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-4 border-b border-white/5 last:border-0 items-center transition-colors ${
                   player.isCurrentPlayer
                     ? "bg-cyan-500/8 border-l-2 border-l-cyan-500"
                     : "hover:bg-white/3"
@@ -275,17 +275,20 @@ export default function LeaderboardPage() {
                       </div>
                     );
                   })()}
-                  <span className={`font-semibold truncate ${player.isCurrentPlayer ? "text-cyan-400" : "text-white"}`}>
-                    {player.username}
-                    {player.isCurrentPlayer && (
-                      <span className="ml-2 text-xs text-cyan-600 font-normal">(you)</span>
-                    )}
-                  </span>
+                  <div className="min-w-0">
+                    <span className={`font-semibold truncate block ${player.isCurrentPlayer ? "text-cyan-400" : "text-white"}`}>
+                      {player.username}
+                      {player.isCurrentPlayer && (
+                        <span className="ml-2 text-xs text-cyan-600 font-normal">(you)</span>
+                      )}
+                    </span>
+                    <span className="text-xs text-gray-600 sm:hidden">{player.stages} stages · {player.badges} badges</span>
+                  </div>
                 </div>
 
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-white/5 rounded-full h-1.5">
+                    <div className="flex-1 bg-white/5 rounded-full h-1.5 hidden sm:block">
                       <div
                         className={`h-1.5 rounded-full transition-all duration-700 ${
                           player.isCurrentPlayer ? "bg-cyan-400" : "bg-purple-500"
@@ -299,9 +302,9 @@ export default function LeaderboardPage() {
                   </div>
                 </div>
 
-                <div className="text-center text-sm text-gray-400">{player.stages}</div>
+                <div className="text-center text-sm text-gray-400 hidden sm:block">{player.stages}</div>
 
-                <div className="text-center text-sm">
+                <div className="text-center text-sm hidden sm:block">
                   {player.badges > 0 ? (
                     <span className="text-yellow-400 font-mono text-xs">🏅 {player.badges}</span>
                   ) : (
@@ -321,14 +324,22 @@ export default function LeaderboardPage() {
           )}
         </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-gray-600 text-sm mb-4">Complete more stages to climb the rankings.</p>
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/stages"
-            className="inline-block px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition-colors"
+            className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition-colors"
           >
             Continue Training →
           </Link>
+          {myName !== "Guest" && (
+            <a
+              href="/api/progress/certificate"
+              download
+              className="px-6 py-3 border border-white/15 hover:border-white/30 text-gray-400 hover:text-white font-semibold rounded-lg transition-colors text-sm"
+            >
+              ↓ Download Progress Report
+            </a>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 # Kryptós CronOS — To-Do & Roadmap
 
-**Last updated:** 2026-05-20 (v1.6.5)
+**Last updated:** 2026-05-21 (v1.8.0)
 
 ---
 
@@ -18,26 +18,27 @@
 
 ## Priority 2 — Curriculum Gaps
 
-The `medieval` epoch (Cisco) is the only epoch with documented content gaps.
+All documented Cisco curriculum gaps have been addressed in `cisco-advanced` epoch (v1.8.0).
 
-| # | Item | Effort | Notes |
-|---|---|---|---|
-| 6 | **Cisco Firepower / FTD stages** | 2–3 days | Next-gen firewall, IPS policy, FMC management. Should be 3–4 stages in `medieval`. |
-| 7 | **Cisco SecureX / XDR stages** | 1–2 days | Cisco's XDR platform, threat response orchestration. 2–3 stages. |
-| 8 | **Cisco DevNet stages** | 1–2 days | REST APIs for network automation, YANG/NETCONF, programmability. 2–3 stages. |
-| 9 | **CyberOps Associate stages** | 2 days | SOC analyst fundamentals aligned to Cisco CyberOps certification. 3–4 stages. |
+| # | Item | Effort | Status | Notes |
+|---|---|---|---|---|
+| 6 | **Cisco Firepower / FTD stages** | 2–3 days | ✅ Done | m39 (NGIPS fragmentation evasion CTF), m40 (FMC architecture quiz), m41 (CVE-2022-20927 SSL VPN DoS CTF) |
+| 7 | **Cisco SecureX / XDR stages** | 1–2 days | ✅ Done | m42 (XDR threat hunt CTF), m43 (XDR architecture quiz), m44 (DNA Center API CTF) |
+| 8 | **Cisco DevNet stages** | 1–2 days | ✅ Done | m45 (NETCONF/YANG/gRPC quiz), m46 (CyberOps kill chain CTF) |
+| 9 | **CyberOps Associate stages** | 2 days | ✅ Done | m47 (CBROPS 200-201 domains quiz), m46 (SOC kill chain CTF) |
+| — | **Cisco Silicon One & Quantum-Safe** | — | ✅ Done | m48 (Silicon One MACsec/gRPC telemetry CTF), m49 (P4 programmability quiz), m50 (IKEv2 hybrid PQC / ML-KEM-768 CTF) |
 
 ---
 
 ## Priority 3 — Product & UX
 
-| # | Item | Effort | Notes |
-|---|---|---|---|
-| 10 | **Stage count audit** | 1 hour | Homepage displays 234 stages; actual grep count is 233. Off by one — audit and correct. |
-| 11 | **Pro tier gating** | 3–5 days | Implement free vs. Pro ($19/mo) access tiers. Stripe integration, entitlement checks on stage access, upgrade prompt. |
-| 12 | **Hints monetization** | 2–3 days | ARIA hints 2–3 require Pro or 30-second sponsor ad (Candy Crush model). Hint counter + paywall modal already designed; needs implementation. |
-| 13 | **User progress export** | 4 hours | Allow users to download their progress / skills earned as a PDF credential summary. |
-| 14 | **Mobile responsiveness audit** | 1–2 days | CTF terminal and stage grid not fully tested on mobile. Touch drag on FeedbackWidget untested. |
+| # | Item | Effort | Status | Notes |
+|---|---|---|---|---|
+| 10 | **Stage count audit** | — | ✅ Done | Fixed 338 → 346 across homepage (hero, stats, CTA, pricing); per-track numbers updated; "Nine tracks" → "Ten tracks"; stages/page.tsx description updated. |
+| 11 | **Pro tier gating** | 3–5 days | Deferred | Requires Stripe. UI-only paywall deferred until billing readiness. |
+| 12 | **Hints monetization** | 2–3 days | Deferred | Tied to #11. |
+| 13 | **User progress export** | — | ✅ Done | `GET /api/progress/certificate` generates PDF via @react-pdf/renderer: username, coins, stages, badges, streak, per-epoch breakdown. "Download Progress Report" button on Leaderboard page (logged-in users only). |
+| 14 | **Mobile responsiveness audit** | — | ✅ Done | Leaderboard table: responsive grid (3-col mobile, 6-col sm+), secondary stats shown inline on mobile; FeedbackWidget: added `touch-action: none` on drag handle; CTF terminal: confirmed 100dvh, scrollIntoView on focus, sm: breakpoints. Stage map: confirmed 1→2→3 col grid. |
 
 ---
 
@@ -45,10 +46,10 @@ The `medieval` epoch (Cisco) is the only epoch with documented content gaps.
 
 | # | Item | Notes |
 |---|---|---|
-| 15 | **Investor outreach — Tier 1** | ForgePoint Capital, SYN Ventures, ClearSky Security, Owl Ventures, Reach Capital, Cisco Investments. See `PITCH_TARGETS.md`. |
+| 15 | **Investor outreach — Tier 1** | ForgePoint Capital, SYN Ventures, ClearSky Security, Owl Ventures, Reach Capital, Cisco Investments. See `PITCH_TARGETS.md` (updated: 358 stages, 32 epochs, 10 tracks). |
 | 16 | **Sponsor integration conversations** | CrowdStrike, AWS, SentinelOne, CompTIA, ISC². Contextual ad/sponsorship model aligned to stage topic. |
-| 17 | **B2B enterprise motion** | $8/seat/mo targeting internal audit teams, SOC training programs, university cybersecurity programs. CAE advisory doc (`PITCH_CAE_CONTINUOUS_MONITORING.md`) is the lead asset. |
-| 18 | **kryptoscronos.com marketing site** | Separate from the app. Needs landing page copy refresh to reflect 18 epochs, 234 stages, 7 tracks. |
+| 17 | **B2B enterprise motion** | $8/seat/mo targeting internal audit teams, SOC training programs, university cybersecurity programs. CAE advisory doc (`PITCH_CAE_CONTINUOUS_MONITORING.md`) is the lead asset. `BUSINESS_PROPOSAL_PRO.md` and `BUSINESS_PROPOSAL_CASUAL.md` updated to v1.8.0 stats. |
+| 18 | **kryptoscronos.com marketing site** | Separate from the app. Needs landing page copy refresh to reflect 32 epochs, 358 stages, 10 tracks. App `src/app/page.tsx` already updated. |
 
 ---
 
@@ -57,13 +58,30 @@ The `medieval` epoch (Cisco) is the only epoch with documented content gaps.
 | # | Item | Notes |
 |---|---|---|
 | 19 | ~~**`sync-user` route**~~ | ✅ Audited — route deleted, no client code references it. Stale `.next` cache was the only source of the phantom type error. |
-| 20 | **`unsafe-inline` CSP** | Blocked on framework. Required by Next.js 16 hydration; move to nonce-based CSP once App Router nonce support matures. Accepted as deferred. |
+| 20 | ~~**`unsafe-inline` CSP**~~ | ✅ Fixed — `src/middleware.ts` generates per-request nonce, sets dynamic `Content-Security-Policy` header with `nonce-{nonce}` in script-src. `next.config.ts` no longer sets static CSP. `layout.tsx` made async; reads `x-nonce` from request headers and applies to anti-FOUC script tag. |
 | 21 | ~~**`any` cast in DocsViewer**~~ | ✅ Fixed — made `children` optional in all component prop types to match react-markdown's `Components` type. `as any` removed; tsc clean. |
 
 ---
 
 ## Completed (Recent)
 
+- ✅ v1.8.0 — `cisco-advanced` epoch (32nd epoch): 12 stages (m39–m50) covering Firepower NGIPS/FTD, Cisco XDR, DNA Center API, NETCONF/YANG/gRPC, CyberOps Associate, Silicon One P4/MACsec, and IKEv2 hybrid PQC (ML-KEM-768/RFC 9370). Wired into stages.ts, epoch-theme.ts, stage map, CLAUDE.md. Stage count 346 → 358.
+- ✅ v1.7.5 — Nonce-based CSP: `src/middleware.ts` generates per-request nonce; `next.config.ts` static CSP removed; `layout.tsx` async with `nonce=` on anti-FOUC script
+- ✅ v1.7.5 — Priority 4 docs: `PITCH_TARGETS.md` updated (346 stages, 10 tracks); `PARTNERS.md` v3.1 (Resend email types, @react-pdf/renderer, CSP note corrections); `BUSINESS_PROPOSAL_PRO.md` + `BUSINESS_PROPOSAL_CASUAL.md` updated to v1.7.4 stats (346 stages, 31 epochs, 10 tracks, new live features)
+- ✅ v1.7.3 — `/attribution` page: full legal notices for all third-party IP (MITRE, OWASP, ISACA/COBIT, CIS, ITIL, PCI DSS, Anthropic/MCP, HashiCorp Vault, STIX/TAXII, NIST, CVE/NVD)
+- ✅ v1.7.4 — Stage completion emails: fire-and-forget on every new capture; XP, badge, streak, next-stage link (via Resend in `server-progress.ts`)
+- ✅ v1.7.4 — `GET /api/progress/certificate`: server-rendered PDF via @react-pdf/renderer; "Download Progress Report" button on leaderboard
+- ✅ v1.7.4 — Mobile audit: leaderboard responsive grid, FeedbackWidget touch-action, stage count corrected (346), "Ten tracks" everywhere
+- ✅ v1.7.3 — `content-flags.ts`: per-epoch IP risk registry (risk level, license, attribution text) for 20+ epochs
+- ✅ v1.7.2 — `adminOnly` shop items: server-side filter + purchase block; Medallion of Amazement hidden from regular users
+- ✅ v1.7.2 — Nav cleanup: Avatar/Trophies/Shop as icon-only (👤 🏆 🛒) on desktop with title tooltips; full labels in mobile drawer
+- ✅ v1.7.2 — `/avatar` page: equip/unequip owned items; added as nav link for logged-in users
+- ✅ v1.7.2 — Shop restructured: single scrollable page (avatar items → divider → Today's Showcase); no tab UI
+- ✅ v1.7.2 — `/trophies` is now collection vault only (user sees owned trophies; admin sees full library); trophy purchases moved to Shop
+- ✅ v1.7.2 — Trophy system: 51 trophies, 8 tiers, daily rotating showcase of 10/user; atomic Redis supply reservation
+- ✅ v1.7.1 — `GET /api/progress` fixed: was requiring `?username=` query param (never passed); now reads from session cookie
+- ✅ v1.7.1 — CTF localStorage state scoped by username (`ctf-state:{username}:{stageId}`); old unscoped keys swept on page load
+- ✅ v1.7.0 — Sports track renamed to Baseball across stage map and homepage
 - ✅ v1.6.3 — CAE continuous monitoring advisory doc in admin viewer
 - ✅ v1.6.2 — Draggable feedback widget with localStorage persistence
 - ✅ v1.6.1 — Docs consolidation: `docs/` single source of truth, auto-sync to `secured-docs/`

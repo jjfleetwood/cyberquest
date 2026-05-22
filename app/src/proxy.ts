@@ -25,13 +25,35 @@ function verifyAdminToken(token: string): boolean {
 }
 
 export function proxy(req: NextRequest) {
-  const token = req.cookies.get("admin_token")?.value;
-  if (!token || !verifyAdminToken(token)) {
-    return NextResponse.redirect(new URL("/stages", req.url));
+  // Admin route protection
+  if (req.nextUrl.pathname.startsWith("/admin")) {
+    const token = req.cookies.get("admin_token")?.value;
+    if (!token || !verifyAdminToken(token)) {
+      return NextResponse.redirect(new URL("/stages", req.url));
+    }
   }
-  return NextResponse.next();
+
+  // Per-request nonce for script-src CSP
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
+
+  const csp = [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}'`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: https:",
+    "font-src 'self'",
+    "connect-src 'self' https://api.resend.com",
+    "frame-ancestors 'none'",
+  ].join("; ");
+
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set("x-nonce", nonce);
+
+  const res = NextResponse.next({ request: { headers: requestHeaders } });
+  res.headers.set("Content-Security-Policy", csp);
+  return res;
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon\\.ico).*)"],
 };

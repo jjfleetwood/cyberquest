@@ -99,7 +99,7 @@ export async function POST(req: NextRequest) {
               ${safeUsername}
             </h1>
             <p style="margin:0 0 24px;font-size:14px;color:rgba(156,163,175,0.9);line-height:1.7;">
-              Your account is live. You now have access to 334 hands-on CTF stages covering
+              Your account is live. You now have access to 346 hands-on CTF stages covering
               real-world exploits — from SQL injection and Log4Shell to nation-state DNS ops,
               ArcaneDoor, and post-quantum cryptography.
             </p>
@@ -135,11 +135,11 @@ export async function POST(req: NextRequest) {
             <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;overflow:hidden;">
               <tr>
                 <td align="center" style="padding:16px 8px;border-right:1px solid rgba(255,255,255,0.06);">
-                  <div style="font-size:22px;font-weight:900;color:#22d3ee;">338</div>
+                  <div style="font-size:22px;font-weight:900;color:#22d3ee;">346</div>
                   <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Stages</div>
                 </td>
                 <td align="center" style="padding:16px 8px;border-right:1px solid rgba(255,255,255,0.06);">
-                  <div style="font-size:22px;font-weight:900;color:#a78bfa;">9</div>
+                  <div style="font-size:22px;font-weight:900;color:#a78bfa;">10</div>
                   <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Tracks</div>
                 </td>
                 <td align="center" style="padding:16px 8px;">

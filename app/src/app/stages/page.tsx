@@ -39,8 +39,8 @@ const epochGroups = [
   },
   {
     label: "Defend the Enterprise",
-    desc: "Real CVEs · DNS Security · Cloud SASE",
-    epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "umbrella"],
+    desc: "Real CVEs · DNS Security · Cloud SASE · Advanced Defense",
+    epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "cisco-advanced", "umbrella"],
   },
   {
     label: "Crafts",
@@ -119,7 +119,7 @@ export default function StagesPage() {
             </Link>
           </div>
           <h1 className="text-4xl font-bold text-white mb-2">Training Stage Map</h1>
-          <p className="text-gray-400">Seven tracks covering the full spectrum — from core CVEs to AI security, quantum cryptography, and professional crafts.</p>
+          <p className="text-gray-400">Ten tracks covering the full spectrum — from core CVEs to AI security, quantum cryptography, baseball, and professional crafts.</p>
 
           {/* XP bar + streak */}
           <div className="mt-6 flex items-center gap-3 flex-wrap">

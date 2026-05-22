@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import AgePrompt from "@/components/AgePrompt";
 import Nav from "@/components/Nav";
@@ -45,11 +46,12 @@ const antiFoucScript = `
 })();
 `;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const nonce = (await headers()).get("x-nonce") ?? "";
   return (
     <html
       lang="en"
@@ -57,7 +59,7 @@ export default function RootLayout({
     >
       {/* eslint-disable-next-line @next/next/no-sync-scripts */}
       <head>
-        <script dangerouslySetInnerHTML={{ __html: antiFoucScript }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: antiFoucScript }} />
       </head>
       <body className="min-h-full flex flex-col">
         <SkinProvider>

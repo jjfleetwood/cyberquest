@@ -2,43 +2,43 @@ import Link from "next/link";
 
 const tracks = [
   {
-    id: "core", label: "Core Security", stages: "54+", icon: "🏛️",
+    id: "core", label: "Core Security", stages: "42", icon: "🏛️",
     border: "border-amber-500/25", textColor: "text-amber-400", glow: "rgba(251,191,36,0.08)",
     topics: ["SQL Injection", "XSS", "Heartbleed", "Log4Shell", "WannaCry", "SSRF"],
     desc: "Ancient exploits to modern CVEs — the canon every defender must know.",
   },
   {
-    id: "audit", label: "Tech Audit", stages: "30+", icon: "📋",
+    id: "audit", label: "Tech Audit", stages: "48", icon: "📋",
     border: "border-blue-500/25", textColor: "text-blue-400", glow: "rgba(59,130,246,0.08)",
     topics: ["IT Governance", "Cloud Security", "AI Agents", "Compliance", "Risk Frameworks"],
     desc: "Enterprise IT governance, cloud configuration, and AI agent risk management.",
   },
   {
-    id: "mitre", label: "Threat Frameworks", stages: "20+", icon: "🎯",
+    id: "mitre", label: "Threat Frameworks", stages: "24", icon: "🎯",
     border: "border-red-500/25", textColor: "text-red-400", glow: "rgba(239,68,68,0.08)",
     topics: ["MITRE ATT&CK", "MITRE ATLAS", "APT Tactics", "Kill Chain", "AI Threat Modeling"],
     desc: "Map real-world APT campaigns using MITRE ATT&CK and ATLAS AI threat framework.",
   },
   {
-    id: "ai", label: "AI Security", stages: "10", icon: "🤖",
+    id: "ai", label: "AI Security", stages: "12", icon: "🤖",
     border: "border-purple-500/25", textColor: "text-purple-400", glow: "rgba(168,85,247,0.08)",
     topics: ["Prompt Injection", "Model Poisoning", "Data Leakage", "Jailbreaking", "RAG Attacks"],
     desc: "OWASP LLM Top 10 — attack and defend the language models powering modern software.",
   },
   {
-    id: "quantum", label: "Quantum Era", stages: "15", icon: "⚛️",
+    id: "quantum", label: "Quantum Era", stages: "30", icon: "⚛️",
     border: "border-cyan-500/25", textColor: "text-cyan-400", glow: "rgba(34,211,238,0.08)",
     topics: ["Harvest Now Decrypt Later", "ML-KEM / ML-DSA", "QKD", "PQC Migration", "Cisco Silicon One"],
     desc: "Nation-states are harvesting encrypted traffic today. Understand the post-quantum transition.",
   },
   {
-    id: "cisco", label: "Defend the Enterprise", stages: "22", icon: "🌐",
+    id: "cisco", label: "Defend the Enterprise", stages: "48", icon: "🌐",
     border: "border-indigo-500/25", textColor: "text-indigo-400", glow: "rgba(99,102,241,0.08)",
     topics: ["DNS Tunneling", "DGA Detection", "Fast Flux", "Cisco Umbrella", "VOLT TYPHOON"],
     desc: "Enterprise-grade DNS-layer defense, real Cisco CVEs, and nation-state scenarios.",
   },
   {
-    id: "crafts", label: "Crafts", stages: "40", icon: "✂️",
+    id: "crafts", label: "Crafts", stages: "30", icon: "✂️",
     border: "border-pink-500/25", textColor: "text-pink-400", glow: "rgba(236,72,153,0.08)",
     topics: ["Nail Prep", "Dry Manicure", "Hair Coloring", "Bleaching & Toning", "Braiding", "Client Consultation"],
     desc: "Professional nail arts, hair coloring science, and styling techniques — from first client to running your own studio.",
@@ -234,7 +234,7 @@ export default function Home() {
               style={{ background: "rgba(34,211,238,0.06)" }}>
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-cyan-300 font-mono font-medium tracking-wide">
-                338 Stages · AI · Post-Quantum · Nation-State CTF
+                346 Stages · AI · Post-Quantum · Nation-State CTF
               </span>
             </div>
 
@@ -255,7 +255,7 @@ export default function Home() {
               style={{ color: "rgba(156,163,175,0.85)" }}>
               The threats have changed — train on the same exploits behind Equifax, the NHS breach,
               and VOLT TYPHOON&apos;s ERCOT grid campaign, then step into AI prompt injection and
-              post-quantum cryptography. Nine tracks. All in your browser.
+              post-quantum cryptography. Ten tracks. All in your browser.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -279,7 +279,7 @@ export default function Home() {
                   backdropFilter: "blur(8px)",
                 }}
               >
-                View 338 Stages
+                View 346 Stages
               </Link>
             </div>
           </div>
@@ -309,7 +309,7 @@ export default function Home() {
           style={{ background: "rgba(255,255,255,0.015)" }}>
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "338", label: "Training Stages",      color: "#22d3ee" },
+              { value: "346", label: "Training Stages",      color: "#22d3ee" },
               { value: "9",   label: "Curriculum Tracks",    color: "#a78bfa" },
               { value: "25+", label: "Real CVEs",            color: "#f97316" },
               { value: "3.5M",label: "Unfilled Cyber Jobs",  color: "#4ade80" },
@@ -335,7 +335,7 @@ export default function Home() {
             </p>
             <div className="grid md:grid-cols-3 gap-5">
               {[
-                { n: "01", icon: "🗺️", title: "Pick a track", desc: "Nine curriculum paths — core CVEs, threat frameworks, AI security, quantum, enterprise defense, crafts, driving, and more. Start anywhere." },
+                { n: "01", icon: "🗺️", title: "Pick a track", desc: "Ten curriculum paths — core CVEs, threat frameworks, AI security, quantum, enterprise defense, crafts, driving, baseball, and more. Start anywhere." },
                 { n: "02", icon: "💻", title: "Hack the terminal", desc: "A simulated vulnerable environment in your browser. Real commands, real exploit mechanics — no videos, no multiple choice." },
                 { n: "03", icon: "🏁", title: "Capture the flag", desc: "Find the hidden flag, submit it, earn XP. ARIA AI hints keep you moving without giving the answer away." },
               ].map((s) => (
@@ -451,7 +451,7 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(34,211,238,0.6)" }}>
-                  Nine curriculum tracks
+                  Ten curriculum tracks
                 </p>
                 <h2 className="text-4xl font-black text-white mb-2">A complete security education</h2>
                 <p style={{ color: "rgba(107,114,128,1)" }}>From SQL injection to post-quantum cryptography. Every track is hands-on CTF.</p>
@@ -709,8 +709,8 @@ export default function Home() {
                   name: "Pro",
                   price: "$19",
                   per: "/ month",
-                  desc: "All nine curriculum tracks. Full CTF access, certificates, and priority ARIA responses.",
-                  features: ["338 stages across 9 tracks", "Completion certificates", "Priority ARIA hints", "All milestone badges"],
+                  desc: "All ten curriculum tracks. Full CTF access, certificates, and priority ARIA responses.",
+                  features: ["346 stages across 10 tracks", "Completion certificates", "Priority ARIA hints", "All milestone badges"],
                   cta: "Get Pro — $19/mo",
                   href: "/login",
                   accent: "rgba(168,85,247,1)",
@@ -809,7 +809,7 @@ export default function Home() {
                   The future of defense starts here
                 </p>
                 <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-                  Nine tracks. 338 stages.<br />
+                  Ten tracks. 346 stages.<br />
                   <span className="hero-glow">All in your browser.</span>
                 </h2>
                 <p className="mb-8" style={{ color: "rgba(107,114,128,1)" }}>

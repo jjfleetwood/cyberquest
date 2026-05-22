@@ -15,6 +15,7 @@ import { quantum3Epoch, quantum3Stages } from "./quantum-3";
 import { cisco2Stages } from "./cisco-2";
 import { cisco3Stages } from "./cisco-3";
 import { cisco4Stages } from "./cisco-4";
+import { cisco5Stages } from "./cisco-5";
 import { umbrellaEpoch, umbrellaStages } from "./umbrella";
 import { tapestryEpoch, tapestryStages } from "./tapestry";
 import { nailsEpoch, nailsStages } from "./nails";
@@ -72,6 +73,15 @@ export const epochs: EpochConfig[] = [
     description: "Cisco security platform operations and CyberOps Associate skills — Firepower, Umbrella, ISE, SecureX/XDR, SOC triage, threat hunting, and the IOS XE CVSS 10.0 zero-day.",
     emoji: "🔒",
     color: "violet",
+    unlocked: true,
+  },
+  {
+    id: "cisco-advanced",
+    name: "Cisco: Advanced Defense",
+    subtitle: "Firepower, XDR, DevNet, Silicon One & Quantum-Safe",
+    description: "Next-generation Cisco security — Firepower NGIPS/FTD evasion and CVEs, Cisco XDR threat hunting, DevNet API and NETCONF/YANG security, Silicon One P4 pipeline integrity, and post-quantum IKEv2 with ML-KEM-768.",
+    emoji: "⚡",
+    color: "cyan",
     unlocked: true,
   },
   techAudit1Epoch,
@@ -132,6 +142,7 @@ export const stages: StageConfig[] = [
   ...baseball5Stages,
   ...baseball6Stages,
   ...baseball7Stages,
+  ...cisco5Stages,
 
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────

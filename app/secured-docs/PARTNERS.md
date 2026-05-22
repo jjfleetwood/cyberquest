@@ -1,6 +1,6 @@
 # Kryptós CronOS — Partners & Supporting Infrastructure
-**Version:** 3.0  
-**Date:** 2026-05-18
+**Version:** 3.1  
+**Date:** 2026-05-21
 
 ---
 
@@ -56,14 +56,16 @@ Upstash provides a globally distributed, REST-accessible Redis instance. It is t
 **URL:** resend.com  
 **Dashboard:** resend.com/dashboard
 
-Resend handles all outbound emails: admin alerts when new users register, and password reset links. It is called from serverless API routes with rate limiting to prevent abuse.
+Resend handles all outbound transactional emails. Called fire-and-forget from serverless routes with rate limiting to prevent abuse.
 
 **What it handles:**
-- Admin notification when a new user registers (`/api/notify-registration`)
+- Welcome email on registration (`/api/auth/register`) — 346-stage overview, terminal preview, CTA
+- Stage completion email on every new flag capture (`server-progress.ts` → `awardStageInRedis`) — stage name, epoch, XP earned, streak, badge unlocked, next-stage CTA
 - Password reset emails with time-limited token links (`/api/forgot-password`)
+- Admin notification when a new user registers (`/api/notify-registration`)
 
 **Integration:** HTTP API calls to `https://api.resend.com` using `RESEND_API_KEY`  
-**CSP note:** `connect-src` in `next.config.ts` explicitly allows `https://api.resend.com`  
+**CSP note:** `connect-src` in `src/middleware.ts` explicitly allows `https://api.resend.com` (server-side only; Anthropic API calls are also server-side and do not require CSP `connect-src` entries)  
 **Limits (Free):** 3,000 emails/month, 100 emails/day  
 **Upgrade trigger:** Pro ($20/month) when email volume grows or custom domain required for deliverability
 
@@ -100,7 +102,7 @@ Anthropic's Claude Haiku model powers ARIA, the in-platform AI hint assistant. A
 - 10-message session cap per stage; 30-second cooldown between messages
 
 **Integration:** Anthropic SDK with `ANTHROPIC_API_KEY`; model: `claude-haiku-*`  
-**CSP note:** `connect-src` in `next.config.ts` explicitly allows `https://api.anthropic.com`  
+**CSP note:** All Anthropic calls are server-side only (`/api/hint` route); browser never contacts Anthropic directly, so no CSP `connect-src` entry required  
 **Cost:** Pay-per-token; kept low by rate limiting and the Haiku model tier
 
 ---
@@ -175,6 +177,7 @@ Cisco is the deepest planned sponsor integration — anchored by the existing Ci
 | react-markdown | MIT | 10.x | Admin docs viewer |
 | remark-gfm | MIT | 4.x | GitHub-flavored markdown in docs viewer |
 | @upstash/redis | MIT | 1.38.x | Redis client |
+| @react-pdf/renderer | MIT | 4.x | Server-side PDF generation (`/api/progress/certificate`) |
 
 ---
 

@@ -45,20 +45,24 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **ARIA AI Tutor** — A live, stage-aware AI assistant (powered by Claude Haiku) that uses Socratic coaching: it answers questions and guides thinking without giving away the flag. Available throughout every challenge.
 
-### Curriculum — 186 Stages across 14 Epochs and 6 Tracks (v1.5.0)
+### Curriculum — 358 Stages across 32 Epochs and 10 Tracks (v1.8.0)
 
-The platform ships with 186 fully built stages organized into 14 curriculum epochs and 6 learning tracks:
+The platform ships with 358 fully built stages organized into 32 curriculum epochs and 10 learning tracks:
 
-| Track | Epochs | Stages | Focus |
-|---|---|---|---|
-| Core Security | Our First Journey, Foundations | 42 | Historical attacks, foundational vulnerability classes |
-| Tech Audit | Foundations, Technical, Agentic CM, Continuous Monitoring 2.0 | 48 | IT governance, cloud security, AI agents, SOC operations |
-| Threat Frameworks | MITRE ATT&CK, MITRE ATLAS | 24 | Nation-state TTPs, AI/ML adversarial attacks |
-| AI Security | OWASP LLM Top 10 | 12 | LLM-specific vulnerabilities and defenses |
-| Quantum Era | Quantum Threats, PQC, QKD | 36 | Post-quantum cryptography and quantum infrastructure |
-| Defend the Enterprise | Cisco CVEs, Umbrella/DNS | 24 | Real enterprise network defense scenarios |
+| Track | Stages | Focus |
+|---|---|---|
+| Core Security | 42 | Historical attacks, foundational vulnerability classes |
+| Tech Audit | 48 | IT governance, cloud security, AI agents, SOC operations, continuous monitoring |
+| Threat Frameworks | 24 | Nation-state TTPs (MITRE ATT&CK), AI/ML adversarial attacks (MITRE ATLAS) |
+| AI Security | 12 | OWASP LLM Top 10 — LLM-specific vulnerabilities and defenses |
+| Quantum Era | 30 | Post-quantum cryptography, QKD, quantum threat landscape |
+| Cisco / Network Defense | 48 | Real Cisco CVEs, Umbrella DNS security, enterprise network defense |
+| Crafts | 30 | Creative and operational security contexts |
+| Driving | 24 | Automotive and transportation cybersecurity |
+| Baseball | 70 | Sports analytics security and data integrity |
+| First Journey | — | Onboarding track (included in Core Security stage count above) |
 
-**Selected curriculum depth — Tech Audit: Continuous Monitoring 2.0 (12 stages, v1.5.0):**
+**Selected curriculum depth — Tech Audit: Continuous Monitoring 2.0 (12 stages):**
 
 | Stage | Topic | Real Incident Anchor |
 |---|---|---|
@@ -75,16 +79,21 @@ The platform ships with 186 fully built stages organized into 14 curriculum epoc
 | audit-cm11 | Continuous Compliance | FTC Drizly CEO liability order |
 | audit-cm12 | SOC Maturity — MTTD/MTTR | MGM Resorts $100M+ ransomware event |
 
-### Live Features (Shipped — v1.5.0)
+### Live Features (Shipped — v1.8.0)
 
 - **ARIA AI Tutor** — Claude Haiku, Socratic coaching, stage-aware context, 10-message session cap, rate-limited
 - **Daily Streaks** — Redis-backed streak tracking with streak-based milestone badges
 - **Milestone Badges** — XP and streak milestones (`m-xp-1k`, `m-xp-5k`, `m-streak-3`, `m-streak-7`)
-- **Real-time Leaderboard** — XP rankings via Upstash Redis sorted sets
-- **Admin Dashboard** — User management, NDA signatories panel, DocuSign integration, streak monitoring
+- **Real-time Leaderboard** — Global, daily, and weekly XP rankings via Upstash Redis sorted sets
+- **Trophy System** — 51 trophies across 8 tiers; daily rotating showcase; atomic Redis supply reservation
+- **Avatar Shop** — Cosmetic avatar items and trophy purchases; admin-only items server-gated
+- **Stage Completion Emails** — Fire-and-forget transactional email on every new flag capture: XP, badge, streak, next-stage CTA
+- **Progress Export** — PDF certificate via `@react-pdf/renderer`: coins, stages, badges, streak, per-epoch breakdown
+- **Admin Dashboard** — User management, NDA signatories panel, DocuSign integration, streak monitoring, CMS stage editor
 - **DocuSign NDA Integration** — Admin can send legally-binding NDA envelopes from the dashboard; signer status tracked via webhook
 - **CI Pipeline** — GitHub Actions: lint + tsc + build + security audit on every push
 - **Server-side Auth** — PBKDF2-SHA-256, HMAC-signed HttpOnly cookies, no localStorage credentials
+- **Nonce-based CSP** — Per-request nonce in middleware eliminates `unsafe-inline` from script-src
 
 ### Progression & Gamification
 
@@ -168,19 +177,19 @@ Cisco is the deepest planned sponsor relationship, anchored by an existing 12-st
 | KnowBe4 | Phishing simulation only | No technical depth |
 | **Kryptós CronOS** | **Gamified + AI + CTF + curriculum** | **Early stage** |
 
-Our differentiation: the only platform combining structured multi-track curriculum (186 stages), real-exploit CTF challenges, a live AI Socratic tutor, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
+Our differentiation: the only platform combining structured multi-track curriculum (358 stages), real-exploit CTF challenges, a live AI Socratic tutor, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
 
 ---
 
 ## Traction & Validation
 
-- **Product:** Fully functional platform — 186 stages across 14 epochs and 6 curriculum tracks
+- **Product:** Fully functional platform — 358 stages across 32 epochs and 10 curriculum tracks
 - **AI tutor:** ARIA live in production — Claude Haiku, Socratic coaching, stage-aware
 - **Gamification:** Streaks, milestone badges, and real-time leaderboard all live
 - **Admin infrastructure:** NDA management with DocuSign e-signature integration
-- **Security posture:** Server-side auth, HMAC cookies, CSP headers, rate limiting, CI security audit
+- **Security posture:** Server-side auth, HMAC cookies, nonce-based CSP (no unsafe-inline in script-src), rate limiting, CI security audit
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptoscronos.com (version v1.5.0)
+- **Deployment:** Live at kryptoscronos.com (version v1.8.0)
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---
@@ -191,7 +200,7 @@ Our differentiation: the only platform combining structured multi-track curricul
 |---|---|---|
 | **Vercel** | Hosting, CDN, serverless functions | Active — Hobby plan |
 | **Upstash** | Serverless Redis — users, progress, leaderboard, streaks, NDAs | Active — Free tier |
-| **Resend** | Transactional email — registration alerts, password reset | Active — Free tier |
+| **Resend** | Transactional email — welcome, stage completion, password reset | Active — Free tier |
 | **Anthropic** | Claude Haiku — ARIA AI tutor | Active — Pay-per-token |
 | **DocuSign** | eSignature API — NDA envelope sending and tracking | Active — Developer tier |
 | **GitHub** | Source control + CI pipeline trigger | Active — Free |

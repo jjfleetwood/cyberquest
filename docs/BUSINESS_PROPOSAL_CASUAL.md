@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-18 (v1.5.0)**
+**Last updated: 2026-05-21 (v1.8.0)**
 
 ---
 
@@ -28,16 +28,20 @@ It's a game. It's also real security training. And that combination is genuinely
 
 ---
 
-## What exists today (v1.5.0 — live at kryptoscronos.com)
+## What exists today (v1.8.0 — live at kryptoscronos.com)
 
 This isn't a pitch deck with a mockup. It's a working product:
 
-- **186 fully built stages** across 14 curriculum epochs and 6 learning tracks
+- **358 fully built stages** across 32 curriculum epochs and 10 learning tracks
 - **ARIA AI tutor** — live in production, powered by Claude Haiku, uses Socratic coaching (guides thinking, doesn't give away answers)
 - **Daily streaks and milestone badges** — engagement loop that works
-- **Real-time leaderboard** — competitive XP ranking
-- **Admin dashboard** — user management, NDA signatories, DocuSign e-signature integration
-- **Auth system** — server-side PBKDF2 hashing, HMAC-signed HttpOnly cookies, rate limiting
+- **Real-time leaderboard** — global, daily, and weekly XP rankings
+- **Trophy system** — 51 trophies, 8 rarity tiers, daily rotating showcase with atomic supply reservation
+- **Avatar shop** — cosmetic items and trophies purchasable with earned coins
+- **Stage completion emails** — fire-and-forget transactional email on every flag capture with XP, badge, streak, and next-stage link
+- **Progress export** — downloadable PDF certificate: coins, stages, badges, streak, per-epoch breakdown
+- **Admin dashboard** — user management, NDA signatories, DocuSign e-signature integration, CMS stage editor
+- **Auth system** — server-side PBKDF2 hashing, HMAC-signed HttpOnly cookies, nonce-based CSP, rate limiting
 - **CI pipeline** — automated lint + type check + build + security audit on every commit
 - **Deployed and running:** kryptoscronos.com
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
@@ -46,7 +50,7 @@ Built by one founder with an AI development environment. The AI tutor is not a r
 
 ---
 
-## The 6 curriculum tracks we have today
+## The 10 curriculum tracks we have today
 
 ### Track 1: Core Security (42 stages)
 The entry point. Our First Journey (30 beginner-friendly CTF stages) + Foundations (12 stages on landmark attacks):
@@ -72,14 +76,26 @@ The enterprise compliance and SOC operations track. Four epochs:
 ### Track 4: AI Security (12 stages)
 - **OWASP LLM Top 10 2025** — Prompt injection, training data poisoning, model theft, insecure output handling
 
-### Track 5: Quantum Era (36 stages)
+### Track 5: Quantum Era (30 stages)
 - Quantum threats to current cryptography
 - Post-quantum cryptography (NIST PQC standards)
 - Quantum key distribution infrastructure
 
-### Track 6: Defend the Enterprise (24 stages)
-- **Cisco CVEs** — 12 stages on real documented Cisco vulnerabilities (IOS XE, ASA, Smart Install, SNMP)
+### Track 6: Cisco / Network Defense (48 stages)
+- **Cisco CVEs** — real documented Cisco vulnerabilities (IOS XE, ASA, Smart Install, SNMP)
 - **Umbrella / DNS Security** — DNS tunneling, domain generation algorithms, network policy
+
+### Track 7: Crafts (30 stages)
+- Creative and operational security contexts
+
+### Track 8: Driving (24 stages)
+- Automotive and transportation cybersecurity
+
+### Track 9: Baseball (70 stages)
+- Sports analytics security and data integrity challenges
+
+### Track 10: First Journey (onboarding, counted in Core Security)
+- Entry-level CTF stages for complete beginners
 
 ---
 
@@ -149,7 +165,7 @@ The part that matters: every ad impression is also a Pro upgrade prompt. The use
 |---|---|
 | **Vercel** | Hosting and CDN — every git push auto-deploys |
 | **Upstash** | Serverless Redis — users, XP, leaderboard, streaks, NDAs |
-| **Resend** | Transactional email — registration alerts, password resets |
+| **Resend** | Transactional email — welcome, stage completion, password reset |
 | **Anthropic** | Claude Haiku — powers ARIA AI tutor, live in production |
 | **DocuSign** | eSignature API — NDA envelopes from admin dashboard |
 | **GitHub** | Source control + automated CI pipeline |

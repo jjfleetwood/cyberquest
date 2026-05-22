@@ -108,6 +108,7 @@ export default function FeedbackWidget() {
     >
       <div
         className={`flex items-center justify-between ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        style={{ touchAction: "none" }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

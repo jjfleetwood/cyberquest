@@ -2,12 +2,12 @@
 
 ## What This Is
 
-Gamified cybersecurity + AI training platform. 31 curriculum epochs, ~338 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
+Gamified cybersecurity + AI training platform. 32 curriculum epochs, 358 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
 
 **Live:** kryptoscronos.com  
 **App:** app-jjfleetwood.vercel.app  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.7.2 (as of 2026-05-21)
+**Current version:** v1.7.5 (as of 2026-05-21)
 
 ---
 
@@ -41,7 +41,7 @@ npx vercel --prod    # Deploy to production
 ## Architecture in One Page
 
 **Stack:** Next.js 16 App Router + Upstash Redis + Resend email  
-**Middleware:** `src/proxy.ts` (NOT middleware.ts — Next.js 16 naming)  
+**Middleware:** `src/proxy.ts` — admin protection + per-request CSP nonce generation (Next.js 16 Turbopack uses `proxy` export)  
 **Admin:** HMAC cookie via `/api/admin-session`; `/admin/**` blocked at edge  
 **Auth:** PBKDF2-SHA-256 (100k iterations), server-side; user records in Redis  
 **Sessions:** HMAC-signed HttpOnly `session_token` cookie (30 days) + `admin_token` (24h)  
@@ -65,6 +65,7 @@ npx vercel --prod    # Deploy to production
 /trophies                 → owned trophy collection vault (admin: full library with supply counters)
 /avatar                   → avatar customization — equip/unequip owned items
 /admin                    → admin dashboard (HMAC cookie required)
+/attribution              → public legal attributions & licenses page
 ```
 
 Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons go to `/stages/epoch/[epochId]` (not `/stages`).
@@ -106,6 +107,7 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | 29 | `baseball-5` | The Art of Pitching | 10 | baseball-5-01 → baseball-5-10 | Green |
 | 30 | `baseball-6` | Pitch Arsenal | 10 | baseball-6-01 → baseball-6-10 | Red |
 | 31 | `baseball-7` | Pitching Strategy | 10 | baseball-7-01 → baseball-7-10 | Indigo |
+| 32 | `cisco-advanced` | Cisco: Advanced Defense | 12 | stage-m39 → stage-m50 | Cyan |
 
 **Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts · Driving · Health · Baseball
 
@@ -115,7 +117,7 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 
 | File | Why it matters |
 |---|---|
-| `src/proxy.ts` | Active middleware — wrong name = no admin protection |
+| `src/proxy.ts` | Active Turbopack proxy — admin protection + nonce-based CSP per request (`proxy` export) |
 | `src/data/stages.ts` | Epoch registry + stage array — import all epoch files here; NOT for "use client" listing pages |
 | `src/data/stages-meta.ts` | Client-safe listing metadata (no ctf/quiz/info) — import this in "use client" listing pages |
 | `src/data/stage-flags.ts` | Server-only flag store (`import "server-only"`) — used only by `/api/check-flag` |
@@ -141,7 +143,9 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | `src/app/trophies/page.tsx` | Owned trophy collection vault; admin sees full library with tier filter |
 | `src/app/shop/page.tsx` | 🛒 Shop (avatar items) + 💎 Treasures (daily trophy showcase + buy) |
 | `src/app/avatar/page.tsx` | Avatar equip/unequip page |
-| `next.config.ts` | Security headers + secured-docs file tracing |
+| `src/data/content-flags.ts` | Per-epoch IP risk registry (risk level, license, attribution text) — drives epoch-page banners |
+| `src/app/attribution/page.tsx` | Public legal attributions page — canonical third-party license notices |
+| `next.config.ts` | Static security headers (HSTS, X-Frame-Options, etc.) + secured-docs file tracing. CSP is set dynamically in middleware. |
 | `secured-docs/` | Admin-only docs — never move to public/ |
 
 ---
@@ -194,6 +198,7 @@ Local dev: `.env.local` in `app/` (gitignored).
 | `POST /api/nda` | Record NDA acceptance; GET returns admin list |
 | `GET /api/trophies` | Admin: full library + claimed counts. User: daily 10 shop rotation + owned |
 | `POST /api/trophies` | Buy trophy — verifies in daily rotation, atomic Redis INCR supply check, deducts coinsSpent |
+| `GET /api/progress/certificate` | Server-rendered PDF via @react-pdf/renderer — coins, stages, badges, streak, per-epoch breakdown |
 
 ---
 
@@ -204,7 +209,8 @@ Local dev: `.env.local` in `app/` (gitignored).
 - No credentials in localStorage — eliminated entirely
 - All flag/answer/XP validation server-side
 - Rate limiting on all auth + email endpoints
-- HSTS, X-Frame-Options, CSP, X-Content-Type-Options headers set
+- HSTS, X-Frame-Options, X-Content-Type-Options set in `next.config.ts`
+- Nonce-based CSP (per-request) — `src/middleware.ts` generates nonce; `layout.tsx` reads `x-nonce` header and applies to anti-FOUC script; no `unsafe-inline` in script-src
 
 ---
 
@@ -229,9 +235,14 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 ---
 
-## What's Shipped (v1.7.2)
+## What's Shipped (v1.7.5)
 
-- ✅ 31 epochs, ~338 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise (3 Cisco + Umbrella), Crafts, Driving, Health, Baseball
+- ✅ Nonce-based CSP — `src/middleware.ts` generates per-request nonce; `layout.tsx` async reads `x-nonce`; `next.config.ts` static CSP removed; no `unsafe-inline` in script-src
+- ✅ Docs refreshed to v1.7.5: PITCH_TARGETS.md (346 stages, 10 tracks), PARTNERS.md v3.1, BUSINESS_PROPOSAL_PRO.md + BUSINESS_PROPOSAL_CASUAL.md (346 stages, 31 epochs, 10 tracks, v1.7.4 live features)
+
+## What's Shipped (v1.7.4)
+
+- ✅ 31 epochs, 346 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise (3 Cisco + Umbrella), Crafts, Driving, Health, Baseball
 - ✅ Crafts track: Nail Arts (10), Hair Coloring (10), Hair Styling (10)
 - ✅ Per-epoch pages at `/stages/epoch/[epochId]` — hero card, progress bar, stage grid
 - ✅ Stage map hub (`/stages`) — epoch cards per track group, links to epoch pages
@@ -250,6 +261,12 @@ Local dev: `.env.local` in `app/` (gitignored).
 - ✅ `/avatar` — avatar equip/unequip page; nav link for logged-in users
 - ✅ CTF localStorage state scoped by username (`ctf-state:{username}:{stageId}`) — prevents cross-user bleed
 - ✅ `GET /api/progress` fixed to use session cookie (was requiring unused `?username=` query param, breaking all progress display)
+- ✅ `/attribution` page — full legal attribution notices for all third-party IP (MITRE, OWASP, ISACA/COBIT, CIS Benchmarks, ITIL, PCI DSS, Anthropic/Claude/MCP, HashiCorp Vault, STIX/TAXII/OASIS, NIST, CVE/NVD)
+- ✅ `content-flags.ts` — per-epoch IP risk registry with risk classification, license info, and attribution text for all 20+ epochs
+- ✅ Stage completion emails — fire-and-forget via Resend on every new stage capture; shows XP, badge, streak, next stage link; wired in `awardStageInRedis` (`server-progress.ts`)
+- ✅ `GET /api/progress/certificate` — server-rendered PDF (@react-pdf/renderer): username, coins, stages, badges, streak, per-epoch breakdown; "Download Progress Report" on leaderboard page
+- ✅ Mobile responsiveness audit — leaderboard responsive grid (3-col mobile → 6-col sm+); FeedbackWidget touch-action fix; CTF terminal / stage map confirmed mobile-ready
+- ✅ Stage count corrected: 346 total (was 338); per-track numbers audited; "Nine" → "Ten" tracks across homepage, pricing, CTA, stages page, welcome email
 
 ## Trophy System Notes
 

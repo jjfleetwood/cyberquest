@@ -48,8 +48,88 @@ const ATTRIBUTIONS = [
     licenseUrl: "https://www.nist.gov/open",
     sourceUrl: "https://csrc.nist.gov/",
     description:
-      "Quantum Era modules reference NIST post-quantum cryptography standards (FIPS 203, 204, 205) and NIST Special Publications. NIST publications are works of the U.S. Government and are in the public domain.",
-    modules: ["Quantum Era epochs (Quantum 1, 2, 3)"],
+      "Quantum Era modules reference NIST post-quantum cryptography standards (FIPS 203, 204, 205) and NIST Special Publications (SP 800-137, 800-207, 800-30, 800-34, 800-53, 800-161). Tech Audit modules reference NIST SP 800-series control frameworks. NIST publications are works of the U.S. Government and are in the public domain.",
+    modules: ["Quantum Era epochs (Quantum 1, 2, 3)", "Tech Audit epochs (1, 2, 4)"],
+  },
+  {
+    name: "ISACA® / COBIT® 2019",
+    owner: "ISACA",
+    license: "Educational fair use — no verbatim reproduction",
+    licenseUrl: "https://www.isaca.org/resources/cobit",
+    sourceUrl: "https://www.isaca.org/",
+    description:
+      "Tech Audit modules reference ISACA® frameworks including COBIT® 2019 control objectives and the CISA® and CRISC® certification domains. ISACA®, COBIT®, CISA®, and CRISC® are registered trademarks of ISACA. No proprietary ISACA content is reproduced verbatim; references are descriptive and educational.",
+    modules: ["Tech Audit 1"],
+  },
+  {
+    name: "OWASP API Security Top 10 (2023)",
+    owner: "OWASP Foundation, Inc.",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl: "https://owasp.org/API-Security/",
+    description:
+      "Tech Audit 2 stages map directly to OWASP API Security Top 10 2023 categories including BOLA (API1), Broken Authentication (API2), and others. OWASP® is a registered trademark of the OWASP Foundation, Inc. Content is adapted for educational use under CC BY-SA 4.0. The ShareAlike clause applies to any redistribution of adapted OWASP content.",
+    modules: ["Tech Audit 2"],
+  },
+  {
+    name: "CIS Benchmarks™",
+    owner: "Center for Internet Security, Inc.",
+    license: "Educational fair use",
+    licenseUrl: "https://www.cisecurity.org/cis-benchmarks/cis-benchmarks-faq/",
+    sourceUrl: "https://www.cisecurity.org/",
+    description:
+      "Tech Audit modules reference CIS Benchmarks™ for Docker, Kubernetes, and AWS (CIS AWS Foundations Benchmark™). CIS Benchmarks™ are trademarks of the Center for Internet Security, Inc. References are descriptive and educational; no benchmark content is reproduced verbatim.",
+    modules: ["Tech Audit 1", "Tech Audit 2", "Tech Audit 4"],
+  },
+  {
+    name: "ITIL®",
+    owner: "PeopleCert International Ltd.",
+    license: "Educational fair use — trademark reference only",
+    licenseUrl: "https://www.peoplecert.org/",
+    sourceUrl: "https://www.axelos.com/certifications/itil-service-management/",
+    description:
+      "Tech Audit 1 references ITIL® v2 and v4 service management framework concepts. ITIL® is a registered trademark of PeopleCert International Ltd. References are descriptive and educational; no ITIL® content is reproduced verbatim.",
+    modules: ["Tech Audit 1"],
+  },
+  {
+    name: "PCI DSS®",
+    owner: "PCI Security Standards Council, LLC",
+    license: "Educational fair use — trademark reference only",
+    licenseUrl: "https://www.pcisecuritystandards.org/",
+    sourceUrl: "https://www.pcisecuritystandards.org/document_library/",
+    description:
+      "Tech Audit 1 references PCI DSS® (Payment Card Industry Data Security Standard) requirements. PCI DSS® is a registered trademark of PCI Security Standards Council, LLC. References are descriptive and educational; no PCI DSS® specification text is reproduced verbatim.",
+    modules: ["Tech Audit 1"],
+  },
+  {
+    name: "Claude™ / Model Context Protocol (MCP)",
+    owner: "Anthropic PBC",
+    license: "Anthropic public documentation",
+    licenseUrl: "https://www.anthropic.com/legal/usage-policy",
+    sourceUrl: "https://docs.anthropic.com/",
+    description:
+      "Tech Audit 3 stages are built around Claude™ tool-use workflows and Model Context Protocol (MCP) server integration patterns. Claude™ is a trademark of Anthropic PBC. MCP is an open protocol published by Anthropic. References are based on Anthropic's publicly available documentation. No proprietary Anthropic content is reproduced verbatim.",
+    modules: ["Tech Audit 3"],
+  },
+  {
+    name: "HashiCorp Vault®",
+    owner: "HashiCorp, Inc.",
+    license: "Educational fair use — trademark reference only",
+    licenseUrl: "https://www.hashicorp.com/products/vault",
+    sourceUrl: "https://www.vaultproject.io/",
+    description:
+      "Tech Audit 3 references HashiCorp Vault® as a secrets management solution in the context of cloud security workflows. HashiCorp Vault® is a registered trademark of HashiCorp, Inc. References are descriptive and educational; no HashiCorp documentation is reproduced verbatim.",
+    modules: ["Tech Audit 3"],
+  },
+  {
+    name: "STIX™ / TAXII™ (OASIS Open Standards)",
+    owner: "OASIS Open",
+    license: "OASIS open standard",
+    licenseUrl: "https://www.oasis-open.org/policies-guidelines/ipr/",
+    sourceUrl: "https://oasis-open.github.io/cti-documentation/",
+    description:
+      "Tech Audit 4 references STIX™ 2.1 (Structured Threat Intelligence eXpression) and TAXII™ 2.1 (Trusted Automated eXchange of Intelligence Information) as threat intelligence sharing standards. STIX™ and TAXII™ are trademarks of OASIS Open. These are open standards freely available for implementation.",
+    modules: ["Tech Audit 4"],
   },
 ];
 

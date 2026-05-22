@@ -1,7 +1,143 @@
 import { redis } from "@/lib/redis";
-import { stages } from "@/data/stages";
+import { stages, epochs } from "@/data/stages";
 import { checkStageMilestones, checkXpMilestones, checkStreakMilestones } from "@/data/milestone-badges";
 import type { UserProgress } from "@/lib/progress";
+
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+async function sendStageCompletionEmail(opts: {
+  username: string;
+  email: string;
+  stageName: string;
+  stageSubtitle: string;
+  epochName: string;
+  coinsEarned: number;
+  totalCoins: number;
+  totalStages: number;
+  streak: number;
+  badgeName?: string;
+  badgeEmoji?: string;
+  nextStageId?: string;
+  nextStageName?: string;
+}): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const appUrl = process.env.APP_URL ?? "https://app-jjfleetwood.vercel.app";
+  if (!apiKey) return;
+
+  const {
+    username, email, stageName, stageSubtitle, epochName,
+    coinsEarned, totalCoins, totalStages, streak,
+    badgeName, badgeEmoji, nextStageId, nextStageName,
+  } = opts;
+
+  const safe = (s: string) => escapeHtml(s);
+  const nextStageUrl = nextStageId ? `${appUrl}/stages/${nextStageId}` : `${appUrl}/stages`;
+  const nextLabel = nextStageName ? safe(nextStageName) : "Continue Training";
+
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from: "Kryptós CronOS <noreply@kryptoscronos.com>",
+      to: [email],
+      subject: `🏁 ${safe(username)} captured the flag — ${safe(stageName)}`,
+      html: `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#04080f;font-family:'Courier New',monospace;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#04080f;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#0d1117;border:1px solid rgba(34,211,238,0.2);border-radius:12px;overflow:hidden;">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,rgba(34,211,238,0.08),rgba(99,102,241,0.08));padding:28px 32px 20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <div style="font-size:20px;font-weight:900;color:#ffffff;letter-spacing:-0.5px;">
+              🛡️ Kryptós <span style="color:#22d3ee;">CronOS</span>
+            </div>
+            <div style="font-size:11px;color:rgba(74,222,128,0.7);letter-spacing:3px;text-transform:uppercase;margin-top:4px;">
+              ✓ Flag Captured
+            </div>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:32px;">
+
+            <!-- Stage badge -->
+            <div style="background:#080d1a;border:1px solid rgba(74,222,128,0.25);border-radius:10px;padding:20px 24px;margin-bottom:28px;">
+              <div style="font-size:11px;color:rgba(74,222,128,0.6);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">${safe(epochName)}</div>
+              <div style="font-size:20px;font-weight:900;color:#ffffff;margin-bottom:4px;">${safe(stageName)}</div>
+              <div style="font-size:12px;color:rgba(107,114,128,1);">${safe(stageSubtitle)}</div>
+              <div style="margin-top:16px;font-size:24px;font-weight:900;color:#22d3ee;">+${coinsEarned} 🪙</div>
+            </div>
+
+            <!-- Stats row -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 28px;border:1px solid rgba(255,255,255,0.06);border-radius:8px;overflow:hidden;">
+              <tr>
+                <td align="center" style="padding:14px 8px;border-right:1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size:20px;font-weight:900;color:#22d3ee;">${totalCoins}</div>
+                  <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Total 🪙</div>
+                </td>
+                <td align="center" style="padding:14px 8px;border-right:1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size:20px;font-weight:900;color:#a78bfa;">${totalStages}</div>
+                  <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Stages</div>
+                </td>
+                <td align="center" style="padding:14px 8px;">
+                  <div style="font-size:20px;font-weight:900;color:${streak >= 7 ? "#fb923c" : "#facc15"};">${streak}🔥</div>
+                  <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Day Streak</div>
+                </td>
+              </tr>
+            </table>
+
+            ${badgeName ? `
+            <!-- Badge unlocked -->
+            <div style="background:rgba(250,204,21,0.05);border:1px solid rgba(250,204,21,0.2);border-radius:8px;padding:14px 20px;margin-bottom:28px;">
+              <div style="font-size:11px;color:rgba(250,204,21,0.6);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;">Badge Unlocked</div>
+              <div style="font-size:16px;font-weight:900;color:#facc15;">${badgeEmoji ?? "🏅"} ${safe(badgeName)}</div>
+            </div>
+            ` : ""}
+
+            <!-- Next stage CTA -->
+            <p style="margin:0 0 16px;font-size:13px;color:rgba(156,163,175,0.9);line-height:1.7;">
+              ${nextStageName ? `Your next challenge is ready: <strong style="color:#ffffff;">${safe(nextStageName)}</strong>` : "The stage map is waiting — keep the streak alive."}
+            </p>
+            <table cellpadding="0" cellspacing="0" style="margin:0 0 12px;">
+              <tr>
+                <td style="background:linear-gradient(90deg,#22d3ee,#818cf8,#6366f1);border-radius:8px;padding:1px;">
+                  <a href="${nextStageUrl}"
+                     style="display:block;padding:12px 24px;background:linear-gradient(90deg,#22d3ee,#818cf8,#6366f1);border-radius:7px;font-size:13px;font-weight:900;color:#000000;text-decoration:none;">
+                    ${nextLabel} →
+                  </a>
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:14px 32px 20px;border-top:1px solid rgba(255,255,255,0.05);">
+            <p style="margin:0;font-size:11px;color:rgba(55,65,81,1);">
+              © 2026 Kryptós CronOS ·
+              <a href="${appUrl}/leaderboard" style="color:rgba(75,85,99,1);">Leaderboard</a> ·
+              <a href="${appUrl}/stages" style="color:rgba(75,85,99,1);">Stage Map</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`,
+    }),
+  }).catch(() => {});
+}
 
 function stageXp(stageId: string): number {
   return stages.find((s) => s.id === stageId)?.xp ?? 0;
@@ -127,6 +263,37 @@ export async function awardStageInRedis(
       await redis.expire(dayKey, 172800); // 48h TTL
       await redis.zincrby(weekKey, deltaCoins, username.toLowerCase());
       await redis.expire(weekKey, 1209600); // 14 day TTL
+    }
+  }
+
+  // Fire-and-forget stage completion email (only for new completions)
+  if (isNew) {
+    const stageObj = stages.find((s) => s.id === stageId);
+    if (stageObj) {
+      redis.hget(`user:${username.toLowerCase()}`, "email").then((emailVal) => {
+        if (!emailVal) return;
+        const epoch = epochs.find((e) => e.id === stageObj.epochId);
+        const epochStages = stages
+          .filter((s) => s.epochId === stageObj.epochId)
+          .sort((a, b) => a.order - b.order);
+        const nextStage = epochStages.find((s) => s.order > stageObj.order);
+        const isNewBadge = badgeId && !parseArr(data?.badges).includes(badgeId);
+        sendStageCompletionEmail({
+          username: username.toLowerCase(),
+          email: String(emailVal),
+          stageName: stageObj.title,
+          stageSubtitle: stageObj.subtitle,
+          epochName: epoch?.name ?? stageObj.epochId,
+          coinsEarned: stageObj.xp - timePenaltyXp,
+          totalCoins: coins,
+          totalStages: completedStages.length,
+          streak: current,
+          badgeName: isNewBadge ? stageObj.badge.name : undefined,
+          badgeEmoji: isNewBadge ? stageObj.badge.emoji : undefined,
+          nextStageId: nextStage?.id,
+          nextStageName: nextStage?.title,
+        }).catch(() => {});
+      }).catch(() => {});
     }
   }
 
