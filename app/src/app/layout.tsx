@@ -21,7 +21,8 @@ export const metadata: Metadata = {
   description: "A gamified cybersecurity training platform. Break ciphers, exploit real vulnerabilities, and defend through the ages.",
 };
 
-// Runs synchronously before React hydrates — prevents flash of wrong skin
+// Runs synchronously before React hydrates — prevents flash of wrong skin,
+// and cleans up legacy unscoped ctf-state keys (pre-username-scoping fix).
 const antiFoucScript = `
 (function(){
   try {
@@ -30,6 +31,15 @@ const antiFoucScript = `
       document.documentElement.setAttribute('data-skin', s);
       document.documentElement.style.setProperty('--font-scale', s === 'youth' ? '1.08' : '1');
       document.documentElement.style.background = 'linear-gradient(135deg,#0d1117 0%,#0f2027 50%,#1a1a2e 100%)';
+    }
+  } catch(e) {}
+  try {
+    var keys = Object.keys(localStorage);
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (k.indexOf('ctf-state:') === 0 && k.split(':').length === 2) {
+        localStorage.removeItem(k);
+      }
     }
   } catch(e) {}
 })();
