@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Avatar from "@/components/Avatar";
 import { SHOP_ITEMS, type ShopItem } from "@/data/shop-items";
+import { TIER_META, type TrophyTier } from "@/data/trophies";
 
 type ShopData = {
   items: ShopItem[];
@@ -15,13 +16,122 @@ type ShopData = {
   spendable: number;
 };
 
-type Tab = "shop" | "trophy";
+type TrophyRow = {
+  id: string;
+  name: string;
+  emoji: string;
+  tier: TrophyTier;
+  supply: number;
+  price: number;
+  description: string;
+  claimed: number;
+  remaining: number;
+};
+
+type TrophyApiResponse =
+  | { mode: "admin"; trophies: TrophyRow[]; ownedIds: string[] }
+  | { mode: "user"; shop: TrophyRow[]; owned: TrophyRow[] };
+
+type Tab = "shop" | "trophy" | "treasures";
 
 const RARITY_COLORS: Record<string, string> = {
   common: "text-gray-400 border-gray-600/40 bg-gray-600/10",
   rare: "text-purple-400 border-purple-500/40 bg-purple-500/10",
   legendary: "text-amber-400 border-amber-500/40 bg-amber-500/10",
 };
+
+function SupplyBar({ remaining, supply }: { remaining: number; supply: number }) {
+  const pct = supply === 0 ? 0 : Math.max(0, Math.min(100, (remaining / supply) * 100));
+  const isEmpty = remaining <= 0;
+  return (
+    <div className="mt-1.5">
+      <div className="flex justify-between text-xs mb-0.5" style={{ color: "rgba(107,114,128,1)" }}>
+        <span>{isEmpty ? "SOLD OUT" : `${remaining.toLocaleString()} left`}</span>
+        <span>{supply.toLocaleString()} total</span>
+      </div>
+      <div className="w-full h-1 rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
+        <div
+          className="h-1 rounded-full transition-all"
+          style={{
+            width: `${pct}%`,
+            background: isEmpty ? "#374151" : pct > 50 ? "#22d3ee" : pct > 20 ? "#f59e0b" : "#ef4444",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function TrophyCard({
+  trophy,
+  owned,
+  onBuy,
+  buying,
+  spendable,
+}: {
+  trophy: TrophyRow;
+  owned: boolean;
+  onBuy?: (id: string) => void;
+  buying?: boolean;
+  spendable?: number;
+}) {
+  const meta = TIER_META[trophy.tier];
+  const soldOut = trophy.remaining <= 0;
+  const canAfford = (spendable ?? 0) >= trophy.price;
+
+  return (
+    <div
+      className={`rounded-xl border p-4 flex flex-col gap-3 transition-all ${meta.borderColor} ${meta.bgColor} ${owned ? "ring-1 ring-cyan-500/30" : ""}`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <span className="text-3xl leading-none">{trophy.emoji}</span>
+        <span
+          className={`text-xs font-bold px-2 py-0.5 rounded-full border ${meta.textColor} ${meta.borderColor}`}
+          style={{ background: "rgba(0,0,0,0.3)" }}
+        >
+          {meta.label.toUpperCase()}
+        </span>
+      </div>
+
+      <div>
+        <div className="text-sm font-bold text-white leading-snug">{trophy.name}</div>
+        <div className="text-xs mt-1 leading-relaxed" style={{ color: "rgba(107,114,128,1)" }}>
+          {trophy.description}
+        </div>
+      </div>
+
+      <SupplyBar remaining={trophy.remaining} supply={trophy.supply} />
+
+      <div className="flex items-center justify-between mt-auto pt-1">
+        <span className={`text-sm font-mono font-bold ${meta.textColor}`}>
+          {trophy.price.toLocaleString()} 🪙
+        </span>
+        {owned ? (
+          <span className="text-xs text-cyan-400 font-semibold">✓ Owned</span>
+        ) : onBuy ? (
+          <button
+            onClick={() => onBuy(trophy.id)}
+            disabled={buying || soldOut || !canAfford}
+            className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-all"
+            style={{
+              background: soldOut || !canAfford
+                ? "rgba(55,65,81,0.5)"
+                : buying
+                ? "rgba(34,211,238,0.3)"
+                : "rgba(34,211,238,0.15)",
+              color: soldOut || !canAfford ? "rgba(107,114,128,1)" : "#22d3ee",
+              border: "1px solid",
+              borderColor: soldOut || !canAfford ? "rgba(55,65,81,0.5)" : "rgba(34,211,238,0.3)",
+              cursor: soldOut || !canAfford ? "not-allowed" : "pointer",
+            }}
+          >
+            {soldOut ? "Sold Out" : !canAfford ? "Can't afford" : buying ? "Buying…" : "Buy"}
+          </button>
+        ) : null}
+      </div>
+    </div>
+  );
+}
 
 export default function ShopPage() {
   const router = useRouter();
@@ -31,18 +141,42 @@ export default function ShopPage() {
   const [busy, setBusy] = useState<string | null>(null);
   const [flash, setFlash] = useState<{ msg: string; ok: boolean } | null>(null);
 
+  // Trophy showcase state
+  const [trophyData, setTrophyData] = useState<TrophyApiResponse | null>(null);
+  const [trophyLoading, setTrophyLoading] = useState(false);
+  const [buyingTrophy, setBuyingTrophy] = useState<string | null>(null);
+  const [spendable, setSpendable] = useState(0);
+
   const load = useCallback(() => {
     fetch("/api/shop")
       .then((r) => {
         if (r.status === 401) { router.replace("/login"); return null; }
         return r.json() as Promise<ShopData>;
       })
-      .then((d) => { if (d) setData(d); })
+      .then((d) => {
+        if (d) {
+          setData(d);
+          setSpendable(d.spendable);
+        }
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [router]);
 
+  const loadTrophies = useCallback(() => {
+    setTrophyLoading(true);
+    fetch("/api/trophies")
+      .then((r) => (r.ok ? r.json() as Promise<TrophyApiResponse> : null))
+      .then((d) => { if (d) setTrophyData(d); })
+      .catch(() => {})
+      .finally(() => setTrophyLoading(false));
+  }, []);
+
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    if (tab === "treasures" && !trophyData) loadTrophies();
+  }, [tab, trophyData, loadTrophies]);
 
   function showFlash(msg: string, ok: boolean) {
     setFlash({ msg, ok });
@@ -87,16 +221,41 @@ export default function ShopPage() {
     }
   }
 
+  async function handleBuyTrophy(trophyId: string) {
+    setBuyingTrophy(trophyId);
+    try {
+      const res = await fetch("/api/trophies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ trophyId }),
+      });
+      const json = await res.json();
+      if (res.ok) {
+        showFlash(`Trophy acquired! ${json.trophy?.emoji ?? ""}`, true);
+        setSpendable(json.newSpendable ?? 0);
+        loadTrophies();
+      } else {
+        showFlash(json.error ?? "Purchase failed", false);
+      }
+    } finally {
+      setBuyingTrophy(null);
+    }
+  }
+
   const itemsById = Object.fromEntries(SHOP_ITEMS.map((i) => [i.id, i]));
   const equipped = data?.equipped ?? {};
   const inventory = data?.inventory ?? [];
+
+  const ownedTrophyIds = new Set(
+    trophyData?.mode === "user" ? trophyData.owned.map((t) => t.id) : []
+  );
+  const showcaseTrophies = trophyData?.mode === "user" ? trophyData.shop : [];
 
   return (
     <div
       className="min-h-screen px-4 py-10"
       style={{ background: "linear-gradient(160deg, #060a10 0%, #0d1117 50%, #0a0e1a 100%)" }}
     >
-      {/* Flash message */}
       {flash && (
         <div
           className={`fixed top-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl border text-sm font-semibold shadow-xl transition-all ${
@@ -117,41 +276,39 @@ export default function ShopPage() {
           </Link>
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-3xl font-black text-white">Shop & Trophy Room</h1>
-              <p className="text-gray-600 text-sm mt-1">Spend coins on items. Equip them from your trophy room.</p>
+              <h1 className="text-3xl font-black text-white">Shop</h1>
+              <p className="text-gray-600 text-sm mt-1">Spend coins on items, collectibles, and rare trophies.</p>
             </div>
-            {data && (
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-amber-500/30 bg-amber-500/8 text-amber-400 font-mono text-lg font-bold">
-                {data.spendable} 🪙
-                <span className="text-xs text-gray-600 font-normal ml-1">spendable</span>
-              </div>
-            )}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-amber-500/30 bg-amber-500/8 text-amber-400 font-mono text-lg font-bold">
+              {spendable || data?.spendable || 0} 🪙
+              <span className="text-xs text-gray-600 font-normal ml-1">spendable</span>
+            </div>
           </div>
         </div>
 
         {/* Tabs */}
         <div className="flex gap-1 bg-white/3 border border-white/10 rounded-xl p-1 mb-8 w-fit">
-          {(["shop", "trophy"] as Tab[]).map((t) => (
+          {(["shop", "treasures", "trophy"] as Tab[]).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all ${
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
                 tab === t ? "bg-cyan-500/15 border border-cyan-500/40 text-cyan-400" : "text-gray-500 hover:text-gray-300"
               }`}
             >
-              {t === "shop" ? "🛒 Shop" : "🏆 Trophy Room"}
+              {t === "shop" ? "🛒 Shop" : t === "treasures" ? "💎 Treasures" : "🏆 Trophy Room"}
             </button>
           ))}
         </div>
 
-        {loading ? (
+        {loading && tab !== "treasures" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-48 rounded-xl bg-white/3 border border-white/8 animate-pulse" />
             ))}
           </div>
         ) : tab === "shop" ? (
-          /* ── Shop ── */
+          /* ── Avatar Shop ── */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {SHOP_ITEMS.map((item) => {
               const owned = inventory.includes(item.id);
@@ -198,10 +355,44 @@ export default function ShopPage() {
               );
             })}
           </div>
+
+        ) : tab === "treasures" ? (
+          /* ── Trophy Showcase ── */
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <h2 className="text-xl font-black text-white">Today&apos;s Showcase</h2>
+              <div className="flex items-center gap-1.5 text-xs text-green-400 bg-green-400/10 border border-green-400/30 rounded-full px-2.5 py-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                Refreshes daily
+              </div>
+            </div>
+            <p className="text-gray-600 text-xs mb-6">10 trophies selected for you today. Supply is tracked globally — once it&apos;s gone, it&apos;s gone.</p>
+
+            {trophyLoading ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {[...Array(10)].map((_, i) => (
+                  <div key={i} className="h-48 rounded-xl bg-white/3 border border-white/8 animate-pulse" />
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {showcaseTrophies.map((t) => (
+                  <TrophyCard
+                    key={t.id}
+                    trophy={t}
+                    owned={ownedTrophyIds.has(t.id)}
+                    onBuy={handleBuyTrophy}
+                    buying={buyingTrophy === t.id}
+                    spendable={spendable}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+
         ) : (
-          /* ── Trophy Room ── */
+          /* ── Avatar Trophy Room ── */
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Avatar display */}
             <div className="flex flex-col items-center gap-4 flex-shrink-0">
               <div className="text-xs text-gray-600 uppercase tracking-wider font-semibold">Your Avatar</div>
               <div className="bg-white/2 border border-white/8 rounded-2xl p-8 flex items-center justify-center"
@@ -212,7 +403,6 @@ export default function ShopPage() {
               <div className="text-xs text-gray-700 text-center">Click items below to equip / unequip</div>
             </div>
 
-            {/* Inventory grid */}
             <div className="flex-1">
               <div className="text-xs text-gray-600 uppercase tracking-wider font-semibold mb-4">
                 Your Items ({inventory.length})
