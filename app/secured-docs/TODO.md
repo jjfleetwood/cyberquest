@@ -35,8 +35,8 @@ All documented Cisco curriculum gaps have been addressed in `cisco-advanced` epo
 | # | Item | Effort | Status | Notes |
 |---|---|---|---|---|
 | 10 | **Stage count audit** | — | ✅ Done | Fixed 338 → 346 across homepage (hero, stats, CTA, pricing); per-track numbers updated; "Nine tracks" → "Ten tracks"; stages/page.tsx description updated. |
-| 11 | **Pro tier gating** | 3–5 days | Deferred | Requires Stripe. UI-only paywall deferred until billing readiness. |
-| 12 | **Hints monetization** | 2–3 days | Deferred | Tied to #11. |
+| 11 | **Pro tier gating** | 3–5 days | ✅ Done | `tier` field on user Redis hash. `src/lib/access.ts` (server-only) gates all non-free stages. Free: bt-01/02/03. `ProPaywall` component with Stripe Checkout (monthly $19 / yearly $149). Webhook handler for `checkout.session.completed` + `customer.subscription.deleted`. Requires env vars: `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `STRIPE_PRO_MONTHLY_PRICE_ID`, `STRIPE_PRO_YEARLY_PRICE_ID`. |
+| 12 | **Hints monetization** | 2–3 days | Deferred | Tied to Stripe (#11 done). Ready to implement. |
 | 13 | **User progress export** | — | ✅ Done | `GET /api/progress/certificate` generates PDF via @react-pdf/renderer: username, coins, stages, badges, streak, per-epoch breakdown. "Download Progress Report" button on Leaderboard page (logged-in users only). |
 | 14 | **Mobile responsiveness audit** | — | ✅ Done | Leaderboard table: responsive grid (3-col mobile, 6-col sm+), secondary stats shown inline on mobile; FeedbackWidget: added `touch-action: none` on drag handle; CTF terminal: confirmed 100dvh, scrollIntoView on focus, sm: breakpoints. Stage map: confirmed 1→2→3 col grid. |
 
@@ -49,7 +49,7 @@ All documented Cisco curriculum gaps have been addressed in `cisco-advanced` epo
 | 15 | **Investor outreach — Tier 1** | ForgePoint Capital, SYN Ventures, ClearSky Security, Owl Ventures, Reach Capital, Cisco Investments. See `PITCH_TARGETS.md` (updated: 358 stages, 32 epochs, 10 tracks). |
 | 16 | **Sponsor integration conversations** | CrowdStrike, AWS, SentinelOne, CompTIA, ISC². Contextual ad/sponsorship model aligned to stage topic. |
 | 17 | **B2B enterprise motion** | $8/seat/mo targeting internal audit teams, SOC training programs, university cybersecurity programs. CAE advisory doc (`PITCH_CAE_CONTINUOUS_MONITORING.md`) is the lead asset. `BUSINESS_PROPOSAL_PRO.md` and `BUSINESS_PROPOSAL_CASUAL.md` updated to v1.8.0 stats. |
-| 18 | **kryptoscronos.com marketing site** | Separate from the app. Needs landing page copy refresh to reflect 32 epochs, 358 stages, 10 tracks. App `src/app/page.tsx` already updated. |
+| 18 | ~~**kryptoscronos.com marketing site**~~ | ✅ Done — kryptoscronos.com IS the app. `src/app/page.tsx` updated to 358 stages, 32 epochs, 10 tracks. |
 
 ---
 
@@ -58,7 +58,7 @@ All documented Cisco curriculum gaps have been addressed in `cisco-advanced` epo
 | # | Item | Notes |
 |---|---|---|
 | 19 | ~~**`sync-user` route**~~ | ✅ Audited — route deleted, no client code references it. Stale `.next` cache was the only source of the phantom type error. |
-| 20 | ~~**`unsafe-inline` CSP**~~ | ✅ Fixed — `src/middleware.ts` generates per-request nonce, sets dynamic `Content-Security-Policy` header with `nonce-{nonce}` in script-src. `next.config.ts` no longer sets static CSP. `layout.tsx` made async; reads `x-nonce` from request headers and applies to anti-FOUC script tag. |
+| 20 | ~~**`unsafe-inline` CSP**~~ | ✅ Fixed — `src/proxy.ts` generates per-request nonce, sets dynamic `Content-Security-Policy` header with `nonce-{nonce}` in script-src. `next.config.ts` no longer sets static CSP. `layout.tsx` made async; reads `x-nonce` from request headers and applies to anti-FOUC script tag. (Next.js 16 Turbopack uses `proxy.ts` with `proxy` export, not `middleware.ts`.) |
 | 21 | ~~**`any` cast in DocsViewer**~~ | ✅ Fixed — made `children` optional in all component prop types to match react-markdown's `Components` type. `as any` removed; tsc clean. |
 
 ---

@@ -3,6 +3,7 @@ import { quizStage01 } from "@/data/quiz-stage-01";
 import { getServerSession } from "@/lib/server-session";
 import { awardStageInRedis } from "@/lib/server-progress";
 import { stages, getStage } from "@/data/stages";
+import { canAccessStage } from "@/lib/access";
 
 const quizRegistry: Record<string, typeof quizStage01> = {
   "stage-01": quizStage01,
@@ -17,6 +18,11 @@ export async function POST(req: NextRequest) {
     typeof body.selectedIndex !== "number"
   ) {
     return NextResponse.json({ correct: false }, { status: 400 });
+  }
+
+  const username = getServerSession(req);
+  if (!await canAccessStage(body.stageId, username)) {
+    return NextResponse.json({ correct: false }, { status: 403 });
   }
 
   // Look up quiz questions: check hardcoded registry first, then fall back to stages data
@@ -38,7 +44,6 @@ export async function POST(req: NextRequest) {
   // On final question correct answer, award the stage server-side
   const isLastQuestion = body.isFinalQuestion === true;
   if (correct && isLastQuestion) {
-    const username = getServerSession(req);
     if (username) {
       const stage = stages.find((s) => s.id === body.stageId);
       const progress = await awardStageInRedis(

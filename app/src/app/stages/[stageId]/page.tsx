@@ -2,7 +2,9 @@ import { getStage } from "@/data/stages";
 import StageContainer from "@/components/StageContainer";
 import type { StageConfig } from "@/data/types";
 import { getStageOverride, applyStageOverride, canAccessEpoch } from "@/lib/cms";
+import { canAccessStage } from "@/lib/access";
 import { getSessionFromCookies } from "@/lib/server-session";
+import ProPaywall from "@/components/ProPaywall";
 import Link from "next/link";
 
 export default async function StagePage({
@@ -13,11 +15,12 @@ export default async function StagePage({
   const { stageId } = await params;
   const stageBase = getStage(stageId) ?? null;
 
-  // Enforce epoch-level access control server-side
   if (stageBase) {
     const username = await getSessionFromCookies();
-    const allowed = await canAccessEpoch(stageBase.epochId, username);
-    if (!allowed) {
+
+    // Epoch-level admin access control
+    const epochAllowed = await canAccessEpoch(stageBase.epochId, username);
+    if (!epochAllowed) {
       return (
         <div
           className="min-h-screen flex items-center justify-center px-4"
@@ -35,6 +38,12 @@ export default async function StagePage({
           </div>
         </div>
       );
+    }
+
+    // Pro tier gating
+    const tierAllowed = await canAccessStage(stageId, username);
+    if (!tierAllowed) {
+      return <ProPaywall stageTitle={stageBase.title} epochId={stageBase.epochId} />;
     }
   }
 
