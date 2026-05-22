@@ -7,7 +7,7 @@ Gamified cybersecurity + AI training platform. 31 curriculum epochs, ~338 CTF/qu
 **Live:** kryptoscronos.com  
 **App:** app-jjfleetwood.vercel.app  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.7.1 (as of 2026-05-21)
+**Current version:** v1.7.2 (as of 2026-05-21)
 
 ---
 
@@ -61,6 +61,9 @@ npx vercel --prod    # Deploy to production
 /stages/epoch/[epochId]   → per-epoch page: hero + stage grid + progress bar
 /stages/[stageId]         → individual stage (StageInfo → CTF/Quiz challenge)
 /leaderboard              → XP rankings (daily / weekly / all-time)
+/shop                     → avatar item shop (🛒 Shop tab) + daily trophy showcase (💎 Treasures tab)
+/trophies                 → owned trophy collection vault (admin: full library with supply counters)
+/avatar                   → avatar customization — equip/unequip owned items
 /admin                    → admin dashboard (HMAC cookie required)
 ```
 
@@ -104,7 +107,7 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | 30 | `baseball-6` | Pitch Arsenal | 10 | baseball-6-01 → baseball-6-10 | Red |
 | 31 | `baseball-7` | Pitching Strategy | 10 | baseball-7-01 → baseball-7-10 | Indigo |
 
-**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts · Driving · Health · Sports
+**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts · Driving · Health · Baseball
 
 ---
 
@@ -132,7 +135,12 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | `src/app/stages/epoch/[epochId]/page.tsx` | Per-epoch detail page with stage grid |
 | `src/lib/auth.ts` | PBKDF2 hashing — don't change without testing |
 | `src/lib/redis.ts` | Upstash client — needs `UPSTASH_REDIS_*` env vars |
-| `src/app/api/progress/route.ts` | XP computed server-side (STAGE_XP map) |
+| `src/app/api/progress/route.ts` | GET reads from session cookie (not query param); POST awards stage in Redis |
+| `src/data/trophies.ts` | 51 trophies across 8 tiers; `dailyShopTrophies()` seeded Fisher-Yates shuffle |
+| `src/app/api/trophies/route.ts` | GET: admin sees full library + claimed counts; user sees daily 10 + owned. POST: buy with atomic supply reservation |
+| `src/app/trophies/page.tsx` | Owned trophy collection vault; admin sees full library with tier filter |
+| `src/app/shop/page.tsx` | 🛒 Shop (avatar items) + 💎 Treasures (daily trophy showcase + buy) |
+| `src/app/avatar/page.tsx` | Avatar equip/unequip page |
 | `next.config.ts` | Security headers + secured-docs file tracing |
 | `secured-docs/` | Admin-only docs — never move to public/ |
 
@@ -184,6 +192,8 @@ Local dev: `.env.local` in `app/` (gitignored).
 | `POST /api/check-answer` | Validate quiz answer server-side |
 | `POST /api/hint` | ARIA AI hint (Claude Haiku, rate-limited) |
 | `POST /api/nda` | Record NDA acceptance; GET returns admin list |
+| `GET /api/trophies` | Admin: full library + claimed counts. User: daily 10 shop rotation + owned |
+| `POST /api/trophies` | Buy trophy — verifies in daily rotation, atomic Redis INCR supply check, deducts coinsSpent |
 
 ---
 
@@ -219,9 +229,9 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 ---
 
-## What's Shipped (v1.6.0)
+## What's Shipped (v1.7.2)
 
-- ✅ 31 epochs, ~338 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise (3 Cisco + Umbrella), Crafts, Driving, Sports
+- ✅ 31 epochs, ~338 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise (3 Cisco + Umbrella), Crafts, Driving, Health, Baseball
 - ✅ Crafts track: Nail Arts (10), Hair Coloring (10), Hair Styling (10)
 - ✅ Per-epoch pages at `/stages/epoch/[epochId]` — hero card, progress bar, stage grid
 - ✅ Stage map hub (`/stages`) — epoch cards per track group, links to epoch pages
@@ -234,11 +244,23 @@ Local dev: `.env.local` in `app/` (gitignored).
 - ✅ 24 downloadable MCP server templates (audit-a / audit-cm stages)
 - ✅ Terminal learning annotations (`>> LEARN:`) across all epochs
 - ✅ Skills Acquired debrief in FlagSuccessModal
+- ✅ Trophy system — 51 trophies, 8 tiers (Field→Apex), steep supply curve (50k→1), daily rotating showcase of 10 per user
+- ✅ Shop with 💎 Treasures tab (daily trophy purchases) + 🛒 avatar item shop
+- ✅ `/trophies` — owned collection vault; admin sees full library with live supply counters
+- ✅ `/avatar` — avatar equip/unequip page; nav link for logged-in users
+- ✅ CTF localStorage state scoped by username (`ctf-state:{username}:{stageId}`) — prevents cross-user bleed
+- ✅ `GET /api/progress` fixed to use session cookie (was requiring unused `?username=` query param, breaking all progress display)
+
+## Trophy System Notes
+
+- Redis key `trophy:claimed:{id}` — atomic INCR/DECR for supply reservation
+- Daily shop: seeded Fisher-Yates shuffle using `hashString(username + dayNumber)`; 10 trophies, refreshes at UTC midnight
+- Admin bypasses daily rotation check on purchase; regular users can only buy from their daily 10
+- Tier supply curve: Field 50k · Enlisted 10k · Commended 2.5k · Decorated 500 · Distinguished 100 · Elite 25 · Legendary 5 · Apex 1
 
 ## Genuine Remaining Work
 
 1. **Production auth migration** — Supabase Auth or Lucia, server-side sessions (intentionally deferred)
-2. **Production auth migration** — Supabase Auth or Lucia, server-side sessions (intentionally deferred)
 
 ---
 
