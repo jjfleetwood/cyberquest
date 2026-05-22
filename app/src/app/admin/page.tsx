@@ -11,6 +11,7 @@ type UserRow = {
   username: string;
   email: string;
   createdAt: number | null;
+  tier: string;
   coins: number;
   stageIds: string[];
   stages: number;
@@ -652,8 +653,26 @@ function ContentAudit() {
 export default function AdminPage() {
   const router = useRouter();
   const [users, setUsers] = useState<UserRow[]>([]);
+  const [togglingTier, setTogglingTier] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  async function toggleTier(username: string, currentTier: string) {
+    const newTier = currentTier === "pro" ? "free" : "pro";
+    setTogglingTier(username);
+    try {
+      const res = await fetch("/api/admin/set-tier", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, tier: newTier }),
+      });
+      if (res.ok) {
+        setUsers((prev) => prev.map((u) => u.username === username ? { ...u, tier: newTier } : u));
+      }
+    } finally {
+      setTogglingTier(null);
+    }
+  }
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("coins");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -809,7 +828,7 @@ export default function AdminPage() {
             <div className="px-6 py-12 text-center text-gray-600">No server-registered users yet.</div>
           ) : (
             <div>
-              <div className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem] gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider">
+              <div className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem] gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider">
                 <div>#</div>
                 <div>User</div>
                 <div><SortBtn col="coins" label="Coins" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
@@ -818,12 +837,13 @@ export default function AdminPage() {
                 <div className="text-center"><SortBtn col="streak" label="Streak" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
                 <div className="text-right"><SortBtn col="lastActive" label="Active" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
                 <div className="text-right"><SortBtn col="createdAt" label="Joined" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
+                <div className="text-center">Pro</div>
               </div>
 
               {filtered.map((user, i) => (
                 <div
                   key={user.username}
-                  className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem] gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors"
+                  className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem] gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors"
                 >
                   <div className="text-xs text-gray-600 font-mono">{i + 1}</div>
 
@@ -869,6 +889,23 @@ export default function AdminPage() {
 
                   <div className="text-right text-xs text-gray-700">
                     {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "—"}
+                  </div>
+
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => toggleTier(user.username, user.tier)}
+                      disabled={togglingTier === user.username}
+                      title={user.tier === "pro" ? "Revoke Pro" : "Grant Pro"}
+                      className={`w-8 h-5 rounded-full transition-colors relative ${
+                        user.tier === "pro" ? "bg-cyan-500" : "bg-white/10"
+                      } disabled:opacity-50`}
+                    >
+                      <span
+                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                          user.tier === "pro" ? "translate-x-3.5" : "translate-x-0.5"
+                        }`}
+                      />
+                    </button>
                   </div>
                 </div>
               ))}

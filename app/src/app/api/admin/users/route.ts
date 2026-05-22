@@ -60,6 +60,7 @@ export async function GET(req: NextRequest) {
         username,
         email: (userData?.email as string) ?? "",
         createdAt: userData?.createdAt ? Number(userData.createdAt) : null,
+        tier: (userData?.tier as string) ?? "free",
         coins: Number(progressData?.coins ?? progressData?.xp ?? 0),
         stageIds,
         stages: stageIds.length,

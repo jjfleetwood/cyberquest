@@ -110,8 +110,9 @@ function TerminalLine({ line }: { line: Line }) {
   );
 }
 
-function HintDrawer({ hints, onClose }: { hints: string[]; onClose: () => void }) {
+function HintDrawer({ hints, isPro, onClose }: { hints: string[]; isPro: boolean; onClose: () => void }) {
   const [revealed, setRevealed] = useState(1);
+  const needsUpgrade = revealed < hints.length && revealed >= 1 && !isPro;
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/50" onClick={onClose} />
@@ -135,14 +136,29 @@ function HintDrawer({ hints, onClose }: { hints: string[]; onClose: () => void }
               <p className="text-gray-300 leading-relaxed font-mono text-xs">{hint}</p>
             </div>
           ))}
-          {revealed < hints.length ? (
-            <button
-              onClick={() => setRevealed((r) => r + 1)}
-              className="w-full py-2.5 text-sm text-amber-400 border border-amber-500/30 rounded-lg hover:bg-amber-500/5 transition-colors"
-            >
-              Reveal hint {revealed + 1} →
-            </button>
-          ) : (
+          {revealed < hints.length && (
+            needsUpgrade ? (
+              <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-4 text-center space-y-3">
+                <p className="text-xs text-indigo-300">Hints 2+ require Pro.</p>
+                <a
+                  href="/stages"
+                  onClick={onClose}
+                  className="block w-full py-2 rounded-lg text-xs font-bold text-black"
+                  style={{ background: "linear-gradient(90deg,#22d3ee,#818cf8)" }}
+                >
+                  Upgrade to Pro →
+                </a>
+              </div>
+            ) : (
+              <button
+                onClick={() => setRevealed((r) => r + 1)}
+                className="w-full py-2.5 text-sm text-amber-400 border border-amber-500/30 rounded-lg hover:bg-amber-500/5 transition-colors"
+              >
+                Reveal hint {revealed + 1} →
+              </button>
+            )
+          )}
+          {revealed >= hints.length && (
             <p className="text-center text-xs text-gray-700 py-2">All hints revealed.</p>
           )}
         </div>
@@ -253,7 +269,7 @@ function ReferenceDrawer({ stage, onClose }: { stage: StageConfig; onClose: () =
   );
 }
 
-export default function CtfChallenge({ stage, backHref = "/stages" }: { stage: StageConfig; backHref?: string }) {
+export default function CtfChallenge({ stage, backHref = "/stages", isPro = false }: { stage: StageConfig; backHref?: string; isPro?: boolean }) {
   const ctf = stage.ctf!;
   const hints = ctf.hints ?? [ctf.hint];
   const minFragments = ctf.minFragments ?? ctf.fragments?.length ?? 0;
@@ -633,8 +649,8 @@ export default function CtfChallenge({ stage, backHref = "/stages" }: { stage: S
           backHref={backHref}
         />
       )}
-      {hintsOpen && <HintDrawer hints={hints} onClose={() => setHintsOpen(false)} />}
-      {chatbotOpen && <HintChatbot stage={stage} onClose={() => setChatbotOpen(false)} />}
+      {hintsOpen && <HintDrawer hints={hints} isPro={isPro} onClose={() => setHintsOpen(false)} />}
+      {chatbotOpen && <HintChatbot stage={stage} isPro={isPro} onClose={() => setChatbotOpen(false)} />}
       {drawerOpen && <ReferenceDrawer stage={stage} onClose={() => setDrawerOpen(false)} />}
 
       <div

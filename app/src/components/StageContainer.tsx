@@ -6,7 +6,7 @@ import CtfChallenge from "./CtfChallenge";
 import QuizChallenge from "./QuizChallenge";
 import type { StageConfig } from "@/data/types";
 
-export default function StageContainer({ stage }: { stage: StageConfig | null }) {
+export default function StageContainer({ stage, isPro = false }: { stage: StageConfig | null; isPro?: boolean }) {
   const [phase, setPhase] = useState<"info" | "challenge">("info");
 
   if (!stage) {
@@ -24,7 +24,7 @@ export default function StageContainer({ stage }: { stage: StageConfig | null })
   }
 
   if (stage.challengeType === "ctf" && stage.ctf) {
-    return <CtfChallenge stage={stage} backHref={backHref} />;
+    return <CtfChallenge stage={stage} backHref={backHref} isPro={isPro} />;
   }
 
   return <QuizChallenge stage={stage} backHref={backHref} />;

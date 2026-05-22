@@ -2,7 +2,7 @@ import { getStage } from "@/data/stages";
 import StageContainer from "@/components/StageContainer";
 import type { StageConfig } from "@/data/types";
 import { getStageOverride, applyStageOverride, canAccessEpoch } from "@/lib/cms";
-import { canAccessStage } from "@/lib/access";
+import { canAccessStage, getUserTier } from "@/lib/access";
 import { getSessionFromCookies } from "@/lib/server-session";
 import ProPaywall from "@/components/ProPaywall";
 import Link from "next/link";
@@ -14,10 +14,9 @@ export default async function StagePage({
 }) {
   const { stageId } = await params;
   const stageBase = getStage(stageId) ?? null;
+  const username = await getSessionFromCookies();
 
   if (stageBase) {
-    const username = await getSessionFromCookies();
-
     // Epoch-level admin access control
     const epochAllowed = await canAccessEpoch(stageBase.epochId, username);
     if (!epochAllowed) {
@@ -47,6 +46,8 @@ export default async function StagePage({
     }
   }
 
+  const isPro = username ? (await getUserTier(username)) === "pro" : false;
+
   let stage: StageConfig | null = stageBase;
 
   if (stage) {
@@ -71,5 +72,5 @@ export default async function StagePage({
     };
   }
 
-  return <StageContainer stage={safeStage} />;
+  return <StageContainer stage={safeStage} isPro={isPro} />;
 }

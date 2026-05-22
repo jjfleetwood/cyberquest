@@ -10,10 +10,11 @@ const MAX_FREE_MESSAGES = 10;
 
 type Props = {
   stage: StageConfig;
+  isPro?: boolean;
   onClose: () => void;
 };
 
-export default function HintChatbot({ stage, onClose }: Props) {
+export default function HintChatbot({ stage, isPro = false, onClose }: Props) {
   const ctf = stage.ctf;
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -78,7 +79,7 @@ export default function HintChatbot({ stage, onClose }: Props) {
       setMessages((prev) => [...prev, { role: "aria", text: reply }]);
       const newCount = messageCount + 1;
       setMessageCount(newCount);
-      startCooldown();
+      if (!isPro) startCooldown();
     } catch {
       setMessages((prev) => [...prev, { role: "aria", text: "Connection lost. Check your network and try again." }]);
     } finally {
@@ -90,7 +91,7 @@ export default function HintChatbot({ stage, onClose }: Props) {
     if (e.key === "Enter") sendMessage();
   }
 
-  const hitLimit = messageCount >= MAX_FREE_MESSAGES;
+  const hitLimit = !isPro && messageCount >= MAX_FREE_MESSAGES;
 
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
@@ -107,7 +108,7 @@ export default function HintChatbot({ stage, onClose }: Props) {
             <span className="text-gray-600 text-xs">AI Assistant</span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-600 font-mono">{messageCount}/{MAX_FREE_MESSAGES}</span>
+            <span className="text-xs text-gray-600 font-mono">{isPro ? "∞" : `${messageCount}/${MAX_FREE_MESSAGES}`}</span>
             <button onClick={onClose} className="text-gray-500 hover:text-white transition-colors text-lg leading-none">✕</button>
           </div>
         </div>
