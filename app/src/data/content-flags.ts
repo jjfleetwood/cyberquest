@@ -96,17 +96,54 @@ export const CONTENT_FLAGS: ContentFlag[] = [
       "first-journey-3.ts has several stages referencing ATT&CK T-codes. Lower risk than the dedicated MITRE epoch, but attribution is best practice.",
     reviewedAt: "2026-05-20",
   },
+  // ── Tech Audit epochs ─────────────────────────────────────────────────────
+  {
+    epochId: "tech-audit-1",
+    risk: "fair-use",
+    source: "ISACA / COBIT 2019 / NIST / PCI DSS / ITIL / CIS",
+    license: "Commercial frameworks — educational fair use",
+    attributionUrl: "https://www.isaca.org/",
+    attributionText:
+      "This module references ISACA® frameworks including COBIT® 2019, CISA®, and CRISC®, which are registered trademarks of ISACA. Additional references include NIST SP 800-series publications (public domain), PCI DSS® (PCI Security Standards Council), SOX Section 404 (U.S. federal law), HIPAA (U.S. federal law), GDPR (EU regulation), ITIL® (PeopleCert), and CIS Benchmarks™ (Center for Internet Security). All content is used for educational purposes.",
+    adminNote:
+      "tech-audit-1.ts references COBIT 2019 control objectives, CISA/CRISC certifications, NIST SP 800-30/34/53, PCAOB AS 2201, GDPR, CCPA, HIPAA, PCI DSS, ITIL v2/v4, and CIS Docker/Kubernetes benchmarks. Educational use of commercial standards. No verbatim reproduction of proprietary frameworks.",
+    reviewedAt: "2026-05-21",
+  },
   {
     epochId: "tech-audit-2",
-    risk: "fair-use",
-    source: "OWASP (indirect reference)",
-    license: "CC BY-SA 4.0",
-    attributionUrl: "https://owasp.org/",
+    risk: "needs-attribution",
+    source: "OWASP API Security Top 10 2023 / NIST / CIS / CISA",
+    license: "CC BY-SA 4.0 (OWASP); Public domain (NIST/CISA)",
+    attributionUrl: "https://owasp.org/API-Security/",
     attributionText:
-      "Some stages reference OWASP guidance for educational purposes. OWASP® is a registered trademark of the OWASP Foundation.",
+      "This module references the OWASP API Security Top 10 2023. OWASP® is a registered trademark of the OWASP Foundation. Content adapted for educational use under CC BY-SA 4.0. Additional references include NIST SP 800-53/800-161 (public domain U.S. government publications), CIS AWS Foundations Benchmark™ (Center for Internet Security), and CISA Supply Chain Risk Management guidelines (public domain).",
     adminNote:
-      "tech-audit-2.ts and tech-audit-3.ts contain OWASP references in scenario text. Risk is low but worth a footer note.",
-    reviewedAt: "2026-05-20",
+      "tech-audit-2.ts stages directly map to OWASP API Top 10 categories (BOLA, Broken Authentication, etc.) and cite OWASP A07:2021/A02:2021. Attribution banner required. ShareAlike clause applies to any redistribution of OWASP content.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "tech-audit-3",
+    risk: "needs-attribution",
+    source: "Anthropic Claude API / Model Context Protocol / NIST / CIS / OWASP",
+    license: "Anthropic public documentation; CC BY-SA 4.0 (OWASP); Public domain (NIST/CIS)",
+    attributionUrl: "https://docs.anthropic.com/",
+    attributionText:
+      "This module references Claude™ and the Model Context Protocol (MCP), developed by Anthropic. Claude™ is a trademark of Anthropic PBC. MCP is an open protocol published by Anthropic. Additional references include OWASP Secrets Management Cheat Sheet (CC BY-SA 4.0), NIST SP 800-137A (public domain), CIS AWS Foundations Benchmark v1.4™ (Center for Internet Security), and HashiCorp Vault® (HashiCorp, Inc.).",
+    adminNote:
+      "tech-audit-3.ts stages are built around Claude tool-use workflows and MCP server templates. Anthropic is a commercial company — explicit attribution for Claude/MCP is appropriate. HashiCorp Vault is referenced descriptively (not reproduced). No proprietary API documentation is copied verbatim.",
+    reviewedAt: "2026-05-21",
+  },
+  {
+    epochId: "tech-audit-4",
+    risk: "fair-use",
+    source: "NIST / FIPS / CIS / OASIS STIX-TAXII / CISA",
+    license: "Public domain (NIST/FIPS/CISA); Open standard (OASIS)",
+    attributionUrl: "https://csrc.nist.gov/publications/detail/sp/800-137/final",
+    attributionText:
+      "This module references NIST SP 800-137/137A (Information Security Continuous Monitoring), NIST SP 800-207 (Zero Trust Architecture), and FIPS 199 (public domain U.S. government publications). Additional references include CIS Benchmarks™ for Docker, Kubernetes, and AWS (Center for Internet Security), STIX™ 2.1 and TAXII™ 2.1 (OASIS open standards), and CISA Automated Indicator Sharing (public domain).",
+    adminNote:
+      "tech-audit-4.ts references ISCM framework concepts from NIST 800-137, Zero Trust from NIST 800-207, FIPS 199 impact levels, CIS benchmarks, STIX/TAXII threat intel standards, CISA AIS, FS-ISAC/H-ISAC/E-ISAC sector sharing orgs, and Five Eyes Volt Typhoon disclosure. All public domain or openly licensed. No verbatim reproduction.",
+    reviewedAt: "2026-05-21",
   },
   {
     epochId: "quantum-1",
