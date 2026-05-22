@@ -765,9 +765,19 @@ export default function AdminPage() {
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/stages" className="text-gray-600 hover:text-gray-400 text-sm mb-4 inline-block transition-colors">
-            ← Back to Stage Map
-          </Link>
+          <div className="flex items-center justify-between mb-4">
+            <Link href="/stages" className="text-gray-600 hover:text-gray-400 text-sm transition-colors">
+              ← Back to Stage Map
+            </Link>
+            <a
+              href="https://remotedesktop.google.com/access"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-cyan-400 transition-colors"
+            >
+              🖥️ Remote Desktop
+            </a>
+          </div>
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
               <div className="flex items-center gap-3 mb-1">
