@@ -114,62 +114,6 @@ export default function Home() {
 
   return (
     <>
-      <style>{`
-        @keyframes float-slow {
-          0%,100% { transform: translateY(0px); }
-          40%     { transform: translateY(-10px); }
-          70%     { transform: translateY(-5px); }
-        }
-        @keyframes ticker-scroll {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @keyframes pulse-ring {
-          0%   { transform: translate(-50%,-50%) scale(0.6); opacity: 0.7; }
-          100% { transform: translate(-50%,-50%) scale(2.2); opacity: 0; }
-        }
-        @keyframes blink {
-          0%,100% { opacity: 1; }
-          50%     { opacity: 0; }
-        }
-        @keyframes shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
-        .track-card {
-          transition: transform 0.35s cubic-bezier(.25,.8,.25,1), box-shadow 0.35s ease;
-        }
-        .track-card:hover {
-          transform: perspective(900px) rotateX(-3deg) rotateY(1.5deg) translateY(-6px) scale(1.01);
-        }
-        .terminal-wrap {
-          transform: perspective(1300px) rotateY(-10deg) rotateX(4deg);
-          transition: transform 0.45s ease;
-        }
-        .terminal-wrap:hover {
-          transform: perspective(1300px) rotateY(-4deg) rotateX(1.5deg);
-        }
-        .hero-glow {
-          background: linear-gradient(90deg, #22d3ee, #a78bfa, #6366f1, #22d3ee);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: shimmer 4s linear infinite;
-        }
-        .cta-shimmer {
-          position: relative; overflow: hidden;
-        }
-        .cta-shimmer::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%);
-          transform: translateX(-100%);
-          transition: transform 0.55s ease;
-        }
-        .cta-shimmer:hover::after { transform: translateX(100%); }
-        .cursor-blink { animation: blink 1s step-start infinite; }
-      `}</style>
-
       <main
         className="min-h-screen flex flex-col"
         style={{ background: "linear-gradient(160deg, #04080f 0%, #0d1117 45%, #080d1a 100%)" }}
@@ -234,7 +178,7 @@ export default function Home() {
               style={{ background: "rgba(34,211,238,0.06)" }}>
               <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
               <span className="text-cyan-300 font-mono font-medium tracking-wide">
-                346 Stages · AI · Post-Quantum · Nation-State CTF
+                358 Stages · AI · Post-Quantum · Nation-State CTF
               </span>
             </div>
 
@@ -279,7 +223,7 @@ export default function Home() {
                   backdropFilter: "blur(8px)",
                 }}
               >
-                View 346 Stages
+                View 358 Stages
               </Link>
             </div>
           </div>

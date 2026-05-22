@@ -8,7 +8,7 @@ async function isRateLimited(ip: string): Promise<boolean> {
   const key = `rate:login:${ip}`;
   const count = await redis.incr(key);
   if (count === 1) await redis.expire(key, 900); // 15-minute window
-  return count > 10;
+  return count > 5;
 }
 
 function safeCompare(a: string, b: string): boolean {
