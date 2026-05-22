@@ -1,5 +1,7 @@
 /** Shared crypto helpers — safe to import on both client and server. */
 
+export const PBKDF2_ITERATIONS = 310_000;
+
 export function generateSalt(): string {
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
@@ -8,11 +10,11 @@ export function generateSalt(): string {
     .join("");
 }
 
-export async function hashPassword(password: string, salt: string): Promise<string> {
+export async function hashPassword(password: string, salt: string, iterations = PBKDF2_ITERATIONS): Promise<string> {
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits"]);
   const bits = await crypto.subtle.deriveBits(
-    { name: "PBKDF2", salt: enc.encode(salt), iterations: 100_000, hash: "SHA-256" },
+    { name: "PBKDF2", salt: enc.encode(salt), iterations, hash: "SHA-256" },
     key,
     256
   );

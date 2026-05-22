@@ -3,8 +3,9 @@ import type { NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
 function secret(): string {
-  const s = process.env.ADMIN_SECRET;
-  if (!s) throw new Error("ADMIN_SECRET not configured");
+  // SESSION_SECRET is preferred; falls back to ADMIN_SECRET during transition
+  const s = process.env.SESSION_SECRET ?? process.env.ADMIN_SECRET;
+  if (!s) throw new Error("SESSION_SECRET not configured");
   return s;
 }
 

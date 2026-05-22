@@ -20,6 +20,18 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Kryptós CronOS (κρυπτός χρόνος) — Defend Through Time",
   description: "A gamified cybersecurity training platform. Break ciphers, exploit real vulnerabilities, and defend through the ages.",
+  openGraph: {
+    title: "Kryptós CronOS — Defend Through Time",
+    description: "358 CTF stages. 32 epochs. Real CVEs. Gamified cybersecurity and AI training.",
+    url: "https://kryptoscronos.com",
+    siteName: "Kryptós CronOS",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kryptós CronOS — Defend Through Time",
+    description: "358 CTF stages. 32 epochs. Real CVEs. Gamified cybersecurity and AI training.",
+  },
 };
 
 // Runs synchronously before React hydrates — prevents flash of wrong skin,
