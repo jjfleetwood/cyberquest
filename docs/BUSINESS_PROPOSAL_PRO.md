@@ -109,7 +109,7 @@ The platform ships with 358 fully built stages organized into 32 curriculum epoc
 
 ### B2C (Direct to Learner)
 - **Free tier:** Stages 1–3 (acquisition funnel)
-- **Pro:** $19/month or $149/year — full curriculum + AI personalization + badge certificates
+- **Pro:** $5.99/month or $25.99/year — full curriculum + AI personalization + badge certificates
 - **Team:** $12/seat/month (10+ seats) — cohort dashboards, completion reporting
 
 #### Ad-Supported Hints — Revenue Model Detail

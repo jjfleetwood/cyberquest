@@ -126,7 +126,7 @@ This is the AI layer that the other platforms are scrambling to bolt on. We ship
 
 ### Direct to consumer
 - Free tier: first few stages (gets you hooked)
-- Pro: $19/month — everything, plus AI personalization and certificates
+- Pro: $5.99/month or $25.99/year — everything, plus AI personalization and certificates
 - Team: $12/seat for companies with 10+ people in training
 
 ### Enterprise
