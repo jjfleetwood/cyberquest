@@ -211,9 +211,18 @@ export default function ShopPage() {
   const items = data?.items ?? [];
   const inventory = data?.inventory ?? [];
   const ownedTrophyIds = new Set(
-    trophyData?.mode === "user" ? trophyData.owned.map((t) => t.id) : []
+    trophyData?.mode === "user"
+      ? trophyData.owned.map((t) => t.id)
+      : trophyData?.mode === "admin"
+      ? trophyData.ownedIds
+      : []
   );
-  const showcaseTrophies = trophyData?.mode === "user" ? trophyData.shop : [];
+  const showcaseTrophies =
+    trophyData?.mode === "user"
+      ? trophyData.shop
+      : trophyData?.mode === "admin"
+      ? trophyData.trophies
+      : [];
 
   return (
     <div

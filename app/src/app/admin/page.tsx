@@ -773,9 +773,9 @@ export default function AdminPage() {
               href="https://remotedesktop.google.com/access"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-cyan-400 transition-colors"
+              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-cyan-300 border border-gray-700 hover:border-cyan-500/60 bg-white/3 hover:bg-cyan-500/10 rounded-lg px-3 py-1.5 transition-all cursor-pointer"
             >
-              🖥️ Remote Desktop
+              ⛵ Remote Desktop
             </a>
           </div>
           <div className="flex items-center justify-between flex-wrap gap-3">

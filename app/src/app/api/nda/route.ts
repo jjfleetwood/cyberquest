@@ -1,24 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
-import { createHmac } from "crypto";
+import { createHmac, timingSafeEqual } from "crypto";
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 function signNdaToken(email: string): string {
-  const secret = process.env.ADMIN_SECRET ?? "nda-fallback";
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) return "";
   return `${email}:${createHmac("sha256", secret).update(email).digest("hex")}`;
 }
 
 export function verifyNdaToken(token: string): string | null {
-  const secret = process.env.ADMIN_SECRET ?? "nda-fallback";
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) return null;
   const colonIdx = token.lastIndexOf(":");
   if (colonIdx === -1) return null;
   const email = token.slice(0, colonIdx);
   const sig = token.slice(colonIdx + 1);
   const expected = createHmac("sha256", secret).update(email).digest("hex");
-  return sig === expected ? email : null;
+  try {
+    const sigBuf = Buffer.from(sig, "hex");
+    const expBuf = Buffer.from(expected, "hex");
+    if (sigBuf.length !== expBuf.length) return null;
+    return timingSafeEqual(sigBuf, expBuf) ? email : null;
+  } catch {
+    return null;
+  }
 }
 
 // Rate limit: 5 submissions per IP per hour

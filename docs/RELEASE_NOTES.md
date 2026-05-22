@@ -2,6 +2,28 @@
 
 ---
 
+## v1.8.0 — 2026-05-22
+
+**Security hardening, Pro tier, CI/CD pipeline, epoch #32**
+
+- Epoch #32 `cisco-advanced` — 12 stages (stage-m39 → stage-m50), Cyan theme
+- Pro tier access model — 7-day free trial based on `createdAt`; Stripe checkout ($5.99/mo, $55.99/yr); webhook lifecycle handling
+- `ProPaywall` component — inline upgrade wall when trial expires; server-side enforcement in check-flag, check-answer, stage page
+- Pro hints — HintDrawer gate (hints 2+ require Pro); HintChatbot no cooldown + unlimited messages for Pro users
+- Admin tier toggle — per-user toggle in `/admin` writes `tier: pro|free` to Redis; overrides trial
+- PBKDF2 iteration count bumped 100k → 310k (NIST SP 800-132); transparent re-hash on next login for existing accounts
+- SESSION_SECRET separated from ADMIN_SECRET — session tokens now use dedicated secret
+- NDA token timing attack fixed — `verifyNdaToken` now uses `timingSafeEqual`; hardcoded fallback secret removed
+- Rate limiting added to `reset-password` endpoint (5 attempts/hour/IP)
+- CI/CD — `dev` branch added; `.github/workflows/ci.yml` triggers on pushes to both `dev` and `master`; `--skipLibCheck` added to tsc step
+- `src/proxy.ts` — active Turbopack middleware (replaced deleted `middleware.ts`)
+- Open Graph + Twitter card meta tags added to `layout.tsx`
+- Admin page: ⛵ Remote Desktop link (Chrome Remote Desktop), styled as button
+- Today's Showcase fixed for admin users (was returning empty array)
+- Vercel project corrected: deploy target is `kryptos-cronos` (serves kryptoscronos.com), not `app`
+
+---
+
 ## v1.7.0 — 2026-05-20
 
 **Baseball pitching curriculum (3 epochs, 30 stages); global nav on all pages; 334 stages total**

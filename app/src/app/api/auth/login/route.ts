@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { timingSafeEqual, createHmac } from "crypto";
 import { redis } from "@/lib/redis";
-import { hashPassword } from "@/lib/crypto-utils";
+import { hashPassword, PBKDF2_ITERATIONS } from "@/lib/crypto-utils";
 import { signSessionToken, sessionCookieOptions } from "@/lib/server-session";
 
 async function isRateLimited(ip: string): Promise<boolean> {
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   }
 
   const username = body.username.toLowerCase().trim();
-  const data = await redis.hgetall<{ passwordHash: string; salt: string; email: string }>(`user:${username}`);
+  const data = await redis.hgetall<{ passwordHash: string; salt: string; email: string; hashIterations?: string }>(`user:${username}`);
 
   if (!data?.passwordHash || !data?.salt) {
     // Still hash to avoid timing-based username enumeration
@@ -43,9 +43,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
   }
 
-  const hash = await hashPassword(body.password, data.salt);
+  const storedIterations = data.hashIterations ? Number(data.hashIterations) : 100_000;
+  const hash = await hashPassword(body.password, data.salt, storedIterations);
   if (!safeCompare(hash, data.passwordHash)) {
     return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
+  }
+
+  // Transparent re-hash: upgrade old 100k accounts to 310k on next login
+  if (storedIterations < PBKDF2_ITERATIONS) {
+    const newHash = await hashPassword(body.password, data.salt);
+    redis.hset(`user:${username}`, { passwordHash: newHash, hashIterations: PBKDF2_ITERATIONS }).catch(() => {});
   }
 
   const token = signSessionToken(username);

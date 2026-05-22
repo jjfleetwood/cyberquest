@@ -2,7 +2,7 @@
 **Classification:** Internal  
 **Version:** 2.4  
 **Date:** 2026-05-20  
-**Current version:** v1.7.1
+**Current version:** v1.8.0
 
 ---
 

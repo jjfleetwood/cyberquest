@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
-import { hashPassword, generateSalt } from "@/lib/crypto-utils";
+import { hashPassword, generateSalt, PBKDF2_ITERATIONS } from "@/lib/crypto-utils";
 import { signSessionToken, sessionCookieOptions } from "@/lib/server-session";
 import { createHmac } from "crypto";
 
@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
   await redis.hset(`user:${lower}`, {
     passwordHash,
     salt,
+    hashIterations: PBKDF2_ITERATIONS,
     email: escapeHtml(email),
     createdAt: Date.now(),
   });
