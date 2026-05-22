@@ -769,14 +769,13 @@ export default function AdminPage() {
             <Link href="/stages" className="text-gray-600 hover:text-gray-400 text-sm transition-colors">
               ← Back to Stage Map
             </Link>
-            <a
-              href="https://remotedesktop.google.com/access"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-cyan-300 border border-gray-700 hover:border-cyan-500/60 bg-white/3 hover:bg-cyan-500/10 rounded-lg px-3 py-1.5 transition-all cursor-pointer"
+            <button
+              type="button"
+              onClick={() => window.open("https://remotedesktop.google.com/access", "_blank", "noopener,noreferrer")}
+              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-cyan-300 border border-gray-700 hover:border-cyan-500/60 bg-transparent hover:bg-cyan-500/10 rounded-lg px-3 py-1.5 transition-all cursor-pointer"
             >
               ⛵ Remote Desktop
-            </a>
+            </button>
           </div>
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div>
