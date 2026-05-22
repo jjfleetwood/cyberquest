@@ -31,8 +31,6 @@ type TrophyApiResponse =
   | { mode: "admin"; trophies: TrophyRow[]; ownedIds: string[] }
   | { mode: "user"; shop: TrophyRow[]; owned: TrophyRow[] };
 
-type Tab = "shop" | "treasures";
-
 const RARITY_COLORS: Record<string, string> = {
   common: "text-gray-400 border-gray-600/40 bg-gray-600/10",
   rare: "text-purple-400 border-purple-500/40 bg-purple-500/10",
@@ -91,16 +89,13 @@ function TrophyCard({
           {meta.label.toUpperCase()}
         </span>
       </div>
-
       <div>
         <div className="text-sm font-bold text-white leading-snug">{trophy.name}</div>
         <div className="text-xs mt-1 leading-relaxed" style={{ color: "rgba(107,114,128,1)" }}>
           {trophy.description}
         </div>
       </div>
-
       <SupplyBar remaining={trophy.remaining} supply={trophy.supply} />
-
       <div className="flex items-center justify-between mt-auto pt-1">
         <span className={`text-sm font-mono font-bold ${meta.textColor}`}>
           {trophy.price.toLocaleString()} 🪙
@@ -113,11 +108,7 @@ function TrophyCard({
             disabled={buying || soldOut || !canAfford}
             className="text-xs px-3 py-1.5 rounded-lg font-semibold transition-all"
             style={{
-              background: soldOut || !canAfford
-                ? "rgba(55,65,81,0.5)"
-                : buying
-                ? "rgba(34,211,238,0.3)"
-                : "rgba(34,211,238,0.15)",
+              background: soldOut || !canAfford ? "rgba(55,65,81,0.5)" : buying ? "rgba(34,211,238,0.3)" : "rgba(34,211,238,0.15)",
               color: soldOut || !canAfford ? "rgba(107,114,128,1)" : "#22d3ee",
               border: "1px solid",
               borderColor: soldOut || !canAfford ? "rgba(55,65,81,0.5)" : "rgba(34,211,238,0.3)",
@@ -136,7 +127,6 @@ export default function ShopPage() {
   const router = useRouter();
   const [data, setData] = useState<ShopData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState<Tab>("shop");
   const [busy, setBusy] = useState<string | null>(null);
   const [flash, setFlash] = useState<{ msg: string; ok: boolean } | null>(null);
 
@@ -152,10 +142,7 @@ export default function ShopPage() {
         return r.json() as Promise<ShopData>;
       })
       .then((d) => {
-        if (d) {
-          setData(d);
-          setSpendable(d.spendable);
-        }
+        if (d) { setData(d); setSpendable(d.spendable); }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -170,11 +157,10 @@ export default function ShopPage() {
       .finally(() => setTrophyLoading(false));
   }, []);
 
-  useEffect(() => { load(); }, [load]);
-
   useEffect(() => {
-    if (tab === "treasures" && !trophyData) loadTrophies();
-  }, [tab, trophyData, loadTrophies]);
+    load();
+    loadTrophies();
+  }, [load, loadTrophies]);
 
   function showFlash(msg: string, ok: boolean) {
     setFlash({ msg, ok });
@@ -246,7 +232,8 @@ export default function ShopPage() {
       )}
 
       <div className="max-w-5xl mx-auto">
-        <div className="mb-8">
+        {/* Header */}
+        <div className="mb-10">
           <Link href="/stages" className="text-gray-600 hover:text-gray-400 text-sm mb-4 inline-block transition-colors">
             ← Stage Map
           </Link>
@@ -262,107 +249,90 @@ export default function ShopPage() {
           </div>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 bg-white/3 border border-white/10 rounded-xl p-1 mb-8 w-fit">
-          {(["shop", "treasures"] as Tab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${
-                tab === t ? "bg-cyan-500/15 border border-cyan-500/40 text-cyan-400" : "text-gray-500 hover:text-gray-300"
-              }`}
-            >
-              {t === "shop" ? "🛒 Shop" : "💎 Treasures"}
-            </button>
-          ))}
-        </div>
+        {/* ── Avatar items ── */}
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-14">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-48 rounded-xl bg-white/3 border border-white/8 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14">
+            {SHOP_ITEMS.map((item) => {
+              const owned = inventory.includes(item.id);
+              const canAfford = (data?.spendable ?? 0) >= item.price;
+              return (
+                <div
+                  key={item.id}
+                  className={`rounded-2xl border p-5 flex flex-col gap-4 transition-all ${
+                    owned ? "border-green-500/30 bg-green-500/5" : "border-white/8 bg-white/2 hover:border-white/15"
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="text-4xl">{item.emoji}</div>
+                    <span className={`text-xs px-2 py-0.5 rounded-full border font-semibold ${RARITY_COLORS[item.rarity]}`}>
+                      {item.rarity}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="text-white font-bold">{item.name}</div>
+                    <div className="text-gray-500 text-xs mt-1 leading-relaxed">{item.description}</div>
+                    <div className="text-gray-600 text-xs mt-2">Slot: <span className="text-gray-400">{item.slot}</span></div>
+                  </div>
+                  <div className="mt-auto flex items-center justify-between">
+                    <span className="text-amber-400 font-mono font-bold">{item.price} 🪙</span>
+                    {owned ? (
+                      <span className="text-green-500 text-xs font-semibold">✓ Owned</span>
+                    ) : (
+                      <button
+                        onClick={() => purchase(item)}
+                        disabled={!!busy || !canAfford}
+                        className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${
+                          canAfford ? "bg-cyan-500 hover:bg-cyan-400 text-black" : "bg-white/5 text-gray-600 cursor-not-allowed"
+                        }`}
+                      >
+                        {busy === item.id ? "…" : canAfford ? "Buy" : "Need more coins"}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-        {tab === "shop" ? (
-          loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[1, 2, 3].map((i) => (
+        {/* ── Daily trophy showcase ── */}
+        <div className="border-t border-white/6 pt-10">
+          <div className="flex items-center gap-3 mb-2">
+            <h2 className="text-xl font-black text-white">Today&apos;s Showcase</h2>
+            <div className="flex items-center gap-1.5 text-xs text-green-400 bg-green-400/10 border border-green-400/30 rounded-full px-2.5 py-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              Refreshes daily
+            </div>
+          </div>
+          <p className="text-gray-600 text-xs mb-6">10 trophies selected for you today. Supply is tracked globally — once it&apos;s gone, it&apos;s gone.</p>
+
+          {trophyLoading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {[...Array(10)].map((_, i) => (
                 <div key={i} className="h-48 rounded-xl bg-white/3 border border-white/8 animate-pulse" />
               ))}
             </div>
           ) : (
-            /* ── Avatar items ── */
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {SHOP_ITEMS.map((item) => {
-                const owned = inventory.includes(item.id);
-                const canAfford = (data?.spendable ?? 0) >= item.price;
-                return (
-                  <div
-                    key={item.id}
-                    className={`rounded-2xl border p-5 flex flex-col gap-4 transition-all ${
-                      owned ? "border-green-500/30 bg-green-500/5" : "border-white/8 bg-white/2 hover:border-white/15"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="text-4xl">{item.emoji}</div>
-                      <span className={`text-xs px-2 py-0.5 rounded-full border font-semibold ${RARITY_COLORS[item.rarity]}`}>
-                        {item.rarity}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="text-white font-bold">{item.name}</div>
-                      <div className="text-gray-500 text-xs mt-1 leading-relaxed">{item.description}</div>
-                      <div className="text-gray-600 text-xs mt-2">Slot: <span className="text-gray-400">{item.slot}</span></div>
-                    </div>
-                    <div className="mt-auto flex items-center justify-between">
-                      <span className="text-amber-400 font-mono font-bold">{item.price} 🪙</span>
-                      {owned ? (
-                        <span className="text-green-500 text-xs font-semibold">✓ Owned</span>
-                      ) : (
-                        <button
-                          onClick={() => purchase(item)}
-                          disabled={!!busy || !canAfford}
-                          className={`px-4 py-1.5 rounded-lg text-sm font-bold transition-all ${
-                            canAfford ? "bg-cyan-500 hover:bg-cyan-400 text-black" : "bg-white/5 text-gray-600 cursor-not-allowed"
-                          }`}
-                        >
-                          {busy === item.id ? "…" : canAfford ? "Buy" : "Need more coins"}
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+              {showcaseTrophies.map((t) => (
+                <TrophyCard
+                  key={t.id}
+                  trophy={t}
+                  owned={ownedTrophyIds.has(t.id)}
+                  onBuy={handleBuyTrophy}
+                  buying={buyingTrophy === t.id}
+                  spendable={spendable}
+                />
+              ))}
             </div>
-          )
-        ) : (
-          /* ── Treasures ── */
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <h2 className="text-xl font-black text-white">Today&apos;s Showcase</h2>
-              <div className="flex items-center gap-1.5 text-xs text-green-400 bg-green-400/10 border border-green-400/30 rounded-full px-2.5 py-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Refreshes daily
-              </div>
-            </div>
-            <p className="text-gray-600 text-xs mb-6">10 trophies selected for you today. Supply is tracked globally — once it&apos;s gone, it&apos;s gone.</p>
-
-            {trophyLoading ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                {[...Array(10)].map((_, i) => (
-                  <div key={i} className="h-48 rounded-xl bg-white/3 border border-white/8 animate-pulse" />
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                {showcaseTrophies.map((t) => (
-                  <TrophyCard
-                    key={t.id}
-                    trophy={t}
-                    owned={ownedTrophyIds.has(t.id)}
-                    onBuy={handleBuyTrophy}
-                    buying={buyingTrophy === t.id}
-                    spendable={spendable}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
