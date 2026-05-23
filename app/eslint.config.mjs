@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Dev scripts are not part of the app bundle
+    "scripts/**",
   ]),
   {
     rules: {
@@ -21,6 +23,12 @@ const eslintConfig = defineConfig([
       // without breaking on pre-existing ones.
       "react-hooks/set-state-in-effect": "warn",
       "react-hooks/purity": "warn",
+      // Variables/params prefixed with _ are intentionally unused (convention).
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+      }],
     },
   },
 ]);

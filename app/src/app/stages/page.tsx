@@ -61,7 +61,7 @@ const epochGroups = [
 
 export default function StagesPage() {
   const router = useRouter();
-  const { skin } = useSkin();
+  useSkin();
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [totalCoins, setTotalCoins] = useState(0);
   const [streak, setStreak] = useState(0);

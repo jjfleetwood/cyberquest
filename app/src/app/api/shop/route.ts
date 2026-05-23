@@ -21,15 +21,6 @@ function verifyAdminToken(token: string): boolean {
   } catch { return false; }
 }
 
-function parseArr(val: unknown): string[] {
-  if (!val) return [];
-  if (Array.isArray(val)) return val as string[];
-  const s = String(val);
-  try { const p = JSON.parse(s); return Array.isArray(p) ? p : []; } catch {
-    return s.split(",").filter(Boolean);
-  }
-}
-
 /** GET /api/shop — returns shop catalog + user's inventory and spendable balance */
 export async function GET(req: NextRequest) {
   const username = getServerSession(req);

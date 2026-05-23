@@ -4,13 +4,12 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getSession, clearSession, setSession } from "@/lib/auth";
 import { useRouter, usePathname } from "next/navigation";
-import { useSkin, SKINS, type SkinId } from "@/contexts/SkinContext";
+import { useSkin } from "@/contexts/SkinContext";
 
 export default function Nav() {
   const router = useRouter();
   const pathname = usePathname();
-  const { skin, skinId, setSkin } = useSkin();
-  const [skinMenuOpen, setSkinMenuOpen] = useState(false);
+  const { skin } = useSkin();
   const [username, setUsername] = useState<string | null>(null);
   const [admin, setAdmin] = useState(false);
   const [scrolled, setScrolled] = useState(false);

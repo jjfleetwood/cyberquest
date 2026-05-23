@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getSession, setSession } from "@/lib/auth";
-import { stages, epochs } from "@/data/stages";
+import { stages } from "@/data/stages";
 import { CONTENT_FLAGS, type ContentFlag } from "@/data/content-flags";
 
 type UserRow = {

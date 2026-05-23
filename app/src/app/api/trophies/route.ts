@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
 import { getServerSession } from "@/lib/server-session";
-import { TROPHIES, getTrophy, dailyShopTrophies, TIER_ORDER, type Trophy } from "@/data/trophies";
+import { TROPHIES, getTrophy, dailyShopTrophies } from "@/data/trophies";
 
 function verifyAdminToken(token: string): boolean {
   const secret = process.env.ADMIN_SECRET;

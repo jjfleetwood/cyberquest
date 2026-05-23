@@ -13,8 +13,6 @@ type Props = {
 
 export default function Avatar({ equipped, itemsById, size = "lg" }: Props) {
   const dim = size === "lg" ? 300 : 120;
-  const scale = dim / 300;
-
   const headItem = equipped.head ? itemsById[equipped.head] : null;
   const bodyItem = equipped.body ? itemsById[equipped.body] : null;
   const bgItem = equipped.background ? itemsById[equipped.background] : null;

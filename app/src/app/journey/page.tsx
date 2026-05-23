@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { stages as allStages, epochs } from "@/data/stages";
 import { fetchProgress } from "@/lib/progress";
 import { getSession, setSession } from "@/lib/auth";
@@ -223,7 +222,6 @@ function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: 
 }
 
 export default function JourneyPage() {
-  const router = useRouter();
   const { skin } = useSkin();
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [totalCoins, setTotalCoins] = useState(0);
