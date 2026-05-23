@@ -45,7 +45,7 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **ARIA AI Tutor** — A live, stage-aware AI assistant (powered by Claude Haiku) that uses Socratic coaching: it answers questions and guides thinking without giving away the flag. Available throughout every challenge.
 
-### Curriculum — 358 Stages across 32 Epochs and 10 Tracks (v1.8.0)
+### Curriculum — 358 Stages across 32 Epochs and 10 Tracks (v1.8.3)
 
 The platform ships with 358 fully built stages organized into 32 curriculum epochs and 10 learning tracks:
 
@@ -79,7 +79,7 @@ The platform ships with 358 fully built stages organized into 32 curriculum epoc
 | audit-cm11 | Continuous Compliance | FTC Drizly CEO liability order |
 | audit-cm12 | SOC Maturity — MTTD/MTTR | MGM Resorts $100M+ ransomware event |
 
-### Live Features (Shipped — v1.8.0)
+### Live Features (Shipped — v1.8.3)
 
 - **ARIA AI Tutor** — Claude Haiku, Socratic coaching, stage-aware context, 10-message session cap, rate-limited
 - **Daily Streaks** — Redis-backed streak tracking with streak-based milestone badges
@@ -91,7 +91,7 @@ The platform ships with 358 fully built stages organized into 32 curriculum epoc
 - **Progress Export** — PDF certificate via `@react-pdf/renderer`: coins, stages, badges, streak, per-epoch breakdown
 - **Admin Dashboard** — User management, NDA signatories panel, DocuSign integration, streak monitoring, CMS stage editor
 - **DocuSign NDA Integration** — Admin can send legally-binding NDA envelopes from the dashboard; signer status tracked via webhook
-- **CI Pipeline** — GitHub Actions: lint + tsc + build + security audit on every push
+- **CI Pipeline** — GitHub Actions: lint + tsc + build + security audit on every push — 0 ESLint errors
 - **Server-side Auth** — PBKDF2-SHA-256, HMAC-signed HttpOnly cookies, no localStorage credentials
 - **Nonce-based CSP** — Per-request nonce in middleware eliminates `unsafe-inline` from script-src
 
@@ -133,7 +133,7 @@ This creates a tripartite flywheel: learners build skills → employers find cer
 
 #### Cisco — Flagship Sponsor Integration
 
-Cisco is the deepest planned sponsor relationship, anchored by an existing 12-stage Cisco CVE epoch and expanding across four product lines:
+Cisco is the deepest planned sponsor relationship, anchored by a 50-stage Cisco curriculum built across 4 epochs (Core CVEs, Enterprise Defense, SecOps, Advanced Defense + Umbrella DNS Security) and expanding across four product lines:
 
 | Integration | Product | Value |
 |---|---|---|
@@ -189,7 +189,7 @@ Our differentiation: the only platform combining structured multi-track curricul
 - **Admin infrastructure:** NDA management with DocuSign e-signature integration
 - **Security posture:** Server-side auth, HMAC cookies, nonce-based CSP (no unsafe-inline in script-src), rate limiting, CI security audit
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptoscronos.com (version v1.8.0)
+- **Deployment:** Live at kryptoscronos.com (version v1.8.3)
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---
@@ -225,7 +225,7 @@ Our differentiation: the only platform combining structured multi-track curricul
 
 ## Team
 
-Kryptós CronOS is being built by a founder with domain expertise in cybersecurity, AI, and enterprise software. The technical foundation — 186-stage curriculum, AI tutor, leaderboard, auth system, DocuSign NDA integration, and CI/CD pipeline — was built and deployed to production in an accelerated build sprint.
+Kryptós CronOS is being built by a founder with domain expertise in cybersecurity, AI, and enterprise software. The technical foundation — 358-stage curriculum, AI tutor, leaderboard, auth system, DocuSign NDA integration, and CI/CD pipeline — was built and deployed to production in an accelerated build sprint.
 
 Advisory and engineering capacity available to discuss upon request.
 

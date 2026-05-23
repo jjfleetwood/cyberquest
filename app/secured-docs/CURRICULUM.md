@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.2  
-**Date:** 2026-05-20  
-**Total stages:** 334 across 29 epochs
+**Version:** 3.3  
+**Date:** 2026-05-22  
+**Total stages:** 358 across 32 epochs
 
 ---
 
@@ -42,8 +42,8 @@ Our First Journey is the entry point — low-friction challenges designed to bui
 
 ---
 
-## Epoch 3: Cisco
-**Theme:** Real Cisco CVEs — framed as APT/spy operations  
+## Epoch 3: Cisco — Core CVEs
+**Theme:** Foundational Cisco CVEs — NSA exploits, network infrastructure attacks  
 **Stages:** 12 (stage-m01 through stage-m12)  
 **Color:** Blue  
 **Unlock:** Locked until all 12 Foundations stages are completed  
@@ -70,40 +70,84 @@ Cisco epoch stages are written in a field-operative tone: the learner is an APT 
 
 ---
 
-## Epoch 4: Tech Audit — Foundations
-**Theme:** Technology audit methodology — foundational concepts and frameworks  
-**Stages:** 12 (audit-01 through audit-12)  
-**Color:** Purple  
-**Unlock:** Sequential unlock after completing prior epochs  
+## Epoch 4: Cisco — Enterprise Attack
+**Theme:** Nation-state campaigns and advanced CVEs across the Cisco enterprise portfolio  
+**Stages:** 13 (stage-m13 through stage-m25)  
+**Color:** Indigo  
+**Unlock:** Sequential after Cisco Core  
 **Gating:** Sequential within epoch
 
-Covers the fundamentals of conducting technology audits: scope definition, risk frameworks, evidence collection, audit trails, and reporting standards. Designed for learners moving into compliance, assurance, and governance roles.
+Advanced exploitation across Cisco's enterprise portfolio — ASA, NX-OS, SD-WAN, Expressway, and the ArcaneDoor and Velvet Ant nation-state campaigns.
 
 ---
 
-## Epoch 5: Tech Audit — Technical
-**Theme:** Technical audit execution — hands-on system and infrastructure assessment  
+## Epoch 5: Cisco — Security Operations
+**Theme:** CyberOps, threat hunting, and zero-day defense using Cisco security platforms  
+**Stages:** 13 (stage-m26 through stage-m38)  
+**Color:** Violet  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Cisco security platform operations and CyberOps Associate skills — Firepower, Umbrella, ISE, SecureX/XDR, SOC triage, threat hunting, and the IOS XE CVSS 10.0 zero-day.
+
+---
+
+## Epoch 6: Cisco — Advanced Defense
+**Theme:** Firepower, XDR, DevNet, Silicon One, and post-quantum IKEv2  
+**Stages:** 12 (stage-m39 through stage-m50)  
+**Color:** Cyan  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Next-generation Cisco security — Firepower NGIPS/FTD evasion and CVEs, Cisco XDR threat hunting, DevNet API and NETCONF/YANG security, Silicon One P4 pipeline integrity, and post-quantum IKEv2 with ML-KEM-768.
+
+---
+
+## Epoch 7: Tech Audit — Foundations
+**Theme:** Technology audit methodology — foundational concepts and frameworks  
+**Stages:** 12 (audit-01 through audit-12)  
+**Color:** Purple  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Master IT audit methodology using ISACA standards — COBIT, CISA, CRISC, and ITGC. Each stage simulates a real audit engagement at a major institution, from risk assessment to audit reporting.
+
+---
+
+## Epoch 8: Tech Audit — Technical
+**Theme:** API security, secrets management, and cloud guardrail testing  
 **Stages:** 12 (audit-t01 through audit-t12)  
 **Color:** Violet  
 **Unlock:** Sequential  
 **Gating:** Sequential within epoch
 
-Hands-on technical audit scenarios: network scanning, configuration review, log analysis, vulnerability assessment, and evidence documentation. Bridges cybersecurity skills with formal audit methodology.
+Hands-on technical audit testing — enumerate and exploit API misconfigurations, hunt for exposed secrets, audit IAM policies, test cloud guardrails, scan IaC templates, and validate container security controls.
 
 ---
 
-## Epoch 6: Tech Audit — Agentic
-**Theme:** AI-assisted and autonomous audit techniques  
+## Epoch 9: Tech Audit — Agentic Continuous Monitoring
+**Theme:** AI-assisted and autonomous audit techniques using Claude tools  
 **Stages:** 12 (audit-a01 through audit-a12)  
 **Color:** Indigo  
 **Unlock:** Sequential  
 **Gating:** Sequential within epoch
 
-Covers the emerging field of agentic security auditing: AI-assisted threat modeling, automated control testing, LLM-powered log analysis, and the risks of deploying autonomous agents in security-sensitive environments.
+Automate the full audit lifecycle using Claude's tool use API and MCP servers — agentic API enumeration, AI-powered secrets scanning, automated compliance report generation, and multi-agent audit pipeline design.
 
 ---
 
-## Epoch 7: MITRE ATT&CK
+## Epoch 10: Continuous Monitoring 2.0
+**Theme:** AI-powered detection and response — the full stack of modern SOC operations  
+**Stages:** 12 (audit-cm01 through audit-cm12)  
+**Color:** Rose  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Master next-generation continuous monitoring: ML-enhanced SIEM, UEBA, NDR, CSPM, SOAR automation, deception technology, Zero Trust telemetry, XDR, and compliance monitoring.
+
+---
+
+## Epoch 11: MITRE ATT&CK
 **Theme:** Adversarial tactics, techniques, and procedures mapped to the MITRE ATT&CK framework  
 **Stages:** 12 (mitre-01 through mitre-12)  
 **Color:** Red  
@@ -114,7 +158,7 @@ Each stage maps to a specific ATT&CK tactic (Reconnaissance, Initial Access, Exe
 
 ---
 
-## Epoch 8: MITRE ATLAS
+## Epoch 12: MITRE ATLAS
 **Theme:** AI threat landscape — adversarial attacks on machine learning systems  
 **Stages:** 12 (atlas-01 through atlas-12)  
 **Color:** Fuchsia  
@@ -125,37 +169,227 @@ MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) c
 
 ---
 
-## Epoch 9: OWASP LLM Top 10
+## Epoch 13: OWASP LLM Top 10
 **Theme:** Security risks specific to Large Language Model applications  
 **Stages:** 12 (llm-01 through llm-12)  
 **Color:** Orange  
 **Unlock:** Sequential  
 **Gating:** Sequential within epoch
 
-Covers the OWASP Top 10 for Large Language Model Applications: prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, and model theft. Stages simulate real LLM application attack scenarios.
+Covers the OWASP Top 10 for Large Language Model Applications (2025): prompt injection, insecure output handling, training data poisoning, model denial of service, supply chain vulnerabilities, sensitive information disclosure, insecure plugin design, excessive agency, overreliance, and model theft.
+
+---
+
+## Epoch 14: Quantum Foundations
+**Theme:** Qubits, Shor's Algorithm, and cryptographic threats from quantum computing  
+**Stages:** 10 (quantum-01 through quantum-10)  
+**Color:** Cyan  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Understand how quantum computing threatens the cryptographic foundations of the modern internet — from RSA to AES. Explore superposition, entanglement, Shor's Algorithm, and the Harvest Now, Decrypt Later threat that is already underway.
+
+---
+
+## Epoch 15: Post-Quantum Cryptography
+**Theme:** NIST PQC standards and implementation — replacing RSA and ECC  
+**Stages:** 10 (quantum-b01 through quantum-b10)  
+**Color:** Teal  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Master the post-quantum cryptography standards that will replace RSA and ECC — CRYSTALS-Kyber (ML-KEM), CRYSTALS-Dilithium (ML-DSA), FALCON (FN-DSA), and SPHINCS+ (SLH-DSA). Learn the mathematics behind lattice-based cryptography and implement PQC in real systems.
+
+---
+
+## Epoch 16: Quantum Security
+**Theme:** QKD, cryptographic agility, and enterprise PQC migration  
+**Stages:** 10 (quantum-c01 through quantum-c10)  
+**Color:** Sky  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Deploy quantum-safe infrastructure end-to-end — BB84 QKD protocols, quantum key distribution networks, cryptographic agility frameworks, quantum-safe VPNs and PKI, liboqs integration, FIPS 140-3 compliance, and full enterprise PQC migration planning.
+
+---
+
+## Epoch 17: Cisco Umbrella
+**Theme:** DNS-layer security and threat intelligence  
+**Stages:** 10 (umbrella-01 through umbrella-10)  
+**Color:** Indigo  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Master DNS-layer security with Cisco Umbrella — the world's most deployed cloud security platform. From DNS tunneling to DGA detection, from lookalike domains to DoH evasion, each mission puts you inside a real Umbrella SOC investigation.
+
+---
+
+## Epoch 18: The Woven World (Tapestry)
+**Theme:** 3,000 years of tapestry history, technique, and modern practice  
+**Stages:** 12 (tapestry-01 through tapestry-12)  
+**Color:** Yellow  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Travel through 3,000 years of tapestry: from Egyptian tombs and Andean mummy wrappings to the great Flemish workshops, Persian courts, Navajo hogans, and the modern artist's studio. Learn to weave, mix colors on the loom, and read the language of thread.
+
+---
+
+## Epoch 19: Nails
+**Theme:** Nail care, art techniques, and professional nail services  
+**Stages:** 10 (nails-01 through nails-10)  
+**Color:** Pink  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Comprehensive nail education from anatomy and sanitation to gel systems, acrylics, nail art design, and building a nail business. Covers professional standards for licensed nail technicians.
+
+---
+
+## Epoch 20: Hair Coloring
+**Theme:** Hair color chemistry, application, and professional technique  
+**Stages:** 10 (hair-color-01 through hair-color-10)  
+**Color:** Rose  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Understand how hair absorbs color, master the level system, learn developer and lift, choose between permanent and semi-permanent formulas, apply safely, bleach and tone, correct color mistakes, and build a hair coloring business.
+
+---
+
+## Epoch 21: Hair Styling
+**Theme:** Professional hair styling tools, technique, and business  
+**Stages:** 10 (hs-01 through hs-10)  
+**Color:** Violet  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Master the full toolkit of professional hair styling — from understanding hair types and heat science to braiding, curls, and client-ready updos. Covers business development for licensed stylists.
+
+---
+
+## Epoch 22: Road to Your License
+**Theme:** CA DMV written test preparation and driver knowledge  
+**Stages:** 8 (driving-1-01 through driving-1-08)  
+**Color:** Green  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Complete CA DMV written test prep covering traffic laws, signs, signals, right-of-way rules, speed limits, and safe driving principles. Designed to pass the California DMV knowledge test.
+
+---
+
+## Epoch 23: First Miles
+**Theme:** Beginning driver skills — from cockpit checks to highway merging  
+**Stages:** 8 (driving-2-01 through driving-2-08)  
+**Color:** Lime  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Build real confidence behind the wheel — from cockpit checks and smooth starts to highway merging and night driving. Covers practical skills for new drivers in the first months behind the wheel.
+
+---
+
+## Epoch 24: Rules of the Road
+**Theme:** Advanced road wisdom and defensive driving techniques  
+**Stages:** 8 (driving-3-01 through driving-3-08)  
+**Color:** Orange  
+**Unlock:** Sequential  
+**Gating:** Sequential within epoch
+
+Passing the test is just the beginning. Master distraction awareness, defensive technique, handling emergencies, and developing the mindset of a genuinely safe, thoughtful driver.
+
+---
+
+## Epoch 25: Standing Tall
+**Theme:** Understanding and living with clubfoot (talipes equinovarus)  
+**Stages:** 6 (clubfoot-01 through clubfoot-06)  
+**Color:** Teal  
+**Unlock:** Locked by default (admin-enabled)  
+**Gating:** Sequential within epoch
+
+Explore the history, science, and human story of talipes equinovarus — one of the most common birth differences in the world. From ancient treatments to the modern Ponseti revolution, learn how families and communities support those who stand a little differently.
+
+---
+
+## Epochs 26–32: Baseball Track
+
+### Epoch 26: Play Ball!
+**Theme:** Little League fundamentals — rules, positions, and basic skills  
+**Stages:** 10 (baseball-1-01 through baseball-1-10)  
+**Color:** Red
+
+Learn America's game from the ground up — the diamond, the rules, how to hit, pitch, field, and run the bases with confidence. For brand-new players and anyone looking to sharpen fundamentals.
+
+### Epoch 27: The Art of Hitting
+**Stages:** 10 (baseball-2-01 through baseball-2-10) | **Color:** Blue
+
+Hitting mechanics deep dive: stance, pitch recognition, swing plane, plate discipline, power development, contact adjustments, and legendary Dodger hitters from Jackie Robinson to Shohei Ohtani.
+
+### Epoch 28: Advanced Mechanics
+**Stages:** 10 (baseball-3-01 through baseball-3-10) | **Color:** Violet
+
+The science of the elite swing — hip-shoulder separation, barrel management, attack angle optimization, sequencing, and how Statcast metrics translate to on-field adjustments.
+
+### Epoch 29: Elite Mastery
+**Stages:** 10 (baseball-4-01 through baseball-4-10) | **Color:** Amber
+
+Statcast analytics, advanced scouting, clutch at-bat approach, and the greatest Dodger hitters of all time. For players ready to think like professionals.
+
+### Epoch 30: The Art of Pitching
+**Stages:** 10 (baseball-5-01 through baseball-5-10) | **Color:** Green
+
+Pitching mechanics, arm care, PFP (pitcher fielding practice), and the fundamentals of every pitch type. Kershaw-focused masterclass on the craft of pitching.
+
+### Epoch 31: Pitch Arsenal
+**Stages:** 10 (baseball-6-01 through baseball-6-10) | **Color:** Red
+
+All pitch types from grip to release — fastball, curveball, slider, changeup, cutter, splitter. Spin rate, tunneling, deception, and age-appropriate progression for developing pitchers.
+
+### Epoch 32: Pitching Strategy
+**Stages:** 10 (baseball-7-01 through baseball-7-10) | **Color:** Indigo
+
+The chess match on the mound — count management, pitch sequencing, platoon splits, situational pitching, and Dodger pitching legends from Koufax to Kershaw.
 
 ---
 
 ## XP Summary
 
-| Epoch | Stages | Max XP |
-|---|---|---|
-| Our First Journey | 30 | ~1,500 (varies) |
-| Foundations | 12 | 2,950 |
-| Cisco | 12 | 4,200 |
-| Tech Audit: Foundations | 12 | ~3,600 (varies) |
-| Tech Audit: Technical | 12 | ~3,600 (varies) |
-| Tech Audit: Agentic | 12 | ~3,600 (varies) |
-| Continuous Monitoring 2.0 | 12 | ~3,600 (varies) |
-| MITRE ATT&CK | 12 | ~4,200 (varies) |
-| MITRE ATLAS | 12 | ~4,200 (varies) |
-| OWASP LLM Top 10 | 12 | ~4,200 (varies) |
-| Quantum Era — Threats | 12 | ~3,600 (varies) |
-| Quantum Era — PQC | 12 | ~3,600 (varies) |
-| Quantum Era — QKD | 12 | ~3,600 (varies) |
-| Defend the Enterprise | 12 | ~3,600 (varies) |
-| The Woven World (Tapestry) | 12 | ~1,200 (varies) |
-| **Total** | **198** | **~51,850** |
+| # | Epoch | Stages | Max XP (approx) |
+|---|---|---|---|
+| 1 | Our First Journey | 30 | ~1,500 |
+| 2 | Foundations | 12 | 2,950 |
+| 3 | Cisco: Core CVEs | 12 | 4,200 |
+| 4 | Cisco: Enterprise Attack | 13 | ~5,200 |
+| 5 | Cisco: Security Operations | 13 | ~5,200 |
+| 6 | Cisco: Advanced Defense | 12 | ~4,800 |
+| 7 | Tech Audit: Foundations | 12 | ~3,600 |
+| 8 | Tech Audit: Technical | 12 | ~3,600 |
+| 9 | Tech Audit: Agentic | 12 | ~3,600 |
+| 10 | Continuous Monitoring 2.0 | 12 | ~3,600 |
+| 11 | MITRE ATT&CK | 12 | ~4,200 |
+| 12 | MITRE ATLAS | 12 | ~4,200 |
+| 13 | OWASP LLM Top 10 | 12 | ~4,200 |
+| 14 | Quantum Foundations | 10 | ~3,500 |
+| 15 | Post-Quantum Cryptography | 10 | ~3,500 |
+| 16 | Quantum Security | 10 | ~3,500 |
+| 17 | Cisco Umbrella | 10 | ~3,500 |
+| 18 | The Woven World (Tapestry) | 12 | ~1,200 |
+| 19 | Nails | 10 | ~1,000 |
+| 20 | Hair Coloring | 10 | ~1,000 |
+| 21 | Hair Styling | 10 | ~1,000 |
+| 22 | Road to Your License | 8 | ~800 |
+| 23 | First Miles | 8 | ~800 |
+| 24 | Rules of the Road | 8 | ~800 |
+| 25 | Standing Tall | 6 | ~600 |
+| 26 | Play Ball! | 10 | ~1,000 |
+| 27 | The Art of Hitting | 10 | ~1,000 |
+| 28 | Advanced Mechanics | 10 | ~1,000 |
+| 29 | Elite Mastery | 10 | ~1,000 |
+| 30 | The Art of Pitching | 10 | ~1,000 |
+| 31 | Pitch Arsenal | 10 | ~1,000 |
+| 32 | Pitching Strategy | 10 | ~1,000 |
+| | **Total** | **358** | **~77,350** |
 
 ---
 
@@ -173,7 +407,7 @@ Every stage follows this four-part flow:
 
 ### 2. CTF Challenge (CtfChallenge component)
 - Simulated bash terminal
-- Filesystem modeled on the real affected system (e.g., Log4Shell-vulnerable logging server)
+- Filesystem modeled on the real affected system
 - Built-in commands: `ls`, `cat`, `cd`, `submit`, `hint`, `help`, `pwd`, `clear`
 - Stage-specific commands implemented as TypeScript closures in stage data files
 - Progressive hints: up to 3, revealed one at a time via `hint`
@@ -194,8 +428,6 @@ Every stage follows this four-part flow:
 
 ## Milestone Badges
 
-In addition to per-stage badges, milestone badges are awarded for XP and streak thresholds:
-
 | Badge ID | Trigger | Description |
 |---|---|---|
 | `m-xp-1k` | 1,000 XP total | XP milestone |
@@ -205,36 +437,7 @@ In addition to per-stage badges, milestone badges are awarded for XP and streak 
 
 ---
 
-## New Tracks (v1.7.0)
-
-### Driving Track
-| # | Epoch ID | Name | Stages | Notes |
-|---|---|---|---|---|
-| 19 | `driving-1` | Road to Your License | 8 | CA DMV written test prep |
-| 20 | `driving-2` | First Miles | 8 | Beginning driver skills |
-| 21 | `driving-3` | Rules of the Road | 8 | Advanced road wisdom |
-
-### Health Track
-| # | Epoch ID | Name | Stages | Notes |
-|---|---|---|---|---|
-| 22 | `clubfoot` | Standing Tall | 6 | Locked by default; Ponseti method, history, active living |
-
-### Sports Track — Baseball
-| # | Epoch ID | Name | Stages | Focus |
-|---|---|---|---|---|
-| 23 | `baseball-1` | Play Ball! | 10 | Little League fundamentals |
-| 24 | `baseball-2` | The Art of Hitting | 10 | Mechanics + Dodgers history |
-| 25 | `baseball-3` | Advanced Mechanics | 10 | Hip-shoulder separation, barrel management, sequencing |
-| 26 | `baseball-4` | Elite Mastery | 10 | Statcast, scouting, clutch at-bats, greatest Dodger hitters |
-| 27 | `baseball-5` | The Art of Pitching | 10 | Mechanics, grip, arm care, PFP (Kershaw focus) |
-| 28 | `baseball-6` | Pitch Arsenal | 10 | All pitch types, grips, spin rate, tunneling, age progression |
-| 29 | `baseball-7` | Pitching Strategy | 10 | Count management, sequencing, platoon, Dodger legends |
-
----
-
 ## Badge Library (Foundations Epoch Examples)
-
-Each stage awards a unique badge:
 
 | Badge | Stage | Emoji |
 |---|---|---|

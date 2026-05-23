@@ -14,7 +14,13 @@ Never edit a file directly in `app/secured-docs/` if it has a counterpart in `do
 
 ## What this skill does (in order)
 
-1. **TypeScript check** — run `npx tsc --noEmit` from `C:\Users\Ajax\Projects\cyberquest\app`. If it fails, stop and report errors. Do not deploy broken code.
+1. **Pre-deploy gates** — run all three from `C:\Users\Ajax\Projects\cyberquest\app`. Stop on any failure — do not deploy broken or vulnerable code.
+
+   a. **TypeScript** — `npx tsc --noEmit`. Report all type errors and fix before continuing.
+
+   b. **Lint** — `npx eslint src/`. Must be 0 errors. Warnings are acceptable but note any new ones.
+
+   c. **Dependency audit** — `npm audit --audit-level=high`. Any HIGH or CRITICAL CVE stops the deploy. MODERATE CVEs are noted in the security summary but do not block. Run `npm audit --json` and parse: print package name, severity, CVE ID, and fix command for every finding at moderate or above.
 
 2. **Deploy to Vercel** — run `npx vercel --prod` from the app directory. Wait for the deployment to complete. Report the production URL.
 
@@ -45,8 +51,16 @@ Never edit a file directly in `app/secured-docs/` if it has a counterpart in `do
    - `docs/BUILD.md` — any new env vars, dependencies, or build steps
    - `docs/OPS.md` — any new services, integrations, or runbook changes
    - `docs/PARTNERS.md` — any new third-party services
-   
-   Only touch files that are actually affected by this release.
+
+   **Pitch & proposal docs — stamp every deploy:** These files must be updated on every deploy, even if content is unchanged:
+   - `docs/BUSINESS_PROPOSAL_CASUAL.md` — update `**Last updated:**` line to today's date and new version (e.g. `**Last updated: 2026-05-23 (v1.8.2)**`)
+   - `docs/BUSINESS_PROPOSAL_PRO.md` — update the curriculum section header version (`### Curriculum — 358 Stages ... (vX.Y.Z)`), the Live Features header (`### Live Features (Shipped — vX.Y.Z)`), and the Traction deployment line (`**Deployment:** Live at kryptoscronos.com (version vX.Y.Z)`)
+   - `docs/PITCH_TARGETS.md` — update the version ref in the summary blurb under `## The ask`
+   - `docs/PITCH_CAE_CONTINUOUS_MONITORING.md` — update the date in the header (`**May 2026 — Confidential**`) to the current month/year if it changed
+
+   **SECURITY_BRIEFING.md header rule:** The `**Date:**` and `**Version:**` fields in the header must always match the most recent `## Changelog — vX.Y (YYYY-MM-DD)` entry. After adding a changelog entry in step 3, immediately update the header fields to match.
+
+   Only touch content fields (not just stamps) in files that are actually affected by this release.
 
 5. **Sync docs → secured-docs** — copy every file from `docs/` into `app/secured-docs/`, preserving `app/secured-docs/LAUNCH_LEGAL.md` (which has no docs/ counterpart and must not be deleted). Run from `C:\Users\Ajax\Projects\cyberquest`:
 
@@ -60,37 +74,80 @@ Never edit a file directly in `app/secured-docs/` if it has a counterpart in `do
 
 7. **Push to GitHub** — run `git push origin master` from `C:\Users\Ajax\Projects\cyberquest`. This triggers auto-deploy on kryptoscronos.com via the `kryptos-cronos` Vercel project.
 
-8. **Security check + display top risks** — review the changes shipped in this release for new attack surface, then:
-   - Scan for: new API routes (auth? rate-limited?), new env vars (secret handling?), new Redis keys (data exposure?), new third-party integrations (trust boundary?), new client-side data handling, any use of `eval`, `dangerouslySetInnerHTML`, unvalidated input, or hardcoded secrets.
-   - Update `docs/SECURITY_BRIEFING.md` with a new changelog entry if not already done in step 3, then re-run the sync (step 5) to propagate.
-   - **Print a "Security Summary" block directly to the screen** (as plain text output, not just in the doc) in this format:
+8. **Security audit** — run each pass in order. Any BLOCKER finding must be fixed before the release is considered complete (fix → re-deploy if already pushed). Note all findings in the Security Summary output below.
+
+   **Pass A — Dangerous code patterns** (grep `app/src/` for each):
+   - `eval(` — arbitrary code execution; flag every occurrence
+   - `dangerouslySetInnerHTML` — XSS; verify the value is a static string or sanitized, never user input
+   - `innerHTML\s*=` — XSS vector outside React
+   - `document\.write(` — XSS vector
+   - `NEXT_PUBLIC_` — verify no secret keys (Stripe secret, Redis token, ADMIN_SECRET, SESSION_SECRET) are accidentally exposed as public env vars
+   - Hardcoded secret patterns: `sk_live_`, `sk_test_`, `AKIA[A-Z0-9]{16}`, any variable named `password|secret|token|apiKey` assigned a non-empty string literal
+
+   **Pass B — API route audit** (check every file under `app/src/app/api/`):
+   - **Auth enforcement:** every route that touches user data must call `getServerSession()` and return 401 if the session is absent. Admin routes must verify the HMAC admin cookie. Flag any route that reads/writes user Redis keys without session verification.
+   - **Rate limiting:** any route that accepts external input (login, forgot-password, register, ARIA, flag submission) must have a Redis-backed rate limit. Flag routes that are missing one.
+   - **Input validation:** routes that accept a body must validate shape before using values in Redis key construction or email sends. Flag any route that uses `req.body.x` directly in a Redis key without sanitization.
+   - **HTTP method guard:** routes that mutate state must reject GET; read-only routes should reject POST/PUT/DELETE. Flag any mismatch.
+
+   **Pass C — Auth & session integrity** (read `app/src/proxy.ts` and `app/src/lib/server-session.ts`):
+   - CSP header is still set with per-request nonce — no `unsafe-inline` in `script-src`
+   - `session_token` cookie is still HttpOnly, Secure, SameSite=Lax
+   - `kryptos_admin` cookie is still HttpOnly, Secure, SameSite=Strict
+   - Admin route block (`/admin` prefix) is still enforced in middleware
+   - SESSION_SECRET and ADMIN_SECRET are read from `process.env` — not hardcoded
+
+   **Pass D — Client-side data exposure** (grep `"use client"` files):
+   - No CTF flags, password hashes, salts, or admin secrets imported or destructured into client components
+   - `stage-flags.ts` is never imported in a client component (it uses `server-only`)
+   - No `console.log` statements logging sensitive fields (password, hash, salt, token, secret)
+
+   **Pass E — New attack surface review** (compare this release's changes):
+   - List every new API route added — confirm each has auth + rate limiting
+   - List every new env var referenced — confirm each is in `.env.example` with instructions, not hardcoded
+   - List every new third-party integration — document the trust boundary and what data it receives
+   - List every new Redis key pattern — confirm it is namespaced and cannot be poisoned by user-controlled input
+
+   **Pass F — Security header integrity** (read `app/next.config.ts`):
+   - All six headers still present: HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, X-DNS-Prefetch-Control
+   - CSP is not duplicated here (it's set dynamically in proxy.ts — if a static CSP header exists in next.config.ts, that is a misconfiguration)
+
+   After all passes, update `docs/SECURITY_BRIEFING.md` if not already done in step 3, re-run the sync (step 5) to propagate, then **print this block**:
 
 ```
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- SECURITY SUMMARY — vX.Y.Z
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- New attack surface: [none / brief description]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ SECURITY AUDIT — vX.Y.Z
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ npm audit:       [PASS / X moderate, Y high, Z critical]
+ Dangerous patterns: [PASS / list findings]
+ API route audit: [PASS / list findings]
+ Auth integrity:  [PASS / list findings]
+ Client exposure: [PASS / list findings]
+ New attack surface: [none / description]
+ Header integrity:   [PASS / list findings]
 
- TOP RISKS (open):
+ BLOCKERS (must fix):
+   [none] or [list each blocker with file:line]
+
+ OPEN RISKS (from SECURITY_BRIEFING.md):
    1. [Risk] — [Severity] — [Mitigation path]
-   2. [Risk] — [Severity] — [Mitigation path]
-   ...
+   2. ...
 
- Resolved this release: [none / brief description]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Resolved this release: [none / description]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-   Pull the open risks list from the current `docs/SECURITY_BRIEFING.md` — don't invent risks. Display the top 3–5 unresolved findings by severity.
+   Pull open risks from `docs/SECURITY_BRIEFING.md` — do not invent findings. Show all open items, not just top 3.
 
 9. **Report completion** — confirm both Vercel projects are updated and summarize what was shipped.
 
 ## Rules
 
 - Never add Co-Authored-By lines to commits.
-- Never push if the TypeScript check fails.
+- Never push if any pre-deploy gate (TypeScript, lint, npm audit HIGH/CRITICAL) fails.
 - Never include `devops/` files in the deploy commit — those change frequently and are noise.
 - Never edit `app/secured-docs/` files directly (except `LAUNCH_LEGAL.md`). Edit `docs/` and sync.
-- The two Vercel projects are: `app` (deployed via `npx vercel --prod`) and `kryptos-cronos` (auto-deploys from GitHub push). Both must be updated on every deploy.
+- Deploy always via `npx vercel --prod` from `app/` — project is `kryptos-cronos`. Auto-deploy from GitHub push also updates the live site.
 - If the user provides a version number explicitly, use it. Otherwise infer from the nature of the changes.
-- Today's date is always available in the system context — use it for release notes.
-- Steps 4–8 run after the Vercel deploy — they are post-deploy documentation and audit steps, not blockers to shipping.
+- Today's date is always available in the system context — use it for release notes and doc stamps.
+- Steps 4–9 run after the Vercel deploy — they are post-deploy documentation and audit steps, not blockers to shipping (except security BLOCKERS found in step 8, which require a follow-up fix commit).

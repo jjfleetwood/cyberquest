@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-21 (v1.8.0)**
+**Last updated: 2026-05-22 (v1.8.3)**
 
 ---
 
@@ -28,7 +28,7 @@ It's a game. It's also real security training. And that combination is genuinely
 
 ---
 
-## What exists today (v1.8.0 — live at kryptoscronos.com)
+## What exists today (v1.8.3 — live at kryptoscronos.com)
 
 This isn't a pitch deck with a mockup. It's a working product:
 
@@ -42,7 +42,7 @@ This isn't a pitch deck with a mockup. It's a working product:
 - **Progress export** — downloadable PDF certificate: coins, stages, badges, streak, per-epoch breakdown
 - **Admin dashboard** — user management, NDA signatories, DocuSign e-signature integration, CMS stage editor
 - **Auth system** — server-side PBKDF2 hashing, HMAC-signed HttpOnly cookies, nonce-based CSP, rate limiting
-- **CI pipeline** — automated lint + type check + build + security audit on every commit
+- **CI pipeline** — automated lint + type check + build + security audit on every commit — 0 ESLint errors
 - **Deployed and running:** kryptoscronos.com
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
@@ -81,9 +81,11 @@ The enterprise compliance and SOC operations track. Four epochs:
 - Post-quantum cryptography (NIST PQC standards)
 - Quantum key distribution infrastructure
 
-### Track 6: Cisco / Network Defense (48 stages)
-- **Cisco CVEs** — real documented Cisco vulnerabilities (IOS XE, ASA, Smart Install, SNMP)
-- **Umbrella / DNS Security** — DNS tunneling, domain generation algorithms, network policy
+### Track 6: Cisco / Network Defense (50 stages across 4 epochs)
+- **Cisco Core CVEs** — real documented Cisco vulnerabilities (IOS XE, ASA, Smart Install, SNMP)
+- **Cisco Enterprise Defense** — enterprise network hardening and lateral movement scenarios
+- **Cisco SecOps** — alert triage and incident response modeled on Cisco XDR workflows
+- **Cisco Advanced Defense + Umbrella** — Firepower NGFW exploitation, DNS tunneling, domain generation algorithms
 
 ### Track 7: Crafts (30 stages)
 - Creative and operational security contexts

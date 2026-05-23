@@ -2,6 +2,63 @@
 
 ---
 
+## v1.8.3 — 2026-05-22
+
+**Pitch deck updates, deploy skill security audit, SECURITY_BRIEFING header fix**
+
+- Pitch docs stamped to v1.8.3: BUSINESS_PROPOSAL_PRO, BUSINESS_PROPOSAL_CASUAL, PITCH_TARGETS
+- BUSINESS_PROPOSAL_PRO: Cisco section updated from "12-stage epoch" → 50-stage curriculum across 4 epochs; Team section corrected from "186-stage" → "358-stage"; CI bullet notes 0 ESLint errors
+- BUSINESS_PROPOSAL_CASUAL: Track 6 expanded to document all 4 Cisco epochs; CI bullet updated
+- PITCH_TARGETS: Cisco Investments entry updated to reflect 50-stage curriculum
+- SECURITY_BRIEFING.md header `Date`/`Version` fields corrected to match v2.5 changelog entry (was showing stale v2.4 / 2026-05-20)
+- Deploy skill `/deploy`: added `npm audit` and ESLint as pre-deploy gates; replaced lightweight step 8 with 6-pass security audit (dangerous patterns, API route auth/rate-limit check, session integrity, client exposure, new attack surface, header integrity)
+
+---
+
+## v1.8.2 — 2026-05-23
+
+**Nonce-based CSP, ESLint clean (0 errors), GitHub CI secrets**
+
+- Nonce-based CSP confirmed live — `proxy.ts` generates per-request nonce; `script-src` uses `nonce-{nonce}` with no `unsafe-inline`; `layout.tsx` reads `x-nonce` header and applies to anti-FOUC script
+- ESLint: 0 errors — `argsIgnorePattern: ^_` added; `scripts/` added to globalIgnores; 7 files cleaned (admin/page.tsx, api/trophies/route.ts, Nav.tsx, api/shop/route.ts, journey/page.tsx, stages/page.tsx, Avatar.tsx)
+- Upstash Redis secrets added to GitHub Actions (UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN)
+- CI fully green on master
+
+---
+
+## v1.8.1 — 2026-05-22
+
+**Homepage stage count, login rate limit tightening, CtfChallenge link fix**
+
+- Homepage stage count updated 346 → 358
+- Homepage inline CSS extracted to globals.css
+- Login rate limit tightened: 5 attempts/15 min (was 10)
+- `CtfChallenge.tsx`: `<a href="/stages">` → `<Link href="/stages">` (Next.js lint fix)
+
+---
+
+## v1.8.0 — 2026-05-22
+
+**Security hardening, Pro tier, CI/CD pipeline, epoch #32**
+
+- Epoch #32 `cisco-advanced` — 12 stages (stage-m39 → stage-m50), Cyan theme
+- Pro tier access model — 7-day free trial based on `createdAt`; Stripe checkout ($5.99/mo, $55.99/yr); webhook lifecycle handling
+- `ProPaywall` component — inline upgrade wall when trial expires; server-side enforcement in check-flag, check-answer, stage page
+- Pro hints — HintDrawer gate (hints 2+ require Pro); HintChatbot no cooldown + unlimited messages for Pro users
+- Admin tier toggle — per-user toggle in `/admin` writes `tier: pro|free` to Redis; overrides trial
+- PBKDF2 iteration count bumped 100k → 310k (NIST SP 800-132); transparent re-hash on next login for existing accounts
+- SESSION_SECRET separated from ADMIN_SECRET — session tokens now use dedicated secret
+- NDA token timing attack fixed — `verifyNdaToken` now uses `timingSafeEqual`; hardcoded fallback secret removed
+- Rate limiting added to `reset-password` endpoint (5 attempts/hour/IP)
+- CI/CD — `dev` branch added; `.github/workflows/ci.yml` triggers on pushes to both `dev` and `master`; `--skipLibCheck` added to tsc step
+- `src/proxy.ts` — active Turbopack middleware (replaced deleted `middleware.ts`)
+- Open Graph + Twitter card meta tags added to `layout.tsx`
+- Admin page: ⛵ Remote Desktop link (Chrome Remote Desktop), styled as button
+- Today's Showcase fixed for admin users (was returning empty array)
+- Vercel project corrected: deploy target is `kryptos-cronos` (serves kryptoscronos.com), not `app`
+
+---
+
 ## v1.7.0 — 2026-05-20
 
 **Baseball pitching curriculum (3 epochs, 30 stages); global nav on all pages; 334 stages total**
