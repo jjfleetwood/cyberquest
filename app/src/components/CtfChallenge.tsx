@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { awardStage } from "@/lib/progress";
 import { getSession } from "@/lib/auth";
 import BackLink from "./BackLink";
@@ -140,14 +141,14 @@ function HintDrawer({ hints, isPro, onClose }: { hints: string[]; isPro: boolean
             needsUpgrade ? (
               <div className="rounded-lg border border-indigo-500/30 bg-indigo-500/5 p-4 text-center space-y-3">
                 <p className="text-xs text-indigo-300">Hints 2+ require Pro.</p>
-                <a
+                <Link
                   href="/stages"
                   onClick={onClose}
                   className="block w-full py-2 rounded-lg text-xs font-bold text-black"
                   style={{ background: "linear-gradient(90deg,#22d3ee,#818cf8)" }}
                 >
                   Upgrade to Pro →
-                </a>
+                </Link>
               </div>
             ) : (
               <button
