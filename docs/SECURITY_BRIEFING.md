@@ -2,7 +2,13 @@
 **Classification:** Internal  
 **Version:** 2.4  
 **Date:** 2026-05-20  
-**Current version:** v1.8.1
+**Current version:** v1.8.2
+
+---
+
+## Changelog — v2.5 (2026-05-23)
+
+Login rate limit tightened to 5 attempts/15 min. Nonce-based CSP documented — `script-src` uses per-request nonces with no `unsafe-inline`. ESLint clean (0 errors). GitHub CI secrets set; CI fully green on master.
 
 ---
 
@@ -85,10 +91,10 @@ All headers applied via `next.config.ts` to every route:
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | ✅ |
 | `Content-Security-Policy` | See below | ✅ |
 
-**CSP:**
+**CSP** (set dynamically per-request in `src/proxy.ts`):
 ```
 default-src 'self';
-script-src 'self' 'unsafe-inline';
+script-src 'self' 'nonce-{per-request-nonce}';
 style-src 'self' 'unsafe-inline';
 img-src 'self' data: https:;
 font-src 'self';
@@ -96,7 +102,14 @@ connect-src 'self' https://api.resend.com;
 frame-ancestors 'none'
 ```
 
-**Note:** `unsafe-inline` is required by Next.js 15+ for hydration. A nonce-based CSP would eliminate this but requires Next.js App Router nonce support.
+**Nonce flow:**
+1. `proxy.ts` generates a cryptographically random nonce per request via `crypto.randomUUID()` → base64
+2. Sets `Content-Security-Policy` header with `nonce-{nonce}` in `script-src` — no `unsafe-inline`
+3. Passes nonce to the server-side layout via `x-nonce` request header
+4. `layout.tsx` reads `x-nonce` via `headers()` and applies it to the anti-FOUC inline script
+5. Next.js App Router chunks are external files served from `/_next/static/` — allowed by `'self'`
+
+**Note:** `style-src` retains `unsafe-inline` — required for Tailwind utility classes and React inline styles. Script injection via inline JS is fully eliminated.
 
 ---
 
