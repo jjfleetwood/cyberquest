@@ -5,7 +5,7 @@
 
 ## The ask: $1.5M seed
 
-Gamified cybersecurity + AI training platform. 358 stages live across 32 epochs and 10 curriculum tracks. Deployed at kryptoscronos.com. Seeking first institutional check.
+Gamified cybersecurity + AI training platform. 358 stages live across 32 epochs and 10 curriculum tracks (v1.8.3). Deployed at kryptoscronos.com. CI fully green, 0 ESLint errors. Seeking first institutional check.
 
 ---
 
@@ -54,7 +54,7 @@ These investors have direct thesis overlap: cybersecurity, edtech, or both.
 
 ### Cisco Investments
 **Type:** Corporate VC / Strategic | **Stage:** Seed–Series B  
-**Why:** The Cisco epoch is built on 12 real Cisco CVEs with a planned integration across Talos, Umbrella, SecureX, Firepower, CyberOps, and DevNet. Cisco Investments has backed platforms that build on Cisco technology. This is a natural strategic bet for them.  
+**Why:** The Cisco curriculum spans 50 stages across 4 epochs — Core CVEs, Enterprise Defense, SecOps, and Advanced Defense + Umbrella DNS Security — with a planned integration across Talos, Umbrella, SecureX, Firepower, CyberOps, and DevNet. Cisco Investments has backed platforms that build on Cisco technology. This is a natural strategic bet for them.  
 **Angle:** Frame as a co-development partnership, not just a financial investment. Cisco gets a verified pipeline of practitioners trained on their products and certified via CyberOps. Mention the CyberOps exam voucher flywheel — Cisco invests and earns back qualified exam candidates.  
 **Decision maker:** Cisco Investments team (cisco.com/c/en/us/about/corporate-development/investments.html). Warm intro via Cisco BD team preferred.
 

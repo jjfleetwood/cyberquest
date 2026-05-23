@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.4  
-**Date:** 2026-05-20  
-**Current version:** v1.8.2
+**Version:** 2.6  
+**Date:** 2026-05-22  
+**Current version:** v1.8.3
+
+---
+
+## Changelog — v2.6 (2026-05-22)
+
+No new attack surface. v1.8.3 is a documentation and tooling update: pitch docs stamped to current version, SECURITY_BRIEFING header date corrected, deploy skill enhanced with 6-pass security audit (npm audit gate, dangerous pattern grep, API route auth/rate-limit check, session integrity check, client exposure check, header integrity check). No new API routes, Redis keys, env vars, or third-party integrations.
 
 ---
 
@@ -43,7 +49,7 @@ const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.enco
 
 ### 1.2 Admin Authentication — ✅ RESOLVED (v0.4.1)
 
-**Status:** Admin credentials moved to server-side env vars. Admin cookie is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Strict. Admin routes blocked at middleware (`proxy.ts`). `admin-session` route throws if `ADMIN_SECRET` env var is missing.
+**Status:** Admin credentials moved to server-side env vars. Admin cookie (`admin_token`) is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Lax. Admin routes (`/admin*`) blocked at middleware (`proxy.ts`) — requests without a valid `admin_token` cookie are rejected before reaching the route handler. `admin-session` route throws if `ADMIN_SECRET` env var is missing.
 
 ### 1.3 Client-Side Credential Storage — ✅ RESOLVED (v1.3.0)
 
@@ -191,7 +197,8 @@ No credentials, hashes, or salts are stored in `localStorage` or `sessionStorage
 | Internal docs in public/ | High | ✅ Resolved v0.6.0 |
 | Missing HSTS | Medium | ✅ Resolved v0.6.0 |
 | Client-supplied XP accepted | Medium | ✅ Resolved v0.6.0 |
-| No rate limiting on email endpoints | Medium | ✅ Resolved v0.6.0 |
+| No rate limiting on email endpoints | Medium | ✅ Resolved v0.6.0 (notify, forgot-password) |
+| `/api/feedback` missing rate limit | Low | ⚠️ Open — unauthenticated email-send; add 5/hour/IP Redis limit |
 | sync-user allows overwrite | Medium | ✅ Resolved v0.6.0 |
 | admin-session accepts empty secret | Medium | ✅ Resolved v0.6.0 |
 | Password reset leaks email | Low | ✅ Resolved v0.6.0 |

@@ -1,8 +1,20 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.4  
-**Date:** 2026-05-20  
-**Current version:** v1.7.1
+**Version:** 2.6  
+**Date:** 2026-05-22  
+**Current version:** v1.8.3
+
+---
+
+## Changelog — v2.6 (2026-05-22)
+
+No new attack surface. v1.8.3 is a documentation and tooling update: pitch docs stamped to current version, SECURITY_BRIEFING header date corrected, deploy skill enhanced with 6-pass security audit (npm audit gate, dangerous pattern grep, API route auth/rate-limit check, session integrity check, client exposure check, header integrity check). No new API routes, Redis keys, env vars, or third-party integrations.
+
+---
+
+## Changelog — v2.5 (2026-05-23)
+
+Login rate limit tightened to 5 attempts/15 min. Nonce-based CSP documented — `script-src` uses per-request nonces with no `unsafe-inline`. ESLint clean (0 errors). GitHub CI secrets set; CI fully green on master.
 
 ---
 
@@ -37,7 +49,7 @@ const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", salt: encoder.enco
 
 ### 1.2 Admin Authentication — ✅ RESOLVED (v0.4.1)
 
-**Status:** Admin credentials moved to server-side env vars. Admin cookie is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Strict. Admin routes blocked at middleware (`proxy.ts`). `admin-session` route throws if `ADMIN_SECRET` env var is missing.
+**Status:** Admin credentials moved to server-side env vars. Admin cookie (`admin_token`) is HMAC-signed (`ADMIN_SECRET`), HttpOnly, Secure, SameSite=Lax. Admin routes (`/admin*`) blocked at middleware (`proxy.ts`) — requests without a valid `admin_token` cookie are rejected before reaching the route handler. `admin-session` route throws if `ADMIN_SECRET` env var is missing.
 
 ### 1.3 Client-Side Credential Storage — ✅ RESOLVED (v1.3.0)
 
@@ -85,10 +97,10 @@ All headers applied via `next.config.ts` to every route:
 | `Permissions-Policy` | `camera=(), microphone=(), geolocation=()` | ✅ |
 | `Content-Security-Policy` | See below | ✅ |
 
-**CSP:**
+**CSP** (set dynamically per-request in `src/proxy.ts`):
 ```
 default-src 'self';
-script-src 'self' 'unsafe-inline';
+script-src 'self' 'nonce-{per-request-nonce}';
 style-src 'self' 'unsafe-inline';
 img-src 'self' data: https:;
 font-src 'self';
@@ -96,7 +108,14 @@ connect-src 'self' https://api.resend.com;
 frame-ancestors 'none'
 ```
 
-**Note:** `unsafe-inline` is required by Next.js 15+ for hydration. A nonce-based CSP would eliminate this but requires Next.js App Router nonce support.
+**Nonce flow:**
+1. `proxy.ts` generates a cryptographically random nonce per request via `crypto.randomUUID()` → base64
+2. Sets `Content-Security-Policy` header with `nonce-{nonce}` in `script-src` — no `unsafe-inline`
+3. Passes nonce to the server-side layout via `x-nonce` request header
+4. `layout.tsx` reads `x-nonce` via `headers()` and applies it to the anti-FOUC inline script
+5. Next.js App Router chunks are external files served from `/_next/static/` — allowed by `'self'`
+
+**Note:** `style-src` retains `unsafe-inline` — required for Tailwind utility classes and React inline styles. Script injection via inline JS is fully eliminated.
 
 ---
 
@@ -178,7 +197,8 @@ No credentials, hashes, or salts are stored in `localStorage` or `sessionStorage
 | Internal docs in public/ | High | ✅ Resolved v0.6.0 |
 | Missing HSTS | Medium | ✅ Resolved v0.6.0 |
 | Client-supplied XP accepted | Medium | ✅ Resolved v0.6.0 |
-| No rate limiting on email endpoints | Medium | ✅ Resolved v0.6.0 |
+| No rate limiting on email endpoints | Medium | ✅ Resolved v0.6.0 (notify, forgot-password) |
+| `/api/feedback` missing rate limit | Low | ⚠️ Open — unauthenticated email-send; add 5/hour/IP Redis limit |
 | sync-user allows overwrite | Medium | ✅ Resolved v0.6.0 |
 | admin-session accepts empty secret | Medium | ✅ Resolved v0.6.0 |
 | Password reset leaks email | Low | ✅ Resolved v0.6.0 |
