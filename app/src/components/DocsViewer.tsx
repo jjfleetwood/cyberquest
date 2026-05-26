@@ -26,12 +26,10 @@ const DOCS: DocEntry[] = [
   // General
   { id: "readme", label: "Overview", file: "README.md", icon: "📖", color: "text-white", group: "general" },
   { id: "release-notes", label: "Release Notes", file: "RELEASE_NOTES.md", icon: "📋", color: "text-amber-400", group: "general" },
-  { id: "launch-legal", label: "Launch & Legal", file: "LAUNCH_LEGAL.md", icon: "⚖️", color: "text-yellow-400", group: "general" },
   { id: "security", label: "Security Briefing", file: "SECURITY_BRIEFING.md", icon: "🔐", color: "text-red-400", group: "general" },
   { id: "ops", label: "Operations", file: "OPS.md", icon: "🖥️", color: "text-green-400", group: "general" },
   { id: "curriculum", label: "Curriculum", file: "CURRICULUM.md", icon: "🎓", color: "text-emerald-400", group: "general" },
   { id: "todo", label: "To-Do & Roadmap", file: "TODO.md", icon: "✅", color: "text-lime-400", group: "general" },
-  { id: "copyright", label: "Copyright Filing", file: "COPYRIGHT_FILING.md", icon: "©", color: "text-violet-400", group: "general" },
   // Architecture suite
   {
     id: "data-diagram", label: "Data Diagram", file: "DATA_DIAGRAM.md", icon: "🗄️", color: "text-cyan-400", group: "architecture",
@@ -100,6 +98,8 @@ const DOCS: DocEntry[] = [
     version: "v1.8.2", updated: "2026-05-22",
   },
   // Business
+  { id: "launch-legal", label: "Launch & Legal", file: "LAUNCH_LEGAL.md", icon: "⚖️", color: "text-yellow-400", group: "business" },
+  { id: "copyright", label: "Copyright Filing", file: "COPYRIGHT_FILING.md", icon: "©", color: "text-violet-400", group: "business" },
   { id: "partners", label: "Partners", file: "PARTNERS.md", icon: "🤝", color: "text-blue-400", group: "business" },
   { id: "proposal-pro", label: "Business Proposal", file: "BUSINESS_PROPOSAL_PRO.md", icon: "💼", color: "text-purple-400", group: "business" },
   { id: "proposal-casual", label: "Pitch Deck", file: "BUSINESS_PROPOSAL_CASUAL.md", icon: "🚀", color: "text-green-400", group: "business" },
