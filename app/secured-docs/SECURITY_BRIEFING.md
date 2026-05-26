@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.8  
-**Date:** 2026-05-25  
-**Current version:** v1.10.0
+**Version:** 2.9  
+**Date:** 2026-05-26  
+**Current version:** v1.11.0
+
+---
+
+## Changelog — v2.9 (2026-05-26)
+
+No new attack surface. v1.11.0 changes: First Journey XP curve graduated (bt-21–29: 100→110 XP, bt-30: 125→150 XP), bt-29 hint corrected (`revoke location always-on` → `revoke location`) to match fragment trigger, `@anthropic-ai/sdk` moved from devDependencies to dependencies in package.json. No new API routes, Redis keys, env vars, or third-party integrations.
 
 ---
 

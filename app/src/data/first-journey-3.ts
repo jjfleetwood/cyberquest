@@ -11,7 +11,7 @@ export const firstJourneyStages3: StageConfig[] = [
     title: "Spotting Fake Bait",
     subtitle: "Phishing — When the Lure Looks Real",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-21", name: "Phish Spotter", emoji: "🪝" },
     challengeType: "ctf",
     info: {
@@ -194,7 +194,7 @@ dig TXT example.com | grep spf
     title: "The Double Lock",
     subtitle: "Two-Factor Authentication — Two Keys to Start the Boat",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-22", name: "2FA Guardian", emoji: "🔐" },
     challengeType: "ctf",
     info: {
@@ -381,7 +381,7 @@ print(f"Valid: {is_valid}")`,
     title: "The Bait Locker Combination",
     subtitle: "Password Strength — Why Complexity and Length Both Matter",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-23", name: "Password Architect", emoji: "🔑" },
     challengeType: "ctf",
     info: {
@@ -575,7 +575,7 @@ def password_entropy(length, charset_size):
     title: "Open Radio Frequencies",
     subtitle: "Public WiFi — When Everyone Can Hear Your Conversation",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-24", name: "WiFi Analyst", emoji: "📶" },
     challengeType: "ctf",
     info: {
@@ -760,7 +760,7 @@ def password_entropy(length, charset_size):
     title: "The Fisherman's Tall Tale",
     subtitle: "Social Engineering — Hacking Humans, Not Computers",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-25", name: "Social Engineer Spotter", emoji: "🎭" },
     challengeType: "ctf",
     info: {
@@ -940,7 +940,7 @@ RESPONSE PROTOCOL:
     title: "Patching the Hull",
     subtitle: "Software Updates — Sealing Known Holes Before They Sink You",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-26", name: "Patch Master", emoji: "🩹" },
     challengeType: "ctf",
     info: {
@@ -1128,7 +1128,7 @@ sudo apt install unattended-upgrades`,
     title: "When the Net Tears",
     subtitle: "Data Breaches — What Happens to Your Data When Companies Leak It",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-27", name: "Breach Investigator", emoji: "🔎" },
     challengeType: "ctf",
     info: {
@@ -1320,7 +1320,7 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
     title: "Navigating the Kelp Beds",
     subtitle: "Safe Browsing — Spotting Dangerous URLs Before You Click",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-28", name: "URL Inspector", emoji: "🧭" },
     challengeType: "ctf",
     info: {
@@ -1496,7 +1496,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
     title: "What You Share and With Whom",
     subtitle: "Privacy Settings — Controlling Your Digital Footprint",
     category: "cybersecurity",
-    xp: 100,
+    xp: 110,
     badge: { id: "bt-badge-29", name: "Privacy Guardian", emoji: "🕵️" },
     challengeType: "ctf",
     info: {
@@ -1572,7 +1572,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
       hint: "Review each permission and disable the ones that aren't necessary.",
       hints: [
         "Check current app permissions. Run: show-permissions",
-        "Revoke unnecessary location access. Run: revoke location always-on",
+        "Revoke unnecessary location access. Run: revoke location",
         "Revoke unnecessary contacts access. Run: revoke contacts",
         "Confirm minimal permissions are set. Run: audit-permissions",
         "Run 'assemble' to see collected fragments, then submit the flag",
@@ -1661,7 +1661,7 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
     title: "Man Overboard Protocol",
     subtitle: "Incident Response — What To Do When You're Compromised",
     category: "cybersecurity",
-    xp: 125,
+    xp: 150,
     badge: { id: "bt-badge-30", name: "Incident Commander", emoji: "🚨" },
     challengeType: "ctf",
     info: {
