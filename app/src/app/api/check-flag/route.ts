@@ -5,6 +5,7 @@ import { stageFlags } from "@/data/stage-flags";
 import { getServerSession } from "@/lib/server-session";
 import { awardStageInRedis } from "@/lib/server-progress";
 import { canAccessStage } from "@/lib/access";
+import { redis } from "@/lib/redis";
 
 function verifyAdminToken(token: string): string | null {
   const secret = process.env.ADMIN_SECRET;
@@ -63,6 +64,9 @@ export async function POST(req: NextRequest) {
   // Award server-side if user is authenticated
   if (username) {
     const progress = await awardStageInRedis(username, stage.id, stage.badge.id, timePenaltyXp);
+    redis.lpush("admin:flag-log", JSON.stringify({ username, stageId: body.stageId, flagValue: correctFlag, ts: Date.now() }))
+      .then(() => redis.ltrim("admin:flag-log", 0, 499))
+      .catch(() => {});
     return NextResponse.json({ correct: true, progress, timePenaltyXp });
   }
 

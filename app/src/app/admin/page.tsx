@@ -34,6 +34,8 @@ type NdaRow = {
   status?: string;
 };
 
+type FlagCapture = { username: string; stageId: string; flagValue: string; ts: number };
+
 type SortKey = "coins" | "stages" | "streak" | "lastActive" | "createdAt";
 type SortDir = "desc" | "asc";
 
@@ -206,6 +208,65 @@ function NdaSignatories() {
                 <div className="text-xs text-gray-600">
                   {ts ? new Date(Number(ts)).toLocaleString() : "—"}
                 </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Flag Capture Log ──────────────────────────────────────────────────────────
+
+function FlagCaptureLog() {
+  const [entries, setEntries] = useState<FlagCapture[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState("");
+
+  useEffect(() => {
+    fetch("/api/admin/flag-log")
+      .then((r) => (r.ok ? r.json() : { entries: [] }))
+      .then((data: { entries: FlagCapture[] }) => setEntries(data.entries ?? []))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const filtered = filter
+    ? entries.filter((e) => e.username.includes(filter) || e.stageId.includes(filter))
+    : entries;
+
+  return (
+    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+      <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between gap-4 flex-wrap">
+        <div>
+          <h2 className="text-white font-bold">Flag Capture Log</h2>
+          <p className="text-xs text-gray-600 mt-0.5">Correct flag submissions — newest first, last 500</p>
+        </div>
+        <input
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder="Filter by username or stage ID…"
+          className="text-xs px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 placeholder-gray-700 focus:outline-none focus:border-cyan-500/50 w-56"
+        />
+      </div>
+
+      {loading ? (
+        <div className="px-6 py-8 text-center text-gray-600 text-sm">Loading…</div>
+      ) : filtered.length === 0 ? (
+        <div className="px-6 py-8 text-center text-gray-700 text-sm">No flag captures recorded yet.</div>
+      ) : (
+        <div className="max-h-96 overflow-y-auto divide-y divide-white/5">
+          {filtered.map((e, i) => {
+            const stage = stages.find((s) => s.id === e.stageId);
+            return (
+              <div key={i} className="px-6 py-3 grid grid-cols-[7rem_1fr_1fr_1fr] gap-3 items-center text-xs">
+                <div className="text-gray-700 font-mono tabular-nums">
+                  {new Date(e.ts).toLocaleString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                </div>
+                <div className="text-gray-300 font-semibold truncate">{e.username}</div>
+                <div className="text-gray-500 truncate">{stage?.title ?? e.stageId}</div>
+                <div className="font-mono text-green-400 truncate">{e.flagValue}</div>
               </div>
             );
           })}
@@ -1424,6 +1485,9 @@ export default function AdminPage() {
 
         {/* NDA Signatories */}
         <NdaSignatories />
+
+        {/* Flag Capture Log */}
+        <FlagCaptureLog />
 
         {/* CMS */}
         <CmsPanel />
