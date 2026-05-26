@@ -56,17 +56,20 @@ export async function GET(req: NextRequest) {
       const stageIds = parseArr(progressData?.stages);
       const badges = parseArr(progressData?.badges);
       const streakData = await redis.hgetall(`streak:${username}`);
+      const superAdmin = process.env.ADMIN_USERNAME?.toLowerCase();
       return {
         username,
         email: (userData?.email as string) ?? "",
         createdAt: userData?.createdAt ? Number(userData.createdAt) : null,
         tier: (userData?.tier as string) ?? "free",
+        isAdmin: userData?.isAdmin === "true" || username === superAdmin,
         coins: Number(progressData?.coins ?? progressData?.xp ?? 0),
         stageIds,
         stages: stageIds.length,
         badges: badges.length,
         streak: streakData?.current ? Number(streakData.current) : 0,
         lastActive: progressData?.lastActive ? Number(progressData.lastActive) : null,
+        skin: (progressData?.skin as string) ?? "standard",
       };
     })
   );

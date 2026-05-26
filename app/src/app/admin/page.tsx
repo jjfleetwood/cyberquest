@@ -12,12 +12,14 @@ type UserRow = {
   email: string;
   createdAt: number | null;
   tier: string;
+  isAdmin: boolean;
   coins: number;
   stageIds: string[];
   stages: number;
   badges: number;
   streak: number;
   lastActive: number | null;
+  skin: string;
 };
 
 type NdaRow = {
@@ -555,6 +557,168 @@ const RISK_META: Record<ContentFlag["risk"], { label: string; color: string; bg:
   "verified-safe":     { label: "Verified Safe",     color: "text-green-400", bg: "bg-green-500/10", border: "border-green-500/30" },
 };
 
+function PipelineTestPanel() {
+  const [stageId, setStageId] = useState("quantum-01");
+  const [awardUsername, setAwardUsername] = useState("jjb");
+  const [result, setResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [journeyResult, setJourneyResult] = useState<string | null>(null);
+  const [journeyLoading, setJourneyLoading] = useState(false);
+
+  async function run() {
+    setLoading(true);
+    setResult(null);
+    try {
+      const res = await fetch("/api/admin/award-stage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stageId, username: awardUsername, grantTrophy: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setResult(`❌ ${data.error ?? "Failed"}`);
+      } else {
+        const p = data.progress;
+        const t = data.trophy;
+        setResult(
+          `✅ Awarded "${data.stageTitle}" to ${data.username}\n` +
+          `   Coins: ${p.coins} (+${data.coinsAwarded})\n` +
+          `   Stages: ${p.completedStages.length}\n` +
+          `   Streak: ${p.streak}\n` +
+          `   Badges: ${p.badges.length}\n` +
+          (t ? `   Trophy: ${t.emoji} ${t.name} (${t.tier})` : "   Trophy: none available")
+        );
+      }
+    } catch {
+      setResult("❌ Network error");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function checkJourney() {
+    setJourneyLoading(true);
+    setJourneyResult(null);
+    try {
+      const [meRes, progressRes] = await Promise.all([
+        fetch("/api/auth/me"),
+        fetch("/api/progress"),
+      ]);
+
+      const meStatus = meRes.status;
+      const progressStatus = progressRes.status;
+
+      const meData = meRes.ok ? await meRes.json() as { username?: string; isAdmin?: boolean; email?: string } : null;
+      const progressData = progressRes.ok ? await progressRes.json() as { coins?: number; completedStages?: string[]; streak?: number; badges?: string[] } : null;
+
+      let out = `── /api/auth/me  (HTTP ${meStatus}) ──\n`;
+      if (meData) {
+        out += `   username: ${meData.username ?? "null"}\n`;
+        out += `   isAdmin:  ${meData.isAdmin ?? false}\n`;
+        out += `   email:    ${meData.email ?? "(none)"}\n`;
+      } else {
+        out += `   ❌ Returned ${meStatus} — admin_token not recognized as identity\n`;
+      }
+
+      out += `\n── /api/progress  (HTTP ${progressStatus}) ──\n`;
+      if (progressData) {
+        out += `   coins:    ${progressData.coins ?? 0}\n`;
+        out += `   stages:   ${progressData.completedStages?.length ?? 0} completed\n`;
+        out += `   streak:   ${progressData.streak ?? 0}\n`;
+        out += `   badges:   ${progressData.badges?.length ?? 0}\n`;
+        if ((progressData.completedStages?.length ?? 0) > 0) {
+          out += `   last 3:   ${progressData.completedStages!.slice(-3).join(", ")}\n`;
+        }
+      } else {
+        out += `   ❌ Returned ${progressStatus} — progress not accessible without session_token\n`;
+      }
+
+      out += `\n── Journey page diagnosis ──\n`;
+      if (!meData) {
+        out += `   ❌ Journey will show guest view (auth/me failed)\n`;
+      } else if (!progressData) {
+        out += `   ⚠️  Identity OK but progress fetch failed\n`;
+      } else {
+        out += `   ✅ Journey map should load with ${progressData.completedStages?.length ?? 0} completed stages\n`;
+      }
+
+      setJourneyResult(out);
+    } catch (e) {
+      setJourneyResult(`❌ Network error: ${e}`);
+    } finally {
+      setJourneyLoading(false);
+    }
+  }
+
+  return (
+    <div className="bg-white/2 border border-cyan-500/20 rounded-2xl overflow-hidden">
+      <div className="px-6 py-4 border-b border-white/8">
+        <h2 className="text-white font-bold">Pipeline Test — Manual Stage Award</h2>
+        <p className="text-xs text-gray-600 mt-0.5">Award a stage completion + random trophy. Tests the full downstream pipeline: XP, streak, badges, leaderboard, email.</p>
+      </div>
+      <div className="px-6 py-5 space-y-4">
+        {/* Award section */}
+        <div className="flex gap-3 flex-wrap">
+          <div className="flex-1 min-w-32">
+            <label className="text-xs text-gray-500 block mb-1">Stage ID</label>
+            <input
+              value={stageId}
+              onChange={(e) => setStageId(e.target.value)}
+              className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-cyan-500/50"
+              placeholder="quantum-01"
+            />
+          </div>
+          <div className="flex-1 min-w-32">
+            <label className="text-xs text-gray-500 block mb-1">Username</label>
+            <input
+              value={awardUsername}
+              onChange={(e) => setAwardUsername(e.target.value)}
+              className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-cyan-500/50"
+              placeholder="jjb"
+            />
+          </div>
+          <div className="flex items-end">
+            <button
+              onClick={run}
+              disabled={loading}
+              className="px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-sm rounded-lg hover:bg-cyan-500/20 transition-colors disabled:opacity-50"
+            >
+              {loading ? "Running…" : "▶ Trigger"}
+            </button>
+          </div>
+        </div>
+        {result && (
+          <pre className="bg-black/50 border border-white/8 rounded-lg p-3 text-xs text-green-300 font-mono whitespace-pre-wrap">
+            {result}
+          </pre>
+        )}
+
+        {/* Journey diagnostic section */}
+        <div className="border-t border-white/8 pt-4">
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <div className="text-sm text-white font-semibold">Journey Map Diagnostics</div>
+              <div className="text-xs text-gray-600 mt-0.5">Checks /api/auth/me and /api/progress as this browser session — exactly what the Journey page calls.</div>
+            </div>
+            <button
+              onClick={checkJourney}
+              disabled={journeyLoading}
+              className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 text-purple-400 text-sm rounded-lg hover:bg-purple-500/20 transition-colors disabled:opacity-50 flex-shrink-0"
+            >
+              {journeyLoading ? "Checking…" : "🗺 Check Journey"}
+            </button>
+          </div>
+          {journeyResult && (
+            <pre className="bg-black/50 border border-white/8 rounded-lg p-3 text-xs text-purple-200 font-mono whitespace-pre-wrap">
+              {journeyResult}
+            </pre>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ContentAudit() {
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -654,11 +818,15 @@ export default function AdminPage() {
   const router = useRouter();
   const [users, setUsers] = useState<UserRow[]>([]);
   const [togglingTier, setTogglingTier] = useState<string | null>(null);
+  const [togglingAdmin, setTogglingAdmin] = useState<string | null>(null);
+  const [togglingAge, setTogglingAge] = useState<string | null>(null);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   async function toggleTier(username: string, currentTier: string) {
-    const newTier = currentTier === "pro" ? "free" : "pro";
+    // Cycle: free → pro → all-star → free
+    const newTier = currentTier === "free" ? "pro" : currentTier === "pro" ? "all-star" : "free";
     setTogglingTier(username);
     try {
       const res = await fetch("/api/admin/set-tier", {
@@ -673,6 +841,41 @@ export default function AdminPage() {
       setTogglingTier(null);
     }
   }
+
+  async function toggleAge(username: string, currentSkin: string) {
+    const skins = ["youth", "standard", "mature"];
+    const next = skins[(skins.indexOf(currentSkin) + 1) % skins.length];
+    setTogglingAge(username);
+    try {
+      const res = await fetch("/api/admin/set-skin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, skin: next }),
+      });
+      if (res.ok) {
+        setUsers((prev) => prev.map((u) => u.username === username ? { ...u, skin: next } : u));
+      }
+    } finally {
+      setTogglingAge(null);
+    }
+  }
+
+  async function toggleAdmin(username: string, currentIsAdmin: boolean) {
+    setTogglingAdmin(username);
+    try {
+      const res = await fetch("/api/admin/grant-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, grant: !currentIsAdmin }),
+      });
+      if (res.ok) {
+        setUsers((prev) => prev.map((u) => u.username === username ? { ...u, isAdmin: !currentIsAdmin } : u));
+      }
+    } finally {
+      setTogglingAdmin(null);
+    }
+  }
+
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("coins");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
@@ -682,8 +885,8 @@ export default function AdminPage() {
   useEffect(() => {
     fetch("/api/auth/me")
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: { username: string } | null) => {
-        if (data) { setCurrentUser(data.username); setSession(data.username); }
+      .then((data: { username: string; isSuperAdmin?: boolean } | null) => {
+        if (data) { setCurrentUser(data.username); setSession(data.username); setIsSuperAdmin(data.isSuperAdmin ?? false); }
       })
       .catch(() => {});
   }, []);
@@ -837,7 +1040,7 @@ export default function AdminPage() {
             <div className="px-6 py-12 text-center text-gray-600">No server-registered users yet.</div>
           ) : (
             <div>
-              <div className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem] gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider">
+              <div className={`grid ${isSuperAdmin ? "grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem_4rem_4rem]" : "grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem_4rem]"} gap-3 px-6 py-3 border-b border-white/5 text-xs text-gray-600 font-semibold uppercase tracking-wider`}>
                 <div>#</div>
                 <div>User</div>
                 <div><SortBtn col="coins" label="Coins" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
@@ -847,12 +1050,14 @@ export default function AdminPage() {
                 <div className="text-right"><SortBtn col="lastActive" label="Active" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
                 <div className="text-right"><SortBtn col="createdAt" label="Joined" sortKey={sortKey} sortDir={sortDir} onToggle={toggleSort} /></div>
                 <div className="text-center">Pro</div>
+                <div className="text-center">Age</div>
+                {isSuperAdmin && <div className="text-center">Admin</div>}
               </div>
 
               {filtered.map((user, i) => (
                 <div
                   key={user.username}
-                  className="grid grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem] gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors"
+                  className={`grid ${isSuperAdmin ? "grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem_4rem_4rem]" : "grid-cols-[2rem_1fr_2fr_5rem_4rem_4rem_5rem_6rem_4rem_4rem]"} gap-3 px-6 py-4 border-b border-white/5 last:border-0 items-center hover:bg-white/2 transition-colors`}
                 >
                   <div className="text-xs text-gray-600 font-mono">{i + 1}</div>
 
@@ -904,18 +1109,54 @@ export default function AdminPage() {
                     <button
                       onClick={() => toggleTier(user.username, user.tier)}
                       disabled={togglingTier === user.username}
-                      title={user.tier === "pro" ? "Revoke Pro" : "Grant Pro"}
-                      className={`w-8 h-5 rounded-full transition-colors relative ${
-                        user.tier === "pro" ? "bg-cyan-500" : "bg-white/10"
-                      } disabled:opacity-50`}
+                      title={`Tier: ${user.tier} — click to cycle`}
+                      className={`text-xs font-mono px-2 py-0.5 rounded border transition-colors disabled:opacity-50 ${
+                        user.tier === "all-star"
+                          ? "bg-yellow-500/20 border-yellow-500/40 text-yellow-300"
+                          : user.tier === "pro"
+                          ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-400"
+                          : "bg-white/5 border-white/10 text-gray-600"
+                      }`}
                     >
-                      <span
-                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                          user.tier === "pro" ? "translate-x-3.5" : "translate-x-0.5"
-                        }`}
-                      />
+                      {user.tier === "all-star" ? "⭐ all-star" : user.tier === "pro" ? "pro" : "free"}
                     </button>
                   </div>
+
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => toggleAge(user.username, user.skin ?? "standard")}
+                      disabled={togglingAge === user.username}
+                      title={`Age skin: ${user.skin ?? "standard"} — click to cycle`}
+                      className={`text-xs font-mono px-2 py-0.5 rounded border transition-colors disabled:opacity-50 ${
+                        user.skin === "youth"
+                          ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-400"
+                          : user.skin === "mature"
+                          ? "bg-amber-500/15 border-amber-500/30 text-amber-400"
+                          : "bg-white/5 border-white/10 text-gray-500"
+                      }`}
+                    >
+                      {user.skin === "youth" ? "🧒 youth" : user.skin === "mature" ? "👴 mature" : "std"}
+                    </button>
+                  </div>
+
+                  {isSuperAdmin && (
+                    <div className="flex justify-center">
+                      <button
+                        onClick={() => toggleAdmin(user.username, user.isAdmin)}
+                        disabled={togglingAdmin === user.username || user.username === currentUser}
+                        title={user.username === currentUser ? "Cannot revoke your own access" : user.isAdmin ? "Revoke Admin" : "Grant Admin"}
+                        className={`w-8 h-5 rounded-full transition-colors relative ${
+                          user.isAdmin ? "bg-red-500" : "bg-white/10"
+                        } disabled:opacity-30`}
+                      >
+                        <span
+                          className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                            user.isAdmin ? "translate-x-3.5" : "translate-x-0.5"
+                          }`}
+                        />
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -986,6 +1227,9 @@ export default function AdminPage() {
 
         {/* CMS */}
         <CmsPanel />
+
+        {/* Pipeline Test / Manual Award */}
+        <PipelineTestPanel />
 
         {/* Content IP Audit */}
         <ContentAudit />
