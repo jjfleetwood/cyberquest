@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-22 (v1.8.3)**
+**Last updated: 2026-05-25 (v1.10.0)**
 
 ---
 
@@ -32,7 +32,7 @@ It's a game. It's also real security training. And that combination is genuinely
 
 This isn't a pitch deck with a mockup. It's a working product:
 
-- **358 fully built stages** across 32 curriculum epochs and 10 learning tracks
+- **418 fully built stages** across 36 curriculum epochs and 10 learning tracks
 - **ARIA AI tutor** — live in production, powered by Claude Haiku, uses Socratic coaching (guides thinking, doesn't give away answers)
 - **Daily streaks and milestone badges** — engagement loop that works
 - **Real-time leaderboard** — global, daily, and weekly XP rankings
@@ -209,4 +209,5 @@ If that sounds like something the market will pay for, let's talk.
 
 ---
 
-*kryptoscronos.com | github.com/jjfleetwood/kryptos-cronos*
+*kryptoscronos.com | github.com/jjfleetwood/kryptos-cronos*  
+*Bolotin Enterprises, Inc. — Delaware C-Corp — incorporated May 23, 2026*

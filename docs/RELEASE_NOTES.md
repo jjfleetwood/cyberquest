@@ -2,6 +2,42 @@
 
 ---
 
+## v1.10.0 — 2026-05-25
+
+**Travel curriculum: Paris in July, Milan in July, French Basics, Italian Basics**
+
+- **4 new travel epochs** added to the extended "curious" group curriculum track: Paris in July (20 stages), Milan in July (20 stages), French Basics (10 stages), Italian Basics (10 stages)
+- **60 new quiz stages** — stage count grows from 358 → 418; epoch count 32 → 36
+- **Paris in July** (paris-july, paris-01→paris-20): Roman ruins to Impressionist galleries, hidden passages, Canal Saint-Martin, jazz & chanson, opera, and eating near the Opéra
+- **Milan in July** (milan-july, milan-01→milan-20): Duomo to Last Supper, La Scala, Navigli, Brera, Isola, Vertical Forest, aperitivo culture
+- **French Basics** (french-basics, french-01→french-10): 10 conversational phrases modules — café, restaurant, shopping, directions, market math, transport, museum, emergencies, Parisian communication style
+- **Italian Basics** (italian-basics, italian-01→italian-10): 10 conversational modules — bar culture, trattoria, shopping, Milan transit, gestures, Duomo visits, emergencies, aperitivo
+- **epoch-theme.ts** extended with blue/indigo/sky/green accent colors for all 4 new epochs
+- **i18n** — travel track labels ("Travel", "Voyage", "Viajes", "Reisen") added to en/fr/es/de message files
+- **run-cyberquest dev skill** — `.claude/skills/run-cyberquest/` with Playwright smoke driver; screenshots home, stages map, epoch pages; documents Redis gotcha (stage pages need Upstash creds), CSP eval workaround, and onboarding modal dismissal
+
+---
+
+## v1.9.0 — 2026-05-23
+
+**Investor readiness, legal formation, pricing, positioning cleanup**
+
+- **Bolotin Enterprises, Inc.** incorporated as Delaware C-Corp (May 23, 2026) via Stripe Atlas — 9M founder shares, 4-year vest, 1-year cliff, vesting start 2025-11-22, double trigger acceleration
+- **Terms of Service** — live at `/terms`; covers subscriptions, 7-day refund, acceptable use, IP ownership, governing law (Delaware)
+- **Business email** — `hello@kryptoscronos.com` live via Cloudflare Email Routing; replaces Yahoo in all public-facing pages (homepage enterprise CTA, Privacy Policy, Terms)
+- **Pricing updated** — Pro tier $5.99/mo → $13.99/mo; annual $55.99 → $99 (41% savings); ProPaywall and homepage pricing section updated
+- **Crafts / Driving / Baseball hidden** from public homepage tracks grid and stage map epoch groups; cybersecurity-only positioning for investor and enterprise audience; epochs still accessible via direct URL
+- **Duplicate "How it works" removed** from homepage — redundant first section deleted; detailed second version retained
+- **Homepage stat counts fixed** — stats block and CTA footer now show 358 stages / 10 tracks (were showing 346 / 9 in two places)
+- **Demo page stats fixed** — was showing 169 stages; now 358
+- **Brief icon and functionality removed** from CtfChallenge — `briefingOpen` state, Brief button, collapsible section, and helper text reference all removed
+- **Admin stage access fixed** — `canAccessStage()` now bypasses tier check for admin username; admin no longer blocked by ProPaywall
+- **VC Readiness Analysis** — `VC_READINESS_ANALYSIS.md` created, wired into admin docs panel (API allowlist + DocsViewer tab)
+- **Deploy skill updated** — new doc file rule: any new `.md` requires API allowlist + DocsViewer entry + secured-docs placement
+- **Legal docs updated** — LAUNCH_LEGAL.md, COPYRIGHT_FILING.md, business proposals stamped with entity details, incorporation date, and 83(b) deadline
+
+---
+
 ## v1.8.3 — 2026-05-22
 
 **Pitch deck updates, deploy skill security audit, SECURITY_BRIEFING header fix**

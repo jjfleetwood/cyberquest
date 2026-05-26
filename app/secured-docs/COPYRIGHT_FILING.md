@@ -50,20 +50,25 @@ The Copyright Office regulations permit redaction of trade secrets from software
 
 ## IP Assignment Note
 
-This registration was filed in the author's personal name (Jacob John Bolotin) prior to incorporation. Upon entity formation, copyright should be formally assigned to the company via:
+This registration was filed in the author's personal name (Jacob John Bolotin) prior to incorporation.
 
-1. **PIIA (Proprietary Information and Invention Assignment)** — signed at time of incorporation
-2. **Copyright Office Recordation** — record the transfer using Form DCS (~$95) at copyright.gov
+**Incorporation status:** ✅ Bolotin Enterprises, Inc. incorporated May 23, 2026 (Delaware C-Corp via Stripe Atlas). Registered agent: Legalinc Corporate Services Inc., 131 Continental Dr Suite 305, Newark DE 19713.
 
-Until transfer is recorded, the individual retains legal ownership but the PIIA establishes the contractual obligation to assign.
+Upon entity formation, copyright must be formally assigned to the company via:
+
+1. **PIIA (Proprietary Information and Invention Assignment)** — signed at time of incorporation via Stripe Atlas ✅ (included in Atlas formation docs)
+2. **Copyright Office Recordation** — record the transfer using Form DCS (~$95) at copyright.gov ⚠️ **Pending** — file once Certificate of Incorporation is received
+
+Until recordation is filed, the PIIA establishes the contractual obligation to assign. Legal ownership transfers via PIIA at incorporation; recordation makes it public record.
 
 ---
 
 ## Timeline
 
 - **2026-05-09** — First publication (initial Vercel deployment)
-- **2026-05-20** — Copyright application filed
-- **6–9 months** — Estimated processing time (protection is retroactive to filing date)
+- **2026-05-20** — Copyright application filed (pending registration, 6–9 months)
+- **2026-05-23** — Bolotin Enterprises, Inc. incorporated (Delaware C-Corp, Stripe Atlas)
+- **By 2026-06-22** — File Form DCS at copyright.gov to record assignment of copyright to Bolotin Enterprises, Inc. (~$95)
 
 ---
 

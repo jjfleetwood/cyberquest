@@ -9,59 +9,120 @@ import { getSession, setSession, clearSession } from "@/lib/auth";
 import OnboardingModal from "@/components/OnboardingModal";
 import { epochAccent } from "@/app/stages/epoch-theme";
 import { useSkin } from "@/contexts/SkinContext";
+import { useLocale } from "@/contexts/LocaleContext";
+import { useGroup } from "@/contexts/GroupContext";
+import metaEs from "@/data/translations/meta-es.json";
+import metaFr from "@/data/translations/meta-fr.json";
+import metaDe from "@/data/translations/meta-de.json";
+
+type EpochMeta = { n: string; s: string; d: string };
+type MetaFile = { stages: Record<string, unknown>; epochs: Record<string, EpochMeta> };
+const STAGE_META_MAPS: Record<string, MetaFile> = {
+  es: metaEs as MetaFile,
+  fr: metaFr as MetaFile,
+  de: metaDe as MetaFile,
+};
 
 // ── Track groupings ────────────────────────────────────────────────────────────
 const epochGroups = [
   {
-    label: "Core Security",
-    desc: "Foundations → Real CVEs",
+    id: "coreSecurity",
+    labelKey: "stages.tracks.coreSecurity",
+    descKey: "stages.tracks.coreSecurityDesc",
     epochIds: ["first-journey", "ancient"],
   },
   {
-    label: "Tech Audit",
-    desc: "IT Governance → Cloud → AI Agents",
+    id: "techAudit",
+    labelKey: "stages.tracks.techAudit",
+    descKey: "stages.tracks.techAuditDesc",
     epochIds: ["tech-audit-1", "tech-audit-2", "tech-audit-3", "tech-audit-4"],
   },
   {
-    label: "Threat Frameworks",
-    desc: "MITRE ATT&CK → MITRE ATLAS",
+    id: "threatFrameworks",
+    labelKey: "stages.tracks.threatFrameworks",
+    descKey: "stages.tracks.threatFrameworksDesc",
     epochIds: ["mitre", "mitre-atlas"],
   },
   {
-    label: "AI Security",
-    desc: "OWASP LLM Top 10",
+    id: "aiSecurity",
+    labelKey: "stages.tracks.aiSecurity",
+    descKey: "stages.tracks.aiSecurityDesc",
     epochIds: ["owasp-llm"],
   },
   {
-    label: "Quantum Era",
-    desc: "Threats → PQC → QKD Infrastructure",
+    id: "quantumEra",
+    labelKey: "stages.tracks.quantumEra",
+    descKey: "stages.tracks.quantumEraDesc",
     epochIds: ["quantum-1", "quantum-2", "quantum-3"],
   },
   {
-    label: "Defend the Enterprise",
-    desc: "Real CVEs · DNS Security · Cloud SASE · Advanced Defense",
+    id: "enterprise",
+    labelKey: "stages.tracks.enterprise",
+    descKey: "stages.tracks.enterpriseDesc",
     epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "cisco-advanced", "umbrella"],
   },
+];
+
+// ── Extended curriculum (hidden from guests, accessible to pro users) ──────────
+const extendedGroups = [
   {
-    label: "Crafts",
-    desc: "Tapestry · Nail Arts · Hair Coloring · Hair Styling",
+    id: "crafts",
+    labelKey: "stages.tracks.crafts",
+    descKey: "stages.tracks.craftsDesc",
     epochIds: ["tapestry", "nails", "hair-color", "hair-styling"],
   },
   {
-    label: "Driving",
-    desc: "CA License → First Miles → Rules of the Road",
+    id: "driving",
+    labelKey: "stages.tracks.driving",
+    descKey: "stages.tracks.drivingDesc",
     epochIds: ["driving-1", "driving-2", "driving-3"],
   },
   {
-    label: "Baseball",
-    desc: "Little League · Hitting · Advanced Mechanics · Elite Mastery · Pitching · Pitch Arsenal · Strategy",
+    id: "sports",
+    labelKey: "stages.tracks.sports",
+    descKey: "stages.tracks.sportsDesc",
     epochIds: ["baseball-1", "baseball-2", "baseball-3", "baseball-4", "baseball-5", "baseball-6", "baseball-7"],
   },
+  {
+    id: "travel",
+    labelKey: "stages.tracks.travel",
+    descKey: "stages.tracks.travelDesc",
+    epochIds: ["paris-july", "milan-july", "french-basics", "italian-basics"],
+  },
 ];
+
+// ── Epochs allowed per user group ─────────────────────────────────────────────
+const GROUP_EPOCHS: Record<string, Set<string>> = {
+  "elementary": new Set(["first-journey", "ancient"]),
+  "junior-hs":  new Set(["first-journey", "ancient", "tech-audit-1"]),
+  "high-school": new Set(["first-journey", "ancient", "tech-audit-1", "tech-audit-2", "mitre"]),
+  "university": new Set([
+    "first-journey", "ancient",
+    "tech-audit-1", "tech-audit-2", "tech-audit-3", "tech-audit-4",
+    "mitre", "mitre-atlas", "owasp-llm", "quantum-1",
+  ]),
+  "career": new Set([
+    "first-journey", "ancient",
+    "tech-audit-1", "tech-audit-2", "tech-audit-3", "tech-audit-4",
+    "mitre", "mitre-atlas", "owasp-llm",
+    "quantum-1", "quantum-2", "quantum-3",
+    "cisco-core", "cisco-enterprise", "cisco-secops", "cisco-advanced", "umbrella",
+  ]),
+  "curious": new Set([
+    "first-journey",
+    "tapestry", "nails", "hair-color", "hair-styling",
+    "driving-1", "driving-2", "driving-3",
+    "baseball-1", "baseball-2", "baseball-3", "baseball-4", "baseball-5", "baseball-6", "baseball-7",
+    "paris-july", "milan-july", "french-basics", "italian-basics",
+  ]),
+};
 
 export default function StagesPage() {
   const router = useRouter();
   useSkin();
+  const { t, locale } = useLocale();
+  const { group } = useGroup();
+  const epochMetaMap = locale !== "en" ? (STAGE_META_MAPS[locale]?.epochs ?? null) : null;
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [totalCoins, setTotalCoins] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -92,13 +153,25 @@ export default function StagesPage() {
   }
 
   async function handleDeleteAccount() {
-    if (!window.confirm("Delete your account? This permanently removes all progress, coins, badges, and streak data and cannot be undone.")) return;
+    if (!window.confirm(t("stages.deleteAccountConfirm"))) return;
     await fetch("/api/delete-account", { method: "DELETE" });
     clearSession();
     router.push("/");
   }
 
   const maxXp = allStages.reduce((sum, s) => sum + s.xp, 0);
+
+  // Pre-compute which tracks + epochs are visible for the current group
+  const allowed = GROUP_EPOCHS[group] ?? GROUP_EPOCHS["high-school"];
+  const extendedIds = new Set(extendedGroups.map((g) => g.id));
+  const visibleTracks = [...epochGroups, ...extendedGroups]
+    .map((track) => ({
+      ...track,
+      isExtended: extendedIds.has(track.id),
+      visibleEpochIds: track.epochIds.filter((id) => allowed.has(id)),
+    }))
+    .filter((track) => track.visibleEpochIds.length > 0);
+  const firstExtendedIdx = visibleTracks.findIndex((t) => t.isExtended);
 
   return (
     <div
@@ -112,14 +185,14 @@ export default function StagesPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <Link href="/" className="text-gray-500 hover:text-cyan-400 text-sm transition-colors">
-              ← Back to Home
+              {t("stages.backToHome")}
             </Link>
             <Link href="/leaderboard" className="text-sm text-purple-400 hover:text-purple-300 transition-colors flex items-center gap-1">
-              🏆 Leaderboard
+              🏆 {t("nav.leaderboard")}
             </Link>
           </div>
-          <h1 className="text-4xl font-bold text-white mb-2">Training Stage Map</h1>
-          <p className="text-gray-400">Ten tracks covering the full spectrum — from core CVEs to AI security, quantum cryptography, baseball, and professional crafts.</p>
+          <h1 className="text-4xl font-bold text-white mb-2">{t("stages.title")}</h1>
+          <p className="text-gray-400">{t("stages.subtitle")}</p>
 
           {/* XP bar + streak */}
           <div className="mt-6 flex items-center gap-3 flex-wrap">
@@ -149,48 +222,59 @@ export default function StagesPage() {
         {username ? (
           <div className="flex items-center justify-between bg-cyan-500/5 border border-cyan-500/20 rounded-xl px-5 py-3 mb-8">
             <span className="text-sm text-gray-300">
-              👤 Welcome, <span className="text-cyan-400 font-semibold">{username}</span>
+              👤 {t("stages.welcomeUser")} <span className="text-cyan-400 font-semibold">{username}</span>
             </span>
             <div className="flex items-center gap-4">
               <button onClick={handleLogout} className="text-xs text-gray-500 hover:text-red-400 transition-colors">
-                Log out
+                {t("stages.logOut")}
               </button>
               <button onClick={handleDeleteAccount} className="text-xs text-gray-700 hover:text-red-500 transition-colors">
-                Delete account
+                {t("stages.deleteAccount")}
               </button>
             </div>
           </div>
         ) : (
           <div className="flex flex-wrap items-center justify-between gap-3 bg-white/3 border border-white/10 rounded-xl px-5 py-3 mb-8">
             <span className="text-sm text-gray-400">
-              👤 Playing as Guest —{" "}
-              <Link href="/login" className="text-cyan-400 hover:text-cyan-300 transition-colors">Sign in</Link>{" "}
-              to save progress across devices.
+              👤 {t("stages.guestPromptPre")} —{" "}
+              <Link href="/login" className="text-cyan-400 hover:text-cyan-300 transition-colors">{t("nav.signIn")}</Link>{" "}
+              {t("stages.guestPromptPost")}
             </span>
           </div>
         )}
 
         {/* ── Epoch track groups ─────────────────────────────────────────────── */}
         <div className="space-y-6">
-          {epochGroups.map((group) => {
-            const groupEpochs = group.epochIds
+          {visibleTracks.map((trackGroup, idx) => {
+            const trackEpochs = trackGroup.visibleEpochIds
               .map((id) => epochs.find((e) => e.id === id))
               .filter(Boolean) as typeof epochs;
 
             return (
-              <div key={group.label}>
+              <div key={trackGroup.id}>
+                {/* Divider before first extended group */}
+                {trackGroup.isExtended && idx === firstExtendedIdx && (
+                  <div className="flex items-center gap-3 mb-6 mt-2">
+                    <div className="flex-1 h-px bg-white/5" />
+                    <span className="text-[10px] font-mono text-gray-700 uppercase tracking-widest px-2">
+                      {t("stages.proExtended")}
+                    </span>
+                    <div className="flex-1 h-px bg-white/5" />
+                  </div>
+                )}
+
                 {/* Track label */}
                 <div className="flex items-center gap-3 mb-3 pl-1">
                   <span className="text-[10px] font-mono font-bold text-gray-600 uppercase tracking-widest whitespace-nowrap">
-                    {group.label}
+                    {t(trackGroup.labelKey)}
                   </span>
                   <div className="flex-1 h-px bg-white/5" />
-                  <span className="hidden sm:block text-[10px] text-gray-700 whitespace-nowrap">{group.desc}</span>
+                  <span className="hidden sm:block text-[10px] text-gray-700 whitespace-nowrap">{t(trackGroup.descKey)}</span>
                 </div>
 
                 {/* Epoch cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pl-4">
-                  {groupEpochs.map((epoch) => {
+                  {trackEpochs.map((epoch) => {
                     const ea = epochAccent[epoch.id] ?? epochAccent.ancient;
                     const stageCount = allStages.filter((s) => s.epochId === epoch.id).length;
                     const doneCount = allStages.filter(
@@ -209,23 +293,22 @@ export default function StagesPage() {
                             : "border-white/10 bg-white/2 hover:border-white/25 hover:bg-white/5"
                         }`}
                       >
-
                         <span className="text-2xl leading-none flex-shrink-0 transition-transform duration-200 group-hover:scale-110">
                           {epoch.emoji}
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-sm font-semibold text-gray-200 truncate">{epoch.name}</span>
+                            <span className="text-sm font-semibold text-gray-200 truncate">{epochMetaMap?.[epoch.id]?.n ?? epoch.name}</span>
                             {doneCount > 0 && doneCount < stageCount && (
                               <span className={`text-[10px] font-mono px-1.5 py-0.5 rounded ${ea.tab} flex-shrink-0`}>
                                 {doneCount}/{stageCount}
                               </span>
                             )}
                             {done && (
-                              <span className="text-[10px] font-mono text-green-400 flex-shrink-0">✓ done</span>
+                              <span className="text-[10px] font-mono text-green-400 flex-shrink-0">{t("stages.epochDone")}</span>
                             )}
                           </div>
-                          <p className="text-xs text-gray-600 truncate">{epoch.subtitle}</p>
+                          <p className="text-xs text-gray-600 truncate">{epochMetaMap?.[epoch.id]?.s ?? epoch.subtitle}</p>
                           {doneCount > 0 && (
                             <div className="mt-1.5 w-full bg-white/5 rounded-full h-1">
                               <div

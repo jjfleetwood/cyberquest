@@ -1,4 +1,7 @@
 import type { StageConfig, EpochConfig } from "./types";
+import { ancientElementaryStages } from "./ancient-elementary";
+import { ancientJhsStages } from "./ancient-jhs";
+import { ancientUniversityStages } from "./ancient-university";
 import { firstJourneyEpoch, firstJourneyStages } from "./first-journey";
 import { firstJourneyStages2 } from "./first-journey-2";
 import { firstJourneyStages3 } from "./first-journey-3";
@@ -24,7 +27,6 @@ import { hairStylingEpoch, hairStylingStages } from "./hair-styling";
 import { driving1Epoch, driving1Stages } from "./driving-1";
 import { driving2Epoch, driving2Stages } from "./driving-2";
 import { driving3Epoch, driving3Stages } from "./driving-3";
-import { clubfootEpoch, clubfootStages } from "./clubfoot";
 import { baseball1Epoch, baseball1Stages } from "./baseball-1";
 import { baseball2Epoch, baseball2Stages } from "./baseball-2";
 import { baseball3Epoch, baseball3Stages } from "./baseball-3";
@@ -32,6 +34,10 @@ import { baseball4Epoch, baseball4Stages } from "./baseball-4";
 import { baseball5Epoch, baseball5Stages } from "./baseball-5";
 import { baseball6Epoch, baseball6Stages } from "./baseball-6";
 import { baseball7Epoch, baseball7Stages } from "./baseball-7";
+import { parisEpoch, parisStages } from "./paris";
+import { milanEpoch, milanStages } from "./milan";
+import { frenchBasicsEpoch, frenchBasicsStages } from "./french-basics";
+import { italianBasicsEpoch, italianBasicsStages } from "./italian-basics";
 
 export function getStage(id: string): StageConfig | undefined {
   return stages.find((s) => s.id === id);
@@ -102,7 +108,6 @@ export const epochs: EpochConfig[] = [
   driving1Epoch,
   driving2Epoch,
   driving3Epoch,
-  { ...clubfootEpoch, unlocked: false },
   baseball1Epoch,
   baseball2Epoch,
   baseball3Epoch,
@@ -110,6 +115,10 @@ export const epochs: EpochConfig[] = [
   baseball5Epoch,
   baseball6Epoch,
   baseball7Epoch,
+  parisEpoch,
+  milanEpoch,
+  frenchBasicsEpoch,
+  italianBasicsEpoch,
 ];
 
 export const stages: StageConfig[] = [
@@ -134,7 +143,6 @@ export const stages: StageConfig[] = [
   ...driving1Stages,
   ...driving2Stages,
   ...driving3Stages,
-  ...clubfootStages,
   ...baseball1Stages,
   ...baseball2Stages,
   ...baseball3Stages,
@@ -142,8 +150,14 @@ export const stages: StageConfig[] = [
   ...baseball5Stages,
   ...baseball6Stages,
   ...baseball7Stages,
+  ...parisStages,
+  ...milanStages,
+  ...frenchBasicsStages,
+  ...italianBasicsStages,
   ...cisco5Stages,
-
+  ...ancientElementaryStages,
+  ...ancientJhsStages,
+  ...ancientUniversityStages,
 
   // ─── Stage 1: Great Pyramid of Giza — CIA Triad (Quiz) ───────────────────
   {

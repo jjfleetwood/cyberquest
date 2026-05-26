@@ -1,8 +1,20 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.6  
-**Date:** 2026-05-22  
-**Current version:** v1.8.3
+**Version:** 2.8  
+**Date:** 2026-05-25  
+**Current version:** v1.10.0
+
+---
+
+## Changelog — v2.8 (2026-05-25)
+
+No new attack surface. v1.10.0 is a content expansion: 4 travel epochs (418 quiz stages total), run-cyberquest Playwright dev skill. No new API routes, Redis keys, env vars, or third-party integrations. The run-cyberquest skill uses `playwright` as a dev dependency only — not shipped to production. Quiz stages are static data (TypeScript files), not user-generated content.
+
+---
+
+## Changelog — v2.7 (2026-05-23)
+
+No new attack surface. v1.9.0 is a positioning, pricing, and legal formation release. Changes: Brief functionality removed (reduces client-side state), admin canAccessStage bypass added (no new routes), Terms of Service page added at `/terms` (static, no data handling), business email `hello@kryptoscronos.com` wired in (Cloudflare forwarding, no server-side change), Crafts/Baseball/Driving hidden from public nav (no data access change), pricing updated ($13.99/mo, $99/yr). No new API routes, Redis keys, env vars, or third-party integrations.
 
 ---
 

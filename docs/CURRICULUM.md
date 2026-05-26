@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.3  
-**Date:** 2026-05-22  
-**Total stages:** 358 across 32 epochs
+**Version:** 3.4  
+**Date:** 2026-05-25  
+**Total stages:** 418 across 36 epochs
 
 ---
 
@@ -301,17 +301,6 @@ Passing the test is just the beginning. Master distraction awareness, defensive 
 
 ---
 
-## Epoch 25: Standing Tall
-**Theme:** Understanding and living with clubfoot (talipes equinovarus)  
-**Stages:** 6 (clubfoot-01 through clubfoot-06)  
-**Color:** Teal  
-**Unlock:** Locked by default (admin-enabled)  
-**Gating:** Sequential within epoch
-
-Explore the history, science, and human story of talipes equinovarus — one of the most common birth differences in the world. From ancient treatments to the modern Ponseti revolution, learn how families and communities support those who stand a little differently.
-
----
-
 ## Epochs 26–32: Baseball Track
 
 ### Epoch 26: Play Ball!
@@ -453,3 +442,47 @@ Every stage follows this four-part flow:
 | SSRF Agent | SSRF | 🌐 |
 | Equifax Breaker | Equifax/Struts | 💳 |
 | MongoDB Marshal | MongoDB | 🗄️ |
+
+---
+
+## Epoch 33: Paris in July
+**Theme:** City history, art, hidden corners, food, and music  
+**Stages:** 20 (paris-01 through paris-20)  
+**Color:** Blue  
+**Unlock:** Available to "curious" group  
+**Gating:** None
+
+Walk Paris like a local — Roman ruins underfoot, Impressionist masterpieces on the walls, and secret passages between the boulevards. Covers: Lutetia origins, Opéra Garnier, Notre-Dame, Louvre, Eiffel Tower, Sacré-Cœur/Montmartre, Le Marais, Les Passages Couverts, Canal Saint-Martin, Père Lachaise, Musée d'Orsay, Palais Royal, Belleville, Bastille, Marché d'Aligre, Rue Montorgueil, Jazz & Chanson, Opera & Classical, Eating Near the Opéra, Hidden Tables.
+
+---
+
+## Epoch 34: Milan in July
+**Theme:** Design capital, Renaissance art, fashion, aperitivo culture  
+**Stages:** 20 (milan-01 through milan-20)  
+**Color:** Indigo  
+**Unlock:** Available to "curious" group  
+**Gating:** None
+
+Discover Milan beyond the fashion week — from Roman Mediolanum to the Vertical Forest, Leonardo's Last Supper to the Navigli canals. Covers: Mediolanum origins, Duomo, Last Supper, La Scala, Castello Sforzesco, Galleria Vittorio Emanuele II, Pinacoteca di Brera, Pinacoteca Ambrosiana, Navigli, Brera & Moscova, Isola, Porta Venezia, Porta Garibaldi/Vertical Forest, Cimitero Monumentale, San Lorenzo, Tortona & Darsena, Live Music, Opera & Teatro, Eating in Milan, Aperitivo.
+
+---
+
+## Epoch 35: French Basics
+**Theme:** Conversational French for travelers  
+**Stages:** 10 (french-01 through french-10)  
+**Color:** Sky  
+**Unlock:** Available to "curious" group  
+**Gating:** None
+
+Ten practical phrase modules covering: greetings, café orders, restaurant dining, shopping, directions, numbers & market math, getting around (transport), museum visits, emergencies, and understanding Parisians.
+
+---
+
+## Epoch 36: Italian Basics
+**Theme:** Conversational Italian for travelers  
+**Stages:** 10 (italian-01 through italian-10)  
+**Color:** Green  
+**Unlock:** Available to "curious" group  
+**Gating:** None
+
+Ten practical phrase modules covering: greetings, bar culture, trattoria dining, shopping, Milan transit, numbers & money, culture & gestures, visiting the Duomo & museums, emergencies, and aperitivo & nightlife.

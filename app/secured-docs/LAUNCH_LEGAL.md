@@ -1,10 +1,43 @@
 # Kryptós CronOS — Launch Legal & Business Formation Guide
 
 **Classification:** Internal — Founder Reference  
-**Date:** 2026-05-17  
-**Status:** Pre-Incorporation
+**Date:** 2026-05-23  
+**Status:** Incorporated ✅
 
 > This document is operational guidance for the founder, not legal advice. Consult a startup attorney before filing and before signing any agreements with investors, employees, or contractors.
+
+---
+
+## ⚡ Immediate Next Actions
+
+| Priority | Action | Deadline | Status |
+|---|---|---|---|
+| 1 | **Watch for EIN email** from Atlas/IRS — Mercury bank account opens automatically after receipt | Within 1–2 business days | ✅ Done |
+| 2 | **Confirm 83(b) election filed** — Atlas files automatically but verify you receive confirmation; missing this deadline has permanent tax consequences | **June 22, 2026** | ⏳ Pending |
+| 3 | **File Form DCS** at copyright.gov — assigns copyright registration to Bolotin Enterprises, Inc. (~$95) | Before June 22, 2026 | ⏳ Pending |
+| 4 | **Set up Stripe** — create Pro products ($13.99/mo, $99/yr) and add 4 env vars to Vercel to activate payments | Before public launch | ⏳ Pending |
+
+---
+
+## Entity Details
+
+| Field | Value |
+|---|---|
+| **Legal name** | Bolotin Enterprises, Inc. |
+| **DBA / Trade name** | Kryptós CronOS |
+| **Entity type** | Delaware C Corporation |
+| **Incorporation date** | May 23, 2026 |
+| **Incorporation service** | Stripe Atlas |
+| **Principal address** | 215 Cardiff Place, Santa Cruz, CA 95060 |
+| **Delaware registered office** | 131 Continental Dr, Suite 305, Newark, DE 19713 |
+| **Registered agent** | Legalinc Corporate Services Inc. |
+| **Authorized shares** | 10,000,000 Common Stock (par value $0.00001) |
+| **Founder shares** | 9,000,000 (Jacob Bolotin) |
+| **Representative** | Jacob Bolotin, Sole Incorporator |
+| **Contact phone** | (917) 691-7264 |
+| **Contact email** | hello@kryptoscronos.com |
+| **EIN** | ✅ Received |
+| **83(b) election deadline** | **June 22, 2026** — Atlas files automatically; confirm receipt |
 
 ---
 
@@ -115,7 +148,7 @@ The platform includes a built-in NDA gate at `/demo`:
 - The admin dashboard at `/admin` shows all NDA signatories
 
 **To invite someone:**
-1. Share the link: `https://app-jjfleetwood.vercel.app/demo`
+1. Share the link: `https://kryptoscronos.com/demo`
 2. They must complete the NDA form before accessing the platform
 3. Their acceptance is logged with timestamp and IP
 
@@ -173,11 +206,12 @@ Before hiring anyone (employees or contractors):
 
 Before sending pitch decks to investors:
 
-- [ ] Entity incorporated (Delaware C-Corp)
-- [ ] EIN obtained
-- [ ] Business bank account open
-- [ ] Founder shares issued + PIIA signed
-- [ ] Copyright registration filed
+- [x] Entity incorporated (Delaware C-Corp) ✅ **Bolotin Enterprises, Inc.** incorporated May 23, 2026
+- [x] EIN obtained ✅ received from IRS via Atlas
+- [x] Business bank account open ✅ Mercury opens automatically after EIN — check Mercury dashboard to confirm
+- [x] Founder shares issued + PIIA signed ✅ 9,000,000 shares · 4-year vest · 1-year cliff · vesting start 2025-11-22 · double trigger
+- [ ] 83(b) election filed ← Atlas files automatically · **deadline June 22, 2026** · watch for confirmation
+- [x] Copyright registration filed ✅ (filed 2026-05-20 — U.S. Copyright Office, pending registration)
 - [ ] NDA gate live on demo
 - [ ] Privacy policy live on platform ✅ (already at /privacy)
 - [ ] Cap table clean (just founder shares, no informal promises)
@@ -222,4 +256,4 @@ Before fundraising:
 
 ---
 
-*Last updated: 2026-05-17*
+*Last updated: 2026-05-22*

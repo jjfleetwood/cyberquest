@@ -162,7 +162,6 @@ cyberquest/
 │   │   │   ├── driving-1.ts          # Epoch 22: Road to Your License
 │   │   │   ├── driving-2.ts          # Epoch 23: First Miles
 │   │   │   ├── driving-3.ts          # Epoch 24: Rules of the Road
-│   │   │   ├── clubfoot.ts           # Epoch 25: Standing Tall (locked)
 │   │   │   ├── baseball-1.ts         # Epoch 26: Play Ball!
 │   │   │   ├── baseball-2.ts         # Epoch 27: The Art of Hitting
 │   │   │   ├── baseball-3.ts         # Epoch 28: Advanced Mechanics
@@ -312,7 +311,6 @@ User clicks link → POST /api/reset-password (rate: 5/IP/hour)
 | 22 | `driving-1` | Road to Your License | 8 | driving-1-01 → driving-1-08 | Green |
 | 23 | `driving-2` | First Miles | 8 | driving-2-01 → driving-2-08 | Lime |
 | 24 | `driving-3` | Rules of the Road | 8 | driving-3-01 → driving-3-08 | Orange |
-| 25 | `clubfoot` | Standing Tall | 6 | clubfoot-01 → clubfoot-06 | Teal |
 | 26 | `baseball-1` | Play Ball! | 10 | baseball-1-01 → baseball-1-10 | Red |
 | 27 | `baseball-2` | The Art of Hitting | 10 | baseball-2-01 → baseball-2-10 | Blue |
 | 28 | `baseball-3` | Advanced Mechanics | 10 | baseball-3-01 → baseball-3-10 | Violet |
@@ -320,8 +318,6 @@ User clicks link → POST /api/reset-password (rate: 5/IP/hour)
 | 30 | `baseball-5` | The Art of Pitching | 10 | baseball-5-01 → baseball-5-10 | Green |
 | 31 | `baseball-6` | Pitch Arsenal | 10 | baseball-6-01 → baseball-6-10 | Red |
 | 32 | `baseball-7` | Pitching Strategy | 10 | baseball-7-01 → baseball-7-10 | Indigo |
-
-**Note:** Epoch 25 (clubfoot) is locked by default.
 
 ### 5.2 Stage Unlock Logic
 

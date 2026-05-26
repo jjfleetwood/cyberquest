@@ -2,11 +2,11 @@
 
 ## What This Is
 
-Gamified cybersecurity + AI training platform. 32 curriculum epochs, 358 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
+Gamified cybersecurity + AI training platform. 36 curriculum epochs, 418 CTF/quiz stages, live leaderboard, admin dashboard, 24 downloadable MCP server templates. Built with Next.js 16 / React 19 / TypeScript / Tailwind CSS / Upstash Redis / Resend.
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.8.3 (as of 2026-05-22)
+**Current version:** v1.10.0 (as of 2026-05-25)
 
 ---
 
@@ -121,7 +121,6 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | 21 | `driving-1` | Road to Your License | 8 | driving-1-01 → driving-1-08 | Yellow |
 | 22 | `driving-2` | First Miles | 8 | driving-2-01 → driving-2-08 | Lime |
 | 23 | `driving-3` | Rules of the Road | 8 | driving-3-01 → driving-3-08 | Orange |
-| 24 | `clubfoot` | Standing Tall | 6 | clubfoot-01 → clubfoot-06 | Teal (locked) |
 | 25 | `baseball-1` | Play Ball! | 10 | baseball-1-01 → baseball-1-10 | Red |
 | 26 | `baseball-2` | The Art of Hitting | 10 | baseball-2-01 → baseball-2-10 | Blue |
 | 27 | `baseball-3` | Advanced Mechanics | 10 | baseball-3-01 → baseball-3-10 | Violet |
@@ -130,8 +129,14 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | 30 | `baseball-6` | Pitch Arsenal | 10 | baseball-6-01 → baseball-6-10 | Red |
 | 31 | `baseball-7` | Pitching Strategy | 10 | baseball-7-01 → baseball-7-10 | Indigo |
 | 32 | `cisco-advanced` | Cisco: Advanced Defense | 12 | stage-m39 → stage-m50 | Cyan |
+| 33 | `paris-july` | Paris in July | 20 | paris-01 → paris-20 | Blue |
+| 34 | `milan-july` | Milan in July | 20 | milan-01 → milan-20 | Indigo |
+| 35 | `french-basics` | French Basics | 10 | french-01 → french-10 | Sky |
+| 36 | `italian-basics` | Italian Basics | 10 | italian-01 → italian-10 | Green |
 
-**Track groups (stages page):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise · Crafts · Driving · Health · Baseball
+**Track groups (stages page — public):** Core Security · Tech Audit · Threat Frameworks · AI Security · Quantum Era · Defend the Enterprise  
+**Extended curriculum (curious group only):** Crafts · Driving · Baseball · Travel  
+**Hidden from public nav (accessible via direct URL):** all extended tracks
 
 ---
 
@@ -196,8 +201,8 @@ ADMIN_SECRET              ← 32+ char random string for HMAC cookie signing
 ANTHROPIC_API_KEY         ← Claude Haiku for ARIA chatbot
 STRIPE_SECRET_KEY         ← Stripe secret key (sk_live_... or sk_test_...)
 STRIPE_WEBHOOK_SECRET     ← Stripe webhook signing secret (whsec_...)
-STRIPE_PRO_MONTHLY_PRICE_ID  ← Stripe price ID for $5.99/mo
-STRIPE_PRO_YEARLY_PRICE_ID   ← Stripe price ID for $55.99/yr
+STRIPE_PRO_MONTHLY_PRICE_ID  ← Stripe price ID for $13.99/mo
+STRIPE_PRO_YEARLY_PRICE_ID   ← Stripe price ID for $99/yr
 ```
 
 Local dev: `.env.local` in `app/` (gitignored).
@@ -262,11 +267,26 @@ Local dev: `.env.local` in `app/` (gitignored).
 ## Business Context
 
 - **Stage:** Pre-seed, seeking $1.5M seed round
+- **Legal entity:** Bolotin Enterprises, Inc. — Delaware C-Corp (incorporated May 23, 2026)
 - **Domain:** kryptoscronos.com
-- **Model:** B2C 7-day free trial → Pro ($5.99/mo or $55.99/yr) + B2B enterprise ($8/seat/mo) + sponsor integrations
+- **Model:** B2C 7-day free trial → Pro ($13.99/mo or $99/yr) + B2B enterprise ($8/seat/mo) + sponsor integrations
 - **Target sponsors:** CrowdStrike, AWS, SentinelOne, CompTIA, ISC²
 
 ---
+
+## What's Shipped (v1.9.0)
+
+- ✅ Bolotin Enterprises, Inc. incorporated (Delaware C-Corp, May 23, 2026, Stripe Atlas)
+- ✅ Terms of Service page at `/terms` — subscriptions, 7-day refund, acceptable use, IP, Delaware governing law
+- ✅ Business email `hello@kryptoscronos.com` via Cloudflare Email Routing — replaces Yahoo everywhere
+- ✅ Pricing updated: $13.99/mo, $99/yr (SAVE 41%); ProPaywall + homepage updated
+- ✅ Crafts / Driving / Baseball hidden from public homepage and stage map
+- ✅ Homepage duplicate "How it works" section removed
+- ✅ Homepage + demo page stats corrected (358 stages, 10 tracks)
+- ✅ Brief icon and functionality fully removed from CtfChallenge
+- ✅ Admin `canAccessStage()` bypass — admin no longer hits ProPaywall
+- ✅ VC Readiness Analysis doc wired into admin docs panel
+- ✅ Deploy skill updated with new doc file wiring rule
 
 ## What's Shipped (v1.8.0)
 
