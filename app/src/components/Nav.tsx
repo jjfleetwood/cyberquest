@@ -65,12 +65,8 @@ export default function Nav() {
   // Close mobile menu on route change
   useEffect(() => { setMobileOpen(false); }, [pathname]);
 
-  async function handleUpgrade() {
-    try {
-      const r = await fetch("/api/stripe/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ plan: "monthly" }) });
-      const data = await r.json() as { url?: string };
-      if (data.url) window.location.href = data.url;
-    } catch { /* ignore */ }
+  function handleUpgrade() {
+    router.push("/upgrade");
   }
 
   function handleLogout() {
