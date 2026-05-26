@@ -96,6 +96,18 @@ export const CONTENT_FLAGS: ContentFlag[] = [
       "first-journey-3.ts has several stages referencing ATT&CK T-codes. Lower risk than the dedicated MITRE epoch, but attribution is best practice.",
     reviewedAt: "2026-05-20",
   },
+  {
+    epochId: "ancient",
+    risk: "fair-use",
+    source: "NIST / General cybersecurity principles / Factual historical incidents",
+    license: "Public domain (NIST); Factual public record",
+    attributionUrl: "https://csrc.nist.gov/",
+    attributionText:
+      "This module references the CIA Triad (Confidentiality, Integrity, Availability), a foundational information security model documented in NIST publications (public domain U.S. government works). Historical incident references (Target 2013, etc.) are factual public record.",
+    adminNote:
+      "stages.ts 'ancient' epoch stages cover the CIA Triad, SQL injection, phishing, zero-day concepts, and classic attack patterns. All concepts are industry-standard education. NIST citations are public domain. Historical incidents cited factually. No verbatim reproduction of proprietary content.",
+    reviewedAt: "2026-05-22",
+  },
   // ── Tech Audit epochs ─────────────────────────────────────────────────────
   {
     epochId: "tech-audit-1",
@@ -172,6 +184,59 @@ export const CONTENT_FLAGS: ContentFlag[] = [
       "References to NSA/NIST quantum-transition advisories are citations of public domain U.S. government documents.",
     adminNote: "Public domain. Safe.",
     reviewedAt: "2026-05-20",
+  },
+  {
+    epochId: "umbrella",
+    risk: "fair-use",
+    source: "Cisco Umbrella® / Cisco Talos® / OpenDNS / NVD CVE data",
+    license: "Commercial product — educational reference",
+    attributionUrl: "https://umbrella.cisco.com/",
+    attributionText:
+      "This module references Cisco Umbrella® and Cisco Talos® threat intelligence, which are products and services of Cisco Systems, Inc. Cisco®, Cisco Umbrella®, and Cisco Talos® are registered trademarks of Cisco Systems, Inc. Content is used for educational purposes only and is not affiliated with or endorsed by Cisco.",
+    adminNote:
+      "umbrella.ts stages teach DNS-layer security concepts using Cisco Umbrella as the reference platform. Cisco and Talos are referenced descriptively as real-world tools, not reproduced verbatim. CVE references are public NVD data. No proprietary Cisco documentation copied. Educational fair use.",
+    reviewedAt: "2026-05-22",
+  },
+  // ── Arts epochs ───────────────────────────────────────────────────────────
+  {
+    epochId: "tapestry",
+    risk: "verified-safe",
+    source: "General fiber arts / historical weaving knowledge",
+    attributionText:
+      "Tapestry and weaving content is based on publicly available fiber arts knowledge, historical textile techniques, and original quiz questions.",
+    adminNote:
+      "tapestry.ts covers weaving techniques, loom mechanics, and fiber arts history. All content is original or based on public-domain historical information. No proprietary patterns, trademarks, or copyrighted material reproduced.",
+    reviewedAt: "2026-05-22",
+  },
+  {
+    epochId: "nails",
+    risk: "verified-safe",
+    source: "General nail care / cosmetology education",
+    attributionText:
+      "Nail care and nail art content is based on publicly available cosmetology knowledge and original educational questions.",
+    adminNote:
+      "nails.ts covers nail anatomy, nail art techniques, product chemistry (acid-free primers, gel polish), and professional nail care. All content is original. No proprietary brand content reproduced.",
+    reviewedAt: "2026-05-22",
+  },
+  {
+    epochId: "hair-color",
+    risk: "verified-safe",
+    source: "General cosmetology / color theory",
+    attributionText:
+      "Hair color content is based on publicly available cosmetology education, color wheel theory, and hair chemistry knowledge.",
+    adminNote:
+      "hair-color.ts covers color theory, oxidative chemistry, toning, and color correction. All concepts are standard cosmetology curriculum knowledge. No proprietary salon brand content reproduced.",
+    reviewedAt: "2026-05-22",
+  },
+  {
+    epochId: "hair-styling",
+    risk: "fair-use",
+    source: "General cosmetology / Andre Walker hair typing system",
+    attributionText:
+      "Hair styling content references hair typing systems based on publicly available cosmetology knowledge. The 1–4 hair type classification popularized by Andre Walker is referenced as an educational industry standard.",
+    adminNote:
+      "hair-styling.ts references the Andre Walker hair type system (1A–4C) as an industry-standard classification shorthand. This system is widely documented in public cosmetology literature. Referenced descriptively, not reproduced from any proprietary publication. No IP risk.",
+    reviewedAt: "2026-05-22",
   },
   // ── Driving epochs ────────────────────────────────────────────────────────
   {

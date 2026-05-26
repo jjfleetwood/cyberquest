@@ -81,8 +81,8 @@ export default function PrivacyPage() {
               <p className="mb-4">
                 To delete your account, log in and use the <span className="text-white font-mono">Delete Account</span> option
                 on the stage map page, or submit a request to{" "}
-                <a href="mailto:jjbolotin@yahoo.com" className="text-cyan-400 hover:text-cyan-300 transition-colors">
-                  jjbolotin@yahoo.com
+                <a href="mailto:hello@kryptoscronos.com" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+                  hello@kryptoscronos.com
                 </a>.
               </p>
               <p className="text-gray-600 text-xs">

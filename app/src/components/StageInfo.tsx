@@ -3,7 +3,9 @@
 import AttackDiagram from "./AttackDiagram";
 import BackLink from "./BackLink";
 import type { StageConfig } from "@/data/types";
+import type { StageTranslation } from "@/data/translations/types";
 import { stageDownloads } from "@/data/stage-downloads";
+import { useLocale } from "@/contexts/LocaleContext";
 
 const categoryColors: Record<string, string> = {
   cybersecurity: "text-cyan-400 bg-cyan-400/10 border-cyan-400/30",
@@ -22,12 +24,26 @@ const categoryLabel: Record<string, string> = {
 export default function StageInfo({
   stage,
   onStart,
+  translation = null,
 }: {
   stage: StageConfig;
   onStart: () => void;
+  translation?: StageTranslation | null;
 }) {
+  const { t } = useLocale();
   const { info } = stage;
   const downloads = info.downloads ?? stageDownloads[stage.id] ?? [];
+
+  // Overlay translated content onto the English source
+  const tagline = translation?.tagline ?? info.tagline;
+  const overview = translation?.overview ?? info.overview;
+  const technicalTitle = translation?.technical?.title ?? info.technical.title;
+  const technicalBody = translation?.technical?.body ?? info.technical.body;
+  const incidentTitle = translation?.incident?.title ?? info.incident.title;
+  const incidentImpact = translation?.incident?.impact ?? info.incident.impact;
+  const incidentBody = translation?.incident?.body ?? info.incident.body;
+  const keyTakeaways = translation?.keyTakeaways ?? info.keyTakeaways;
+  const timelineEvents = translation?.timeline ?? null;
 
   return (
     <div
@@ -64,19 +80,19 @@ export default function StageInfo({
               </span>
             )}
             <span className="text-xs px-2 py-0.5 rounded-full border text-cyan-600 bg-cyan-500/5 border-cyan-500/20">
-              Stage {stage.order}
+              {t("stage.stageNumber")} {stage.order}
             </span>
           </div>
 
           <h1 className="text-3xl font-bold text-white mb-1">{stage.title}</h1>
-          <p className="text-gray-400 text-lg">{info.tagline}</p>
+          <p className="text-gray-400 text-lg">{tagline}</p>
         </div>
 
         {/* Overview */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Overview</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.overview")}</h2>
           <div className="space-y-3">
-            {info.overview.map((para, i) => (
+            {overview.map((para, i) => (
               <p key={i} className="text-gray-300 leading-relaxed">{para}</p>
             ))}
           </div>
@@ -84,7 +100,7 @@ export default function StageInfo({
 
         {/* Attack Diagram */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Attack Flow</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.attackFlow")}</h2>
           <div className="bg-white/3 border border-white/10 rounded-xl p-6">
             <AttackDiagram nodes={info.diagram.nodes} />
           </div>
@@ -92,11 +108,11 @@ export default function StageInfo({
 
         {/* Technical Deep-Dive */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Technical Deep-Dive</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.technical")}</h2>
           <div className="bg-white/3 border border-white/10 rounded-xl p-6">
-            <h3 className="text-white font-semibold text-lg mb-3">{info.technical.title}</h3>
+            <h3 className="text-white font-semibold text-lg mb-3">{technicalTitle}</h3>
             <div className="space-y-3 mb-4">
-              {info.technical.body.map((para, i) => (
+              {technicalBody.map((para, i) => (
                 <p key={i} className="text-gray-300 leading-relaxed text-sm">{para}</p>
               ))}
             </div>
@@ -113,16 +129,16 @@ export default function StageInfo({
 
         {/* Real-World Incident */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Real-World Incident</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.incident")}</h2>
           <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
-            <h3 className="text-red-400 font-semibold text-lg mb-1">{info.incident.title}</h3>
+            <h3 className="text-red-400 font-semibold text-lg mb-1">{incidentTitle}</h3>
             <div className="flex flex-wrap gap-4 text-xs text-gray-500 mb-4">
               <span>📅 {info.incident.when}</span>
               <span>📍 {info.incident.where}</span>
-              <span>💥 {info.incident.impact}</span>
+              <span>💥 {incidentImpact}</span>
             </div>
             <div className="space-y-3">
-              {info.incident.body.map((para, i) => (
+              {incidentBody.map((para, i) => (
                 <p key={i} className="text-gray-300 leading-relaxed text-sm">{para}</p>
               ))}
             </div>
@@ -131,7 +147,7 @@ export default function StageInfo({
 
         {/* Timeline */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Timeline</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.timeline")}</h2>
           <div className="relative">
             <div className="absolute left-[7px] top-0 bottom-0 w-px bg-white/10" />
             <div className="space-y-4">
@@ -147,7 +163,7 @@ export default function StageInfo({
                       {entry.year}
                     </span>
                     <span className={`text-sm ${entry.highlight ? "text-white font-medium" : "text-gray-400"}`}>
-                      {entry.event}
+                      {timelineEvents?.[i] ?? entry.event}
                     </span>
                   </div>
                 </div>
@@ -158,9 +174,9 @@ export default function StageInfo({
 
         {/* Key Takeaways */}
         <section className="mb-8">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">Key Takeaways</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.keyTakeaways")}</h2>
           <div className="space-y-2">
-            {info.keyTakeaways.map((item, i) => (
+            {keyTakeaways.map((item, i) => (
               <div key={i} className="flex gap-3 items-start">
                 <span className="text-cyan-500 mt-0.5 flex-shrink-0">▸</span>
                 <p className="text-gray-300 text-sm leading-relaxed">{item}</p>
@@ -171,7 +187,7 @@ export default function StageInfo({
 
         {/* References */}
         <section className="mb-10">
-          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">References</h2>
+          <h2 className="text-cyan-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.references")}</h2>
           <ul className="space-y-1">
             {info.references.map((ref, i) => (
               <li key={i} className="flex gap-2 items-baseline text-sm">
@@ -192,7 +208,7 @@ export default function StageInfo({
         {/* Code Templates */}
         {downloads.length > 0 && (
           <section className="mb-8">
-            <h2 className="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">Code Templates</h2>
+            <h2 className="text-indigo-400 font-semibold text-sm uppercase tracking-wider mb-3">{t("stage.codeTemplates")}</h2>
             <div className="bg-indigo-500/5 border border-indigo-500/20 rounded-xl p-4">
               <p className="text-gray-500 text-xs mb-3">
                 Runnable MCP server templates for this audit scenario — download, customize, and deploy against real systems.
@@ -221,18 +237,16 @@ export default function StageInfo({
         {/* CTA */}
         <div className="bg-white/3 border border-cyan-500/30 rounded-xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <p className="text-white font-semibold">Ready for the challenge?</p>
+            <p className="text-white font-semibold">{t("stage.readyForChallenge")}</p>
             <p className="text-gray-500 text-sm">
-              {stage.challengeType === "ctf"
-                ? "Exploit the vulnerability in a simulated environment and capture the flag."
-                : "Test your knowledge with a quiz on this vulnerability."}
+              {stage.challengeType === "ctf" ? t("stage.ctfExploit") : t("stage.quizTest")}
             </p>
           </div>
           <button
             onClick={onStart}
             className="px-8 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition-colors flex-shrink-0"
           >
-            {stage.challengeType === "ctf" ? "Start CTF →" : "Start Quiz →"}
+            {stage.challengeType === "ctf" ? t("stage.startCtf") : t("stage.startQuiz")}
           </button>
         </div>
       </div>

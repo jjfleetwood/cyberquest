@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
+import { useLocale } from "@/contexts/LocaleContext";
 
 /**
  * AuthGuard — soft auth banner.
@@ -12,6 +13,7 @@ import { getSession } from "@/lib/auth";
  * This is NOT a hard access gate; guests can still use the app anonymously.
  */
 export default function AuthGuard() {
+  const { t } = useLocale();
   const [dismissed, setDismissed] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // default true to avoid flash
 
@@ -27,20 +29,20 @@ export default function AuthGuard() {
   return (
     <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl px-5 py-4 flex flex-wrap items-center justify-between gap-3 mb-6">
       <p className="text-sm text-gray-300">
-        👤 Sign in to track your progress and appear on the leaderboard.
+        👤 {t("auth.signInPrompt")}
       </p>
       <div className="flex items-center gap-3 flex-shrink-0">
         <Link
           href="/login"
           className="px-4 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black text-sm font-semibold rounded-lg transition-colors"
         >
-          Sign In →
+          {t("auth.signIn")}
         </Link>
         <button
           onClick={() => setDismissed(true)}
           className="text-xs text-gray-600 hover:text-gray-400 transition-colors"
         >
-          Continue as Guest
+          {t("auth.continueAsGuest")}
         </button>
       </div>
     </div>

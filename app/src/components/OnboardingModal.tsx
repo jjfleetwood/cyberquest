@@ -2,14 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-const steps = [
-  { n: "01", icon: "🗺️", title: "Pick a stage", desc: "Choose from six curriculum tracks — core CVEs, AI security, quantum, and more." },
-  { n: "02", icon: "💻", title: "Hack the terminal", desc: "Run real commands inside a simulated vulnerable environment. No videos. No multiple choice." },
-  { n: "03", icon: "🏁", title: "Capture the flag", desc: "Find the hidden flag, earn XP, unlock the next stage. ARIA AI hints keep you moving without spoiling it." },
-];
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function OnboardingModal() {
+  const { t } = useLocale();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -23,6 +19,12 @@ export default function OnboardingModal() {
 
   if (!show) return null;
 
+  const steps = [
+    { n: "01", icon: "🗺️", titleKey: "onboarding.step1Title", descKey: "onboarding.step1Desc" },
+    { n: "02", icon: "💻", titleKey: "onboarding.step2Title", descKey: "onboarding.step2Desc" },
+    { n: "03", icon: "🏁", titleKey: "onboarding.step3Title", descKey: "onboarding.step3Desc" },
+  ];
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
@@ -34,9 +36,9 @@ export default function OnboardingModal() {
       >
         <div className="text-center mb-6">
           <div className="text-4xl mb-3">🛡️</div>
-          <h2 className="text-2xl font-black text-white mb-2">Welcome, Operative</h2>
+          <h2 className="text-2xl font-black text-white mb-2">{t("onboarding.welcome")}</h2>
           <p className="text-sm text-gray-500 leading-relaxed">
-            Kryptós CronOS is a hands-on cybersecurity training platform. Real exploits. Real terminals. No fluff.
+            {t("onboarding.subtitle")}
           </p>
         </div>
 
@@ -50,8 +52,8 @@ export default function OnboardingModal() {
               <span className="text-[10px] font-mono text-cyan-700 mt-0.5 w-5 flex-shrink-0 font-bold">{s.n}</span>
               <span className="text-lg flex-shrink-0 leading-none mt-0.5">{s.icon}</span>
               <div>
-                <p className="text-sm font-semibold text-white mb-0.5">{s.title}</p>
-                <p className="text-xs text-gray-600 leading-relaxed">{s.desc}</p>
+                <p className="text-sm font-semibold text-white mb-0.5">{t(s.titleKey)}</p>
+                <p className="text-xs text-gray-600 leading-relaxed">{t(s.descKey)}</p>
               </div>
             </div>
           ))}
@@ -62,7 +64,7 @@ export default function OnboardingModal() {
           className="w-full py-3 font-black rounded-xl text-sm text-black transition-all hover:opacity-90 active:scale-95"
           style={{ background: "linear-gradient(90deg, #22d3ee, #818cf8)" }}
         >
-          Begin Training →
+          {t("onboarding.beginTraining")}
         </button>
 
         <p className="text-center text-xs text-gray-700 mt-4 space-x-3">

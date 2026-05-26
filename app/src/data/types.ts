@@ -84,6 +84,7 @@ export type EpochConfig = {
 
 export type StageConfig = {
   epochId: string;
+  group?: "elementary" | "junior-hs" | "high-school" | "university" | "career" | "curious";
   wonder: Wonder;
   id: string;
   order: number;

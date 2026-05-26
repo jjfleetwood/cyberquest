@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { fetchProgress } from "@/lib/progress";
 import { getSession, setSession } from "@/lib/auth";
+import { stagesMeta, epochs } from "@/data/stages-meta";
+import { useLocale } from "@/contexts/LocaleContext";
 
 type Period = "alltime" | "weekly" | "daily";
 
@@ -17,19 +19,20 @@ type Player = {
   recencyFallback?: boolean;
 };
 
+type ProfileData = {
+  username: string;
+  coins: number;
+  stages: number;
+  badges: number;
+  streak: number;
+  longestStreak: number;
+  completedStageIds: string[];
+  trophies: { id: string; name: string; emoji: string; tier: string }[];
+  equippedItemIds: Record<string, string>;
+};
+
 const MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
-const PERIOD_LABELS: Record<Period, string> = {
-  alltime: "All Time",
-  weekly: "This Week",
-  daily: "Today",
-};
-
-const PERIOD_DESC: Record<Period, string> = {
-  alltime: "Total coins accumulated",
-  weekly: "Coins earned this week",
-  daily: "Coins earned today",
-};
 
 const FALLBACK_DESC: Record<Period, string> = {
   alltime: "",
@@ -60,7 +63,216 @@ function timeAgo(ts: number | null): string {
   return `${Math.floor(h / 24)}d ago`;
 }
 
+const TIER_COLORS: Record<string, string> = {
+  field: "text-gray-400 border-gray-500/30 bg-gray-500/8",
+  enlisted: "text-stone-400 border-stone-500/30 bg-stone-500/8",
+  commended: "text-amber-500 border-amber-500/30 bg-amber-500/8",
+  decorated: "text-violet-400 border-violet-500/30 bg-violet-500/8",
+  distinguished: "text-sky-400 border-sky-500/30 bg-sky-500/8",
+  elite: "text-cyan-400 border-cyan-500/30 bg-cyan-500/8",
+  legendary: "text-purple-400 border-purple-500/30 bg-purple-500/8",
+  apex: "text-red-400 border-red-500/30 bg-red-500/8",
+};
+
+// Group completed stages by epoch for the profile view
+function groupStagesByEpoch(completedIds: string[]) {
+  const completedSet = new Set(completedIds);
+  const groups: { epochName: string; epochEmoji: string; stages: typeof stagesMeta }[] = [];
+
+  for (const epoch of epochs) {
+    const done = stagesMeta
+      .filter((s) => s.epochId === epoch.id && completedSet.has(s.id))
+      .sort((a, b) => a.order - b.order);
+    if (done.length > 0) {
+      groups.push({ epochName: epoch.name, epochEmoji: epoch.emoji, stages: done });
+    }
+  }
+  return groups;
+}
+
+function PlayerAvatar({ username, size = 40, isYou = false }: { username: string; size?: number; isYou?: boolean }) {
+  const [fg, bg] = isYou ? (["#000", "#22d3ee"] as [string, string]) : avatarColor(username);
+  return (
+    <div
+      className="rounded-full flex items-center justify-center font-bold flex-shrink-0"
+      style={{ width: size, height: size, background: bg, color: fg, fontSize: size * 0.38 }}
+    >
+      {username[0]?.toUpperCase() ?? "?"}
+    </div>
+  );
+}
+
+function ProfilePanel({ username, myName, rank, onClose }: {
+  username: string;
+  myName: string;
+  rank: number | null;
+  onClose: () => void;
+}) {
+  const { t } = useLocale();
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const isMe = username.toLowerCase() === myName.toLowerCase();
+
+  useEffect(() => {
+    setLoading(true);
+    setProfile(null);
+    fetch(`/api/profile/${encodeURIComponent(username)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => setProfile(d))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [username]);
+
+  const stageGroups = profile ? groupStagesByEpoch(profile.completedStageIds) : [];
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+        onClick={onClose}
+      />
+
+      {/* Panel */}
+      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-[#0d1117] border-l border-white/10 z-50 flex flex-col overflow-hidden shadow-2xl">
+
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/8 flex-shrink-0">
+          <span className="text-xs text-gray-500 uppercase tracking-widest font-mono">{t("leaderboard.operativeProfile")}</span>
+          <button
+            onClick={onClose}
+            className="text-gray-600 hover:text-white transition-colors text-lg leading-none"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto">
+          {loading ? (
+            <div className="flex items-center justify-center h-40 text-gray-600 text-sm">{t("leaderboard.loadingProfile")}</div>
+          ) : !profile ? (
+            <div className="flex items-center justify-center h-40 text-gray-600 text-sm">{t("leaderboard.profileNotFound")}</div>
+          ) : (
+            <>
+              {/* Identity block */}
+              <div className="px-6 py-6 flex items-center gap-4 border-b border-white/5">
+                <PlayerAvatar username={username} size={56} isYou={isMe} />
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xl font-black text-white">{username}</span>
+                    {isMe && (
+                      <span className="text-xs text-cyan-500 font-mono">{t("leaderboard.youLabel")}</span>
+                    )}
+                    {rank !== null && (
+                      <span className="text-xs font-mono px-2 py-0.5 rounded-full border border-white/15 text-gray-400">
+                        {MEDAL[rank] ?? `#${rank}`}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-600 mt-0.5">
+                    {profile.streak > 0 && (
+                      <span className="text-amber-500">🔥 {profile.streak}{t("leaderboard.streakLabel")}</span>
+                    )}
+                    {profile.longestStreak > profile.streak && (
+                      <span className="text-gray-700 ml-2">{t("leaderboard.streakBest")} {profile.longestStreak}{t("leaderboard.streakLabel")}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Stats row */}
+              <div className="grid grid-cols-3 divide-x divide-white/5 border-b border-white/5">
+                {[
+                  { label: t("leaderboard.statsCoins"), value: `${profile.coins} 🪙` },
+                  { label: t("leaderboard.statsStages"), value: String(profile.stages) },
+                  { label: t("leaderboard.statsBadges"), value: String(profile.badges) },
+                ].map((s) => (
+                  <div key={s.label} className="py-4 text-center">
+                    <div className="text-lg font-black text-white">{s.value}</div>
+                    <div className="text-xs text-gray-600 mt-0.5">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Trophies */}
+              {profile.trophies.length > 0 && (
+                <div className="px-6 py-5 border-b border-white/5">
+                  <h3 className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-3">
+                    {t("leaderboard.trophiesProfile")} <span className="text-gray-700 ml-1">({profile.trophies.length})</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {profile.trophies.map((t) => (
+                      <div
+                        key={t.id}
+                        title={`${t.name} · ${t.tier}`}
+                        className={`flex items-center gap-1.5 px-2 py-1 rounded-lg border text-xs ${TIER_COLORS[t.tier] ?? "text-gray-400 border-gray-500/30"}`}
+                      >
+                        <span>{t.emoji}</span>
+                        <span className="hidden sm:inline truncate max-w-24">{t.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Completed stages */}
+              <div className="px-6 py-5">
+                <h3 className="text-xs font-mono text-gray-500 uppercase tracking-widest mb-4">
+                  {t("leaderboard.completedStages")} <span className="text-gray-700 ml-1">({profile.stages})</span>
+                </h3>
+                {stageGroups.length === 0 ? (
+                  <p className="text-gray-700 text-sm">{t("leaderboard.noStagesYet")}</p>
+                ) : (
+                  <div className="space-y-5">
+                    {stageGroups.map((group) => (
+                      <div key={group.epochName}>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-base leading-none">{group.epochEmoji}</span>
+                          <span className="text-xs font-semibold text-gray-400">{group.epochName}</span>
+                          <span className="text-xs text-gray-700">({group.stages.length})</span>
+                        </div>
+                        <div className="space-y-1 pl-6">
+                          {group.stages.map((stage) => (
+                            <Link
+                              key={stage.id}
+                              href={`/stages/${stage.id}`}
+                              onClick={onClose}
+                              className="flex items-center gap-2 group"
+                            >
+                              <span className="text-green-500 text-xs flex-shrink-0">✓</span>
+                              <span className="text-xs text-gray-500 group-hover:text-cyan-400 transition-colors truncate">
+                                {stage.title}
+                              </span>
+                              <span className="text-xs text-gray-700 ml-auto flex-shrink-0">+{stage.xp} 🪙</span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-white/8 flex-shrink-0">
+          <Link
+            href="/stages"
+            onClick={onClose}
+            className="block w-full text-center py-2.5 bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 text-sm font-semibold rounded-lg hover:bg-cyan-500/20 transition-colors"
+          >
+            {t("leaderboard.viewStageMap")}
+          </Link>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function LeaderboardPage() {
+  const { t } = useLocale();
   const [period, setPeriod] = useState<Period>("alltime");
   const [rows, setRows] = useState<(Player & { rank: number })[]>([]);
   const [isRecencyFallback, setIsRecencyFallback] = useState(false);
@@ -71,6 +283,7 @@ export default function LeaderboardPage() {
   const [myName, setMyName] = useState("Guest");
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
+  const [profileOpen, setProfileOpen] = useState<{ username: string; rank: number } | null>(null);
 
   function handleShare() {
     const rankStr = myRank ? `#${myRank}` : "the";
@@ -80,6 +293,10 @@ export default function LeaderboardPage() {
       setTimeout(() => setCopied(false), 2000);
     }).catch(() => {});
   }
+
+  const openProfile = useCallback((username: string, rank: number) => {
+    setProfileOpen({ username, rank });
+  }, []);
 
   useEffect(() => {
     setMyName(getSession() ?? "Guest");
@@ -150,18 +367,31 @@ export default function LeaderboardPage() {
       className="min-h-screen px-4 py-12"
       style={{ background: "linear-gradient(135deg, #0d1117 0%, #0f2027 50%, #1a1a2e 100%)" }}
     >
+      {profileOpen && (
+        <ProfilePanel
+          username={profileOpen.username}
+          myName={myName}
+          rank={profileOpen.rank}
+          onClose={() => setProfileOpen(null)}
+        />
+      )}
+
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <Link href="/stages" className="text-gray-500 hover:text-cyan-400 text-sm mb-4 inline-block transition-colors">
-            ← Stage Map
+            {t("leaderboard.backToStageMap")}
           </Link>
 
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-white">Leaderboard</h1>
+              <h1 className="text-3xl font-bold text-white">{t("leaderboard.title")}</h1>
               <p className="text-gray-500 text-sm mt-1">
-                {isRecencyFallback && period !== "alltime" ? FALLBACK_DESC[period] : PERIOD_DESC[period]}
+                {isRecencyFallback && period !== "alltime" ? FALLBACK_DESC[period] : (
+                  period === "alltime" ? t("leaderboard.periodCoins") :
+                  period === "weekly" ? t("leaderboard.periodWeekly") :
+                  t("leaderboard.periodDaily")
+                )}
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -175,7 +405,7 @@ export default function LeaderboardPage() {
                     background: copied ? "rgba(74,222,128,0.08)" : "rgba(255,255,255,0.03)",
                   }}
                 >
-                  {copied ? "✓ Copied!" : "↗ Share score"}
+                  {copied ? t("leaderboard.copied") : t("leaderboard.shareScore")}
                 </button>
               )}
               <div className="flex items-center gap-2 text-xs text-green-400 bg-green-400/10 border border-green-400/30 rounded-full px-3 py-1.5">
@@ -198,7 +428,7 @@ export default function LeaderboardPage() {
                   : "text-gray-500 hover:text-gray-300"
               }`}
             >
-              {PERIOD_LABELS[p]}
+              {p === "alltime" ? t("leaderboard.allTime") : p === "weekly" ? t("leaderboard.weekly") : t("leaderboard.daily")}
             </button>
           ))}
         </div>
@@ -207,10 +437,10 @@ export default function LeaderboardPage() {
         {period === "alltime" && (
           <div className="bg-cyan-500/5 border border-cyan-500/30 rounded-xl p-5 mb-8 grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
-              { label: "Your Rank", value: myRank !== null ? `#${myRank}` : "—" },
-              { label: "Total Coins", value: `${myCoins} 🪙` },
-              { label: "Stages Done", value: String(myStages) },
-              { label: "Badges", value: String(myBadges) },
+              { label: t("leaderboard.yourRank"), value: myRank !== null ? `#${myRank}` : "—" },
+              { label: t("leaderboard.totalCoins"), value: `${myCoins} 🪙` },
+              { label: t("leaderboard.stagesDone"), value: String(myStages) },
+              { label: t("trophies.badges"), value: String(myBadges) },
             ].map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-2xl font-bold text-cyan-400">{s.value}</div>
@@ -222,7 +452,7 @@ export default function LeaderboardPage() {
 
         {period !== "alltime" && myRank !== null && (
           <div className="bg-cyan-500/5 border border-cyan-500/30 rounded-xl p-4 mb-6 flex items-center justify-between">
-            <span className="text-gray-400 text-sm">Your rank on this board</span>
+            <span className="text-gray-400 text-sm">{t("leaderboard.yourRankOnBoard")}</span>
             <span className="text-2xl font-bold text-cyan-400">#{myRank}</span>
           </div>
         )}
@@ -231,28 +461,29 @@ export default function LeaderboardPage() {
         <div className="bg-white/3 border border-white/10 rounded-xl overflow-hidden">
           <div className="grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-3 border-b border-white/10 text-xs text-gray-500 font-semibold uppercase tracking-wider">
             <div>#</div>
-            <div>Player</div>
-            <div>Coins {period !== "alltime" ? <span className="hidden sm:inline">({PERIOD_LABELS[period]})</span> : ""}</div>
-            <div className="text-center hidden sm:block">Stages</div>
-            <div className="text-center hidden sm:block">Badges</div>
-            <div className="text-right hidden sm:block">Active</div>
+            <div>{t("leaderboard.player")}</div>
+            <div>{t("leaderboard.coins")} {period !== "alltime" ? <span className="hidden sm:inline">({period === "weekly" ? t("leaderboard.weekly") : t("leaderboard.daily")})</span> : ""}</div>
+            <div className="text-center hidden sm:block">{t("leaderboard.stagesDone")}</div>
+            <div className="text-center hidden sm:block">{t("trophies.badges")}</div>
+            <div className="text-right hidden sm:block">{t("leaderboard.activeColumn")}</div>
           </div>
 
           {loading ? (
-            <div className="py-16 text-center text-gray-600 text-sm">Loading rankings…</div>
+            <div className="py-16 text-center text-gray-600 text-sm">{t("leaderboard.loadingRankings")}</div>
           ) : rows.length === 0 ? (
             <div className="py-16 text-center">
-              <p className="text-gray-600 text-sm">No activity yet {period === "daily" ? "today" : "this week"}.</p>
-              <p className="text-gray-700 text-xs mt-1">Complete a stage to appear here!</p>
+              <p className="text-gray-600 text-sm">{period === "daily" ? t("leaderboard.noActivityToday") : t("leaderboard.noActivityWeek")}</p>
+              <p className="text-gray-700 text-xs mt-1">{t("leaderboard.completeStagePrompt")}</p>
             </div>
           ) : (
             rows.map((player) => (
-              <div
+              <button
                 key={player.username}
-                className={`grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-4 border-b border-white/5 last:border-0 items-center transition-colors ${
+                onClick={() => openProfile(player.username, player.rank)}
+                className={`w-full text-left grid grid-cols-[2.5rem_1fr_auto] sm:grid-cols-[3rem_1fr_10rem_5rem_5rem_7rem] gap-2 px-5 py-4 border-b border-white/5 last:border-0 items-center transition-colors cursor-pointer ${
                   player.isCurrentPlayer
-                    ? "bg-cyan-500/8 border-l-2 border-l-cyan-500"
-                    : "hover:bg-white/3"
+                    ? "bg-cyan-500/8 border-l-2 border-l-cyan-500 hover:bg-cyan-500/12"
+                    : "hover:bg-white/4"
                 }`}
               >
                 <div className="font-mono text-sm font-bold">
@@ -264,25 +495,15 @@ export default function LeaderboardPage() {
                 </div>
 
                 <div className="flex items-center gap-2 min-w-0">
-                  {(() => {
-                    const [fg, bg] = player.isCurrentPlayer ? ["#000", "#22d3ee"] : avatarColor(player.username);
-                    return (
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-                        style={{ background: bg, color: fg }}
-                      >
-                        {player.username[0].toUpperCase()}
-                      </div>
-                    );
-                  })()}
+                  <PlayerAvatar username={player.username} size={32} isYou={!!player.isCurrentPlayer} />
                   <div className="min-w-0">
                     <span className={`font-semibold truncate block ${player.isCurrentPlayer ? "text-cyan-400" : "text-white"}`}>
                       {player.username}
                       {player.isCurrentPlayer && (
-                        <span className="ml-2 text-xs text-cyan-600 font-normal">(you)</span>
+                        <span className="ml-2 text-xs text-cyan-600 font-normal">{t("leaderboard.youLabel")}</span>
                       )}
                     </span>
-                    <span className="text-xs text-gray-600 sm:hidden">{player.stages} stages · {player.badges} badges</span>
+                    <span className="text-xs text-gray-600 sm:hidden">{player.stages} {t("leaderboard.stagesLabel")} · {player.badges} {t("leaderboard.badgesLabel")}</span>
                   </div>
                 </div>
 
@@ -319,7 +540,7 @@ export default function LeaderboardPage() {
                     timeAgo(player.lastActive)
                   )}
                 </div>
-              </div>
+              </button>
             ))
           )}
         </div>
@@ -329,7 +550,7 @@ export default function LeaderboardPage() {
             href="/stages"
             className="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition-colors"
           >
-            Continue Training →
+            {t("leaderboard.continueTraining")}
           </Link>
           {myName !== "Guest" && (
             <a
@@ -337,7 +558,7 @@ export default function LeaderboardPage() {
               download
               className="px-6 py-3 border border-white/15 hover:border-white/30 text-gray-400 hover:text-white font-semibold rounded-lg transition-colors text-sm"
             >
-              ↓ Download Progress Report
+              {t("leaderboard.downloadReport")}
             </a>
           )}
         </div>

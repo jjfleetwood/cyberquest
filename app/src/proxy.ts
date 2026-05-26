@@ -38,11 +38,11 @@ export function proxy(req: NextRequest) {
 
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}'`,
+    `script-src 'self' 'nonce-${nonce}' https://plausible.io`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https:",
     "font-src 'self'",
-    "connect-src 'self' https://api.resend.com",
+    "connect-src 'self' https://api.resend.com https://plausible.io",
     "frame-ancestors 'none'",
   ].join("; ");
 

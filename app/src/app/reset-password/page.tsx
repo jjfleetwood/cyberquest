@@ -4,8 +4,10 @@ import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setSession } from "@/lib/auth";
+import { useLocale } from "@/contexts/LocaleContext";
 
 function ResetPasswordForm() {
+  const { t } = useLocale();
   const router = useRouter();
   const params = useSearchParams();
   const token = params.get("token") ?? "";
@@ -17,19 +19,19 @@ function ResetPasswordForm() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (!token) setError("Missing or invalid reset link.");
-  }, [token]);
+    if (!token) setError(t("auth.missingResetLink"));
+  }, [token, t]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters.");
+      setError(t("auth.passwordMinLength"));
       return;
     }
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError(t("auth.passwordMismatch"));
       return;
     }
 
@@ -43,7 +45,7 @@ function ResetPasswordForm() {
 
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error ?? "Reset failed. The link may have expired.");
+        setError(data.error ?? t("auth.resetFailed"));
         return;
       }
 
@@ -54,7 +56,7 @@ function ResetPasswordForm() {
       setDone(true);
       setTimeout(() => router.push("/stages"), 2000);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError(t("auth.somethingWentWrong"));
     } finally {
       setLoading(false);
     }
@@ -62,6 +64,11 @@ function ResetPasswordForm() {
 
   const inputClass =
     "w-full bg-black/40 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-700 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500/30 transition-all text-sm";
+
+  const fields = [
+    { labelKey: "auth.newPassword", placeholder: t("auth.minChars"), value: password, set: setPassword, auto: "new-password" },
+    { labelKey: "auth.confirmPassword", placeholder: "••••••••", value: confirm, set: setConfirm, auto: "new-password" },
+  ];
 
   return (
     <div
@@ -73,7 +80,7 @@ function ResetPasswordForm() {
 
       <div className="w-full max-w-sm relative z-10">
         <Link href="/login" className="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-gray-400 transition-colors mb-8">
-          ← Back to login
+          {t("auth.backToLogin")}
         </Link>
 
         <div className="text-center mb-8">
@@ -86,7 +93,7 @@ function ResetPasswordForm() {
           <h1 className="text-2xl font-bold text-white tracking-tight">
             Kryptós <span className="text-cyan-400">CronOS</span>
           </h1>
-          <p className="text-gray-600 text-sm mt-1">Set New Password</p>
+          <p className="text-gray-600 text-sm mt-1">{t("auth.setNewPassword")}</p>
         </div>
 
         <div
@@ -96,18 +103,15 @@ function ResetPasswordForm() {
           {done ? (
             <div className="text-center py-4">
               <div className="text-4xl mb-4">✅</div>
-              <h2 className="text-white font-semibold mb-2">Password updated</h2>
-              <p className="text-gray-500 text-sm">Redirecting you to training…</p>
+              <h2 className="text-white font-semibold mb-2">{t("auth.passwordUpdated")}</h2>
+              <p className="text-gray-500 text-sm">{t("auth.redirectingToTraining")}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {[
-                { label: "New Password", placeholder: "min. 8 characters", value: password, set: setPassword, auto: "new-password" },
-                { label: "Confirm Password", placeholder: "••••••••", value: confirm, set: setConfirm, auto: "new-password" },
-              ].map((field) => (
-                <div key={field.label}>
+              {fields.map((field) => (
+                <div key={field.labelKey}>
                   <label className="block text-xs text-gray-500 uppercase tracking-widest mb-2 font-semibold">
-                    {field.label}
+                    {t(field.labelKey)}
                   </label>
                   <input
                     type="password"
@@ -133,7 +137,7 @@ function ResetPasswordForm() {
                 className="w-full py-3 font-bold rounded-lg text-sm mt-1 transition-all text-black disabled:opacity-50"
                 style={{ background: loading ? "#155e75" : "linear-gradient(90deg, #22d3ee, #818cf8)" }}
               >
-                {loading ? "Updating…" : "Set New Password →"}
+                {loading ? t("auth.updating") : t("auth.setNewPasswordBtn")}
               </button>
             </form>
           )}

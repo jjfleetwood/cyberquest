@@ -30,15 +30,20 @@ export async function POST(req: NextRequest) {
   const email = await redis.hget(`user:${username}`, "email") as string | null;
   const origin = req.headers.get("origin") ?? "https://kryptoscronos.com";
 
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    line_items: [{ price: priceId, quantity: 1 }],
-    customer_email: email ?? undefined,
-    metadata: { username },
-    success_url: `${origin}/stages?upgraded=1`,
-    cancel_url: `${origin}/stages`,
-    subscription_data: { metadata: { username } },
-  });
-
-  return NextResponse.json({ url: session.url });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      line_items: [{ price: priceId, quantity: 1 }],
+      customer_email: email ?? undefined,
+      metadata: { username },
+      success_url: `${origin}/stages?upgraded=1`,
+      cancel_url: `${origin}/stages`,
+      subscription_data: { metadata: { username } },
+    });
+    return NextResponse.json({ url: session.url });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Stripe error";
+    console.error("[stripe/checkout]", msg);
+    return NextResponse.json({ error: msg }, { status: 502 });
+  }
 }

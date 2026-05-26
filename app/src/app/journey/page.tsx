@@ -6,6 +6,7 @@ import { stages as allStages, epochs } from "@/data/stages";
 import { fetchProgress } from "@/lib/progress";
 import { getSession, setSession } from "@/lib/auth";
 import { useSkin } from "@/contexts/SkinContext";
+import { useLocale } from "@/contexts/LocaleContext";
 
 // ── Epoch accent colours (raw hex for inline styles) ──────────────────────────
 const EPOCH_COLOR: Record<string, string> = {
@@ -34,43 +35,50 @@ const EPOCH_COLOR: Record<string, string> = {
 // ── Map zones (tracks) ────────────────────────────────────────────────────────
 const ZONES = [
   {
-    label: "Core Security",
+    id: "core",
+    labelKey: "stages.tracks.coreSecurity",
     icon: "🛡️",
     epochIds: ["first-journey", "ancient"],
     gridArea: "core",
   },
   {
-    label: "Tech Audit",
+    id: "audit",
+    labelKey: "stages.tracks.techAudit",
     icon: "📋",
     epochIds: ["tech-audit-1", "tech-audit-2", "tech-audit-3", "tech-audit-4"],
     gridArea: "audit",
   },
   {
-    label: "Threat Frameworks",
+    id: "threat",
+    labelKey: "stages.tracks.threatFrameworks",
     icon: "🎯",
     epochIds: ["mitre", "mitre-atlas"],
     gridArea: "threat",
   },
   {
-    label: "AI Security",
+    id: "ai",
+    labelKey: "stages.tracks.aiSecurity",
     icon: "🤖",
     epochIds: ["owasp-llm"],
     gridArea: "ai",
   },
   {
-    label: "Quantum Era",
+    id: "quantum",
+    labelKey: "stages.tracks.quantumEra",
     icon: "⚛️",
     epochIds: ["quantum-1", "quantum-2", "quantum-3"],
     gridArea: "quantum",
   },
   {
-    label: "Defend the Enterprise",
+    id: "defend",
+    labelKey: "stages.tracks.enterprise",
     icon: "🏰",
     epochIds: ["cisco-core", "cisco-enterprise", "cisco-secops", "umbrella"],
     gridArea: "defend",
   },
   {
-    label: "Crafts",
+    id: "crafts",
+    labelKey: "stages.tracks.crafts",
     icon: "🎨",
     epochIds: ["tapestry", "nails", "hair-color", "hair-styling"],
     gridArea: "crafts",
@@ -117,6 +125,7 @@ type EpochTileProps = {
 };
 
 function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: EpochTileProps) {
+  const { t } = useLocale();
   const epoch = epochs.find((e) => e.id === epochId);
   if (!epoch) return null;
 
@@ -125,7 +134,6 @@ function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: 
   const started = completedCount > 0;
   const done = completedCount >= totalCount;
 
-  // Fog opacity: fully fogged = 0.92, fully revealed = 0
   const fogOpacity = done ? 0 : started ? Math.max(0.1, 0.85 * (1 - pct)) : 0.92;
 
   return (
@@ -180,7 +188,7 @@ function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: 
         </span>
         {done && (
           <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color }}>
-            Cleared
+            {t("journey.clearedLabel")}
           </span>
         )}
       </div>
@@ -213,7 +221,7 @@ function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: 
           style={{ opacity: isHovered ? 0.3 : 0.7 }}
         >
           <span className="text-[10px] text-gray-600 uppercase tracking-widest font-mono">
-            ░░ unexplored ░░
+            {t("journey.unexploredLabel")}
           </span>
         </div>
       )}
@@ -223,6 +231,7 @@ function EpochTile({ epochId, completedCount, totalCount, isHovered, onHover }: 
 
 export default function JourneyPage() {
   const { skin } = useSkin();
+  const { t } = useLocale();
   const [completedStages, setCompletedStages] = useState<string[]>([]);
   const [totalCoins, setTotalCoins] = useState(0);
   const [username, setUsername] = useState<string | null>(null);
@@ -289,19 +298,19 @@ export default function JourneyPage() {
             href="/stages"
             className="text-gray-600 hover:text-gray-400 text-sm mb-4 inline-block transition-colors"
           >
-            ← Stage Map
+            ← {t("nav.stages")}
           </Link>
           <div className="flex items-start justify-between gap-4 flex-wrap">
             <div>
-              <h1 className="text-3xl font-black text-white">Journey Map</h1>
+              <h1 className="text-3xl font-black text-white">{t("journey.title")}</h1>
               <p className="text-gray-600 text-sm mt-1">
-                Your progress through the known territories. The fog hides what lies ahead.
+                {t("journey.mapSubtitle")}
               </p>
             </div>
             {username && (
               <div className="text-xs text-gray-600 font-mono bg-white/3 border border-white/8 rounded-lg px-3 py-2 text-right">
                 <div className="text-gray-400 font-semibold">{username}</div>
-                <div className="mt-0.5">{totalCoins} 🪙 · {totalCompleted}/{totalStages} stages</div>
+                <div className="mt-0.5">{totalCoins} 🪙 · {totalCompleted}/{totalStages} {t("journey.stagesCompleted")}</div>
               </div>
             )}
           </div>
@@ -309,8 +318,8 @@ export default function JourneyPage() {
           {/* Overall progress */}
           <div className="mt-5 space-y-1.5">
             <div className="flex justify-between text-xs font-mono text-gray-600">
-              <span>OVERALL EXPLORATION</span>
-              <span>{overallPct.toFixed(1)}% · {epochsDone}/{epochs.length} epochs cleared</span>
+              <span>{t("journey.overallExploration")}</span>
+              <span>{overallPct.toFixed(1)}% · {epochsDone}/{epochs.length} {t("journey.epochsCleared")}</span>
             </div>
             <div className="bg-white/5 rounded-full h-2 overflow-hidden">
               <div
@@ -323,9 +332,9 @@ export default function JourneyPage() {
               />
             </div>
             <div className="flex gap-4 text-[10px] text-gray-700 font-mono mt-1">
-              <span>░ = unexplored</span>
-              <span>▒ = in progress</span>
-              <span>█ = cleared</span>
+              <span>░ = {t("journey.fog")}</span>
+              <span>▒ = {t("journey.inProgress")}</span>
+              <span>█ = {t("journey.clearedLabel")}</span>
             </div>
           </div>
         </div>
@@ -353,7 +362,7 @@ export default function JourneyPage() {
 
               return (
                 <div
-                  key={zone.label}
+                  key={zone.id}
                   className="rounded-2xl border border-white/5 overflow-hidden"
                   style={{ background: "rgba(255,255,255,0.015)" }}
                 >
@@ -364,7 +373,7 @@ export default function JourneyPage() {
                       className="text-xs font-bold uppercase tracking-widest"
                       style={{ color: zoneStarted ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.15)" }}
                     >
-                      {zone.label}
+                      {t(zone.labelKey)}
                     </span>
                     <div className="flex-1 h-px bg-white/5" />
                     <span className="text-[10px] font-mono text-gray-700">
@@ -404,18 +413,18 @@ export default function JourneyPage() {
           <div className="flex gap-6 text-xs text-gray-700 font-mono">
             <span className="flex items-center gap-1.5">
               <span className="inline-block w-2 h-2 rounded-full bg-white/8" />
-              Incomplete stage
+              {t("journey.notStarted")}
             </span>
             <span className="flex items-center gap-1.5">
               <span className="inline-block w-2 h-2 rounded-full bg-cyan-500" style={{ boxShadow: "0 0 4px #06b6d480" }} />
-              Completed stage
+              {t("stages.completed")}
             </span>
           </div>
           <Link
             href="/stages"
             className="text-xs px-4 py-2 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/25 transition-colors font-semibold"
           >
-            Continue Training →
+            {t("leaderboard.viewStageMap")}
           </Link>
         </div>
       </div>

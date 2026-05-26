@@ -21,14 +21,42 @@ function verifyAdminToken(token: string): boolean {
 }
 
 export async function GET(req: NextRequest) {
-  const username = getServerSession(req);
+  let username = getServerSession(req);
+  const adminToken = req.cookies.get("admin_token")?.value ?? "";
+  const isAdmin = verifyAdminToken(adminToken);
+
+  // Fallback: use admin token identity when session cookie is absent
+  if (!username && isAdmin) {
+    const colonIdx = adminToken.lastIndexOf(":");
+    username = colonIdx > 0 ? adminToken.slice(0, colonIdx) : null;
+  }
+
   if (!username) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const data = await redis.hgetall<{ email: string }>(`user:${username}`);
-  if (!data) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const data = await redis.hgetall<{ email: string; tier: string; createdAt: string }>(`user:${username}`);
+  if (!data && !isAdmin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const adminToken = req.cookies.get("admin_token")?.value;
-  const isAdmin = adminToken ? verifyAdminToken(adminToken) : false;
+  const superAdmin = process.env.ADMIN_USERNAME?.toLowerCase();
+  const isSuperAdmin = !!superAdmin && username === superAdmin;
 
-  return NextResponse.json({ username, email: data.email ?? "", isAdmin });
+  // Compute tier + trial days remaining
+  const TRIAL_MS = 7 * 24 * 60 * 60 * 1000;
+  const rawTier = data?.tier ?? null;
+  const createdAt = Number(data?.createdAt ?? 0);
+  let tier: "free" | "pro" | "all-star" | "trial";
+  let trialDaysLeft: number | null = null;
+  if (rawTier === "all-star") tier = "all-star";
+  else if (rawTier === "pro") tier = "pro";
+  else if (rawTier === "free") tier = "free";
+  else {
+    const msLeft = createdAt + TRIAL_MS - Date.now();
+    if (msLeft > 0) {
+      tier = "trial";
+      trialDaysLeft = Math.max(1, Math.ceil(msLeft / (24 * 60 * 60 * 1000)));
+    } else {
+      tier = "free";
+    }
+  }
+
+  return NextResponse.json({ username, email: data?.email ?? "", isAdmin, isSuperAdmin, tier, trialDaysLeft });
 }

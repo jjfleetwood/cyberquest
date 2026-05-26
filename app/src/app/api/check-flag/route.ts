@@ -1,9 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
 import { stages } from "@/data/stages";
 import { stageFlags } from "@/data/stage-flags";
 import { getServerSession } from "@/lib/server-session";
 import { awardStageInRedis } from "@/lib/server-progress";
 import { canAccessStage } from "@/lib/access";
+
+function verifyAdminToken(token: string): string | null {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret || !token) return null;
+  const colonIdx = token.lastIndexOf(":");
+  if (colonIdx === -1) return null;
+  const user = token.slice(0, colonIdx);
+  const sig = token.slice(colonIdx + 1);
+  if (!user || !sig) return null;
+  const expected = createHmac("sha256", secret).update(user).digest("hex");
+  try {
+    const a = Buffer.from(sig, "hex");
+    const b = Buffer.from(expected, "hex");
+    if (a.length !== b.length || !timingSafeEqual(a, b)) return null;
+    return user;
+  } catch { return null; }
+}
+
 
 export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null);
@@ -21,8 +40,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ correct: false }, { status: 404 });
   }
 
-  const username = getServerSession(req);
-  if (!await canAccessStage(body.stageId, username)) {
+  const sessionUsername = getServerSession(req);
+  const adminUsername = verifyAdminToken(req.cookies.get("admin_token")?.value ?? "");
+  const isAdmin = adminUsername !== null;
+  const username = sessionUsername ?? adminUsername;
+  if (!isAdmin && !await canAccessStage(body.stageId, username)) {
     return NextResponse.json({ correct: false }, { status: 403 });
   }
 

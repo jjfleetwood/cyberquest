@@ -8,6 +8,7 @@ const STORAGE_KEY = "feedback-widget-pos";
 
 export default function FeedbackWidget() {
   const pathname = usePathname();
+  const [loggedIn, setLoggedIn] = useState(false);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [minimized, setMinimized] = useState(false);
@@ -17,6 +18,13 @@ export default function FeedbackWidget() {
   const widgetRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(DEFAULT_POS);
   const dragOrigin = useRef<{ mx: number; my: number; px: number; py: number } | null>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => setLoggedIn(!!d?.username))
+      .catch(() => {});
+  }, [pathname]);
 
   useEffect(() => {
     try {
@@ -99,6 +107,8 @@ export default function FeedbackWidget() {
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleSend();
   }
+
+  if (!loggedIn) return null;
 
   return (
     <div

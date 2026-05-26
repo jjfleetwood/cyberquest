@@ -37,24 +37,6 @@ const tracks = [
     topics: ["DNS Tunneling", "DGA Detection", "Fast Flux", "Cisco Umbrella", "VOLT TYPHOON"],
     desc: "Enterprise-grade DNS-layer defense, real Cisco CVEs, and nation-state scenarios.",
   },
-  {
-    id: "crafts", label: "Crafts", stages: "30", icon: "✂️",
-    border: "border-pink-500/25", textColor: "text-pink-400", glow: "rgba(236,72,153,0.08)",
-    topics: ["Nail Prep", "Dry Manicure", "Hair Coloring", "Bleaching & Toning", "Braiding", "Client Consultation"],
-    desc: "Professional nail arts, hair coloring science, and styling techniques — from first client to running your own studio.",
-  },
-  {
-    id: "driving", label: "Driving", stages: "24", icon: "🚗",
-    border: "border-yellow-500/25", textColor: "text-yellow-400", glow: "rgba(234,179,8,0.08)",
-    topics: ["CA DMV Written Test", "Road Signs", "Speed Laws", "Right of Way", "Defensive Driving", "Teen Restrictions"],
-    desc: "Everything you need to pass the California DMV written test and become a confident, safe driver.",
-  },
-  {
-    id: "sports", label: "Baseball", stages: "70", icon: "⚾",
-    border: "border-red-500/25", textColor: "text-red-400", glow: "rgba(239,68,68,0.08)",
-    topics: ["Field & Rules", "Batting", "Pitching", "Fielding", "Baserunning", "Sportsmanship"],
-    desc: "Little League fundamentals — learn the game from the ground up, from your first at-bat to playing your position with confidence.",
-  },
 ];
 
 const bgThreats = [
@@ -253,8 +235,8 @@ export default function Home() {
           style={{ background: "rgba(255,255,255,0.015)" }}>
           <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "346", label: "Training Stages",      color: "#22d3ee" },
-              { value: "9",   label: "Curriculum Tracks",    color: "#a78bfa" },
+              { value: "358", label: "Training Stages",      color: "#22d3ee" },
+              { value: "10",  label: "Curriculum Tracks",    color: "#a78bfa" },
               { value: "25+", label: "Real CVEs",            color: "#f97316" },
               { value: "3.5M",label: "Unfilled Cyber Jobs",  color: "#4ade80" },
             ].map((s) => (
@@ -268,33 +250,6 @@ export default function Home() {
                 <div className="text-sm" style={{ color: "rgba(107,114,128,1)" }}>{s.label}</div>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* ── How it works ── */}
-        <section className="py-16 px-4">
-          <div className="max-w-4xl mx-auto">
-            <p className="text-xs font-mono uppercase tracking-widest mb-10 text-center" style={{ color: "rgba(34,211,238,0.5)" }}>
-              How it works
-            </p>
-            <div className="grid md:grid-cols-3 gap-5">
-              {[
-                { n: "01", icon: "🗺️", title: "Pick a track", desc: "Ten curriculum paths — core CVEs, threat frameworks, AI security, quantum, enterprise defense, crafts, driving, baseball, and more. Start anywhere." },
-                { n: "02", icon: "💻", title: "Hack the terminal", desc: "A simulated vulnerable environment in your browser. Real commands, real exploit mechanics — no videos, no multiple choice." },
-                { n: "03", icon: "🏁", title: "Capture the flag", desc: "Find the hidden flag, submit it, earn XP. ARIA AI hints keep you moving without giving the answer away." },
-              ].map((s) => (
-                <div
-                  key={s.n}
-                  className="relative p-6 rounded-2xl"
-                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}
-                >
-                  <div className="absolute top-4 right-5 text-5xl font-black font-mono leading-none select-none" style={{ color: "rgba(255,255,255,0.04)" }}>{s.n}</div>
-                  <div className="text-3xl mb-3">{s.icon}</div>
-                  <h3 className="font-bold text-white mb-2 text-base">{s.title}</h3>
-                  <p className="text-sm text-gray-600 leading-relaxed">{s.desc}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 
@@ -313,7 +268,7 @@ export default function Home() {
               <p className="text-gray-400 leading-relaxed mb-6">
                 Not a quiz. Not a video. You get a simulated network, real commands,
                 and a hidden flag buried inside the vulnerable environment.
-                The briefing panel stays open while you work — just like a real incident response runbook.
+                The reference drawer stays open while you work — full briefing, attack diagram, and technical notes.
               </p>
               <div className="space-y-3">
                 {[
@@ -395,7 +350,7 @@ export default function Home() {
             <div className="flex flex-wrap items-end justify-between gap-4 mb-10">
               <div>
                 <p className="text-xs font-mono uppercase tracking-widest mb-2" style={{ color: "rgba(34,211,238,0.6)" }}>
-                  Ten curriculum tracks
+                  Seven curriculum tracks
                 </p>
                 <h2 className="text-4xl font-black text-white mb-2">A complete security education</h2>
                 <p style={{ color: "rgba(107,114,128,1)" }}>From SQL injection to post-quantum cryptography. Every track is hands-on CTF.</p>
@@ -465,7 +420,7 @@ export default function Home() {
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 { step: "01", icon: "📖", title: "Read the briefing",
-                  desc: "Each stage opens with a full breakdown — vulnerability mechanics, real-world incident, attack diagram, and timeline." },
+                  desc: "Each stage opens with a full breakdown — vulnerability mechanics, real-world incident, attack diagram, and attack timeline. Study the context before you engage." },
                 { step: "02", icon: "💻", title: "Run the exploit",
                   desc: "Drop into a simulated terminal. Investigate, exploit, and capture the flag using real commands on the actual vulnerable environment." },
                 { step: "03", icon: "🏆", title: "Earn & rank up",
@@ -640,7 +595,7 @@ export default function Home() {
                   name: "Free",
                   price: "$0",
                   per: "forever",
-                  desc: "Full access to Our First Journey and Foundations. No credit card required.",
+                  desc: "Full access to Our First Journey — 30 beginner CTF stages. No credit card required.",
                   features: ["30+ beginner stages", "ARIA AI hints", "Live leaderboard", "Streak & badge system"],
                   cta: "Start Free",
                   href: "/login",
@@ -651,11 +606,11 @@ export default function Home() {
                 },
                 {
                   name: "Pro",
-                  price: "$5.99",
+                  price: "$13.99",
                   per: "/ month",
-                  desc: "All ten curriculum tracks. Full CTF access, certificates, and priority ARIA responses.",
-                  features: ["358 stages across 10 tracks", "Completion certificates", "Priority ARIA hints", "All milestone badges"],
-                  cta: "Get Pro — $5.99/mo",
+                  desc: "All seven curriculum tracks. Full CTF access, certificates, and priority ARIA responses.",
+                  features: ["358 stages across 6 tracks", "Completion certificates", "Priority ARIA hints", "All milestone badges"],
+                  cta: "Get Pro — $13.99/mo",
                   href: "/login",
                   accent: "rgba(168,85,247,1)",
                   border: "rgba(168,85,247,0.4)",
@@ -669,7 +624,7 @@ export default function Home() {
                   desc: "For security teams and training programs. Admin dashboard, cohort progress, and custom content.",
                   features: ["All Pro features", "Admin dashboard & analytics", "Custom epoch access control", "Sponsor integration support"],
                   cta: "Contact Sales",
-                  href: "mailto:jjbolotin@yahoo.com",
+                  href: "mailto:hello@kryptoscronos.com",
                   accent: "rgba(74,222,128,1)",
                   border: "rgba(74,222,128,0.2)",
                   glow: "rgba(74,222,128,0.06)",
@@ -753,7 +708,7 @@ export default function Home() {
                   The future of defense starts here
                 </p>
                 <h2 className="text-4xl md:text-5xl font-black text-white mb-4 leading-tight">
-                  Ten tracks. 346 stages.<br />
+                  Ten tracks. 358 stages.<br />
                   <span className="hero-glow">All in your browser.</span>
                 </h2>
                 <p className="mb-8" style={{ color: "rgba(107,114,128,1)" }}>
@@ -785,6 +740,7 @@ export default function Home() {
             <Link href="/leaderboard" className="hover:text-gray-400 transition-colors">Leaderboard</Link>
             <Link href="/login" className="hover:text-gray-400 transition-colors">Sign In</Link>
             <Link href="/privacy" className="hover:text-gray-400 transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-gray-400 transition-colors">Terms</Link>
             <Link href="/attribution" className="hover:text-gray-400 transition-colors">Attributions</Link>
           </div>
           <p className="text-xs" style={{ color: "rgba(55,65,81,1)" }}>

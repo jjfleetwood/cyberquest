@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function ForgotPasswordPage() {
+  const { t } = useLocale();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -33,7 +35,7 @@ export default function ForgotPasswordPage() {
 
       <div className="w-full max-w-sm relative z-10">
         <Link href="/login" className="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-gray-400 transition-colors mb-8">
-          ← Back to login
+          {t("auth.backToLogin")}
         </Link>
 
         <div className="text-center mb-8">
@@ -46,7 +48,7 @@ export default function ForgotPasswordPage() {
           <h1 className="text-2xl font-bold text-white tracking-tight">
             Kryptós <span className="text-cyan-400">CronOS</span>
           </h1>
-          <p className="text-gray-600 text-sm mt-1">Password Recovery</p>
+          <p className="text-gray-600 text-sm mt-1">{t("auth.passwordRecovery")}</p>
         </div>
 
         <div
@@ -56,25 +58,25 @@ export default function ForgotPasswordPage() {
           {submitted ? (
             <div className="text-center py-4">
               <div className="text-4xl mb-4">📬</div>
-              <h2 className="text-white font-semibold mb-2">Check your inbox</h2>
+              <h2 className="text-white font-semibold mb-2">{t("auth.checkInbox")}</h2>
               <p className="text-gray-500 text-sm">
-                If an account exists for <span className="text-cyan-400">{email}</span>, a reset link has been sent. It expires in 1 hour.
+                {t("auth.resetLinkSentPart1")} <span className="text-cyan-400">{email}</span>{t("auth.resetLinkSentPart2")}
               </p>
               <Link
                 href="/login"
                 className="inline-block mt-6 text-sm text-cyan-500 hover:text-cyan-400 transition-colors"
               >
-                Back to login →
+                {t("auth.backToLoginArrow")}
               </Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <p className="text-gray-500 text-sm">
-                Enter the email address for your account and we&apos;ll send a reset link.
+                {t("auth.enterEmailForReset")}
               </p>
               <div>
                 <label className="block text-xs text-gray-500 uppercase tracking-widest mb-2 font-semibold">
-                  Email Address
+                  {t("auth.emailAddress")}
                 </label>
                 <input
                   type="email"
@@ -91,7 +93,7 @@ export default function ForgotPasswordPage() {
                 className="w-full py-3 font-bold rounded-lg text-sm mt-1 transition-all text-black disabled:opacity-50"
                 style={{ background: loading ? "#155e75" : "linear-gradient(90deg, #22d3ee, #818cf8)" }}
               >
-                {loading ? "Sending…" : "Send Reset Link →"}
+                {loading ? t("auth.sending") : t("auth.sendResetLink")}
               </button>
             </form>
           )}

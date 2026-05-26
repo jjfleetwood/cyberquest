@@ -286,7 +286,6 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
   const [hintsOpen, setHintsOpen] = useState(false);
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [unknownCmdCount, setUnknownCmdCount] = useState(0);
-  const [briefingOpen, setBriefingOpen] = useState(false);
   const [collectedFragments, setCollectedFragments] = useState<Set<string>>(new Set());
   const [submitting, setSubmitting] = useState(false);
   const [successData, setSuccessData] = useState<{
@@ -691,13 +690,6 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
                   </span>
                 ) : null}
                 <button
-                  onClick={() => setBriefingOpen((o) => !o)}
-                  className="text-xs px-2.5 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
-                >
-                  <span className="hidden sm:inline">📋 {briefingOpen ? "Hide" : "Brief"}</span>
-                  <span className="sm:hidden">📋</span>
-                </button>
-                <button
                   onClick={() => setHintsOpen(true)}
                   className="text-xs px-2.5 py-1.5 border border-amber-500/40 hover:border-amber-400 text-amber-400 rounded-lg transition-colors"
                 >
@@ -725,22 +717,6 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
               </div>
             </div>
           </div>
-
-          {/* Collapsible briefing */}
-          {briefingOpen && (
-            <div className="bg-amber-500/5 border border-amber-500/20 rounded-lg p-3 mb-3 text-sm flex-shrink-0">
-              <div className="flex items-center justify-between mb-1">
-                <p className="text-amber-400 font-semibold text-xs uppercase tracking-wider">Mission Briefing</p>
-                <button
-                  onClick={() => setChatbotOpen(true)}
-                  className="text-xs text-green-400 border border-green-500/30 rounded px-2 py-0.5 hover:bg-green-500/10 transition-colors"
-                >
-                  🤖 Ask ARIA
-                </button>
-              </div>
-              <p className="text-gray-400 text-sm leading-relaxed">{ctf.scenario}</p>
-            </div>
-          )}
 
           {/* Terminal */}
           <div
@@ -810,7 +786,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
           </div>
 
           <p className="text-gray-700 text-xs mt-2 text-center flex-shrink-0">
-            Type <span className="text-gray-600">help</span> for commands · 📋 briefing · 💡 hints · 🤖 AI assistant
+            Type <span className="text-gray-600">help</span> for commands · 💡 hints · 🤖 AI assistant
           </p>
         </div>
       </div>

@@ -1,0 +1,1569 @@
+{
+  "stages": {
+    "bt-01": {
+      "t": "Abfahrt aus Athen",
+      "w": "Hafen von Piräus"
+    },
+    "bt-02": {
+      "t": "Jedes Gerät braucht eine Adresse",
+      "w": "Internationaler Flughafen Athen"
+    },
+    "bt-03": {
+      "t": "Koffer packen",
+      "w": "Gepäckausgabe, JFK Airport"
+    },
+    "bt-04": {
+      "t": "Die Autobahnausfahrt",
+      "w": "I-80 West, Denver Interchange"
+    },
+    "bt-05": {
+      "t": "Das GPS des Internets",
+      "w": "AAA Travel Office"
+    },
+    "bt-06": {
+      "t": "Dein Hardware-Pass",
+      "w": "US Customs & Border Protection"
+    },
+    "bt-07": {
+      "t": "Die Stadt-Kontrollstelle",
+      "w": "Stadtgrenze — Santa Cruz"
+    },
+    "bt-08": {
+      "t": "Die Hafentore",
+      "w": "Santa Cruz Harbor"
+    },
+    "bt-09": {
+      "t": "Viertel und Stadtteile",
+      "w": "Innenstadt Santa Cruz"
+    },
+    "bt-10": {
+      "t": "Verkehrsregeln",
+      "w": "Highway 1, Pacific Coast"
+    },
+    "bt-11": {
+      "t": "Den Wetterbericht lesen",
+      "w": "Steamer Lane Surf Report Board"
+    },
+    "bt-12": {
+      "t": "Dein Surfboard",
+      "w": "The Surf Shop on Pacific Ave"
+    },
+    "bt-13": {
+      "t": "Das Surf Shop und der Surfer",
+      "w": "O'Neill Surf School"
+    },
+    "bt-14": {
+      "t": "Die Sicherheitsleine",
+      "w": "Lifeguard Tower #3, Cowell Beach"
+    },
+    "bt-15": {
+      "t": "Das Mitgliedsarmband",
+      "w": "Surf Club Check-In Desk"
+    },
+    "bt-16": {
+      "t": "Anruf bei der Surf-Hotline",
+      "w": "Surf-Bedingungen Hotline"
+    },
+    "bt-17": {
+      "t": "Größe der Welle",
+      "w": "The Break at Pleasure Point"
+    },
+    "bt-18": {
+      "t": "Warten auf die Serie",
+      "w": "Surf-Prognose-Terminal, Boardwalk"
+    },
+    "bt-19": {
+      "t": "Die manipulierten Aufzeichnungen",
+      "w": "Surf-Wettbewerbs-Archiv, Beach Flats"
+    },
+    "bt-20": {
+      "t": "Die Menge verteilen",
+      "w": "Four Mile Beach"
+    },
+    "bt-21": {
+      "t": "Gefälschte Köder erkennen",
+      "w": "Fisherman's Wharf"
+    },
+    "bt-22": {
+      "t": "Das Doppelschloss",
+      "w": "Charter Boat Dock, Coast Guard Pier"
+    },
+    "bt-23": {
+      "t": "Die Köder-Kasten-Kombination",
+      "w": "The Tackle Shop, Cannery Row"
+    },
+    "bt-24": {
+      "t": "Offene Funkfrequenzen",
+      "w": "Open Water, Monterey Bay"
+    },
+    "bt-25": {
+      "t": "Die Fischermärchen des Fischers",
+      "w": "The Dockside Cantina"
+    },
+    "bt-26": {
+      "t": "Reparatur des Rumpfes",
+      "w": "Bootsreparaturhof, Santa Cruz Harbor"
+    },
+    "bt-27": {
+      "t": "Wenn das Netz reißt",
+      "w": "Fangkontrollstation, Moss Landing"
+    },
+    "bt-28": {
+      "t": "Navigation durch die Kelptangwälder",
+      "w": "The Kelp Forest, Monterey Bay"
+    },
+    "bt-29": {
+      "t": "Was man teilt und mit wem",
+      "w": "Das Hafenmeister-Büro"
+    },
+    "bt-30": {
+      "t": "Mann über Bord Protokoll",
+      "w": "Santa Cruz Small Craft Harbor — Rückkehr zum Dock"
+    },
+    "audit-01": {
+      "t": "Das Governance-Framework",
+      "w": "ISACA Global Headquarters"
+    },
+    "audit-02": {
+      "t": "Risiko im Tresor",
+      "w": "Federal Reserve Board"
+    },
+    "audit-03": {
+      "t": "Allgemeine Kontrollen auf dem Handelsparkett",
+      "w": "New York Stock Exchange"
+    },
+    "audit-04": {
+      "t": "Geheimhaltung",
+      "w": "CIA Headquarters"
+    },
+    "audit-05": {
+      "t": "Keine unbefugten Änderungen",
+      "w": "NASA Johnson Space Center"
+    },
+    "audit-06": {
+      "t": "Wenn Systeme ausfallen",
+      "w": "FEMA National Response Center"
+    },
+    "audit-07": {
+      "t": "Reaktionsfähigkeit bei Vorfällen",
+      "w": "CISA Headquarters"
+    },
+    "audit-08": {
+      "t": "Die Bedrohung der Lieferkette",
+      "w": "The Pentagon"
+    },
+    "audit-09": {
+      "t": "Das Recht auf Vergessenwerden",
+      "w": "European Data Protection Board"
+    },
+    "audit-10": {
+      "t": "Spielregeln",
+      "w": "NIST Campus"
+    },
+    "audit-11": {
+      "t": "Die Beweiskette",
+      "w": "SEC Headquarters"
+    },
+    "audit-12": {
+      "t": "Der Abschlussbericht",
+      "w": "ISACA Chicago Chapter"
+    },
+    "audit-t01": {
+      "t": "Die offengelegte API",
+      "w": "Stripe Engineering HQ"
+    },
+    "audit-t02": {
+      "t": "Geheimnisse im Offenen",
+      "w": "HashiCorp Headquarters"
+    },
+    "audit-t03": {
+      "t": "Schutzvorrichtungen in der Cloud",
+      "w": "AWS re:Inforce Conference"
+    },
+    "audit-t04": {
+      "t": "Wer darf was tun",
+      "w": "Okta Headquarters"
+    },
+    "audit-t05": {
+      "t": "Der Container-Escape",
+      "w": "Docker Engineering"
+    },
+    "audit-t06": {
+      "t": "Infrastructure as Code, Insicherheit als Standard",
+      "w": "HashiCorp Terraform Cloud"
+    },
+    "audit-t07": {
+      "t": "Statische und dynamische Analyse",
+      "w": "Snyk Headquarters"
+    },
+    "audit-t08": {
+      "t": "Das flache Netzwerk",
+      "w": "Palo Alto Networks"
+    },
+    "audit-t09": {
+      "t": "Daten im Ruhezustand",
+      "w": "Snowflake Headquarters"
+    },
+    "audit-t10": {
+      "t": "Der stille Verstoß",
+      "w": "Datadog Headquarters"
+    },
+    "audit-t11": {
+      "t": "Vertraue niemals, verifiziere immer",
+      "w": "Google Cloud Headquarters"
+    },
+    "audit-t12": {
+      "t": "Automatisiere die Prüfung",
+      "w": "AWS Security Hub"
+    },
+    "audit-a01": {
+      "t": "Tools als Prüfinstrumente",
+      "w": "Anthropic HQ"
+    },
+    "audit-a02": {
+      "t": "Der Endpoint-Kartograph",
+      "w": "API Security Lab"
+    },
+    "audit-a03": {
+      "t": "Der Geheimnisse-Jäger",
+      "w": "Secrets Scanning Lab"
+    },
+    "audit-a04": {
+      "t": "Der Cloud-Kartograph",
+      "w": "Cloud Audit Lab"
+    },
+    "audit-a05": {
+      "t": "Der IAM-Flüsterer",
+      "w": "IAM Analysis Lab"
+    },
+    "audit-a06": {
+      "t": "Der Protokoll-Integrator",
+      "w": "MCP Integration Lab"
+    },
+    "audit-a07": {
+      "t": "Der Infrastruktur-Auditor",
+      "w": "IaC Scanning Lab"
+    },
+    "audit-a08": {
+      "t": "Der Beweissammler",
+      "w": "Evidence Collection Lab"
+    },
+    "audit-a09": {
+      "t": "Der Orchestrator",
+      "w": "Multi-Agent Lab"
+    },
+    "audit-a10": {
+      "t": "Der Berichtsverfasser",
+      "w": "Report Generation Lab"
+    },
+    "audit-a11": {
+      "t": "Der Wächter",
+      "w": "Continuous Monitoring Lab"
+    },
+    "audit-a12": {
+      "t": "Die vollständige Pipeline",
+      "w": "Agentic Audit Command Center"
+    },
+    "audit-cm01": {
+      "t": "Die Überwachungsgrundlage",
+      "w": "NIST Headquarters"
+    },
+    "audit-cm02": {
+      "t": "Die Intelligence Engine",
+      "w": "IBM Security Intelligence Center"
+    },
+    "audit-cm03": {
+      "t": "Die Verhaltensanalyse",
+      "w": "Securonix UEBA Research Lab"
+    },
+    "audit-cm04": {
+      "t": "Das Netzwerk-Auge",
+      "w": "Darktrace Global Threat Center"
+    },
+    "audit-cm05": {
+      "t": "Der Cloud-Wächter",
+      "w": "AWS Security Operations Center"
+    },
+    "audit-cm06": {
+      "t": "Der Intel-Feed",
+      "w": "FS-ISAC Threat Intelligence Hub"
+    },
+    "audit-cm07": {
+      "t": "Der Response-Automatisierer",
+      "w": "Palo Alto Networks Cortex XSOAR Lab"
+    },
+    "audit-cm08": {
+      "t": "Der Köder-Meister",
+      "w": "CISA Deception Research Center"
+    },
+    "audit-cm09": {
+      "t": "Der Vertrauens-Auditor",
+      "w": "Google BeyondCorp Research Lab"
+    },
+    "audit-cm10": {
+      "t": "Der einheitliche Verteidiger",
+      "w": "Microsoft Defender XDR Operations Center"
+    },
+    "audit-cm11": {
+      "t": "Die Compliance-Engine",
+      "w": "ISACA Compliance Research Center"
+    },
+    "audit-cm12": {
+      "t": "Die Reife-Scorecard",
+      "w": "Gartner Security Research Institute"
+    },
+    "mitre-01": {
+      "t": "Die Informationsbeschaffung",
+      "w": "MITRE Corporation HQ"
+    },
+    "mitre-02": {
+      "t": "Der Arsenal-Erbauer",
+      "w": "Dark Web Infrastructure"
+    },
+    "mitre-03": {
+      "t": "Der erste Zugangspunkt",
+      "w": "RSA Conference"
+    },
+    "mitre-04": {
+      "t": "Der Code-Ausführer",
+      "w": "NSA"
+    },
+    "mitre-05": {
+      "t": "Der Besetzer",
+      "w": "Mandiant HQ"
+    },
+    "mitre-06": {
+      "t": "Der Kronengräuber",
+      "w": "SolarWinds HQ"
+    },
+    "mitre-07": {
+      "t": "Das Gespenst",
+      "w": "CrowdStrike HQ"
+    },
+    "mitre-08": {
+      "t": "Der Schlüsseldieb",
+      "w": "NotPetya Attack"
+    },
+    "mitre-09": {
+      "t": "Der Ausbreiter",
+      "w": "Colonial Pipeline HQ"
+    },
+    "mitre-10": {
+      "t": "Der Kartograph",
+      "w": "APT29 Operations"
+    },
+    "mitre-11": {
+      "t": "Der Datenenschmuggler",
+      "w": "Equifax HQ"
+    },
+    "mitre-12": {
+      "t": "Der Zünder",
+      "w": "Kaseya VSA Attack"
+    },
+    "atlas-01": {
+      "t": "Der Modellprofilier",
+      "w": "MITRE Corporation HQ"
+    },
+    "atlas-02": {
+      "t": "Der Proxy-Modellbauer",
+      "w": "Shadow AI Lab"
+    },
+    "atlas-03": {
+      "t": "Der Supply-Chain-Infiltrator",
+      "w": "HuggingFace HQ"
+    },
+    "atlas-04": {
+      "t": "Der Black-Box-Prüfer",
+      "w": "OpenAI HQ"
+    },
+    "atlas-05": {
+      "t": "Der adversariale Crafter",
+      "w": "MIT CSAIL"
+    },
+    "atlas-06": {
+      "t": "Der Detektor-Ausweicher",
+      "w": "CrowdStrike AI Lab"
+    },
+    "atlas-07": {
+      "t": "Der Pipeline-Mapper",
+      "w": "Google DeepMind"
+    },
+    "atlas-08": {
+      "t": "Der Memory-Miner",
+      "w": "Microsoft Research"
+    },
+    "atlas-09": {
+      "t": "Der Transfer-Agent",
+      "w": "Carnegie Mellon CyLab"
+    },
+    "atlas-10": {
+      "t": "Der Modelldieb",
+      "w": "Scale AI HQ"
+    },
+    "atlas-11": {
+      "t": "Der Vergifter",
+      "w": "Microsoft Tay Incident"
+    },
+    "atlas-12": {
+      "t": "Die KI-Kill-Chain",
+      "w": "NIST AI Risk Management Framework"
+    },
+    "llm-01": {
+      "t": "Der Prompt-Injektor",
+      "w": "OpenAI HQ"
+    },
+    "llm-02": {
+      "t": "Das Memory Leak",
+      "w": "Samsung Electronics HQ"
+    },
+    "llm-03": {
+      "t": "Das vergiftete Modell",
+      "w": "HuggingFace HQ"
+    },
+    "llm-04": {
+      "t": "Tay 2.0",
+      "w": "Microsoft Research Lab"
+    },
+    "llm-05": {
+      "t": "Die nicht bereinigten Ausgaben",
+      "w": "GitHub HQ"
+    },
+    "llm-06": {
+      "t": "Der entlaufene Agent",
+      "w": "Salesforce Tower"
+    },
+    "llm-07": {
+      "t": "Die offengelegte Systemaufforderung",
+      "w": "Anthropic HQ"
+    },
+    "llm-08": {
+      "t": "Der vergiftete Vektorspeicher",
+      "w": "Pinecone HQ"
+    },
+    "llm-09": {
+      "t": "Die Halluzinationsmaschine",
+      "w": "Reuters HQ"
+    },
+    "llm-10": {
+      "t": "Die Token-Entleerung",
+      "w": "AWS re:Invent"
+    },
+    "llm-11": {
+      "t": "Das Red Team",
+      "w": "Google DeepMind"
+    },
+    "llm-12": {
+      "t": "Das KI-Sicherheitsprogramm",
+      "w": "NIST AI RMF HQ"
+    },
+    "quantum-01": {
+      "t": "Das Qubit erwacht",
+      "w": "IBM Quantum Network Hub"
+    },
+    "quantum-02": {
+      "t": "Shors Fallbeil",
+      "w": "Bell Labs"
+    },
+    "quantum-03": {
+      "t": "Grovers Gespenst",
+      "w": "NIST Gaithersburg Campus"
+    },
+    "quantum-04": {
+      "t": "Ernten Sie jetzt, entschlüsseln Sie später",
+      "w": "Fort Meade NSA Data Center"
+    },
+    "quantum-05": {
+      "t": "Spukhafte Fernwirkung",
+      "w": "Cisco Quantum Labs"
+    },
+    "quantum-06": {
+      "t": "Die NISQ-Ära",
+      "w": "Google Quantum AI Campus"
+    },
+    "quantum-07": {
+      "t": "Die Fehlerkorrekturmauer",
+      "w": "Caltech IQIM"
+    },
+    "quantum-08": {
+      "t": "Das Quantenbedrohungsregister",
+      "w": "CISA Cybersecurity Division"
+    },
+    "quantum-09": {
+      "t": "Echte Zufälligkeit",
+      "w": "ANU Quantum Optics Lab"
+    },
+    "quantum-10": {
+      "t": "Q-Day Countdown",
+      "w": "Five Eyes Intelligence Community HQ"
+    },
+    "quantum-b01": {
+      "t": "Das NIST-PQC-Rennen",
+      "w": "NIST Computer Security Division"
+    },
+    "quantum-b02": {
+      "t": "Das Rausch-Gitter",
+      "w": "MIT CSAIL"
+    },
+    "quantum-b03": {
+      "t": "Kyber: Der neue Schlüsselaustausch",
+      "w": "IBM Research Zurich"
+    },
+    "quantum-b04": {
+      "t": "Dilithium: Die Quantensignatur",
+      "w": "Qualcomm Security Research"
+    },
+    "quantum-b05": {
+      "t": "Der Hash-Baum-Wald",
+      "w": "Radboud University Cryptography Lab"
+    },
+    "quantum-b06": {
+      "t": "FALCON: Die schnelle Signatur",
+      "w": "Thales Cryptographic Research"
+    },
+    "quantum-b07": {
+      "t": "Die Hybrid-Brücke",
+      "w": "Mozilla Security Engineering"
+    },
+    "quantum-b08": {
+      "t": "Quantum-sicheres TLS",
+      "w": "Let's Encrypt / ISRG"
+    },
+    "quantum-b09": {
+      "t": "Das Kryptografie-Inventar",
+      "w": "CISA PQC Center of Excellence"
+    },
+    "quantum-b10": {
+      "t": "Verifizieren, bevor Sie vertrauen",
+      "w": "Trail of Bits Security Research"
+    },
+    "quantum-c01": {
+      "t": "BB84: Das erste QKD-Protokoll",
+      "w": "IBM T.J. Watson Research Center"
+    },
+    "quantum-c02": {
+      "t": "QKD-Infrastruktur: 600-km-Rekord",
+      "w": "Toshiba Research Europe"
+    },
+    "quantum-c03": {
+      "t": "Micius: Chinas Quantensatellit",
+      "w": "Chinese Academy of Sciences"
+    },
+    "quantum-c04": {
+      "t": "Kryptographische Agilität",
+      "w": "NIST Computer Security Division"
+    },
+    "quantum-c05": {
+      "t": "Quantum-sichere VPN-Konfiguration",
+      "w": "WireGuard / IETF PQUIP Working Group"
+    },
+    "quantum-c06": {
+      "t": "Quantum-sichere PKI-Migration",
+      "w": "DigiCert HQ"
+    },
+    "quantum-c07": {
+      "t": "liboqs: Open Quantum Safe",
+      "w": "University of Waterloo"
+    },
+    "quantum-c08": {
+      "t": "FIPS 140-3 PQC-Compliance",
+      "w": "NIST Cryptographic Module Validation Program"
+    },
+    "quantum-c09": {
+      "t": "Post-Quantum-Governance",
+      "w": "Fortune 500 CISO Office"
+    },
+    "quantum-c10": {
+      "t": "Der Quantum-sichere Stack: Synthese",
+      "w": "Quantum Security Summit"
+    },
+    "umbrella-01": {
+      "t": "Der unsichtbare Schutzschild",
+      "w": "Cisco Umbrella (OpenDNS) HQ"
+    },
+    "umbrella-02": {
+      "t": "Das hohle Rohr",
+      "w": "Marina Bay Financial Centre"
+    },
+    "umbrella-03": {
+      "t": "Der Mustergenerator",
+      "w": "NHS Barts Health Trust"
+    },
+    "umbrella-04": {
+      "t": "Der Wechselsand",
+      "w": "NYSE Data Center"
+    },
+    "umbrella-05": {
+      "t": "Der vergiftete Spiegel",
+      "w": "Twente University IoT Security Lab"
+    },
+    "umbrella-06": {
+      "t": "Der gefälschte Pass",
+      "w": "Pentagon Contractor Campus"
+    },
+    "umbrella-07": {
+      "t": "Die Richtlinienmauer",
+      "w": "Chicago Public Schools District Office"
+    },
+    "umbrella-08": {
+      "t": "Der Geisterkanal",
+      "w": "Shinjuku Business District"
+    },
+    "umbrella-09": {
+      "t": "Das Intelligenznetz",
+      "w": "Cisco Talos Intelligence Center"
+    },
+    "umbrella-10": {
+      "t": "Das Netz unter Belagerung",
+      "w": "ERCOT Grid Control Center"
+    },
+    "tapestry-01": {
+      "t": "Fäden durch die Zeit",
+      "w": "Ägyptisches Museum"
+    },
+    "tapestry-02": {
+      "t": "Die flämischen Meister",
+      "w": "Château d'Angers"
+    },
+    "tapestry-03": {
+      "t": "Seide und Glanz",
+      "w": "Palace Museum"
+    },
+    "tapestry-04": {
+      "t": "Weber Amerikas",
+      "w": "National Museum of the American Indian"
+    },
+    "tapestry-05": {
+      "t": "Die Farben des Webstuhls",
+      "w": "Kelmscott Manor"
+    },
+    "tapestry-06": {
+      "t": "Kette und Schuss",
+      "w": "Manufacture des Gobelins"
+    },
+    "tapestry-07": {
+      "t": "Dein erster Webstuhl",
+      "w": "Bauhaus Archive"
+    },
+    "tapestry-08": {
+      "t": "Verbindungen, Knoten und Textur",
+      "w": "American Tapestry Alliance Studio"
+    },
+    "tapestry-09": {
+      "t": "Zeichne dein Cartoon",
+      "w": "Musée de la Tapisserie Contemporaine"
+    },
+    "tapestry-10": {
+      "t": "Optische Farbmagie",
+      "w": "Color Field Studio"
+    },
+    "tapestry-11": {
+      "t": "Wandteppiche heute",
+      "w": "The Textile Museum"
+    },
+    "tapestry-12": {
+      "t": "Beginnen Sie Ihre erste Tapestry",
+      "w": "Ihr Studio"
+    },
+    "nails-01": {
+      "t": "Lernen Sie Ihre Leinwand kennen",
+      "w": "Nail Manufacturers Council Expo"
+    },
+    "nails-02": {
+      "t": "Die Keine-Wasser-Regel",
+      "w": "OPI Innovation Lab"
+    },
+    "nails-03": {
+      "t": "Austrocknung und Primer",
+      "w": "CND Science Lab"
+    },
+    "nails-04": {
+      "t": "Die perfekte trockene Maniküre",
+      "w": "Minx Nails Studio"
+    },
+    "nails-05": {
+      "t": "Die Kunst der gleichmäßigen Farbe",
+      "w": "Essie HQ"
+    },
+    "nails-06": {
+      "t": "Das Drei-Schichten-System",
+      "w": "China Glaze Lab"
+    },
+    "nails-07": {
+      "t": "Wenn der Lack abblättert",
+      "w": "NAILS Magazine HQ"
+    },
+    "nails-08": {
+      "t": "Wenn der Lack absplittert",
+      "w": "Gelish Studio"
+    },
+    "nails-09": {
+      "t": "Ihr Nagel-Geschäft für Jugendliche",
+      "w": "Young Nails Academy"
+    },
+    "nails-10": {
+      "t": "Eröffnung Ihres eigenen Nagelstudios",
+      "w": "Small Business Administration"
+    },
+    "hair-color-01": {
+      "t": "Wie Farbe im Haar lebt",
+      "w": "L'Oréal Professional Research Lab"
+    },
+    "hair-color-02": {
+      "t": "Das Level-System",
+      "w": "Wella Professionals Academy"
+    },
+    "hair-color-03": {
+      "t": "Töne, Untertöne und das Farbrad",
+      "w": "Joico Color Institute"
+    },
+    "hair-color-04": {
+      "t": "Entwickler und Lift",
+      "w": "Schwarzkopf Professional Academy"
+    },
+    "hair-color-05": {
+      "t": "Permanent, Semi und Demi",
+      "w": "Paul Mitchell Schools"
+    },
+    "hair-color-06": {
+      "t": "Sicherheit an erster Stelle — Hauttest und Strangtest",
+      "w": "American Board of Certified Haircolorists"
+    },
+    "hair-color-07": {
+      "t": "Wurzelapplication und Volltonfarbe",
+      "w": "Redken Academy"
+    },
+    "hair-color-08": {
+      "t": "Bleichen und Aufhellen sicher durchführen",
+      "w": "Pravana Color Lab"
+    },
+    "hair-color-09": {
+      "t": "Tonierung und Korrekturfarbe",
+      "w": "Kenra Professional Studio"
+    },
+    "hair-color-10": {
+      "t": "Ein Haarfärbungsgeschäft aufbauen",
+      "w": "Professional Beauty Association HQ"
+    },
+    "hair-styling-01": {
+      "t": "Kennen Sie Ihren Haartyp",
+      "w": "Vidal Sassoon Academy"
+    },
+    "hair-styling-02": {
+      "t": "Werkzeuge und Hitzeschutz",
+      "w": "Sam Villa Education"
+    },
+    "hair-styling-03": {
+      "t": "Der perfekte Blowout",
+      "w": "Drybar"
+    },
+    "hair-styling-04": {
+      "t": "Glätteisen-Meisterschaft",
+      "w": "ghd (Good Hair Day) HQ"
+    },
+    "hair-styling-05": {
+      "t": "Lockenstäbe und Wellen-Stäbe",
+      "w": "Hot Tools International"
+    },
+    "hair-styling-06": {
+      "t": "Grundlagen des Flechtens",
+      "w": "Mielle Organics"
+    },
+    "hair-styling-07": {
+      "t": "Hochsteckfrisuren, Pferdeschwänze und Half-Ups",
+      "w": "Kevin Murphy Education"
+    },
+    "hair-styling-08": {
+      "t": "Techniken für lockiges Haar",
+      "w": "DevaCurl"
+    },
+    "hair-styling-09": {
+      "t": "Kundenkonsultation",
+      "w": "Cosmetology Institute of America"
+    },
+    "hair-styling-10": {
+      "t": "Starten Sie Ihr Styling-Geschäft",
+      "w": "Professional Beauty Association"
+    },
+    "driving-1-01": {
+      "t": "Der Weg zu Ihrem Führerschein",
+      "w": "California DMV Headquarters"
+    },
+    "driving-1-02": {
+      "t": "Bestehen Sie die schriftliche Prüfung",
+      "w": "Golden Gate Bridge"
+    },
+    "driving-1-03": {
+      "t": "Verkehrszeichen Teil 1",
+      "w": "Hollywood Boulevard"
+    },
+    "driving-1-04": {
+      "t": "Verkehrszeichen Teil 2",
+      "w": "Pacific Coast Highway"
+    },
+    "driving-1-05": {
+      "t": "Geschwindigkeitsbegrenzungen und Sicherheitsabstand",
+      "w": "Mulholland Drive"
+    },
+    "driving-1-06": {
+      "t": "Vorfahrtsregeln",
+      "w": "Lombard Street"
+    },
+    "driving-1-07": {
+      "t": "Gesetze zu Fahren unter Alkoholeinfluss und Einschränkungen für Jugendliche",
+      "w": "California Highway Patrol Academy"
+    },
+    "driving-1-08": {
+      "t": "Die praktische Fahrprüfung",
+      "w": "DMV Test Center"
+    },
+    "driving-2-01": {
+      "t": "Lernen Sie Ihr Auto kennen",
+      "w": "Empty Parking Lot"
+    },
+    "driving-2-02": {
+      "t": "Sanfte Anfänge und Stopps",
+      "w": "Quiet Residential Street"
+    },
+    "driving-2-03": {
+      "t": "Kurven und Lenkung",
+      "w": "Community College Parking Lot"
+    },
+    "driving-2-04": {
+      "t": "Spurwechsel und Überholen",
+      "w": "Highway 101 On-Ramp"
+    },
+    "driving-2-05": {
+      "t": "Parkkunst beherrschen",
+      "w": "Downtown Street"
+    },
+    "driving-2-06": {
+      "t": "Autobahnfahrten",
+      "w": "Interstate 5"
+    },
+    "driving-2-07": {
+      "t": "Nacht- und Schlechtwetterfahrten",
+      "w": "Pacific Coast Highway bei Sonnenuntergang"
+    },
+    "driving-2-08": {
+      "t": "Deine erste Solofahrt",
+      "w": "Wohnviertel in Kalifornien"
+    },
+    "driving-3-01": {
+      "t": "Augen oben, Handy weg",
+      "w": "Digitale Werbetafel auf der Autobahn"
+    },
+    "driving-3-02": {
+      "t": "Defensives Fahren",
+      "w": "California Highway Patrol Academy"
+    },
+    "driving-3-03": {
+      "t": "Die Ruhe bewahren",
+      "w": "Freeway-System Los Angeles"
+    },
+    "driving-3-04": {
+      "t": "Die Straße teilen",
+      "w": "Fahrradspurennetz San Francisco"
+    },
+    "driving-3-05": {
+      "t": "Grundlagen der Autopflege",
+      "w": "Autowerkstatt"
+    },
+    "driving-3-06": {
+      "t": "Nach einem Unfall",
+      "w": "Dashcam einer kalifornischen Kreuzung"
+    },
+    "driving-3-07": {
+      "t": "Pannen und Sicherheit am Straßenrand",
+      "w": "Fahrbahnrand der Autobahn"
+    },
+    "driving-3-08": {
+      "t": "Ein guter Fahrer sein",
+      "w": "Offene Straße in Kalifornien bei Sonnenaufgang"
+    },
+    "baseball-1-01": {
+      "t": "Das Spielfeld und das Spiel",
+      "w": "Doubleday Field"
+    },
+    "baseball-1-02": {
+      "t": "Regeln, die jeder Spieler kennen muss",
+      "w": "Little League International Headquarters"
+    },
+    "baseball-1-03": {
+      "t": "Die Kunst des Schlagwerks",
+      "w": "Fenway Park"
+    },
+    "baseball-1-04": {
+      "t": "Grundlagen des Wurfs",
+      "w": "Wrigley Field"
+    },
+    "baseball-1-05": {
+      "t": "Feldspiel und Werfen",
+      "w": "PNC Park"
+    },
+    "baseball-1-06": {
+      "t": "Innenfeld-Spiel",
+      "w": "Yankee Stadium"
+    },
+    "baseball-1-07": {
+      "t": "Außenfeld-Spiel",
+      "w": "Dodger Stadium"
+    },
+    "baseball-1-08": {
+      "t": "Laufen zwischen den Basen",
+      "w": "Camden Yards"
+    },
+    "baseball-1-09": {
+      "t": "Fangen — Der Feldgeneral",
+      "w": "Coors Field"
+    },
+    "baseball-1-10": {
+      "t": "Sportlichkeit und der Geist des Spiels",
+      "w": "Little League World Series Stadium"
+    },
+    "baseball-2-01": {
+      "t": "Die Standhaltung",
+      "w": "Dodger Stadium"
+    },
+    "baseball-2-02": {
+      "t": "Den Pitcher lesen",
+      "w": "Dodger Stadium — Home Plate"
+    },
+    "baseball-2-03": {
+      "t": "Die Schwungmechanik",
+      "w": "Dodger Stadium — The Batter's Eye"
+    },
+    "baseball-2-04": {
+      "t": "Platzdisziplin",
+      "w": "Dodger Stadium — The Walk-Up Circle"
+    },
+    "baseball-2-05": {
+      "t": "Kraftvolles Schlagen",
+      "w": "Dodger Stadium — Left Field Pavilion"
+    },
+    "baseball-2-06": {
+      "t": "Kontaktschlag und Anpassungen bei zwei Strikes",
+      "w": "Ebbets Field — Historical Site"
+    },
+    "baseball-2-07": {
+      "t": "Fastballs schlagen",
+      "w": "Dodger Stadium — Batting Cage Tunnel"
+    },
+    "baseball-2-08": {
+      "t": "Breaking Balls schlagen",
+      "w": "Dodger Stadium — The Mound View"
+    },
+    "baseball-2-09": {
+      "t": "Dodger-Legenden am Schlag",
+      "w": "Dodger Stadium — Monument Park"
+    },
+    "baseball-2-10": {
+      "t": "Aufbau deiner Schlag-Routine",
+      "w": "Dodger Stadium — Field Level Batting Cage"
+    },
+    "baseball-3-01": {
+      "t": "Trennung von Hüfte und Schultern",
+      "w": "Dodger Stadium — Home Plate Circle"
+    },
+    "baseball-3-02": {
+      "t": "Der Handweg",
+      "w": "Camelback Ranch — Glendale Spring Training"
+    },
+    "baseball-3-03": {
+      "t": "Barrel-Management",
+      "w": "Petco Park"
+    },
+    "baseball-3-04": {
+      "t": "Mechanismen für Ansatz und Timing",
+      "w": "Camelback Ranch — Minor League Fields"
+    },
+    "baseball-3-05": {
+      "t": "Zwei-Strike-Ansatz: Meisterschaft",
+      "w": "Oracle Park"
+    },
+    "baseball-3-06": {
+      "t": "Situatives Schlagen",
+      "w": "Fenway Park"
+    },
+    "baseball-3-07": {
+      "t": "Pitch-Sequenzierung und Vorhersage",
+      "w": "Dodger Stadium — Video Room"
+    },
+    "baseball-3-08": {
+      "t": "Schlagen unter schwierigen Bedingungen",
+      "w": "Dodger Stadium vs. Coors Field vs. Fenway Park"
+    },
+    "baseball-3-09": {
+      "t": "Die mentale Architektur eines Leistungstiefs",
+      "w": "Dodger Stadium — Clubhouse"
+    },
+    "baseball-3-10": {
+      "t": "Videoanalyse und Biomechanik",
+      "w": "Camelback Ranch — Dodgers Technology Center"
+    },
+    "baseball-4-01": {
+      "t": "Statcast und die Datenrevolution",
+      "w": "Dodger Stadium — Statcast Tower"
+    },
+    "baseball-4-02": {
+      "t": "Scouting-Berichte und Pitcher-Tendenzen",
+      "w": "Cooperstown Hall of Fame — Scouting Archives"
+    },
+    "baseball-4-03": {
+      "t": "Pre-At-Bat-Rituale und Visualisierung",
+      "w": "Camelback Ranch — Spring Training Facility"
+    },
+    "baseball-4-04": {
+      "t": "Der Entscheidungs-At-Bat",
+      "w": "Dodger Stadium — Home Plate im Oktober"
+    },
+    "baseball-4-05": {
+      "t": "Platoon Splits und Matchup Hitting",
+      "w": "Dodger Stadium — Dugout und Lineup Card"
+    },
+    "baseball-4-06": {
+      "t": "Fortgeschrittene Pitch-Recognition-Technologie",
+      "w": "Camelback Ranch — Technology Lab"
+    },
+    "baseball-4-07": {
+      "t": "Positionsspezifische Hitting-Erwartungen",
+      "w": "Dodger Stadium — Alle Positionen im Spielfeld"
+    },
+    "baseball-4-08": {
+      "t": "Training des Schwungs",
+      "w": "Camelback Ranch — Dodgers Spring Training Batting Cages"
+    },
+    "baseball-4-09": {
+      "t": "Die besten Dodger-Schlagmänner — Technische Analyse",
+      "w": "Cooperstown Hall of Fame — Dodger Wing"
+    },
+    "baseball-4-10": {
+      "t": "Ein lebenslange Hitting-Praxis aufbauen",
+      "w": "Cooperstown Hall of Fame — Library and Research Center"
+    },
+    "baseball-5-01": {
+      "t": "Der Pitcher's Rubber und die Standhaltung",
+      "w": "Dodger Stadium — Der Pitcher's Mound"
+    },
+    "baseball-5-02": {
+      "t": "Der Griff",
+      "w": "Camelback Ranch — Dodgers Spring Training"
+    },
+    "baseball-5-03": {
+      "t": "Die Ausführung: Wind-Up-Mechanik",
+      "w": "Dodger Stadium — The Mound, 1963"
+    },
+    "baseball-5-04": {
+      "t": "Die Ausführung: Armaktion",
+      "w": "Baseball Hall of Fame"
+    },
+    "baseball-5-05": {
+      "t": "Abwurfpunkt und Kontrolle",
+      "w": "Dodger Stadium — Die Schwarze der Home Plate"
+    },
+    "baseball-5-06": {
+      "t": "Die Stretch-Position und das Halten von Läufern",
+      "w": "Dodger Stadium — First Base Linie"
+    },
+    "baseball-5-07": {
+      "t": "Geschwindigkeit und warum sie wichtig ist — und nicht",
+      "w": "Turner Field — Greg Maddux's Klassenzimmer"
+    },
+    "baseball-5-08": {
+      "t": "Pitch Count und Armschonung",
+      "w": "Little League World Series Volunteer Stadium"
+    },
+    "baseball-5-09": {
+      "t": "Feldspiel auf deiner Position (PFP)",
+      "w": "Dodger Stadium — Das Infield"
+    },
+    "baseball-5-10": {
+      "t": "Mentale Einstellung auf dem Mound",
+      "w": "Dodger Stadium — Der Mound im Oktober"
+    },
+    "baseball-6-01": {
+      "t": "Four-Seam Fastball",
+      "w": "Dodger Stadium — Der Mound"
+    },
+    "baseball-6-02": {
+      "t": "Two-Seam Fastball und Sinker",
+      "w": "Camelback Ranch — Dodgers Spring Training"
+    },
+    "baseball-6-03": {
+      "t": "Der Changeup",
+      "w": "Dodger Stadium — Bullpen Mound"
+    },
+    "baseball-6-04": {
+      "t": "Der Curveball",
+      "w": "Dodger Stadium — Der Mound (Kershaw's Office)"
+    },
+    "baseball-6-05": {
+      "t": "Der Slider",
+      "w": "Dodger Stadium — Bullpen bei Spielgeschwindigkeit"
+    },
+    "baseball-6-06": {
+      "t": "Der Cutter",
+      "w": "Yankee Stadium (Rivera's Cathedral)"
+    },
+    "baseball-6-07": {
+      "t": "Der Splitter und Forkball",
+      "w": "Dodger Stadium — 1995-Saison (Nomo's Debut)"
+    },
+    "baseball-6-08": {
+      "t": "Spin Rate, Spin Axis und Rapsodo",
+      "w": "Camelback Ranch — Rapsodo Lab"
+    },
+    "baseball-6-09": {
+      "t": "Pitch Tunneling und Täuschung",
+      "w": "Dodger Stadium — Vom Pitcher's Mound zur Home Plate"
+    },
+    "baseball-6-10": {
+      "t": "Aufbau Ihres Arsenals nach Alter",
+      "w": "Camelback Ranch — Minor League Fields"
+    },
+    "baseball-7-01": {
+      "t": "Den Schlagmann lesen",
+      "w": "Dodger Stadium"
+    },
+    "baseball-7-02": {
+      "t": "Den Count bearbeiten",
+      "w": "Camelback Ranch — Glendale, Arizona"
+    },
+    "baseball-7-03": {
+      "t": "Pitch-Sequenzierung",
+      "w": "Dodger Stadium — The Pitcher's Mound"
+    },
+    "baseball-7-04": {
+      "t": "Erstes Mal vs. Drittes Mal durch die Reihenfolge",
+      "w": "Dodger Stadium — Bullpen"
+    },
+    "baseball-7-05": {
+      "t": "Werfen aus der Stretch-Position mit Läufern",
+      "w": "Dodger Stadium — First Base Line"
+    },
+    "baseball-7-06": {
+      "t": "Hochrisiko-Situationen",
+      "w": "Dodger Stadium — Ninth Inning"
+    },
+    "baseball-7-07": {
+      "t": "Platoon-Matchups und Händigkeit",
+      "w": "Camelback Ranch — Spring Training Bullpen"
+    },
+    "baseball-7-08": {
+      "t": "Schlagmänner mit Video und Daten studieren",
+      "w": "Camelback Ranch — Video Room"
+    },
+    "baseball-7-09": {
+      "t": "Ermüdung bewältigen und wissen, wann Sie fertig sind",
+      "w": "Camelback Ranch — Training Facility"
+    },
+    "baseball-7-10": {
+      "t": "Die größten Dodger-Pitcher — Strategische Breakdowns",
+      "w": "Dodger Stadium — Hall of Fame Plaques at the Ravine"
+    },
+    "stage-m39": {
+      "t": "Fire Escape",
+      "w": "Cisco Firepower Lab"
+    },
+    "stage-m40": {
+      "t": "Die Management Plane",
+      "w": "Cisco Advanced Security Lab"
+    },
+    "stage-m41": {
+      "t": "Half-Open Season",
+      "w": "Cisco PSIRT Operations Center"
+    },
+    "stage-m42": {
+      "t": "The Pivot Hunt",
+      "w": "Cisco Talos Intelligence HQ"
+    },
+    "stage-m43": {
+      "t": "Das Detection Fabric",
+      "w": "Cisco Security Cloud Operations"
+    },
+    "stage-m44": {
+      "t": "API Cartographer",
+      "w": "Cisco DevNet Developer Hub"
+    },
+    "stage-m45": {
+      "t": "Die Programmable Plane",
+      "w": "Internet Engineering Task Force (IETF)"
+    },
+    "stage-m46": {
+      "t": "Von Null zu Domain Admin",
+      "w": "Cisco CyberOps Training Center"
+    },
+    "stage-m47": {
+      "t": "Die fünf Domains",
+      "w": "Cisco Networking Academy"
+    },
+    "stage-m48": {
+      "t": "Das Unified ASIC",
+      "w": "Cisco Silicon One Engineering"
+    },
+    "stage-m49": {
+      "t": "Match, Action, Forward",
+      "w": "Open Compute Project Networking"
+    },
+    "stage-m50": {
+      "t": "Jetzt ernten, nie entschlüsseln",
+      "w": "NIST Computer Security Division"
+    },
+    "stage-01": {
+      "t": "Die drei heiligen Kammern",
+      "w": "Große Pyramide von Giza"
+    },
+    "stage-02": {
+      "t": "Das korrupte Orakel",
+      "w": "Orakel von Delphi"
+    },
+    "stage-03": {
+      "t": "Das vergiftete Archiv",
+      "w": "Bibliothek von Alexandria"
+    },
+    "stage-04": {
+      "t": "Die Trojanische Schriftrolle",
+      "w": "Akropolis von Athen"
+    },
+    "stage-05": {
+      "t": "Der blutende Leuchtturm",
+      "w": "Pharos-Leuchtturm von Alexandria"
+    },
+    "stage-06": {
+      "t": "Der gestohlene Hafenpass",
+      "w": "Koloß von Rhodos"
+    },
+    "stage-07": {
+      "t": "Das gefälschte königliche Siegel",
+      "w": "Hängende Gärten von Babylon"
+    },
+    "stage-08": {
+      "t": "Die verfluchte Beschwörung",
+      "w": "Tempel der Artemis in Ephesus"
+    },
+    "stage-09": {
+      "t": "Die Plage des Steinnetzes",
+      "w": "Stonehenge"
+    },
+    "stage-10": {
+      "t": "Der geheime Tresor des Kaisers",
+      "w": "Kolosseum von Rom"
+    },
+    "stage-11": {
+      "t": "Die schlafenden Torwächter",
+      "w": "Mausoleum von Halikarnassos"
+    },
+    "stage-12": {
+      "t": "Die ungeschützte Schatzkammer",
+      "w": "Statue des Zeus in Olympia"
+    },
+    "stage-m01": {
+      "t": "Das Tor fällt ohne Schlüssel",
+      "w": "Hagia Sophia"
+    },
+    "stage-m02": {
+      "t": "EXTRABACON — Die SNMP-Waffe der NSA",
+      "w": "Tower of London"
+    },
+    "stage-m03": {
+      "t": "Das vergessene Versorgungstor",
+      "w": "Angkor Wat"
+    },
+    "stage-m04": {
+      "t": "Das ungesperrte Skriptorium",
+      "w": "Kathedrale Notre-Dame"
+    },
+    "stage-m05": {
+      "t": "Der verborgene Weg durch die Mauer",
+      "w": "Chinesische Mauer"
+    },
+    "stage-m06": {
+      "t": "Der geheime Gang der Nasriden-Könige",
+      "w": "Alhambra"
+    },
+    "stage-m07": {
+      "t": "Falsche Befehle an die Garnison",
+      "w": "Krak des Chevaliers"
+    },
+    "stage-m08": {
+      "t": "Der Gipfel: Root über XSS",
+      "w": "Machu Picchu"
+    },
+    "stage-m09": {
+      "t": "Das Opfer, das den Tempel befiehlt",
+      "w": "Chichen Itza"
+    },
+    "stage-m10": {
+      "t": "Die verfluchte Schriftrolle in der Klosterpost",
+      "w": "Mont-Saint-Michel"
+    },
+    "stage-m11": {
+      "t": "Die Königlichen Aufzeichnungen zerstören",
+      "w": "Edinburgh Castle"
+    },
+    "stage-m12": {
+      "t": "Die vergiftete kaiserliche Post",
+      "w": "Topkapi Palace"
+    },
+    "stage-m13": {
+      "t": "Der Tunneleinsturz",
+      "w": "NSA Headquarters"
+    },
+    "stage-m14": {
+      "t": "Vault 7: Die Telnet-Waffe",
+      "w": "CIA Headquarters"
+    },
+    "stage-m15": {
+      "t": "CDPwn: Die Discovery-Protocol-Falle",
+      "w": "Cisco Systems HQ"
+    },
+    "stage-m16": {
+      "t": "Die Belagerung des kleinen Büros",
+      "w": "Silicon Valley Tech Campus"
+    },
+    "stage-m17": {
+      "t": "Das Akira-Leak",
+      "w": "Akamai NOC"
+    },
+    "stage-m18": {
+      "t": "Der zusammengebrochene Stack",
+      "w": "Tokyo Telecom Exchange"
+    },
+    "stage-m19": {
+      "t": "Der Weg über die Schnellstraße",
+      "w": "BT Tower"
+    },
+    "stage-m20": {
+      "t": "Velvet Ant im Rechenzentrum",
+      "w": "State-Sponsored APT Infrastructure"
+    },
+    "stage-m21": {
+      "t": "ArcaneDoor: Der Phantom-Absturz",
+      "w": "Communications Security Establishment"
+    },
+    "stage-m22": {
+      "t": "ArcaneDoor: Line Dancer",
+      "w": "ANSSI HQ"
+    },
+    "stage-m23": {
+      "t": "Die vManage-Injection",
+      "w": "Cisco SDWAN Lab"
+    },
+    "stage-m24": {
+      "t": "Das Group-Key-Poison",
+      "w": "NATO Cyber Defence Centre"
+    },
+    "stage-m25": {
+      "t": "Die Firewall, die sich selbst vergaß",
+      "w": "ASD Cyber Centre"
+    },
+    "stage-m26": {
+      "t": "Durch die Firewall durcharbeiten",
+      "w": "Cisco Systems Hauptquartier"
+    },
+    "stage-m27": {
+      "t": "Den Sensor blenden",
+      "w": "NSA Texas Cryptologic Center"
+    },
+    "stage-m28": {
+      "t": "Single Sign-Off",
+      "w": "INTERPOL Global Complex"
+    },
+    "stage-m29": {
+      "t": "Extended Detection, Extended Risk",
+      "w": "GCHQ Doughnut"
+    },
+    "stage-m30": {
+      "t": "API-Injection",
+      "w": "Internet Archive"
+    },
+    "stage-m31": {
+      "t": "Der API-Schlüsselmeister",
+      "w": "DEF CON / Caesar's Forum"
+    },
+    "stage-m32": {
+      "t": "Alarm-Lawine",
+      "w": "IBM Security Operations Center"
+    },
+    "stage-m33": {
+      "t": "Jagen oder gejagt werden",
+      "w": "Mandiant (Google Cloud) Hauptquartier"
+    },
+    "stage-m34": {
+      "t": "God Mode",
+      "w": "CISA Hauptquartier"
+    },
+    "stage-m35": {
+      "t": "Der zweite Schlüssel",
+      "w": "NSA / National Security Operations Center"
+    },
+    "stage-m36": {
+      "t": "ArcaneDoor",
+      "w": "Cyber Security Agency of Singapore"
+    },
+    "stage-m37": {
+      "t": "Plug and Pray",
+      "w": "National Counterintelligence and Security Center"
+    },
+    "stage-m38": {
+      "t": "Zero Trust Entry",
+      "w": "Cisco Campus"
+    }
+  },
+  "epochs": {
+    "first-journey": {
+      "n": "Unsere erste Reise",
+      "s": "Athen → Santa Cruz → Monterey Bay",
+      "d": "Eine Anfängerreise rund um die Welt. Netzwerk ist das Straßensystem, das dich von Athen nach Santa Cruz bringt. Das Internet ist die Welle, auf der du reitest, wenn du ankommst. Sicherheitshygiene ist das, was dich auf einer Angelfahrt in der Monterey Bay sicher hält."
+    },
+    "ancient": {
+      "n": "Grundlagen",
+      "s": "Kernprinzipien der Sicherheit",
+      "d": "Meistere die Konzepte, auf denen jeder Sicherheitsfachmann aufbaut — von der CIA Triad bis SQL Injection, von Phishing bis Zero-Day Exploits. Jede Herausforderung spielt sich an einem der großen Orte der antiken Welt ab."
+    },
+    "cisco-core": {
+      "n": "Cisco: Core CVEs",
+      "s": "NSA Exploits & Netzwerk Grundlagen",
+      "d": "Grundlegende Angriffe auf Cisco-Netzwerkinfrastruktur — IOS Buffer Overflows, SNMP Exploits und die von Shadow Brokers und Vault 7 geleakten Cyber-Waffen der NSA für Cisco."
+    },
+    "cisco-enterprise": {
+      "n": "Cisco: Enterprise Attack",
+      "s": "Nation-State Kampagnen & Advanced CVEs",
+      "d": "Fortgeschrittene Ausnutzung über Ciscos Enterprise Portfolio — ASA, NX-OS, SD-WAN, Expressway und die ArcaneDoor und Velvet Ant Nation-State Kampagnen."
+    },
+    "cisco-secops": {
+      "n": "Cisco: Security Operations",
+      "s": "CyberOps, Threat Hunting & Zero-Day Verteidigung",
+      "d": "Cisco Security Platform Operationen und CyberOps Associate Fähigkeiten — Firepower, Umbrella, ISE, SecureX/XDR, SOC Triage, Threat Hunting und der IOS XE CVSS 10.0 Zero-Day."
+    },
+    "cisco-advanced": {
+      "n": "Cisco: Advanced Defense",
+      "s": "Firepower, XDR, DevNet, Silicon One & Quantum-Safe",
+      "d": "Next-Generation Cisco Sicherheit — Firepower NGIPS/FTD Evasion und CVEs, Cisco XDR Threat Hunting, DevNet API und NETCONF/YANG Sicherheit, Silicon One P4 Pipeline Integrität und Post-Quantum IKEv2 mit ML-KEM-768."
+    },
+    "tech-audit-1": {
+      "n": "Tech Audit: Grundlagen",
+      "s": "ISACA Audit Methodologie",
+      "d": "Meistere IT-Audit-Methodologie mit ISACA Standards — COBIT, CISA, CRISC und ITGC. Jede Phase simuliert ein echtes Audit-Engagement bei einer großen Institution, von der Risikobewertung bis zur Audit-Berichterstattung."
+    },
+    "tech-audit-2": {
+      "n": "Tech Audit: Technisch",
+      "s": "API Sicherheit, Secrets & Cloud Guardrails",
+      "d": "Hands-On technisches Audit-Testing — enumere und nutze API-Fehlkonfigurationen, suche nach exposed Secrets, prüfe IAM Policies, teste Cloud Guardrails, scanne IaC Templates und validiere Container Security Controls."
+    },
+    "tech-audit-3": {
+      "n": "Tech Audit: Agentic Continuous Monitoring",
+      "s": "Automatisiertes Audit mit Claude Tools",
+      "d": "Automatisiere den vollständigen Audit-Lebenszyklus mit Claudes Tool Use API und MCP Servern — agentic API Enumeration, KI-gesteuerte Secrets Scanning, automatisierte Compliance Report-Generierung und Multi-Agent Audit Pipeline Design."
+    },
+    "tech-audit-4": {
+      "n": "Continuous Monitoring 2.0",
+      "s": "KI-gesteuerte Erkennung und Reaktion",
+      "d": "Meistere Next-Generation Continuous Monitoring: ML-enhanced SIEM, UEBA, NDR, CSPM, SOAR Automation, Deception Technology, Zero Trust Telemetrie, XDR und Compliance Monitoring — der vollständige Stack moderner SOC Operationen."
+    },
+    "mitre": {
+      "n": "MITRE ATT&CK",
+      "s": "Adversary Tactics & Techniques",
+      "d": "Durchlaufen Sie alle 12 ATT&CK-Taktikphasen als Angreifer — von der Aufklärung bis zur Auswirkung. Verstehen Sie, wie echte APTs operieren und wie Verteidiger jede Phase mit dem branchenstandard-Adversary-Framework erkennen."
+    },
+    "mitre-atlas": {
+      "n": "MITRE ATLAS",
+      "s": "AI/ML Adversarial Threat Landscape",
+      "d": "Greifen Sie AI- und ML-Systeme mit MITRE ATLAS-Taktiken an — Aufklärung gegen ML-Pipelines, adversariale Input-Erstellung, Model-Poisoning, Model-Diebstahl durch Extraktion und vollständige AI Kill-Chain-Synthese anhand echter Fallstudien."
+    },
+    "owasp-llm": {
+      "n": "OWASP LLM Top 10",
+      "s": "AI Application Security",
+      "d": "Meistern Sie die OWASP LLM Top 10 (2025) — der definitive Katalog von Schwachstellen in Large-Language-Model-Anwendungen. Von Prompt Injection bis zur unbegrenzten Ressourcennutzung lernen Sie, AI-Systeme durch praktische CTF-Missionen basierend auf echten LLM-Exploits anzugreifen und zu verteidigen."
+    },
+    "quantum-1": {
+      "n": "Quantum Foundations",
+      "s": "Qubits, Algorithms & Cryptographic Threats",
+      "d": "Verstehen Sie, wie Quantencomputer die kryptographischen Grundlagen des modernen Internets bedrohen — von RSA bis AES. Erkunden Sie Superposition, Verschränkung, Shors Algorithmus und die bereits laufende Harvest Now, Decrypt Later-Bedrohung."
+    },
+    "quantum-2": {
+      "n": "Post-Quantum Cryptography",
+      "s": "NIST PQC Standards & Implementation",
+      "d": "Meistern Sie die Post-Quantum-Kryptographie-Standards, die RSA und ECC ersetzen werden — CRYSTALS-Kyber (ML-KEM), CRYSTALS-Dilithium (ML-DSA), FALCON (FN-DSA) und SPHINCS+ (SLH-DSA). Erlernen Sie die Mathematik hinter gitterbasierter Kryptographie und implementieren Sie PQC in echten Systemen."
+    },
+    "quantum-3": {
+      "n": "Quantum Security",
+      "s": "QKD, Agility & Enterprise Migration",
+      "d": "Stellen Sie quantum-sichere Infrastruktur end-to-end bereit — BB84 QKD-Protokolle, Quantum-Key-Distribution-Netzwerke, Kryptographie-Agility-Frameworks, Quantum-sichere VPNs und PKI, liboqs-Integration, FIPS 140-3-Compliance und vollständige Enterprise-PQC-Migrationplanung."
+    },
+    "umbrella": {
+      "n": "Cisco Umbrella",
+      "s": "DNS Security & Threat Intelligence",
+      "d": "Meistern Sie DNS-Layer-Sicherheit mit Cisco Umbrella — der weltweit am meisten eingesetzten Cloud-Security-Plattform. Von DNS-Tunneling bis DGA-Erkennung, von täuschend ähnlichen Domänen bis DoH-Umgehung — jede Mission versetzt Sie in echte Umbrella-SOC-Untersuchungen."
+    },
+    "tapestry": {
+      "n": "The Woven World",
+      "s": "Tapestry — History, Tradition & Modern Practice",
+      "d": "Reisen Sie durch 3.000 Jahre Textilkunst: von ägyptischen Gräbern und andinen Mumienhüllen bis zu den großen flämischen Werkstätten, persischen Höfen, Navajo-Hogans und dem modernen Künstleratelier. Lernen Sie zu weben, Farben am Webstuhl zu mischen und die Sprache des Fadens zu lesen."
+    },
+    "nails": {
+      "n": "Nail Arts",
+      "s": "The Professional Nail Studio",
+      "d": "Meistern Sie professionelle Nageldesign-Techniken von Grund auf — Vorbereitung, die Kein-Wasser-Regel, gleichmäßiges Auftragen von Nagellack, Behebung von Liftings und Abplatzungen sowie das Geschäftswesen eines eigenständigen Nagelstudios. Echte Fähigkeiten, echte Ergebnisse."
+    },
+    "hair-color": {
+      "n": "Hair Coloring",
+      "s": "From Chemistry to Art",
+      "d": "Verstehen Sie, wie Haare Farbe aufnehmen, meistern Sie das Level-System, lernen Sie Entwickler und Lifting, wählen Sie zwischen permanenten und halbpermanenten Formeln, tragen Sie sicher auf, bleichen und tönen Sie, korrigieren Sie Farbfehler und bauen Sie ein Haarfarben-Geschäft auf."
+    },
+    "hair-styling": {
+      "n": "Haarstyling",
+      "s": "Werkzeuge, Technik und Transformation",
+      "d": "Beherrschen Sie das gesamte Arsenal des professionellen Haarstylings — von der Kenntnis von Haartypen und Wärmewissenschaft bis zu Flechttechniken, Locken und kundengerechten Hochsteckfrisuren. Dann bringen Sie Ihr Handwerk ins Geschäft."
+    },
+    "driving-1": {
+      "n": "Der Weg zu Ihrem Führerschein",
+      "s": "Vorbereitung auf die kalifornische DMV-Prüfung",
+      "d": "Beherrschen Sie die kalifornischen Verkehrsgesetze und bestehen Sie die schriftliche DMV-Wissens-Prüfung. Lernen Sie die Verkehrsregeln, Verkehrsschilder, Geschwindigkeitsbegrenzungen, Vorfahrtsregeln, Gesetze zur Fahrt unter Alkoholeinfluss und worauf Prüfer bei der praktischen Prüfung achten — alles, was Sie brauchen, um Ihren kalifornischen Führerschein zu erwerben."
+    },
+    "driving-2": {
+      "n": "Erste Kilometer",
+      "s": "Grundlegende Fahrkompetenz",
+      "d": "Entwickeln Sie echtes Selbstvertrauen hinter dem Lenkrad — von Cockpit-Kontrollen und geschmeidigen Starts bis zu Autobahnwechseln und Nachtfahrten. Jeder großartige Fahrer hat genau dort angefangen, wo Sie jetzt sind."
+    },
+    "driving-3": {
+      "n": "Verkehrsregeln",
+      "s": "Weisheit, die jeder Fahrer braucht",
+      "d": "Die Prüfung zu bestehen ist erst der Anfang. Ein wirklich sicherer und überlegter Fahrer zu werden bedeutet, die Fähigkeiten zu beherrschen, die keine schriftliche Prüfung abdeckt — Ablenkungsbewusstsein, defensive Fahrtechnik, Notfallbewältigung und die Behandlung jeder Fahrt als Verantwortung gegenüber sich selbst und allen um Sie herum."
+    },
+    "baseball-1": {
+      "n": "Ballspiel!",
+      "s": "Grundlagen der Little League",
+      "d": "Erlernen Sie Amerikas Lieblingsspiel von Grund auf — das Spielfeld, die Regeln, wie man schlägt, wirft, fieldet und die Bases mit Selbstvertrauen läuft. Aber das Spiel ist mehr als Mechanik: es geht um Einsatz, Teamwork und Respekt vor dem Sport. Ob Sie völlig neu anfangen oder Ihre Fähigkeiten verfeinern möchten, diese Grundlagen bringen Sie vom ersten Wurf zum vollwertigen Teamplayer."
+    },
+    "baseball-2": {
+      "n": "Die Kunst des Schlagens",
+      "s": "Den Batter's Box beherrschen",
+      "d": "Einen runden Ball mit einem runden Schläger zu treffen ist die schwierigste Fähigkeit im Profisport — und die erfüllendste, wenn man es richtig macht. Dieses Epoch taucht tief in alle Aspekte des Handwerks ein: Standhaltung, Pitch-Erkennung, Schwungtechnik, Platz-Disziplin, Power, Kontakt-Anpassungen und die legendären Dodger-Schläger, die alles beherrscht haben. Von Jackie Robinsons Bunts bis zu Shohei Ohtanis Beinbewegung erlernen Sie, wie die besten Schläger der Welt zu denken — und trainieren auch wie sie."
+    },
+    "baseball-3": {
+      "n": "Fortgeschrittene Mechanik",
+      "s": "Die Wissenschaft des Schwungs",
+      "d": "Sie haben die Grundlagen beherrscht — jetzt gehen Sie tiefer. Fortgeschrittenes Schlagen ist dort, wo Biomechanik auf Psychologie trifft, wo Daten auf Gefühl treffen, und wo die Unterschiede zwischen einem guten und einem großartigen Schläger in Millisekunden und Graden gemessen werden. Dieses Epoch erforscht Hüft-Schulter-Trennung, Barrel-Management, Load-Timing, Zwei-Strike-Meisterschaft, situatives Schlagen, Pitch-Sequenzierung, widrige Bedingungen, Flauten-Psychologie und die Spitzentechnologie, die die Dodgers und Elite-Schläger nutzen, um jeden Schwung zu verfeinern. Vom Camelback Ranch im Frühjahrstraining bis zum Oracle Park an einer nebligen Oktober-Nacht denken Sie wie die besten Schläger der Welt."
+    },
+    "baseball-4": {
+      "n": "Elite-Meisterschaft",
+      "s": "Wie ein Profi schlagen",
+      "d": "Sie haben die Mechanik gelernt, die Pitches studiert und eine Trainingsroutine aufgebaut. Jetzt kommt der schwierigste Teil: wie ein Profi zu spielen. Dieses Epoch richtet sich an Schläger, die auf höchstem Niveau denken möchten — mit Statcast-Analytik, Pre-At-Bat-Scouting, mentaler Vorbereitung, Clutch-Ausführung, Platoon-Strategie, Spitzentechnologie und einer lebenslangen Entwicklungsphilosophie. Von Dodger Stadium bis Cooperstown, vom On-Deck-Bereich bis zur Broadcast-Kabine, das ist Schlagen auf seinem Höhepunkt."
+    },
+    "baseball-5": {
+      "n": "Die Kunst des Werfens",
+      "s": "Mechanik und Grundlagen",
+      "d": "Werfen ist die technisch anspruchsvollste Fähigkeit im Baseball — eine Symphonie aus Biomechanik, mentaler Stärke und strategischer Intelligenz, ausgeführt in unter zwei Sekunden bei jedem Wurf. Dieses Epoch zerlegt das gesamte Handwerk: das Rubber und die Standhaltung, Griffwissenschaft, Windup- und Stretch-Mechanik, Arm-Aktion, Release-Point-Kontrolle, Runnerhal-Techniken, Geschwindigkeit, Pitch-Count, Fielding und die Mound-Mentalität. Von Clayton Kershaws legendärem Wurf bis zu den Pitch-Count-Regeln, die junge Arme schützen, erlernen Sie, wie die Besten des Spiels zu denken und zu werfen."
+    },
+    "baseball-6": {
+      "n": "Pitch Arsenal",
+      "s": "Griffe, Bewegung & Sequenzierung",
+      "d": "Jeder Pitcher erzählt eine Geschichte mit seinem Arsenal — eine Abfolge von Geschwindigkeiten, Formen und Positionen, die Schläger aus dem Gleichgewicht bringen und zum falschen Raten verleiten. Dieses Epoch taucht tief in jeden Pitch-Typ ein, von der Vier-Naht-Fastball bis zum Splitter, und behandelt Griffmechanik, Spin-Wissenschaft, Bewegungsphysik und die Rapsodo-Revolution, die verändert hat, wie Dodger-Pitching-Trainer Arme entwickeln. Von Clayton Kershaws El Diablo Curveball über Mariano Riveras karrierebeendenden Cutter bis zu Hideo Nomos verheerendem Forkball, Sie werden lernen, jeden Schlag in einem kompletten Pitcher-Arsenal zu greifen, zu werfen und zu sequenzieren — und Ihr eigenes Repertoire auf die richtige Weise aufzubauen."
+    },
+    "baseball-7": {
+      "n": "Pitching-Strategie",
+      "s": "Das Schachspiel auf dem Hügel",
+      "d": "Pitching ist das tiefste intellektuelle Spiel im Baseball — ein Schachspiel, das mit 95 Meilen pro Stunde gespielt wird, wo jeder Pitch ein berechneter Zug ist und jeder Batter ein zu lösendes Rätsel. Dieses Epoch taucht in den strategischen Verstand eines Pitchers ein: Batters lesen, bevor ein Pitch geworfen wird, Counts manipulieren, Pitches über eine ganze Aufstellung hinweg sequenzieren und einen Start vom ersten Inning bis zur dritten Runde durch die Aufstellung bewältigen. Von Sandy Koufax' eleganter Einfachheit bis zu Clayton Kershaws langjähriger Entwicklung lehren die größten Dodger-Pitcher jeden hier behandelten Grundsatz. Lernen Sie, vom Hügel aus zu denken — und Sie werden ein Spiel nie wieder auf die gleiche Weise ansehen."
+    }
+  }
+}

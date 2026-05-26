@@ -20,9 +20,9 @@ const DOCS = [
   { id: "proposal-pro", label: "Business Proposal", file: "BUSINESS_PROPOSAL_PRO.md", icon: "💼", color: "text-purple-400" },
   { id: "proposal-casual", label: "Pitch Deck", file: "BUSINESS_PROPOSAL_CASUAL.md", icon: "🚀", color: "text-green-400" },
   { id: "pitch-targets", label: "Pitch Targets", file: "PITCH_TARGETS.md", icon: "🎯", color: "text-orange-400" },
-  { id: "pitch-cae", label: "CAE: Continuous Monitoring", file: "PITCH_CAE_CONTINUOUS_MONITORING.md", icon: "📡", color: "text-rose-400" },
   { id: "todo", label: "To-Do & Roadmap", file: "TODO.md", icon: "✅", color: "text-lime-400" },
   { id: "copyright", label: "Copyright Filing", file: "COPYRIGHT_FILING.md", icon: "©", color: "text-violet-400" },
+  { id: "vc-analysis", label: "VC Readiness Analysis", file: "VC_READINESS_ANALYSIS.md", icon: "📊", color: "text-emerald-400" },
 ];
 
 
@@ -51,9 +51,19 @@ export default function DocsViewer() {
           <code className="bg-white/10 text-green-300 px-1 py-0.5 rounded text-xs font-mono">{children}</code>
         );
       },
-      ul: ({ children }: { children?: React.ReactNode }) => <ul className="list-disc pl-5 mb-4 space-y-1">{children}</ul>,
+      ul: ({ children, className }: { children?: React.ReactNode; className?: string }) => {
+        const isTaskList = className?.includes("contains-task-list");
+        return <ul className={`${isTaskList ? "list-none pl-1" : "list-disc pl-5"} mb-4 space-y-1`}>{children}</ul>;
+      },
       ol: ({ children }: { children?: React.ReactNode }) => <ol className="list-decimal pl-5 mb-4 space-y-1">{children}</ol>,
-      li: ({ children }: { children?: React.ReactNode }) => <li className="text-gray-400 leading-relaxed text-sm">{children}</li>,
+      li: ({ children, className }: { children?: React.ReactNode; className?: string }) => {
+        const isTaskItem = className?.includes("task-list-item");
+        return (
+          <li className={`text-gray-400 leading-relaxed text-sm ${isTaskItem ? "flex items-start gap-2 [&>input]:mt-0.5 [&>input]:accent-cyan-400 [&>input]:shrink-0" : ""}`}>
+            {children}
+          </li>
+        );
+      },
       strong: ({ children }: { children?: React.ReactNode }) => <strong className="text-white font-semibold">{children}</strong>,
       em: ({ children }: { children?: React.ReactNode }) => <em className="text-gray-300 italic">{children}</em>,
       a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {

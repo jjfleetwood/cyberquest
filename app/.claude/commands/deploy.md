@@ -8,9 +8,12 @@ Run this skill whenever the user says "deploy", "/deploy", or asks to ship to pr
 `app/secured-docs/` = `docs/` mirror + `LAUNCH_LEGAL.md` (admin-only, lives only in secured-docs).  
 Never edit a file directly in `app/secured-docs/` if it has a counterpart in `docs/` — edit `docs/` and let the sync step propagate it.
 
-**Adding a new doc file:** when a new `.md` file is added to `docs/`, two code changes are also required:
+**Adding a new doc file:** whenever a new `.md` file is created — whether in `docs/`, `app/secured-docs/`, or anywhere in the project — three code changes are required before it is visible in the admin panel:
 1. Add the filename to `ALLOWED_FILES` in `app/src/app/api/docs/[file]/route.ts`
 2. Add a tab entry to the `DOCS` array in `app/src/components/DocsViewer.tsx`
+3. If the file belongs in `docs/`, copy it to `app/secured-docs/` during the sync step. If it is admin-only (like `LAUNCH_LEGAL.md`, `VC_READINESS_ANALYSIS.md`), it lives only in `app/secured-docs/` and is not synced from `docs/`.
+
+**This rule applies to every new `.md` file, no exceptions.** Do not create a doc and skip wiring it into the viewer.
 
 ## What this skill does (in order)
 

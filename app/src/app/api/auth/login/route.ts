@@ -25,17 +25,20 @@ function safeCompare(a: string, b: string): boolean {
 export async function POST(req: NextRequest) {
   const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
 
-  if (await isRateLimited(ip)) {
-    return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
-  }
-
   const body = await req.json().catch(() => null);
   if (!body?.username || !body?.password || typeof body.username !== "string" || typeof body.password !== "string") {
     return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
   }
 
   const username = body.username.toLowerCase().trim();
-  const data = await redis.hgetall<{ passwordHash: string; salt: string; email: string; hashIterations?: string }>(`user:${username}`);
+
+  // Admin is never rate-limited
+  const adminUser = process.env.ADMIN_USERNAME?.toLowerCase();
+  if (username !== adminUser && await isRateLimited(ip)) {
+    return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
+  }
+
+  const data = await redis.hgetall<{ passwordHash: string; salt: string; email: string; hashIterations?: string; isAdmin?: string }>(`user:${username}`);
 
   if (!data?.passwordHash || !data?.salt) {
     // Still hash to avoid timing-based username enumeration
@@ -59,10 +62,11 @@ export async function POST(req: NextRequest) {
   const res = NextResponse.json({ ok: true, username, email: data.email ?? "" });
   res.cookies.set("session_token", token, sessionCookieOptions());
 
-  // Grant admin cookie inline if eligible
+  // Grant admin cookie inline if eligible (super admin by env var, or Redis-flagged admin)
   const adminUsername = process.env.ADMIN_USERNAME;
   const secret = process.env.ADMIN_SECRET;
-  if (adminUsername && secret && username === adminUsername.toLowerCase()) {
+  const isElevated = (adminUsername && username === adminUsername.toLowerCase()) || data.isAdmin === "true";
+  if (secret && isElevated) {
     const sig = createHmac("sha256", secret).update(username).digest("hex");
     res.cookies.set("admin_token", `${username}:${sig}`, {
       httpOnly: true,

@@ -87,8 +87,8 @@ export default function DemoPage() {
         {/* Platform preview teaser */}
         <div className="grid grid-cols-3 gap-3 mb-8">
           {[
-            { label: "Stages", value: "169", color: "text-cyan-400" },
-            { label: "Curriculum Tracks", value: "9", color: "text-purple-400" },
+            { label: "Stages", value: "358", color: "text-cyan-400" },
+            { label: "Curriculum Tracks", value: "10", color: "text-purple-400" },
             { label: "Real CVEs", value: "50+", color: "text-green-400" },
           ].map(({ label, value, color }) => (
             <div key={label} className="bg-white/3 border border-white/8 rounded-xl p-4 text-center">

@@ -5,14 +5,17 @@ import StageInfo from "./StageInfo";
 import CtfChallenge from "./CtfChallenge";
 import QuizChallenge from "./QuizChallenge";
 import type { StageConfig } from "@/data/types";
+import type { StageTranslation } from "@/data/translations/types";
+import { useLocale } from "@/contexts/LocaleContext";
 
-export default function StageContainer({ stage, isPro = false }: { stage: StageConfig | null; isPro?: boolean }) {
+export default function StageContainer({ stage, isPro = false, translation = null }: { stage: StageConfig | null; isPro?: boolean; translation?: StageTranslation | null }) {
+  const { t } = useLocale();
   const [phase, setPhase] = useState<"info" | "challenge">("info");
 
   if (!stage) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#0d1117" }}>
-        <p className="text-gray-500">Stage not found</p>
+        <p className="text-gray-500">{t("stage.notFound")}</p>
       </div>
     );
   }
@@ -20,7 +23,7 @@ export default function StageContainer({ stage, isPro = false }: { stage: StageC
   const backHref = `/stages/epoch/${stage.epochId}`;
 
   if (phase === "info") {
-    return <StageInfo stage={stage} onStart={() => setPhase("challenge")} />;
+    return <StageInfo stage={stage} onStart={() => setPhase("challenge")} translation={translation} />;
   }
 
   if (stage.challengeType === "ctf" && stage.ctf) {

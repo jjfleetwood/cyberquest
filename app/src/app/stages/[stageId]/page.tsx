@@ -1,11 +1,46 @@
 import { getStage } from "@/data/stages";
 import StageContainer from "@/components/StageContainer";
 import type { StageConfig } from "@/data/types";
+import type { StageTranslation } from "@/data/translations/types";
 import { getStageOverride, applyStageOverride, canAccessEpoch } from "@/lib/cms";
 import { canAccessStage, getUserTier } from "@/lib/access";
 import { getSessionFromCookies } from "@/lib/server-session";
 import ProPaywall from "@/components/ProPaywall";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import esTranslations from "@/data/translations/es.json";
+import frTranslations from "@/data/translations/fr.json";
+import deTranslations from "@/data/translations/de.json";
+import metaEs from "@/data/translations/meta-es.json";
+import metaFr from "@/data/translations/meta-fr.json";
+import metaDe from "@/data/translations/meta-de.json";
+import enMessages from "@/messages/en.json";
+import esMessages from "@/messages/es.json";
+import frMessages from "@/messages/fr.json";
+import deMessages from "@/messages/de.json";
+
+const TRANSLATION_MAPS: Record<string, Record<string, StageTranslation>> = {
+  es: esTranslations as Record<string, StageTranslation>,
+  fr: frTranslations as Record<string, StageTranslation>,
+  de: deTranslations as Record<string, StageTranslation>,
+};
+
+type MetaMap = { stages: Record<string, { t: string; w: string }>; epochs: Record<string, unknown> };
+const META_MAPS: Record<string, MetaMap> = {
+  es: metaEs as MetaMap,
+  fr: metaFr as MetaMap,
+  de: metaDe as MetaMap,
+};
+
+const SERVER_MSG: Record<string, Record<string, string>> = {
+  en: enMessages as Record<string, string>,
+  es: esMessages as Record<string, string>,
+  fr: frMessages as Record<string, string>,
+  de: deMessages as Record<string, string>,
+};
+function serverT(locale: string, key: string): string {
+  return SERVER_MSG[locale]?.[key] ?? SERVER_MSG.en[key] ?? key;
+}
 
 export default async function StagePage({
   params,
@@ -15,6 +50,11 @@ export default async function StagePage({
   const { stageId } = await params;
   const stageBase = getStage(stageId) ?? null;
   const username = await getSessionFromCookies();
+
+  const cookieStore = await cookies();
+  const locale = cookieStore.get("locale")?.value ?? "en";
+  const translation: StageTranslation | null =
+    locale !== "en" ? (TRANSLATION_MAPS[locale]?.[stageId] ?? null) : null;
 
   if (stageBase) {
     // Epoch-level admin access control
@@ -27,26 +67,47 @@ export default async function StagePage({
         >
           <div className="text-center max-w-sm">
             <div className="text-6xl mb-4">🔒</div>
-            <h2 className="text-2xl font-black text-white mb-2">Access Restricted</h2>
+            <h2 className="text-2xl font-black text-white mb-2">{serverT(locale, "stage.accessRestricted")}</h2>
             <p className="text-gray-500 text-sm mb-6">
-              This module is not available on your account. Contact an administrator to request access.
+              {serverT(locale, "stage.accessRestrictedDesc")}
             </p>
             <Link href="/stages" className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors">
-              ← Back to Stage Map
+              {serverT(locale, "epoch.backToStageMap")}
             </Link>
           </div>
         </div>
       );
     }
 
-    // Pro tier gating
+    // Tier / sequential gating
     const tierAllowed = await canAccessStage(stageId, username);
     if (!tierAllowed) {
+      const tier = username ? await getUserTier(username) : null;
+      if (tier === "pro") {
+        // Sequential lock — show "complete prior stages" message
+        return (
+          <div className="min-h-screen flex items-center justify-center px-4"
+            style={{ background: "linear-gradient(135deg, #0d1117 0%, #0f2027 50%, #1a1a2e 100%)" }}
+          >
+            <div className="text-center max-w-sm">
+              <div className="text-6xl mb-4">🔐</div>
+              <h2 className="text-2xl font-black text-white mb-2">{serverT(locale, "stage.completePrevious")}</h2>
+              <p className="text-gray-500 text-sm mb-6">
+                {serverT(locale, "stage.completePreviousDesc")}
+              </p>
+              <Link href={`/stages/epoch/${stageBase.epochId}`} className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors">
+                {serverT(locale, "stage.backToEpoch")}
+              </Link>
+            </div>
+          </div>
+        );
+      }
       return <ProPaywall stageTitle={stageBase.title} epochId={stageBase.epochId} />;
     }
   }
 
-  const isPro = username ? (await getUserTier(username)) === "pro" : false;
+  const tier = username ? await getUserTier(username) : null;
+  const isPro = tier === "pro" || tier === "all-star";
 
   let stage: StageConfig | null = stageBase;
 
@@ -72,5 +133,17 @@ export default async function StagePage({
     };
   }
 
-  return <StageContainer stage={safeStage} isPro={isPro} />;
+  // Apply translated stage title and wonder name from meta file
+  if (safeStage && locale !== "en") {
+    const metaEntry = META_MAPS[locale]?.stages?.[stageId];
+    if (metaEntry) {
+      safeStage = {
+        ...safeStage,
+        title: metaEntry.t || safeStage.title,
+        wonder: { ...safeStage.wonder, name: metaEntry.w || safeStage.wonder.name },
+      };
+    }
+  }
+
+  return <StageContainer stage={safeStage} isPro={isPro} translation={translation} />;
 }

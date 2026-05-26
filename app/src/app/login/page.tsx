@@ -5,12 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { login, register } from "@/lib/auth";
 import { useSkin } from "@/contexts/SkinContext";
+import { useLocale } from "@/contexts/LocaleContext";
 
 type Tab = "login" | "signup";
 
 export default function LoginPage() {
   const router = useRouter();
   const { skin } = useSkin();
+  const { t: tr } = useLocale();
   const [tab, setTab] = useState<Tab>("login");
 
   const [loginUsername, setLoginUsername] = useState("");
@@ -32,21 +34,21 @@ export default function LoginPage() {
     const result = await login(loginUsername, loginPassword);
     setLoginLoading(false);
     if (result.success) router.push("/stages");
-    else setLoginError(result.error ?? "Login failed.");
+    else setLoginError(result.error ?? tr("auth.loginFailed"));
   }
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setSignupError("");
     if (signupPassword !== signupConfirm) {
-      setSignupError("Passwords do not match.");
+      setSignupError(tr("auth.passwordMismatch"));
       return;
     }
     setSignupLoading(true);
     const result = await register(signupUsername, signupEmail, signupPassword);
     setSignupLoading(false);
     if (result.success) router.push("/stages");
-    else setSignupError(result.error ?? "Registration failed.");
+    else setSignupError(result.error ?? tr("auth.registrationFailed"));
   }
 
   const inputClass = skin.dark
@@ -84,7 +86,7 @@ export default function LoginPage() {
           className="inline-flex items-center gap-1 text-sm transition-colors mb-8 hover:opacity-70"
           style={{ color: skin.textMuted }}
         >
-          ← Back to home
+          {tr("auth.backToHome")}
         </Link>
 
         {/* Branding */}
@@ -106,8 +108,8 @@ export default function LoginPage() {
           <p className="text-xs mt-1 font-mono" style={{ color: skin.textMuted }}>(κρυπτός χρόνος)</p>
           <p className="text-sm mt-1" style={{ color: skin.textSecondary }}>
             {tab === "login"
-              ? (skin.id === "youth" ? "Welcome back! Let's play! 🎮" : "Welcome back, Agent.")
-              : (skin.id === "youth" ? "Join the adventure! 🚀" : "Join the mission.")}
+              ? tr(skin.id === "youth" ? "auth.welcomeBackYouth" : "auth.welcomeBack")
+              : tr(skin.id === "youth" ? "auth.joinAdventure" : "auth.joinMission")}
           </p>
         </div>
 
@@ -122,22 +124,22 @@ export default function LoginPage() {
         >
           {/* Tabs */}
           <div className="flex" style={{ borderBottom: `1px solid ${skin.cardBorder}` }}>
-            {(["login", "signup"] as Tab[]).map((t) => (
+            {(["login", "signup"] as Tab[]).map((tabVal) => (
               <button
-                key={t}
+                key={tabVal}
                 onClick={() => {
-                  setTab(t);
+                  setTab(tabVal);
                   setLoginError("");
                   setSignupError("");
                 }}
                 className="flex-1 py-4 text-sm font-semibold transition-all"
                 style={{
-                  color: tab === t ? skin.accent : skin.textMuted,
-                  background: tab === t ? `${skin.accent}12` : "transparent",
-                  borderBottom: tab === t ? `2px solid ${skin.accent}` : "2px solid transparent",
+                  color: tab === tabVal ? skin.accent : skin.textMuted,
+                  background: tab === tabVal ? `${skin.accent}12` : "transparent",
+                  borderBottom: tab === tabVal ? `2px solid ${skin.accent}` : "2px solid transparent",
                 }}
               >
-                {t === "login" ? "Log In" : "Sign Up"}
+                {tabVal === "login" ? tr("auth.logIn") : tr("auth.signUp")}
               </button>
             ))}
           </div>
@@ -147,7 +149,7 @@ export default function LoginPage() {
               <form onSubmit={handleLogin} className="flex flex-col gap-4">
                 <div>
                   <label className="block text-xs uppercase tracking-widest mb-2 font-semibold" style={{ color: skin.textMuted }}>
-                    {skin.id === "youth" ? "Your Name" : "Username"}
+                    {tr("auth.username")}
                   </label>
                   <input
                     type="text"
@@ -167,7 +169,7 @@ export default function LoginPage() {
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-widest mb-2 font-semibold" style={{ color: skin.textMuted }}>
-                    Password
+                    {tr("auth.password")}
                   </label>
                   <input
                     type="password"
@@ -201,28 +203,28 @@ export default function LoginPage() {
                     color: skin.btnPrimaryText,
                   }}
                 >
-                  {loginLoading ? "Verifying…" : skin.id === "youth" ? "Let's Go! 🚀" : "Log In →"}
+                  {loginLoading ? tr("auth.signingIn") : skin.id === "youth" ? "Let's Go! 🚀" : tr("auth.logIn")}
                 </button>
 
                 <div className="flex items-center justify-between text-xs" style={{ color: skin.textMuted }}>
                   <span>
-                    No account?{" "}
+                    {tr("auth.noAccount")}{" "}
                     <button type="button" onClick={() => setTab("signup")} style={{ color: skin.accent }} className="hover:opacity-80 transition-opacity">
-                      Sign up free
+                      {tr("auth.signUp")}
                     </button>
                   </span>
                   <Link href="/forgot-password" style={{ color: skin.textMuted }} className="hover:opacity-80 transition-opacity">
-                    Forgot password?
+                    {tr("auth.forgotPassword")}
                   </Link>
                 </div>
               </form>
             ) : (
               <form onSubmit={handleSignup} className="flex flex-col gap-4">
                 {[
-                  { label: skin.id === "youth" ? "Your Name" : "Username", type: "text", placeholder: "agent_name (min. 3 chars)", value: signupUsername, set: setSignupUsername, auto: "username" },
-                  { label: "Email", type: "email", placeholder: "agent@example.com", value: signupEmail, set: setSignupEmail, auto: "email" },
-                  { label: "Password", type: "password", placeholder: "min. 8 characters", value: signupPassword, set: setSignupPassword, auto: "new-password" },
-                  { label: "Confirm Password", type: "password", placeholder: "••••••••", value: signupConfirm, set: setSignupConfirm, auto: "new-password" },
+                  { label: tr("auth.username"), type: "text", placeholder: "agent_name (min. 3 chars)", value: signupUsername, set: setSignupUsername, auto: "username" },
+                  { label: tr("auth.email"), type: "email", placeholder: "agent@example.com", value: signupEmail, set: setSignupEmail, auto: "email" },
+                  { label: tr("auth.password"), type: "password", placeholder: "min. 8 characters", value: signupPassword, set: setSignupPassword, auto: "new-password" },
+                  { label: tr("auth.confirmPassword"), type: "password", placeholder: "••••••••", value: signupConfirm, set: setSignupConfirm, auto: "new-password" },
                 ].map((field) => (
                   <div key={field.label}>
                     <label className="block text-xs uppercase tracking-widest mb-2 font-semibold" style={{ color: skin.textMuted }}>
@@ -261,13 +263,13 @@ export default function LoginPage() {
                     color: skin.btnPrimaryText,
                   }}
                 >
-                  {signupLoading ? "Creating account…" : skin.id === "youth" ? "Start Adventure! 🌟" : "Create Account →"}
+                  {signupLoading ? tr("auth.creatingAccount") : skin.id === "youth" ? "Start Adventure! 🌟" : tr("auth.createAccount")}
                 </button>
 
                 <p className="text-center text-xs" style={{ color: skin.textMuted }}>
-                  Have an account?{" "}
+                  {tr("auth.hasAccount")}{" "}
                   <button type="button" onClick={() => setTab("login")} style={{ color: skin.accent }} className="hover:opacity-80 transition-opacity">
-                    Log in
+                    {tr("auth.logIn")}
                   </button>
                 </p>
               </form>

@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLocale } from "@/contexts/LocaleContext";
 
 export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string; epochId: string }) {
+  const { t } = useLocale();
   const [loading, setLoading] = useState<"monthly" | "yearly" | null>(null);
 
   async function checkout(plan: "monthly" | "yearly") {
@@ -18,14 +20,22 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
       if (data.url) {
         window.location.href = data.url;
       } else {
-        alert(data.error ?? "Something went wrong. Please try again.");
+        alert(data.error ?? t("paywall.somethingWentWrong"));
         setLoading(null);
       }
     } catch {
-      alert("Something went wrong. Please try again.");
+      alert(t("paywall.somethingWentWrong"));
       setLoading(null);
     }
   }
+
+  const features = [
+    t("paywall.feature1"),
+    t("paywall.feature2"),
+    t("paywall.feature3"),
+    t("paywall.feature4"),
+    t("paywall.feature5"),
+  ];
 
   return (
     <div
@@ -36,9 +46,9 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
         {/* Header */}
         <div className="text-center mb-10">
           <div className="text-5xl mb-4">🔒</div>
-          <h1 className="text-3xl font-black text-white mb-2">Pro Required</h1>
+          <h1 className="text-3xl font-black text-white mb-2">{t("paywall.proRequired")}</h1>
           <p className="text-gray-400 text-sm">
-            <span className="text-cyan-400 font-semibold">{stageTitle}</span> is part of the full curriculum.
+            <span className="text-cyan-400 font-semibold">{stageTitle}</span> {t("paywall.isPartOfCurriculum")}
           </p>
         </div>
 
@@ -50,9 +60,9 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
             disabled={loading !== null}
             className="relative group rounded-xl border border-cyan-500/30 bg-cyan-500/5 hover:bg-cyan-500/10 hover:border-cyan-400/60 p-6 text-left transition-all duration-200 disabled:opacity-60"
           >
-            <div className="text-xs text-cyan-400/70 uppercase tracking-widest mb-1">Monthly</div>
-            <div className="text-3xl font-black text-white mb-1">$5.99</div>
-            <div className="text-xs text-gray-500">per month</div>
+            <div className="text-xs text-cyan-400/70 uppercase tracking-widest mb-1">{t("paywall.monthly")}</div>
+            <div className="text-3xl font-black text-white mb-1">$13.99</div>
+            <div className="text-xs text-gray-500">{t("paywall.perMonth")}</div>
             {loading === "monthly" && (
               <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/50">
                 <div className="w-5 h-5 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
@@ -68,12 +78,12 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
           >
             <div className="absolute -top-3 left-4">
               <span className="text-xs font-bold bg-indigo-500 text-white px-2 py-0.5 rounded-full">
-                SAVE 22%
+                {t("paywall.save41")}
               </span>
             </div>
-            <div className="text-xs text-indigo-400/70 uppercase tracking-widest mb-1">Annual</div>
-            <div className="text-3xl font-black text-white mb-1">$55.99</div>
-            <div className="text-xs text-gray-500">per year · $4.67/mo</div>
+            <div className="text-xs text-indigo-400/70 uppercase tracking-widest mb-1">{t("paywall.annual")}</div>
+            <div className="text-3xl font-black text-white mb-1">$99</div>
+            <div className="text-xs text-gray-500">{t("paywall.perYearDetail")}</div>
             {loading === "yearly" && (
               <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/50">
                 <div className="w-5 h-5 border-2 border-indigo-400 border-t-transparent rounded-full animate-spin" />
@@ -84,15 +94,9 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
 
         {/* What's included */}
         <div className="rounded-xl border border-white/5 bg-white/2 px-6 py-5 mb-8">
-          <div className="text-xs text-gray-500 uppercase tracking-widest mb-3">Pro includes</div>
+          <div className="text-xs text-gray-500 uppercase tracking-widest mb-3">{t("paywall.proIncludes")}</div>
           <ul className="space-y-2">
-            {[
-              "All 358 stages across 32 epochs and 10 tracks",
-              "ARIA AI tutor — Socratic coaching on every stage",
-              "Leaderboard, streaks, and milestone badges",
-              "Trophy system and avatar shop",
-              "PDF progress certificate",
-            ].map((item) => (
+            {features.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm text-gray-300">
                 <span className="text-cyan-400 mt-0.5 shrink-0">✓</span>
                 {item}
@@ -107,7 +111,7 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
             href={`/stages/epoch/${epochId}`}
             className="text-gray-600 hover:text-gray-400 text-sm transition-colors"
           >
-            ← Back to stage map
+            {t("paywall.backToStageMap")}
           </Link>
         </div>
       </div>

@@ -20,6 +20,7 @@ const ALLOWED_FILES = new Set([
   "PITCH_CAE_CONTINUOUS_MONITORING.md",
   "TODO.md",
   "COPYRIGHT_FILING.md",
+  "VC_READINESS_ANALYSIS.md",
 ]);
 
 function verifyAdminToken(token: string): boolean {

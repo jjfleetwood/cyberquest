@@ -41,7 +41,8 @@ export async function GET(req: NextRequest) {
   const inventory = (inventoryData ?? []) as string[];
   const equipped = await redis.hgetall(`equipped:${lower}`) ?? {};
 
-  const items = isAdmin ? SHOP_ITEMS : SHOP_ITEMS.filter((i) => !i.adminOnly);
+  // Everyone sees the same purchasable items; adminOnly items are admin-catalog-only
+  const items = SHOP_ITEMS.filter((i) => !i.adminOnly);
 
   return NextResponse.json({
     items,
@@ -50,6 +51,7 @@ export async function GET(req: NextRequest) {
     coins,
     coinsSpent,
     spendable,
+    isAdmin,
   });
 }
 
@@ -119,10 +121,15 @@ export async function PATCH(req: NextRequest) {
   if (!item) return NextResponse.json({ error: "item not found" }, { status: 404 });
 
   const lower = username.toLowerCase();
+  const patchAdminToken = req.cookies.get("admin_token")?.value ?? "";
+  const patchIsAdmin = verifyAdminToken(patchAdminToken);
 
-  // Must own it
+  // Admin can equip any item; auto-add to inventory if not already owned
   const owned = await redis.sismember(`inventory:${lower}`, item.id);
-  if (!owned) return NextResponse.json({ error: "not owned" }, { status: 403 });
+  if (!owned) {
+    if (!patchIsAdmin) return NextResponse.json({ error: "not owned" }, { status: 403 });
+    await redis.sadd(`inventory:${lower}`, item.id);
+  }
 
   const equippedKey = `equipped:${lower}`;
   const current = await redis.hget(equippedKey, item.slot) as string | null;

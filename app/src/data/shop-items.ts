@@ -15,6 +15,17 @@ export type ShopItem = {
 
 export const SHOP_ITEMS: ShopItem[] = [
   {
+    id: "helmet-of-knowing",
+    name: "Helmet of Knowing",
+    description: "The headgear of those who have seen the matrix. Worn by operators who understand the stack.",
+    price: 500,
+    slot: "head",
+    emoji: "🪖",
+    rarity: "rare",
+    svgClass: "item-helmet",
+    adminOnly: true,
+  },
+  {
     id: "medallion-of-amazement",
     name: "Medallion of Amazement",
     description: "A gleaming medal awarded to those who dare to be amazing. Worn proudly on the chest.",

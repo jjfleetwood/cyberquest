@@ -3,6 +3,8 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
 import { getServerSession } from "@/lib/server-session";
 import { TROPHIES, getTrophy, dailyShopTrophies } from "@/data/trophies";
+import { stages } from "@/data/stages";
+import { milestoneBadges } from "@/data/milestone-badges";
 
 function verifyAdminToken(token: string): boolean {
   const secret = process.env.ADMIN_SECRET;
@@ -45,21 +47,36 @@ export async function GET(req: NextRequest) {
   const adminToken = req.cookies.get("admin_token")?.value ?? "";
   const isAdmin = verifyAdminToken(adminToken);
 
-  const inventoryRaw = await redis.smembers(`inventory:${lower}`);
+  const [inventoryRaw, progressData] = await Promise.all([
+    redis.smembers(`inventory:${lower}`),
+    redis.hgetall(`progress:${lower}`),
+  ]);
   const inventory = (inventoryRaw ?? []) as string[];
   const ownedIds = inventory.filter((id) => TROPHY_MAP_IDS.has(id));
 
-  if (isAdmin) {
-    const claimedCounts = await getClaimedCounts(TROPHIES.map((t) => t.id));
-    const trophiesWithSupply = TROPHIES.map((t) => ({
-      ...t,
-      claimed: claimedCounts[t.id] ?? 0,
-      remaining: t.supply - (claimedCounts[t.id] ?? 0),
-    }));
-    return NextResponse.json({ mode: "admin", trophies: trophiesWithSupply, ownedIds });
+  // Resolve earned badges (stage completions + milestones)
+  function parseArr(val: unknown): string[] {
+    if (!val) return [];
+    if (Array.isArray(val)) return val as string[];
+    const s = String(val);
+    try { const p = JSON.parse(s); return Array.isArray(p) ? p : []; } catch { return s.split(",").filter(Boolean); }
   }
+  const badgeIds = parseArr(progressData?.badges);
+  const stageBadgeMap = new Map(stages.map((s) => [s.badge.id, { name: s.badge.name, emoji: s.badge.emoji }]));
+  const milestoneBadgeMap = new Map(milestoneBadges.map((b) => [b.id, { name: b.name, emoji: b.emoji, desc: b.desc }]));
 
-  // User: daily shop + owned
+  type EarnedBadge = { id: string; name: string; emoji: string; source: "stage" | "milestone"; desc?: string };
+  const earnedBadges: EarnedBadge[] = badgeIds
+    .map((id): EarnedBadge | null => {
+      const sb = stageBadgeMap.get(id);
+      if (sb) return { id, name: sb.name, emoji: sb.emoji, source: "stage" };
+      const mb = milestoneBadgeMap.get(id);
+      if (mb) return { id, name: mb.name, emoji: mb.emoji, source: "milestone", desc: mb.desc };
+      return null;
+    })
+    .filter((b): b is EarnedBadge => b !== null);
+
+  // Everyone (including admin) gets the normal daily rotation + their owned trophies
   const shopTrophies = dailyShopTrophies(lower, 10);
   const allRelevantIds = [...new Set([...shopTrophies.map((t) => t.id), ...ownedIds])];
   const claimedCounts = await getClaimedCounts(allRelevantIds);
@@ -78,7 +95,7 @@ export async function GET(req: NextRequest) {
     })
     .filter(Boolean);
 
-  return NextResponse.json({ mode: "user", shop: shopWithSupply, owned: ownedTrophies });
+  return NextResponse.json({ mode: "user", shop: shopWithSupply, owned: ownedTrophies, earnedBadges, isAdmin });
 }
 
 /** POST /api/trophies

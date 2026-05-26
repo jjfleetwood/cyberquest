@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from "next/headers";
+import { headers, cookies } from "next/headers";
+import Script from "next/script";
 import FeedbackWidget from "@/components/FeedbackWidget";
 import AgePrompt from "@/components/AgePrompt";
 import Nav from "@/components/Nav";
 import { SkinProvider } from "@/contexts/SkinContext";
+import { LocaleProvider } from "@/contexts/LocaleContext";
+import { GroupProvider } from "@/contexts/GroupContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -63,10 +66,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const nonce = (await headers()).get("x-nonce") ?? "";
+  const [headerStore, cookieStore] = await Promise.all([headers(), cookies()]);
+  const nonce = headerStore.get("x-nonce") ?? "";
+  const locale = cookieStore.get("locale")?.value ?? "en";
+  const userGroup = cookieStore.get("userGroup")?.value ?? "high-school";
   return (
     <html
-      lang="en"
+      lang={locale}
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       {/* eslint-disable-next-line @next/next/no-sync-scripts */}
@@ -74,12 +80,22 @@ export default async function RootLayout({
         <script nonce={nonce} dangerouslySetInnerHTML={{ __html: antiFoucScript }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <SkinProvider>
-          <AgePrompt />
-          <Nav />
-          {children}
-          <FeedbackWidget />
-        </SkinProvider>
+        <Script
+          defer
+          data-domain="kryptoscronos.com"
+          src="https://plausible.io/js/script.js"
+          strategy="afterInteractive"
+        />
+        <LocaleProvider initialLocale={locale}>
+          <GroupProvider initialGroup={userGroup}>
+          <SkinProvider>
+            <AgePrompt />
+            <Nav />
+            {children}
+            <FeedbackWidget />
+          </SkinProvider>
+          </GroupProvider>
+        </LocaleProvider>
       </body>
     </html>
   );

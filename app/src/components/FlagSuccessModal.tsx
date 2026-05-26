@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { StageConfig } from "@/data/types";
+import { useLocale } from "@/contexts/LocaleContext";
 
 type Props = {
   stage: StageConfig;
@@ -21,6 +22,7 @@ function formatTime(ms: number): string {
 }
 
 export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenaltyCoins, effectiveCoins, backHref = "/stages" }: Props) {
+  const { t } = useLocale();
   const [visible, setVisible] = useState(false);
   const [flagVisible, setFlagVisible] = useState(false);
 
@@ -64,7 +66,7 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
             <div className="flex items-center gap-2 px-4 py-1.5 rounded-full border border-green-500/40 bg-green-500/10">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-green-400 font-mono text-xs font-bold tracking-widest uppercase">
-                Flag Accepted
+                {t("flag.accepted")}
               </span>
             </div>
           </div>
@@ -72,7 +74,7 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
           {/* Main heading */}
           <div className="text-center mb-6">
             <div className="text-5xl mb-3">✓</div>
-            <h2 className="text-2xl font-bold text-white mb-1">Mission Complete</h2>
+            <h2 className="text-2xl font-bold text-white mb-1">{t("flag.missionComplete")}</h2>
             <p className="text-gray-500 text-sm">{stage.title}</p>
           </div>
 
@@ -82,7 +84,7 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
               flagVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"
             }`}
           >
-            <p className="text-gray-600 text-xs uppercase tracking-widest mb-2">Captured Flag</p>
+            <p className="text-gray-600 text-xs uppercase tracking-widest mb-2">{t("flag.capturedFlag")}</p>
             <p
               className="text-green-400 font-bold text-sm break-all"
               style={{ textShadow: "0 0 20px rgba(74,222,128,0.5)" }}
@@ -95,9 +97,9 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
           <div className="grid grid-cols-3 gap-3 mb-6">
             <div className="bg-white/3 rounded-xl p-3 text-center border border-white/10">
               <div className="text-xl font-bold text-green-400">+{effectiveCoins} 🪙</div>
-              <div className="text-xs text-gray-600 mt-0.5">Coins Earned</div>
+              <div className="text-xs text-gray-600 mt-0.5">{t("flag.coinsEarned")}</div>
               {timePenaltyCoins > 0 && (
-                <div className="text-xs text-orange-500 mt-0.5">-{timePenaltyCoins} penalty</div>
+                <div className="text-xs text-orange-500 mt-0.5">-{timePenaltyCoins} {t("flag.timePenalty")}</div>
               )}
             </div>
             <div className="bg-white/3 rounded-xl p-3 text-center border border-white/10">
@@ -106,14 +108,14 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
             </div>
             <div className="bg-white/3 rounded-xl p-3 text-center border border-white/10">
               <div className="text-xl font-bold text-cyan-400">{formatTime(timeTakenMs)}</div>
-              <div className="text-xs text-gray-600 mt-0.5">Time</div>
+              <div className="text-xs text-gray-600 mt-0.5">{t("flag.time")}</div>
             </div>
           </div>
 
           {/* Skills Acquired */}
           {stage.info?.keyTakeaways && stage.info.keyTakeaways.length > 0 && (
             <div className="mb-6 rounded-xl border border-white/8 bg-white/2 p-4">
-              <p className="text-gray-600 text-xs uppercase tracking-widest mb-3">Skills Acquired</p>
+              <p className="text-gray-600 text-xs uppercase tracking-widest mb-3">{t("flag.skillsAcquired")}</p>
               <ul className="space-y-1.5">
                 {stage.info.keyTakeaways.slice(0, 3).map((takeaway, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-gray-400 leading-relaxed">
@@ -131,14 +133,14 @@ export default function FlagSuccessModal({ stage, flag, timeTakenMs, timePenalty
               href="/leaderboard"
               className="flex-1 text-center py-2.5 border border-purple-500/50 hover:border-purple-400 text-purple-400 font-semibold rounded-xl text-sm transition-colors"
             >
-              🏆 Leaderboard
+              🏆 {t("leaderboard.title")}
             </Link>
             <Link
               href={backHref}
               className="flex-1 text-center py-2.5 font-bold rounded-xl text-sm transition-colors text-black"
               style={{ background: "linear-gradient(90deg, #22c55e, #4ade80)" }}
             >
-              Stage Map →
+              {t("flag.stageMap")}
             </Link>
           </div>
         </div>
