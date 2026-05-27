@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Too many requests." }, { status: 429 });
   }
 
-  const { message, page } = await req.json();
+  const { message, page, username } = await req.json();
 
   if (!message || typeof message !== "string" || message.trim().length === 0) {
     return NextResponse.json({ error: "Message required" }, { status: 400 });
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
     from: "Kryptós CronOS <noreply@kryptoscronos.com>",
     to: "hello@kryptoscronos.com",
     subject: `Kryptós CronOS Feedback${page ? ` — ${page}` : ""}`,
-    text: `New feedback from kryptoscronos.com\n\nPage: ${page || "unknown"}\nTime: ${new Date().toISOString()}\n\n---\n\n${message.trim()}`,
+    text: `New feedback from kryptoscronos.com\n\nUser: ${username || "unknown"}\nPage: ${page || "unknown"}\nTime: ${new Date().toISOString()}\n\n---\n\n${message.trim()}`,
   };
 
   const res = await fetch("https://api.resend.com/emails", {

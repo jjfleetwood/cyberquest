@@ -8,7 +8,7 @@ const STORAGE_KEY = "feedback-widget-pos";
 
 export default function FeedbackWidget() {
   const pathname = usePathname();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [minimized, setMinimized] = useState(false);
@@ -22,7 +22,7 @@ export default function FeedbackWidget() {
   useEffect(() => {
     fetch("/api/auth/me")
       .then((r) => (r.ok ? r.json() : null))
-      .then((d) => setLoggedIn(!!d?.username))
+      .then((d) => setUsername(d?.username ?? null))
       .catch(() => {});
   }, [pathname]);
 
@@ -92,7 +92,7 @@ export default function FeedbackWidget() {
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, page: pathname }),
+        body: JSON.stringify({ message, page: pathname, username }),
       });
       if (!res.ok) throw new Error();
       setStatus("sent");
@@ -108,7 +108,7 @@ export default function FeedbackWidget() {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) handleSend();
   }
 
-  if (!loggedIn) return null;
+  if (!username) return null;
 
   return (
     <div
