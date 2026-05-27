@@ -8,7 +8,8 @@ import BackLink from "./BackLink";
 import AttackDiagram from "./AttackDiagram";
 import FlagSuccessModal from "./FlagSuccessModal";
 import HintChatbot from "./HintChatbot";
-import type { CtfConfig, StageConfig } from "@/data/types";
+import type { CtfConfig, StageConfig, CtfQuizEntry } from "@/data/types";
+import CtfQuizPanel from "./CtfQuizPanel";
 import { getExtraCommands } from "@/data/stage-commands";
 import { useLocale } from "@/contexts/LocaleContext";
 
@@ -297,7 +298,15 @@ function ReferenceDrawer({ stage, onClose }: { stage: StageConfig; onClose: () =
   );
 }
 
-export default function CtfChallenge({ stage, backHref = "/stages", isPro = false }: { stage: StageConfig; backHref?: string; isPro?: boolean }) {
+type TranslatedQuestion = { q: string; options: [string, string] };
+
+export default function CtfChallenge({ stage, backHref = "/stages", isPro = false, ctfQuiz, ctfQuizTranslation }: {
+  stage: StageConfig;
+  backHref?: string;
+  isPro?: boolean;
+  ctfQuiz?: CtfQuizEntry;
+  ctfQuizTranslation?: TranslatedQuestion[];
+}) {
   const { t } = useLocale();
   const ctf = stage.ctf!;
   const hints = ctf.hints ?? [ctf.hint];
@@ -347,6 +356,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [unknownCmdCount, setUnknownCmdCount] = useState(0);
   const [collectedFragments, setCollectedFragments] = useState<Set<string>>(new Set());
+  const [quizDone, setQuizDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successData, setSuccessData] = useState<{
     flag: string; timeTakenMs: number; timePenaltyCoins: number; effectiveCoins: number;
@@ -711,7 +721,12 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
 
       <div
         className="flex flex-col px-3 sm:px-4 py-3 sm:py-6"
-        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)", height: "100dvh", overflow: "hidden" }}
+        style={{
+          background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)",
+          minHeight: "100dvh",
+          overflowY: solved ? "auto" : "hidden",
+          height: solved ? undefined : "100dvh",
+        }}
       >
         <div className="max-w-4xl mx-auto w-full flex flex-col flex-1 min-h-0">
           {/* Header */}
@@ -844,6 +859,17 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
             {t("ctf.footer.typeHelp")} · 💡 hints · 🤖 AI assistant
           </p>
         </div>
+
+        {/* Knowledge-check quiz — shown after CTF solved */}
+        {solved && ctfQuiz && !quizDone && (
+          <div className="mt-6 pb-8">
+            <CtfQuizPanel
+              quiz={ctfQuiz}
+              translatedQuestions={ctfQuizTranslation}
+              onDone={() => setQuizDone(true)}
+            />
+          </div>
+        )}
       </div>
     </>
   );

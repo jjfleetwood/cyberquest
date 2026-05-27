@@ -1,7 +1,8 @@
 import { getStage } from "@/data/stages";
 import StageContainer from "@/components/StageContainer";
-import type { StageConfig } from "@/data/types";
+import type { StageConfig, CtfQuizEntry } from "@/data/types";
 import type { StageTranslation } from "@/data/translations/types";
+import ctfQuizData from "@/data/ctf-quiz-data.json";
 import { getStageOverride, applyStageOverride, canAccessEpoch } from "@/lib/cms";
 import { canAccessStage, getUserTier } from "@/lib/access";
 import { getSessionFromCookies } from "@/lib/server-session";
@@ -163,5 +164,11 @@ export default async function StagePage({
     }
   }
 
-  return <StageContainer stage={safeStage} isPro={isPro} translation={translation} />;
+  // Load CTF quiz data for this stage
+  const ctfQuiz: CtfQuizEntry | undefined =
+    safeStage?.challengeType === "ctf"
+      ? (ctfQuizData as unknown as Record<string, CtfQuizEntry>)[stageId]
+      : undefined;
+
+  return <StageContainer stage={safeStage} isPro={isPro} translation={translation} ctfQuiz={ctfQuiz} />;
 }

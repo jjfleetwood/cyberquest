@@ -10,7 +10,6 @@
   "nav.shop": "Sklep",
   "nav.admin": "Admin",
   "nav.language": "Język",
-
   "auth.backToHome": "Wróć na stronę główną",
   "auth.welcomeBack": "Witaj z powrotem, Agencie.",
   "auth.welcomeBackYouth": "Witaj z powrotem! Gramy! 🎮",
@@ -32,7 +31,6 @@
   "auth.registrationFailed": "Rejestracja nie powiodła się.",
   "auth.signingIn": "Logowanie…",
   "auth.creatingAccount": "Tworzenie konta…",
-
   "stages.title": "Mapa etapów",
   "stages.yourProgress": "Twój postęp",
   "stages.stagesCompleted": "ukończone etapy",
@@ -66,7 +64,6 @@
   "stages.tracks.travel": "Podróże",
   "stages.tracks.travelDesc": "Przewodniki miejskie, historia i język",
   "stages.proExtended": "Rozszerzony program",
-
   "stage.overview": "Przegląd",
   "stage.technical": "Szczegóły techniczne",
   "stage.incident": "Incydent z życia wziętego",
@@ -86,7 +83,6 @@
   "stage.incorrectFlag": "Niepoprawna flaga — spróbuj ponownie.",
   "stage.alreadyCompleted": "Już ukończone",
   "stage.proRequired": "Wymagany dostęp Pro",
-
   "trophies.title": "Moje trofea",
   "trophies.badges": "Odznaki",
   "trophies.noBadges": "Brak odznak",
@@ -94,7 +90,6 @@
   "trophies.streak": "Seria",
   "trophies.stagesCompleted": "Ukończone etapy",
   "trophies.totalCoins": "Łączne monety",
-
   "leaderboard.title": "Ranking",
   "leaderboard.allTime": "Wszech czasów",
   "leaderboard.weekly": "Tygodniowy",
@@ -102,13 +97,11 @@
   "leaderboard.rank": "Miejsce",
   "leaderboard.player": "Gracz",
   "leaderboard.coins": "Monety",
-
   "journey.title": "Twoja podróż",
   "journey.epochsCompleted": "Ukończone epoki",
   "journey.stagesCompleted": "Ukończone etapy",
   "journey.inProgress": "W trakcie",
   "journey.notStarted": "Nie rozpoczęto",
-
   "common.loading": "Ładowanie…",
   "common.error": "Coś poszło nie tak",
   "common.submit": "Wyślij",
@@ -129,16 +122,13 @@
   "common.signedInAs": "Zalogowano jako",
   "common.deleteAccount": "Usuń konto",
   "common.confirmDelete": "Spowoduje to trwałe usunięcie Twojego konta i całego postępu. Tej operacji nie można cofnąć.",
-
   "shop.title": "Sklep",
   "shop.yourBalance": "Twoje saldo",
   "shop.buy": "Kup",
   "shop.purchased": "Zakupiono",
   "shop.notEnoughCoins": "Za mało monet",
-
   "avatar.title": "Twój awatar",
   "avatar.customize": "Dostosuj",
-
   "pricing.proTitle": "Dostęp Pro",
   "pricing.monthly": "Miesięcznie",
   "pricing.yearly": "Rocznie",
@@ -148,7 +138,6 @@
   "pricing.upgradeToAccess": "Przejdź na Pro, aby odblokować ten etap",
   "pricing.perMonth": "/ miesiąc",
   "pricing.perYear": "/ rok",
-
   "stage.attackFlow": "Przebieg ataku",
   "stage.timeline": "Oś czasu",
   "stage.references": "Źródła",
@@ -159,13 +148,11 @@
   "stage.ctfExploit": "Wykorzystaj lukę w symulowanym środowisku i przechwyć flagę.",
   "stage.quizTest": "Sprawdź swoją wiedzę w quizie dotyczącym tej podatności.",
   "stage.stageNumber": "Etap",
-
   "stages.backToHome": "← Wróć na stronę główną",
   "stages.guestPrompt": "Grasz jako gość — zaloguj się, aby zapisywać postęp na różnych urządzeniach.",
   "stages.welcomeUser": "Witaj,",
   "stages.logOut": "Wyloguj",
   "stages.deleteAccount": "Usuń konto",
-
   "leaderboard.yourRank": "Twoje miejsce",
   "leaderboard.totalCoins": "Łączne monety",
   "leaderboard.stagesDone": "Ukończone etapy",
@@ -181,14 +168,12 @@
   "leaderboard.periodCoins": "Łączna liczba zdobytych monet",
   "leaderboard.periodWeekly": "Monety zdobyte w tym tygodniu",
   "leaderboard.periodDaily": "Monety zdobyte dziś",
-
   "journey.mapSubtitle": "Twój postęp przez znane terytoria. Mgła skrywa to, co przed Tobą.",
   "journey.overallExploration": "CAŁKOWITA EKSPLORACJA",
   "journey.epochsCleared": "ukończone epoki",
   "journey.clearedLabel": "Ukończono",
   "journey.unexploredLabel": "░░ nieodkryte ░░",
   "journey.fog": "nieodkryte",
-
   "trophies.vaultEmpty": "Twój skarbiec trofeów jest pusty.",
   "trophies.browseTreasures": "💎 Przeglądaj skarby →",
   "trophies.headToShop": "Przejdź do Sklepu → Skarby, aby rozpocząć kolekcję.",
@@ -207,7 +192,6 @@
   "trophies.claimed": "Odebrane",
   "trophies.totalSupply": "Całkowity nakład",
   "trophies.allTiers": "Wszystkie poziomy",
-
   "auth.backToLogin": "← Wróć do logowania",
   "auth.passwordRecovery": "Odzyskiwanie hasła",
   "auth.checkInbox": "Sprawdź swoją skrzynkę",
@@ -232,7 +216,6 @@
   "auth.signInPrompt": "Zaloguj się, aby śledzić postępy i pojawiać się w rankingu.",
   "auth.signIn": "Zaloguj się →",
   "auth.continueAsGuest": "Kontynuuj jako gość",
-
   "onboarding.welcome": "Witaj, Operatywie",
   "onboarding.subtitle": "Kryptós CronOS to praktyczna platforma szkoleniowa z cyberbezpieczeństwa. Prawdziwe exploity. Prawdziwe terminale. Zero lania wody.",
   "onboarding.step1Title": "Wybierz etap",
@@ -242,7 +225,6 @@
   "onboarding.step3Title": "Przechwyć flagę",
   "onboarding.step3Desc": "Znajdź ukrytą flagę, zdobądź XP, odblokuj kolejny etap. Podpowiedzi ARIA AI pomagają Ci bez zdradzania odpowiedzi.",
   "onboarding.beginTraining": "Rozpocznij szkolenie →",
-
   "paywall.proRequired": "Wymagany Pro",
   "paywall.isPartOfCurriculum": "jest częścią pełnego programu.",
   "paywall.monthly": "Miesięcznie",
@@ -258,7 +240,6 @@
   "paywall.feature5": "Certyfikat postępów w formacie PDF",
   "paywall.backToStageMap": "← Wróć do mapy etapów",
   "paywall.somethingWentWrong": "Coś poszło nie tak. Spróbuj ponownie.",
-
   "flag.accepted": "Flaga zaakceptowana",
   "flag.missionComplete": "Misja zakończona",
   "flag.capturedFlag": "Przechwycona flaga",
@@ -267,7 +248,6 @@
   "flag.time": "Czas",
   "flag.skillsAcquired": "Zdobyte umiejętności",
   "flag.stageMap": "Mapa etapów →",
-
   "avatar.backToShop": "← Sklep",
   "avatar.adminMode": "Tryb administratora — zakładaj dowolne przedmioty z pełnego katalogu.",
   "avatar.equipFromShop": "Zakładaj zebrane przedmioty. Więcej znajdziesz w Sklepie.",
@@ -282,7 +262,6 @@
   "avatar.slotBody": "Ciało",
   "avatar.slotHands": "Ręce",
   "avatar.slotBackground": "Tło",
-
   "shop.stageMap": "← Mapa etapów",
   "shop.desc": "Wydawaj monety na przedmioty, kolekcje i rzadkie trofea.",
   "shop.spendable": "do wydania",
@@ -302,13 +281,11 @@
   "shop.loadingCatalog": "Ładowanie katalogu…",
   "shop.failedCatalog": "Nie udało się załadować katalogu.",
   "shop.needMoreCoins": "Potrzebujesz więcej monet",
-
   "stages.subtitle": "Siedem ścieżek obejmujących pełne spektrum — od podstawowych CVE po bezpieczeństwo AI, kryptografię kwantową i obronę przedsiębiorstw.",
   "stages.deleteAccountConfirm": "Usunąć konto? Spowoduje to trwałe usunięcie całego postępu, monet, odznak i danych serii. Tej operacji nie można cofnąć.",
   "stages.epochDone": "✓ ukończono",
   "stages.guestPromptPre": "Grasz jako gość",
   "stages.guestPromptPost": "aby zapisywać postęp na różnych urządzeniach.",
-
   "epoch.notFound": "Nie znaleziono epoki.",
   "epoch.backToStages": "← Wróć do etapów",
   "epoch.accessRestricted": "Dostęp do tego modułu jest ograniczony. Skontaktuj się z administratorem, aby uzyskać dostęp.",
@@ -319,7 +296,6 @@
   "epoch.guestPre": "Grasz jako gość —",
   "epoch.guestPost": "aby zapisywać postęp.",
   "epoch.learnMore": "Dowiedz się więcej ↗",
-
   "leaderboard.backToStageMap": "← Mapa etapów",
   "leaderboard.loadingRankings": "Ładowanie rankingu…",
   "leaderboard.completeStagePrompt": "Ukończ etap, aby tu się pojawić!",
@@ -337,23 +313,19 @@
   "leaderboard.stagesLabel": "etapy",
   "leaderboard.badgesLabel": "odznaki",
   "leaderboard.trophiesProfile": "Trofea",
-
   "stage.notFound": "Nie znaleziono etapu.",
   "stage.accessRestricted": "Dostęp ograniczony",
   "stage.accessRestrictedDesc": "Ten moduł nie jest dostępny na Twoim koncie. Skontaktuj się z administratorem, aby uzyskać dostęp.",
   "stage.completePrevious": "Ukończ poprzednie etapy",
   "stage.completePreviousDesc": "Ten etap jest zablokowany. Ukończ wcześniejsze etapy w tej epoce, aby go odblokować.",
   "stage.backToEpoch": "← Wróć do epoki",
-
   "nav.learningLevel": "Poziom nauki:",
   "nav.profile": "Mój profil",
   "nav.trialPrefix": "Okres próbny:",
   "nav.trialDaySingular": "dzień",
   "nav.trialDayPlural": "dni",
   "nav.trialSuffix": "pozostało — Przejdź na Pro →",
-
   "onboarding.privacyPolicy": "Polityka prywatności",
-
   "upgrade.trialEndingSoon": "⚡ Okres próbny dobiega końca",
   "upgrade.headingLine1": "Przejdź na Pro. Bądź krok",
   "upgrade.headingLine2": "przed zagrożeniami.",
@@ -393,7 +365,6 @@
   "upgrade.faq3a": "Wszystkie płatności są przetwarzane przez Stripe — certyfikowany na poziomie PCI Level 1. Nigdy nie przechowujemy danych karty.",
   "upgrade.faq4q": "Czy mogę anulować w dowolnym momencie?",
   "upgrade.faq4a": "Tak, anuluj w portalu rozliczeniowym Stripe w dowolnym momencie. Dostęp zachowasz do końca opłaconego okresu.",
-
   "home.heroBadge": "438 etapów · AI · Post-Quantum · Nation-State CTF",
   "home.heroLine1": "Broń przyszłości.",
   "home.heroLine2": "Zacznij tutaj.",
@@ -496,7 +467,6 @@
   "home.footerTerms": "Warunki",
   "home.footerAttributions": "Podziękowania",
   "home.footerCopyright": "© 2026 Kryptós CronOS (κρυπτός χρόνος) · Zbudowane dla obrońców",
-
   "ctf.terminal.hint": "Podpowiedź",
   "ctf.terminal.objective": "Cel: Zbierz dowolne {min} z {total} fragmentów wywiadu, aby zmontować flagę.",
   "ctf.terminal.objectiveAll": "Cel: Zbierz {total} fragmentów wywiadu, aby zmontować flagę.",
@@ -546,5 +516,18 @@
   "ctf.status.complete": "Etap ukończony",
   "ctf.status.replay": "Zagraj ponownie",
   "ctf.status.flagCaptured": "Flaga przechwycona!",
-  "ctf.footer.typeHelp": "Wpisz help, aby zobaczyć komendy"
+  "ctf.footer.typeHelp": "Wpisz help, aby zobaczyć komendy",
+  "quiz.ctf.heading": "Sprawdzenie wiedzy",
+  "quiz.ctf.subheading": "5 szybkich pytań na podstawie tego, czego właśnie się nauczyłeś.",
+  "quiz.ctf.question": "Pytanie {n} z {total}",
+  "quiz.ctf.correct": "Poprawnie!",
+  "quiz.ctf.incorrect": "Nie całkiem.",
+  "quiz.ctf.next": "Następne pytanie →",
+  "quiz.ctf.finish": "Zobacz wyniki",
+  "quiz.ctf.score": "Odpowiedziałeś poprawnie na {score} z {total} pytań.",
+  "quiz.ctf.scorePerfect": "Perfekcyjny wynik! Świetna robota.",
+  "quiz.ctf.scoreGood": "Dobra robota — solidne zrozumienie.",
+  "quiz.ctf.scoreOk": "Dobry początek — przejrzyj materiał, aby utrwalić pojęcia.",
+  "quiz.ctf.continue": "Kontynuuj →",
+  "quiz.ctf.skip": "Pomiń quiz"
 }

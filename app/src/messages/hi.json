@@ -10,7 +10,6 @@
   "nav.shop": "दुकान",
   "nav.admin": "व्यवस्थापक",
   "nav.language": "भाषा",
-
   "auth.backToHome": "होम पर वापस",
   "auth.welcomeBack": "वापस स्वागत है, एजेंट।",
   "auth.welcomeBackYouth": "वापस स्वागत है! चलिए खेलते हैं! 🎮",
@@ -32,7 +31,6 @@
   "auth.registrationFailed": "पंजीकरण विफल।",
   "auth.signingIn": "साइन इन हो रहा है…",
   "auth.creatingAccount": "खाता बनाया जा रहा है…",
-
   "stages.title": "चरण मानचित्र",
   "stages.yourProgress": "आपकी प्रगति",
   "stages.stagesCompleted": "चरण पूरे हुए",
@@ -66,7 +64,6 @@
   "stages.tracks.travel": "यात्रा",
   "stages.tracks.travelDesc": "शहर गाइड, इतिहास और भाषा",
   "stages.proExtended": "विस्तारित पाठ्यक्रम",
-
   "stage.overview": "अवलोकन",
   "stage.technical": "तकनीकी विश्लेषण",
   "stage.incident": "वास्तविक घटना",
@@ -86,7 +83,6 @@
   "stage.incorrectFlag": "गलत — फिर से प्रयास करें।",
   "stage.alreadyCompleted": "पहले से पूर्ण",
   "stage.proRequired": "Pro एक्सेस आवश्यक है",
-
   "trophies.title": "मेरी ट्रॉफ़ियाँ",
   "trophies.badges": "बैज",
   "trophies.noBadges": "अभी तक कोई बैज नहीं",
@@ -94,7 +90,6 @@
   "trophies.streak": "स्ट्रीक",
   "trophies.stagesCompleted": "पूर्ण चरण",
   "trophies.totalCoins": "कुल सिक्के",
-
   "leaderboard.title": "लीडरबोर्ड",
   "leaderboard.allTime": "सर्वकाल",
   "leaderboard.weekly": "साप्ताहिक",
@@ -102,13 +97,11 @@
   "leaderboard.rank": "रैंक",
   "leaderboard.player": "खिलाड़ी",
   "leaderboard.coins": "सिक्के",
-
   "journey.title": "आपकी यात्रा",
   "journey.epochsCompleted": "युग पूर्ण",
   "journey.stagesCompleted": "चरण पूर्ण",
   "journey.inProgress": "प्रगति में",
   "journey.notStarted": "शुरू नहीं हुआ",
-
   "common.loading": "लोड हो रहा है…",
   "common.error": "कुछ गलत हो गया",
   "common.submit": "सबमिट करें",
@@ -129,16 +122,13 @@
   "common.signedInAs": "साइन इन है:",
   "common.deleteAccount": "खाता हटाएं",
   "common.confirmDelete": "यह आपका खाता और सारी प्रगति स्थायी रूप से हटा देगा। यह पूर्ववत नहीं किया जा सकता।",
-
   "shop.title": "दुकान",
   "shop.yourBalance": "आपकी शेष राशि",
   "shop.buy": "खरीदें",
   "shop.purchased": "खरीदा गया",
   "shop.notEnoughCoins": "पर्याप्त सिक्के नहीं",
-
   "avatar.title": "आपका अवतार",
   "avatar.customize": "अनुकूलित करें",
-
   "pricing.proTitle": "Pro एक्सेस",
   "pricing.monthly": "मासिक",
   "pricing.yearly": "वार्षिक",
@@ -148,7 +138,6 @@
   "pricing.upgradeToAccess": "इस चरण तक पहुँचने के लिए Pro में अपग्रेड करें",
   "pricing.perMonth": "/ माह",
   "pricing.perYear": "/ वर्ष",
-
   "stage.attackFlow": "अटैक फ्लो",
   "stage.timeline": "समयरेखा",
   "stage.references": "संदर्भ",
@@ -159,13 +148,11 @@
   "stage.ctfExploit": "सिमुलेटेड वातावरण में कमज़ोरी का फ़ायदा उठाएं और फ्लैग कैप्चर करें।",
   "stage.quizTest": "इस कमज़ोरी पर क्विज़ से अपना ज्ञान जांचें।",
   "stage.stageNumber": "चरण",
-
   "stages.backToHome": "← होम पर वापस",
   "stages.guestPrompt": "अतिथि के रूप में खेल रहे हैं — डिवाइस पर प्रगति सहेजने के लिए साइन इन करें।",
   "stages.welcomeUser": "स्वागत है,",
   "stages.logOut": "लॉग आउट",
   "stages.deleteAccount": "खाता हटाएं",
-
   "leaderboard.yourRank": "आपकी रैंक",
   "leaderboard.totalCoins": "कुल सिक्के",
   "leaderboard.stagesDone": "पूर्ण चरण",
@@ -181,14 +168,12 @@
   "leaderboard.periodCoins": "कुल अर्जित सिक्के",
   "leaderboard.periodWeekly": "इस सप्ताह अर्जित सिक्के",
   "leaderboard.periodDaily": "आज अर्जित सिक्के",
-
   "journey.mapSubtitle": "ज्ञात क्षेत्रों में आपकी प्रगति। कोहरे में आगे का रास्ता छिपा है।",
   "journey.overallExploration": "कुल खोज",
   "journey.epochsCleared": "युग पार किए",
   "journey.clearedLabel": "पूर्ण",
   "journey.unexploredLabel": "░░ अनखोजा ░░",
   "journey.fog": "अनखोजा",
-
   "trophies.vaultEmpty": "आपकी ट्रॉफी तिजोरी खाली है।",
   "trophies.browseTreasures": "💎 खजाने देखें →",
   "trophies.headToShop": "अपना संग्रह शुरू करने के लिए दुकान → खजाने पर जाएं।",
@@ -207,7 +192,6 @@
   "trophies.claimed": "दावा किया",
   "trophies.totalSupply": "कुल आपूर्ति",
   "trophies.allTiers": "सभी श्रेणियाँ",
-
   "auth.backToLogin": "← लॉगिन पर वापस",
   "auth.passwordRecovery": "पासवर्ड पुनर्प्राप्ति",
   "auth.checkInbox": "अपना इनबॉक्स जांचें",
@@ -232,7 +216,6 @@
   "auth.signInPrompt": "प्रगति ट्रैक करने और लीडरबोर्ड पर दिखने के लिए साइन इन करें।",
   "auth.signIn": "साइन इन →",
   "auth.continueAsGuest": "अतिथि के रूप में जारी रखें",
-
   "onboarding.welcome": "स्वागत है, ऑपरेटिव",
   "onboarding.subtitle": "Kryptós CronOS एक व्यावहारिक साइबर सुरक्षा प्रशिक्षण मंच है। असली कारनामे। असली टर्मिनल। कोई बकवास नहीं।",
   "onboarding.step1Title": "एक चरण चुनें",
@@ -242,7 +225,6 @@
   "onboarding.step3Title": "फ्लैग कैप्चर करें",
   "onboarding.step3Desc": "छिपा फ्लैग ढूंढें, XP अर्जित करें, अगला चरण अनलॉक करें। ARIA AI हिंट्स बिना जवाब बताए आपको आगे रखती है।",
   "onboarding.beginTraining": "प्रशिक्षण शुरू करें →",
-
   "paywall.proRequired": "Pro आवश्यक है",
   "paywall.isPartOfCurriculum": "पूर्ण पाठ्यक्रम का हिस्सा है।",
   "paywall.monthly": "मासिक",
@@ -258,7 +240,6 @@
   "paywall.feature5": "PDF प्रगति प्रमाणपत्र",
   "paywall.backToStageMap": "← चरण मानचित्र पर वापस",
   "paywall.somethingWentWrong": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
-
   "flag.accepted": "फ्लैग स्वीकृत",
   "flag.missionComplete": "मिशन पूर्ण",
   "flag.capturedFlag": "फ्लैग कैप्चर किया",
@@ -267,7 +248,6 @@
   "flag.time": "समय",
   "flag.skillsAcquired": "अर्जित कौशल",
   "flag.stageMap": "चरण मानचित्र →",
-
   "avatar.backToShop": "← दुकान",
   "avatar.adminMode": "व्यवस्थापक मोड — पूर्ण कैटलॉग से कोई भी आइटम पहनें।",
   "avatar.equipFromShop": "अपनी एकत्रित वस्तुएं पहनें। दुकान से अधिक प्राप्त करें।",
@@ -282,7 +262,6 @@
   "avatar.slotBody": "शरीर",
   "avatar.slotHands": "हाथ",
   "avatar.slotBackground": "पृष्ठभूमि",
-
   "shop.stageMap": "← चरण मानचित्र",
   "shop.desc": "सिक्के खर्च करें वस्तुओं, संग्रहणीय और दुर्लभ ट्रॉफियों पर।",
   "shop.spendable": "खर्च योग्य",
@@ -302,13 +281,11 @@
   "shop.loadingCatalog": "कैटलॉग लोड हो रहा है…",
   "shop.failedCatalog": "कैटलॉग लोड करने में विफल।",
   "shop.needMoreCoins": "अधिक सिक्कों की ज़रूरत है",
-
   "stages.subtitle": "सात ट्रैक जो पूरे स्पेक्ट्रम को कवर करते हैं — मुख्य CVEs से AI सुरक्षा, क्वांटम क्रिप्टोग्राफी तक।",
   "stages.deleteAccountConfirm": "खाता हटाएं? यह स्थायी रूप से सारी प्रगति, सिक्के, बैज और स्ट्रीक डेटा हटा देता है।",
   "stages.epochDone": "✓ पूर्ण",
   "stages.guestPromptPre": "अतिथि के रूप में खेल रहे हैं",
   "stages.guestPromptPost": "डिवाइस पर प्रगति सहेजने के लिए।",
-
   "epoch.notFound": "युग नहीं मिला।",
   "epoch.backToStages": "← चरणों पर वापस",
   "epoch.accessRestricted": "इस मॉड्यूल तक पहुँच प्रतिबंधित है। पहुँच के लिए व्यवस्थापक से संपर्क करें।",
@@ -319,7 +296,6 @@
   "epoch.guestPre": "अतिथि के रूप में खेल रहे हैं —",
   "epoch.guestPost": "प्रगति सहेजने के लिए।",
   "epoch.learnMore": "अधिक जानें ↗",
-
   "leaderboard.backToStageMap": "← चरण मानचित्र",
   "leaderboard.loadingRankings": "रैंकिंग लोड हो रही है…",
   "leaderboard.completeStagePrompt": "यहाँ दिखने के लिए एक चरण पूरा करें!",
@@ -337,23 +313,19 @@
   "leaderboard.stagesLabel": "चरण",
   "leaderboard.badgesLabel": "बैज",
   "leaderboard.trophiesProfile": "ट्रॉफ़ियाँ",
-
   "stage.notFound": "चरण नहीं मिला।",
   "stage.accessRestricted": "पहुँच प्रतिबंधित",
   "stage.accessRestrictedDesc": "यह मॉड्यूल आपके खाते पर उपलब्ध नहीं है। पहुँच के लिए व्यवस्थापक से संपर्क करें।",
   "stage.completePrevious": "पिछले चरण पूरे करें",
   "stage.completePreviousDesc": "यह चरण बंद है। इसे अनलॉक करने के लिए पहले के चरण पूरे करें।",
   "stage.backToEpoch": "← युग पर वापस",
-
   "nav.learningLevel": "सीखने का स्तर:",
   "nav.profile": "मेरी प्रोफ़ाइल",
   "nav.trialPrefix": "ट्रायल:",
   "nav.trialDaySingular": "दिन",
   "nav.trialDayPlural": "दिन",
   "nav.trialSuffix": "बचा — Upgrade करें →",
-
   "onboarding.privacyPolicy": "गोपनीयता नीति",
-
   "upgrade.trialEndingSoon": "⚡ ट्रायल जल्द समाप्त",
   "upgrade.headingLine1": "Pro बनें। आगे रहें",
   "upgrade.headingLine2": "खतरे के परिदृश्य से।",
@@ -393,7 +365,6 @@
   "upgrade.faq3a": "सभी भुगतान Stripe द्वारा — PCI Level 1 प्रमाणित। हम कार्ड विवरण कभी संग्रहीत नहीं करते।",
   "upgrade.faq4q": "क्या मैं कभी भी रद्द कर सकता हूँ?",
   "upgrade.faq4a": "हाँ, Stripe billing portal से कभी भी रद्द करें। पहुँच आपके भुगतान अवधि के अंत तक जारी रहती है।",
-
   "home.heroBadge": "438 चरण · AI · पोस्ट-क्वांटम · नेशन-स्टेट CTF",
   "home.heroLine1": "भविष्य की रक्षा करें।",
   "home.heroLine2": "यहाँ से शुरू करें।",
@@ -545,5 +516,18 @@
   "ctf.status.complete": "चरण पूर्ण",
   "ctf.status.replay": "पुनः खेलें",
   "ctf.status.flagCaptured": "झंडा कैप्चर किया!",
-  "ctf.footer.typeHelp": "आदेशों के लिए help टाइप करें"
+  "ctf.footer.typeHelp": "आदेशों के लिए help टाइप करें",
+  "quiz.ctf.heading": "ज्ञान जाँच",
+  "quiz.ctf.subheading": "आपने अभी जो सीखा उस पर 5 त्वरित प्रश्न।",
+  "quiz.ctf.question": "प्रश्न {n} / {total}",
+  "quiz.ctf.correct": "सही!",
+  "quiz.ctf.incorrect": "बिल्कुल नहीं।",
+  "quiz.ctf.next": "अगला प्रश्न →",
+  "quiz.ctf.finish": "परिणाम देखें",
+  "quiz.ctf.score": "आपने {total} में से {score} सही उत्तर दिए।",
+  "quiz.ctf.scorePerfect": "परफेक्ट स्कोर! शानदार प्रदर्शन।",
+  "quiz.ctf.scoreGood": "बढ़िया काम — मजबूत समझ।",
+  "quiz.ctf.scoreOk": "अच्छी शुरुआत — अवधारणाओं को मजबूत करने के लिए सामग्री दोबारा पढ़ें।",
+  "quiz.ctf.continue": "जारी रखें →",
+  "quiz.ctf.skip": "क्विज़ छोड़ें"
 }

@@ -10,7 +10,6 @@
   "nav.shop": "Loja",
   "nav.admin": "Admin",
   "nav.language": "Idioma",
-
   "auth.backToHome": "Voltar ao Início",
   "auth.welcomeBack": "Bem-vindo de volta, Agente.",
   "auth.welcomeBackYouth": "Bem-vindo de volta! Vamos jogar! 🎮",
@@ -32,7 +31,6 @@
   "auth.registrationFailed": "Falha no cadastro.",
   "auth.signingIn": "Entrando…",
   "auth.creatingAccount": "Criando conta…",
-
   "stages.title": "Mapa de Fases",
   "stages.yourProgress": "Seu Progresso",
   "stages.stagesCompleted": "Fases Concluídas",
@@ -66,7 +64,6 @@
   "stages.tracks.travel": "Viagem",
   "stages.tracks.travelDesc": "Guias de Cidades, História e Idioma",
   "stages.proExtended": "Currículo Estendido",
-
   "stage.overview": "Visão Geral",
   "stage.technical": "Análise Técnica",
   "stage.incident": "Incidente Real",
@@ -86,7 +83,6 @@
   "stage.incorrectFlag": "Incorreto — tente novamente.",
   "stage.alreadyCompleted": "Já Concluído",
   "stage.proRequired": "Acesso Pro Necessário",
-
   "trophies.title": "Meus Troféus",
   "trophies.badges": "Emblemas",
   "trophies.noBadges": "Nenhum emblema ainda",
@@ -94,7 +90,6 @@
   "trophies.streak": "Sequência",
   "trophies.stagesCompleted": "Fases Concluídas",
   "trophies.totalCoins": "Total de Moedas",
-
   "leaderboard.title": "Classificação",
   "leaderboard.allTime": "Geral",
   "leaderboard.weekly": "Semanal",
@@ -102,13 +97,11 @@
   "leaderboard.rank": "Posição",
   "leaderboard.player": "Jogador",
   "leaderboard.coins": "Moedas",
-
   "journey.title": "Sua Jornada",
   "journey.epochsCompleted": "Épocas Concluídas",
   "journey.stagesCompleted": "Fases Concluídas",
   "journey.inProgress": "Em Andamento",
   "journey.notStarted": "Não Iniciado",
-
   "common.loading": "Carregando…",
   "common.error": "Algo deu errado",
   "common.submit": "Enviar",
@@ -129,16 +122,13 @@
   "common.signedInAs": "Conectado como:",
   "common.deleteAccount": "Excluir Conta",
   "common.confirmDelete": "Isso excluirá permanentemente sua conta e todo o progresso. Esta ação não pode ser desfeita.",
-
   "shop.title": "Loja",
   "shop.yourBalance": "Seu Saldo",
   "shop.buy": "Comprar",
   "shop.purchased": "Comprado",
   "shop.notEnoughCoins": "Moedas insuficientes",
-
   "avatar.title": "Seu Avatar",
   "avatar.customize": "Personalizar",
-
   "pricing.proTitle": "Acesso Pro",
   "pricing.monthly": "Mensal",
   "pricing.yearly": "Anual",
@@ -148,7 +138,6 @@
   "pricing.upgradeToAccess": "Faça upgrade para Pro para acessar esta fase",
   "pricing.perMonth": "/ mês",
   "pricing.perYear": "/ ano",
-
   "stage.attackFlow": "Fluxo de Ataque",
   "stage.timeline": "Linha do Tempo",
   "stage.references": "Referências",
@@ -159,13 +148,11 @@
   "stage.ctfExploit": "Explore a vulnerabilidade em ambiente simulado e capture a flag.",
   "stage.quizTest": "Teste seu conhecimento com um quiz sobre esta vulnerabilidade.",
   "stage.stageNumber": "Fase",
-
   "stages.backToHome": "← Voltar ao Início",
   "stages.guestPrompt": "Jogando como convidado — entre para salvar o progresso no dispositivo.",
   "stages.welcomeUser": "Bem-vindo,",
   "stages.logOut": "Sair",
   "stages.deleteAccount": "Excluir Conta",
-
   "leaderboard.yourRank": "Sua Posição",
   "leaderboard.totalCoins": "Total de Moedas",
   "leaderboard.stagesDone": "Fases Concluídas",
@@ -181,14 +168,12 @@
   "leaderboard.periodCoins": "Total de Moedas Ganhas",
   "leaderboard.periodWeekly": "Moedas Ganhas Esta Semana",
   "leaderboard.periodDaily": "Moedas Ganhas Hoje",
-
   "journey.mapSubtitle": "Seu progresso pelos territórios conhecidos. O caminho à frente está oculto na névoa.",
   "journey.overallExploration": "Exploração Geral",
   "journey.epochsCleared": "Épocas Superadas",
   "journey.clearedLabel": "Concluído",
   "journey.unexploredLabel": "░░ Inexplorado ░░",
   "journey.fog": "Inexplorado",
-
   "trophies.vaultEmpty": "Seu cofre de troféus está vazio.",
   "trophies.browseTreasures": "💎 Ver Tesouros →",
   "trophies.headToShop": "Vá para Loja → Tesouros para começar sua coleção.",
@@ -207,7 +192,6 @@
   "trophies.claimed": "Resgatado",
   "trophies.totalSupply": "Estoque Total",
   "trophies.allTiers": "Todas as Categorias",
-
   "auth.backToLogin": "← Voltar ao Login",
   "auth.passwordRecovery": "Recuperação de Senha",
   "auth.checkInbox": "Verifique sua Caixa de Entrada",
@@ -232,7 +216,6 @@
   "auth.signInPrompt": "Entre para rastrear o progresso e aparecer na classificação.",
   "auth.signIn": "Entrar →",
   "auth.continueAsGuest": "Continuar como Convidado",
-
   "onboarding.welcome": "Bem-vindo, Agente",
   "onboarding.subtitle": "Kryptós CronOS é uma plataforma prática de treinamento em cibersegurança. Exploits reais. Terminal real. Sem enrolação.",
   "onboarding.step1Title": "Escolha uma Fase",
@@ -242,7 +225,6 @@
   "onboarding.step3Title": "Capture a Flag",
   "onboarding.step3Desc": "Encontre a flag oculta, ganhe XP, desbloqueie a próxima fase. A IA ARIA dá dicas socráticas sem entregar a resposta.",
   "onboarding.beginTraining": "Iniciar Treinamento →",
-
   "paywall.proRequired": "Pro Necessário",
   "paywall.isPartOfCurriculum": "faz parte do currículo completo.",
   "paywall.monthly": "Mensal",
@@ -258,7 +240,6 @@
   "paywall.feature5": "Certificado de progresso em PDF",
   "paywall.backToStageMap": "← Voltar ao Mapa de Fases",
   "paywall.somethingWentWrong": "Algo deu errado. Por favor, tente novamente.",
-
   "flag.accepted": "Flag Aceita",
   "flag.missionComplete": "Missão Concluída",
   "flag.capturedFlag": "Flag Capturada",
@@ -267,7 +248,6 @@
   "flag.time": "Tempo",
   "flag.skillsAcquired": "Habilidades Adquiridas",
   "flag.stageMap": "Mapa de Fases →",
-
   "avatar.backToShop": "← Loja",
   "avatar.adminMode": "Modo Admin — vista qualquer item do catálogo completo.",
   "avatar.equipFromShop": "Vista seus itens colecionados. Obtenha mais na loja.",
@@ -282,7 +262,6 @@
   "avatar.slotBody": "Corpo",
   "avatar.slotHands": "Mãos",
   "avatar.slotBackground": "Fundo",
-
   "shop.stageMap": "← Mapa de Fases",
   "shop.desc": "Gaste moedas em itens, colecionáveis e troféus raros.",
   "shop.spendable": "Disponível",
@@ -302,13 +281,11 @@
   "shop.loadingCatalog": "Carregando catálogo…",
   "shop.failedCatalog": "Falha ao carregar catálogo.",
   "shop.needMoreCoins": "Precisa de mais moedas",
-
   "stages.subtitle": "Sete trilhas cobrindo todo o espectro — de CVEs principais à segurança de IA e criptografia quântica.",
   "stages.deleteAccountConfirm": "Excluir conta? Isso remove permanentemente todo o progresso, moedas, emblemas e dados de sequência.",
   "stages.epochDone": "✓ Concluído",
   "stages.guestPromptPre": "Jogando como convidado",
   "stages.guestPromptPost": "para salvar o progresso no dispositivo.",
-
   "epoch.notFound": "Época não encontrada.",
   "epoch.backToStages": "← Voltar às Fases",
   "epoch.accessRestricted": "Acesso a este módulo restrito. Contate o administrador para acesso.",
@@ -319,7 +296,6 @@
   "epoch.guestPre": "Jogando como convidado —",
   "epoch.guestPost": "para salvar o progresso.",
   "epoch.learnMore": "Saiba mais ↗",
-
   "leaderboard.backToStageMap": "← Mapa de Fases",
   "leaderboard.loadingRankings": "Carregando classificação…",
   "leaderboard.completeStagePrompt": "Conclua uma fase para aparecer aqui!",
@@ -337,23 +313,19 @@
   "leaderboard.stagesLabel": "Fases",
   "leaderboard.badgesLabel": "Emblemas",
   "leaderboard.trophiesProfile": "Troféus",
-
   "stage.notFound": "Fase não encontrada.",
   "stage.accessRestricted": "Acesso Restrito",
   "stage.accessRestrictedDesc": "Este módulo não está disponível na sua conta. Contate o administrador para acesso.",
   "stage.completePrevious": "Conclua as Fases Anteriores",
   "stage.completePreviousDesc": "Esta fase está bloqueada. Conclua as fases anteriores para desbloqueá-la.",
   "stage.backToEpoch": "← Voltar à Época",
-
   "nav.learningLevel": "Nível de aprendizado:",
   "nav.profile": "Meu Perfil",
   "nav.trialPrefix": "Teste:",
   "nav.trialDaySingular": "dia",
   "nav.trialDayPlural": "dias",
   "nav.trialSuffix": "restante — Fazer Upgrade →",
-
   "onboarding.privacyPolicy": "Política de Privacidade",
-
   "upgrade.trialEndingSoon": "⚡ Teste encerrando em breve",
   "upgrade.headingLine1": "Seja Pro. Fique à frente",
   "upgrade.headingLine2": "do cenário de ameaças.",
@@ -393,7 +365,6 @@
   "upgrade.faq3a": "Todos os pagamentos são processados pelo Stripe — certificado PCI Nível 1. Nunca armazenamos dados do cartão.",
   "upgrade.faq4q": "Posso cancelar a qualquer momento?",
   "upgrade.faq4a": "Sim, cancele pelo portal de cobrança do Stripe a qualquer momento. O acesso continua até o final do período pago.",
-
   "home.heroBadge": "438 Fases · IA · Pós-Quântica · CTF Estatal",
   "home.heroLine1": "Defenda o Futuro.",
   "home.heroLine2": "Comece Aqui.",
@@ -496,7 +467,6 @@
   "home.footerTerms": "Termos",
   "home.footerAttributions": "Atribuições",
   "home.footerCopyright": "© 2026 Kryptós CronOS (κρυπτός χρόνος) · Feito para defensores",
-
   "ctf.terminal.hint": "Dica",
   "ctf.terminal.objective": "Objetivo: Colete qualquer {min} de {total} fragmentos de inteligência para montar a flag.",
   "ctf.terminal.objectiveAll": "Objetivo: Colete {total} fragmentos de inteligência para montar a flag.",
@@ -546,5 +516,18 @@
   "ctf.status.complete": "Fase Concluída",
   "ctf.status.replay": "Repetir",
   "ctf.status.flagCaptured": "Flag capturada!",
-  "ctf.footer.typeHelp": "Digite help para ver os comandos"
+  "ctf.footer.typeHelp": "Digite help para ver os comandos",
+  "quiz.ctf.heading": "Verificação de conhecimento",
+  "quiz.ctf.subheading": "5 perguntas rápidas sobre o que você acabou de aprender.",
+  "quiz.ctf.question": "Pergunta {n} de {total}",
+  "quiz.ctf.correct": "Correto!",
+  "quiz.ctf.incorrect": "Não exatamente.",
+  "quiz.ctf.next": "Próxima pergunta →",
+  "quiz.ctf.finish": "Ver resultados",
+  "quiz.ctf.score": "Você acertou {score} de {total}.",
+  "quiz.ctf.scorePerfect": "Pontuação perfeita! Você arrasou.",
+  "quiz.ctf.scoreGood": "Ótimo trabalho — compreensão sólida.",
+  "quiz.ctf.scoreOk": "Bom começo — revise o material para reforçar os conceitos.",
+  "quiz.ctf.continue": "Continuar →",
+  "quiz.ctf.skip": "Pular quiz"
 }

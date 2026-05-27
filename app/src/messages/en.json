@@ -549,5 +549,18 @@
   "ctf.status.complete": "Stage Complete",
   "ctf.status.replay": "Replay",
   "ctf.status.flagCaptured": "Flag captured!",
-  "ctf.footer.typeHelp": "Type help for commands"
+  "ctf.footer.typeHelp": "Type help for commands",
+  "quiz.ctf.heading": "Knowledge Check",
+  "quiz.ctf.subheading": "5 quick questions based on what you just learned.",
+  "quiz.ctf.question": "Question {n} of {total}",
+  "quiz.ctf.correct": "Correct!",
+  "quiz.ctf.incorrect": "Not quite.",
+  "quiz.ctf.next": "Next Question →",
+  "quiz.ctf.finish": "See Results",
+  "quiz.ctf.score": "You got {score} out of {total} correct.",
+  "quiz.ctf.scorePerfect": "Perfect score! You nailed it.",
+  "quiz.ctf.scoreGood": "Great work — solid understanding.",
+  "quiz.ctf.scoreOk": "Good start — review the material to reinforce the concepts.",
+  "quiz.ctf.continue": "Continue →",
+  "quiz.ctf.skip": "Skip quiz"
 }

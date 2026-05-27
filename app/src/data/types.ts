@@ -50,6 +50,16 @@ export type QuizConfig = {
   questions: QuizQuestion[];
 };
 
+export type CtfQuizQuestion = {
+  q: string;
+  options: [string, string];
+  correct: 0 | 1;
+};
+
+export type CtfQuizEntry = {
+  questions: CtfQuizQuestion[]; // exactly 5
+};
+
 export type CtfConfig = {
   scenario: string;
   hint: string;
