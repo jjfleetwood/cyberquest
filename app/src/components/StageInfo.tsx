@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import React from "react";
 import AttackDiagram from "./AttackDiagram";
 import GaugeBar from "./GaugeBar";
 import BackLink from "./BackLink";
@@ -131,6 +132,29 @@ function SectionHeader({ color, icon, label }: { color: string; icon: string; la
       <h2 className={`font-bold text-xs uppercase tracking-widest ${color}`}>{label}</h2>
       <div className={`flex-1 h-px opacity-20 bg-current ${color}`} />
     </div>
+  );
+}
+
+// Splits a paragraph into sentences; renders interrogative sentences
+// (ending with ?) in pink to match the doc's rhetorical question style.
+function RichParagraph({ text, className = "" }: { text: string; className?: string }) {
+  const parts = text.match(/[^.!?]*[.!?]+["']?|[^.!?]+$/g) ?? [text];
+  return (
+    <span className={className}>
+      {parts.map((sentence, i) => {
+        const trimmed = sentence.trim();
+        if (trimmed.endsWith("?")) {
+          return (
+            <React.Fragment key={i}>
+              <span className="text-fuchsia-300 font-medium">
+                <RichText text={sentence} />
+              </span>
+            </React.Fragment>
+          );
+        }
+        return <RichText key={i} text={sentence} />;
+      })}
+    </span>
   );
 }
 
@@ -285,11 +309,11 @@ export default function StageInfo({
             {overview.map((para, i) => (
               i === 0 ? (
                 <p key={i} className="text-white text-base leading-relaxed font-medium border-l-2 border-cyan-500/50 pl-4">
-                  <RichText text={para} />
+                  <RichParagraph text={para} />
                 </p>
               ) : (
                 <p key={i} className="text-gray-400 leading-relaxed text-sm">
-                  <RichText text={para} />
+                  <RichParagraph text={para} />
                 </p>
               )
             ))}
@@ -319,7 +343,7 @@ export default function StageInfo({
             <div className="px-5 py-4 space-y-3">
               {technicalBody.map((para, i) => (
                 <p key={i} className="text-gray-300 leading-relaxed text-sm">
-                  <RichText text={para} />
+                  <RichParagraph text={para} />
                 </p>
               ))}
             </div>
@@ -367,7 +391,7 @@ export default function StageInfo({
             <div className="px-5 py-4 space-y-3">
               {incidentBody.map((para, i) => (
                 <p key={i} className="text-gray-300 leading-relaxed text-sm">
-                  <RichText text={para} />
+                  <RichParagraph text={para} />
                 </p>
               ))}
             </div>

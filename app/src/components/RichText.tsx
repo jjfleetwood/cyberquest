@@ -131,6 +131,14 @@ const PATTERNS: PatternDef[] = [
     ),
   },
 
+  // ── Parenthetical context — green (examples, clarifications, caveats) ───
+  {
+    regex: /\(([^)]{12,160})\)/g,
+    render: (m) => (
+      <span className="text-lime-300/85 text-[0.92em]">{m}</span>
+    ),
+  },
+
   // ── Year anchors ─────────────────────────────────────────────────────────
   {
     regex: /\b(19|20)\d{2}\b/g,
