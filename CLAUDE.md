@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. 36 curriculum epochs, 438 CTF/qui
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.13.1 (as of 2026-05-28)
+**Current version:** v1.14.0 (as of 2026-05-28)
 
 ---
 
@@ -273,6 +273,13 @@ Local dev: `.env.local` in `app/` (gitignored).
 - **Target sponsors:** CrowdStrike, AWS, SentinelOne, CompTIA, ISC²
 
 ---
+
+## What's Shipped (v1.14.0)
+
+- ✅ `/cyberops` — CyberOps Associate exam readiness dashboard with weighted ring, 5 domain cards, stage-level detail, Cisco exam CTA
+- ✅ `cyberops-domains.ts` — 50 Cisco/Umbrella stages mapped to CBROPS 200-201 domains
+- ✅ Cisco epoch banner linking to `/cyberops`
+- ✅ Stage briefing domain badge for all mapped stages
 
 ## What's Shipped (v1.13.1)
 

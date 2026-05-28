@@ -5,7 +5,7 @@
 
 ## The ask: $1.5M seed
 
-Gamified cybersecurity + AI training platform. 438 stages live across 36 epochs and 10 curriculum tracks (v1.13.0). Deployed at kryptoscronos.com. CI fully green, 0 ESLint errors. Seeking first institutional check.
+Gamified cybersecurity + AI training platform. 438 stages live across 36 epochs and 10 curriculum tracks (v1.14.0). Deployed at kryptoscronos.com. CI fully green, 0 ESLint errors. Seeking first institutional check.
 
 ---
 

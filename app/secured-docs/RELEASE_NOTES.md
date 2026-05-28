@@ -2,6 +2,17 @@
 
 ---
 
+## v1.14.0 — 2026-05-28
+
+**CyberOps Associate exam readiness tracker**
+
+- **`/cyberops` page** — exam readiness dashboard: weighted readiness ring (0–100%), 5 domain cards (Security Concepts 20%, Security Monitoring 25%, Host-Based Analysis 20%, Network Intrusion Analysis 20%, Policies & Procedures 15%), each expandable to show completed/remaining stages with direct links, Cisco exam CTA
+- **`src/data/cyberops-domains.ts`** — 5 CBROPS 200-201 domain definitions, 50 stage mappings across cisco-core/enterprise/secops/advanced + umbrella, weighted readiness computation
+- **Epoch banner** — Cisco and Umbrella epoch pages show "CyberOps Associate Exam Readiness" link banner
+- **Stage briefing badge** — Cisco/Umbrella stages show `🎓 CyberOps: [Domain]` badge in the hero linking to `/cyberops`
+
+---
+
 ## v1.13.1 — 2026-05-28
 
 **RichText auto-highlighter for stage briefing paragraphs**
