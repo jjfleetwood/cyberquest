@@ -50,6 +50,7 @@ src/data/translations/*-p[0-9]*.json
 src/data/translations/merge-*.js
 src/data/translations/batches/
 src/data/ctf-quiz-batches/
+src/data/audit-quiz-batches/
 fix-pl-quotes.js
 src/messages/_missing-*.json
 next-env.d.ts
