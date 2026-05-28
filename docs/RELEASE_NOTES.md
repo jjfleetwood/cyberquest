@@ -2,6 +2,15 @@
 
 ---
 
+## v1.12.2 — 2026-05-28
+
+**Add FINANCIALS.md — company P&L structure, cost tracking, compliance**
+
+- `docs/FINANCIALS.md` — capital deployed to date ($800), monthly run rate ($205), P&L category structure (Revenue / COGS / R&D / G&A), unit economics per subscriber (~95% gross margin), cost projections at scale, recommended services, and compliance checklist (Delaware franchise tax, 83(b), registered agent, Mercury, Wave)
+- Wired into admin docs panel: 💰 Financials & P&L tab
+
+---
+
 ## v1.12.1 — 2026-05-28
 
 **Fix stale stage/epoch counts in ProPaywall and OG meta**
