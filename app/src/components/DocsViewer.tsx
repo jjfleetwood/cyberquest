@@ -105,6 +105,7 @@ const DOCS: DocEntry[] = [
   { id: "proposal-casual", label: "Pitch Deck", file: "BUSINESS_PROPOSAL_CASUAL.md", icon: "🚀", color: "text-green-400", group: "business" },
   { id: "pitch-targets", label: "Pitch Targets", file: "PITCH_TARGETS.md", icon: "🎯", color: "text-orange-400", group: "business" },
   { id: "vc-analysis", label: "VC Readiness", file: "VC_READINESS_ANALYSIS.md", icon: "📊", color: "text-emerald-400", group: "business" },
+  { id: "financials", label: "Financials & P&L", file: "FINANCIALS.md", icon: "💰", color: "text-yellow-400", group: "business" },
   { id: "cae", label: "CAE: Continuous Monitoring", file: "PITCH_CAE_CONTINUOUS_MONITORING.md", icon: "📡", color: "text-rose-400", group: "business" },
 ];
 
