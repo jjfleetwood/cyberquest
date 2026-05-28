@@ -96,6 +96,15 @@ send(pkt2)
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.0.2.10",
+        hostname: "fp-2140",
+        os: "Cisco Firepower 2140 — Snort 3.0 (Frag3 disabled)",
+        openPorts: "443/tcp (web API behind IPS)",
+        vulnerability: "Frag3 reassembly disabled — fragmented payload IPS bypass",
+      },
+      pivotTrigger: "frag-probe",
       scenario: "A Cisco Firepower 2140 in inline IPS mode protects a web application API. Security auditors suspect the stream reassembly preprocessor is misconfigured. Test the IPS with a fragmented payload, identify the gap, tune the policy, and retrieve the hardening flag.",
       hint: "Read the audit brief, check the IPS preprocessor config, send a fragmented probe, fix the policy, then verify detection.",
       hints: [
@@ -460,6 +469,14 @@ ssl dh-group group14
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.0.2.1",
+        hostname: "ftd-2140-vpn",
+        os: "Cisco FTD 7.0.3 (unpatched)",
+        openPorts: "443/tcp (SSL VPN gateway)",
+        vulnerability: "CVE-2022-20927 — TLS handshake state exhaustion DoS, CVSS 8.6",
+      },
       scenario: "A Cisco FTD 2140 VPN gateway is running unpatched FTD software. During a simulated attack window, you must demonstrate CVE-2022-20927 by exhausting the SSL handshake state table, observe the impact on legitimate clients, then apply the emergency mitigation. Capture the remediation flag.",
       hint: "Brief, exhaust, observe the lockout, apply rate-limit mitigation, verify recovery.",
       hints: [
@@ -647,6 +664,14 @@ WHERE p.name IN ('chrome.exe', 'firefox.exe', 'msedge.exe')
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.20.10", hostname: "soc-ws", os: "SOC Analyst Workstation" },
+      targetMachine: {
+        ip: "10.10.10.44",
+        hostname: "WS-04",
+        os: "Windows 10 — Cobalt Strike beacon active",
+        openPorts: "445/tcp (SMB lateral movement)",
+        vulnerability: "Cobalt Strike C2 — 18-day dwell, lateral movement to SRV-FINANCE",
+      },
       scenario: "A Cisco XDR analyst receives a Secure Endpoint alert for a suspicious process on WS-04. Pivot across Cisco XDR sources — Secure Endpoint, Firepower, Umbrella — to map the lateral movement chain and identify the attacker's target server. Capture the investigation flag.",
       hint: "Start with the endpoint alert, pivot on the C2 IP, trace lateral movement via Firepower, identify the target via Umbrella.",
       hints: [
@@ -1003,6 +1028,15 @@ curl -k -X GET "https://dnac.corp.local/dna/intent/api/v1/global-credential" \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.100.5",
+        hostname: "catalyst-center",
+        os: "Cisco Catalyst Center 2.3.5",
+        openPorts: "443/tcp (REST API)",
+        vulnerability: "Exposed OBSERVER-ROLE API token — 247-device network enumeration possible",
+      },
+      pivotTrigger: "dnac-getflag",
       scenario: "A network audit reveals a DNA Center (Catalyst Center) instance accessible on the management network. An exposed OBSERVER-ROLE API token was found in a decommissioned automation script. Use the token to enumerate the network, test authorization boundaries, and retrieve the audit flag from the device inventory.",
       hint: "Authenticate with the found token, enumerate devices, test a privileged endpoint, retrieve the flag from the inventory response.",
       hints: [
@@ -1368,6 +1402,14 @@ index=auth source=windows_events EventCode=4624
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.20.5", hostname: "soc-ws", os: "SOC Analyst Workstation" },
+      targetMachine: {
+        ip: "10.10.20.22",
+        hostname: "WS-22",
+        os: "Windows 10 — Cobalt Strike beacon active",
+        openPorts: "445/tcp (lateral movement attempt to DC-01)",
+        vulnerability: "Phishing kill chain — C2 beacon active, pass-the-hash toward Domain Controller",
+      },
       scenario: "You are a Cisco CyberOps Associate SOC analyst. A SIEM alert fires at 09:14. Work through the kill chain: analyze the phishing email alert, the endpoint execution alert, the C2 DNS callback, and the lateral movement attempt. Identify each stage and capture the investigation flag.",
       hint: "Work through the alerts in sequence — phishing, PowerShell execution, C2 DNS, lateral movement. Each investigation step yields a flag fragment.",
       hints: [
@@ -1744,6 +1786,14 @@ show controllers npu tablestats location 0/0/CPU0
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "noc-ws", os: "Network Operations Workstation" },
+      targetMachine: {
+        ip: "10.10.0.1",
+        hostname: "cisco-8808",
+        os: "IOS XR 7.8.2 / Silicon One Q200L",
+        openPorts: "57500/tcp (gRPC MDT — unauthorized subscriber at 198.51.100.77)",
+        vulnerability: "Unauthenticated gRPC telemetry subscription — traffic matrix leak (11-day dwell)",
+      },
       scenario: "A Cisco 8808 router running Silicon One is reporting anomalous telemetry subscriber activity. Investigate the unauthorized gRPC subscription, identify the leaked data, harden the telemetry configuration with mTLS, and verify MACsec integrity on the inter-datacenter link. Capture the hardening flag.",
       hint: "Check telemetry subscribers, identify the leak, apply mTLS, verify MACsec status.",
       hints: [

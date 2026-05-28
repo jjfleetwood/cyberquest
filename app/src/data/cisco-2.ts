@@ -225,6 +225,15 @@ python3 cve-2017-3881.py --target 10.0.0.1
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.0.1.1",
+        hostname: "vault7-target",
+        os: "Cisco IOS 15.2(4)E3",
+        openPorts: "TCP/23 (Telnet/CMP)",
+        vulnerability: "CVE-2017-3881 — CMP Telnet stack overflow, CVSS 9.8",
+      },
+      pivotTrigger: "cmp-exploit",
       scenario: "A Cisco IOS switch controls access to a classified government LAN. Telnet is 'disabled' in the config, but the CMP option parser still runs on TCP/23. Use CVE-2017-3881 to gain unauthenticated exec access.",
       hint: "Connect to Telnet and send a malformed CMP option before authentication is required.",
       hints: [
@@ -367,6 +376,15 @@ python3 cdpwn.py --interface eth0 --target aa:bb:cc:dd:ee:ff
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.10",
+        hostname: "asr9001-backbone",
+        os: "Cisco IOS XR 6.6.3",
+        openPorts: "CDP (Layer 2 multicast)",
+        vulnerability: "CVE-2020-3118 — CDP format string RCE, CVSS 8.8",
+      },
+      pivotTrigger: "cdpwn-exploit",
       scenario: "A carrier-grade Cisco IOS XR router is reachable on your Layer 2 segment. CDP is enabled. Use the CDPwn format string vulnerability to achieve code execution on the router's CDP process.",
       hint: "Craft a CDP advertisement with format string specifiers in the Device-ID field and send it via your local interface.",
       hints: [
@@ -504,6 +522,15 @@ curl -k https://192.168.1.1/api/v1/diag_ping_stop
       ],
     },
     ctf: {
+      attackerMachine: { ip: "192.168.1.100", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.168.1.1",
+        hostname: "rv340",
+        os: "Cisco RV340 Firmware 1.0.03.17",
+        openPorts: "443/tcp (Web UI)",
+        vulnerability: "CVE-2021-1609 — RV340 Web UI RCE, CVSS 9.8",
+      },
+      pivotTrigger: "rv-exploit",
       scenario: "A Cisco RV345 router at a branch office has its web management interface exposed to the WAN. It's running unpatched firmware. Achieve unauthenticated code execution to extract the VPN credentials stored in the config.",
       hint: "The diagnostic API endpoint doesn't check authentication. Inject an OS command into the address parameter.",
       hints: [
@@ -643,6 +670,15 @@ curl -k 'https://vpn.target.com/+CSCOE+/' \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.42",
+        hostname: "asa-5555-vpn",
+        os: "Cisco ASA 9.12.3",
+        openPorts: "443/tcp (AnyConnect SSL VPN)",
+        vulnerability: "CVE-2020-3259 — ASA heap read, active session token leak, CVSS 7.5",
+      },
+      pivotTrigger: "session-hijack",
       scenario: "A Cisco ASA with WebVPN is serving an active corporate VPN. The appliance is unpatched. Use CVE-2020-3259 to leak memory and steal an active session token, then hijack the VPN session.",
       hint: "Send a crafted HTTP request to the WebVPN interface to trigger memory disclosure in the response.",
       hints: [
@@ -777,6 +813,15 @@ curl -k -X POST https://192.168.1.1/cgi-bin/userLogin.cgi \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "192.168.1.100", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.168.1.1",
+        hostname: "rv130",
+        os: "Cisco RV130 Firmware 1.0.3.44",
+        openPorts: "443/tcp (Web UI)",
+        vulnerability: "CVE-2019-1663 — unauthenticated stack overflow RCE, CVSS 9.8",
+      },
+      pivotTrigger: "stack-exploit",
       scenario: "A Cisco RV130W at a Tokyo branch office has its web management interface exposed. It's running unpatched firmware with no stack canary. Exploit the stack overflow to get root.",
       hint: "The userLogin.cgi handler has a fixed 256-byte stack buffer for the password field. Send a longer value to overflow and redirect execution.",
       hints: [
@@ -919,6 +964,15 @@ curl -k -u apiuser:apipass -X PUT \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.100",
+        hostname: "expressway-c",
+        os: "Cisco Expressway X14.0.4",
+        openPorts: "443/tcp (cluster API)",
+        vulnerability: "CVE-2022-20812 — path traversal, CVSS 9.0",
+      },
+      pivotTrigger: "path-traverse",
       scenario: "A Cisco Expressway server is deployed in a corporate DMZ. You have cluster API credentials. Exploit the path traversal to read /etc/shadow and extract the root password hash.",
       hint: "The cluster database API path parameter is not sanitized. Use ../ sequences to traverse to /etc/shadow.",
       hints: [
@@ -1060,6 +1114,15 @@ nexus# show version | head -1 ; \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.20",
+        hostname: "nexus-9336",
+        os: "Cisco NX-OS 10.2.3",
+        openPorts: "443/tcp (NX-API), 22/tcp (SSH mgmt)",
+        vulnerability: "CVE-2024-20399 — NX-OS command injection via CLI, CVSS 6.0",
+      },
+      pivotTrigger: "nxos-inject",
       scenario: "You have a low-privilege NX-OS CLI session on a Cisco Nexus 9000 switch. Use CVE-2024-20399 to inject OS commands and install a persistence mechanism on the underlying Linux OS.",
       hint: "Inject shell metacharacters into a vulnerable NX-OS CLI command parameter to break out to the underlying OS.",
       hints: [
@@ -1201,6 +1264,14 @@ admin
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.42",
+        hostname: "asa-5555x",
+        os: "Cisco ASA 9.16.4 (unpatched)",
+        openPorts: "443/tcp (AnyConnect), 500/udp (IKE)",
+        vulnerability: "CVE-2024-20353 — ArcaneDoor ASA DoS, CVSS 8.6",
+      },
       scenario: "A government ASA firewall is running unpatched firmware. Exploit CVE-2024-20353 to crash the device, clear its logs, and create a detection window for follow-on operations.",
       hint: "Send a malformed multipart HTTP request to the ASA management interface to trigger the parsing exception and reload.",
       hints: [
@@ -1342,6 +1413,15 @@ curl -k -X POST https://asa.target.gov/+CSCOE+/logon.html \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.42",
+        hostname: "asa-5555x",
+        os: "Cisco ASA 9.16.4 (Line Dancer implant active)",
+        openPorts: "443/tcp (WebVPN — C2 channel active)",
+        vulnerability: "CVE-2024-20359 — ArcaneDoor Line Dancer persistent backdoor, CVSS 6.0",
+      },
+      pivotTrigger: "ld-trigger",
       scenario: "An ASA firewall was previously crashed (Phase 1). The Line Dancer implant was installed during the reload window via CVE-2024-20359. Trigger the implant using the host-knock mechanism and execute a shellcode payload to exfiltrate the firewall's routing table.",
       hint: "Line Dancer listens for a specific Host header value. Send the host-knock POST request with your shellcode payload.",
       hints: [
@@ -1483,6 +1563,15 @@ curl -k -b "JSESSIONID=authenticated_session" \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.50",
+        hostname: "vmanage",
+        os: "Cisco SD-WAN vManage 20.3.3",
+        openPorts: "443/tcp (REST API), 8443/tcp (vManage UI)",
+        vulnerability: "CVE-2021-1291 — vManage SQL injection, CVSS 8.1",
+      },
+      pivotTrigger: "sqli-extract",
       scenario: "You have a read-only vManage account at a target enterprise. Exploit CVE-2021-1291 to extract the IPsec PSK for the Dallas branch office router.",
       hint: "The device list filter parameter is vulnerable to UNION-based SQL injection. Inject into the deviceId parameter.",
       hints: [
@@ -1625,6 +1714,15 @@ python3 cve-2023-20109.py \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.1",
+        hostname: "ios-router-ks",
+        os: "Cisco IOS 15.8(3)M (GET VPN key server)",
+        openPorts: "848/udp (GDOI/GETVPN), 500/udp (IKE)",
+        vulnerability: "CVE-2023-20109 — GDOI group member RCE via malicious rekey, CVSS 7.5",
+      },
+      pivotTrigger: "gdoi-rekey",
       scenario: "You have compromised the GET VPN key server for CORP-GETVPN. Craft a malicious GDOI rekey message and broadcast it to all 47 branch routers to achieve simultaneous remote code execution.",
       hint: "The GDOI rekey message KEK attribute is not validated. Craft a malformed KEK with your shellcode and broadcast it to the multicast group.",
       hints: [
@@ -1767,6 +1865,14 @@ curl -k 'https://asa.corp.com/+CSCOT+/%2E%2E%2F%2E%2E%2F%2E%2E%2F'
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "203.0.113.10",
+        hostname: "asa-5505",
+        os: "Cisco ASA 9.1.7.11",
+        openPorts: "443/tcp (HTTPS), 80/tcp (HTTP)",
+        vulnerability: "CVE-2018-0296 — ASA URL path DoS, CVSS 8.6",
+      },
       scenario: "A Cisco ASA firewall has its web interface accessible from your network. Use CVE-2018-0296 to enumerate the directory structure and then trigger a DoS reload to create a network outage window.",
       hint: "Send encoded path traversal sequences (%2F or %2E%2E) to the /+CSCOE+/ endpoint to trigger listing or crash.",
       hints: [

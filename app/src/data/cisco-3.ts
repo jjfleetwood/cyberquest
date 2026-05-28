@@ -83,6 +83,15 @@ ftd-service:x:501:501:FTD Service:/home/ftd:/bin/bash
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.200",
+        hostname: "ftd-2130",
+        os: "Cisco FTD 7.0.1 (unpatched)",
+        openPorts: "22/tcp (SSH management)",
+        vulnerability: "CVE-2022-20828 — FTD CLI restricted shell escape, CVSS 8.8",
+      },
+      pivotTrigger: "shell-inject",
       scenario: "A Cisco FTD appliance protecting a financial services network is running version 7.0.1 — unpatched against CVE-2022-20828. You have recovered read-only CLI credentials from a configuration backup stored in a ticketing system. Use the restricted shell escape to extract the root flag.",
       hint: "Read the mission briefing, confirm the FTD version, then inject an OS command into the show-interface diagnostic to escape the restricted shell.",
       hints: [
@@ -408,6 +417,15 @@ ftd-service:x:501:501:FTD Service:/home/ftd:/bin/bash
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.80",
+        hostname: "umbrella-sso",
+        os: "Cisco Umbrella (cloud SSO endpoint)",
+        openPorts: "443/tcp (SAML SSO)",
+        vulnerability: "SAML XSW — forged admin assertion via XML Signature Wrapping, CVSS 9.1",
+      },
+      pivotTrigger: "saml-submit",
       scenario: "Cisco Umbrella SSO is running an unpatched version vulnerable to CVE-2022-20828. You have intercepted a valid SAML assertion for a low-privilege analyst account. Use the XSW technique to forge an admin assertion and capture the tenant admin flag.",
       hint: "Read the briefing, inspect the captured assertion, then use the xsw-forge command to restructure it for admin access.",
       hints: [
@@ -715,6 +733,15 @@ curl -k -X POST https://10.0.0.5/api/v2/virtual-media/mount \\
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.150",
+        hostname: "ucs-imc",
+        os: "Cisco UCS IMC 4.1.3 (unpatched)",
+        openPorts: "443/tcp (IMC REST API)",
+        vulnerability: "CVE-2019-1896 — UCS IMC REST API command injection, CVSS 9.8",
+      },
+      pivotTrigger: "api-inject",
       scenario: "A Cisco UCS server in a financial data center is running an unpatched IMC firmware vulnerable to CVE-2019-1896. You have recovered low-privilege IMC credentials from a network configuration backup. Use the REST API injection to achieve root and retrieve the flag.",
       hint: "Read the briefing, review the vulnerable API endpoint, then use api-inject to run OS commands via the remoteShare parameter.",
       hints: [

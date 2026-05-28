@@ -94,6 +94,15 @@ no ip http secure-server`,
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.0.2.1",
+        hostname: "iosxe-cat9300",
+        os: "Cisco IOS XE 17.3.1 (unpatched)",
+        openPorts: "80/tcp, 443/tcp (HTTP/S web UI)",
+        vulnerability: "CVE-2023-20198 — IOS XE web UI privilege-15 account creation, CVSS 10.0",
+      },
+      pivotTrigger: "admin-login",
       scenario: "A Cisco IOS XE router at a financial institution is running an unpatched version with the HTTP server enabled and exposed to the management network. The device manages BGP peering for 12 downstream branches. Use CVE-2023-20198 to create a privilege-15 admin account and retrieve the router flag.",
       hint: "Read the briefing, check the device config, then use priv-exploit to create a level-15 account and access the admin panel.",
       hints: [
@@ -450,6 +459,15 @@ show memory detail
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "10.10.10.254",
+        hostname: "asa-5545x",
+        os: "Cisco ASA 9.16.3 (Line Dancer implant active)",
+        openPorts: "443/tcp (management — internet-facing)",
+        vulnerability: "CVE-2024-20353/20359 — ArcaneDoor (Line Dancer + Line Runner implants)",
+      },
+      pivotTrigger: "line-dancer-probe",
       scenario: "A government agency's Cisco ASA firewall is running unpatched firmware exposed on the ArcaneDoor campaign. You are part of the incident response team. Analyze the compromised device, identify the Line Dancer implant's C2 channel, and extract the investigation flag.",
       hint: "Read the IR brief, run device diagnostics, identify the implant, and use line-dancer-probe to interact with the C2 channel.",
       hints: [
@@ -635,6 +653,15 @@ show vstack config | include Mode
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "192.0.2.1",
+        hostname: "ios-sw-utility",
+        os: "Cisco IOS 15.2(7)E3",
+        openPorts: "4786/tcp (Smart Install — unauthenticated)",
+        vulnerability: "CVE-2018-0171 — Smart Install buffer overflow RCE, CVSS 9.8",
+      },
+      pivotTrigger: "smi-exploit",
       scenario: "A Cisco IOS switch at a utility company still has Smart Install Client enabled with port 4786 exposed. CISA has flagged this in a national vulnerability scan. As a red team operator authorized to demonstrate the risk, exploit CVE-2018-0171 to retrieve the device flag.",
       hint: "Read the brief, scan for Smart Install, exploit port 4786, and retrieve the flag from the router filesystem.",
       hints: [
