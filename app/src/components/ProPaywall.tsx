@@ -7,6 +7,35 @@ import { useLocale } from "@/contexts/LocaleContext";
 export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string; epochId: string }) {
   const { t } = useLocale();
   const [loading, setLoading] = useState<"monthly" | "yearly" | null>(null);
+  const [voucherCode, setVoucherCode] = useState("");
+  const [voucherStatus, setVoucherStatus] = useState<"idle" | "redeeming" | "success" | "error">("idle");
+  const [voucherMsg, setVoucherMsg] = useState("");
+
+  async function redeemVoucher() {
+    if (!voucherCode.trim()) return;
+    setVoucherStatus("redeeming");
+    try {
+      const res = await fetch("/api/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: voucherCode.trim() }),
+      });
+      const data = await res.json() as { ok?: boolean; message?: string; error?: string };
+      if (res.ok && data.ok) {
+        setVoucherStatus("success");
+        setVoucherMsg(data.message ?? "Pro access activated!");
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        setVoucherStatus("error");
+        setVoucherMsg(data.error ?? "Invalid code.");
+        setTimeout(() => setVoucherStatus("idle"), 3000);
+      }
+    } catch {
+      setVoucherStatus("error");
+      setVoucherMsg("Something went wrong.");
+      setTimeout(() => setVoucherStatus("idle"), 3000);
+    }
+  }
 
   async function checkout(plan: "monthly" | "yearly") {
     setLoading(plan);
@@ -103,6 +132,37 @@ export default function ProPaywall({ stageTitle, epochId }: { stageTitle: string
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* Voucher code */}
+        <div className="rounded-xl border border-white/8 bg-white/2 px-5 py-4 mb-6">
+          <p className="text-xs text-gray-500 uppercase tracking-widest mb-3">Have a promo code?</p>
+          <div className="flex gap-2">
+            <input
+              value={voucherCode}
+              onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
+              onKeyDown={(e) => e.key === "Enter" && redeemVoucher()}
+              placeholder="KRYPTOS-XXXX-XXXX"
+              disabled={voucherStatus === "redeeming" || voucherStatus === "success"}
+              className="flex-1 bg-black/40 border border-white/10 text-gray-200 placeholder-gray-700 text-sm font-mono px-3 py-2 rounded-lg focus:outline-none focus:border-cyan-500/50 disabled:opacity-50"
+            />
+            <button
+              onClick={redeemVoucher}
+              disabled={!voucherCode.trim() || voucherStatus === "redeeming" || voucherStatus === "success"}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex-shrink-0 disabled:opacity-50 ${
+                voucherStatus === "success"
+                  ? "bg-emerald-500/20 border border-emerald-500/40 text-emerald-400"
+                  : "bg-white/5 border border-white/10 text-gray-300 hover:border-white/25 hover:text-white"
+              }`}
+            >
+              {voucherStatus === "redeeming" ? "…" : voucherStatus === "success" ? "✓" : "Apply"}
+            </button>
+          </div>
+          {voucherMsg && (
+            <p className={`text-xs mt-2 ${voucherStatus === "success" ? "text-emerald-400" : "text-red-400"}`}>
+              {voucherMsg}
+            </p>
+          )}
         </div>
 
         {/* Links */}

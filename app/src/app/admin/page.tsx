@@ -529,6 +529,174 @@ function CmsPanel() {
   );
 }
 
+// ── Vouchers Panel ────────────────────────────────────────────────────────────
+
+type VoucherRow = {
+  code: string;
+  durationDays: number;
+  usesLimit: number;
+  usesLeft: number;
+  createdAt: number;
+  uses: { username: string; redeemedAt: number }[];
+};
+
+function VouchersPanel() {
+  const [vouchers, setVouchers] = useState<VoucherRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [count, setCount] = useState(1);
+  const [usesLimit, setUsesLimit] = useState(1);
+  const [durationDays, setDurationDays] = useState(30);
+  const [copied, setCopied] = useState<string | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  function loadVouchers() {
+    setLoading(true);
+    fetch("/api/admin/vouchers")
+      .then((r) => (r.ok ? r.json() : []))
+      .then((d: VoucherRow[]) => setVouchers(d))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }
+
+  useEffect(() => { loadVouchers(); }, []);
+
+  async function generate() {
+    setGenerating(true);
+    const r = await fetch("/api/admin/vouchers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ count, usesLimit, durationDays }),
+    });
+    if (r.ok) {
+      setMsg(`Generated ${count} code${count !== 1 ? "s" : ""}.`);
+      setTimeout(() => setMsg(null), 3000);
+      loadVouchers();
+    }
+    setGenerating(false);
+  }
+
+  function copyCode(code: string) {
+    navigator.clipboard.writeText(code).catch(() => {});
+    setCopied(code);
+    setTimeout(() => setCopied(null), 2000);
+  }
+
+  function copyAll() {
+    const active = vouchers.filter((v) => v.usesLeft > 0).map((v) => v.code).join("\n");
+    navigator.clipboard.writeText(active).catch(() => {});
+    setMsg("Copied all active codes.");
+    setTimeout(() => setMsg(null), 2000);
+  }
+
+  return (
+    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+      <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-white font-bold">Voucher Codes</h2>
+          <p className="text-xs text-gray-600 mt-0.5">Generate and distribute free Pro access codes</p>
+        </div>
+        {msg && <span className="text-green-400 text-xs">{msg}</span>}
+      </div>
+
+      {/* Generator */}
+      <div className="px-6 py-5 border-b border-white/8">
+        <p className="text-xs text-gray-500 uppercase tracking-wider mb-4 font-semibold">Generate codes</p>
+        <div className="flex flex-wrap gap-4 items-end">
+          <div>
+            <label className="text-xs text-gray-600 block mb-1">Quantity</label>
+            <select
+              value={count}
+              onChange={(e) => setCount(Number(e.target.value))}
+              className="bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500/50"
+            >
+              {[1, 5, 10, 25, 50].map((n) => <option key={n} value={n}>{n} code{n !== 1 ? "s" : ""}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-gray-600 block mb-1">Uses per code</label>
+            <select
+              value={usesLimit}
+              onChange={(e) => setUsesLimit(Number(e.target.value))}
+              className="bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500/50"
+            >
+              {[1, 5, 10, 25, 100].map((n) => <option key={n} value={n}>{n} use{n !== 1 ? "s" : ""}</option>)}
+            </select>
+          </div>
+          <div>
+            <label className="text-xs text-gray-600 block mb-1">Duration</label>
+            <select
+              value={durationDays}
+              onChange={(e) => setDurationDays(Number(e.target.value))}
+              className="bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500/50"
+            >
+              <option value={30}>30 days</option>
+              <option value={60}>60 days</option>
+              <option value={90}>90 days</option>
+            </select>
+          </div>
+          <button
+            onClick={generate}
+            disabled={generating}
+            className="px-5 py-2 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-sm font-semibold hover:bg-cyan-500/25 transition-colors disabled:opacity-50"
+          >
+            {generating ? "Generating…" : "⚡ Generate"}
+          </button>
+          {vouchers.filter((v) => v.usesLeft > 0).length > 0 && (
+            <button
+              onClick={copyAll}
+              className="px-4 py-2 rounded-lg border border-white/10 text-gray-500 text-sm hover:text-gray-300 hover:border-white/25 transition-colors"
+            >
+              Copy all active
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Code list */}
+      <div className="max-h-96 overflow-y-auto divide-y divide-white/5">
+        {loading ? (
+          <div className="px-6 py-8 text-center text-gray-600 text-sm">Loading…</div>
+        ) : vouchers.length === 0 ? (
+          <div className="px-6 py-8 text-center text-gray-700 text-sm">No codes yet — generate one above.</div>
+        ) : (
+          vouchers.map((v) => {
+            const exhausted = v.usesLeft === 0;
+            const redeemedBy = v.uses.map((u) => u.username).join(", ");
+            return (
+              <div key={v.code} className={`px-6 py-3 flex items-center gap-4 ${exhausted ? "opacity-40" : ""}`}>
+                <button
+                  onClick={() => copyCode(v.code)}
+                  className="font-mono text-sm font-bold text-cyan-300 hover:text-cyan-200 transition-colors tracking-wider flex-shrink-0"
+                  title="Click to copy"
+                >
+                  {copied === v.code ? "Copied ✓" : v.code}
+                </button>
+                <div className="flex items-center gap-2 flex-wrap flex-1 min-w-0">
+                  <span className={`text-xs px-2 py-0.5 rounded-full border font-mono flex-shrink-0 ${
+                    exhausted
+                      ? "border-gray-700 text-gray-600 bg-white/3"
+                      : "border-emerald-500/40 text-emerald-400 bg-emerald-500/8"
+                  }`}>
+                    {exhausted ? "Exhausted" : `${v.usesLeft}/${v.usesLimit} uses left`}
+                  </span>
+                  <span className="text-xs text-gray-600 flex-shrink-0">{v.durationDays}d Pro</span>
+                  {redeemedBy && (
+                    <span className="text-xs text-gray-700 truncate">→ {redeemedBy}</span>
+                  )}
+                </div>
+                <span className="text-xs text-gray-700 flex-shrink-0">
+                  {new Date(v.createdAt).toLocaleDateString()}
+                </span>
+              </div>
+            );
+          })
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Downloads Access Panel ───────────────────────────────────────────────────
 
 type DownloadsMode = "off" | "allowlist" | "all";
@@ -1559,6 +1727,9 @@ export default function AdminPage() {
 
         {/* Pipeline Test / Manual Award */}
         <PipelineTestPanel />
+
+        {/* Vouchers */}
+        <VouchersPanel />
 
         {/* Downloads Access */}
         <DownloadsAccessPanel users={users.map((u) => ({ username: u.username }))} />

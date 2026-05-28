@@ -7,12 +7,20 @@ const TRIAL_MS = TRIAL_DAYS * 24 * 60 * 60 * 1000;
 
 export async function getUserTier(username: string): Promise<"free" | "pro" | "all-star" | "trial"> {
   const lower = username.toLowerCase();
-  const [tier, createdAt] = await Promise.all([
+  const [tier, createdAt, voucherExpiry] = await Promise.all([
     redis.hget(`user:${lower}`, "tier"),
     redis.hget(`user:${lower}`, "createdAt"),
+    redis.hget(`user:${lower}`, "voucherExpiry"),
   ]);
   if (tier === "all-star") return "all-star";
-  if (tier === "pro") return "pro";
+  if (tier === "pro") {
+    // If this pro access came from a voucher, check if it has expired
+    if (voucherExpiry && Date.now() > Number(voucherExpiry)) {
+      await redis.hset(`user:${lower}`, { tier: "free", voucherExpiry: "" });
+      return "free";
+    }
+    return "pro";
+  }
   if (tier === "free") return "free"; // explicit revoke — skip trial
   const age = Date.now() - Number(createdAt ?? 0);
   if (age < TRIAL_MS) return "trial";
