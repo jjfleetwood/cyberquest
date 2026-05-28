@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { stageDownloads } from "@/data/stage-downloads";
 
@@ -26,6 +27,42 @@ for (const dl of ALL_DOWNLOADS) {
 }
 
 export default function DownloadsPage() {
+  const [access, setAccess] = useState<"loading" | "allowed" | "denied">("loading");
+
+  useEffect(() => {
+    fetch("/api/downloads/check")
+      .then((r) => (r.ok ? r.json() : { allowed: false }))
+      .then((d: { allowed: boolean }) => setAccess(d.allowed ? "allowed" : "denied"))
+      .catch(() => setAccess("denied"));
+  }, []);
+
+  if (access === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center"
+        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0f2027 50%, #1a1a2e 100%)" }}>
+        <div className="text-gray-600 text-sm">Checking access…</div>
+      </div>
+    );
+  }
+
+  if (access === "denied") {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4"
+        style={{ background: "linear-gradient(135deg, #0d1117 0%, #0f2027 50%, #1a1a2e 100%)" }}>
+        <div className="text-center max-w-sm">
+          <div className="text-5xl mb-5">🔒</div>
+          <h2 className="text-2xl font-black text-white mb-3">Downloads Restricted</h2>
+          <p className="text-gray-500 text-sm leading-relaxed mb-6">
+            Python template downloads require explicit access. Contact the administrator to request access.
+          </p>
+          <Link href="/stages" className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors">
+            ← Back to Stage Map
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className="min-h-screen px-4 py-16"

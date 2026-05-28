@@ -529,6 +529,145 @@ function CmsPanel() {
   );
 }
 
+// ── Downloads Access Panel ───────────────────────────────────────────────────
+
+type DownloadsMode = "off" | "allowlist" | "all";
+
+function DownloadsAccessPanel({ users }: { users: { username: string }[] }) {
+  const [mode, setMode] = useState<DownloadsMode>("off");
+  const [allowlist, setAllowlist] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [toggling, setToggling] = useState<string | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/admin/downloads-access")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { mode: DownloadsMode; allowlist: string[] } | null) => {
+        if (d) { setMode(d.mode); setAllowlist(d.allowlist); }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  async function setGlobalMode(m: DownloadsMode) {
+    setSaving(true);
+    const r = await fetch("/api/admin/downloads-access", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "set-mode", mode: m }),
+    });
+    if (r.ok) { setMode(m); setMsg("Saved."); setTimeout(() => setMsg(null), 2000); }
+    setSaving(false);
+  }
+
+  async function toggleUser(username: string) {
+    const has = allowlist.includes(username);
+    setToggling(username);
+    const r = await fetch("/api/admin/downloads-access", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: has ? "revoke" : "grant", username }),
+    });
+    if (r.ok) {
+      setAllowlist((prev) => has ? prev.filter((u) => u !== username) : [...prev, username]);
+    }
+    setToggling(null);
+  }
+
+  const MODES: { value: DownloadsMode; label: string; desc: string; color: string }[] = [
+    { value: "off",       label: "Off",           desc: "No one can access downloads",                         color: "border-red-500/50 bg-red-500/8 text-red-400" },
+    { value: "allowlist", label: "Allowlist",      desc: "Only users you enable below can access",             color: "border-amber-500/50 bg-amber-500/8 text-amber-400" },
+    { value: "all",       label: "All users",      desc: "Every logged-in user can access downloads",          color: "border-emerald-500/50 bg-emerald-500/8 text-emerald-400" },
+  ];
+
+  return (
+    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+      <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between flex-wrap gap-2">
+        <div>
+          <h2 className="text-white font-bold">Downloads Access</h2>
+          <p className="text-xs text-gray-600 mt-0.5">Control who can access the Python MCP template downloads page</p>
+        </div>
+        <div className="flex items-center gap-2 text-xs">
+          <a href="/downloads" target="_blank" rel="noopener noreferrer"
+            className="text-emerald-500 hover:text-emerald-400 transition-colors font-mono">
+            /downloads ↗
+          </a>
+          {msg && <span className="text-green-400">{msg}</span>}
+        </div>
+      </div>
+
+      <div className="p-6 space-y-6">
+        {/* Mode radio buttons */}
+        <div>
+          <p className="text-xs text-gray-500 uppercase tracking-wider mb-3 font-semibold">Access mode</p>
+          {loading ? (
+            <div className="text-gray-700 text-sm">Loading…</div>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-3">
+              {MODES.map((m) => (
+                <button
+                  key={m.value}
+                  onClick={() => setGlobalMode(m.value)}
+                  disabled={saving}
+                  className={`flex-1 px-4 py-3 rounded-xl border text-left transition-all disabled:opacity-50 ${
+                    mode === m.value
+                      ? m.color
+                      : "border-white/10 bg-white/3 text-gray-500 hover:border-white/25 hover:text-gray-300"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className={`w-3 h-3 rounded-full border-2 flex-shrink-0 ${
+                      mode === m.value ? "border-current bg-current/60" : "border-gray-600 bg-transparent"
+                    }`} />
+                    <span className="text-sm font-bold">{m.label}</span>
+                  </div>
+                  <p className="text-xs opacity-70 ml-5">{m.desc}</p>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Per-user allowlist — only shown in allowlist mode */}
+        {mode === "allowlist" && !loading && (
+          <div>
+            <p className="text-xs text-gray-500 uppercase tracking-wider mb-3 font-semibold">
+              User allowlist <span className="text-gray-700 normal-case font-normal">— {allowlist.length} user{allowlist.length !== 1 ? "s" : ""} with access</span>
+            </p>
+            {users.length === 0 ? (
+              <p className="text-xs text-gray-700 italic">No registered users yet.</p>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1.5">
+                {users.map((u) => {
+                  const hasAccess = allowlist.includes(u.username);
+                  const busy = toggling === u.username;
+                  return (
+                    <button
+                      key={u.username}
+                      onClick={() => toggleUser(u.username)}
+                      disabled={busy}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-xs transition-all text-left disabled:opacity-40 ${
+                        hasAccess
+                          ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-300 hover:bg-red-500/10 hover:border-red-500/30 hover:text-red-400"
+                          : "border-white/10 bg-white/2 text-gray-600 hover:border-white/25 hover:text-gray-300"
+                      }`}
+                    >
+                      <span className="flex-shrink-0">{hasAccess ? "✓" : "+"}</span>
+                      <span className="truncate font-mono">{u.username}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ── Content Audit Panel ───────────────────────────────────────────────────────
 
 const RISK_META: Record<ContentFlag["risk"], { label: string; color: string; bg: string; border: string }> = {
@@ -1420,6 +1559,9 @@ export default function AdminPage() {
 
         {/* Pipeline Test / Manual Award */}
         <PipelineTestPanel />
+
+        {/* Downloads Access */}
+        <DownloadsAccessPanel users={users.map((u) => ({ username: u.username }))} />
 
         {/* Content IP Audit */}
         <ContentAudit />
