@@ -1,0 +1,1622 @@
+{
+  "stage-m13": {
+    "questions": [
+      { "q": "CVE-2016-1287 ने Cisco ASA के किस प्रोटोकॉल की हैंडलिंग को प्रभावित किया?", "options": ["VPN टनल सेटअप के लिए IKE (Internet Key Exchange)", "डिवाइस मैनेजमेंट polling के लिए SNMP"] },
+      { "q": "CVE-2016-1287 में मूल खामी क्या थी?", "options": ["IKE पैकेट प्रोसेसिंग में buffer overflow", "ASDM लॉगिन में authentication bypass"] },
+      { "q": "CVE-2016-1287 का फायदा उठाने के लिए attacker को क्या चाहिए था?", "options": ["नेटवर्क से specially crafted UDP पैकेट भेजना", "valid VPN credentials होना"] },
+      { "q": "Cisco ने CVE-2016-1287 को कितनी गंभीरता दी?", "options": ["Critical (CVSS 10.0)", "Medium (CVSS 5.0)"] },
+      { "q": "CVE-2016-1287 के लिए primary mitigation क्या था?", "options": ["patched ASA software version पर upgrade करना", "IKE को पूरी तरह disable करना"] }
+    ]
+  },
+  "stage-m14": {
+    "questions": [
+      { "q": "CVE-2018-0101 ने Cisco ASA के किस feature को प्रभावित किया?", "options": ["Secure Sockets Layer (SSL) VPN और WebVPN", "Site-to-site IKEv2 VPN"] },
+      { "q": "CVE-2018-0101 किस प्रकार का vulnerability था?", "options": ["Double-free memory corruption जिससे remote code execution हो सकता था", "Directory traversal जिससे config files expose होती थीं"] },
+      { "q": "CVE-2018-0101 का शोषण करने के लिए क्या आवश्यक था?", "options": ["WebVPN feature enabled होना और network access", "Local admin privileges"] },
+      { "q": "CVE-2018-0101 की CVSS score क्या थी?", "options": ["10.0 Critical", "7.5 High"] },
+      { "q": "CVE-2018-0101 से बचाव का तरीका क्या था?", "options": ["Cisco का security patch apply करना या WebVPN disable करना", "Firewall rules से UDP block करना"] }
+    ]
+  },
+  "stage-m15": {
+    "questions": [
+      { "q": "CVE-2019-1862 किस Cisco product को affect करता था?", "options": ["IOS XE Web UI", "NX-OS SNMP daemon"] },
+      { "q": "CVE-2019-1862 की vulnerability का प्रकार क्या था?", "options": ["Command injection जिससे root privileges मिल सकती थीं", "SQL injection जिससे config database expose होता था"] },
+      { "q": "CVE-2019-1862 का फायदा उठाने के लिए क्या चाहिए था?", "options": ["Authenticated web UI access", "Physical console access"] },
+      { "q": "CVE-2019-1862 exploit होने पर क्या हो सकता था?", "options": ["Attacker underlying OS पर arbitrary commands execute कर सकता था", "Attacker VPN configurations देख सकता था"] },
+      { "q": "CVE-2019-1862 का mitigation क्या था?", "options": ["IOS XE update करना और HTTP server access restrict करना", "SNMP community strings बदलना"] }
+    ]
+  },
+  "stage-m16": {
+    "questions": [
+      { "q": "CVE-2020-3452 किस Cisco product को affect करता था?", "options": ["Cisco ASA और Firepower Threat Defense (FTD)", "Cisco IOS XR routers"] },
+      { "q": "CVE-2020-3452 किस प्रकार का vulnerability था?", "options": ["Path traversal जिससे sensitive files read हो सकती थीं", "Buffer overflow जिससे remote code execution होता था"] },
+      { "q": "CVE-2020-3452 exploit करने के लिए क्या चाहिए था?", "options": ["WebVPN या AnyConnect enabled होना", "ASDM management access"] },
+      { "q": "CVE-2020-3452 से कौन सी files expose हो सकती थीं?", "options": ["Web directory की files जैसे password files और private keys", "केवल public log files"] },
+      { "q": "CVE-2020-3452 से बचाव का तरीका क्या था?", "options": ["Patched ASA/FTD software version पर upgrade करना", "AnyConnect को पूरी तरह disable करना"] }
+    ]
+  },
+  "stage-m17": {
+    "questions": [
+      { "q": "CVE-2020-3118 किसे affect करता था?", "options": ["Cisco IOS XR के CDP implementation को", "Cisco ASA के SNMP implementation को"] },
+      { "q": "CVE-2020-3118 में root cause क्या था?", "options": ["CDP packets में improper validation जिससे stack overflow होता था", "OSPF routing updates में format string bug"] },
+      { "q": "CVE-2020-3118 exploit करने के लिए क्या चाहिए था?", "options": ["Layer 2 network access और CDP-enabled interface", "Valid router credentials"] },
+      { "q": "CVE-2020-3118 successfully exploit होने पर क्या होता था?", "options": ["Remote code execution with root privileges", "केवल device crash (DoS)"] },
+      { "q": "CDP-related vulnerabilities को prevent करने का सबसे अच्छा तरीका क्या है?", "options": ["Untrusted interfaces पर CDP disable करना", "CDP packet size limit करना"] }
+    ]
+  },
+  "stage-m18": {
+    "questions": [
+      { "q": "CVE-2021-1609 किस Cisco product में था?", "options": ["Cisco Small Business RV series routers के Web Management Interface में", "Cisco Catalyst switches के CLI में"] },
+      { "q": "CVE-2021-1609 की vulnerability क्या थी?", "options": ["Unauthenticated remote code execution और denial of service", "Authenticated SQL injection"] },
+      { "q": "CVE-2021-1609 exploit करने के लिए क्या आवश्यक था?", "options": ["केवल network access — authentication की जरूरत नहीं", "Physical access to device"] },
+      { "q": "CVE-2021-1609 की CVSS score क्या थी?", "options": ["9.8 Critical", "6.5 Medium"] },
+      { "q": "Small Business RV routers में इस प्रकार की vulnerabilities से बचाव का तरीका?", "options": ["Firmware update करना और remote management internet से disable करना", "Default password बदलना काफी है"] }
+    ]
+  },
+  "stage-m19": {
+    "questions": [
+      { "q": "CVE-2021-34770 किस Cisco product को affect करता था?", "options": ["Cisco Catalyst 9000 series wireless controllers", "Cisco ASA firewalls"] },
+      { "q": "CVE-2021-34770 में vulnerability का प्रकार क्या था?", "options": ["CAPWAP protocol में buffer overflow जिससे RCE हो सकता था", "SNMP में authentication bypass"] },
+      { "q": "CVE-2021-34770 exploit करने के लिए attacker को क्या चाहिए था?", "options": ["Network access और specially crafted CAPWAP packets भेजना", "Wireless admin credentials"] },
+      { "q": "CVE-2021-34770 का CVSS score क्या था?", "options": ["10.0 Critical", "7.2 High"] },
+      { "q": "CVE-2021-34770 जैसी CAPWAP vulnerabilities को mitigate करने का तरीका?", "options": ["Controller software update करना और CAPWAP traffic restrict करना", "WPA3 encryption enable करना"] }
+    ]
+  },
+  "stage-m20": {
+    "questions": [
+      { "q": "CVE-2022-20695 किस Cisco product को affect करता था?", "options": ["Cisco Wireless LAN Controller (WLC)", "Cisco Firepower Management Center"] },
+      { "q": "CVE-2022-20695 की vulnerability क्या थी?", "options": ["Authentication bypass जिससे admin access मिल जाती थी", "Cross-site scripting (XSS) in web interface"] },
+      { "q": "CVE-2022-20695 exploit करने के लिए क्या चाहिए था?", "options": ["Management interface तक network access", "Physical console port access"] },
+      { "q": "CVE-2022-20695 का CVSS score क्या था?", "options": ["10.0 Critical", "5.3 Medium"] },
+      { "q": "CVE-2022-20695 से बचाव का primary तरीका?", "options": ["Patched WLC software पर upgrade करना", "RADIUS authentication enable करना"] }
+    ]
+  },
+  "stage-m21": {
+    "questions": [
+      { "q": "CVE-2022-20821 किस Cisco product को affect करता था?", "options": ["Cisco IOS XR routers", "Cisco Nexus 9000 switches"] },
+      { "q": "CVE-2022-20821 में vulnerability का प्रकार क्या था?", "options": ["Health check port जो unauthenticated access allow करता था", "BGP route injection vulnerability"] },
+      { "q": "CVE-2022-20821 exploit होने पर क्या access मिल सकती थी?", "options": ["Redis instance तक unauthenticated read/write access", "Root shell access to OS"] },
+      { "q": "CVE-2022-20821 किस specific port के कारण था?", "options": ["TCP port 6379 (Redis)", "UDP port 161 (SNMP)"] },
+      { "q": "इस प्रकार की vulnerabilities को prevent करने का तरीका?", "options": ["Unnecessary services और ports बंद करना", "Stronger BGP route filters लगाना"] }
+    ]
+  },
+  "stage-m22": {
+    "questions": [
+      { "q": "CVE-2023-20076 किस platform को affect करता था?", "options": ["Cisco IOS XE application hosting framework", "Cisco ASA SSL VPN"] },
+      { "q": "CVE-2023-20076 की vulnerability क्या थी?", "options": ["Command injection जिससे root-level code execution होता था", "Path traversal जिससे config files expose होती थीं"] },
+      { "q": "CVE-2023-20076 exploit करने के लिए क्या चाहिए था?", "options": ["Authenticated access और application deployment privileges", "Physical device access"] },
+      { "q": "CVE-2023-20076 का CVSS score क्या था?", "options": ["7.2 High", "9.8 Critical"] },
+      { "q": "CVE-2023-20076 से बचाव का तरीका?", "options": ["IOS XE update करना और application hosting access restrict करना", "Docker containers disable करना"] }
+    ]
+  },
+  "stage-m23": {
+    "questions": [
+      { "q": "CVE-2023-20109 किस Cisco technology को affect करता था?", "options": ["Cisco Group Encrypted Transport VPN (GET VPN)", "Cisco AnyConnect SSL VPN"] },
+      { "q": "CVE-2023-20109 exploit करने के लिए क्या चाहिए था?", "options": ["Network access और key server पर control", "Unauthenticated internet access"] },
+      { "q": "CVE-2023-20109 successfully exploit होने पर क्या हो सकता था?", "options": ["Remote code execution on key server or group member", "केवल VPN tunnel disruption"] },
+      { "q": "CVE-2023-20109 का CVSS score क्या था?", "options": ["7.2 High", "10.0 Critical"] },
+      { "q": "GET VPN environments में इस प्रकार की vulnerabilities को mitigate करने का तरीका?", "options": ["Software update करना और key server access restrict करना", "GET VPN की जगह AnyConnect use करना"] }
+    ]
+  },
+  "stage-m24": {
+    "questions": [
+      { "q": "CVE-2023-20198 किस Cisco product में था?", "options": ["Cisco IOS XE Web UI feature", "Cisco Firepower NGFW"] },
+      { "q": "CVE-2023-20198 का CVSS score क्या था?", "options": ["10.0 Critical", "8.1 High"] },
+      { "q": "CVE-2023-20198 exploit होने पर क्या होता था?", "options": ["Attacker privilege level 15 access वाला नया account बना सकता था", "Attacker running config देख सकता था"] },
+      { "q": "CVE-2023-20198 को exploit करने के लिए क्या चाहिए था?", "options": ["HTTP/HTTPS server enabled और internet access", "Valid admin credentials"] },
+      { "q": "CVE-2023-20198 के साथ कौन सा दूसरा CVE actively exploit हुआ था?", "options": ["CVE-2023-20273 (command injection)", "CVE-2023-20076 (application hosting)"] }
+    ]
+  },
+  "stage-m25": {
+    "questions": [
+      { "q": "CVE-2023-20273 किस Cisco product को affect करता था?", "options": ["Cisco IOS XE Web UI", "Cisco ASA ASDM"] },
+      { "q": "CVE-2023-20273 किस प्रकार का vulnerability था?", "options": ["Command injection जिससे root privileges मिलती थीं", "Buffer overflow जिससे DoS होता था"] },
+      { "q": "CVE-2023-20273 का CVSS score क्या था?", "options": ["7.2 High", "10.0 Critical"] },
+      { "q": "CVE-2023-20198 और CVE-2023-20273 का combined attack chain क्या था?", "options": ["Admin account बनाना, फिर command injection से implant install करना", "Config steal करना, फिर VPN pivot करना"] },
+      { "q": "इस dual-CVE campaign के दौरान Cisco का recommended mitigation क्या था?", "options": ["HTTP server disable करना या trusted hosts तक access restrict करना", "IKE version 2 में upgrade करना"] }
+    ]
+  },
+  "stage-m26": {
+    "questions": [
+      { "q": "CVE-2024-20253 किस Cisco product को affect करता था?", "options": ["Cisco Unified Communications products", "Cisco Identity Services Engine"] },
+      { "q": "CVE-2024-20253 की vulnerability क्या थी?", "options": ["Unauthenticated remote code execution", "Authenticated privilege escalation"] },
+      { "q": "CVE-2024-20253 का CVSS score क्या था?", "options": ["9.9 Critical", "7.5 High"] },
+      { "q": "CVE-2024-20253 exploit करने के लिए क्या चाहिए था?", "options": ["User-facing ports तक network access — no auth required", "CUCM admin credentials"] },
+      { "q": "इस vulnerability से protect करने के लिए Cisco ने क्या recommend किया?", "options": ["Patched version पर update करना और access control lists लगाना", "SIP encryption enable करना"] }
+    ]
+  },
+  "stage-m28": {
+    "questions": [
+      { "q": "CVE-2024-20359 किस Cisco product में था?", "options": ["Cisco ASA और Firepower Threat Defense (FTD)", "Cisco IOS XE routers"] },
+      { "q": "CVE-2024-20359 vulnerability का प्रकार क्या था?", "options": ["Persistent local code execution — malware boot पर survive कर सकता था", "Remote unauthenticated buffer overflow"] },
+      { "q": "CVE-2024-20359 exploit करने के लिए क्या चाहिए था?", "options": ["Root-level privileges already present होनी चाहिए", "केवल network access"] },
+      { "q": "CVE-2024-20359 का CVSS score क्या था?", "options": ["6.0 Medium", "9.8 Critical"] },
+      { "q": "CVE-2024-20359 किस threat actor campaign से जुड़ा था?", "options": ["UAT4356 / ARCANE DOOR", "Volt Typhoon"] }
+    ]
+  },
+  "stage-m30": {
+    "questions": [
+      { "q": "CVE-2024-20353 किस Cisco product को affect करता था?", "options": ["Cisco ASA और FTD management और VPN web servers", "Cisco Catalyst Center"] },
+      { "q": "CVE-2024-20353 की vulnerability क्या थी?", "options": ["Denial-of-service जिससे device unexpected reload होता था", "Remote code execution with root access"] },
+      { "q": "CVE-2024-20353 का CVSS score क्या था?", "options": ["8.6 High", "10.0 Critical"] },
+      { "q": "CVE-2024-20353 exploit करने के लिए क्या चाहिए था?", "options": ["HTTP requests send करने की ability — no auth required", "Active VPN session"] },
+      { "q": "CVE-2024-20353 किस sophisticated campaign का हिस्सा था?", "options": ["ARCANE DOOR — state-sponsored network edge targeting", "LockBit ransomware group"] }
+    ]
+  },
+  "stage-m34": {
+    "questions": [
+      { "q": "CVE-2024-20399 किस Cisco product को affect करता था?", "options": ["Cisco NX-OS Software CLI", "Cisco IOS XR Web UI"] },
+      { "q": "CVE-2024-20399 की vulnerability क्या थी?", "options": ["Command injection जिससे root OS commands execute होते थे", "Authentication bypass जिससे admin access मिलती थी"] },
+      { "q": "CVE-2024-20399 exploit करने के लिए क्या चाहिए था?", "options": ["Valid admin credentials और CLI access", "Unauthenticated network access"] },
+      { "q": "CVE-2024-20399 का CVSS score क्या था?", "options": ["6.7 Medium", "9.8 Critical"] },
+      { "q": "CVE-2024-20399 किस threat actor group से जुड़ा था?", "options": ["Velvet Ant (China-nexus)", "Scattered Spider"] }
+    ]
+  },
+  "stage-m36": {
+    "questions": [
+      { "q": "CVE-2024-20418 किस Cisco product को affect करता था?", "options": ["Cisco Unified Industrial Wireless Software for Ultra-Reliable Wireless Backhaul", "Cisco Meraki wireless access points"] },
+      { "q": "CVE-2024-20418 की vulnerability क्या थी?", "options": ["Web-based management interface में unauthenticated command injection", "Wireless protocol में buffer overflow"] },
+      { "q": "CVE-2024-20418 का CVSS score क्या था?", "options": ["10.0 Critical", "7.8 High"] },
+      { "q": "CVE-2024-20418 exploit करने के लिए क्या चाहिए था?", "options": ["Management interface तक HTTP access — no credentials needed", "Physical wireless proximity"] },
+      { "q": "इस vulnerability से बचाव का primary तरीका?", "options": ["Software update करना और management interface को trusted networks तक restrict करना", "WPA3 enable करना"] }
+    ]
+  },
+  "stage-m37": {
+    "questions": [
+      { "q": "CVE-2024-20481 किस Cisco product को affect करता था?", "options": ["Cisco ASA और FTD का RAVPN service", "Cisco IOS XE OSPF implementation"] },
+      { "q": "CVE-2024-20481 की vulnerability क्या थी?", "options": ["Resource exhaustion DoS जिससे RAVPN service crash होती थी", "Authentication bypass जिससे VPN access मिलती थी"] },
+      { "q": "CVE-2024-20481 का CVSS score क्या था?", "options": ["5.8 Medium", "9.8 Critical"] },
+      { "q": "CVE-2024-20481 किस broader attack pattern का हिस्सा था?", "options": ["VPN infrastructure को target करने वाले brute-force campaigns", "Zero-click exploit chains"] },
+      { "q": "CVE-2024-20481 से VPN availability protect करने का तरीका?", "options": ["Rate limiting implement करना और patched version पर upgrade करना", "SSL certificates rotate करना"] }
+    ]
+  },
+  "stage-m39": {
+    "questions": [
+      { "q": "CVE-2024-20prominentlyXXX — CVE-2025-20188 किस Cisco product को affect करता था?", "options": ["Cisco IOS XE Wireless LAN Controller", "Cisco Firepower 4100 Series"] },
+      { "q": "CVE-2025-20188 की vulnerability क्या थी?", "options": ["Hard-coded JWT token जिससे unauthenticated root access मिलता था", "BGP session hijacking"] },
+      { "q": "CVE-2025-20188 का CVSS score क्या था?", "options": ["10.0 Critical", "7.5 High"] },
+      { "q": "CVE-2025-20188 exploit करने के लिए क्या चाहिए था?", "options": ["HTTPS AP Image Download feature enabled और network access", "Physical AP access"] },
+      { "q": "CVE-2025-20188 से protect करने का immediate mitigation क्या था?", "options": ["AP Image Download feature disable करना", "JWT secret rotate करना"] }
+    ]
+  },
+  "stage-m41": {
+    "questions": [
+      { "q": "CVE-2024-3400 किस vendor के product को affect करता था?", "options": ["Palo Alto Networks PAN-OS", "Fortinet FortiGate"] },
+      { "q": "CVE-2024-3400 की vulnerability क्या थी?", "options": ["GlobalProtect में command injection जिससे unauthenticated RCE होता था", "Management interface में SQL injection"] },
+      { "q": "CVE-2024-3400 का CVSS score क्या था?", "options": ["10.0 Critical", "8.8 High"] },
+      { "q": "CVE-2024-3400 किस threat actor ने actively exploit किया?", "options": ["UTA0218 (state-sponsored)", "FIN7 (financial crime group)"] },
+      { "q": "CVE-2024-3400 exploit होने पर क्या install किया जाता था?", "options": ["UPSTYLE backdoor और TUNNELCRACK tools", "Cobalt Strike beacon"] }
+    ]
+  },
+  "stage-m42": {
+    "questions": [
+      { "q": "CVE-2023-27997 किस vendor के product को affect करता था?", "options": ["Fortinet FortiOS SSL-VPN", "Check Point VPN-1"] },
+      { "q": "CVE-2023-27997 की vulnerability क्या थी?", "options": ["Heap-based buffer overflow जिससे unauthenticated RCE होता था", "Authentication bypass जिससे config access मिलता था"] },
+      { "q": "CVE-2023-27997 का CVSS score क्या था?", "options": ["9.8 Critical", "7.2 High"] },
+      { "q": "CVE-2023-27997 exploit करने के लिए क्या चाहिए था?", "options": ["SSL-VPN interface तक network access — no auth required", "FortiGate admin credentials"] },
+      { "q": "CVE-2023-27997 के साथ किस threat group ने activity दिखाई?", "options": ["Volt Typhoon और अन्य APT groups", "LockBit ransomware operators"] }
+    ]
+  },
+  "stage-m44": {
+    "questions": [
+      { "q": "CVE-2022-1388 किस vendor के product को affect करता था?", "options": ["F5 BIG-IP", "Citrix ADC"] },
+      { "q": "CVE-2022-1388 की vulnerability क्या थी?", "options": ["iControl REST API में authentication bypass", "TMM में buffer overflow"] },
+      { "q": "CVE-2022-1388 का CVSS score क्या था?", "options": ["9.8 Critical", "7.5 High"] },
+      { "q": "CVE-2022-1388 exploit करने के लिए क्या चाहिए था?", "options": ["Management port या self IP तक network access", "Valid F5 admin credentials"] },
+      { "q": "CVE-2022-1388 से बचाव का तरीका?", "options": ["Patched version पर update करना और management access restrict करना", "iRules through filtering enable करना"] }
+    ]
+  },
+  "stage-m46": {
+    "questions": [
+      { "q": "CVE-2023-4966 (Citrix Bleed) किस product को affect करता था?", "options": ["Citrix NetScaler ADC और Gateway", "Citrix Virtual Apps and Desktops"] },
+      { "q": "CVE-2023-4966 की vulnerability क्या थी?", "options": ["Sensitive information disclosure जिससे session tokens expose होते थे", "Remote code execution in NetScaler daemon"] },
+      { "q": "CVE-2023-4966 का CVSS score क्या था?", "options": ["9.4 Critical", "7.2 High"] },
+      { "q": "Citrix Bleed session tokens को hijack करके attacker क्या कर सकता था?", "options": ["MFA bypass करके authenticated sessions hijack करना", "केवल public pages access करना"] },
+      { "q": "CVE-2023-4966 से बचाव के लिए patch के अलावा क्या जरूरी था?", "options": ["Active sessions terminate करना क्योंकि tokens patch के बाद भी valid रहते थे", "SSL certificates reissue करना"] }
+    ]
+  },
+  "stage-m48": {
+    "questions": [
+      { "q": "CVE-2024-21887 किस vendor के product को affect करता था?", "options": ["Ivanti Connect Secure और Policy Secure", "Juniper Networks SRX firewalls"] },
+      { "q": "CVE-2024-21887 की vulnerability क्या थी?", "options": ["Authenticated command injection जिससे arbitrary commands execute होते थे", "Unauthenticated SSRF vulnerability"] },
+      { "q": "CVE-2024-21887 का CVSS score क्या था?", "options": ["9.1 Critical", "6.5 Medium"] },
+      { "q": "CVE-2024-21887 को किस दूसरे CVE के साथ chain किया गया था?", "options": ["CVE-2023-46805 (authentication bypass)", "CVE-2024-21893 (SSRF)"] },
+      { "q": "इस Ivanti campaign में threat actors ने क्या deploy किया?", "options": ["LIGHTWIRE और WIREFIRE webshells", "Mimikatz credential dumper"] }
+    ]
+  },
+  "stage-m50": {
+    "questions": [
+      { "q": "CVE-2024-27198 किस product को affect करता था?", "options": ["JetBrains TeamCity CI/CD server", "GitHub Actions runner"] },
+      { "q": "CVE-2024-27198 की vulnerability क्या थी?", "options": ["Authentication bypass जिससे arbitrary code execution होता था", "Stored XSS जिससे admin tokens steal होते थे"] },
+      { "q": "CVE-2024-27198 का CVSS score क्या था?", "options": ["9.8 Critical", "7.5 High"] },
+      { "q": "CVE-2024-27198 exploit होने पर supply chain पर क्या impact होता था?", "options": ["Attacker build pipelines compromise करके malicious code inject कर सकता था", "केवल build logs access हो सकते थे"] },
+      { "q": "CVE-2024-27198 से बचाव का तरीका?", "options": ["TeamCity को immediately patch करना और internet exposure minimize करना", "Build artifacts sign करना"] }
+    ]
+  },
+  "bt-11": {
+    "questions": [
+      { "q": "Bug bounty programs में 'scope' का क्या मतलब होता है?", "options": ["वे assets और systems जिन पर testing allowed है", "Maximum payout amount"] },
+      { "q": "Out-of-scope target test करने का क्या परिणाम हो सकता है?", "options": ["Program से ban होना और legal consequences", "केवल reduced bounty payment"] },
+      { "q": "Responsible disclosure में 'coordinated disclosure' क्या होता है?", "options": ["Vendor को fix करने का time देकर फिर publicly disclose करना", "तुरंत social media पर publish करना"] },
+      { "q": "Bug bounty में 'duplicate' submission का क्या मतलब है?", "options": ["वही vulnerability already किसी और ने report की है", "Same researcher की दूसरी submission"] },
+      { "q": "CVSS score researcher के bounty amount को कैसे affect करता है?", "options": ["Higher severity = higher potential payout", "CVSS score bounty को directly affect नहीं करता"] }
+    ]
+  },
+  "bt-12": {
+    "questions": [
+      { "q": "XSS vulnerability में 'reflected' और 'stored' में क्या फर्क है?", "options": ["Stored XSS server में persist होता है, reflected नहीं", "Reflected XSS ज्यादा dangerous होता है"] },
+      { "q": "IDOR (Insecure Direct Object Reference) vulnerability क्या होती है?", "options": ["User बिना authorization के दूसरे user का data access कर सकता है", "SQL injection का एक प्रकार"] },
+      { "q": "Bug bounty hunting में recon का पहला step क्या होता है?", "options": ["Subdomain enumeration और attack surface mapping", "तुरंत SQL injection test करना"] },
+      { "q": "SSRF (Server-Side Request Forgery) से attacker क्या कर सकता है?", "options": ["Server को internal systems या cloud metadata endpoints को request करने के लिए force करना", "Server-side scripts को directly execute करना"] },
+      { "q": "Bug bounty में 'P1' vulnerability आमतौर पर किसे refer करती है?", "options": ["Critical severity — immediate action required", "Program की पहली submission"] }
+    ]
+  },
+  "bt-13": {
+    "questions": [
+      { "q": "Penetration testing में 'white box' testing क्या होती है?", "options": ["Tester को full system knowledge और access दी जाती है", "Tester बिना किसी information के test करता है"] },
+      { "q": "'Black box' penetration test में tester के पास क्या होता है?", "options": ["कोई prior knowledge नहीं — external attacker की तरह", "Source code और architecture diagrams"] },
+      { "q": "OWASP Top 10 में 'Broken Access Control' क्यों number 1 है?", "options": ["यह सबसे common और impactful web vulnerability category है", "यह सबसे exploit करना आसान है"] },
+      { "q": "SQL injection को prevent करने का most effective तरीका क्या है?", "options": ["Parameterized queries / prepared statements use करना", "Input length limit करना"] },
+      { "q": "Bug bounty report में क्या include करना जरूरी होता है?", "options": ["Steps to reproduce, impact, और proof of concept", "केवल vulnerability का नाम"] }
+    ]
+  },
+  "bt-14": {
+    "questions": [
+      { "q": "CSRF (Cross-Site Request Forgery) attack क्या करता है?", "options": ["Victim के browser को authenticated requests send करने के लिए trick करता है", "Cross-site scripts inject करता है"] },
+      { "q": "CSRF protection का most common method क्या है?", "options": ["CSRF tokens use करना जो unpredictable हों", "HTTPS use करना"] },
+      { "q": "Subdomain takeover vulnerability क्या होती है?", "options": ["Abandoned DNS record point करती है ऐसी service पर जिसे attacker claim कर सकता है", "Subdomain पर wildcard certificate issue करना"] },
+      { "q": "Open redirect vulnerability का bug bounty में क्यों value है?", "options": ["phishing attacks और OAuth token theft के लिए chain किया जा सकता है", "इसका standalone impact बहुत high है"] },
+      { "q": "GraphQL APIs को test करते समय पहले क्या check करना चाहिए?", "options": ["Introspection enabled है या नहीं और authorization checks", "Rate limiting"] }
+    ]
+  },
+  "bt-15": {
+    "questions": [
+      { "q": "JWT (JSON Web Token) में 'none' algorithm attack क्या होता है?", "options": ["Algorithm को 'none' set करके signature verification bypass करना", "JWT को base64 decode करके modify करना"] },
+      { "q": "Bug bounty में XXE (XML External Entity) injection से क्या possible है?", "options": ["Server-side files read करना और internal network scan करना", "केवल XML parsing errors trigger करना"] },
+      { "q": "Race condition vulnerability को bug bounty में कैसे demonstrate करते हैं?", "options": ["Concurrent requests send करके duplicate transactions या privilege escalation show करना", "Server को slow करके demonstrate करना"] },
+      { "q": "Insecure deserialization vulnerability से क्या possible है?", "options": ["Remote code execution, authentication bypass, और privilege escalation", "केवल data corruption"] },
+      { "q": "HTTP request smuggling vulnerability क्या होती है?", "options": ["Frontend और backend servers के बीच HTTP request parsing ambiguity", "HTTP headers को duplicate करना"] }
+    ]
+  },
+  "bt-16": {
+    "questions": [
+      { "q": "OAuth 2.0 में 'state' parameter का क्या purpose है?", "options": ["CSRF attacks से protect करना authorization flow में", "User की state/location track करना"] },
+      { "q": "SAML assertion में vulnerability कहाँ हो सकती है?", "options": ["Signature validation bypass, XML injection, और replay attacks", "केवल encryption issues"] },
+      { "q": "API key को accidentally public GitHub repo में commit करने पर क्या करें?", "options": ["तुरंत key revoke करें, git history से remove करें, और audit करें", "केवल repo private करें"] },
+      { "q": "Mass assignment vulnerability क्या होती है?", "options": ["User HTTP parameters के through unintended fields set कर सकता है", "Database में mass data insert करना"] },
+      { "q": "Prototype pollution JavaScript में क्या होती है?", "options": ["Object के prototype को pollute करके application behavior modify करना", "JavaScript memory leak vulnerability"] }
+    ]
+  },
+  "bt-17": {
+    "questions": [
+      { "q": "Business logic vulnerabilities को automatically detect करना क्यों मुश्किल है?", "options": ["Application-specific workflows को समझना पड़ता है जो automated tools नहीं कर सकते", "ये हमेशा client-side होती हैं"] },
+      { "q": "Price manipulation bug bounty में कैसा scenario होता है?", "options": ["Checkout process में values modify करके negative prices या free items पाना", "Server के pricing database को directly access करना"] },
+      { "q": "Account takeover vulnerability में MFA को bypass करने के common methods?", "options": ["MFA code reuse, response manipulation, और backup code brute force", "Password reset email intercept करना"] },
+      { "q": "2FA implementation में 'backup codes' का misuse कैसे हो सकता है?", "options": ["Predictable codes, unlimited attempts, और codes का expire न होना", "Codes को email से send करना"] },
+      { "q": "Bug bounty में 'impact' section क्यों important होता है?", "options": ["Real-world consequences explain करता है जो severity और payout determine करते हैं", "Technical details summarize करता है"] }
+    ]
+  },
+  "bt-18": {
+    "questions": [
+      { "q": "Web cache poisoning attack क्या होता है?", "options": ["Cache में malicious response store करवाना जो दूसरे users को serve हो", "CDN को overload करके DoS करना"] },
+      { "q": "Host header injection से क्या possible है?", "options": ["Password reset link hijacking और cache poisoning", "केवल HTTP response splitting"] },
+      { "q": "Directory traversal attack में क्या होता है?", "options": ["../ sequences use करके intended directory से बाहर files access करना", "Web server की directory listing enable करना"] },
+      { "q": "SSTI (Server-Side Template Injection) से क्या possible है?", "options": ["Template engine के through remote code execution", "केवल HTML injection"] },
+      { "q": "WebSocket vulnerabilities में क्या test करना चाहिए?", "options": ["Authorization checks, input validation, और cross-site WebSocket hijacking", "केवल SSL/TLS configuration"] }
+    ]
+  },
+  "bt-19": {
+    "questions": [
+      { "q": "Mobile app bug bounty में APK analysis के लिए पहला step क्या है?", "options": ["Decompile करना और hardcoded secrets, endpoints search करना", "Network traffic capture करना"] },
+      { "q": "iOS app में sensitive data को insecurely store करने की common location?", "options": ["NSUserDefaults, unencrypted SQLite databases, और clipboard", "Keychain (यह secure है)"] },
+      { "q": "Mobile app में certificate pinning को bypass करने के methods?", "options": ["Frida, Objection, या custom proxy certificates use करना", "Root/jailbreak के बिना bypass impossible है"] },
+      { "q": "Deep link vulnerability mobile apps में क्या होती है?", "options": ["Unvalidated deep links से malicious app data steal या actions trigger कर सकते हैं", "केवल UI navigation issue"] },
+      { "q": "Mobile app में biometric authentication bypass कैसे test करते हैं?", "options": ["Frida hooks use करके biometric check को intercept और bypass करना", "Phone को factory reset करना"] }
+    ]
+  },
+  "bt-20": {
+    "questions": [
+      { "q": "Cloud misconfiguration bug bounty में सबसे common finding क्या है?", "options": ["Publicly accessible S3 buckets, storage containers, या databases", "Expired SSL certificates"] },
+      { "q": "AWS metadata service (IMDS) को SSRF से access करने पर क्या मिल सकता है?", "options": ["IAM credentials, instance information, और user data", "केवल instance IP address"] },
+      { "q": "Exposed .git directory से attacker क्या कर सकता है?", "options": ["Source code reconstruct करना और sensitive information extract करना", "केवल commit history देखना"] },
+      { "q": "API rate limiting को bypass करने के common techniques?", "options": ["IP rotation, header manipulation (X-Forwarded-For), और distributed requests", "Request timing को adjust करना"] },
+      { "q": "GraphQL में batching attacks क्या होते हैं?", "options": ["Single request में multiple queries batch करके rate limits bypass करना", "GraphQL schema को batch में download करना"] }
+    ]
+  },
+  "bt-21": {
+    "questions": [
+      { "q": "Clickjacking attack क्या होता है?", "options": ["Invisible iframe से user को unintended clicks करवाना", "Mouse cursor को hijack करना"] },
+      { "q": "X-Frame-Options header clickjacking से कैसे protect करता है?", "options": ["Page को iframe में embed करने से रोकता है", "Cross-site requests block करता है"] },
+      { "q": "Content Security Policy (CSP) का primary purpose क्या है?", "options": ["XSS attacks को mitigate करना allowed content sources define करके", "HTTPS enforce करना"] },
+      { "q": "Cookie में 'SameSite' attribute का क्या purpose है?", "options": ["CSRF attacks से protect करना cross-site request पर cookie send न करके", "Cookie को same domain तक limit करना"] },
+      { "q": "HSTS (HTTP Strict Transport Security) क्या करता है?", "options": ["Browser को force करता है कि हमेशा HTTPS use करे", "HTTP traffic को block करता है firewall पर"] }
+    ]
+  },
+  "bt-22": {
+    "questions": [
+      { "q": "Blind XSS vulnerability में क्या होता है?", "options": ["Payload different context में execute होता है जैसे admin panel, जो attacker directly नहीं देखता", "XSS payload encoded हो जाता है"] },
+      { "q": "DOM-based XSS और reflected XSS में क्या फर्क है?", "options": ["DOM XSS client-side JavaScript में होता है, reflected server response में", "DOM XSS ज्यादा common है"] },
+      { "q": "Content-Type sniffing vulnerability क्या होती है?", "options": ["Browser declared content type को ignore करके content execute कर देता है", "Server wrong content type send करता है"] },
+      { "q": "JSONP endpoints में XSS vulnerability कैसे होती है?", "options": ["Callback parameter में arbitrary JavaScript function names inject करके", "JSON response में script tags inject करके"] },
+      { "q": "Mutation XSS (mXSS) क्या होता है?", "options": ["Browser का DOM mutation XSS filter bypass करने वाले payloads trigger करता है", "XSS payload को mutate करके obfuscate करना"] }
+    ]
+  },
+  "bt-23": {
+    "questions": [
+      { "q": "SQL injection में 'UNION-based' technique क्या करती है?", "options": ["UNION SELECT से additional query results original response में include करना", "Union data types को merge करना"] },
+      { "q": "Blind SQL injection में 'time-based' technique कैसे काम करती है?", "options": ["Database responses में delays cause करके true/false conditions infer करना", "Server response time को manipulate करना"] },
+      { "q": "NoSQL injection SQL injection से कैसे अलग है?", "options": ["MongoDB जैसे NoSQL databases को target करती है जिनकी different query syntax होती है", "NoSQL injection ज्यादा dangerous होती है"] },
+      { "q": "Second-order SQL injection क्या होती है?", "options": ["Malicious input store होता है और बाद में different context में execute होता है", "दो chained SQL injections"] },
+      { "q": "SQL injection से database को protect करने का most effective method?", "options": ["Parameterized queries और stored procedures use करना", "Input में special characters को filter करना"] }
+    ]
+  },
+  "bt-24": {
+    "questions": [
+      { "q": "Server-side request forgery (SSRF) में क्या होता है?", "options": ["Attacker server को internal या external resources fetch करने के लिए force करता है", "Server client के requests को forge करता है"] },
+      { "q": "SSRF से cloud environments में सबसे dangerous क्या access हो सकता है?", "options": ["Instance metadata service जिससे credentials मिलते हैं", "Public S3 buckets"] },
+      { "q": "Blind SSRF को detect करने के techniques?", "options": ["Out-of-band channels जैसे Burp Collaborator या DNS callbacks use करना", "Error messages देखना"] },
+      { "q": "SSRF bypass techniques में 'localhost' alternatives क्या हैं?", "options": ["127.0.0.1, 0.0.0.0, 0x7f000001, [::1], और decimal/octal encodings", "केवल 127.0.0.1 alternatives हैं"] },
+      { "q": "SSRF को prevent करने के effective methods?", "options": ["Allowlist-based URL validation, network segmentation, और metadata service protection", "Blocklist-based filtering (insufficient)"] }
+    ]
+  },
+  "bt-25": {
+    "questions": [
+      { "q": "Insecure Direct Object Reference (IDOR) को BOLA भी क्यों कहते हैं?", "options": ["Broken Object Level Authorization — APIs में यही term use होती है", "BOLA एक अलग vulnerability है"] },
+      { "q": "IDOR को test करने का basic approach क्या है?", "options": ["Object IDs को modify करके दूसरे users के resources access try करना", "केवल admin accounts को test करना"] },
+      { "q": "Horizontal privilege escalation क्या होती है?", "options": ["Same privilege level के दूसरे user का data access करना", "Higher privileges वाले account को access करना"] },
+      { "q": "Vertical privilege escalation क्या होती है?", "options": ["Lower privilege account से higher privilege functions access करना", "Multiple accounts के बीच privileges distribute करना"] },
+      { "q": "IDOR में non-sequential IDs (GUIDs) क्या guarantee करते हैं?", "options": ["IDs predict करना मुश्किल है लेकिन authorization checks की जगह नहीं लेते", "Complete protection from IDOR"] }
+    ]
+  },
+  "bt-26": {
+    "questions": [
+      { "q": "Broken Authentication vulnerabilities में क्या शामिल होता है?", "options": ["Weak passwords, credential stuffing susceptibility, और insecure session management", "केवल weak password policies"] },
+      { "q": "Credential stuffing attack क्या होता है?", "options": ["Leaked username/password combinations से दूसरी sites पर login try करना", "Common passwords brute force करना"] },
+      { "q": "Password spraying attack में क्या होता है?", "options": ["कुछ common passwords को बहुत सारे accounts पर try करना lockout से बचने के लिए", "एक account पर सभी passwords try करना"] },
+      { "q": "Secure session token का minimum requirement क्या होना चाहिए?", "options": ["Cryptographically random, sufficient length (128+ bits), और unpredictable", "User ID based और encrypted"] },
+      { "q": "Session fixation attack क्या होता है?", "options": ["Attacker victim को known session ID use करने के लिए force करता है", "Session token को intercept करना"] }
+    ]
+  },
+  "bt-27": {
+    "questions": [
+      { "q": "File upload vulnerability में सबसे dangerous scenario क्या है?", "options": ["Web server पर executable files upload करके webshell establish करना", "Large files upload करके storage exhaust करना"] },
+      { "q": "File upload restrictions को bypass करने के techniques?", "options": ["Extension spoofing, MIME type manipulation, double extensions, और null bytes", "केवल file size limits change करना"] },
+      { "q": "Path traversal file upload में क्या होता है?", "options": ["Filename में ../ sequences use करके unintended directories में files write करना", "Upload path को enumerate करना"] },
+      { "q": "Image upload में stored XSS कैसे possible है?", "options": ["SVG files जिनमें JavaScript हो या EXIF metadata में scripts", "PNG files में scripts embed करना"] },
+      { "q": "File upload security के लिए best practices क्या हैं?", "options": ["Rename files, check content not just extension, store outside web root", "केवल MIME type check करना"] }
+    ]
+  },
+  "bt-28": {
+    "questions": [
+      { "q": "Broken Object Property Level Authorization (BOPLA) क्या है?", "options": ["User object के sensitive properties को unauthorized access या modify करना", "Object-oriented programming में authorization error"] },
+      { "q": "Mass assignment में 'binding' क्या होता है?", "options": ["HTTP request parameters automatically object properties से bind होते हैं", "Database tables को objects से bind करना"] },
+      { "q": "Excessive Data Exposure API vulnerability क्या है?", "options": ["API जरूरत से ज्यादा data return करती है और client-side filtering पर depend करती है", "API sensitive logs expose करती है"] },
+      { "q": "API versioning vulnerabilities में क्या होता है?", "options": ["Old API versions properly secured नहीं होते और authentication bypass allow करते हैं", "नए API versions में bugs होते हैं"] },
+      { "q": "Improper Asset Management API vulnerability क्या है?", "options": ["Forgotten या unprotected API endpoints जैसे old versions या test APIs", "API documentation का exposure"] }
+    ]
+  },
+  "bt-29": {
+    "questions": [
+      { "q": "XML injection और XXE में क्या फर्क है?", "options": ["XXE external entities use करके file read या SSRF करता है; XML injection data manipulate करता है", "ये दोनों same vulnerability हैं"] },
+      { "q": "XXE to SSRF कैसे chain होता है?", "options": ["External entity को internal URL point करके internal services probe करना", "XXE से SQL injection trigger करना"] },
+      { "q": "Blind XXE को out-of-band (OOB) techniques से कैसे detect करते हैं?", "options": ["Attacker-controlled server पर DNS/HTTP callbacks trigger करना DTD के through", "Error messages में data leak देखना"] },
+      { "q": "XXE prevention का most effective method?", "options": ["XML parser में external entity processing disable करना", "Input से < > characters filter करना"] },
+      { "q": "JSON APIs में XXE possible है?", "options": ["Normally नहीं, लेकिन अगर backend XML process करे या Content-Type accept करे तो हाँ", "हाँ, JSON और XML दोनों में XXE possible है"] }
+    ]
+  },
+  "bt-30": {
+    "questions": [
+      { "q": "Bug bounty में Recon phase में passive reconnaissance क्या होती है?", "options": ["Target से directly interact किए बिना information gather करना (OSINT, certificate transparency)", "केवल Google dorking"] },
+      { "q": "Certificate Transparency logs bug bounty में क्यों useful हैं?", "options": ["Historical और current subdomains discover करने के लिए", "SSL certificates की validity check करने के लिए"] },
+      { "q": "GitHub dorking bug bounty में क्या reveal कर सकती है?", "options": ["API keys, passwords, internal URLs, और sensitive code", "केवल public repository information"] },
+      { "q": "ASN (Autonomous System Number) recon में क्यों important है?", "options": ["Target organization की IP ranges discover करने के लिए", "Network speed measure करने के लिए"] },
+      { "q": "Bug bounty में responsible disclosure timeline generally क्या होती है?", "options": ["90 days vendor को fix करने का time, फिर public disclosure (Google Project Zero standard)", "30 days fixed timeline"] }
+    ]
+  },
+  "bt-01": {
+    "questions": [
+      { "q": "Penetration testing engagement start करने से पहले सबसे important document क्या है?", "options": ["Rules of Engagement (RoE) और written authorization", "NDA (Non-Disclosure Agreement)"] },
+      { "q": "Legal penetration testing और illegal hacking में fundamental difference क्या है?", "options": ["Written permission और defined scope", "Technical techniques का फर्क"] },
+      { "q": "Penetration test के 'reconnaissance' phase में क्या होता है?", "options": ["Target के बारे में information gather करना attack से पहले", "Vulnerabilities को exploit करना"] },
+      { "q": "Social engineering penetration testing में क्या शामिल होता है?", "options": ["phishing, vishing, और physical pretexting attacks", "केवल email phishing"] },
+      { "q": "Post-exploitation phase में penetration tester क्या करता है?", "options": ["Access maintain करना, lateral movement, और data exfiltration simulate करना", "Vulnerabilities report करना"] }
+    ]
+  },
+  "bt-02": {
+    "questions": [
+      { "q": "Vulnerability assessment और penetration testing में क्या फर्क है?", "options": ["Pentest vulnerabilities को actively exploit करता है; VA केवल identify करता है", "ये technically same हैं"] },
+      { "q": "PTES (Penetration Testing Execution Standard) में कितने phases होते हैं?", "options": ["7 phases — pre-engagement से reporting तक", "3 phases — recon, attack, report"] },
+      { "q": "Penetration test report में 'executive summary' किसके लिए होता है?", "options": ["Non-technical stakeholders के लिए high-level business impact explain करने के लिए", "Technical team के लिए"] },
+      { "q": "Red team और penetration test में क्या फर्क है?", "options": ["Red team long-duration, full-scope adversary simulation करती है; pentest focused होता है", "Red team internal होती है, pentest external"] },
+      { "q": "Penetration testing में 'pivoting' क्या होता है?", "options": ["Compromised system को use करके internal network के other systems तक reach करना", "Different attack vectors switch करना"] }
+    ]
+  },
+  "bt-03": {
+    "questions": [
+      { "q": "Network penetration testing में 'port scanning' का purpose क्या है?", "options": ["Open ports और running services identify करना", "Network bandwidth test करना"] },
+      { "q": "Nmap में '-sS' flag क्या करता है?", "options": ["SYN scan (stealth scan) — full TCP connection complete नहीं होता", "Service version detection"] },
+      { "q": "Banner grabbing technique क्या होती है?", "options": ["Services से version और software information collect करना responses से", "Network banners capture करना"] },
+      { "q": "Network pentest में 'ARP poisoning' से क्या possible है?", "options": ["Man-in-the-middle position establish करके traffic intercept करना", "ARP cache को clear करना"] },
+      { "q": "Internal network pentest में default credentials check करना क्यों important है?", "options": ["Many devices और services factory defaults use करते हैं जो never changed होते हैं", "Compliance requirement है"] }
+    ]
+  },
+  "bt-04": {
+    "questions": [
+      { "q": "Web application penetration testing में 'spidering' क्या होती है?", "options": ["Application को automatically crawl करके pages और parameters discover करना", "Website के spider web जैसी architecture map करना"] },
+      { "q": "Burp Suite का primary use case क्या है?", "options": ["Web application traffic intercept, modify, और analyze करना", "Network packet capture करना"] },
+      { "q": "Web pentest में 'parameter tampering' क्या होती है?", "options": ["Hidden या visible parameters modify करके unexpected application behavior trigger करना", "URL parameters को encrypt करना"] },
+      { "q": "Authentication testing में 'brute force' और 'dictionary attack' में फर्क?", "options": ["Dictionary attack common passwords/words use करता है; brute force सभी combinations try करता है", "ये technically same हैं"] },
+      { "q": "Web application firewall (WAF) को bypass करने की common techniques?", "options": ["Encoding, obfuscation, case variation, और protocol-level evasion", "WAF को bypass करना impossible है"] }
+    ]
+  },
+  "bt-05": {
+    "questions": [
+      { "q": "Wireless penetration testing में WPA2 को attack करने का common approach?", "options": ["4-way handshake capture करके offline dictionary attack करना", "WPA2 को directly decrypt करना"] },
+      { "q": "Evil twin attack wireless testing में क्या होता है?", "options": ["Legitimate access point की copy बनाकर clients को connect करवाना", "Wireless packets को evil way में modify करना"] },
+      { "q": "WPA3 wireless protocol WPA2 से कैसे ज्यादा secure है?", "options": ["SAE (Simultaneous Authentication of Equals) use करता है जो offline attacks prevent करता है", "Longer passwords require करता है"] },
+      { "q": "Deauthentication attack wireless testing में क्या करता है?", "options": ["Clients को AP से disconnect करके handshake capture करने के लिए force करना", "Client devices को permanently block करना"] },
+      { "q": "PMKID attack WPA2 handshake attack से कैसे different है?", "options": ["PMKID AP से directly capture होता है बिना client disconnect किए", "PMKID ज्यादा slow होता है"] }
+    ]
+  },
+  "bt-06": {
+    "questions": [
+      { "q": "Social engineering pentest में 'pretexting' क्या होता है?", "options": ["Fake scenario create करके target को manipulate करना information या access के लिए", "Text messages से attack करना"] },
+      { "q": "Spear phishing और general phishing में क्या फर्क है?", "options": ["Spear phishing specifically targeted होती है personalized information के साथ", "Spear phishing technical है, phishing social"] },
+      { "q": "Physical penetration testing में 'tailgating' क्या होता है?", "options": ["Authorized person के पीछे secure area में enter करना", "Target का physically पीछा करना"] },
+      { "q": "Vishing attack क्या होता है?", "options": ["Voice phishing — phone call से sensitive information extract करना", "Video call से social engineering"] },
+      { "q": "Social engineering को prevent करने का most effective measure?", "options": ["Security awareness training और verification procedures", "Technical controls जैसे spam filters"] }
+    ]
+  },
+  "bt-07": {
+    "questions": [
+      { "q": "Post-exploitation में 'lateral movement' techniques में क्या शामिल है?", "options": ["Pass-the-hash, pass-the-ticket, और WMI/PSExec execution", "Network scanning करना"] },
+      { "q": "Windows penetration testing में LSASS process क्यों target होता है?", "options": ["Credentials और authentication tokens store होते हैं memory में", "Windows का most vulnerable process है"] },
+      { "q": "Mimikatz tool का primary use penetration testing में?", "options": ["Windows credentials, tickets, और hashes extract करना memory से", "Network traffic capture करना"] },
+      { "q": "Pass-the-hash attack क्या होता है?", "options": ["NTLM hash use करके cleartext password के बिना authenticate करना", "Hash values को crack करना"] },
+      { "q": "Kerberoasting attack क्या होता है?", "options": ["Service account Kerberos tickets request करके offline crack करना", "Kerberos authentication को disable करना"] }
+    ]
+  },
+  "bt-08": {
+    "questions": [
+      { "q": "Privilege escalation में 'sudo misconfigurations' कैसे exploit होती हैं?", "options": ["GTFOBins list के allowed commands use करके shell या file access पाना", "sudo password brute force करना"] },
+      { "q": "Linux में SUID bit set होने पर क्या होता है?", "options": ["File file owner के permissions से execute होती है, चलाने वाले user के नहीं", "File को delete नहीं किया जा सकता"] },
+      { "q": "Windows में 'Unquoted Service Path' vulnerability क्या है?", "options": ["Spaces वाले unquoted paths में Windows wrong executable run कर सकता है", "Service path को hide करना"] },
+      { "q": "Token impersonation attack Windows में क्या करता है?", "options": ["दूसरे users के access tokens steal करके उनकी privileges से operate करना", "Authentication tokens को forge करना"] },
+      { "q": "DLL hijacking attack में क्या होता है?", "options": ["Application के expected location पर malicious DLL place करके code execution पाना", "DLL files को corrupt करना"] }
+    ]
+  },
+  "bt-09": {
+    "questions": [
+      { "q": "Penetration testing में 'living off the land' (LOLBin) approach क्या है?", "options": ["Built-in system tools use करके malicious activities perform करना detection avoid करने के लिए", "Penetration testing बिना tools के करना"] },
+      { "q": "PowerShell को penetration testing में क्यों prefer करते हैं?", "options": ["Powerful capabilities, Windows में built-in, और fileless execution possible है", "PowerShell scripts fast होते हैं"] },
+      { "q": "BYOVD (Bring Your Own Vulnerable Driver) attack क्या है?", "options": ["Legitimate but vulnerable driver load करके kernel-level code execution पाना", "Driver software को install करना"] },
+      { "q": "Fileless malware detection को क्यों evade करता है?", "options": ["Disk पर executable files नहीं लिखता — memory और legitimate tools use करता है", "Files को encrypt करता है"] },
+      { "q": "EDR (Endpoint Detection and Response) को bypass करने की techniques?", "options": ["Process injection, obfuscation, और EDR blind spots exploit करना", "EDR software को uninstall करना"] }
+    ]
+  },
+  "bt-10": {
+    "questions": [
+      { "q": "Penetration test report में CVSS scoring का purpose क्या है?", "options": ["Vulnerabilities की severity को standardized तरीके से communicate करना", "Remediation cost estimate करना"] },
+      { "q": "Remediation validation ('retest') penetration testing में क्यों important है?", "options": ["Verify करना कि fixes properly implement हुए और new issues introduce नहीं हुए", "Client को extra charge करने का मौका"] },
+      { "q": "Continuous penetration testing और periodic testing में क्या फर्क है?", "options": ["Continuous testing ongoing monitoring provide करती है; periodic snapshots होते हैं", "Continuous testing automatic होती है"] },
+      { "q": "Pentest में 'false positive' क्या होता है?", "options": ["Tool vulnerability report करता है जो actually exist नहीं करती", "Actual vulnerability miss हो जाती है"] },
+      { "q": "Purple team exercise क्या होता है?", "options": ["Red team (attackers) और blue team (defenders) मिलकर काम करते हैं knowledge share करने के लिए", "Purple team red और blue के बीच arbitrate करती है"] }
+    ]
+  },
+  "atlas-01": {
+    "questions": [
+      { "q": "MITRE ATLAS framework किसके लिए design किया गया है?", "options": ["AI और machine learning systems पर adversarial attacks को document करने के लिए", "Traditional network attacks को categorize करने के लिए"] },
+      { "q": "ATLAS में 'AML' का full form क्या है?", "options": ["Adversarial Machine Learning", "Automated Machine Learning"] },
+      { "q": "Model evasion attack क्या होता है?", "options": ["AI model को wrong predictions करने के लिए manipulated inputs देना", "AI model को server से delete करना"] },
+      { "q": "Data poisoning attack AI में क्या करता है?", "options": ["Training data में malicious samples inject करके model behavior corrupt करना", "Model के output data को corrupt करना"] },
+      { "q": "Model inversion attack से क्या possible है?", "options": ["Model outputs से training data के बारे में sensitive information infer करना", "AI model की architecture reverse engineer करना"] }
+    ]
+  },
+  "atlas-02": {
+    "questions": [
+      { "q": "Adversarial examples क्या होते हैं?", "options": ["Specially crafted inputs जो AI model को wrong predictions करवाते हैं", "AI training के लिए adversarial data"] },
+      { "q": "White-box adversarial attack में attacker के पास क्या होता है?", "options": ["Model architecture, weights, और parameters का full knowledge", "केवल model के outputs"] },
+      { "q": "Black-box adversarial attack में क्या limitation होती है?", "options": ["Attacker के पास model internals नहीं होते, केवल query access", "Attack केवल black colored images पर काम करता है"] },
+      { "q": "Transferability property adversarial ML में क्या है?", "options": ["एक model पर बनाए adversarial examples दूसरे models पर भी काम कर सकते हैं", "Adversarial examples को different devices पर transfer करना"] },
+      { "q": "Membership inference attack क्या होता है?", "options": ["Determine करना कि कोई specific data point model के training set में था या नहीं", "AI model के members को identify करना"] }
+    ]
+  },
+  "atlas-03": {
+    "questions": [
+      { "q": "Model extraction attack क्या होता है?", "options": ["Queries करके model की functionality को replicate करना", "AI model को server से extract करना"] },
+      { "q": "Trojan/backdoor attack AI models में क्या होता है?", "options": ["Model specific trigger inputs पर malicious behavior show करता है", "AI model में virus embed करना"] },
+      { "q": "Neural Cleanse technique क्या करती है?", "options": ["AI models में backdoor triggers को detect और remove करती है", "Neural networks को clean कोड से rebuild करती है"] },
+      { "q": "Supply chain attack AI में कहाँ हो सकता है?", "options": ["Pretrained models, training datasets, और ML libraries में", "केवल deployment infrastructure में"] },
+      { "q": "Prompt injection LLMs में क्या होती है?", "options": ["Malicious instructions inject करके LLM के intended behavior को override करना", "LLM के prompts को encrypt करना"] }
+    ]
+  },
+  "atlas-04": {
+    "questions": [
+      { "q": "ATLAS में 'Reconnaissance' tactic AI context में क्या include करता है?", "options": ["Target ML systems, APIs, और datasets के बारे में information gather करना", "Traditional network reconnaissance"] },
+      { "q": "AI model के attack surface में क्या शामिल है?", "options": ["APIs, training data, model files, और inference endpoints", "केवल API endpoints"] },
+      { "q": "Gradient-based adversarial attacks क्यों effective होते हैं?", "options": ["Model के gradients use करके most impactful perturbations find करते हैं", "Gradients neural network में weak points होते हैं"] },
+      { "q": "Physical adversarial attacks क्या होते हैं?", "options": ["Real world objects modify करके physical environment में AI systems fool करना", "AI data centers पर physical attacks"] },
+      { "q": "Stop sign पर adversarial stickers लगाने से क्या होता है?", "options": ["Autonomous vehicle vision systems को stop sign misclassify करवाना", "Stop sign को humans से hide करना"] }
+    ]
+  },
+  "atlas-05": {
+    "questions": [
+      { "q": "LLM में 'jailbreaking' क्या होता है?", "options": ["Safety guardrails bypass करके restricted content generate करवाना", "LLM को faster run करना"] },
+      { "q": "Indirect prompt injection क्या होती है?", "options": ["External content (web pages, documents) में malicious instructions जो LLM process करता है", "Prompt को indirectly modify करना"] },
+      { "q": "LLM में 'system prompt leakage' क्या होती है?", "options": ["LLM को trick करके confidential system prompt reveal करवाना", "System resources leak करना"] },
+      { "q": "RAG (Retrieval-Augmented Generation) systems में क्या vulnerability हो सकती है?", "options": ["Poisoned documents retrieve होकर LLM responses manipulate हो सकती हैं", "RAG systems में vulnerabilities नहीं होतीं"] },
+      { "q": "LLM को cybersecurity में safely use करने के best practices?", "options": ["Input validation, output filtering, और least privilege access", "LLMs को internet से disconnect करना"] }
+    ]
+  },
+  "atlas-06": {
+    "questions": [
+      { "q": "Federated learning में privacy attack कैसे होता है?", "options": ["Gradient updates से training data infer करना (gradient inversion)", "Central server को attack करना"] },
+      { "q": "Differential privacy AI में क्या provide करती है?", "options": ["Statistical noise add करके individual training data points को protect करना", "Data को differently encrypt करना"] },
+      { "q": "Model watermarking AI security में क्यों useful है?", "options": ["Model theft detect करने के लिए ownership prove करना", "Models को waterproof बनाना"] },
+      { "q": "Adversarial training defense technique क्या करती है?", "options": ["Adversarial examples को training data में include करके model robustness improve करना", "Adversaries को training से exclude करना"] },
+      { "q": "AI red teaming traditional security red teaming से कैसे अलग है?", "options": ["AI-specific attacks जैसे prompt injection, data poisoning, और model extraction test करती है", "AI red teaming automated होती है"] }
+    ]
+  },
+  "atlas-07": {
+    "questions": [
+      { "q": "Deepfake technology cybersecurity threat कैसे है?", "options": ["Voice/video impersonation से social engineering और authentication bypass", "केवल entertainment industry में issue"] },
+      { "q": "AI-powered phishing traditional phishing से कैसे ज्यादा effective है?", "options": ["Personalized, convincing content scale पर generate कर सकता है", "AI phishing emails automatically send करता है"] },
+      { "q": "Autonomous AI agents में security risks क्या हैं?", "options": ["Prompt injection से hijacking, unintended actions, और tool misuse", "Agents बहुत slow होते हैं"] },
+      { "q": "AI model के output को verify करना क्यों important है?", "options": ["Hallucinations और adversarially manipulated outputs को detect करने के लिए", "AI outputs हमेशा correct होते हैं"] },
+      { "q": "AI security में 'human in the loop' का क्या importance है?", "options": ["Critical decisions पर human oversight maintain करना AI errors और misuse को catch करने के लिए", "AI को slow करने के लिए"] }
+    ]
+  },
+  "atlas-08": {
+    "questions": [
+      { "q": "Computer vision AI systems में adversarial patches कैसे काम करते हैं?", "options": ["Physical world में small printed patterns जो nearby objects को misclassify करवाते हैं", "Computer screen पर digital patches"] },
+      { "q": "Speech recognition systems को adversarial audio से कैसे attack किया जाता है?", "options": ["Humans को innocuous लगने वाला audio AI को different commands सुनाता है", "Audio को noise से corrupt करना"] },
+      { "q": "NLP models में bias injection attack क्या होती है?", "options": ["Training data में biased examples inject करके model outputs को manipulate करना", "NLP model में grammatical biases introduce करना"] },
+      { "q": "Recommender system attacks में क्या होता है?", "options": ["Fake reviews या interactions inject करके recommendations manipulate करना", "Recommender का algorithm steal करना"] },
+      { "q": "AI-powered intrusion detection systems (IDS) को evade करने की technique?", "options": ["Adversarial network traffic craft करना जो detection triggers नहीं करता", "IDS को shutdown करना"] }
+    ]
+  },
+  "atlas-09": {
+    "questions": [
+      { "q": "MLOps pipeline में security considerations क्या हैं?", "options": ["Model versioning, access control, और supply chain integrity", "केवल model performance monitoring"] },
+      { "q": "AI model deployment में 'model card' क्यों important है?", "options": ["Model की capabilities, limitations, और potential harms document करता है", "Model को card पर store करना"] },
+      { "q": "Zero-day vulnerability AI systems में क्या हो सकती है?", "options": ["Unknown adversarial attack vectors जिनके लिए कोई known defense नहीं", "AI systems में traditional zero-days नहीं होते"] },
+      { "q": "AI governance framework में security कहाँ fit होती है?", "options": ["Risk assessment, model approval, और ongoing monitoring processes में", "केवल legal compliance में"] },
+      { "q": "Responsible AI development में security का role क्या है?", "options": ["Security by design, threat modeling, और privacy-preserving techniques", "Security केवल deployment phase में consider होती है"] }
+    ]
+  },
+  "atlas-10": {
+    "questions": [
+      { "q": "ATLAS framework में 'Exfiltration' tactic AI context में क्या है?", "options": ["Model parameters, training data, या sensitive outputs को steal करना", "Traditional data exfiltration"] },
+      { "q": "AI model को intellectual property क्यों consider करते हैं?", "options": ["Training में significant resources और proprietary data का use होता है", "AI models automatically copyright protected हैं"] },
+      { "q": "Hyperparameter theft attack क्या होता है?", "options": ["Queries करके model configuration infer करना", "Model के hyperparameters को overwrite करना"] },
+      { "q": "Side-channel attacks AI inference में कैसे होते हैं?", "options": ["Power consumption, timing, या memory access patterns से model information leak होती है", "AI model के side effects exploit करना"] },
+      { "q": "AI model को secure storage क्यों चाहिए?", "options": ["Unauthorized access, theft, और tampering से protect करने के लिए", "Models large होते हैं इसलिए special storage चाहिए"] }
+    ]
+  },
+  "atlas-11": {
+    "questions": [
+      { "q": "ATLAS में 'Impact' tactic में AI-specific impacts क्या हैं?", "options": ["Model corruption, erroneous predictions, और safety system failures", "Traditional availability और integrity impacts"] },
+      { "q": "AI safety system failure का real-world consequence क्या हो सकता है?", "options": ["Autonomous vehicles, medical diagnosis, या industrial control में dangerous decisions", "केवल financial losses"] },
+      { "q": "Bias amplification AI में क्या होती है?", "options": ["Training data के biases model में amplify होकर discriminatory outcomes produce करते हैं", "Model सभी predictions को biased बनाता है"] },
+      { "q": "AI system में availability attack क्या हो सकता है?", "options": ["Inference time बढ़ाने वाले inputs से slowdown या DoS", "AI server को physically damage करना"] },
+      { "q": "Integrity attack AI में क्या होता है?", "options": ["Model outputs को covertly manipulate करना जो users को wrong decisions लेने पर force करे", "AI code को modify करना"] }
+    ]
+  },
+  "atlas-12": {
+    "questions": [
+      { "q": "ATLAS और MITRE ATT&CK का combined use क्यों useful है?", "options": ["Traditional IT attacks को AI-specific attacks के साथ correlate करने के लिए", "ये दोनों frameworks duplicate हैं"] },
+      { "q": "AI threat intelligence में क्या collect करना चाहिए?", "options": ["Known adversarial techniques, attack tools, और AI-specific IOCs", "केवल traditional threat intelligence"] },
+      { "q": "AI incident response में क्या unique challenges हैं?", "options": ["Attack की detectability कम है, evidence volatile है, और model behavior interpret करना मुश्किल है", "AI incidents traditional incidents जैसे ही हैं"] },
+      { "q": "AI security assessment में क्या test करना चाहिए?", "options": ["Adversarial robustness, data privacy, supply chain, और deployment security", "केवल API security"] },
+      { "q": "Future AI security threats में क्या शामिल हो सकता है?", "options": ["More sophisticated autonomous agents, AI-powered cyberweapons, और novel evasion techniques", "AI security threats stable रहेंगे"] }
+    ]
+  },
+  "mitre-01": {
+    "questions": [
+      { "q": "MITRE ATT&CK framework में 'Tactics' क्या represent करती हैं?", "options": ["Adversary के objectives — वे क्या achieve करना चाहते हैं", "Specific attack tools और scripts"] },
+      { "q": "MITRE ATT&CK में 'Techniques' क्या होती हैं?", "options": ["Tactics achieve करने के तरीके — adversary कैसे goal accomplish करता है", "ATT&CK की technical documentation"] },
+      { "q": "ATT&CK matrix में कितने main enterprise tactics हैं (approximate)?", "options": ["14 tactics (Reconnaissance से Impact तक)", "7 tactics"] },
+      { "q": "MITRE ATT&CK का primary use case security teams के लिए क्या है?", "options": ["Threat detection, hunting, और defensive gap analysis", "Vulnerability scanning"] },
+      { "q": "ATT&CK में 'Sub-techniques' क्यों add किए गए?", "options": ["Techniques के specific implementations को granular detail में describe करने के लिए", "Framework को simpler बनाने के लिए"] }
+    ]
+  },
+  "mitre-02": {
+    "questions": [
+      { "q": "MITRE ATT&CK में T1566 किस technique को refer करता है?", "options": ["Phishing", "Exploit Public-Facing Application"] },
+      { "q": "Spearphishing attachment (T1566.001) और spearphishing link (T1566.002) में फर्क?", "options": ["Attachment में malicious file होती है; link malicious website पर redirect करता है", "ये technically same हैं"] },
+      { "q": "Initial access tactic में कौन सी techniques शामिल हैं?", "options": ["phishing, exploit public-facing application, valid accounts, supply chain compromise", "केवल phishing techniques"] },
+      { "q": "T1190 (Exploit Public-Facing Application) किस tactic में है?", "options": ["Initial Access", "Execution"] },
+      { "q": "Supply chain compromise (T1195) किस प्रकार का attack vector है?", "options": ["Software, hardware, या service provider को compromise करके target तक reach करना", "Direct network attack"] }
+    ]
+  },
+  "mitre-03": {
+    "questions": [
+      { "q": "MITRE ATT&CK में 'Persistence' tactic का goal क्या है?", "options": ["System restarts, credential changes के बाद भी access maintain करना", "Network में रहते हुए detect न होना"] },
+      { "q": "Registry Run Keys (T1547.001) persistence के लिए कैसे use होती है?", "options": ["Registry में entries add करके programs automatically run करवाना", "Registry को encrypt करना"] },
+      { "q": "Scheduled Tasks (T1053) persistence mechanism क्या है?", "options": ["Task scheduler में malicious tasks create करना जो regularly execute हों", "System tasks को hijack करना"] },
+      { "q": "Boot/Logon Autostart Execution persistence क्यों effective है?", "options": ["System boot या user logon पर automatically execute होता है", "Security tools को bypass करता है"] },
+      { "q": "Create Account (T1136) persistence technique में क्या होता है?", "options": ["Local या domain accounts create करना future access के लिए", "Admin account का password change करना"] }
+    ]
+  },
+  "mitre-04": {
+    "questions": [
+      { "q": "MITRE ATT&CK में 'Defense Evasion' tactic का goal क्या है?", "options": ["Security controls और detection mechanisms को avoid या disable करना", "Defenders को confuse करना"] },
+      { "q": "Obfuscated Files or Information (T1027) technique क्या है?", "options": ["Code या data को encode/encrypt करके analysis और detection से hide करना", "Files को compress करना"] },
+      { "q": "Process Injection (T1055) defense evasion में क्यों effective है?", "options": ["Malicious code legitimate processes के अंदर run होता है जिससे detection कठिन होती है", "Process को inject करना system को slow करता है"] },
+      { "q": "Indicator Removal (T1070) technique में क्या शामिल है?", "options": ["Logs, files, और other artifacts delete करना forensic investigation से बचने के लिए", "Network indicators को block करना"] },
+      { "q": "Masquerading (T1036) technique क्या होती है?", "options": ["Malicious files या processes को legitimate ones जैसा दिखाना", "User identity को masquerade करना"] }
+    ]
+  },
+  "mitre-05": {
+    "questions": [
+      { "q": "Credential Access tactic में सबसे common technique कौन सी है?", "options": ["OS Credential Dumping (T1003) — LSASS, SAM database, आदि से credentials extract करना", "Brute Force (T1110)"] },
+      { "q": "T1003.001 (LSASS Memory) में क्या होता है?", "options": ["LSASS process memory dump करके plaintext credentials और hashes extract करना", "LSASS service को crash करना"] },
+      { "q": "Brute Force (T1110) में कौन सी sub-techniques हैं?", "options": ["Password spraying, credential stuffing, password cracking", "Dictionary attack, rainbow tables"] },
+      { "q": "Kerberoasting (T1558.003) किस tactic में आता है?", "options": ["Credential Access", "Lateral Movement"] },
+      { "q": "Multi-Factor Authentication (MFA) किन credential access techniques को mitigate करता है?", "options": ["Brute force और credential stuffing को, लेकिन MFA fatigue attacks भी exist करते हैं", "सभी credential access techniques को completely block करता है"] }
+    ]
+  },
+  "mitre-06": {
+    "questions": [
+      { "q": "Discovery tactic में adversary क्या accomplish करना चाहता है?", "options": ["Compromised environment के बारे में knowledge gain करना — systems, users, networks", "New systems discover करना exploit करने के लिए"] },
+      { "q": "Account Discovery (T1087) technique में क्या होता है?", "options": ["System और domain accounts enumerate करना", "New accounts discover करना"] },
+      { "q": "Network Share Discovery (T1135) से adversary क्या find करता है?", "options": ["Network shared drives जहाँ valuable data हो सकता है", "Network topology map"] },
+      { "q": "System Information Discovery (T1082) में क्या collect होता है?", "options": ["OS version, patches, hardware — privilege escalation planning के लिए", "System logs और events"] },
+      { "q": "Process Discovery (T1057) adversary क्यों perform करता है?", "options": ["Security tools identify करने के लिए जिन्हें evade या disable करना हो", "Process IDs collect करने के लिए"] }
+    ]
+  },
+  "mitre-07": {
+    "questions": [
+      { "q": "Lateral Movement tactic में adversary क्या करता है?", "options": ["Compromised network में एक system से दूसरे systems तक move करना", "Data को lateral direction में exfiltrate करना"] },
+      { "q": "Pass the Hash (T1550.002) lateral movement technique क्या है?", "options": ["NTLM hash use करके cleartext password के बिना authenticate करना", "Hashes को crack करके passwords पाना"] },
+      { "q": "Remote Services (T1021) lateral movement में क्या include है?", "options": ["RDP, SSH, SMB, WinRM जैसे services use करके remote systems access करना", "External remote services use करना"] },
+      { "q": "Taint Shared Content (T1080) lateral movement technique क्या है?", "options": ["Shared drives पर malicious files place करना जो दूसरे users execute करें", "Shared data को corrupt करना"] },
+      { "q": "Internal Spearphishing (T1534) क्या होता है?", "options": ["Compromised internal account use करके organization के within phishing attacks", "External spearphishing attacks"] }
+    ]
+  },
+  "mitre-08": {
+    "questions": [
+      { "q": "Collection tactic में adversary क्या करता है?", "options": ["Data gather करता है जिसे eventually exfiltrate करना हो", "Systems को collect करके botnet बनाना"] },
+      { "q": "Keylogging (T1056.001) technique क्या है?", "options": ["Keystrokes capture करके credentials और sensitive information collect करना", "Keyboard को remotely lock करना"] },
+      { "q": "Screen Capture (T1113) collection technique में क्या होता है?", "options": ["Screenshots लेकर sensitive information visually capture करना", "Screen को corrupt करना"] },
+      { "q": "Email Collection (T1114) में क्या शामिल है?", "options": ["Local email clients, mail servers, और cloud email से emails collect करना", "Email addresses enumerate करना"] },
+      { "q": "Data Staged (T1074) collection preparation में क्या होता है?", "options": ["Exfiltration से पहले data को central location पर consolidate करना", "Data को staging server पर upload करना"] }
+    ]
+  },
+  "mitre-09": {
+    "questions": [
+      { "q": "Command and Control (C2) tactic का primary purpose क्या है?", "options": ["Compromised systems के साथ covert communication maintain करना", "Command line से systems control करना"] },
+      { "q": "DGA (Domain Generation Algorithm) C2 में क्यों use होता है?", "options": ["Dynamic domains generate करके C2 infrastructure को block करना मुश्किल बनाना", "Domains को automatically register करना"] },
+      { "q": "DNS tunneling C2 communication में कैसे काम करता है?", "options": ["DNS queries/responses में data encode करके covert channel बनाना", "DNS servers को compromise करके communication route करना"] },
+      { "q": "Application Layer Protocol (T1071) C2 में क्यों effective है?", "options": ["HTTP, HTTPS, DNS जैसे legitimate protocols में blend होता है जो block करना मुश्किल है", "Application layer protocols fast होते हैं"] },
+      { "q": "DoH (DNS over HTTPS) adversaries C2 के लिए क्यों abuse करते हैं?", "options": ["DNS queries HTTPS में encrypted होती हैं जो traditional DNS monitoring को bypass करती हैं", "DoH faster होती है"] }
+    ]
+  },
+  "mitre-10": {
+    "questions": [
+      { "q": "Exfiltration tactic में adversary क्या करता है?", "options": ["Compromised environment से collected data को steal करना", "Data को delete करना"] },
+      { "q": "Exfiltration Over C2 Channel (T1041) क्या है?", "options": ["Already established C2 channel use करके data exfiltrate करना", "C2 server पर data backup करना"] },
+      { "q": "Scheduled Transfer (T1029) exfiltration technique क्यों use होती है?", "options": ["Normal business hours में transfers करके unusual traffic patterns avoid करना", "Scheduled data transfers more efficient हैं"] },
+      { "q": "Data Encrypted Before Exfiltration (T1022) से क्या होता है?", "options": ["Network monitoring और DLP solutions से data content hide करना", "Data को secure transfer करना"] },
+      { "q": "Exfiltration को detect करने के effective methods?", "options": ["Unusual outbound data volumes, protocols, और destinations monitor करना", "केवल DLP solutions काफी हैं"] }
+    ]
+  },
+  "mitre-11": {
+    "questions": [
+      { "q": "Impact tactic में adversary के final objectives क्या हो सकते हैं?", "options": ["Data destruction, ransomware, service disruption, और resource hijacking", "केवल data theft"] },
+      { "q": "Data Encrypted for Impact (T1486) — ransomware में क्या होता है?", "options": ["Files encrypt करके decryption key के लिए ransom demand करना", "Data को compressed format में store करना"] },
+      { "q": "Service Stop (T1489) impact technique क्या है?", "options": ["Critical services disable करके operations disrupt करना", "Services को slow करना"] },
+      { "q": "Disk Wipe (T1561) attack क्या करता है?", "options": ["Storage को overwrite करके data recovery impossible बनाना", "Disk को format करना"] },
+      { "q": "Resource Hijacking (T1496) में क्या होता है?", "options": ["Cryptocurrency mining या spam sending के लिए victim resources use करना", "Resources को encrypt करना"] }
+    ]
+  },
+  "mitre-12": {
+    "questions": [
+      { "q": "MITRE ATT&CK Navigator tool का क्या use है?", "options": ["ATT&CK matrix को visualize करना और techniques को annotate करना coverage mapping के लिए", "Network topology visualize करना"] },
+      { "q": "Threat intelligence को ATT&CK से map करने का benefit क्या है?", "options": ["Known adversary behaviors से defensive coverage और gaps identify करना", "Threat reports automatically generate करना"] },
+      { "q": "ATT&CK-based detection engineering में क्या approach होता है?", "options": ["Specific techniques के लिए targeted detection rules और analytics develop करना", "Generic malware signatures create करना"] },
+      { "q": "MITRE D3FEND framework ATT&CK से कैसे relate करता है?", "options": ["Defensive techniques को ATT&CK offensive techniques से map करता है", "D3FEND ATT&CK का successor है"] },
+      { "q": "Purple teaming में ATT&CK का role क्या है?", "options": ["Red team attacks और blue team detections को common framework में align करना", "ATT&CK purple team-specific techniques define करता है"] }
+    ]
+  },
+  "llm-01": {
+    "questions": [
+      { "q": "Large Language Model (LLM) में 'hallucination' क्या होती है?", "options": ["Model confident लेकिन factually incorrect information generate करता है", "Model respond करने से इनकार करता है"] },
+      { "q": "LLM में 'temperature' parameter क्या control करता है?", "options": ["Output की randomness — higher temperature = more creative/random responses", "Model की processing speed"] },
+      { "q": "LLM में 'context window' क्या होती है?", "options": ["Model जितना text एक time में process कर सकता है (tokens में)", "Model training के लिए use किया गया data"] },
+      { "q": "LLM security में 'prompt injection' क्या है?", "options": ["Malicious instructions inject करके model के intended behavior को override करना", "LLM को prompts के through attack करना"] },
+      { "q": "OWASP LLM Top 10 में सबसे top risk कौन सा है?", "options": ["LLM01: Prompt Injection", "LLM03: Training Data Poisoning"] }
+    ]
+  },
+  "llm-02": {
+    "questions": [
+      { "q": "Direct prompt injection और indirect prompt injection में क्या फर्क है?", "options": ["Direct user directly inject करता है; indirect external content (web, docs) के through होती है", "ये same हैं"] },
+      { "q": "System prompt को protect करना क्यों important है?", "options": ["इसमें application instructions और constraints होती हैं जिन्हें users को override नहीं करना चाहिए", "System prompts में sensitive data होता है"] },
+      { "q": "LLM jailbreaking में 'DAN' (Do Anything Now) prompts क्या करते हैं?", "options": ["LLM को roleplay में restrict mode से बाहर निकालने की कोशिश करते हैं", "DAN एक specific malware है"] },
+      { "q": "Prompt injection से defend करने के methods?", "options": ["Input validation, output filtering, privilege separation, और human oversight", "Prompts को encrypt करना"] },
+      { "q": "LLM में 'many-shot jailbreaking' technique क्या है?", "options": ["Context window में बहुत सारे examples देकर desired behavior elicit करना", "Jailbreak attempts को batch में run करना"] }
+    ]
+  },
+  "llm-03": {
+    "questions": [
+      { "q": "Training data poisoning LLM को कैसे affect करता है?", "options": ["Malicious training data से model biased, backdoored, या unsafe behaviors सीखता है", "Training database को corrupt करना"] },
+      { "q": "LLM में backdoor attack कैसे काम करता है?", "options": ["Specific trigger phrases पर model malicious outputs produce करता है", "LLM में traditional backdoor program install होता है"] },
+      { "q": "RLHF (Reinforcement Learning from Human Feedback) क्या है?", "options": ["Human feedback use करके LLM को safer और more helpful बनाने की technique", "Reinforcement learning का LLM version"] },
+      { "q": "Data poisoning detect करना क्यों मुश्किल है?", "options": ["Training data vast होता है और poisoned examples legitimate जैसे दिखते हैं", "Training data encrypted होता है"] },
+      { "q": "Supply chain attack LLM ecosystem में कहाँ हो सकता है?", "options": ["Pre-trained models, fine-tuning datasets, training libraries, और plugins में", "केवल final deployment में"] }
+    ]
+  },
+  "llm-04": {
+    "questions": [
+      { "q": "LLM model inversion attack से क्या possible है?", "options": ["Model outputs से training data के बारे में sensitive information infer करना", "LLM model को reverse engineer करना"] },
+      { "q": "Membership inference attack LLMs में क्या करता है?", "options": ["Determine करना कि specific text model के training set में था या नहीं", "LLM members को identify करना"] },
+      { "q": "LLM में personally identifiable information (PII) leakage कैसे होती है?", "options": ["Training data से memorized PII को model outputs में reproduce करना", "User PII को model store करता है"] },
+      { "q": "LLM privacy को protect करने के methods?", "options": ["Differential privacy, data minimization, और PII scrubbing in training data", "Training data encrypt करना"] },
+      { "q": "GDPR compliance LLM training में क्यों challenging है?", "options": ["Right to erasure — specific individual का data training से remove करना technically difficult है", "GDPR AI systems पर apply नहीं होता"] }
+    ]
+  },
+  "llm-05": {
+    "questions": [
+      { "q": "LLM में 'excessive agency' vulnerability क्या है?", "options": ["LLM को बहुत ज्यादा permissions और tools दिए गए हैं जिससे unintended actions हो सकती हैं", "LLM बहुत verbose responses देता है"] },
+      { "q": "LLM plugin security में क्या risks होते हैं?", "options": ["Plugins malicious actions perform कर सकते हैं prompt injection के through", "Plugins slow होते हैं"] },
+      { "q": "Least privilege principle LLM agents पर कैसे apply होता है?", "options": ["केवल minimum necessary permissions और tool access देना", "LLM को read-only access देना हमेशा"] },
+      { "q": "LLM को agentic workflows में safely use करने के best practices?", "options": ["Human oversight, sandboxed execution, और action confirmation", "LLM को internet से disconnect करना"] },
+      { "q": "LLM में 'function calling' security में क्या consider करना चाहिए?", "options": ["Input validation, authorization checks, और injection prevention for called functions", "Function calling inherently secure है"] }
+    ]
+  },
+  "llm-06": {
+    "questions": [
+      { "q": "LLM application में sensitive information disclosure कैसे होती है?", "options": ["System prompts, training data, या confidential context leak होना model responses में", "LLM database directly expose होना"] },
+      { "q": "LLM को confidential business data के साथ use करते समय क्या risk है?", "options": ["Data model provider को send होता है और potentially training में use हो सकता है", "LLM data automatically encrypt करता है"] },
+      { "q": "LLM में output validation क्यों important है?", "options": ["Harmful content, sensitive data leakage, और injection attacks को downstream prevent करने के लिए", "LLM outputs हमेशा valid होते हैं"] },
+      { "q": "RAG-based LLM applications में data security कैसे ensure करें?", "options": ["Access control, document permissions, और retrieval authorization", "सभी documents को encrypt करना"] },
+      { "q": "LLM API keys को secure रखने के best practices?", "options": ["Environment variables, secret managers, और access logging use करना", "API keys को comments में document करना"] }
+    ]
+  },
+  "llm-07": {
+    "questions": [
+      { "q": "LLM-powered application में insecure output handling क्या है?", "options": ["LLM outputs को validate किए बिना downstream systems में pass करना", "Outputs को plain text में store करना"] },
+      { "q": "LLM output से XSS कैसे possible है?", "options": ["LLM generated HTML/JavaScript को sanitize किए बिना web pages में render करना", "XSS LLM applications में possible नहीं है"] },
+      { "q": "LLM output से SQL injection कैसे possible है?", "options": ["LLM generated SQL queries को parameterize किए बिना execute करना", "LLM SQL generate नहीं कर सकता"] },
+      { "q": "LLM output handling में SSTI (Server-Side Template Injection) कब हो सकती है?", "options": ["LLM generated content को template engines में without sanitization render करना", "SSTI LLM-specific vulnerability है"] },
+      { "q": "Safe LLM output handling के principles?", "options": ["Treat LLM output as untrusted input, validate, sanitize, और encode appropriately", "LLM outputs signed होते हैं इसलिए safe हैं"] }
+    ]
+  },
+  "llm-08": {
+    "questions": [
+      { "q": "LLM में denial of service attack कैसे होता है?", "options": ["Resource-intensive prompts send करके compute costs बढ़ाना या service degrade करना", "LLM server को network flood करना"] },
+      { "q": "Prompt flooding attack LLM पर क्या करता है?", "options": ["Massive amounts of prompts send करके rate limits exhaust करना और costs बढ़ाना", "Context window को fill करना"] },
+      { "q": "Recursive prompt loops LLM में क्या problem create करते हैं?", "options": ["Model को infinite loops में trap करके resources exhaust करना", "Prompts automatically repeat होते हैं"] },
+      { "q": "LLM DoS attacks से protect करने के methods?", "options": ["Rate limiting, input length limits, cost monitoring, और anomaly detection", "LLMs naturally DoS-resistant हैं"] },
+      { "q": "Economic denial of service (EDoS) LLM context में क्या है?", "options": ["API costs को dramatically बढ़ाकर service operators को financial harm पहुँचाना", "Economic data को deny करना"] }
+    ]
+  },
+  "llm-09": {
+    "questions": [
+      { "q": "LLM में overreliance risk क्या है?", "options": ["Users LLM outputs को fact-check किए बिना critical decisions में use करते हैं", "LLM पर बहुत ज्यादा compute spend करना"] },
+      { "q": "LLM hallucinations critical domains में dangerous क्यों हैं?", "options": ["Medical, legal, या financial advice में confident wrong information harmful outcomes lead करती है", "Hallucinations केवल annoying होती हैं"] },
+      { "q": "LLM outputs को verify करने के methods?", "options": ["Authoritative sources से cross-reference करना और expert review maintain करना", "LLM को multiple times prompt करना"] },
+      { "q": "Human oversight LLM systems में क्यों necessary है?", "options": ["Errors catch करने, accountability ensure करने, और high-stakes decisions में judgment provide करने के लिए", "Regulations require करती हैं"] },
+      { "q": "LLM को decision support tool के रूप में safely use करने का approach?", "options": ["Final authority humans के पास रखना और LLM recommendations को critically evaluate करना", "LLM decisions को automatically implement करना"] }
+    ]
+  },
+  "llm-10": {
+    "questions": [
+      { "q": "LLM model theft (model extraction) कैसे होती है?", "options": ["Systematic queries करके model behavior replicate करना और surrogate model train करना", "Model files को directly copy करना"] },
+      { "q": "Model extraction attacks से intellectual property को protect करने के methods?", "options": ["Rate limiting, output perturbation, और query monitoring", "Model को internet पर deploy न करना"] },
+      { "q": "Watermarking LLM outputs में कैसे काम करता है?", "options": ["Statistical patterns embed करके output को identify करना model से आया है", "Visible watermarks add करना"] },
+      { "q": "LLM fine-tuning security में क्या risks हैं?", "options": ["Malicious fine-tuning data से safety alignments को undo करना", "Fine-tuning models को slow करता है"] },
+      { "q": "Open source LLMs के security implications क्या हैं?", "options": ["Weights accessible हैं जिससे safety filters remove करना possible हो जाता है", "Open source LLMs ज्यादा secure हैं"] }
+    ]
+  },
+  "llm-11": {
+    "questions": [
+      { "q": "LLM में 'alignment' problem क्या है?", "options": ["Model के behavior को human values और intended use cases के साथ align रखना", "LLM के weights को align करना"] },
+      { "q": "Constitutional AI क्या approach use करती है?", "options": ["AI को principles से guide करना और self-critique करवाना harmful outputs avoid करने के लिए", "Constitution की तरह rigid rules set करना"] },
+      { "q": "Red teaming LLMs में क्या होता है?", "options": ["Systematically LLM को harmful, biased, या unsafe outputs के लिए test करना", "Red color prompts से test करना"] },
+      { "q": "LLM safety evaluation में क्या dimensions होती हैं?", "options": ["Harmlessness, honesty, helpfulness — और robustness to adversarial inputs", "केवल accuracy और fluency"] },
+      { "q": "AI Act (EU) LLMs पर क्या requirements impose करता है?", "options": ["Risk classification, transparency, और high-risk AI systems के लिए conformity assessments", "AI Act केवल robotics पर apply होता है"] }
+    ]
+  },
+  "llm-12": {
+    "questions": [
+      { "q": "LLM security testing में किन tools का use होता है?", "options": ["Garak, PyRIT, और custom adversarial prompt libraries", "Traditional DAST tools"] },
+      { "q": "LLM application के threat model में क्या include होना चाहिए?", "options": ["Prompt injection, data leakage, model theft, plugin abuse, और supply chain risks", "केवल API security"] },
+      { "q": "LLM security incident response में unique challenges क्या हैं?", "options": ["Attack artifacts difficult to capture हैं और prompt-based attacks log करना challenging है", "LLM incidents traditional incidents जैसे हैं"] },
+      { "q": "LLM को production में deploy करने से पहले security checklist में क्या होना चाहिए?", "options": ["Red teaming, prompt injection testing, output validation, और access controls", "Performance benchmarks"] },
+      { "q": "Future LLM security challenges में क्या anticipate करना चाहिए?", "options": ["More capable autonomous agents, multi-model systems, और novel jailbreak techniques", "LLM security challenges समय के साथ कम होंगी"] }
+    ]
+  },
+  "quantum-01": {
+    "questions": [
+      { "q": "Quantum computing cryptography के लिए सबसे बड़ा threat क्यों है?", "options": ["Shor's algorithm RSA और ECC को exponentially faster break कर सकता है", "Quantum computers सभी encryption break कर देते हैं"] },
+      { "q": "Grover's algorithm symmetric encryption को कैसे affect करता है?", "options": ["Effective key strength को half करता है (128-bit → 64-bit equivalent security)", "Symmetric encryption को completely break करता है"] },
+      { "q": "'Harvest now, decrypt later' attack क्या है?", "options": ["Encrypted data अभी collect करना, जब quantum computers available हों तो decrypt करना", "Data harvest करना और later ransom demand करना"] },
+      { "q": "Post-Quantum Cryptography (PQC) क्या है?", "options": ["Classical computers पर run होने वाले algorithms जो quantum attacks resist करते हैं", "Quantum computers पर use होने वाली cryptography"] },
+      { "q": "NIST PQC standardization process में कितने algorithms को standardize किया गया?", "options": ["4 algorithms — ML-KEM, ML-DSA, SLH-DSA, FALCON (FN-DSA)", "1 algorithm"] }
+    ]
+  },
+  "quantum-02": {
+    "questions": [
+      { "q": "ML-KEM (CRYSTALS-Kyber) किस mathematical problem पर based है?", "options": ["Learning With Errors (LWE) over module lattices", "Integer factorization"] },
+      { "q": "ML-DSA (CRYSTALS-Dilithium) क्या provide करता है?", "options": ["Post-quantum digital signatures", "Post-quantum key encapsulation"] },
+      { "q": "SLH-DSA (SPHINCS+) किस approach पर based है?", "options": ["Hash-based signatures — lattices के बजाय hash functions use करता है", "Code-based cryptography"] },
+      { "q": "Lattice-based cryptography quantum-resistant क्यों मानी जाती है?", "options": ["Lattice problems को efficient quantum algorithms से solve नहीं किया जा सकता", "Quantum computers lattices process नहीं कर सकते"] },
+      { "q": "FIPS 203 standard कौन से algorithm को specify करता है?", "options": ["ML-KEM (Module-Lattice Key Encapsulation Mechanism)", "ML-DSA"] }
+    ]
+  },
+  "quantum-03": {
+    "questions": [
+      { "q": "Quantum Key Distribution (QKD) क्या provide करती है?", "options": ["Physics के laws use करके theoretically secure key exchange", "Quantum computers के बीच fast key exchange"] },
+      { "q": "BB84 protocol QKD में कैसे काम करता है?", "options": ["Quantum states (polarized photons) पर encoded bits send करके eavesdropping detect करना", "Quantum entanglement से keys generate करना"] },
+      { "q": "QKD की practical limitations क्या हैं?", "options": ["Limited distance, special hardware required, और high cost", "QKD केवल satellites पर काम करती है"] },
+      { "q": "QKD और PQC में fundamental difference क्या है?", "options": ["QKD physical quantum properties use करती है; PQC mathematical hardness पर rely करती है", "QKD ज्यादा secure है"] },
+      { "q": "Quantum entanglement cryptography में कैसे use होती है?", "options": ["Entangled particles के through secure key distribution (E91 protocol)", "Encryption को faster बनाने के लिए"] }
+    ]
+  },
+  "quantum-04": {
+    "questions": [
+      { "q": "Cryptographic agility क्यों important है post-quantum transition में?", "options": ["Algorithms को quickly swap करने की ability — अगर एक compromise हो तो दूसरे पर move करें", "Multiple algorithms simultaneously use करना"] },
+      { "q": "Hybrid cryptography post-quantum transition में क्या होती है?", "options": ["Classical और post-quantum algorithms दोनों combine करना maximum security के लिए", "Hybrid cloud पर cryptography use करना"] },
+      { "q": "TLS में post-quantum migration कैसे होगी?", "options": ["TLS handshakes में PQC key exchange और signatures integrate करके", "TLS को completely replace करके"] },
+      { "q": "Code signing में post-quantum migration क्यों critical है?", "options": ["Long-lived software को future quantum attacks से protect करने के लिए", "Code signing पहले से quantum-resistant है"] },
+      { "q": "X.509 certificates में PQC migration की challenge क्या है?", "options": ["Certificate chains में सभी signatures और keys को update करना — complex और time-consuming", "X.509 already quantum-resistant है"] }
+    ]
+  },
+  "quantum-05": {
+    "questions": [
+      { "q": "NIST FIPS 203 (ML-KEM) का use case क्या है?", "options": ["Key encapsulation — symmetric keys को securely exchange करने के लिए", "Digital signatures के लिए"] },
+      { "q": "NIST FIPS 204 (ML-DSA) का primary application क्या है?", "options": ["Digital signatures — documents और software को sign करने के लिए", "Key generation के लिए"] },
+      { "q": "NIST FIPS 205 (SLH-DSA) किसके लिए particularly suitable है?", "options": ["Hash-based signatures जहाँ stateless operation important है", "High-speed key exchange"] },
+      { "q": "PQC algorithms traditional algorithms से performance में कैसे compare करते हैं?", "options": ["Generally larger key/signature sizes लेकिन competitive speed", "PQC algorithms much faster होते हैं"] },
+      { "q": "IoT devices में PQC deployment की challenges क्या हैं?", "options": ["Limited compute, memory, और power — larger PQC keys और computations constrained हैं", "IoT devices को PQC की जरूरत नहीं"] }
+    ]
+  },
+  "quantum-06": {
+    "questions": [
+      { "q": "RSA-2048 को Shor's algorithm से break करने के लिए कितने qubits चाहिए (approximate)?", "options": ["हजारों logical qubits (error-corrected) — current quantum computers से बहुत दूर", "128 qubits"] },
+      { "q": "Quantum error correction क्यों important है?", "options": ["Real quantum computers में errors होती हैं जिन्हें correct करना large-scale algorithms के लिए जरूरी है", "Errors quantum को classical से better बनाती हैं"] },
+      { "q": "'Cryptographically relevant quantum computer' (CRQC) क्या है?", "options": ["Quantum computer जो actually current cryptography break कर सके — अभी exist नहीं करता", "Quantum computer जो cryptography use करता है"] },
+      { "q": "NIST recommend करता है कि organizations अभी PQC migration शुरू करें क्योंकि?", "options": ["Migration time-consuming है और 'harvest now, decrypt later' attacks already हो रहे हैं", "Quantum computers already cryptography break कर रहे हैं"] },
+      { "q": "Quantum advantage क्या है?", "options": ["Specific problems को quantum computers classical computers से exponentially faster solve करते हैं", "Quantum computers सभी tasks में better होते हैं"] }
+    ]
+  },
+  "quantum-07": {
+    "questions": [
+      { "q": "Hash functions (SHA-256, SHA-3) post-quantum world में कितने secure हैं?", "options": ["Reasonably secure — Grover's algorithm से 128-bit effective security रहती है SHA-256 में", "Completely insecure हो जाते हैं"] },
+      { "q": "AES-256 post-quantum world में क्यों sufficient माना जाता है?", "options": ["Grover's algorithm effective key length को half करता है, लेकिन 128-bit equivalent security remains", "AES quantum-resistant algorithm है"] },
+      { "q": "ECDH key exchange quantum threat में क्यों vulnerable है?", "options": ["Shor's algorithm elliptic curve discrete log problem को efficient solve कर सकता है", "ECDH keys too small होती हैं"] },
+      { "q": "Diffie-Hellman key exchange quantum attack में क्यों breaks होता है?", "options": ["Shor's algorithm discrete logarithm problem को efficient solve कर सकता है", "DH को brute force करना easy है"] },
+      { "q": "Post-quantum world में password hashing algorithms जैसे bcrypt कितने secure हैं?", "options": ["Password hashing quantum threat से relatively safe है — brute force still needed", "Completely broken हो जाते हैं"] }
+    ]
+  },
+  "quantum-08": {
+    "questions": [
+      { "q": "Code-based cryptography (McEliece) post-quantum security कैसे provide करती है?", "options": ["Error-correcting codes decoding problem पर — NP-hard problem जिसे quantum computers efficiently solve नहीं कर सकते", "Code को quantum-proof format में compile करना"] },
+      { "q": "NTRU cryptosystem किस mathematical problem पर based है?", "options": ["Polynomial rings में shortest vector problem (lattice-based)", "Number theory relative to units"] },
+      { "q": "Multivariate cryptography का basis क्या है?", "options": ["Multivariate polynomial equations solve करना — believed to be quantum-resistant", "Multiple variables use करके encryption"] },
+      { "q": "Isogeny-based cryptography (SIKE) क्यों deprecated किया गया?", "options": ["Classical cryptanalysis attack ने इसे break किया — quantum attack नहीं", "Quantum computers ने इसे break किया"] },
+      { "q": "Rainbow signature scheme (classic variant) का क्या हुआ?", "options": ["Classical attack से broken — NIST PQC competition से removed", "Quantum attack से broken"] }
+    ]
+  },
+  "quantum-09": {
+    "questions": [
+      { "q": "Quantum random number generation (QRNG) conventional RNG से कैसे different है?", "options": ["True randomness quantum phenomena से — classical RNG pseudo-random होता है", "QRNG faster होता है"] },
+      { "q": "Quantum network (quantum internet) क्या enable करेगी?", "options": ["Secure quantum communication, distributed quantum computing, और QKD networks", "Traditional internet से faster communication"] },
+      { "q": "Post-quantum VPN implementation में क्या changes होंगे?", "options": ["Key exchange में ML-KEM और authentication में ML-DSA या SLH-DSA use करना", "VPN को quantum computers पर run करना"] },
+      { "q": "SSH protocol में post-quantum migration कैसे होगी?", "options": ["Key exchange और host authentication में PQC algorithms integrate करके", "SSH को completely rebuild करना"] },
+      { "q": "S/MIME और PGP email encryption में PQC migration क्यों important है?", "options": ["Email long-term confidentiality के लिए — archived emails future quantum decryption vulnerable हैं", "Email encryption already quantum-resistant है"] }
+    ]
+  },
+  "quantum-10": {
+    "questions": [
+      { "q": "Organizations को quantum risk assessment में क्या include करना चाहिए?", "options": ["Cryptographic inventory, data sensitivity, और migration timeline planning", "केवल current encryption algorithms list करना"] },
+      { "q": "Cryptographic bill of materials (CBOM) क्या है?", "options": ["Organization में use होने वाले सभी cryptographic assets का inventory", "Cryptography purchasing budget"] },
+      { "q": "Post-quantum migration में 'crypto-agility' achieve करने का approach?", "options": ["Hardcoded algorithms की बजाय configurable cryptographic modules use करना", "सभी algorithms simultaneously support करना"] },
+      { "q": "NSA CNSA 2.0 suite क्या recommend करती है?", "options": ["National security systems के लिए PQC algorithms — ML-KEM, ML-DSA, SLH-DSA", "Classical algorithms maintain करना"] },
+      { "q": "Post-quantum transition का timeline क्या है जो NIST suggest करता है?", "options": ["2030 तक migration शुरू और 2035 तक classical public-key crypto deprecate करना", "2050 तक migration complete करना"] }
+    ]
+  },
+  "quantum-b01": {
+    "questions": [
+      { "q": "Quantum superposition का cryptography पर क्या impact है?", "options": ["Quantum computer multiple states simultaneously process कर सकता है जिससे parallel attacks possible हैं", "Superposition से encryption unbreakable हो जाती है"] },
+      { "q": "Qubit classical bit से कैसे different है?", "options": ["Qubit 0 और 1 के superposition में हो सकता है; classical bit केवल 0 या 1", "Qubit faster होता है classical bit से"] },
+      { "q": "Quantum decoherence quantum computing में क्यों problem है?", "options": ["Environment से interaction quantum states को destroy कर देती है जिससे errors होती हैं", "Decoherence quantum को classical में convert करता है"] },
+      { "q": "NISQ (Noisy Intermediate-Scale Quantum) era क्या represent करता है?", "options": ["Current quantum computers — limited qubits, high error rates, no error correction", "Next generation quantum computers"] },
+      { "q": "Quantum advantage cryptanalysis में कब practically relevant होगा?", "options": ["Large-scale fault-tolerant quantum computers बनने पर — estimated years to decades away", "Already relevant है"] }
+    ]
+  },
+  "quantum-b02": {
+    "questions": [
+      { "q": "LWE (Learning With Errors) problem क्यों post-quantum security provide करता है?", "options": ["Noisy linear equations solve करना — classical और quantum दोनों computers के लिए hard", "Errors से cryptography more complex हो जाती है"] },
+      { "q": "Ring-LWE LWE से कैसे different है?", "options": ["Polynomial rings use करता है जिससे more efficient implementations possible हैं", "Ring-LWE ज्यादा secure है"] },
+      { "q": "Lattice reduction attacks (BKZ algorithm) PQC को कैसे affect करते हैं?", "options": ["Parameters carefully choose करने होते हैं ताकि best known attacks infeasible हों", "Lattice attacks PQC को completely break करते हैं"] },
+      { "q": "ML-KEM में 'Module' prefix क्या indicate करता है?", "options": ["Module lattices use करता है जो plain और ring LWE के बीच balance provide करता है", "Modular arithmetic use करता है"] },
+      { "q": "PQC key sizes traditional RSA keys से कैसे compare करते हैं?", "options": ["ML-KEM-768 public key ~1KB — RSA-2048 ~256 bytes; PQC generally larger हैं", "PQC keys smaller होते हैं"] }
+    ]
+  },
+  "quantum-b03": {
+    "questions": [
+      { "q": "Hash-based signatures (SLH-DSA) का main advantage क्या है?", "options": ["Security केवल hash function security पर depend करती है — well-understood और conservative", "Hash signatures fastest होती हैं"] },
+      { "q": "Stateful hash-based signatures (XMSS, LMS) में क्या limitation है?", "options": ["State को track करना जरूरी है — same key reuse catastrophic failure cause करता है", "Stateful signatures insecure हैं"] },
+      { "q": "SLH-DSA stateless है — इसका क्या benefit है?", "options": ["State management की जरूरत नहीं — simpler deployment और no reuse risks", "Stateless signatures faster होती हैं"] },
+      { "q": "XMSS (eXtended Merkle Signature Scheme) का standardization status क्या है?", "options": ["RFC 8391 में standardized — primarily long-lived signature applications के लिए", "अभी experimental है"] },
+      { "q": "Merkle tree hash-based signatures में कैसे use होते हैं?", "options": ["One-time signatures को tree structure में organize करके many messages sign करना", "Data को securely store करने के लिए"] }
+    ]
+  },
+  "quantum-b04": {
+    "questions": [
+      { "q": "Quantum key distribution (QKD) को 'unconditionally secure' क्यों कहते हैं?", "options": ["Security quantum mechanics के physical laws पर based है, mathematical assumptions पर नहीं", "QKD को break करना impossible है किसी भी conditions में"] },
+      { "q": "QKD में eavesdropping कैसे detect होती है?", "options": ["Quantum measurement quantum states disturb करती है जिससे error rate बढ़ जाता है", "QKD encrypted होती है इसलिए eavesdropping impossible है"] },
+      { "q": "Continuous-Variable QKD (CV-QKD) और Discrete-Variable QKD (DV-QKD) में क्या फर्क है?", "options": ["CV-QKD optical field quadratures use करता है; DV-QKD single photon states use करता है", "ये technically same हैं"] },
+      { "q": "Quantum repeaters QKD में क्यों जरूरी हैं?", "options": ["Photon loss optical fibers में होती है — repeaters range को extend करते हैं without classical amplification", "Quantum signals को amplify करने के लिए"] },
+      { "q": "Satellite-based QKD terrestrial QKD से कैसे different है?", "options": ["Free-space optical links use करके longer distances achieve होती हैं (Micius satellite)", "Satellite QKD faster है"] }
+    ]
+  },
+  "quantum-b05": {
+    "questions": [
+      { "q": "Hybrid PQC deployment में security benefits क्या हैं?", "options": ["अगर classical या post-quantum algorithm compromise हो तो दूसरा security maintain करता है", "Hybrid से performance improve होती है"] },
+      { "q": "IETF post-quantum TLS में क्या standardize कर रहा है?", "options": ["ML-KEM based key exchange और hybrid classical+PQC combinations", "Quantum encryption protocol"] },
+      { "q": "Post-quantum migration में backward compatibility challenge क्या है?", "options": ["New PQC systems को old classical systems के साथ interoperate करना होगा transition period में", "Backward compatibility impossible है"] },
+      { "q": "PQC implementation में side-channel attacks क्यों important consideration हैं?", "options": ["Timing और power analysis attacks even secure algorithms को leak कर सकते हैं", "PQC side-channel attacks prevent करता है"] },
+      { "q": "CRYSTALS suite में क्या algorithms शामिल हैं?", "options": ["Kyber (ML-KEM) key encapsulation और Dilithium (ML-DSA) signatures", "केवल Kyber"] }
+    ]
+  },
+  "quantum-b06": {
+    "questions": [
+      { "q": "Quantum computing cloud services का security impact क्या है?", "options": ["Quantum capabilities को access करके organizations cryptography test कर सकती हैं लेकिन sensitive data expose होने का risk", "Cloud quantum always secure है"] },
+      { "q": "Post-quantum PKI (Public Key Infrastructure) में क्या changes होंगे?", "options": ["Certificate authorities को PQC algorithms use करने होंगे key और signature algorithms में", "PKI quantum computers से immune है"] },
+      { "q": "Blockchain post-quantum threat में कैसे vulnerable है?", "options": ["Digital signatures (ECDSA) quantum attacks से vulnerable हैं; PoW hashing less so", "Blockchain completely quantum-resistant है"] },
+      { "q": "Long-term secure communication क्यों अभी PQC need करती है?", "options": ["Data decades तक confidential रहना चाहिए — future quantum decryption का risk real है", "Long-term security traditional encryption provide करती है"] },
+      { "q": "NIST IR 8547 document क्या address करता है?", "options": ["Transition planning guidance for post-quantum migration", "New quantum algorithms specifications"] }
+    ]
+  },
+  "quantum-b07": {
+    "questions": [
+      { "q": "Grover's algorithm database search में क्या करता है?", "options": ["Unsorted database में O(√N) time में search करता है — classical O(N) से faster", "Database को quantum format में convert करता है"] },
+      { "q": "Amplitude amplification quantum computing में क्या है?", "options": ["Correct answers की probability amplify करने की technique जो Grover's और other algorithms use करते हैं", "Quantum signals को amplify करना"] },
+      { "q": "Quantum walk algorithms cryptography में relevant क्यों हैं?", "options": ["Element distinctness जैसी problems solve करते हैं जो collision-finding में relevant हैं", "Walk-based encryption algorithms"] },
+      { "q": "BHT algorithm (quantum collision finding) hash functions को कैसे affect करता है?", "options": ["Hash collisions classical O(2^(n/3)) से quantum O(2^(n/3)) में find हो सकते हैं — marginal improvement", "Hash functions completely broken हो जाते हैं"] },
+      { "q": "Post-quantum world में SHA-3 sufficient क्यों माना जाता है?", "options": ["Output size double करने से quantum attacks against collision/preimage resistance mitigated होती है", "SHA-3 quantum-proof design है"] }
+    ]
+  },
+  "quantum-b08": {
+    "questions": [
+      { "q": "Quantum computing hardware approaches में कौन सी technology सबसे advanced है?", "options": ["Superconducting qubits (IBM, Google) — सबसे ज्यादा qubits और public benchmarks", "Trapped ion qubits"] },
+      { "q": "Fault-tolerant quantum computing के लिए physical vs logical qubit ratio क्या है?", "options": ["Thousands of physical qubits per logical qubit — error correction overhead enormous है", "1:1 ratio"] },
+      { "q": "Quantum volume एक क्या metric है?", "options": ["Quantum computer की overall capability measure — qubit count, connectivity, और error rates combine करता है", "Quantum processor की speed"] },
+      { "q": "Photonic quantum computing का advantage क्या है?", "options": ["Room temperature operation possible है और networking के लिए suited है", "Fastest quantum computing approach है"] },
+      { "q": "Topological qubits (Microsoft approach) का theoretical advantage क्या है?", "options": ["Inherently more error-resistant — fewer physical qubits per logical qubit needed", "Topological qubits fastest होते हैं"] }
+    ]
+  },
+  "quantum-b09": {
+    "questions": [
+      { "q": "Post-quantum cryptography standardization में 'Round 4' candidates कौन से हैं?", "options": ["Classic McEliece — conservative backup algorithm, evaluation under NIST", "ML-KEM और ML-DSA"] },
+      { "q": "BIKE और HQC algorithms NIST process में क्यों continue हैं?", "options": ["Code-based alternatives — diversity के लिए अगर lattice problems compromise हों", "NIST ने इन्हें best माना"] },
+      { "q": "Algorithm diversity post-quantum में क्यों important है?", "options": ["अगर एक mathematical problem family में breakthrough हो तो alternatives available हों", "Multiple algorithms use करने से performance improve होती है"] },
+      { "q": "FALCON (FN-DSA) ML-DSA से performance में कैसे different है?", "options": ["FALCON smaller signatures produce करता है लेकिन implementation challenging है (floating point)", "FALCON slower है"] },
+      { "q": "PQC algorithm selection में security level कैसे define होता है?", "options": ["NIST security levels 1-5 — AES-128, SHA-256, AES-192, SHA-384, AES-256 equivalent", "Bit security में directly"] }
+    ]
+  },
+  "quantum-b10": {
+    "questions": [
+      { "q": "Enterprise में cryptographic inventory conduct करने का approach क्या होना चाहिए?", "options": ["All systems, protocols, और libraries में cryptographic usage discover और document करना", "केवल web servers check करना"] },
+      { "q": "PQC migration roadmap में पहला priority क्या होना चाहिए?", "options": ["Long-lived sensitive data protect करना और most critical systems migrate करना पहले", "सभी systems simultaneously migrate करना"] },
+      { "q": "Vendor dependency PQC migration में क्यों challenge है?", "options": ["Third-party software और hardware vendors को भी PQC support करना होगा", "Vendors PQC already support करते हैं"] },
+      { "q": "PQC performance benchmarking में क्या metrics important हैं?", "options": ["Key generation, encapsulation/decapsulation speed, key sizes, और signature sizes", "केवल encryption speed"] },
+      { "q": "Post-quantum migration success के लिए organizational requirements क्या हैं?", "options": ["Executive support, dedicated resources, crypto-agility mindset, और ongoing monitoring", "केवल technical team की जरूरत"] }
+    ]
+  },
+  "quantum-c01": {
+    "questions": [
+      { "q": "Quantum cryptography और post-quantum cryptography में fundamental difference?", "options": ["Quantum crypto quantum physics use करती है; PQC classical computers पर quantum-resistant math use करती है", "ये same technology हैं"] },
+      { "q": "One-time pad theoretically unbreakable क्यों है?", "options": ["Key completely random, secret, और plaintext जितना लंबा होता है — information-theoretically secure", "One-time pad quantum encryption है"] },
+      { "q": "Information-theoretic security और computational security में क्या फर्क है?", "options": ["Info-theoretic unlimited compute से भी safe; computational security finite compute assume करती है", "ये same हैं"] },
+      { "q": "Quantum memory cryptographic protocols में क्यों important होगी?", "options": ["Quantum states store करके long-distance QKD और quantum networks enable करना", "Classical memory से faster होगी"] },
+      { "q": "Post-quantum world में forward secrecy achieve करने का approach?", "options": ["Ephemeral PQC key exchange use करना प्रत्येक session के लिए", "Long-term PQC keys use करना"] }
+    ]
+  },
+  "quantum-c02": {
+    "questions": [
+      { "q": "Zero-knowledge proofs post-quantum world में कैसे affect होंगी?", "options": ["ZKP systems underlying crypto पर depend करते हैं — PQC-based ZKP systems develop हो रहे हैं", "ZKP naturally quantum-resistant हैं"] },
+      { "q": "Homomorphic encryption quantum threats से कैसे affect होती है?", "options": ["Lattice-based HE naturally post-quantum resistant है — same mathematical foundations", "HE completely broken हो जाती है"] },
+      { "q": "Secure multi-party computation (MPC) post-quantum scenario में?", "options": ["MPC protocols को underlying primitives update करने होंगे PQC के लिए", "MPC quantum attacks से immune है"] },
+      { "q": "Threshold cryptography post-quantum में क्यों useful है?", "options": ["Single point of failure eliminate करता है — multiple parties की जरूरत होती है operations के लिए", "Threshold crypto faster है"] },
+      { "q": "Blind signatures post-quantum world में क्यों important हैं?", "options": ["Privacy-preserving applications जैसे e-cash में — PQC blind signature schemes develop हो रहे हैं", "Blind signatures quantum computers से immune हैं"] }
+    ]
+  },
+  "quantum-c03": {
+    "questions": [
+      { "q": "Post-quantum secure messaging में Signal Protocol को कैसे update करना होगा?", "options": ["X3DH key agreement और Double Ratchet में PQC algorithms integrate करना", "Signal Protocol already quantum-resistant है"] },
+      { "q": "PQXDH protocol क्या है?", "options": ["Signal Protocol का post-quantum version जो ML-KEM integrate करता है X3DH में", "Post-quantum XML data handling protocol"] },
+      { "q": "WhatsApp और iMessage PQC integration में क्या challenges हैं?", "options": ["Backward compatibility, key size increases, और billion-scale deployment", "Messaging apps पहले से quantum-safe हैं"] },
+      { "q": "Post-quantum secure email standards कैसे evolve होंगे?", "options": ["S/MIME और OpenPGP को PQC key types और signature algorithms support करने होंगे", "Email quantum-secure है"] },
+      { "q": "Browser में PQC TLS का status क्या है?", "options": ["Chrome और Firefox ML-KEM experimental support add कर चुके हैं", "Browsers PQC support करना शुरू नहीं किए"] }
+    ]
+  },
+  "quantum-c04": {
+    "questions": [
+      { "q": "HSM (Hardware Security Module) post-quantum migration में क्या role है?", "options": ["HSMs को PQC key types और operations support करने के लिए update या replace करना होगा", "HSMs automatically quantum-resistant हैं"] },
+      { "q": "Smart cards और tokens PQC migration में क्यों challenging हैं?", "options": ["Limited compute और memory — larger PQC keys और computations constrained devices के लिए difficult हैं", "Smart cards PQC already support करते हैं"] },
+      { "q": "TPM (Trusted Platform Module) post-quantum में क्या changes होंगे?", "options": ["TPM 3.0 specifications में PQC algorithms include होने की expect है", "TPM changes की जरूरत नहीं"] },
+      { "q": "Secure boot में post-quantum transition क्यों critical है?", "options": ["Firmware signatures long-lived होती हैं — classical signatures future quantum attacks से vulnerable हैं", "Secure boot already quantum-resistant है"] },
+      { "q": "Hardware-accelerated PQC क्यों important होगा?", "options": ["ML-KEM और ML-DSA के large key sizes और computations को efficient बनाने के लिए", "Software PQC implementation काफी fast है"] }
+    ]
+  },
+  "quantum-c05": {
+    "questions": [
+      { "q": "Nation-state actors 'harvest now, decrypt later' strategy क्यों use कर रहे हैं?", "options": ["Long-term intelligence value वाले encrypted communications collect करना अभी decrypt करने के लिए बाद में", "Data storage cost कम करने के लिए"] },
+      { "q": "Critical infrastructure PQC migration में क्यों highest priority है?", "options": ["Power grids, water systems, और financial infrastructure पर quantum attacks catastrophic होंगे", "Critical infrastructure पहले से protected है"] },
+      { "q": "Defense और intelligence agencies PQC transition को urgently prioritize क्यों करती हैं?", "options": ["Long-term classified information की protection और national security implications", "Regulatory compliance के लिए"] },
+      { "q": "International PQC standardization efforts में ETSI का क्या role है?", "options": ["European standards body जो NIST PQC standards को European contexts में adapt कर रही है", "ETSI separate quantum algorithms develop कर रही है"] },
+      { "q": "Quantum-safe financial transactions में क्या considerations हैं?", "options": ["Long-term transaction records, regulatory compliance, और systemic risk from quantum threats", "Financial transactions naturally quantum-safe हैं"] }
+    ]
+  },
+  "quantum-c06": {
+    "questions": [
+      { "q": "Post-quantum PKI में root CA migration कैसे होगी?", "options": ["Long offline root CAs को PQC algorithms में first migrate करना — trust anchors critical हैं", "Root CAs को replace करने की जरूरत नहीं"] },
+      { "q": "Certificate lifetime और PQC migration में क्या relationship है?", "options": ["Shorter-lived certificates easier to migrate हैं; long-lived certificates जल्दी expire/reissue होनी चाहिए", "Certificate lifetime irrelevant है"] },
+      { "q": "OCSP और CRL infrastructure PQC में कैसे affect होगी?", "options": ["Signature verification में PQC algorithms use होंगे — performance implications हैं large signatures से", "OCSP/CRL infrastructure unchanged रहेगी"] },
+      { "q": "Code signing certificates में PQC migration urgency क्यों है?", "options": ["Software updates को signed करना — compromised signatures से malicious software distribution हो सकती है", "Code signing पहले से quantum-safe है"] },
+      { "q": "Multi-algorithm certificates (dual-signing) क्यों useful हैं transition में?", "options": ["Classical और PQC signatures दोनों carry करके backward compatibility maintain करना", "Multi-algorithm certificates more secure हैं always"] }
+    ]
+  },
+  "quantum-c07": {
+    "questions": [
+      { "q": "5G network security post-quantum threat में क्यों important है?", "options": ["Long-lived infrastructure, sensitive communications, और authentication protocols जिन्हें migrate करना होगा", "5G networks quantum-safe हैं"] },
+      { "q": "Autonomous vehicles PQC में क्यों require करेंगे?", "options": ["V2X communications, OTA updates, और safety-critical decisions long-term secure होनी चाहिए", "AVs encryption use नहीं करते"] },
+      { "q": "Medical devices में PQC की urgency?", "options": ["Long device lifetimes, patient data privacy, और remote monitoring security", "Medical devices simple हैं — no crypto needed"] },
+      { "q": "Industrial control systems (ICS/OT) PQC migration में क्या challenges हैं?", "options": ["Legacy systems, long operational lifetimes, और safety-critical operations जो downtime allow नहीं करते", "ICS systems internet-connected नहीं होते"] },
+      { "q": "Cloud providers post-quantum migration में क्या role निभाएंगे?", "options": ["Infrastructure-level PQC deploy करके customers को transparent protection provide करना", "Customers को खुद migrate करना होगा"] }
+    ]
+  },
+  "quantum-c08": {
+    "questions": [
+      { "q": "Academic और research institutions में PQC adoption में क्या challenges हैं?", "options": ["Legacy systems, budget constraints, और awareness — research data long-term sensitive हो सकता है", "Research institutions को crypto की जरूरत नहीं"] },
+      { "q": "Open source cryptographic libraries PQC migration में क्यों critical हैं?", "options": ["OpenSSL, BoringSSL जैसे libraries अधिकांश software को underpin करती हैं — इनका PQC support essential है", "Open source libraries पहले से quantum-safe हैं"] },
+      { "q": "liboqs (Open Quantum Safe) project क्या है?", "options": ["Post-quantum algorithm implementations का open source library जो testing और integration facilitate करती है", "Quantum computing simulation library"] },
+      { "q": "PQC migration में developer education क्यों important है?", "options": ["Developers को new APIs, larger key sizes, और changed assumptions understand करने होंगे", "PQC migration purely infrastructure change है"] },
+      { "q": "Quantum-safe VPN products already available हैं — इनका status क्या है?", "options": ["Some vendors ML-KEM support add कर चुके हैं; widespread adoption still in progress है", "Quantum-safe VPNs commercially unavailable हैं"] }
+    ]
+  },
+  "quantum-c09": {
+    "questions": [
+      { "q": "Post-quantum migration में testing और validation क्यों critical है?", "options": ["PQC implementations में bugs catastrophic security failures cause कर सकते हैं", "PQC algorithms self-validating हैं"] },
+      { "q": "NIST PQC test vectors का purpose क्या है?", "options": ["Implementations को validate करना कि algorithms correctly implement हुए हैं", "Performance benchmarking"] },
+      { "q": "PQC migration में key management कैसे change होगी?", "options": ["Larger keys, different formats, और updated lifecycle management practices जरूरी होंगे", "Key management unchanged रहेगी"] },
+      { "q": "Quantum-safe HSM evaluation में क्या criteria होने चाहिए?", "options": ["PQC algorithm support, performance, FIPS certification status, और migration path", "Traditional HSM criteria sufficient हैं"] },
+      { "q": "Side-channel resistance PQC implementations में क्यों separately address करनी चाहिए?", "options": ["Mathematically secure algorithms को careless implementations से timing/power attacks से break किया जा सकता है", "PQC naturally side-channel resistant है"] }
+    ]
+  },
+  "quantum-c10": {
+    "questions": [
+      { "q": "Post-quantum world में digital identity में क्या changes होंगे?", "options": ["Identity credentials, biometric systems, और authentication protocols को PQC update करना होगा", "Digital identity quantum-safe है"] },
+      { "q": "Decentralized identity (DID) और verifiable credentials PQC में कैसे evolve होंगे?", "options": ["DID documents और VC signatures में PQC algorithms integrate होंगे", "DIDs quantum attacks से immune हैं"] },
+      { "q": "FIDO2/WebAuthn post-quantum में कैसे migrate होगा?", "options": ["Authenticators और protocols को PQC signature और key agreement support करना होगा", "FIDO2 already quantum-resistant है"] },
+      { "q": "Post-quantum world में long-term archival signatures कैसे handle होंगी?", "options": ["Timestamp authorities और archive signing को PQC में migrate करना — existing signatures का validity concern", "Archived documents को re-sign करने की जरूरत नहीं"] },
+      { "q": "Quantum readiness assessment में organizations को क्या prioritize करना चाहिए?", "options": ["Data sensitivity और lifetime, system criticality, vendor dependencies, और migration complexity", "केवल current encryption algorithm inventory"] }
+    ]
+  },
+  "audit-01": {
+    "questions": [
+      { "q": "Security audit और penetration test में fundamental difference क्या है?", "options": ["Audit compliance और controls assess करता है; pentest actively exploits vulnerabilities", "ये technically same हैं"] },
+      { "q": "ISO 27001 audit में 'Statement of Applicability' (SoA) क्या होता है?", "options": ["Document जो applicable controls और उनके implementation status को justify करता है", "Audit schedule statement"] },
+      { "q": "SOC 2 Type I और Type II में क्या फर्क है?", "options": ["Type I specific point in time पर controls assess करता है; Type II period over time (usually 6-12 months)", "Type II ज्यादा expensive है बस"] },
+      { "q": "Risk-based audit approach क्या है?", "options": ["Highest risk areas पर audit resources focus करना — not uniform coverage", "Risk के बारे में report करना"] },
+      { "q": "Audit में 'segregation of duties' control क्यों important है?", "options": ["एक single person critical transactions complete और conceal नहीं कर सकता — fraud/error prevent होता है", "Duties को आसान बनाना"] }
+    ]
+  },
+  "audit-02": {
+    "questions": [
+      { "q": "GDPR audit में Data Processing Agreement (DPA) review क्यों important है?", "options": ["Third-party processors के साथ data protection obligations contractually bound हैं", "DPAs केवल large companies के लिए required हैं"] },
+      { "q": "Security audit में access control review में क्या check करते हैं?", "options": ["Least privilege, need-to-know, separation of duties, और orphaned accounts", "केवल password policies"] },
+      { "q": "Audit में log review का purpose क्या है?", "options": ["Security events detect करना, compliance demonstrate करना, और incident investigation support करना", "Storage audit करना"] },
+      { "q": "Change management audit में क्या verify करते हैं?", "options": ["Changes authorized, tested, documented, और approved हैं deployment से पहले", "Changes fast implement हुई हैं"] },
+      { "q": "Vulnerability management audit में क्या assess करते हैं?", "options": ["Scanning frequency, patch timelines, risk prioritization, और tracking/remediation processes", "Total vulnerabilities count"] }
+    ]
+  },
+  "audit-03": {
+    "questions": [
+      { "q": "PCI DSS audit में 'cardholder data environment' (CDE) scope क्या है?", "options": ["Systems जो cardholder data store, process, या transmit करते हैं — और connected systems", "केवल payment servers"] },
+      { "q": "PCI DSS में network segmentation audit क्यों important है?", "options": ["Proper segmentation CDE scope reduce करती है और assessment cost कम करती है", "Segmentation performance के लिए है"] },
+      { "q": "PCI DSS Requirement 11 में क्या शामिल है?", "options": ["Regularly test security systems and processes — vulnerability scanning और penetration testing", "Encrypt transmitted cardholder data"] },
+      { "q": "Qualified Security Assessor (QSA) क्या होता है?", "options": ["PCI SSC certified auditor जो Level 1 merchants और service providers को assess करता है", "Internal security reviewer"] },
+      { "q": "PCI DSS v4.0 में customized approach क्या है?", "options": ["Organizations stated objective achieve करने के लिए alternative controls implement कर सकते हैं", "PCI DSS को customize करना"] }
+    ]
+  },
+  "audit-04": {
+    "questions": [
+      { "q": "HIPAA security rule audit में technical safeguards में क्या शामिल है?", "options": ["Access controls, audit controls, integrity, transmission security, और authentication", "Physical server security"] },
+      { "q": "HIPAA में Business Associate Agreement (BAA) audit क्यों important है?", "options": ["Business associates को ePHI protect करने के लिए contractually obligated करता है", "BAA optional है"] },
+      { "q": "Risk analysis HIPAA compliance में क्यों foundational है?", "options": ["ePHI की confidentiality, integrity, और availability को threats और vulnerabilities identify करना required है", "Risk analysis optional best practice है"] },
+      { "q": "HIPAA breach notification rule audit में क्या check करते हैं?", "options": ["Breach detection, assessment, notification procedures और timelines (60 days)", "Breach prevention measures"] },
+      { "q": "HIPAA में minimum necessary standard audit में क्या verify करते हैं?", "options": ["Access और disclosure को केवल minimum necessary information तक limit करना", "Data को minimally store करना"] }
+    ]
+  },
+  "audit-05": {
+    "questions": [
+      { "q": "NIST Cybersecurity Framework (CSF) में पाँच core functions कौन से हैं?", "options": ["Identify, Protect, Detect, Respond, Recover", "Plan, Do, Check, Act, Improve"] },
+      { "q": "CSF में 'Identify' function में क्या शामिल है?", "options": ["Asset management, business environment, governance, risk assessment, risk management strategy", "Security controls implement करना"] },
+      { "q": "CSF implementation tiers क्या represent करते हैं?", "options": ["Cybersecurity risk management practices की sophistication — Partial से Adaptive तक", "Security maturity levels"] },
+      { "q": "CSF profiles का purpose क्या है?", "options": ["Current state और target state align करना business requirements, risk tolerance, और resources के साथ", "Compliance documentation"] },
+      { "q": "NIST CSF 2.0 में नया addition क्या था?", "options": ["'Govern' function — cybersecurity strategy, expectations, और policies", "Quantitative risk metrics"] }
+    ]
+  },
+  "audit-06": {
+    "questions": [
+      { "q": "SOX (Sarbanes-Oxley) IT audit में ITGC (IT General Controls) में क्या शामिल है?", "options": ["Change management, access controls, computer operations, और system development", "Financial reporting controls"] },
+      { "q": "SOX Section 404 audit में auditor क्या assess करता है?", "options": ["Management का internal control over financial reporting का assessment", "Financial statement accuracy"] },
+      { "q": "IT audit में 'control deficiency', 'significant deficiency', और 'material weakness' में क्या फर्क है?", "options": ["Severity बढ़ती है — material weakness most serious है और financial statement risk indicate करती है", "ये different names हैं same thing के लिए"] },
+      { "q": "Privileged access management (PAM) audit में क्या check करते हैं?", "options": ["Privileged account inventory, access reviews, session recording, और just-in-time provisioning", "Admin password complexity"] },
+      { "q": "Service provider audit में SOC reports का क्या role है?", "options": ["Third-party assurance provide करना कि service provider के controls effective हैं", "Service provider का performance review"] }
+    ]
+  },
+  "audit-07": {
+    "questions": [
+      { "q": "Cyber insurance में security audit की क्या role है?", "options": ["Insurer security posture assess करता है premium और coverage determine करने के लिए", "Audit cyber insurance replace करता है"] },
+      { "q": "Cloud security audit में shared responsibility model क्यों important है?", "options": ["Cloud provider और customer के बीच security responsibilities clearly define करना", "Cloud providers सभी security handle करते हैं"] },
+      { "q": "Third-party risk management audit में क्या assess करते हैं?", "options": ["Vendor security assessment processes, contracts, monitoring, और offboarding procedures", "Vendor pricing negotiations"] },
+      { "q": "Data retention और destruction audit में क्या verify करते हैं?", "options": ["Data retention policies, secure deletion procedures, और disposal verification", "Storage capacity management"] },
+      { "q": "Business continuity और disaster recovery audit में क्या assess करते हैं?", "options": ["BCP/DRP documentation, testing frequency, RTO/RPO achievements, और communication plans", "Backup storage location"] }
+    ]
+  },
+  "audit-08": {
+    "questions": [
+      { "q": "Encryption audit में क्या verify करते हैं?", "options": ["Algorithm strength, key management, certificate validity, और data at rest/transit encryption", "केवल HTTPS use करना"] },
+      { "q": "Network security audit में firewall rule review में क्या check करते हैं?", "options": ["Default deny, least privilege rules, rule documentation, और periodic review process", "Total rules count"] },
+      { "q": "Endpoint security audit में क्या assess करते हैं?", "options": ["EDR deployment, patch levels, disk encryption, और unauthorized software", "Antivirus signatures currency"] },
+      { "q": "Email security audit में क्या check करते हैं?", "options": ["SPF, DKIM, DMARC configuration, phishing protection, और email encryption", "Spam filter accuracy"] },
+      { "q": "Web application security audit में OWASP Top 10 का role क्या है?", "options": ["Common vulnerability categories के against application को assess करने का framework", "Web audit के लिए certification requirement"] }
+    ]
+  },
+  "audit-09": {
+    "questions": [
+      { "q": "Security awareness training audit में क्या assess करते हैं?", "options": ["Training coverage, frequency, effectiveness metrics, और phishing simulation results", "Training materials quality"] },
+      { "q": "Incident response audit में क्या verify करते हैं?", "options": ["IR plan documentation, team roles, escalation procedures, testing frequency, और lessons learned", "Incident count statistics"] },
+      { "q": "Security metrics audit में key performance indicators (KPIs) में क्या शामिल होना चाहिए?", "options": ["Patch compliance rates, mean time to detect/respond, vulnerability aging, और training completion", "Firewall block counts"] },
+      { "q": "Audit findings को remediate करने में accountability कैसे ensure करें?", "options": ["Clear ownership assignment, timelines, tracking mechanism, और executive escalation path", "Audit team खुद remediate करे"] },
+      { "q": "Continuous audit monitoring क्या है?", "options": ["Real-time या near-real-time control effectiveness monitoring — periodic sampling की बजाय", "Daily audit reports"] }
+    ]
+  },
+  "audit-10": {
+    "questions": [
+      { "q": "Mobile device management (MDM) audit में क्या assess करते हैं?", "options": ["Enrollment coverage, encryption enforcement, remote wipe capability, और app policies", "Device model inventory"] },
+      { "q": "Cloud IAM audit में क्या check करते हैं?", "options": ["Permission minimization, unused permissions, cross-account access, और MFA enforcement", "User count"] },
+      { "q": "DevSecOps audit में security integration points क्या हैं?", "options": ["SAST/DAST in CI/CD, dependency scanning, secrets detection, और security gates", "Development speed metrics"] },
+      { "q": "Container security audit में क्या verify करते हैं?", "options": ["Base image vulnerabilities, privileged containers, secrets in images, और runtime security", "Container count"] },
+      { "q": "Kubernetes security audit में क्या focus areas हैं?", "options": ["RBAC configuration, network policies, pod security standards, और secrets management", "Node count"] }
+    ]
+  },
+  "audit-11": {
+    "questions": [
+      { "q": "Zero trust architecture audit में क्या verify करते हैं?", "options": ["Identity verification, micro-segmentation, least privilege, और continuous validation", "VPN usage"] },
+      { "q": "SIEM deployment audit में क्या assess करते हैं?", "options": ["Log source coverage, alert tuning, detection rules, और analyst response workflows", "Log storage capacity"] },
+      { "q": "Threat hunting program audit में क्या evaluate करते हैं?", "options": ["Hunting hypotheses, data sources, tool maturity, और findings documentation", "Analyst headcount"] },
+      { "q": "Security operations center (SOC) audit में key metrics क्या हैं?", "options": ["MTTD, MTTR, false positive rate, escalation accuracy, और analyst workload", "Ticket count"] },
+      { "q": "Cyber threat intelligence (CTI) program audit में क्या assess करते हैं?", "options": ["Intelligence sources, relevance to organization, integration with defenses, और analyst skill", "Threat report count"] }
+    ]
+  },
+  "audit-12": {
+    "questions": [
+      { "q": "Security audit report में executive summary क्या include करना चाहिए?", "options": ["Business risk summary, critical findings, और recommended priorities — technical jargon avoid करें", "All technical findings"] },
+      { "q": "Audit evidence में chain of custody क्यों important है?", "options": ["Evidence integrity maintain करना और legal proceedings में admissibility ensure करना", "Evidence organize करना"] },
+      { "q": "Internal audit independence क्यों important है?", "options": ["Bias avoid करने के लिए — auditor auditee activities में involved नहीं होना चाहिए", "Auditors को isolated रखना"] },
+      { "q": "Re-audit और follow-up audit का purpose क्या है?", "options": ["Findings remediate हुए हैं या नहीं verify करना — accountability ensure करना", "Additional fees generate करना"] },
+      { "q": "Audit committee को security audit findings कैसे present करें?", "options": ["Business risk language में, financial impact के साथ, और clear action items, timelines", "Full technical report present करें"] }
+    ]
+  },
+  "audit-t01": {
+    "questions": [
+      { "q": "Technical security audit में network architecture review में क्या check करते हैं?", "options": ["Segmentation, DMZ design, trust boundaries, और traffic flow documentation", "Network speed"] },
+      { "q": "Firewall audit में implicit deny rule क्यों important है?", "options": ["Explicitly allowed नहीं है वह सब default block हो — defense in depth principle", "Firewall performance improve होती है"] },
+      { "q": "IDS/IPS audit में क्या verify करते हैं?", "options": ["Signature updates, tuning, coverage, और integration with SIEM", "Alert count"] },
+      { "q": "DNS security audit में क्या check करते हैं?", "options": ["DNSSEC, DNS filtering, split-horizon DNS, और unauthorized zone transfers", "DNS server uptime"] },
+      { "q": "HTTPS certificate audit में क्या verify करते हैं?", "options": ["Certificate validity, algorithm strength, chain completeness, और automatic renewal", "Certificate issuer"] }
+    ]
+  },
+  "audit-t02": {
+    "questions": [
+      { "q": "Database security audit में क्या assess करते हैं?", "options": ["Access controls, encryption at rest, audit logging, patching, और unnecessary privileges", "Database size"] },
+      { "q": "API security audit में क्या check करते हैं?", "options": ["Authentication, authorization, rate limiting, input validation, और error handling", "API response time"] },
+      { "q": "Code review security audit में automated tools क्या check करते हैं?", "options": ["SAST tools — hardcoded secrets, injection flaws, insecure functions, और known vulnerable patterns", "Code style और formatting"] },
+      { "q": "Cryptographic implementation audit में weak practices क्या हैं?", "options": ["MD5/SHA1 for sensitive uses, ECB mode, hardcoded keys, और insecure random number generation", "Old documentation"] },
+      { "q": "Infrastructure as Code (IaC) security audit में क्या check करते हैं?", "options": ["Hardcoded credentials, overly permissive policies, unencrypted sensitive data, और public exposure", "Code syntax errors"] }
+    ]
+  },
+  "audit-t03": {
+    "questions": [
+      { "q": "Active Directory security audit में क्या assess करते हैं?", "options": ["Admin group membership, GPO configurations, Kerberos settings, और privileged account security", "Domain controller count"] },
+      { "q": "Password policy audit में क्या verify करते हैं?", "options": ["Minimum length, complexity, history, lockout settings, और MFA enforcement", "Password expiration period"] },
+      { "q": "Service account audit में क्या check करते हैं?", "options": ["Excessive privileges, shared credentials, interactive logon permissions, और Kerberoastable SPNs", "Service account count"] },
+      { "q": "PKI audit में क्या assess करते हैं?", "options": ["CA hierarchy design, certificate policies, CRL/OCSP availability, और HSM protection of CA keys", "Certificate templates count"] },
+      { "q": "Network access control (NAC) audit में क्या verify करते हैं?", "options": ["Device authentication, posture checking, quarantine processes, और guest network isolation", "Connected device count"] }
+    ]
+  },
+  "audit-t04": {
+    "questions": [
+      { "q": "Wireless network security audit में क्या assess करते हैं?", "options": ["Encryption protocols (WPA3), rogue AP detection, EAP configuration, और guest isolation", "WiFi coverage areas"] },
+      { "q": "VPN audit में क्या verify करते हैं?", "options": ["Authentication methods, encryption algorithms, split tunneling policy, और session timeouts", "Connected users count"] },
+      { "q": "Remote access security audit में क्या check करते हैं?", "options": ["MFA enforcement, device posture, privileged access controls, और session monitoring", "Remote access availability"] },
+      { "q": "Load balancer और reverse proxy security audit में क्या assess करते हैं?", "options": ["TLS termination, header security, DDoS protection, और WAF integration", "Traffic throughput"] },
+      { "q": "SMTP security audit में क्या verify करते हैं?", "options": ["SPF, DKIM, DMARC, TLS encryption, और relay restrictions", "Email volume"] }
+    ]
+  },
+  "audit-t05": {
+    "questions": [
+      { "q": "Backup और recovery security audit में क्या check करते हैं?", "options": ["Encryption, offsite storage, integrity verification, restoration testing, और access controls", "Backup completion time"] },
+      { "q": "Patch management audit में क्या assess करते हैं?", "options": ["Scanning coverage, prioritization process, SLA compliance, और compensating controls", "Patch count"] },
+      { "q": "Software composition analysis (SCA) audit में क्या verify करते हैं?", "options": ["Third-party dependencies' vulnerabilities, licenses, और update processes", "Code coverage"] },
+      { "q": "Container registry security audit में क्या check करते हैं?", "options": ["Image scanning, signed images, access controls, और base image policies", "Image count"] },
+      { "q": "Secrets management audit में क्या assess करते हैं?", "options": ["Centralized secrets management, rotation policies, access logging, और no hardcoded secrets", "Secret count"] }
+    ]
+  },
+  "audit-t06": {
+    "questions": [
+      { "q": "Security information event management (SIEM) audit में correlation rules का review क्यों important है?", "options": ["Rules relevant और tuned हों — false positives/negatives minimize करना critical incidents के लिए", "Rule count optimize करना"] },
+      { "q": "User and entity behavior analytics (UEBA) audit में क्या assess करते हैं?", "options": ["Baseline accuracy, anomaly detection effectiveness, और false positive management", "User count"] },
+      { "q": "Network detection and response (NDR) audit में क्या verify करते हैं?", "options": ["Traffic coverage, protocol analysis, threat detection capabilities, और east-west visibility", "Network bandwidth"] },
+      { "q": "Endpoint detection and response (EDR) audit में क्या check करते हैं?", "options": ["Deployment coverage, telemetry collection, detection logic, और response capabilities", "Endpoint count"] },
+      { "q": "Security orchestration, automation and response (SOAR) audit में क्या assess करते हैं?", "options": ["Playbook coverage, automation accuracy, integration health, और manual fallback procedures", "Alert ticket count"] }
+    ]
+  },
+  "audit-t07": {
+    "questions": [
+      { "q": "Cloud security posture management (CSPM) audit में क्या verify करते हैं?", "options": ["Misconfiguration detection coverage, policy enforcement, और remediation workflows", "Cloud spend"] },
+      { "q": "Data loss prevention (DLP) audit में क्या assess करते हैं?", "options": ["Policy coverage, channel protection, classification accuracy, और incident investigation", "Blocked transfers count"] },
+      { "q": "Identity governance audit में क्या check करते हैं?", "options": ["Access certification processes, role mining, SoD conflicts, और orphaned accounts", "User count"] },
+      { "q": "Privileged access workstation (PAW) audit में क्या verify करते हैं?", "options": ["Dedicated admin systems, internet isolation, privileged access restrictions, और monitoring", "Workstation specs"] },
+      { "q": "Just-in-time (JIT) access audit में क्या assess करते हैं?", "options": ["Request-approval workflows, time limits, monitoring, और standing access elimination", "Access request count"] }
+    ]
+  },
+  "audit-t08": {
+    "questions": [
+      { "q": "Penetration test findings को audit में कैसे integrate करते हैं?", "options": ["Pentest results को audit evidence के रूप में use करना control effectiveness demonstrate करने के लिए", "Pentest और audit separate रहते हैं"] },
+      { "q": "Red team exercise audit में क्या value provide करती है?", "options": ["Real-world attack scenario में control effectiveness demonstrate करती है — compliance testing से beyond", "Red team audit replace करती है"] },
+      { "q": "Tabletop exercise security audit में क्यों relevant है?", "options": ["IR और BCP procedures को test करती है — documented processes के against gaps identify करना", "Tabletop केवल training है"] },
+      { "q": "Security control testing और audit testing में क्या फर्क है?", "options": ["Security testing vulnerabilities find करता है; audit verifies controls exist और operate effectively", "ये same हैं"] },
+      { "q": "Continuous control monitoring audit implications क्या हैं?", "options": ["Real-time control effectiveness evidence — periodic audit से evidence quality improve होती है", "Continuous monitoring audit eliminate करता है"] }
+    ]
+  },
+  "audit-t09": {
+    "questions": [
+      { "q": "Cloud audit में CloudTrail/Azure Monitor review में क्या check करते हैं?", "options": ["API calls, privileged actions, resource changes, और unusual access patterns", "Storage costs"] },
+      { "q": "Identity federation audit में क्या assess करते हैं?", "options": ["SAML/OIDC configuration, trust relationships, attribute mapping, और session management", "SSO speed"] },
+      { "q": "Multi-cloud security audit में क्या challenges हैं?", "options": ["Consistent policy enforcement, visibility gaps, और tool fragmentation across providers", "Cost management"] },
+      { "q": "Serverless security audit में क्या verify करते हैं?", "options": ["Function permissions, secrets handling, dependency vulnerabilities, और timeout configurations", "Function execution time"] },
+      { "q": "SaaS application security audit में क्या assess करते हैं?", "options": ["SSO integration, data residency, API access, और security certifications (SOC 2)", "SaaS pricing"] }
+    ]
+  },
+  "audit-t10": {
+    "questions": [
+      { "q": "IoT security audit में क्या check करते हैं?", "options": ["Default credentials, firmware updates, network segmentation, और unnecessary services", "Device count"] },
+      { "q": "OT/ICS security audit में क्या differently assess करते हैं?", "options": ["Availability priority, legacy systems, air-gap maintenance, और safety system integrity", "Production metrics"] },
+      { "q": "Physical security audit में IT components को कैसे include करते हैं?", "options": ["Server room access, cable management, workstation locks, और clean desk policy", "Building aesthetics"] },
+      { "q": "Supply chain security audit में software components को कैसे assess करते हैं?", "options": ["SBOM review, vendor security assessments, và open source vulnerability management", "Vendor pricing"] },
+      { "q": "Digital forensics readiness audit में क्या verify करते हैं?", "options": ["Log retention, forensic tools availability, chain of custody procedures, और legal hold processes", "Investigation history"] }
+    ]
+  },
+  "audit-t11": {
+    "questions": [
+      { "q": "Security audit में sampling methodology क्यों use होती है?", "options": ["Large populations को exhaustively test करना impractical है — representative sample से conclusions draw होती हैं", "Sampling faster है"] },
+      { "q": "Audit में 'walkthrough' technique क्या है?", "options": ["Process को end-to-end trace करना एक transaction से — control design और operation verify करना", "Facility का physical walkthrough"] },
+      { "q": "IT audit में 'computer-assisted audit techniques' (CAATs) क्या हैं?", "options": ["Automated tools से large datasets analyze करना — data analytics, ACL, IDEA", "Computer से audit reports generate करना"] },
+      { "q": "Audit opinion में qualified opinion क्या indicate करता है?", "options": ["Material issues हैं लेकिन pervasive नहीं — specific exceptions के साथ overall acceptable", "Audit qualified auditor ने किया"] },
+      { "q": "Audit में 'management representation letter' का purpose क्या है?", "options": ["Management formally confirm करती है representations जो audit evidence के basis हैं", "Management audit approve करती है"] }
+    ]
+  },
+  "audit-t12": {
+    "questions": [
+      { "q": "Security audit में artificial intelligence tools का use कैसे evolve हो रहा है?", "options": ["Log analysis automation, anomaly detection, और audit evidence review में AI increasingly used है", "AI audits human auditors replace कर रहा है"] },
+      { "q": "Regulatory compliance audit में 'audit fatigue' क्यों होती है?", "options": ["Multiple overlapping regulations — same evidence को multiple frameworks के against collect करना burdensome है", "Audits बहुत long होती हैं"] },
+      { "q": "Integrated audit approach क्या है?", "options": ["Financial और IT audit को coordinate करना — IT controls financial reporting को support करते हैं", "Multiple auditors एक साथ audit करते हैं"] },
+      { "q": "Security audit में 'management response' का importance क्या है?", "options": ["Management findings acknowledge करती है, root cause address करती है, और remediation plan provide करती है", "Management audit approve करती है"] },
+      { "q": "Future of security auditing में automation और AI की role क्या होगी?", "options": ["Continuous compliance monitoring, automated evidence collection, और AI-assisted risk assessment", "Human auditors completely replace होंगे"] }
+    ]
+  },
+  "audit-a01": {
+    "questions": [
+      { "q": "Application security audit में threat modeling का purpose क्या है?", "options": ["Application को potential threats के against systematically analyze करना और mitigations identify करना", "Application को test करना"] },
+      { "q": "STRIDE threat modeling framework में क्या categories हैं?", "options": ["Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege", "Security, Testing, Risk, Integrity, Defense, Evaluation"] },
+      { "q": "Application security audit में data flow diagram (DFD) क्यों important है?", "options": ["Trust boundaries, data stores, और external interactions visualize करने के लिए जहाँ threats exist करते हैं", "Application architecture document करना"] },
+      { "q": "Secure SDLC audit में security requirements review में क्या check करते हैं?", "options": ["Security requirements defined, prioritized, और trackable हैं functional requirements के साथ", "Requirements document format"] },
+      { "q": "Application security audit में authentication mechanisms review में क्या assess करते हैं?", "options": ["MFA enforcement, credential storage (hashing), session management, और account lockout", "Login page design"] }
+    ]
+  },
+  "audit-a02": {
+    "questions": [
+      { "q": "Authorization audit में RBAC (Role-Based Access Control) review में क्या check करते हैं?", "options": ["Role definitions, assignments, least privilege, और separation of duties", "Role count"] },
+      { "q": "Application security audit में secure coding practices verification में क्या शामिल है?", "options": ["Input validation, output encoding, error handling, और secure dependencies", "Code formatting standards"] },
+      { "q": "API authentication audit में OAuth 2.0 implementation review में क्या check करते हैं?", "options": ["Grant types appropriateness, token validation, scope enforcement, और refresh token security", "OAuth version"] },
+      { "q": "Session management audit में क्या verify करते हैं?", "options": ["Session token entropy, secure transmission, timeout, invalidation on logout, और fixation protection", "Session count"] },
+      { "q": "Application error handling audit में क्या assess करते हैं?", "options": ["Sensitive information not exposed in errors, logging appropriate, और user-friendly error messages", "Error frequency"] }
+    ]
+  },
+  "audit-a03": {
+    "questions": [
+      { "q": "Third-party library audit में क्या check करते हैं?", "options": ["Known vulnerabilities (CVEs), update frequency, licensing, और abandonment risk", "Library size"] },
+      { "q": "Application security audit में cryptography review में क्या verify करते हैं?", "options": ["Strong algorithms, proper key management, no hardcoded keys, और secure random number generation", "Encryption speed"] },
+      { "q": "File upload handling audit में क्या assess करते हैं?", "options": ["File type validation, size limits, malware scanning, storage location, और access controls", "Upload speed"] },
+      { "q": "Business logic security audit में क्या look करते हैं?", "options": ["Workflow bypass possibilities, price manipulation, race conditions, और trust violations", "Business logic documentation"] },
+      { "q": "Application logging audit में security logging में क्या check करते हैं?", "options": ["Authentication events, authorization failures, input validation failures, और sensitive data not logged", "Log file size"] }
+    ]
+  },
+  "audit-a04": {
+    "questions": [
+      { "q": "GraphQL security audit में क्या assess करते हैं?", "options": ["Introspection exposure, query depth limits, authorization per field, और rate limiting", "Schema size"] },
+      { "q": "Microservices security audit में inter-service communication में क्या check करते हैं?", "options": ["mTLS, service-to-service authentication, network policies, और secrets management", "Service count"] },
+      { "q": "CI/CD pipeline security audit में क्या verify करते हैं?", "options": ["Secrets in pipeline, code signing, artifact integrity, और access to deployment environments", "Build speed"] },
+      { "q": "CORS (Cross-Origin Resource Sharing) configuration audit में क्या check करते हैं?", "options": ["Overly permissive origins, credentials with wildcard, और appropriate methods/headers", "API domains"] },
+      { "q": "Content Security Policy (CSP) audit में क्या assess करते हैं?", "options": ["Policy restrictiveness, unsafe-inline/eval usage, reporting configuration, और bypass risks", "CSP header presence"] }
+    ]
+  },
+  "audit-a05": {
+    "questions": [
+      { "q": "Mobile application security audit में क्या assess करते हैं?", "options": ["Data storage, network security, authentication, code quality, और platform-specific issues", "App performance"] },
+      { "q": "Mobile app में local data storage audit में क्या check करते हैं?", "options": ["Sensitive data in SharedPreferences/NSUserDefaults, unencrypted SQLite, और external storage", "Storage capacity"] },
+      { "q": "Mobile app network security audit में क्या verify करते हैं?", "options": ["Certificate pinning, TLS version, sensitive data in transit, और API security", "Network speed"] },
+      { "q": "iOS app security audit में keychain usage में क्या check करते हैं?", "options": ["Appropriate accessibility settings, biometric protection, और sensitive data properly stored in keychain", "Keychain item count"] },
+      { "q": "Android app security audit में क्या platform-specific checks हैं?", "options": ["Exported components, backup settings, WebView security, और intent data handling", "APK size"] }
+    ]
+  },
+  "audit-a06": {
+    "questions": [
+      { "q": "Web application security audit में HTTP headers review में क्या check करते हैं?", "options": ["HSTS, CSP, X-Frame-Options, X-Content-Type-Options, और Referrer-Policy", "Server software version header"] },
+      { "q": "Cookie security audit में क्या verify करते हैं?", "options": ["Secure flag, HttpOnly flag, SameSite attribute, और appropriate expiration", "Cookie count"] },
+      { "q": "Input validation audit में client-side versus server-side validation में क्या important है?", "options": ["Server-side validation always required — client-side easily bypassed; defense in depth", "Client-side validation sufficient है"] },
+      { "q": "Redirect और forward functionality audit में क्या check करते हैं?", "options": ["Open redirect vulnerabilities जहाँ attacker arbitrary URLs specify कर सके", "Redirect count"] },
+      { "q": "Admin interface security audit में क्या assess करते हैं?", "options": ["Strong authentication, IP restrictions, separate session management, और activity logging", "Admin UI design"] }
+    ]
+  },
+  "audit-a07": {
+    "questions": [
+      { "q": "Supply chain attack audit में software dependencies में क्या risk factors देखते हैं?", "options": ["Unmaintained packages, typosquatting risk, excessive permissions, और known compromises", "Dependency count"] },
+      { "q": "Docker image security audit में क्या check करते हैं?", "options": ["Base image vulnerabilities, running as root, secrets baked in, और unnecessary packages", "Image size"] },
+      { "q": "Kubernetes RBAC audit में क्या assess करते हैं?", "options": ["Overly permissive roles, cluster-admin bindings, service account privileges, और namespacing", "Namespace count"] },
+      { "q": "Network policy audit Kubernetes में क्या verify करते हैं?", "options": ["Default deny ingress/egress, minimal necessary communications, और namespace isolation", "Pod count"] },
+      { "q": "Helm chart security audit में क्या check करते हैं?", "options": ["Default values security, hardcoded secrets, privileged settings, और resource limits", "Chart version"] }
+    ]
+  },
+  "audit-a08": {
+    "questions": [
+      { "q": "Security regression testing audit में क्यों important है?", "options": ["Previously fixed vulnerabilities को new code changes से reintroduce होने से prevent करना", "All tests run करना"] },
+      { "q": "Bug bounty program security audit में क्या assess करते हैं?", "options": ["Program scope, payout policies, response SLAs, disclosure handling, और researcher relations", "Bounty budget"] },
+      { "q": "Application security metrics audit में क्या track करने चाहिए?", "options": ["MTTR for vulnerabilities, open findings aging, severity distribution, और security debt", "Test count"] },
+      { "q": "Privacy by design audit में application में क्या check करते हैं?", "options": ["Data minimization, purpose limitation, user consent, और privacy-enhancing technologies", "Privacy policy document"] },
+      { "q": "OWASP ASVS (Application Security Verification Standard) audit में कैसे use होता है?", "options": ["Structured security requirements against which applications को assess करने के लिए", "ASVS certification process"] }
+    ]
+  },
+  "audit-a09": {
+    "questions": [
+      { "q": "Serverless application security audit में क्या unique considerations हैं?", "options": ["Function permissions, cold start security, event injection, और dependency vulnerabilities", "Execution cost"] },
+      { "q": "WebSocket security audit में क्या check करते हैं?", "options": ["Authentication persistence, authorization on messages, input validation, और origin validation", "Message throughput"] },
+      { "q": "GraphQL subscription security audit में क्या assess करते हैं?", "options": ["Authentication on subscriptions, data filtering, और resource exhaustion prevention", "Subscription count"] },
+      { "q": "Single Page Application (SPA) security audit में क्या specific concerns हैं?", "options": ["Client-side routing authorization, token storage, और API security", "Page load time"] },
+      { "q": "Progressive Web App (PWA) security audit में क्या check करते हैं?", "options": ["Service worker security, cache poisoning, offline data protection, और push notification security", "PWA features"] }
+    ]
+  },
+  "audit-a10": {
+    "questions": [
+      { "q": "AI/ML application security audit में क्या assess करते हैं?", "options": ["Model security, training data integrity, API protection, और adversarial input handling", "Model accuracy"] },
+      { "q": "LLM-based application audit में prompt injection risks को कैसे assess करते हैं?", "options": ["Input sanitization, system prompt protection, output validation, और privilege separation", "Response quality"] },
+      { "q": "Biometric authentication audit में क्या verify करते हैं?", "options": ["Liveness detection, template protection, fallback mechanisms, और presentation attack detection", "Accuracy rates"] },
+      { "q": "Payment integration security audit में क्या check करते हैं?", "options": ["PCI DSS compliance, tokenization, redirect to payment processor, और no cardholder data storage", "Transaction speed"] },
+      { "q": "Accessibility और security के intersection में audit में क्या consider करें?", "options": ["Security controls जो accessibility को compromise न करें, और accessible security features", "Accessibility compliance"] }
+    ]
+  },
+  "audit-a11": {
+    "questions": [
+      { "q": "Application penetration test और security audit को integrate करने का benefit?", "options": ["Pentest real-world exploitability demonstrate करता है; audit control coverage verify करता है — combined comprehensive view", "Integration necessary नहीं है"] },
+      { "q": "Dynamic application security testing (DAST) audit में कैसे use होता है?", "options": ["Running application में vulnerabilities find करने के लिए — audit evidence के रूप में results use", "DAST audit को replace करता है"] },
+      { "q": "Static application security testing (SAST) limitations audit में क्यों important है?", "options": ["False positives common हैं और business logic vulnerabilities detect नहीं होतीं — manual review supplement करे", "SAST sufficient है"] },
+      { "q": "Software bill of materials (SBOM) security audit में क्या role है?", "options": ["Component inventory provide करता है जो vulnerability management और supply chain security के लिए essential है", "SBOM compliance document है"] },
+      { "q": "Application security program maturity audit में क्या evaluate करते हैं?", "options": ["BSIMM या SAMM models use करके security activities और practices की maturity assess करना", "Security tool count"] }
+    ]
+  },
+  "audit-a12": {
+    "questions": [
+      { "q": "Security audit में false negative का business risk क्या है?", "options": ["Undetected vulnerabilities जो exploited हो सकती हैं — false confidence create होती है", "Audit cost increase"] },
+      { "q": "Application security audit scope definition में क्या include करना important है?", "options": ["All entry points, integrations, authentication mechanisms, और data flows", "Only web pages"] },
+      { "q": "Audit findings severity rating में CVSS का limitation क्या है?", "options": ["CVSS business context consider नहीं करता — environmental score customize करना important है", "CVSS too complex है"] },
+      { "q": "Security debt audit में क्या track करते हैं?", "options": ["Known vulnerabilities जो remediate नहीं हुई, accepted risks, और compensating controls", "Technical debt metrics"] },
+      { "q": "Application security audit में developer engagement क्यों important है?", "options": ["Developers fix करते हैं — उनकी buy-in और understanding remediation speed और quality improve करती है", "Developers auditors नहीं होते"] }
+    ]
+  },
+  "audit-cm01": {
+    "questions": [
+      { "q": "Compliance management में 'control framework' क्या है?", "options": ["Regulatory और security requirements को address करने के लिए organized set of controls", "Management reporting framework"] },
+      { "q": "NIST SP 800-53 controls का purpose क्या है?", "options": ["Federal information systems के लिए comprehensive security और privacy controls catalog", "NIST certification requirements"] },
+      { "q": "Control mapping क्यों important है multiple frameworks में?", "options": ["Overlapping requirements identify करके audit efforts को deduplicate करना — efficiency improve होती है", "Controls को map में visualize करना"] },
+      { "q": "Common controls क्या होते हैं compliance management में?", "options": ["Multiple systems या business units के लिए shared controls — inheritance possible है", "All organizations में common controls"] },
+      { "q": "Compensating controls क्या होते हैं?", "options": ["Primary controls implement न हो सकें तो alternative measures जो same protection provide करें", "Backup controls"] }
+    ]
+  },
+  "audit-cm02": {
+    "questions": [
+      { "q": "GRC (Governance, Risk, and Compliance) platform का primary benefit क्या है?", "options": ["Risk, compliance, और controls को centrally manage करना — fragmented spreadsheets की बजाय", "Governance documents generate करना"] },
+      { "q": "Compliance calendar में क्या track करते हैं?", "options": ["Audit dates, reporting deadlines, control review schedules, और certification renewals", "Employee vacation calendar"] },
+      { "q": "Regulatory change management में security team की role क्या है?", "options": ["New regulations monitor करना, impact assess करना, और control updates implement करना", "Legal team की responsibility है"] },
+      { "q": "Compliance evidence management में best practices क्या हैं?", "options": ["Centralized evidence repository, version control, appropriate retention, और access controls", "Email में evidence store करना"] },
+      { "q": "Policy exceptions process में क्या होना चाहिए?", "options": ["Formal approval, documented justification, risk acceptance, compensating controls, और expiration date", "Informal verbal approval sufficient है"] }
+    ]
+  },
+  "audit-cm03": {
+    "questions": [
+      { "q": "GDPR compliance program में Data Protection Impact Assessment (DPIA) क्या है?", "options": ["High-risk processing activities के लिए systematic privacy risk assessment", "GDPR audit document"] },
+      { "q": "Data subject rights compliance में क्या technical capabilities चाहिए?", "options": ["Access, rectification, erasure, portability, और objection requests को fulfill करने की ability", "केवल email system"] },
+      { "q": "Records of Processing Activities (ROPA) GDPR में क्या है?", "options": ["Organization के सभी data processing activities का documentation — Article 30 requirement", "Processing speed records"] },
+      { "q": "Data breach notification compliance में क्या timeline होती है GDPR में?", "options": ["72 hours में supervisory authority को notify करना — undue delay के बिना", "30 days में notify करना"] },
+      { "q": "Privacy by default GDPR में क्या require करता है?", "options": ["Default settings सबसे privacy-friendly हों — users को manually privacy increase न करना पड़े", "Privacy policies publicly available हों"] }
+    ]
+  },
+  "audit-cm04": {
+    "questions": [
+      { "q": "ISO 27001 certification audit में Stage 1 और Stage 2 में क्या होता है?", "options": ["Stage 1: documentation review; Stage 2: operational effectiveness verification on-site", "Stage 1: external; Stage 2: internal audit"] },
+      { "q": "ISO 27001 में ISMS scope definition क्यों critical है?", "options": ["Scope define करता है कि certification कहाँ apply होती है — too narrow ineffective; too broad overwhelming", "Certification cost determine करता है"] },
+      { "q": "ISO 27001 में Annex A controls कितने हैं (ISO 27001:2022)?", "options": ["93 controls in 4 themes (organizational, people, physical, technological)", "114 controls in 14 domains"] },
+      { "q": "ISO 27001 में 'nonconformity' और 'observation' में क्या फर्क है?", "options": ["Nonconformity requirement का failure है; observation potential improvement recommendation है", "ये same हैं"] },
+      { "q": "ISO 27001 surveillance audits क्यों होते हैं?", "options": ["Certification period (3 years) में ongoing compliance verify करने के लिए — annual surveillance", "Additional revenue generate करने के लिए"] }
+    ]
+  },
+  "audit-cm05": {
+    "questions": [
+      { "q": "SOC 2 Trust Service Criteria (TSC) में पाँच categories कौन से हैं?", "options": ["Security, Availability, Processing Integrity, Confidentiality, Privacy", "Compliance, Security, Availability, Performance, Privacy"] },
+      { "q": "SOC 2 Type II report में auditor क्या assess करता है?", "options": ["Controls को minimum 6 months की period में effectively operate करते हुए verify करना", "Control design adequacy केवल"] },
+      { "q": "SOC 2 report को customers के साथ share करने में क्या consideration है?", "options": ["SOC 2 reports confidential हैं — NDA के under share करना appropriate है", "SOC 2 reports publicly available हैं"] },
+      { "q": "SOC 2 readiness assessment में क्या होता है?", "options": ["Formal audit से पहले gap analysis — controls assess और remediation prioritize करना", "SOC 2 audit का first phase"] },
+      { "q": "SOC 3 report SOC 2 से कैसे different है?", "options": ["SOC 3 general use के लिए publicly shareable summary है; SOC 2 restricted है", "SOC 3 ज्यादा comprehensive है"] }
+    ]
+  },
+  "audit-cm06": {
+    "questions": [
+      { "q": "PCI DSS compliance में 'Compensating Control Worksheet' (CCW) का purpose क्या है?", "options": ["Document करना कि alternative control same risk mitigate करता है जब primary control infeasible हो", "Cost savings document करना"] },
+      { "q": "PCI DSS में scope reduction के methods क्या हैं?", "options": ["Network segmentation, tokenization, point-to-point encryption (P2PE)", "Firewall rules"] },
+      { "q": "PCI DSS में SAQ (Self-Assessment Questionnaire) कब use होता है?", "options": ["Smaller merchants और specific transaction scenarios के लिए — QSA assessment की जरूरत नहीं", "All merchants के लिए"] },
+      { "q": "PCI DSS में ASV (Approved Scanning Vendor) scan क्या है?", "options": ["PCI SSC approved vendor द्वारा quarterly external vulnerability scans", "Internal vulnerability assessment"] },
+      { "q": "PCI DSS Requirement 10 (logging) में क्या require होता है?", "options": ["Audit logs enable करना, access monitor करना, logs protect करना, और one year retain करना", "केवल failed logins log करना"] }
+    ]
+  },
+  "audit-cm07": {
+    "questions": [
+      { "q": "FedRAMP authorization process में क्या होता है?", "options": ["Cloud providers federal agencies के लिए security controls assess और authorize करवाते हैं", "Federal employees के लिए training program"] },
+      { "q": "CMMC (Cybersecurity Maturity Model Certification) किसके लिए है?", "options": ["DoD defense contractors जो CUI (Controlled Unclassified Information) handle करते हैं", "Commercial software companies"] },
+      { "q": "DORA (Digital Operational Resilience Act) EU में किसे affect करता है?", "options": ["Financial services sector — banks, insurance, investment firms, और ICT third-party providers", "All EU companies"] },
+      { "q": "NIS2 directive EU में previous NIS से कैसे different है?", "options": ["Broader scope, stricter requirements, और higher penalties — more sectors include हैं", "NIS2 stricter penalties only"] },
+      { "q": "CCPA California Privacy Rights Act में compliance में क्या key rights हैं?", "options": ["Right to know, delete, opt-out of sale, non-discrimination, और limit sensitive data use", "CCPA केवल large companies पर apply होता है"] }
+    ]
+  },
+  "audit-cm08": {
+    "questions": [
+      { "q": "Risk appetite और risk tolerance compliance में कैसे relate करते हैं?", "options": ["Risk appetite overall risk willingness define करती है; tolerance acceptable deviation की range है", "ये same concepts हैं"] },
+      { "q": "Compliance risk assessment में qualitative versus quantitative approaches में क्या फर्क है?", "options": ["Qualitative descriptive categories use करता है; quantitative financial impact estimate करता है", "Quantitative always better है"] },
+      { "q": "Regulatory examination preparation में क्या important है?", "options": ["Evidence organization, staff preparation, pre-exam testing, और documentation completeness", "Regulator को impress करना"] },
+      { "q": "Compliance monitoring program में key components क्या हैं?", "options": ["Control testing schedule, metrics tracking, issue management, और reporting to management", "Monthly compliance reports"] },
+      { "q": "Compliance culture को organization में build करने के methods?", "options": ["Leadership commitment, training, incentives, clear consequences, और embedding compliance in processes", "Compliance posters लगाना"] }
+    ]
+  },
+  "audit-cm09": {
+    "questions": [
+      { "q": "Vendor management program में compliance verification कैसे करते हैं?", "options": ["Questionnaires, certifications review, right-to-audit clauses, और continuous monitoring", "Annual contract review"] },
+      { "q": "Fourth-party risk compliance में क्या होता है?", "options": ["Vendor के vendors (subcontractors) से risk जो organization को indirectly affect कर सकता है", "Four major vendors को manage करना"] },
+      { "q": "Data residency requirements compliance में क्या technical और legal challenge है?", "options": ["Data specific geographic boundaries में रहे — cloud environments में enforce करना complex है", "Data को locally store करना"] },
+      { "q": "Whistleblower protection compliance में क्यों important है security के लिए?", "options": ["Employees security violations report करने में comfortable feel करें बिना retaliation के fear के", "Legal requirement only"] },
+      { "q": "Compliance automation tools में क्या use cases हैं?", "options": ["Evidence collection, control testing, policy distribution, और compliance status dashboards", "Compliance reports automatically submit करना"] }
+    ]
+  },
+  "audit-cm10": {
+    "questions": [
+      { "q": "Audit committee को quarterly compliance report में क्या include करना चाहिए?", "options": ["Key risk indicators, open findings aging, regulatory changes, और major incidents summary", "All audit details"] },
+      { "q": "Compliance में 'tone at the top' क्यों critical है?", "options": ["Leadership behavior और commitment directly employees के compliance attitude को shape करती है", "Top management trained होना चाहिए"] },
+      { "q": "Compliance training effectiveness कैसे measure करते हैं?", "options": ["Assessment scores, behavior change metrics, phishing simulation results, और incident reporting rates", "Training completion rates only"] },
+      { "q": "Cross-border data transfer compliance में mechanisms क्या हैं?", "options": ["Standard Contractual Clauses (SCCs), adequacy decisions, BCRs, और certification mechanisms", "VPN use करना"] },
+      { "q": "Compliance program ROI (Return on Investment) कैसे demonstrate करते हैं?", "options": ["Breach costs avoided, regulatory fines prevented, customer trust, और audit efficiency improvements", "Compliance cost reduction"] }
+    ]
+  },
+  "audit-cm11": {
+    "questions": [
+      { "q": "Cybersecurity insurance underwriting में compliance के साथ क्या relationship है?", "options": ["Strong compliance posture better coverage terms और lower premiums में result करती है", "Compliance और insurance separate हैं"] },
+      { "q": "Environmental, Social, and Governance (ESG) reporting में cybersecurity कैसे fit होती है?", "options": ["Cybersecurity incidents और risk management ESG disclosure में increasingly required हैं", "Cybersecurity ESG से unrelated है"] },
+      { "q": "SEC cybersecurity disclosure rules में publicly traded companies को क्या report करना होगा?", "options": ["Material cybersecurity incidents promptly और annual risk management practices disclosure", "All security incidents"] },
+      { "q": "Compliance program में lessons learned process क्यों important है?", "options": ["Incidents और near-misses से controls और processes को continuously improve करना", "Documentation के लिए"] },
+      { "q": "International compliance harmonization में challenges क्या हैं?", "options": ["Conflicting requirements across jurisdictions — GDPR vs CCPA vs PIPL different obligations impose करते हैं", "Translation costs"] }
+    ]
+  },
+  "audit-cm12": {
+    "questions": [
+      { "q": "Compliance maturity model में highest maturity level क्या represent करता है?", "options": ["Optimizing — continuous improvement culture, proactive risk management, और metrics-driven decisions", "Full compliance achieve करना"] },
+      { "q": "Regulatory sandbox compliance innovation में क्या है?", "options": ["Regulators companies को new technologies controlled environment में test करने देते हैं compliance flexibility के साथ", "Testing environment for compliance tools"] },
+      { "q": "AI governance compliance में upcoming regulatory requirements में क्या शामिल है?", "options": ["Risk-based AI classification, transparency requirements, और high-risk AI use case restrictions (EU AI Act)", "AI को ban करना"] },
+      { "q": "Compliance program में 'reasonable person standard' क्या है?", "options": ["Actions और controls को evaluate करना कि reasonable prudent person same situation में same करता", "Average person के लिए compliance requirements"] },
+      { "q": "Future of compliance में technology की role क्या होगी?", "options": ["RegTech solutions — automated compliance monitoring, AI-driven risk assessment, और real-time reporting", "Technology compliance को simpler नहीं बनाएगी"] }
+    ]
+  },
+  "umbrella-01": {
+    "questions": [
+      { "q": "DNS-layer security (जैसे Cisco Umbrella) traditional firewalls से कैसे different है?", "options": ["DNS requests को resolve करने से पहले block करता है — network perimeter से independent है", "DNS layer firewalls से faster है"] },
+      { "q": "Cisco Umbrella में 'Intelligent Proxy' क्या करता है?", "options": ["Risky domains पर HTTP/HTTPS traffic को inspect करता है जो DNS policy block नहीं करती", "सभी web traffic को proxy करता है"] },
+      { "q": "Umbrella में 'Roaming Client' का purpose क्या है?", "options": ["Corporate network से बाहर के devices पर DNS security enforce करना", "Remote employees का location track करना"] },
+      { "q": "Umbrella investigate threat intelligence में क्या provide करता है?", "options": ["Domain reputation, IP information, और malicious infrastructure relationships", "Employee internet activity"] },
+      { "q": "DNS tunneling को Umbrella कैसे detect करता है?", "options": ["Suspicious DNS query patterns — high frequency, long domains, और unusual record types", "Network packet inspection"] }
+    ]
+  },
+  "umbrella-02": {
+    "questions": [
+      { "q": "Umbrella में WPAD (Web Proxy Auto-Discovery) bypass detection क्यों important है?", "options": ["Malware proxy settings bypass करने के लिए WPAD abuse कर सकता है", "WPAD performance issue है"] },
+      { "q": "Cisco Umbrella का SIG (Secure Internet Gateway) क्या provide करता है?", "options": ["Cloud-delivered security — DNS, proxy, CASB, firewall, और threat intelligence unified platform में", "Site-to-site VPN gateway"] },
+      { "q": "Umbrella में content categories का use क्यों होता है?", "options": ["Policy-based web filtering — inappropriate या high-risk content block करने के लिए", "Content को cache करने के लिए"] },
+      { "q": "Umbrella reporting में 'top destinations' report क्या reveal करता है?", "options": ["Most frequently accessed domains — normal और suspicious traffic patterns identify करने के लिए", "Top performing users"] },
+      { "q": "Umbrella में DGA (Domain Generation Algorithm) detection कैसे होती है?", "options": ["Machine learning से algorithmically generated domains को identify करना — C2 malware में use होते हैं", "DGA alphabetically sort करके detect करना"] }
+    ]
+  },
+  "umbrella-03": {
+    "questions": [
+      { "q": "Umbrella में 'Security Categories' में क्या शामिल हैं?", "options": ["Malware, phishing, botnet C2, cryptomining, और newly seen domains", "PG-13 content categories"] },
+      { "q": "Umbrella के CASB (Cloud Access Security Broker) functionality से क्या possible है?", "options": ["Sanctioned और unsanctioned cloud application usage को visibility और control provide करना", "Cloud storage को cache करना"] },
+      { "q": "Umbrella में 'Application Settings' से क्या control होता है?", "options": ["Specific cloud apps को block, allow, या tenant restrict करना", "Network application prioritization"] },
+      { "q": "Umbrella firewall (FW) feature DNS security के अलावा क्या add करता है?", "options": ["Layer 3/4 traffic filtering — IP, port, और protocol level blocking for all traffic", "Physical firewall replace करता है"] },
+      { "q": "Umbrella को SIEM के साथ integrate करने का benefit?", "options": ["DNS security events को centralized security monitoring और correlation में include करना", "SIEM को simplify करना"] }
+    ]
+  },
+  "umbrella-04": {
+    "questions": [
+      { "q": "Umbrella में 'Bypass Users' functionality क्यों exist करती है?", "options": ["Specific users या groups को policy exceptions allow करना — legitimate business needs के लिए", "Umbrella bypass करने वाले users identify करना"] },
+      { "q": "Umbrella में network tunnel (IPsec) का purpose क्या है?", "options": ["Branch locations का traffic Umbrella cloud को route करना — hardware deployment के बिना", "VPN users के लिए tunnel"] },
+      { "q": "Umbrella में 'Destination Lists' क्या हैं?", "options": ["Custom domains को always block या always allow करने के लिए organization-specific lists", "Domain blacklists download करना"] },
+      { "q": "Umbrella में AD (Active Directory) integration का benefit?", "options": ["User-level reporting और policy enforcement — IP-only के बजाय identity-based", "AD credentials को Umbrella में sync करना"] },
+      { "q": "Umbrella में 'Multi-Org' console का use case क्या है?", "options": ["MSSPs और large enterprises के लिए multiple Umbrella organizations को centrally manage करना", "Multiple admin users"] }
+    ]
+  },
+  "umbrella-05": {
+    "questions": [
+      { "q": "Cisco Umbrella किस DNS resolution method use करता है malicious domains block करने के लिए?", "options": ["Malicious domains के लिए NXDOMAIN या block page IP return करता है", "DNS packets को drop करता है"] },
+      { "q": "Umbrella में 'Anycast' routing का advantage क्या है?", "options": ["Users automatically nearest Umbrella datacenter को route होते हैं — low latency और high availability", "Traffic को replicate करना"] },
+      { "q": "Umbrella APIs का use security automation में कैसे होता है?", "options": ["Threat intelligence query, policy updates, और reporting को programmatically access करना", "Umbrella APIs developer के लिए हैं"] },
+      { "q": "Umbrella में 'Selective Decryption' HTTPS inspection में क्यों use होती है?", "options": ["Privacy और performance के लिए कुछ categories (banking, health) को decrypt न करना", "Random traffic को decrypt करना"] },
+      { "q": "Umbrella के साथ Cisco SecureX integration का benefit?", "options": ["Unified security dashboard, automated workflows, और cross-product threat response", "SecureX pricing discount"] }
+    ]
+  },
+  "umbrella-06": {
+    "questions": [
+      { "q": "Zero-trust security model में DNS security की क्या role है?", "options": ["DNS layer पर verification और filtering — network access से independent continuous security", "DNS trust को establish करता है"] },
+      { "q": "Umbrella में threat hunting DNS data से कैसे possible है?", "options": ["Historical DNS queries analyze करना suspicious patterns, domains, और lateral movement identify करने के लिए", "DNS data threat hunting के लिए useful नहीं"] },
+      { "q": "Newly registered domains (NRDs) suspicious क्यों होते हैं?", "options": ["Attackers frequently fresh domains use करते हैं malware distribution और phishing के लिए जिनकी reputation नहीं", "नए domains हमेशा malicious होते हैं"] },
+      { "q": "Umbrella में 'Passive DNS' data का क्या use है?", "options": ["Historical DNS resolutions से infrastructure relationships और malicious campaigns identify करना", "DNS को passively monitor करना"] },
+      { "q": "DNS over HTTPS (DoH) enterprise security में क्या challenge create करता है?", "options": ["Browser DoH use करने पर corporate DNS filtering bypass हो जाती है", "DoH slower होती है"] }
+    ]
+  },
+  "umbrella-07": {
+    "questions": [
+      { "q": "Umbrella में 'Safe Search Enforcement' क्या करता है?", "options": ["Search engines पर safe search को force करता है inappropriate content filter करने के लिए", "Search queries को anonymize करता है"] },
+      { "q": "Umbrella में Virtual Appliance (VA) का purpose क्या है?", "options": ["Internal DNS को monitor करना और on-premises identity (AD) integration provide करना", "Physical appliance को replace करना"] },
+      { "q": "Cisco Umbrella में 'Investigate' product क्या है?", "options": ["Threat intelligence और investigation tool — domain, IP, और file relationships explore करना", "Security incidents investigate करना"] },
+      { "q": "Umbrella data exfiltration prevention में क्या role है?", "options": ["DNS tunneling detect करना जो malware data exfiltration के लिए use करता है", "DLP platform है Umbrella"] },
+      { "q": "Remote workforce के लिए Umbrella deployment में क्या approach होता है?", "options": ["Roaming client install करना सभी devices पर — Umbrella cloud के through सभी DNS route होती है", "VPN required होता है"] }
+    ]
+  },
+  "umbrella-08": {
+    "questions": [
+      { "q": "Umbrella में 'Intelligent Proxy' और 'Full Proxy' में क्या फर्क है?", "options": ["Intelligent Proxy केवल risky traffic inspect करता है; Full Proxy सभी HTTP/HTTPS inspect करता है", "ये same हैं"] },
+      { "q": "Umbrella में file inspection capability क्या provide करती है?", "options": ["Downloaded files को malware के लिए scan करना — cloud sandbox analysis", "Files को quarantine में store करना"] },
+      { "q": "Umbrella में 'Tenant Control' feature क्यों important है SaaS apps के साथ?", "options": ["Corporate Microsoft 365 tenant को allow करना लेकिन personal accounts block करना", "Tenant access को audit करना"] },
+      { "q": "Umbrella में IPv6 support का significance क्या है?", "options": ["IPv6 traffic को भी DNS security से cover करना — only IPv4 focus करने से gaps होते", "IPv6 ज्यादा secure है"] },
+      { "q": "Umbrella में 'Report Cards' feature से क्या insight मिलती है?", "options": ["Security posture overview — threats blocked, risky requests, और security improvements", "User productivity metrics"] }
+    ]
+  },
+  "umbrella-09": {
+    "questions": [
+      { "q": "Umbrella में phishing protection कैसे काम करती है?", "options": ["Known phishing domains और lookalike domains को DNS level पर block करना", "Email phishing filter करना"] },
+      { "q": "Umbrella में cryptomining protection क्यों important है?", "options": ["Cryptomining malware corporate resources use करता है — DNS block करके prevent किया जा सकता है", "Cryptocurrency transactions block करना"] },
+      { "q": "Umbrella और on-premises DNS के बीच conditional forwarding कैसे configure होती है?", "options": ["Internal domains को on-premises DNS forward करना; external को Umbrella resolve करना", "All queries Umbrella को forward करना"] },
+      { "q": "Umbrella में 'Security Activity' dashboard में क्या information होती है?", "options": ["Blocked requests, threat categories, top destinations, और user/device breakdown", "Network performance metrics"] },
+      { "q": "Umbrella integration के साथ Cisco FTD का benefit क्या है?", "options": ["DNS security को network-level security के साथ combine करना — layered defense", "FTD को cloud में deploy करना"] }
+    ]
+  },
+  "umbrella-10": {
+    "questions": [
+      { "q": "Umbrella deployment में 'DNS-over-HTTPS' (DoH) को block करने की strategy क्यों है?", "options": ["DoH browser से corporate DNS control bypass करता है — Umbrella effectiveness compromise होती है", "DoH malicious है"] },
+      { "q": "Umbrella में 'Allow' list की priority क्या होती है versus 'Block' list?", "options": ["Allow list आमतौर पर block list को override करती है — legitimate business sites को whitelist करना", "Block list हमेशा priority होती है"] },
+      { "q": "Global threat intelligence Umbrella में कहाँ से आती है?", "options": ["Cisco Talos intelligence — billions of daily DNS requests और global sensor network से", "Public threat feeds से"] },
+      { "q": "Umbrella में MDM integration का benefit क्या है?", "options": ["Mobile devices automatically Umbrella enrollment में आते हैं MDM के through", "Device hardware information collect करना"] },
+      { "q": "Umbrella SASE (Secure Access Service Edge) strategy में कैसे fit होता है?", "options": ["Cloud-native DNS security और SIG के रूप में — SASE architecture में security component है", "SASE और Umbrella separate products हैं"] }
+    ]
+  }
+}

@@ -39,6 +39,19 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+# translation working/batch files (intermediate files used during generation)
+src/data/translations/ctf-quiz-*-part*.json
+src/data/translations/ctf-quiz-fr-[0-9].json
+src/data/translations/ctf-quiz-de-missing.json
+src/data/translations/ctf-quiz-de-final.json
+src/data/translations/hi-p*.json
+src/data/translations/pt-p*.json
+src/data/translations/*-p[0-9]*.json
+src/data/translations/merge-*.js
+src/data/translations/batches/
+src/data/ctf-quiz-batches/
+fix-pl-quotes.js
+src/messages/_missing-*.json
 next-env.d.ts
 
 .vercel

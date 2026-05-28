@@ -3,6 +3,12 @@ import StageContainer from "@/components/StageContainer";
 import type { StageConfig, CtfQuizEntry } from "@/data/types";
 import type { StageTranslation } from "@/data/translations/types";
 import ctfQuizData from "@/data/ctf-quiz-data.json";
+import ctfQuizEs from "@/data/translations/ctf-quiz-es.json";
+import ctfQuizFr from "@/data/translations/ctf-quiz-fr.json";
+import ctfQuizDe from "@/data/translations/ctf-quiz-de.json";
+import ctfQuizHi from "@/data/translations/ctf-quiz-hi.json";
+import ctfQuizPt from "@/data/translations/ctf-quiz-pt.json";
+import ctfQuizPl from "@/data/translations/ctf-quiz-pl.json";
 import { getStageOverride, applyStageOverride, canAccessEpoch } from "@/lib/cms";
 import { canAccessStage, getUserTier } from "@/lib/access";
 import { getSessionFromCookies } from "@/lib/server-session";
@@ -36,6 +42,16 @@ const TRANSLATION_MAPS: Record<string, Record<string, StageTranslation>> = {
   hi: hiTranslations as Record<string, StageTranslation>,
   pt: ptTranslations as Record<string, StageTranslation>,
   pl: plTranslations as Record<string, StageTranslation>,
+};
+
+type QuizTranslationEntry = { questions: { q: string; options: [string, string] }[] };
+const CTF_QUIZ_TRANSLATION_MAPS: Record<string, Record<string, QuizTranslationEntry>> = {
+  es: ctfQuizEs as unknown as Record<string, QuizTranslationEntry>,
+  fr: ctfQuizFr as unknown as Record<string, QuizTranslationEntry>,
+  de: ctfQuizDe as unknown as Record<string, QuizTranslationEntry>,
+  hi: ctfQuizHi as unknown as Record<string, QuizTranslationEntry>,
+  pt: ctfQuizPt as unknown as Record<string, QuizTranslationEntry>,
+  pl: ctfQuizPl as unknown as Record<string, QuizTranslationEntry>,
 };
 
 type MetaMap = { stages: Record<string, { t: string; w: string }>; epochs: Record<string, unknown> };
@@ -170,5 +186,10 @@ export default async function StagePage({
       ? (ctfQuizData as unknown as Record<string, CtfQuizEntry>)[stageId]
       : undefined;
 
-  return <StageContainer stage={safeStage} isPro={isPro} translation={translation} ctfQuiz={ctfQuiz} />;
+  const ctfQuizTranslation =
+    locale !== "en" && ctfQuiz
+      ? CTF_QUIZ_TRANSLATION_MAPS[locale]?.[stageId]?.questions
+      : undefined;
+
+  return <StageContainer stage={safeStage} isPro={isPro} translation={translation} ctfQuiz={ctfQuiz} ctfQuizTranslation={ctfQuizTranslation} />;
 }
