@@ -44,6 +44,14 @@ jobs:
           ADMIN_EMAIL: ci@example.com
           RESEND_API_KEY: ci-placeholder
           ANTHROPIC_API_KEY: ci-placeholder
+          SESSION_SECRET: ci-placeholder-session-secret-32chars
+          STRIPE_SECRET_KEY: sk_test_ci-placeholder
+          STRIPE_WEBHOOK_SECRET: whsec_ci-placeholder
+          STRIPE_PRO_MONTHLY_PRICE_ID: price_ci_placeholder_monthly
+          STRIPE_PRO_YEARLY_PRICE_ID: price_ci_placeholder_yearly
+          SUPABASE_URL: https://ci-placeholder.supabase.co
+          SUPABASE_ANON_KEY: ci-placeholder-anon-key
+          SUPABASE_SERVICE_ROLE_KEY: ci-placeholder-service-role-key
 
       - name: Dependency audit
         run: npm audit --audit-level=high
