@@ -45,9 +45,9 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **ARIA AI Tutor** — A live, stage-aware AI assistant (powered by Claude Haiku) that uses Socratic coaching: it answers questions and guides thinking without giving away the flag. Available throughout every challenge.
 
-### Curriculum — 438 Stages across 36 Epochs (v1.11.0)
+### Curriculum — 438 Stages across 36 Epochs and 10 Tracks (v1.12.0)
 
-The platform ships with 438 fully built stages organized into 36 curriculum epochs:
+The platform ships with 418 fully built stages organized into 36 curriculum epochs and 10 learning tracks:
 
 | Track | Stages | Focus |
 |---|---|---|
@@ -79,7 +79,7 @@ The platform ships with 438 fully built stages organized into 36 curriculum epoc
 | audit-cm11 | Continuous Compliance | FTC Drizly CEO liability order |
 | audit-cm12 | SOC Maturity — MTTD/MTTR | MGM Resorts $100M+ ransomware event |
 
-### Live Features (Shipped — v1.11.0)
+### Live Features (Shipped — v1.12.0)
 
 - **ARIA AI Tutor** — Claude Haiku, Socratic coaching, stage-aware context, 10-message session cap, rate-limited
 - **Daily Streaks** — Redis-backed streak tracking with streak-based milestone badges
@@ -177,19 +177,19 @@ Cisco is the deepest planned sponsor relationship, anchored by a 50-stage Cisco 
 | KnowBe4 | Phishing simulation only | No technical depth |
 | **Kryptós CronOS** | **Gamified + AI + CTF + curriculum** | **Early stage** |
 
-Our differentiation: the only platform combining structured multi-epoch curriculum (438 stages), real-exploit CTF challenges, a live AI Socratic tutor, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
+Our differentiation: the only platform combining structured multi-track curriculum (358 stages), real-exploit CTF challenges, a live AI Socratic tutor, daily engagement mechanics, and a competitive leaderboard in a single production-grade product.
 
 ---
 
 ## Traction & Validation
 
-- **Product:** Fully functional platform — 438 stages across 36 epochs
+- **Product:** Fully functional platform — 418 stages across 36 epochs and 10 curriculum tracks
 - **AI tutor:** ARIA live in production — Claude Haiku, Socratic coaching, stage-aware
 - **Gamification:** Streaks, milestone badges, and real-time leaderboard all live
 - **Admin infrastructure:** NDA management with DocuSign e-signature integration
 - **Security posture:** Server-side auth, HMAC cookies, nonce-based CSP (no unsafe-inline in script-src), rate limiting, CI security audit
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptoscronos.com (version v1.11.0)
+- **Deployment:** Live at kryptoscronos.com (version v1.12.0)
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---
@@ -225,7 +225,7 @@ Our differentiation: the only platform combining structured multi-epoch curricul
 
 ## Team
 
-Kryptós CronOS is built by Jacob Bolotin, founder and CEO, with domain expertise in cybersecurity, AI, and enterprise software. The technical foundation — 438-stage curriculum, AI tutor, leaderboard, auth system, DocuSign NDA integration, and CI/CD pipeline — was built and deployed to production in an accelerated build sprint.
+Kryptós CronOS is built by Jacob Bolotin, founder and CEO, with domain expertise in cybersecurity, AI, and enterprise software. The technical foundation — 418-stage curriculum, AI tutor, leaderboard, auth system, DocuSign NDA integration, and CI/CD pipeline — was built and deployed to production in an accelerated build sprint.
 
 **Legal entity:** Bolotin Enterprises, Inc. — Delaware C-Corp incorporated May 23, 2026.  
 **IP:** U.S. Copyright Registration filed 2026-05-20, assigned to Bolotin Enterprises, Inc. via PIIA at incorporation.

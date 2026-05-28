@@ -1,6 +1,6 @@
 # Kryptós CronOS — Partners & Supporting Infrastructure
-**Version:** 3.2  
-**Date:** 2026-05-26
+**Version:** 3.1  
+**Date:** 2026-05-21
 
 ---
 
@@ -59,7 +59,7 @@ Upstash provides a globally distributed, REST-accessible Redis instance. It is t
 Resend handles all outbound transactional emails. Called fire-and-forget from serverless routes with rate limiting to prevent abuse.
 
 **What it handles:**
-- Welcome email on registration (`/api/auth/register`) — 438-stage overview, terminal preview, CTA
+- Welcome email on registration (`/api/auth/register`) — 346-stage overview, terminal preview, CTA
 - Stage completion email on every new flag capture (`server-progress.ts` → `awardStageInRedis`) — stage name, epoch, XP earned, streak, badge unlocked, next-stage CTA
 - Password reset emails with time-limited token links (`/api/forgot-password`)
 - Admin notification when a new user registers (`/api/notify-registration`)

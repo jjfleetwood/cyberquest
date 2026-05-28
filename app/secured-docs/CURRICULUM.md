@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.4  
-**Date:** 2026-05-25  
-**Total stages:** 418 across 36 epochs
+**Version:** 3.5  
+**Date:** 2026-05-26  
+**Total stages:** 438 across 36 epochs
 
 ---
 
@@ -378,7 +378,11 @@ The chess match on the mound — count management, pitch sequencing, platoon spl
 | 30 | The Art of Pitching | 10 | ~1,000 |
 | 31 | Pitch Arsenal | 10 | ~1,000 |
 | 32 | Pitching Strategy | 10 | ~1,000 |
-| | **Total** | **358** | **~77,350** |
+| 33 | Paris in July | 20 | ~1,200 |
+| 34 | Milan in July | 20 | ~1,200 |
+| 35 | French Basics | 20 | ~1,200 |
+| 36 | Italian Basics | 20 | ~1,200 |
+| | **Total** | **438** | **~81,150** |
 
 ---
 
@@ -469,20 +473,20 @@ Discover Milan beyond the fashion week — from Roman Mediolanum to the Vertical
 
 ## Epoch 35: French Basics
 **Theme:** Conversational French for travelers  
-**Stages:** 10 (french-01 through french-10)  
+**Stages:** 20 (french-01 through french-20)  
 **Color:** Sky  
 **Unlock:** Available to "curious" group  
 **Gating:** None
 
-Ten practical phrase modules covering: greetings, café orders, restaurant dining, shopping, directions, numbers & market math, getting around (transport), museum visits, emergencies, and understanding Parisians.
+Twenty practical phrase modules covering: greetings, café orders, restaurant dining, shopping, directions, numbers & market math, getting around (transport), museum visits, emergencies, understanding Parisians, at the boulangerie, reading a French menu, French wine (AOC/AOP), at the pharmacy, hotel vocabulary, telling time, weather, telephone & digital French, French faux pas, and Paris arrondissements.
 
 ---
 
 ## Epoch 36: Italian Basics
 **Theme:** Conversational Italian for travelers  
-**Stages:** 10 (italian-01 through italian-10)  
+**Stages:** 20 (italian-01 through italian-20)  
 **Color:** Green  
 **Unlock:** Available to "curious" group  
 **Gating:** None
 
-Ten practical phrase modules covering: greetings, bar culture, trattoria dining, shopping, Milan transit, numbers & money, culture & gestures, visiting the Duomo & museums, emergencies, and aperitivo & nightlife.
+Twenty practical phrase modules covering: greetings, bar culture, trattoria dining, shopping, Milan transit, numbers & money, culture & gestures, visiting the Duomo & museums, emergencies, aperitivo & nightlife, at the gelateria, Italian food vocabulary (risotto/cotoletta/ossobuco), Italian wine (DOCG/Franciacorta), at the farmacia, hotel & accommodation, telling time, weather & nebbia, Italian football & calcio culture, Italian faux pas (la bella figura), and Milan neighbourhoods with metro stops.

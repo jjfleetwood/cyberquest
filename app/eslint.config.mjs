@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Dev scripts are not part of the app bundle
     "scripts/**",
+    // Data merge/build utilities — Node CJS scripts, not app code
+    "src/data/**/*.js",
   ]),
   {
     rules: {

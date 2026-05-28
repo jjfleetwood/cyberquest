@@ -45,7 +45,7 @@ Kryptós CronOS delivers training through **stage-based missions** that simulate
 
 4. **ARIA AI Tutor** — A live, stage-aware AI assistant (powered by Claude Haiku) that uses Socratic coaching: it answers questions and guides thinking without giving away the flag. Available throughout every challenge.
 
-### Curriculum — 418 Stages across 36 Epochs and 10 Tracks (v1.10.0)
+### Curriculum — 438 Stages across 36 Epochs and 10 Tracks (v1.12.0)
 
 The platform ships with 418 fully built stages organized into 36 curriculum epochs and 10 learning tracks:
 
@@ -79,7 +79,7 @@ The platform ships with 418 fully built stages organized into 36 curriculum epoc
 | audit-cm11 | Continuous Compliance | FTC Drizly CEO liability order |
 | audit-cm12 | SOC Maturity — MTTD/MTTR | MGM Resorts $100M+ ransomware event |
 
-### Live Features (Shipped — v1.10.0)
+### Live Features (Shipped — v1.12.0)
 
 - **ARIA AI Tutor** — Claude Haiku, Socratic coaching, stage-aware context, 10-message session cap, rate-limited
 - **Daily Streaks** — Redis-backed streak tracking with streak-based milestone badges
@@ -189,7 +189,7 @@ Our differentiation: the only platform combining structured multi-track curricul
 - **Admin infrastructure:** NDA management with DocuSign e-signature integration
 - **Security posture:** Server-side auth, HMAC cookies, nonce-based CSP (no unsafe-inline in script-src), rate limiting, CI security audit
 - **Tech stack:** Next.js 16 / React 19 / TypeScript — production-grade, zero technical debt
-- **Deployment:** Live at kryptoscronos.com (version v1.10.0)
+- **Deployment:** Live at kryptoscronos.com (version v1.12.0)
 - **GitHub:** github.com/jjfleetwood/kryptos-cronos
 
 ---

@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 2.8  
-**Date:** 2026-05-25  
-**Current version:** v1.10.0
+**Version:** 2.9  
+**Date:** 2026-05-28  
+**Current version:** v1.12.0
+
+---
+
+## Changelog — v2.9 (2026-05-28)
+
+New Redis key namespace `diff:<username>:*` introduced for adaptive difficulty signals. All keys are namespaced with lowercase username (matching existing progress key convention) and carry 48 h TTL. Keys are written only after session verification — no unauthenticated write path. No new API routes exposed publicly. `difficulty.ts` is marked `"server-only"` — cannot be imported by client components. The `/api/hint` route now reads `getServerSession()` to associate hints with a user; unauthenticated hint calls still work but do not persist signal data. `computeStageScore` and `getRecommendedNext` are pure functions with no Redis access. No new env vars, no new third-party integrations, no new attack surface.
 
 ---
 

@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. 36 curriculum epochs, 438 CTF/qui
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.11.0 (as of 2026-05-26)
+**Current version:** v1.12.0 (as of 2026-05-28)
 
 ---
 
@@ -273,6 +273,16 @@ Local dev: `.env.local` in `app/` (gitignored).
 - **Target sponsors:** CrowdStrike, AWS, SentinelOne, CompTIA, ISC²
 
 ---
+
+## What's Shipped (v1.12.0)
+
+- ✅ Adaptive difficulty engine (`src/lib/difficulty.ts`) — `computeStageScore`, `computeBonusXp`, `adaptiveCooldownSeconds`, `getRecommendedNext`, Redis skill-level rolling average, per-stage hint/attempt counters
+- ✅ XP bonus — +20% coins for clean solves (score ≥ 80); shown in terminal and FlagSuccessModal; tracked in Redis `bonus` field
+- ✅ Adaptive ARIA cooldown (Pro) — 0s/15s/30s based on skill level; `nextCooldownS` returned from `/api/hint`
+- ✅ Recommended Next — post-flag modal shows best incomplete stage in epoch based on skill
+- ✅ Wrong attempt tracking — Redis counters feed into score; 48 h TTL
+- ✅ Stages visibility fix — `career` and `curious` `GROUP_EPOCHS` now mirror each other so all users see full curriculum
+- ✅ ESLint fix — `src/data/**/*.js` added to `globalIgnores`; 0 errors
 
 ## What's Shipped (v1.11.0)
 

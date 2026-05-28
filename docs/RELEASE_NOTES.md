@@ -2,6 +2,22 @@
 
 ---
 
+## v1.12.0 — 2026-05-28
+
+**Adaptive difficulty engine — XP bonus, skill tracking, smart hints, recommended next**
+
+- **`src/lib/difficulty.ts`** — new server-only engine: `computeStageScore` (time + hints + attempts → 0–100), `computeBonusXp` (+20% at score ≥ 80), `adaptiveCooldownSeconds` (Pro ARIA: 0s/15s/30s by skill), `getRecommendedNext` (harder or easier incomplete stage by skill), Redis helpers for rolling skill level and per-stage signal counters (`diff:<user>:level`, `diff:<user>:history`, `diff:<user>:hints:<stageId>`, `diff:<user>:attempts:<stageId>`)
+- **XP bonus** — clean/fast solves (score ≥ 80) earn +20% coins; shown as `⚡ Clean solve bonus: +N 🪙` in the CTF terminal and a yellow badge in FlagSuccessModal; tracked in Redis `bonus` field; included in leaderboard delta
+- **Skill level** — rolling average of last 10 stage scores (0–100) stored in Redis; defaults to 50; updated after every CTF flag and quiz final answer
+- **Wrong attempt tracking** — `INCR diff:<user>:attempts:<stageId>` on every wrong flag submission or quiz answer; 48 h TTL
+- **Hint usage tracking** — `INCR diff:<user>:hints:<stageId>` after every ARIA response; feeds into stage score
+- **Adaptive ARIA cooldown (Pro)** — skill < 40 → 0 s, skill 40–69 → 15 s, skill ≥ 70 → 30 s; returned as `nextCooldownS` in hint API; free tier unchanged at 30 s; updated banner copy reflects adaptive behavior
+- **Recommended Next** — returned in check-flag response; shown as cyan card above action buttons in FlagSuccessModal; harder stage (higher XP) for skill ≥ 60, easier for skill < 60
+- **Stages visibility fix** — `career` and `curious` `GROUP_EPOCHS` now mirror each other; users with either group stored in Redis see the full career + extended curriculum (fixes accounts registered with `curious` only)
+- **ESLint fix** — data merge scripts (`src/data/**/*.js`) added to `globalIgnores` in `eslint.config.mjs`; 0 errors maintained
+
+---
+
 ## v1.11.0 — 2026-05-26
 
 **Language epoch expansion: French Basics and Italian Basics each grow to 20 stages**

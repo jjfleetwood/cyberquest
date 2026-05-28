@@ -2,6 +2,33 @@
 
 ---
 
+## v1.12.0 — 2026-05-28
+
+**Adaptive difficulty engine — XP bonus, skill tracking, smart hints, recommended next**
+
+- **`src/lib/difficulty.ts`** — new server-only engine: `computeStageScore` (time + hints + attempts → 0–100), `computeBonusXp` (+20% at score ≥ 80), `adaptiveCooldownSeconds` (Pro ARIA: 0s/15s/30s by skill), `getRecommendedNext` (harder or easier incomplete stage by skill), Redis helpers for rolling skill level and per-stage signal counters (`diff:<user>:level`, `diff:<user>:history`, `diff:<user>:hints:<stageId>`, `diff:<user>:attempts:<stageId>`)
+- **XP bonus** — clean/fast solves (score ≥ 80) earn +20% coins; shown as `⚡ Clean solve bonus: +N 🪙` in the CTF terminal and a yellow badge in FlagSuccessModal; tracked in Redis `bonus` field; included in leaderboard delta
+- **Skill level** — rolling average of last 10 stage scores (0–100) stored in Redis; defaults to 50; updated after every CTF flag and quiz final answer
+- **Wrong attempt tracking** — `INCR diff:<user>:attempts:<stageId>` on every wrong flag submission or quiz answer; 48 h TTL
+- **Hint usage tracking** — `INCR diff:<user>:hints:<stageId>` after every ARIA response; feeds into stage score
+- **Adaptive ARIA cooldown (Pro)** — skill < 40 → 0 s, skill 40–69 → 15 s, skill ≥ 70 → 30 s; returned as `nextCooldownS` in hint API; free tier unchanged at 30 s; updated banner copy reflects adaptive behavior
+- **Recommended Next** — returned in check-flag response; shown as cyan card above action buttons in FlagSuccessModal; harder stage (higher XP) for skill ≥ 60, easier for skill < 60
+- **Stages visibility fix** — `career` and `curious` `GROUP_EPOCHS` now mirror each other; users with either group stored in Redis see the full career + extended curriculum (fixes accounts registered with `curious` only)
+- **ESLint fix** — data merge scripts (`src/data/**/*.js`) added to `globalIgnores` in `eslint.config.mjs`; 0 errors maintained
+
+---
+
+## v1.11.0 — 2026-05-26
+
+**Language epoch expansion: French Basics and Italian Basics each grow to 20 stages**
+
+- **French Basics** expanded from 10 → 20 stages (french-11 through french-20): at the boulangerie (UNESCO baguette tradition 2022, €1.10–1.30, bien cuite), reading a French menu (entrée ≠ main course, Escoffier brigade), French wine (AOC/AOP, phylloxera 1863, 6 regions), at the pharmacy (Napoleon's 1803 law, pharmacists can now prescribe antibiotics), hotel vocabulary (J'ai une réservation, Ritz 1898), telling time (Revolutionary decimal time 1793), weather (storms Lothar/Martin 1999, 10,000 Versailles trees), telephone & digital French (Minitel 1982–2012), French faux pas (hands on table, no eating while walking, flat hand over glass), Paris arrondissements (1–20 clockwise spiral, Haussmann 1853)
+- **Italian Basics** expanded from 10 → 20 stages (italian-11 through italian-20): at the gelateria (Buontalenti 1565 Medici court, artigianale signs), Italian food vocabulary (risotto alla Milanese, cotoletta vs Schnitzel, Artusi 1891), Italian wine (DOCG, Franciacorta, 1986 methanol scandal 19 deaths), at the farmacia (Santa Maria Novella 1240, farmacia di turno), hotel & accommodation (passport required by Italian law, Grand Tour 1660s), telling time (Milan's 1335 mechanical clock, 24-hour tradition), weather (nebbia Po Valley fog, afa August humidity, 2003 heat wave 20,000 deaths), Italian football/calcio (AC Milan rossoneri / Inter nerazzurri, Derby della Madonnina, San Siro 75,923, Inter founded 1908 as internationalist breakaway), Italian faux pas (la bella figura, posso? at markets, no cheese on seafood, UNESCO pizza 2017), Milan neighbourhoods (Brera M2 Lanza, Navigli M2 Porta Genova, Isola/Bosco Verticale M2/M5 Garibaldi, Tortona, Porta Romana, Quadrilatero Moda M3 Montenapoleone)
+- **Stage count grows:** 418 → 438 (all 36 epochs; travel track now 80 stages)
+- **Curriculum reference updated** to v3.5 — XP summary table extended with all 4 travel epochs; epoch descriptions expanded
+
+---
+
 ## v1.10.0 — 2026-05-25
 
 **Travel curriculum: Paris in July, Milan in July, French Basics, Italian Basics**
