@@ -550,8 +550,8 @@ function VouchersPanel() {
   const [copied, setCopied] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
 
-  function loadVouchers() {
-    setLoading(true);
+  function loadVouchers(showSpinner = false) {
+    if (showSpinner) setLoading(true);
     fetch("/api/admin/vouchers")
       .then((r) => (r.ok ? r.json() : []))
       .then((d: VoucherRow[]) => setVouchers(d))
@@ -559,7 +559,7 @@ function VouchersPanel() {
       .finally(() => setLoading(false));
   }
 
-  useEffect(() => { loadVouchers(); }, []);
+  useEffect(() => { loadVouchers(true); }, []);
 
   async function generate() {
     setGenerating(true);
@@ -571,7 +571,7 @@ function VouchersPanel() {
     if (r.ok) {
       setMsg(`Generated ${count} code${count !== 1 ? "s" : ""}.`);
       setTimeout(() => setMsg(null), 3000);
-      loadVouchers();
+      loadVouchers(false);
     }
     setGenerating(false);
   }
@@ -1447,11 +1447,39 @@ export default function AdminPage() {
     else { setSortKey(key); setSortDir("desc"); }
   }
 
+  const NAV_ITEMS = [
+    { id: "admin-stats",    label: "Stats" },
+    { id: "admin-metrics",  label: "Metrics" },
+    { id: "admin-users",    label: "Users" },
+    { id: "admin-analytics",label: "Analytics" },
+    { id: "admin-nda",      label: "NDA" },
+    { id: "admin-flags",    label: "Flags" },
+    { id: "admin-cms",      label: "CMS" },
+    { id: "admin-pipeline", label: "Pipeline" },
+    { id: "admin-vouchers", label: "Vouchers" },
+    { id: "admin-downloads",label: "Downloads" },
+    { id: "admin-ip",       label: "IP Audit" },
+    { id: "admin-catalog",  label: "Catalog" },
+  ];
+
   return (
     <div
       className="min-h-screen px-4 py-10"
       style={{ background: "linear-gradient(160deg, #060a10 0%, #0d1117 50%, #0a0e1a 100%)" }}
     >
+      {/* Sticky left nav — only visible on very wide screens */}
+      <nav className="hidden 2xl:flex fixed left-4 top-1/2 -translate-y-1/2 flex-col gap-0.5 z-40">
+        {NAV_ITEMS.map(({ id, label }) => (
+          <button
+            key={id}
+            onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="text-left px-2 py-1 text-[11px] font-mono text-gray-700 hover:text-cyan-400 transition-colors whitespace-nowrap tracking-wide"
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -1487,7 +1515,7 @@ export default function AdminPage() {
         </div>
 
         {/* Stats cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div id="admin-stats" className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           <StatCard label="Total Users" value={loading ? "…" : users.length} color="text-cyan-400" />
           <StatCard label="Active Today" value={loading ? "…" : activeToday} color="text-green-400" />
           <StatCard label="New This Week" value={loading ? "…" : newThisWeek} color="text-emerald-400" />
@@ -1505,10 +1533,12 @@ export default function AdminPage() {
         </div>
 
         {/* Investor Metrics */}
-        <MetricsPanel users={users} loading={loading} />
+        <div id="admin-metrics">
+          <MetricsPanel users={users} loading={loading} />
+        </div>
 
         {/* User table */}
-        <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
+        <div id="admin-users" className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
           <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between gap-4 flex-wrap">
             <h2 className="text-white font-bold">Registered Users</h2>
             <div className="flex items-center gap-3">
@@ -1659,7 +1689,7 @@ export default function AdminPage() {
 
         {/* Stage analytics */}
         {!loading && users.length > 0 && (
-          <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div id="admin-analytics" className="grid md:grid-cols-2 gap-6 mb-8">
             {/* Top completed */}
             <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden">
               <div className="px-6 py-4 border-b border-white/8">
@@ -1717,28 +1747,30 @@ export default function AdminPage() {
         )}
 
         {/* NDA Signatories */}
-        <NdaSignatories />
+        <div id="admin-nda"><NdaSignatories /></div>
 
         {/* Flag Capture Log */}
-        <FlagCaptureLog />
+        <div id="admin-flags"><FlagCaptureLog /></div>
 
         {/* CMS */}
-        <CmsPanel />
+        <div id="admin-cms"><CmsPanel /></div>
 
         {/* Pipeline Test / Manual Award */}
-        <PipelineTestPanel />
+        <div id="admin-pipeline"><PipelineTestPanel /></div>
 
         {/* Vouchers */}
-        <VouchersPanel />
+        <div id="admin-vouchers"><VouchersPanel /></div>
 
         {/* Downloads Access */}
-        <DownloadsAccessPanel users={users.map((u) => ({ username: u.username }))} />
+        <div id="admin-downloads">
+          <DownloadsAccessPanel users={users.map((u) => ({ username: u.username }))} />
+        </div>
 
         {/* Content IP Audit */}
-        <ContentAudit />
+        <div id="admin-ip"><ContentAudit /></div>
 
         {/* Stage catalog */}
-        <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden">
+        <div id="admin-catalog" className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden">
           <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between">
             <h2 className="text-white font-bold">Stage Catalog</h2>
             <span className="text-xs text-gray-600">{totalStages} stages</span>
