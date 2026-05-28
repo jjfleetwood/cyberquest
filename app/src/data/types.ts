@@ -71,6 +71,20 @@ export type AuditQuizEntry = {
   questions: AuditQuizQuestion[]; // exactly 10
 };
 
+export type AttackerMachine = {
+  ip: string;
+  hostname?: string;
+  os?: string;
+};
+
+export type TargetMachine = {
+  ip: string;
+  hostname: string;
+  os?: string;
+  openPorts?: string;
+  vulnerability?: string;
+};
+
 export type CtfConfig = {
   scenario: string;
   hint: string;
@@ -84,6 +98,11 @@ export type CtfConfig = {
   minFragments?: number;
   /** Extra context injected into the AI hint chatbot system prompt for this stage. */
   chatbotContext?: string;
+  /** Attack/target machine metadata — enables dual-machine terminal UI. */
+  attackerMachine?: AttackerMachine;
+  targetMachine?: TargetMachine;
+  /** Command name that, when run, pivots the terminal prompt to the target shell. */
+  pivotTrigger?: string;
 };
 
 export type Wonder = {

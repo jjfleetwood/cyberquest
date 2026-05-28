@@ -78,6 +78,15 @@ python3 cve-2016-1287.py --target 203.0.113.1 --port 500
       ],
     },
     ctf: {
+      attackerMachine: { ip: "10.10.14.5", hostname: "kali", os: "Kali Linux 2024.1" },
+      targetMachine: {
+        ip: "203.0.113.1",
+        hostname: "cisco-asa-5510",
+        os: "Cisco ASA 9.1.6",
+        openPorts: "500/udp (IKE), 4500/udp (NAT-T)",
+        vulnerability: "CVE-2016-1287 — IKE Heap Overflow, CVSS 10.0",
+      },
+      pivotTrigger: "ike-exploit",
       scenario: "A Cisco ASA firewall is protecting a classified government network. The device runs an unpatched IKE stack. You have network access to UDP/500. Replicate the initial exploit sequence used by the Shadow Brokers' EXTRABACON tool to gain unauthenticated access.",
       hint: "Send a crafted IKE probe to confirm the version, then trigger the heap overflow to extract the SNMP community string for further access.",
       hints: [

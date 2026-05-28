@@ -22,6 +22,7 @@ type CtfSavedState = {
   cmdHistory: string[];
   collectedFragments: string[];
   elapsedMs: number;
+  hasPivoted?: boolean;
 };
 type Line = { type: LineType; text: string };
 
@@ -59,7 +60,7 @@ function TerminalLine({ line }: { line: Line }) {
     return (
       <div className={`leading-relaxed whitespace-pre-wrap break-all ${colorClass.cmd}`}>
         <span className="text-cyan-400 select-none">❯ </span>
-        {line.text.replace(/^[^$]*\$ /, "")}
+        {line.text.replace(/^[^$#]*[$#] /, "")}
       </div>
     );
   }
@@ -322,12 +323,37 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
   }
 
   function makeInitialLines(s: StageConfig, c: CtfConfig, minFrag: number): Line[] {
-    return [
+    const hasAttack = Boolean(c.attackerMachine && c.targetMachine);
+    const attacker = c.attackerMachine;
+    const target = c.targetMachine;
+    const lines: Line[] = [
       { type: "sys", text: "╔══════════════════════════════════════════╗" },
-      { type: "sys", text: `║   Kryptós CronOS Terminal  v1.0          ║` },
-      { type: "sys", text: `║   Stage ${String(s.order).padEnd(2)}: ${s.subtitle.slice(0, 28).padEnd(28)}║` },
+      ...(hasAttack && attacker && target ? [
+        { type: "sys" as LineType, text: `║  OPERATION: ${s.title.slice(0, 28).padEnd(28)} ║` },
+        { type: "sys" as LineType, text: `║  ${(s.cveId ?? "").padEnd(15)} CVSS ${(s.cvssScore?.toFixed(1) ?? "N/A").padEnd(13)} ║` },
+      ] : [
+        { type: "sys" as LineType, text: `║   Kryptós CronOS Terminal  v1.0          ║` },
+        { type: "sys" as LineType, text: `║   Stage ${String(s.order).padEnd(2)}: ${s.subtitle.slice(0, 28).padEnd(28)}║` },
+      ]),
       { type: "sys", text: "╚══════════════════════════════════════════╝" },
       { type: "sys", text: "" },
+    ];
+
+    if (hasAttack && attacker && target) {
+      const atkHost = attacker.hostname ?? "kali";
+      lines.push(
+        { type: "out", text: `  ATTACKER                        TARGET` },
+        { type: "out", text: `  ──────────────────────          ──────────────────────────────` },
+        { type: "out", text: `  ${atkHost.padEnd(24)}  ══►   ${target.ip}` },
+        { type: "out", text: `  ${attacker.ip.padEnd(24)}        ${target.hostname}` },
+        ...(attacker.os ? [{ type: "out" as LineType, text: `  ${attacker.os.padEnd(24)}        ${target.os ?? ""}` }] : []),
+        ...(target.openPorts ? [{ type: "out" as LineType, text: `  ${"".padEnd(24)}        Ports: ${target.openPorts}` }] : []),
+        ...(target.vulnerability ? [{ type: "warn" as LineType, text: `  ${"".padEnd(24)}        VULN:  ${target.vulnerability}` }] : []),
+        { type: "out", text: "" },
+      );
+    }
+
+    lines.push(
       { type: "out", text: c.scenario },
       { type: "out", text: "" },
       { type: "out", text: `${t("ctf.terminal.hint")}: ${c.hint}` },
@@ -344,7 +370,8 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
       ] : []),
       { type: "out", text: t("ctf.terminal.typeHelp") },
       { type: "out", text: "" },
-    ];
+    );
+    return lines;
   }
 
   const [cwd, setCwd] = useState("/");
@@ -358,6 +385,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
   const [chatbotOpen, setChatbotOpen] = useState(false);
   const [unknownCmdCount, setUnknownCmdCount] = useState(0);
   const [collectedFragments, setCollectedFragments] = useState<Set<string>>(new Set());
+  const [hasPivoted, setHasPivoted] = useState(false);
   const [quizDone, setQuizDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [successData, setSuccessData] = useState<{
@@ -388,6 +416,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
       setCwd(data.cwd);
       setCmdHistory(data.cmdHistory);
       setCollectedFragments(new Set(data.collectedFragments));
+      setHasPivoted(data.hasPivoted ?? false);
       startedAt.current = Date.now() - data.elapsedMs;
       setElapsed(data.elapsedMs);
       setSolved(true);
@@ -405,6 +434,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
       cmdHistory,
       collectedFragments: [...collectedFragments],
       elapsedMs: elapsed,
+      hasPivoted,
     };
     localStorage.setItem(storageKey, JSON.stringify(data));
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -441,6 +471,7 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
     setCmdHistory([]);
     setHistoryIdx(-1);
     setCollectedFragments(new Set());
+    setHasPivoted(false);
     setSubmitting(false);
     setSuccessData(null);
     setUnknownCmdCount(0);
@@ -465,14 +496,20 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
 
   async function runCommand(raw: string) {
     const trimmed = raw.trim();
+    const promptLabel = ctf.attackerMachine
+      ? (hasPivoted && ctf.targetMachine
+        ? `root@${ctf.targetMachine.hostname}:~#`
+        : `${ctf.attackerMachine.hostname ?? "kali"}@kali:~$`)
+      : `${cwd}$`;
+
     if (!trimmed) {
-      push({ type: "cmd", text: `${cwd}$` });
+      push({ type: "cmd", text: promptLabel });
       return;
     }
 
     setCmdHistory((h) => [trimmed, ...h]);
     setHistoryIdx(-1);
-    push({ type: "cmd", text: `${cwd}$ ${trimmed}` });
+    push({ type: "cmd", text: `${promptLabel} ${trimmed}` });
 
     const parts = trimmed.split(/\s+/);
     const cmd = parts[0].toLowerCase();
@@ -655,6 +692,15 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
       const result = extraCommands[cmd](args);
       push(...result.lines.map((text) => ({ type: "out" as LineType, text })));
       checkFragment(trimmed);
+      if (!hasPivoted && ctf.pivotTrigger && cmd === ctf.pivotTrigger && ctf.targetMachine) {
+        setHasPivoted(true);
+        push(
+          { type: "sys", text: "" },
+          { type: "sys", text: `[*] Session established — ${ctf.targetMachine.ip} (${ctf.targetMachine.hostname})` },
+          { type: "warn", text: `[!] Shell active on target — prompt now: root@${ctf.targetMachine.hostname}:~#` },
+          { type: "sys", text: "" },
+        );
+      }
       if (result.solved) {
         awardStage(stage.id, stage.xp, stage.badge.id);
         setSolved(true);
@@ -801,8 +847,36 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
               <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
               <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
               <div className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-              <span className="ml-1 text-gray-600 text-xs truncate">kryptos-cronos — bash</span>
+              <span className="ml-1 text-gray-600 text-xs truncate font-mono">
+                {ctf.attackerMachine && ctf.targetMachine
+                  ? `${ctf.attackerMachine.hostname ?? "kali"}@kali ──► ${ctf.targetMachine.ip}`
+                  : "kryptos-cronos — bash"}
+              </span>
             </div>
+
+            {/* Dual-machine banner — CVE stages only */}
+            {ctf.attackerMachine && ctf.targetMachine && (
+              <div className="flex items-stretch border-b border-white/10 bg-black/50 text-xs font-mono flex-shrink-0">
+                <div className="flex-1 px-3 py-2 border-r border-white/8">
+                  <div className="text-[9px] text-green-700 uppercase tracking-widest mb-1">◄ attacker</div>
+                  <div className="text-green-500">{ctf.attackerMachine.hostname ?? "kali"}@kali</div>
+                  <div className="text-green-800">{ctf.attackerMachine.ip}</div>
+                  {ctf.attackerMachine.os && <div className="text-green-900 text-[10px]">{ctf.attackerMachine.os}</div>}
+                </div>
+                <div className="flex items-center px-2 text-cyan-700 text-base select-none">══►</div>
+                <div className="flex-1 px-3 py-2">
+                  <div className={`text-[9px] uppercase tracking-widest mb-1 ${hasPivoted ? "text-green-600 font-bold" : "text-red-700"}`}>
+                    {hasPivoted ? "● shell — target" : "target ►"}
+                  </div>
+                  <div className={hasPivoted ? "text-green-400" : "text-red-500"}>{ctf.targetMachine.ip}</div>
+                  <div className="text-red-800">{ctf.targetMachine.hostname}</div>
+                  {ctf.targetMachine.os && <div className="text-red-900 text-[10px]">{ctf.targetMachine.os}</div>}
+                  {ctf.targetMachine.openPorts && !hasPivoted && (
+                    <div className="text-red-900 text-[10px]">:{ctf.targetMachine.openPorts}</div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Output */}
             <div ref={outputRef} onScroll={handleOutputScroll} className="flex-1 overflow-y-auto p-3 space-y-0.5" style={{ overscrollBehavior: "contain" }}>
@@ -814,11 +888,23 @@ export default function CtfChallenge({ stage, backHref = "/stages", isPro = fals
             {/* Input / status bar */}
             {!solved ? (
               <div className="flex items-center gap-2 px-3 py-2.5 border-t border-white/10 flex-shrink-0">
-                <span className="text-cyan-400 select-none whitespace-nowrap text-xs sm:text-sm">
-                  <span className="hidden sm:inline">{cwd}</span>
-                  <span className="sm:hidden">~/{promptCwd === "/" ? "" : promptCwd}</span>
-                  $
-                </span>
+                {ctf.attackerMachine ? (
+                  hasPivoted && ctf.targetMachine ? (
+                    <span className="text-red-400 select-none whitespace-nowrap text-xs sm:text-sm font-mono font-bold">
+                      root@{ctf.targetMachine.hostname}:~#
+                    </span>
+                  ) : (
+                    <span className="text-green-400 select-none whitespace-nowrap text-xs sm:text-sm font-mono">
+                      {ctf.attackerMachine.hostname ?? "kali"}@kali:~$
+                    </span>
+                  )
+                ) : (
+                  <span className="text-cyan-400 select-none whitespace-nowrap text-xs sm:text-sm">
+                    <span className="hidden sm:inline">{cwd}</span>
+                    <span className="sm:hidden">~/{promptCwd === "/" ? "" : promptCwd}</span>
+                    $
+                  </span>
+                )}
                 <input
                   ref={inputRef}
                   value={input}
