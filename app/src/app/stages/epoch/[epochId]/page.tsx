@@ -38,7 +38,12 @@ const GROUP_FALLBACK: Record<string, string> = {
 };
 
 function filterStagesByGroup(stages: typeof allStages, userGroups: string[]) {
-  const matched = stages.filter((s) => s.group && userGroups.includes(s.group));
+  // Career and curious always see each other's content — mirrors GROUP_EPOCHS on the stages map
+  const effective = new Set(userGroups);
+  if (effective.has("career")) effective.add("curious");
+  if (effective.has("curious")) effective.add("career");
+  const effectiveGroups = [...effective];
+  const matched = stages.filter((s) => s.group && effectiveGroups.includes(s.group));
   if (matched.length > 0) return matched;
   const fallbackGroups = userGroups.flatMap((g) => GROUP_FALLBACK[g] ? [GROUP_FALLBACK[g]] : []);
   if (fallbackGroups.length > 0) {
