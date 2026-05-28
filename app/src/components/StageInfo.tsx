@@ -96,6 +96,16 @@ export default function StageInfo({
               <p key={i} className="text-gray-300 leading-relaxed">{para}</p>
             ))}
           </div>
+          {stage.image && (
+            <div className="mt-5 rounded-xl overflow-hidden border border-white/10">
+              <img
+                src={stage.image}
+                alt={stage.title}
+                className="w-full object-cover max-h-72"
+                loading="lazy"
+              />
+            </div>
+          )}
         </section>
 
         {/* Attack Diagram */}

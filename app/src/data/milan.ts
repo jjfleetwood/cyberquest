@@ -24,6 +24,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Milan Metro", location: "Milan, Italy", era: "1964", emoji: "🚇" },
     badge: { id: "milan-metro-badge", name: "ATM Navigator", emoji: "🚇" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/M4_San_Babila_appena_inaugurata.jpg/1200px-M4_San_Babila_appena_inaugurata.jpg",
     info: {
       tagline: "Buy an ATM 48-hour pass (€7) at any metro station — unlimited metro, tram, and bus. Single tickets are €2.20 and expire in 90 minutes.",
       year: 1964,
@@ -155,6 +156,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Duomo di Milano", location: "Milan, Italy", era: "1386", emoji: "⛪" },
     badge: { id: "milan-duomo-badge", name: "Spire Climber", emoji: "⛪" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Milan_Cathedral_from_Piazza_del_Duomo.jpg/1200px-Milan_Cathedral_from_Piazza_del_Duomo.jpg",
     info: {
       tagline: "Book the Duomo roof terrace (€18 stairs, €25 lift) at duomomilano.it at least a week ahead — the 9am slot has the fewest people and the best light.",
       year: 1386,
@@ -285,6 +287,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Galleria Vittorio Emanuele II", location: "Milan, Italy", era: "1877", emoji: "🏛" },
     badge: { id: "milan-galleria-badge", name: "Galleria Walker", emoji: "🏛" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Galleria_Milano_%28179532365%29.jpeg/1200px-Galleria_Milano_%28179532365%29.jpeg",
     info: {
       tagline: "The Galleria is free to walk through at any hour — the Camparino bar at the Duomo entrance has been open since 1915 and serves the original Campari Seltz.",
       year: 1877,
@@ -415,6 +418,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "The Last Supper", location: "Milan, Italy", era: "1498", emoji: "🎨" },
     badge: { id: "milan-last-supper-badge", name: "Da Vinci's Guest", emoji: "🎨" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/The_Last_Supper_-_Leonardo_Da_Vinci_-_High_Resolution_32x16.jpg/1200px-The_Last_Supper_-_Leonardo_Da_Vinci_-_High_Resolution_32x16.jpg",
     info: {
       tagline: "Book at vivaticket.com exactly 3 months in advance — slots open at midnight Italian time and July dates are gone within hours.",
       year: 1498,
@@ -545,6 +549,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Castello Sforzesco", location: "Milan, Italy", era: "1368", emoji: "🏰" },
     badge: { id: "milan-castello-badge", name: "Castello Explorer", emoji: "🏰" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/20110725_Castello_Sforzesco_Milan_5557.jpg/1200px-20110725_Castello_Sforzesco_Milan_5557.jpg",
     info: {
       tagline: "Entry to the Castello grounds is free — pay €5 for access to 7 museums inside, including the Pietà Rondanini (Michelangelo's last work, left unfinished at his death).",
       year: 1368,
@@ -675,6 +680,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Pinacoteca Ambrosiana", location: "Milan, Italy", era: "1618", emoji: "📜" },
     badge: { id: "milan-ambrosiana-badge", name: "Codex Reader", emoji: "📜" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Leonardo_da_Vinci_-_Portrait_of_a_Musician_-_Pinacoteca_Ambrosiana.jpg/1200px-Leonardo_da_Vinci_-_Portrait_of_a_Musician_-_Pinacoteca_Ambrosiana.jpg",
     info: {
       tagline: "€15 entry, 5 minutes from the Duomo — the Codex Atlanticus (Leonardo's largest surviving manuscript) and Raphael's full-scale cartoon for the School of Athens are both here.",
       year: 1618,
@@ -805,6 +811,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Pinacoteca di Brera", location: "Milan, Italy", era: "1809", emoji: "🖼" },
     badge: { id: "milan-brera-badge", name: "Brera Initiate", emoji: "🖼" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/The_dead_Christ_and_three_mourners%2C_by_Andrea_Mantegna.jpg/1200px-The_dead_Christ_and_three_mourners%2C_by_Andrea_Mantegna.jpg",
     info: {
       tagline: "Tickets at €15 (book at ticketone.it), free on the first Sunday of the month — go at 9am opening to beat the queues. Mantegna's Dead Christ is in Room VI.",
       year: 1809,
@@ -935,6 +942,7 @@ export const milanStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Aperitivo Culture", location: "Milan, Italy", era: "1860", emoji: "🍹" },
     badge: { id: "milan-aperitivo-badge", name: "Aperitivo Hour", emoji: "🍹" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/5275MilanoViaMadonnina.JPG/1200px-5275MilanoViaMadonnina.JPG",
     info: {
       tagline: "Aperitivo starts at 6:30pm: order one drink (€10–€14) and the food spread is free. Bar Brera on Via Brera and Bar Radetzky on Corso Garibaldi are the classic Brera-neighbourhood choices.",
       year: 1860,

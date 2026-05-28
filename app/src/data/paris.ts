@@ -24,6 +24,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Paris Métro", location: "Paris, France", era: "1900", emoji: "🚇" },
     badge: { id: "paris-metro-badge", name: "Métro Navigator", emoji: "🚇" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Paris_Metro_2_Porte_Dauphine_Libellule.JPG/1200px-Paris_Metro_2_Porte_Dauphine_Libellule.JPG",
     info: {
       tagline: "Buy a Navigo Semaine on Monday — zones 1–5 covers everything including Versailles for one flat weekly price.",
       year: 1900,
@@ -134,6 +135,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Palais Garnier", location: "Place de l'Opéra, 9th arrondissement", era: "1875", emoji: "🎭" },
     badge: { id: "opera-garnier-badge", name: "Phantom's Guest", emoji: "🎭" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Paris_Opera_full_frontal_architecture%2C_May_2009.jpg/1200px-Paris_Opera_full_frontal_architecture%2C_May_2009.jpg",
     info: {
       tagline: "Book a self-guided visit (€14) for early afternoon — and don't miss the rooftop view that almost nobody knows exists.",
       year: 1875,
@@ -245,6 +247,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Musée du Louvre", location: "1st arrondissement, Paris", era: "1793", emoji: "🏛️" },
     badge: { id: "louvre-badge", name: "Louvre Initiate", emoji: "🏛️" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Louvre_Museum_Wikimedia_Commons.jpg/1200px-Louvre_Museum_Wikimedia_Commons.jpg",
     info: {
       tagline: "Book online (mandatory in July, €22) — enter via the Richelieu wing or Porte des Lions, never the pyramid at 10am.",
       year: 1793,
@@ -356,6 +359,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Tour Eiffel", location: "Champ de Mars, 7th arrondissement", era: "1889", emoji: "🗼" },
     badge: { id: "eiffel-badge", name: "Iron Lady Climber", emoji: "🗼" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg/1200px-Tour_Eiffel_Wikimedia_Commons_%28cropped%29.jpg",
     info: {
       tagline: "Summit tickets (€32) sell out weeks ahead in July — book the 9am slot at tickets.toureiffel.paris. Or buy a €14 stair ticket that never sells out.",
       year: 1889,
@@ -467,6 +471,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Hôtel des Invalides", location: "7th arrondissement, Paris", era: "1676", emoji: "⚔️" },
     badge: { id: "invalides-badge", name: "Imperial Guard", emoji: "⚔️" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/H%C3%B4tel_des_Invalides_from_the_Eiffel_Tower%2C_23_July_2009.jpg/1200px-H%C3%B4tel_des_Invalides_from_the_Eiffel_Tower%2C_23_July_2009.jpg",
     info: {
       tagline: "Combined Invalides + Musée de l'Armée ticket €15 — go straight to the golden Dôme church for Napoleon's tomb, skip the army museum unless you have 3 extra hours.",
       year: 1676,
@@ -578,6 +583,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Musée Rodin", location: "79 Rue de Varenne, 7th arrondissement", era: "1919", emoji: "🗿" },
     badge: { id: "rodin-badge", name: "The Thinker", emoji: "🗿" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Le_penseur_de_la_Porte_de_lEnfer_%28mus%C3%A9e_Rodin%29_%284528252054%29.jpg/1200px-Le_penseur_de_la_Porte_de_lEnfer_%28mus%C3%A9e_Rodin%29_%284528252054%29.jpg",
     info: {
       tagline: "The €4 garden-only ticket is the July secret — bring a picnic, sit with The Thinker, and you have one of the best 2 hours in Paris for almost nothing.",
       year: 1919,
@@ -689,6 +695,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Musée d'Orsay", location: "1 Rue de la Légion d'Honneur, 7th arrondissement", era: "1900", emoji: "🎨" },
     badge: { id: "orsay-badge", name: "Impressionist", emoji: "🎨" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/MuseeDOrsay.jpg/1200px-MuseeDOrsay.jpg",
     info: {
       tagline: "Go Thursday evening (open until 9:45pm) — half the crowds, same masterpieces, and the giant clock windows glow in the setting sun.",
       year: 1900,
@@ -800,6 +807,7 @@ export const parisStages: StageConfig[] = [
     challengeType: "quiz",
     wonder: { name: "Saint-Germain-des-Prés", location: "6th arrondissement, Paris", era: "542", emoji: "☕" },
     badge: { id: "saint-germain-badge", name: "Left Bank Regular", emoji: "☕" },
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Abbaye_de_Saint-Germain-des-Pr%C3%A9s_140131_1.jpg/1200px-Abbaye_de_Saint-Germain-des-Pr%C3%A9s_140131_1.jpg",
     info: {
       tagline: "Café de Flore and Les Deux Magots are fine for the spectacle — but pay €8 for the experience, not the espresso. Poilâne bakery at 8am is the real reason to come.",
       year: 542,

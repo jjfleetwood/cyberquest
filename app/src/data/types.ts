@@ -106,6 +106,7 @@ export type StageConfig = {
   cvssScore?: number;
   xp: number;
   badge: { id: string; name: string; emoji: string };
+  image?: string;
   challengeType: "quiz" | "ctf";
   info: StageInfo;
   ctf?: CtfConfig;
