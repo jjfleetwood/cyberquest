@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 5.0  
+**Version:** 5.1  
 **Date:** 2026-05-29  
-**Current version:** v1.18.1
+**Current version:** v1.22.0
+
+---
+
+## Changelog — v5.1 (2026-05-29) — Content expansion (v1.22.0)
+
+No new attack surface. Two new epochs added (quantum-4, emerging-tech) — pure stage data files with no new API routes, no new Redis keys, no new env vars. Stage count: 438 → 458. All existing security controls unchanged.
 
 ---
 

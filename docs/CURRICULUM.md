@@ -1,7 +1,7 @@
 # Kryptós CronOS — Curriculum Reference
-**Version:** 3.5  
-**Date:** 2026-05-26  
-**Total stages:** 438 across 36 epochs
+**Version:** 3.6  
+**Date:** 2026-05-29  
+**Total stages:** 458 across 38 epochs
 
 ---
 
@@ -382,7 +382,9 @@ The chess match on the mound — count management, pitch sequencing, platoon spl
 | 34 | Milan in July | 20 | ~1,200 |
 | 35 | French Basics | 20 | ~1,200 |
 | 36 | Italian Basics | 20 | ~1,200 |
-| | **Total** | **438** | **~81,150** |
+| 37 | Quantum Risk Management | 10 | ~600 |
+| 38 | Emerging Tech & Deep Learning Risk | 10 | ~600 |
+| | **Total** | **458** | **~82,350** |
 
 ---
 

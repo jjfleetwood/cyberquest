@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-28 (v1.17.0)**
+**Last updated: 2026-05-29 (v1.22.0)**
 
 ---
 
@@ -32,7 +32,7 @@ It's a game. It's also real security training. And that combination is genuinely
 
 This isn't a pitch deck with a mockup. It's a working product:
 
-- **438 fully built stages** across 36 curriculum epochs and 10 learning tracks
+- **458 fully built stages** across 38 curriculum epochs and 10 learning tracks
 - **7-day free trial → Pro paywall** — Stripe checkout (monthly $13.99 / annual $99, SAVE 41%); webhook lifecycle handling; no credit card required to start
 - **ARIA AI tutor** — live in production, powered by Claude Haiku, uses Socratic coaching (guides thinking, doesn't give away answers)
 - **Adaptive difficulty engine** — `computeStageScore` (time + hints + attempts), +20% XP bonus for clean solves, adaptive ARIA cooldown for Pro users
