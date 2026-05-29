@@ -2,1934 +2,1161 @@ import type { StageConfig } from "./types";
 
 export const firstJourneyStages2: StageConfig[] = [
 
-  // ─── BT-11: HTTP vs HTTPS ─────────────────────────────────────────────────
+  // ─── BT-11: HTTP vs HTTPS ────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Steamer Lane Surf Report Board", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏄" },
+    wonder: { name: "The Academy Mailbox", location: "CyberVille", era: "Today", emoji: "📪" },
     id: "bt-11",
     order: 11,
-    title: "Reading the Wave Report",
-    subtitle: "HTTP vs HTTPS — Public Bulletin Boards vs Sealed Envelopes",
+    title: "Sealed Envelopes vs Postcards",
+    subtitle: "HTTP vs HTTPS — What's the Difference?",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-11", name: "Surf Scout", emoji: "🌊" },
+    badge: { id: "bt-badge-11", name: "HTTPS Hero", emoji: "🔒" },
     challengeType: "ctf",
     info: {
-      tagline: "HTTP posts your surf report on a public billboard. HTTPS seals it in an envelope.",
+      tagline: "HTTP is a postcard anyone can read. HTTPS is a sealed envelope — only you and the website can see inside.",
       year: 2025,
       overview: [
-        "You're at Steamer Lane checking the surf report. The old chalkboard outside the surf shop (HTTP) is visible to anyone walking by — every tourist, every competitor, every stranger can read it. The members-only forecast sent by text message (HTTPS) is encrypted — only you and the sender can read it. HTTP and HTTPS are the same difference.",
-        "HTTP (HyperText Transfer Protocol) transmits data in plaintext. Every router, ISP, and anyone on the same WiFi network can read your HTTP traffic — your login credentials, your personal data, everything. HTTPS adds TLS (Transport Layer Security) encryption on top, making the content unreadable to anyone except the intended server.",
-        "As of 2025, over 95% of web traffic uses HTTPS. Modern browsers mark HTTP sites with a 'Not Secure' warning. But HTTP still exists — and intercepting it on public WiFi is trivial. Understanding the difference is the first step in protecting yourself online.",
+        "When you send a postcard, anyone who handles it — the mail carrier, the sorting center, everyone — can read what you wrote. But a sealed envelope only lets the intended person read it. The internet has the same two choices: HTTP and HTTPS.",
+        "HTTP (without the S) is like a postcard. Messages travel in plain text, and anyone watching the network could read them. HTTPS (with the S) encrypts your data — scrambles it so only you and the website can read it.",
+        "Look at your browser's address bar. Does it start with https:// and show a lock icon? That means you're protected. Always check for the lock before typing passwords or personal information!",
       ],
       technical: {
-        title: "How TLS Encrypts HTTP Traffic",
+        title: "How HTTPS Scrambles Your Data",
         body: [
-          "When you connect to an HTTPS site, your browser and the server perform a TLS handshake: (1) Server sends its certificate (proves identity). (2) Browser verifies the certificate against trusted Certificate Authorities. (3) Both sides agree on encryption keys using asymmetric cryptography (RSA or ECDH). (4) All subsequent traffic is encrypted with a symmetric key (AES-256).",
-          "The URL tells you which to use: http:// sends plaintext, https:// sends encrypted. The padlock icon in your browser's address bar indicates a valid TLS certificate. Missing padlock or 'Not Secure' = HTTP or invalid certificate. Never enter passwords or payment info on an HTTP page.",
+          "HTTPS uses encryption to scramble your data. Encryption turns your message into random-looking gibberish that only the website can unscramble. Even if someone intercepts it, they see nothing useful.",
+          "The encryption in HTTPS is called TLS (Transport Layer Security). When you see the lock icon in your browser, TLS is working and your connection is secure.",
         ],
         codeExample: {
-          label: "Seeing the difference between HTTP and HTTPS traffic",
-          code: `# HTTP request — everything visible in plaintext
-curl -v http://example.com
-# You'll see headers, cookies, body — all readable
+          label: "HTTP vs HTTPS — what eavesdroppers see",
+          code: `  HTTP (no lock — anyone can read!):
+  You typed: password123
+  What travels the network: password123
 
-# HTTPS request — payload encrypted
-curl -v https://example.com
-# TLS handshake visible in headers, but body is encrypted
+  HTTPS (lock icon — encrypted!):
+  You typed: password123
+  What travels: xQ7#kL!9pR2$mN  ← gibberish!
 
-# Check if a site forces HTTPS redirect
-curl -I http://google.com
-# Should show: HTTP/1.1 301 Moved Permanently
-# Location: https://www.google.com/`,
+  Always look for 🔒 before typing passwords!`,
         },
       },
       incident: {
-        title: "The Firesheep Exploit — Stealing Sessions Over HTTP",
-        when: "October 2010",
-        where: "Any public WiFi network",
-        impact: "Demonstrated that Facebook, Twitter sessions could be hijacked in seconds",
+        title: "The Firesheep Problem",
+        when: "2010",
+        where: "Coffee shops with public WiFi",
+        impact: "Anyone could steal other people's logins over HTTP",
         body: [
-          "Eric Butler released Firesheep — a Firefox extension that automatically captured and displayed other users' session cookies on the same WiFi network. Facebook used HTTPS for login but then switched back to HTTP for browsing. Firesheep grabbed the unencrypted session cookies and let anyone click a button to log in as that user.",
-          "Within days of release, Firesheep had been downloaded over 100,000 times. Facebook and Twitter were forced to implement HTTPS everywhere — something they had resisted for performance reasons. The lesson: a login over HTTPS means nothing if the session is continued over HTTP. Encrypt everything, not just the authentication step.",
+          "In 2010, a tool called Firesheep showed how easy it was to steal login sessions over HTTP. At a coffee shop with public WiFi, anyone running Firesheep could see and steal other people's session cookies — instantly accessing their accounts.",
+          "This scared many companies into switching to HTTPS. Today, all major websites use HTTPS. If a site still uses plain HTTP, your browser warns you with 'Not Secure.' That warning is there to protect you.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Browser", sub: "sends HTTP or HTTPS request", type: "attacker" },
-          { label: "Network Path", sub: "routers, ISPs, WiFi APs", type: "system" },
-          { label: "HTTP: plaintext", sub: "anyone on path can read", type: "victim" },
-          { label: "HTTPS: encrypted", sub: "only endpoints can decrypt", type: "result" },
+          { label: "HTTP", sub: "no lock — plaintext", type: "attacker" },
+          { label: "Eavesdropper", sub: "can read everything!", type: "system" },
+          { label: "HTTPS", sub: "lock — encrypted", type: "victim" },
+          { label: "Eavesdropper sees gibberish", sub: "can't read a thing", type: "result" },
         ],
       },
       timeline: [
-        { year: 1991, event: "HTTP 0.9 introduced by Tim Berners-Lee — entirely plaintext" },
-        { year: 1995, event: "HTTPS introduced by Netscape for e-commerce security" },
-        { year: 2010, event: "Firesheep: session hijacking over HTTP trivialized — mass adoption of HTTPS begins", highlight: true },
-        { year: 2018, event: "Chrome marks all HTTP sites 'Not Secure' — HTTPS becomes the default" },
+        { year: 1991, event: "HTTP invented — the web's first language, no encryption" },
+        { year: 1994, event: "HTTPS invented so people could safely shop and bank online" },
+        { year: 2018, event: "Chrome marks all HTTP sites as 'Not Secure'", highlight: true },
       ],
       keyTakeaways: [
-        "HTTP transmits everything in plaintext — visible to anyone on the network path",
-        "HTTPS adds TLS encryption — content unreadable without the session keys",
-        "Always look for https:// and the padlock before entering any sensitive data",
-        "Even if login is HTTPS, a plaintext session cookie can be stolen to hijack your account",
+        "HTTP is like a postcard — anyone can read it as it travels",
+        "HTTPS is encrypted — only you and the website can read the data",
+        "Always check for the 🔒 lock icon before entering passwords",
+        "Never type personal information on a site without HTTPS",
       ],
       references: [
-        { title: "HTTPS Explained — Mozilla MDN", url: "https://developer.mozilla.org/en-US/docs/Glossary/HTTPS" },
-        { title: "Firesheep and the HTTPS Push — EFF", url: "https://www.eff.org/https-everywhere" },
+        { title: "HTTPS Explained — Mozilla", url: "https://developer.mozilla.org/en-US/docs/Glossary/HTTPS" },
       ],
     },
     ctf: {
-      scenario: "You're intercepting traffic at Steamer Lane. Two streams are captured — one HTTP, one HTTPS. Read the HTTP stream to extract the credentials being sent in plaintext. Show why HTTP is dangerous.",
-      hint: "Read the HTTP capture and extract the credentials. The HTTPS capture will be unreadable.",
+      scenario: "Two login pages are open. One is HTTP (dangerous) and one is HTTPS (safe). Identify which is safe and log in only through the secure one.",
+      hint: "Find which site has HTTPS and use that one.",
       hints: [
-        "Read the HTTP traffic capture. Run: cat http-capture.txt",
-        "Extract the credentials from the HTTP stream. Run: extract-creds http",
-        "Try to read the HTTPS capture. Run: extract-creds https",
-        "Submit the stolen credentials. Run: submit-creds tidal_wave_tom surfsup1969",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/http-capture.txt",
-          value: "FLAG{HTTP_1S_",
-          label: "HTTP Capture — Plaintext Credentials Exposed",
-        },
-        {
-          trigger: "/https-capture.txt",
-          value: "PL41NT3XT_",
-          label: "HTTPS Capture — Encrypted Traffic Confirmed",
-        },
-        {
-          trigger: "submit-creds tidal_wave_tom surfsup1969",
-          value: "HTTPS_1S_3NCRYPT3D}",
-          label: "Credential Submission — HTTP Danger Demonstrated",
-        },
+        "Check both sites. Run: check-sites",
+        "Inspect site A. Run: inspect site-a",
+        "Inspect site B. Run: inspect site-b",
+        "Log into the safe site. Run: login site-b",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/http-capture.txt": [
-          "HTTP TRAFFIC CAPTURE — Steamer Lane WiFi",
-          "==========================================",
-          "POST /login HTTP/1.1",
-          "Host: surf-members.com",
-          "Content-Type: application/x-www-form-urlencoded",
+        "/login-sites.txt": [
+          "TWO LOGIN SITES FOUND",
+          "=====================",
+          "Site A: http://academy-login.fake.com  (no lock)",
+          "Site B: https://academy.edu/login      (has lock ✓)",
           "",
-          "username=tidal_wave_tom&password=surfsup1969&remember=true",
-          "",
-          "HTTP/1.1 200 OK",
-          "Set-Cookie: session=abc123plaintext; Path=/",
-          "",
-          "VISIBLE TO ANYONE ON THIS WIFI NETWORK.",
-        ].join("\n"),
-        "/https-capture.txt": [
-          "HTTPS TRAFFIC CAPTURE — Steamer Lane WiFi",
-          "===========================================",
-          "TLSv1.3 Record Layer: Application Data",
-          "  Encrypted Application Data:",
-          "  7f 3a b2 09 4c e1 88 f3 2d 9a 07 bc 44 21 f8 9e",
-          "  a3 51 7c 2b d8 60 95 3f 1e 74 c2 88 0d 4a e7 b1",
-          "  [... 1,247 more bytes of ciphertext ...]",
-          "",
-          "Content: UNREADABLE without TLS session keys.",
-          "Attacker sees: nothing useful.",
+          "Commands: check-sites | inspect <site> | login <site>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "http-capture.txt", isDir: false },
-          { name: "https-capture.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "login-sites.txt", isDir: false }] },
+      fragments: [
+        { trigger: "check-sites", value: "FLAG{HTTPS_", label: "Sites Found" },
+        { trigger: "inspect site-b", value: "L0CK_", label: "Secure Site Identified" },
+        { trigger: "login site-b", value: "SAF3}", label: "Logged in Safely via HTTPS!" },
+      ],
       extraCommands: {
-        "extract-creds": (args) => {
-          if ((args[0] || "") === "http") {
-            return {
-              lines: [
-                "Parsing HTTP capture...",
-                "  Found POST /login with credentials in plaintext:",
-                "  Username: tidal_wave_tom",
-                "  Password: surfsup1969",
-                "  Session cookie: abc123plaintext",
-                "",
-                "All extracted without any decryption needed.",
-                "Run: submit-creds tidal_wave_tom surfsup1969",
-                "",
-                ">> LEARN: HTTP sends everything in plaintext",
-                "   Any device on the network path can read your credentials.",
-                "   Firesheep (2010) stole HTTP session cookies at coffee shops.",
-                "   Try it: sudo tcpdump -A port 80 | grep -i 'pass\\|user'",
-              ],
-            };
-          }
-          if ((args[0] || "") === "https") {
-            return {
-              lines: [
-                "Parsing HTTPS capture...",
-                "  TLS 1.3 encrypted payload found.",
-                "  Without the session keys: CANNOT DECRYPT.",
-                "  Content: ████████████████████",
-                "",
-                "HTTPS protects against this attack.",
-                "",
-                ">> LEARN: TLS encrypts everything — headers and cookies too",
-                "   Without session keys, intercepted HTTPS is meaningless ciphertext.",
-                "   This is why every site must use HTTPS — HTTP theft is trivial.",
-                "   Check a site's TLS config: nmap --script ssl-enum-ciphers -p 443 <host>",
-              ],
-            };
-          }
-          return { lines: ["Usage: extract-creds http  OR  extract-creds https"] };
+        "check-sites": () => ({ lines: ["Site A: HTTP — no lock. Dangerous!", "Site B: HTTPS — lock icon ✓. Safe!", "Inspect each: inspect site-a or inspect site-b"] }),
+        inspect: (args) => {
+          const site = args[0];
+          if (site === "site-a") return { lines: ["Site A: HTTP — NO encryption. Dangerous on public WiFi. Do not log in here!"] };
+          if (site === "site-b") return { lines: ["Site B: HTTPS — Fully encrypted. Lock icon confirmed. Safe to log in."] };
+          return { lines: ["Unknown site."] };
         },
-        "submit-creds": (args) => {
-          if (args[0] === "tidal_wave_tom" && args[1] === "surfsup1969") {
-            return {
-              lines: [
-                "Credentials submitted. Logged in as: tidal_wave_tom",
-                "This is how easy HTTP credential theft is.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: Credential theft over HTTP requires zero tools",
-                "   No decryption needed — the password is in the raw packet.",
-                "   HSTS forces browsers to use HTTPS even if you type http://.",
-                "   Check HSTS on any site: curl -I https://site.com | grep Strict",
-              ],
-            };
-          }
-          return { lines: ["Wrong credentials. Read the HTTP capture first."] };
+        login: (args) => {
+          if (args[0] === "site-b") return { lines: ["✓ Logged into https://academy.edu/login safely! Your password was encrypted. Run 'assemble'."] };
+          if (args[0] === "site-a") return { lines: ["✗ DANGER! HTTP site — not safe. Use site-b instead."] };
+          return { lines: ["Unknown site."] };
         },
       },
     },
   },
 
-  // ─── BT-12: How Browsers Work ─────────────────────────────────────────────
+  // ─── BT-12: Browsers ─────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Surf Shop on Pacific Ave", location: "Santa Cruz, USA", era: "Present Day", emoji: "🛒" },
+    wonder: { name: "The Academy Computer Lab", location: "CyberVille", era: "Today", emoji: "💻" },
     id: "bt-12",
     order: 12,
-    title: "Your Surfboard",
-    subtitle: "Browsers — The Tool That Rides the Web",
+    title: "Your Magic Window",
+    subtitle: "What is a Web Browser?",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-12", name: "Browser Inspector", emoji: "🔬" },
+    badge: { id: "bt-badge-12", name: "Browser Guard", emoji: "💻" },
     challengeType: "ctf",
     info: {
-      tagline: "A browser is a translation machine — it turns raw HTML, CSS, and JavaScript into a visual page.",
+      tagline: "A browser is the app you use to visit websites — and it works hard to keep you safe while you explore.",
       year: 2025,
       overview: [
-        "At the surf shop, you pick your board. The board doesn't surf on its own — it's a tool that interfaces between you and the wave. A browser is the tool that interfaces between you and the web. When you type a URL, the browser doesn't just 'show a webpage' — it performs a precise sequence of operations: DNS resolution, TCP connection, TLS handshake, HTTP request, HTML parsing, CSS rendering, JavaScript execution.",
-        "Understanding browsers matters for security because browsers are the primary attack surface for most users. XSS (Cross-Site Scripting) attacks inject malicious JavaScript into pages rendered by your browser. Malicious redirects, drive-by downloads, and phishing pages all rely on browser behavior. Browser developer tools (F12) let you inspect every request, response, cookie, and script.",
-        "The browser's same-origin policy (SOP) is its primary security mechanism: JavaScript on page A cannot read data from page B unless both are on the same origin (protocol + domain + port). This prevents a malicious site from reading your Gmail or bank balance. When SOP is misconfigured (CORS errors), it can become a vulnerability.",
+        "A web browser (Chrome, Firefox, Safari, Edge) is the app you use to look at websites. When you type a web address and press Enter, the browser fetches the website and shows it on your screen.",
+        "Browsers do much more than just show pages. They check if a website is safe, warn you before you visit dangerous sites, and block harmful pop-ups. Think of your browser as a guide that takes you where you want to go and protects you along the way.",
+        "When you type https://google.com and press Enter, your browser asks DNS for Google's address, connects securely, receives the page code, and draws it for you — all in less than a second!",
       ],
       technical: {
-        title: "What Happens When You Type a URL",
+        title: "Reading a Web Address (URL)",
         body: [
-          "Step by step: (1) DNS lookup for the domain. (2) TCP connection to the server's IP:port. (3) TLS handshake (if HTTPS). (4) HTTP GET request sent. (5) Server responds with HTML. (6) Browser parses HTML, finds CSS/JS/image links. (7) Browser fetches each sub-resource (more requests). (8) CSS applied, layout computed, page painted. (9) JavaScript executed. Total time: 200ms–2s for a modern page.",
-          "Browser developer tools (F12 → Network tab) show every single request made during page load: URL, status code, size, timing, request/response headers. This is invaluable for debugging and for understanding what data a page is sending and receiving.",
+          "A URL (web address) has parts: https:// means use HTTPS (secure). www.academy.edu is the website name. /students/homework tells the server which specific page you want.",
+          "Your browser reads every part and uses it to fetch exactly the right page from the right server. If any part looks wrong or suspicious, a good browser warns you.",
         ],
         codeExample: {
-          label: "Inspecting browser requests from the command line",
-          code: `# See exactly what a browser request looks like
-curl -v https://example.com
+          label: "Parts of a web address",
+          code: `  https://www.academy.edu/students/homework
 
-# Follow redirects
-curl -L -v https://example.com
+  https://   → use HTTPS (secure connection)
+  www.       → world wide web
+  academy.edu → the website's name
+  /students/  → the section of the site
+  homework    → the specific page
 
-# Inspect cookies being sent
-curl -v --cookie-jar cookies.txt https://example.com
-
-# See response headers only
-curl -I https://example.com
-
-# Simulate a browser User-Agent
-curl -A "Mozilla/5.0" https://example.com`,
+  Like directions to a room:
+  Building: academy.edu
+  Floor: students
+  Room: homework`,
         },
       },
       incident: {
-        title: "The British Airways Breach — Malicious Script in the Browser",
-        when: "August–September 2018",
-        where: "British Airways website and app",
-        impact: "500,000 customers' payment cards stolen; £20M GDPR fine",
+        title: "Malicious Code Hidden in a Website",
+        when: "2018",
+        where: "British Airways website",
+        impact: "500,000 customer credit card numbers stolen",
         body: [
-          "The Magecart group injected 22 lines of JavaScript into British Airways' payment page. The script captured card details typed into the checkout form and sent them to a server the attackers controlled. The injected script ran in the browser exactly like any legitimate JavaScript — users had no way to detect it visually.",
-          "The attack exploited trust in the browser rendering engine: if a script is served from the page, the browser executes it. This is why Content Security Policy (CSP) headers matter — they let servers tell browsers which script sources are trusted. BA didn't have strict CSP. 500,000 customers' details were stolen over 15 days before anyone noticed.",
+          "In 2018, hackers secretly added bad code to the British Airways website. When customers typed their credit card numbers to buy tickets, the hidden code sent copies to the hackers — all while the real site worked normally.",
+          "Keeping browsers updated helps prevent this. Modern browsers detect and block many types of suspicious code. Always update your browser to get the latest protections.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "URL Typed", sub: "browser starts work", type: "attacker" },
-          { label: "DNS + TCP + TLS", sub: "connection established", type: "system" },
-          { label: "HTML/CSS/JS Fetched", sub: "sub-resources loaded", type: "victim" },
-          { label: "Page Rendered", sub: "JavaScript executed", type: "result" },
+          { label: "You type URL", sub: "what page do you want?", type: "attacker" },
+          { label: "Browser asks DNS", sub: "what's the server address?", type: "system" },
+          { label: "Browser fetches page", sub: "server sends the code", type: "victim" },
+          { label: "Browser draws the page", sub: "you see the website!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1990, event: "First web browser (WorldWideWeb) by Tim Berners-Lee" },
-        { year: 1994, event: "Netscape Navigator — first mainstream browser, introduces cookies" },
-        { year: 1995, event: "JavaScript added to Netscape — the web becomes interactive" },
-        { year: 2018, event: "British Airways Magecart attack — malicious JS steals 500K card numbers", highlight: true },
+        { year: 1993, event: "First popular web browser invented — the web becomes visual" },
+        { year: 2008, event: "Google Chrome released — now used by most people" },
+        { year: 2025, event: "Browsers have built-in security, privacy tools, and warnings", highlight: true },
       ],
       keyTakeaways: [
-        "Browsers perform 9+ steps to render a single page — each is an attack surface",
-        "Browser DevTools (F12) show every request, response, cookie, and script",
-        "Same-origin policy prevents cross-site data theft — misconfigured CORS breaks this",
-        "Injected JavaScript is indistinguishable from legitimate scripts without CSP",
+        "A browser fetches and displays websites — Chrome, Firefox, Safari are all browsers",
+        "The URL tells the browser exactly what page to get and how to get it securely",
+        "Browsers check if websites are safe and warn you about dangerous ones",
+        "Always keep your browser updated — updates fix security problems",
       ],
       references: [
         { title: "How Browsers Work — web.dev", url: "https://web.dev/articles/howbrowserswork" },
-        { title: "British Airways Breach Analysis — RiskIQ", url: "https://www.riskiq.com/blog/labs/magecart-british-airways-breach/" },
       ],
     },
     ctf: {
-      scenario: "A surf shop's website has a hidden admin page. Use browser inspection techniques to find the hidden link in the page source, discover the admin path, and access the flag inside the admin panel.",
-      hint: "Inspect the page source and HTTP response headers for hidden paths.",
+      scenario: "Three websites are open in the browser. Two are safe, one shows a security warning. Find the dangerous one and report it.",
+      hint: "Check each site's safety and report the dangerous one.",
       hints: [
-        "View the homepage source. Run: view-source /",
-        "Check the HTTP response headers. Run: inspect-headers /",
-        "Access the hidden path you found. Run: browse /admin-reef-42",
-        "Read the admin panel contents. Run: cat /admin-reef-42/flag.txt",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/index.html",
-          value: "FLAG{BR0WS3R_",
-          label: "Page Source — Hidden Admin Path Discovered",
-        },
-        {
-          trigger: "/admin-reef-42/flag.txt",
-          value: "D3VT00LS_R3V34L_",
-          label: "Admin Panel — Flag File Located",
-        },
-        {
-          trigger: "cat /admin-reef-42/flag.txt",
-          value: "3V3RYTH1NG}",
-          label: "Flag Retrieval — DevTools Mastered",
-        },
+        "List open tabs. Run: list-tabs",
+        "Check tab 1. Run: check 1",
+        "Check tabs 2 and 3. Run: check 2 and check 3",
+        "Report the bad site. Run: report 2",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/index.html": [
-          "<html>",
-          "<head><title>Steamer Lane Surf Shop</title></head>",
-          "<body>",
-          "  <h1>Welcome to Steamer Lane Surf Shop</h1>",
-          "  <p>Best boards in Santa Cruz.</p>",
-          "  <!-- admin: /admin-reef-42 -->",
-          "  <a href='/boards'>Shop Boards</a>",
-          "</body>",
-          "</html>",
+        "/open-tabs.txt": [
+          "OPEN BROWSER TABS",
+          "==================",
+          "Tab 1: https://academy.edu/news      (Academy news) ✓",
+          "Tab 2: http://free-prizes.bad.com     (no lock, suspicious!) ✗",
+          "Tab 3: https://kryptoscronos.com      (training site) ✓",
+          "",
+          "Commands: list-tabs | check <n> | report <n>",
         ].join("\n"),
-        "/admin-reef-42/flag.txt": "Run 'assemble' to retrieve your fragment.",
       },
-      dirs: {
-        "/": [{ name: "index.html", isDir: false }, { name: "admin-reef-42", isDir: true }],
-        "/admin-reef-42": [{ name: "flag.txt", isDir: false }],
-      },
+      dirs: { "/": [{ name: "open-tabs.txt", isDir: false }] },
+      fragments: [
+        { trigger: "list-tabs", value: "FLAG{BR0WS3R_", label: "Tabs Listed" },
+        { trigger: "check 2", value: "WARN1NG_", label: "Dangerous Site Identified" },
+        { trigger: "report 2", value: "R3P0RT3D}", label: "Dangerous Site Reported!" },
+      ],
       extraCommands: {
-        "view-source": (args) => {
-          const path = args[0] || "/";
-          if (path === "/") {
-            return {
-              lines: [
-                "Page source: /index.html",
-                "================================",
-                "<html>",
-                "<head><title>Steamer Lane Surf Shop</title></head>",
-                "<body>",
-                "  <h1>Welcome to Steamer Lane Surf Shop</h1>",
-                "  <p>Best boards in Santa Cruz.</p>",
-                "  <!-- admin: /admin-reef-42 -->   <- found it",
-                "  <a href='/boards'>Shop Boards</a>",
-                "</body>",
-                "</html>",
-                "",
-                ">> LEARN: HTML comments are visible to anyone — view source",
-                "   Developers leave paths, credentials, and TODOs in comments.",
-                "   Attackers use 'view-source:' and DevTools to read every comment.",
-                "   Try it on any site: Ctrl+U or right-click -> View Page Source",
-              ],
-            };
-          }
-          return { lines: [`No source for path: ${path}`] };
+        "list-tabs": () => ({ lines: ["Tab 1: https://academy.edu/news (locked ✓)", "Tab 2: http://free-prizes.bad.com (NO lock ✗)", "Tab 3: https://kryptoscronos.com (locked ✓)", "", "Check each: check 1, check 2, check 3"] }),
+        check: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["Tab 1: SAFE ✓ — HTTPS, known domain."] };
+          if (n === "2") return { lines: ["Tab 2: DANGEROUS ✗ — HTTP, suspicious domain, browser warning! Report this."] };
+          if (n === "3") return { lines: ["Tab 3: SAFE ✓ — HTTPS, known training site."] };
+          return { lines: ["Unknown tab."] };
         },
-        "inspect-headers": () => ({
-          lines: [
-            "HTTP Response Headers: /",
-            "  HTTP/1.1 200 OK",
-            "  Content-Type: text/html",
-            "  X-Powered-By: SurfOS/1.0",
-            "  X-Admin-Hint: check the HTML comments",
-            "  Server: nginx/1.24",
-            "",
-            ">> LEARN: HTTP headers expose server software versions",
-            "   X-Powered-By reveals frameworks; Server reveals web server version.",
-            "   Attackers look for version-specific CVEs using this fingerprint info.",
-            "   Remove info headers: add 'server_tokens off;' in nginx.conf",
-          ],
-        }),
-        browse: (args) => {
-          const path = args[0] || "/";
-          if (path === "/admin-reef-42" || path === "/admin-reef-42/") {
-            return {
-              lines: [
-                "Admin Panel — Steamer Lane Surf Shop",
-                "=====================================",
-                "Welcome, admin. Files in this directory:",
-                "  flag.txt",
-                "",
-                "Run: cat /admin-reef-42/flag.txt",
-                "",
-                ">> LEARN: Browser DevTools expose what pages send and receive",
-                "   Network tab shows every request, URL, header, cookie, response.",
-                "   Attackers use DevTools to find hidden API calls and admin paths.",
-                "   Real task: open F12 on any site — look at XHR requests made.",
-              ],
-            };
-          }
-          return { lines: [`Browsing ${path}: 404 Not Found`] };
+        report: (args) => {
+          if (args[0] === "2") return { lines: ["✓ Tab 2 reported and blocked! Good spotting! Run 'assemble'."] };
+          return { lines: [`Tab ${args[0]} is safe. Find the dangerous one first.`] };
         },
       },
     },
   },
 
-  // ─── BT-13: Clients and Servers ───────────────────────────────────────────
+  // ─── BT-13: Clients and Servers ──────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "O'Neill Surf School", location: "Santa Cruz, USA", era: "Present Day", emoji: "🎓" },
+    wonder: { name: "The Academy Cafeteria", location: "CyberVille", era: "Today", emoji: "🍽️" },
     id: "bt-13",
     order: 13,
-    title: "The Surf Shop and the Surfer",
-    subtitle: "Clients and Servers — Who Asks, Who Answers",
+    title: "Who Asks and Who Answers",
+    subtitle: "Clients and Servers",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-13", name: "Client-Server Pro", emoji: "🤝" },
+    badge: { id: "bt-badge-13", name: "Client-Server Agent", emoji: "🍽️" },
     challengeType: "ctf",
     info: {
-      tagline: "The client asks. The server answers. Every web interaction is exactly this exchange.",
+      tagline: "Your computer is the customer who asks. A server is the powerful computer that answers — like a cafeteria server who brings your lunch.",
       year: 2025,
       overview: [
-        "The surf school has instructors (servers) and students (clients). A student (client) asks 'how do I pop up on a board?' The instructor (server) answers with the lesson. The student never becomes the instructor. The internet works identically: a client (your browser, your app) makes a request, and a server responds. The roles are fixed for that exchange.",
-        "When you open Instagram, your phone (client) sends a request to Instagram's servers: 'Give me the latest posts for my feed.' Instagram's server processes that request, queries its database, and sends back the posts as JSON data. Your app renders them into the feed you see. This request-response cycle repeats thousands of times a day.",
-        "The client-server model defines security responsibilities too. Servers must validate every input — a malicious client can send anything. Clients must validate server responses — a compromised server might send malicious content. Neither can trust the other by default.",
+        "In a cafeteria, you ask for what you want and the server brings it. Online, your device is the client (the one asking), and a server is a powerful computer that stores information and sends it back to you.",
+        "When you visit a website, your browser asks the server for the page. The server finds the page and sends it back. This ask-and-answer happens millions of times every second across the internet.",
+        "Servers run 24 hours a day, 7 days a week, always ready to answer requests from clients anywhere in the world. A single website might use hundreds of servers working together.",
       ],
       technical: {
-        title: "HTTP Request-Response Cycle",
+        title: "The Request and Response",
         body: [
-          "An HTTP request has: a method (GET, POST, PUT, DELETE), a URL path, headers (metadata), and optionally a body (for POST/PUT). An HTTP response has: a status code (200 OK, 404 Not Found, 500 Server Error), headers, and a body (the actual content).",
-          "REST APIs are the standard way web applications communicate: GET /users/123 retrieves a user, POST /users creates one, PUT /users/123 updates it, DELETE /users/123 removes it. The server maintains state and data; the client is just a display and input layer. This separation is called the 'client-server' architectural pattern.",
+          "Every time you click a link, your browser sends a request: 'Please send me this page.' The server sends a response: 'Here it is!' A single webpage might involve hundreds of small requests — one for the text, one for each image, one for each button.",
+          "Servers must check if clients are allowed to see what they're asking for. If a server just sends any file to any request without checking, people could access private information they shouldn't see.",
         ],
         codeExample: {
-          label: "Making HTTP requests with curl and Python",
-          code: `# GET request (retrieve data)
-curl https://api.example.com/users/123
+          label: "Client and server conversation",
+          code: `  YOUR BROWSER (client):
+  "Please give me the homepage"
 
-# POST request with JSON body (send data)
-curl -X POST https://api.example.com/users \\
-     -H "Content-Type: application/json" \\
-     -d '{"name": "surfer", "level": "beginner"}'
+  GOOGLE'S SERVER:
+  "Here it is!" → sends the page
 
-# Python equivalent
-import requests
-resp = requests.get('https://api.example.com/users/123')
-print(resp.json())   # parse JSON response`,
+  YOUR BROWSER:
+  "Please give me the Google logo image"
+
+  GOOGLE'S SERVER:
+  "Here's the image!" → sends it
+
+  One webpage = many small asks and answers!`,
         },
       },
       incident: {
-        title: "IDOR — When the Server Trusts the Client Too Much",
-        when: "Ongoing vulnerability class — top OWASP finding",
-        where: "Any API that exposes object IDs",
-        impact: "Data from other users accessible by simply changing an ID in the URL",
+        title: "When Servers Trust Clients Too Much (IDOR)",
+        when: "A common web vulnerability",
+        where: "Websites everywhere",
+        impact: "Users can access others' private data",
         body: [
-          "IDOR (Insecure Direct Object Reference) happens when a server trusts the client to send a valid object ID without checking if that client is authorized to access it. Change /api/invoices/1042 to /api/invoices/1043 and you see another customer's invoice — because the server never verified you own invoice 1043.",
-          "In 2019, researchers found that Facebook's Business Manager API returned any user's phone number if you knew their user ID — and user IDs were public. The client sent a request with user ID X; the server returned X's phone number without checking if the requesting client was authorized to see it. Classic IDOR: 'server trusts client, server doesn't verify authorization.'",
+          "A vulnerability called IDOR (Insecure Direct Object Reference) happens when a server gives clients whatever they ask for without checking ownership. If you can see your file at page?id=101, can you see page?id=102 (someone else's file)?",
+          "Good servers always verify: 'Is this client allowed to see what they're requesting?' — not just 'Do they know the address?'",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Client (Browser/App)", sub: "sends HTTP request", type: "attacker" },
-          { label: "Network", sub: "request travels to server", type: "system" },
-          { label: "Server", sub: "processes, queries DB", type: "victim" },
-          { label: "Response", sub: "server sends data back", type: "result" },
+          { label: "Client (your browser)", sub: "sends a request", type: "attacker" },
+          { label: "Internet", sub: "request travels here", type: "system" },
+          { label: "Server", sub: "receives and answers", type: "victim" },
+          { label: "Response sent back", sub: "client shows the result", type: "result" },
         ],
       },
       timeline: [
-        { year: 1969, event: "Client-server architecture formalized in ARPANET design" },
-        { year: 1991, event: "HTTP 0.9 introduces the request-response cycle for the web" },
-        { year: 2000, event: "REST API style defined by Roy Fielding in his PhD dissertation" },
-        { year: 2019, event: "Facebook IDOR exposes phone numbers — server trusted client IDs blindly", highlight: true },
+        { year: 1991, event: "First web server created — computers start serving pages" },
+        { year: 2025, event: "Cloud servers host most websites and apps globally", highlight: true },
       ],
       keyTakeaways: [
-        "Client asks, server answers — the roles don't switch within a request",
-        "HTTP methods: GET (read), POST (create), PUT (update), DELETE (remove)",
-        "Servers must authorize every request — never trust the client to self-authorize",
-        "IDOR: server returns data for any ID without checking if requester is authorized",
+        "Clients ask for things; servers find and send back the answers",
+        "Your browser is a client; websites run on servers",
+        "Every page, image, and video is a separate request from client to server",
+        "Servers must check if clients are allowed to see what they ask for",
       ],
       references: [
         { title: "HTTP Overview — MDN", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" },
-        { title: "IDOR — OWASP", url: "https://owasp.org/www-community/attacks/Insecure_Direct_Object_Reference" },
       ],
     },
     ctf: {
-      scenario: "The surf school's API has an IDOR vulnerability. You're logged in as student ID 7. Find the admin student record by manipulating the student ID in the API request.",
-      hint: "Change the student ID in the API request to find other records.",
+      scenario: "The Academy lunch system has a bug — students can view meal records that belong to other students! Test it, confirm the bug, and report it.",
+      hint: "Test the system and find the security bug.",
       hints: [
-        "Fetch your own student record. Run: api-get /students/7",
-        "Try adjacent IDs. Run: api-get /students/1",
-        "Keep trying low IDs to find admin. Run: api-get /students/0",
-        "Try the admin ID. Run: api-get /students/admin",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/api-brief.txt",
-          value: "FLAG{1D0R_S3RV3R_",
-          label: "API Brief — IDOR Vulnerability Identified",
-        },
-        {
-          trigger: "/students.txt",
-          value: "MUST_4UTH0R1Z3_",
-          label: "Student Roster — Unauthorized Record Found",
-        },
-        {
-          trigger: "api-get /students/0",
-          value: "3V3RY_R3QU3ST}",
-          label: "Admin Record — Server Failed to Authorize",
-        },
+        "Request your meal. Run: request meal 101",
+        "Try someone else's. Run: request meal 102",
+        "Check if the server stopped you. Run: check-access",
+        "Report the bug. Run: report-bug",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/api-brief.txt": [
-          "SURF SCHOOL API — IDOR INVESTIGATION",
-          "=====================================",
-          "You are logged in as student ID 7.",
-          "The API exposes student records at /students/<id>.",
-          "The server does not check if you own the record.",
+        "/meal-system.txt": [
+          "ACADEMY MEAL SYSTEM",
+          "====================",
+          "Your meal ID: 101",
+          "Bug to find: can you see ID 102?",
           "",
-          "Objective: access the admin record by manipulating the ID.",
-          "Try: api-get /students/7 to start.",
-        ].join("\n"),
-        "/students.txt": [
-          "Known student IDs (from enrollment form leak):",
-          "  ID 0  — admin (instructor account)",
-          "  ID 1  — betty_barrelhouse",
-          "  ID 7  — wave_rider_7 (you)",
-          "",
-          "The server trusts whichever ID you send.",
-          "No authorization check is performed.",
+          "Commands: request meal <id> | check-access | report-bug",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "api-brief.txt", isDir: false },
-          { name: "students.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "meal-system.txt", isDir: false }] },
+      fragments: [
+        { trigger: "request meal 101", value: "FLAG{CL13NT_", label: "Your Meal Requested" },
+        { trigger: "request meal 102", value: "S3RV3R_", label: "Bug Found — Unauthorized Access" },
+        { trigger: "report-bug", value: "BUG}", label: "Bug Reported — Fixed!" },
+      ],
       extraCommands: {
-        "api-get": (args) => {
-          const path = args[0] || "";
-          const id = path.split("/").pop() || "";
-          const responses: Record<string, string[]> = {
-            "7": ["200 OK — Student #7:", "  name: wave_rider_7", "  level: beginner", "  courses: [surf-101]"],
-            "1": ["200 OK — Student #1:", "  name: betty_barrelhouse", "  level: intermediate", "  courses: [surf-201, surf-301]"],
-            "0": ["200 OK — Student #0:", "  name: admin", "  level: instructor", "  note: Server returned admin record to an unauthorized student. IDOR vulnerability.", "", "Run 'assemble' to retrieve your fragment.", "", ">> LEARN: IDOR — server skips authorization on object IDs", "   Changing /students/7 to /students/0 exposes another user's data.", "   OWASP API Top 10: Broken Object Level Authorization is the #1 API flaw.", "   Test any API: change numeric IDs in requests and check the response."],
-            "admin": ["400 Bad Request — ID must be numeric. Try /students/0"],
-          };
-          const resp = responses[id];
-          if (resp) {
-            return { lines: resp, solved: id === "0" };
+        request: (args) => {
+          if (args[0] === "meal") {
+            const id = args[1];
+            if (id === "101") return { lines: ["Your meal (101): Spaghetti 🍝 — Correct!"] };
+            return { lines: [`⚠️ BUG: You can see Student ${id}'s meal! The server didn't check ownership.`] };
           }
-          return { lines: [`404 Not Found — Student ID ${id} does not exist`] };
+          return { lines: ["Usage: request meal <id>"] };
         },
+        "check-access": () => ({ lines: ["Meal 101 (yours): ✓ Should be accessible", "Meal 102 (other): ✗ BUG! You accessed someone else's record", "Run: report-bug"] }),
+        "report-bug": () => ({ lines: ["✓ BUG REPORTED: Server doesn't verify ownership before serving data.", "Security team notified. Fix in progress.", "Run 'assemble' to claim your reward!"] }),
       },
     },
   },
 
-  // ─── BT-14: SSL/TLS ───────────────────────────────────────────────────────
+  // ─── BT-14: TLS Certificates ─────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Lifeguard Tower #3, Cowell Beach", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏖️" },
+    wonder: { name: "The Academy Reception Desk", location: "CyberVille", era: "Today", emoji: "🪪" },
     id: "bt-14",
     order: 14,
-    title: "The Safety Leash",
-    subtitle: "TLS Certificates — Proving Identity Before You Trust",
+    title: "Checking the ID Badge",
+    subtitle: "What is a Security Certificate?",
     category: "cybersecurity",
-    xp: 100,
-    badge: { id: "bt-badge-14", name: "Certificate Verifier", emoji: "📜" },
+    xp: 75,
+    badge: { id: "bt-badge-14", name: "Certificate Checker", emoji: "🛡️" },
     challengeType: "ctf",
     info: {
-      tagline: "Before you trust the lifeguard with your safety, you check their badge. TLS does the same.",
+      tagline: "TLS certificates are ID badges for websites — they prove the site is really who it claims to be.",
       year: 2025,
       overview: [
-        "The lifeguard at Cowell Beach wears a badge proving they're certified. Before you trust them to pull you from a rip current, you can verify that badge. TLS certificates work identically: before your browser sends any sensitive data to a server, it verifies the server's certificate — proof that the server is who it claims to be, signed by a trusted authority.",
-        "A TLS certificate contains: the domain name it's valid for, the certificate authority (CA) that signed it, the server's public key, and an expiry date. Your browser ships with a list of trusted CAs (like DigiCert, Let's Encrypt, Comodo). If the certificate is valid, signed by a trusted CA, and matches the domain, the padlock appears and encrypted communication begins.",
-        "Certificate errors are serious warnings. 'Your connection is not private' means either the certificate is expired, self-signed, doesn't match the domain, or was issued by an untrusted CA. Clicking through this warning means you're communicating with an unverified server — a potential impersonator.",
+        "Before trusting a stranger with a secret, you'd check their ID. What if someone built a fake bank website to steal your password? TLS certificates are how real websites prove their identity.",
+        "When you visit https://yourbank.com, your browser checks the site's certificate — like checking an official ID badge. If it's real and valid, the lock icon appears. If it's fake or expired, your browser shows a big warning.",
+        "Never ignore browser security warnings about certificates. Your browser is protecting you from fake sites.",
       ],
       technical: {
-        title: "How TLS Certificates and the PKI Work",
+        title: "What a Certificate Contains",
         body: [
-          "Public Key Infrastructure (PKI): CAs are trusted third parties that verify identities and sign certificates. The process: (1) Server generates a key pair. (2) Server sends a Certificate Signing Request (CSR) to a CA. (3) CA verifies the server owns the domain (via DNS or file challenge). (4) CA signs the certificate with its private key. (5) Browser verifies the signature using the CA's public key (built into the browser).",
-          "Let's Encrypt revolutionized TLS by making certificates free and automatic. Before 2016, a certificate cost $100–500/yr. Now any domain can get a 90-day certificate in 60 seconds via ACME protocol. This led to near-universal HTTPS adoption. Caveat: a Let's Encrypt cert proves domain control, not that the site is legitimate — phishing sites use them too.",
+          "A certificate includes: the website's name, who issued it (a Certificate Authority), and when it expires. Certificate Authorities (CAs) are trusted companies that verify you own a website before giving you a certificate — like a government checking identity before issuing a passport.",
+          "If the certificate name doesn't match the site you're visiting, or it's expired, your browser blocks the connection. This protects you even if DNS was poisoned to send you to the wrong server.",
         ],
         codeExample: {
-          label: "Inspecting TLS certificates",
-          code: `# View certificate details
-openssl s_client -connect example.com:443 -servername example.com
+          label: "What a TLS certificate looks like",
+          code: `  CERTIFICATE FOR academy.edu:
+  ──────────────────────────────
+  Issued to:   academy.edu
+  Issued by:   Let's Encrypt (trusted CA)
+  Valid until: December 2025
+  ──────────────────────────────
+  ✓ Name matches → safe
+  ✓ Not expired  → safe
+  ✓ Trusted CA   → safe
+  → 🔒 Lock icon appears!
 
-# Check certificate expiry
-echo | openssl s_client -connect example.com:443 2>/dev/null \\
-  | openssl x509 -noout -dates
-
-# See who issued the certificate (CA)
-echo | openssl s_client -connect example.com:443 2>/dev/null \\
-  | openssl x509 -noout -issuer
-
-# Full certificate details
-curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
+  If anything is wrong → ⚠️ Browser Warning!`,
         },
       },
       incident: {
-        title: "The DigiNotar Hack — When a CA Is Compromised",
-        when: "July 2011",
-        where: "DigiNotar CA, Netherlands",
-        impact: "300K+ fraudulent certificates issued; Iranian users' Gmail intercepted",
+        title: "DigiNotar — When a Certificate Authority Was Hacked",
+        when: "2011",
+        where: "Netherlands",
+        impact: "Fake certificates let hackers spy on 300,000 people",
         body: [
-          "DigiNotar, a Dutch CA, was hacked and attackers issued fraudulent certificates for Google, Mozilla, Microsoft, and others. Iranian authorities used a fake Google certificate to perform man-in-the-middle attacks on 300,000+ Iranian Gmail users — intercepting their emails while showing a valid padlock in the browser.",
-          "When discovered, all major browsers revoked trust in DigiNotar's root certificate. Every website using DigiNotar certificates became untrusted overnight. DigiNotar went bankrupt within weeks. The incident highlighted that CA compromise = internet compromise. Certificate Transparency logs were created afterward to make all certificate issuance publicly auditable.",
+          "In 2011, hackers broke into a Certificate Authority called DigiNotar and issued fake certificates for popular sites like Google. With fake certificates, they could trick people's browsers into showing the lock icon on a fake site.",
+          "About 300,000 people had their internet traffic spied on. DigiNotar was shut down. All browsers now quickly remove CAs that misbehave.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Server Certificate", sub: "domain + public key + CA signature", type: "attacker" },
-          { label: "Browser Verification", sub: "checks CA trust chain", type: "system" },
-          { label: "Certificate Authority", sub: "signed by trusted root CA", type: "victim" },
-          { label: "Encrypted Session", sub: "TLS handshake complete", type: "result" },
+          { label: "Website has certificate", sub: "like an ID badge", type: "attacker" },
+          { label: "Browser checks it", sub: "real and valid?", type: "system" },
+          { label: "Trusted CA approves it", sub: "certificate authority verifies", type: "victim" },
+          { label: "Lock icon appears ✓", sub: "connection is safe", type: "result" },
         ],
       },
       timeline: [
-        { year: 1994, event: "SSL 2.0 introduced by Netscape for secure e-commerce" },
-        { year: 1999, event: "TLS 1.0 standardized (RFC 2246) — SSL successor" },
-        { year: 2011, event: "DigiNotar CA hacked — fraudulent certs used to spy on Iranian Gmail users", highlight: true },
-        { year: 2016, event: "Let's Encrypt launches — free TLS certificates, HTTPS becomes universal" },
+        { year: 1994, event: "TLS certificates invented — websites can prove their identity" },
+        { year: 2011, event: "DigiNotar hacked — fake certificates issued; company shut down", highlight: true },
+        { year: 2016, event: "Let's Encrypt launches — free certificates for every website" },
       ],
       keyTakeaways: [
-        "TLS certificates prove server identity — signed by a trusted Certificate Authority",
-        "Browsers ship with a built-in list of trusted CAs — all certs chain to one of these",
-        "Certificate errors = do not proceed — someone may be impersonating the site",
-        "Let's Encrypt makes certs free — but a valid cert only proves domain control, not legitimacy",
+        "TLS certificates are ID badges for websites",
+        "Your browser automatically checks certificates when you visit HTTPS sites",
+        "Expired or mismatched certificates trigger browser warnings — never ignore them",
+        "Certificate Authorities verify website identity before issuing certificates",
       ],
       references: [
-        { title: "TLS/SSL Explained — Cloudflare", url: "https://www.cloudflare.com/learning/ssl/what-is-ssl/" },
-        { title: "DigiNotar Incident — Mozilla Blog", url: "https://blog.mozilla.org/security/2011/09/02/diginotar-removal-follow-up/" },
+        { title: "TLS Certificates — Cloudflare", url: "https://www.cloudflare.com/learning/ssl/what-is-ssl/" },
       ],
     },
     ctf: {
-      scenario: "The lifeguard tower's server has a certificate issue. Inspect the certificate, identify the problem, and determine if the connection is safe to trust.",
-      hint: "Inspect the certificate fields to find what's wrong.",
+      scenario: "Three sites want to connect to Cyber Academy. Check each certificate — approve real ones, reject fake or expired ones.",
+      hint: "Check each certificate and decide: approve or reject.",
       hints: [
-        "Connect to the server and inspect the cert. Run: check-cert lifeguard-server.sc",
-        "Check the certificate issuer. Run: check-issuer",
-        "Check the expiry date. Run: check-expiry",
-        "Check if the domain matches. Run: check-domain lifeguard-server.sc",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/cert-brief.txt",
-          value: "FLAG{TLS_C3RT_",
-          label: "Certificate Brief — Investigation Started",
-        },
-        {
-          trigger: "/tls-notes.txt",
-          value: "V3R1F1C4T10N_PR3V3NTS_",
-          label: "TLS Notes — Untrusted Issuer Confirmed",
-        },
-        {
-          trigger: "check-domain lifeguard-server.sc",
-          value: "1MP3RS0N4T10N}",
-          label: "Domain Check — All Certificate Issues Identified",
-        },
+        "Check site A. Run: check-cert site-a",
+        "Check site B and C. Run: check-cert site-b and check-cert site-c",
+        "Approve the valid one. Run: approve site-a",
+        "Reject the others. Run: reject site-b and reject site-c",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/cert-brief.txt": [
-          "TLS CERTIFICATE INVESTIGATION — Lifeguard Tower #3",
-          "====================================================",
-          "Server: lifeguard-server.sc",
-          "Port: 443",
+        "/cert-queue.txt": [
+          "CERTIFICATE REVIEW QUEUE",
+          "=========================",
+          "Site A: library.edu — check certificate",
+          "Site B: libary.edu  — typo (fake?)",
+          "Site C: gym.edu     — possibly expired",
           "",
-          "Task: inspect the certificate for issues.",
-          "Run: check-cert lifeguard-server.sc",
-          "Then: check-issuer, check-expiry, check-domain",
-        ].join("\n"),
-        "/tls-notes.txt": [
-          "TLS VERIFICATION CHECKLIST",
-          "==========================",
-          "1. Issuer must be a trusted CA (DigiCert, Let's Encrypt, etc.)",
-          "2. Certificate must not be expired",
-          "3. Subject CN must match the domain you are connecting to",
-          "",
-          "If any check fails: DO NOT trust the connection.",
-          "An untrusted issuer means anyone could have signed this cert.",
+          "Commands: check-cert <site> | approve <site> | reject <site>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "cert-brief.txt", isDir: false },
-          { name: "tls-notes.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "cert-queue.txt", isDir: false }] },
+      fragments: [
+        { trigger: "check-cert site-a", value: "FLAG{C3RT_", label: "Valid Certificate Found" },
+        { trigger: "approve site-a", value: "V4L1D_", label: "Real Site Approved" },
+        { trigger: "reject site-b", value: "F4K3_R3J3CT3D}", label: "Fake Site Rejected!" },
+      ],
       extraCommands: {
-        "check-cert": (args) => ({
-          lines: [
-            `Connecting to ${args[0] || "server"}:443...`,
-            "TLS Handshake initiated.",
-            "",
-            "Certificate received:",
-            "  Subject: CN=lifeguard-server.sc",
-            "  Issuer:  CN=Fake-CA-Not-Trusted",
-            "  Valid:   2024-01-01 to 2025-01-01",
-            "  Today:   2025-05-11",
-            "",
-            "WARNING: Issuer 'Fake-CA-Not-Trusted' is NOT in browser trust store.",
-            "Run: check-issuer | check-expiry | check-domain lifeguard-server.sc",
-            "",
-            ">> LEARN: TLS certs prove identity — signed by a trusted CA",
-            "   Browsers ship with ~150 trusted root CAs — all certs must chain to one.",
-            "   Self-signed or rogue CA certs are trivial to create — never click past warnings.",
-            "   Inspect any cert: openssl s_client -connect example.com:443",
-          ],
-        }),
-        "check-issuer": () => ({
-          lines: [
-            "Certificate Issuer: CN=Fake-CA-Not-Trusted",
-            "Status: NOT TRUSTED",
-            "  This CA is not in any browser's trusted root store.",
-            "  Anyone can create a certificate signed by an unknown CA.",
-            "  This is a self-signed or rogue certificate.",
-            "  DO NOT trust this connection.",
-            "",
-            ">> LEARN: Untrusted CA = anyone could have signed the cert",
-            "   2011 DigiNotar hack: rogue CA certs intercepted 300K Iranian Gmail users.",
-            "   Certificate Transparency logs make all CA-issued certs publicly auditable.",
-            "   Check CT logs: crt.sh/?q=yourdomain.com",
-          ],
-        }),
-        "check-expiry": () => ({
-          lines: [
-            "Certificate Validity:",
-            "  Not Before: 2024-01-01",
-            "  Not After:  2025-01-01",
-            "  Today:      2025-05-11",
-            "  Status:     EXPIRED — certificate expired 4 months ago.",
-            "",
-            ">> LEARN: Expired cert = server neglected renewal — red flag",
-            "   Let's Encrypt issues 90-day certs; auto-renewal is now standard.",
-            "   Attackers serve expired certs on phishing clones — always check dates.",
-            "   Check expiry: echo | openssl s_client -connect host:443 | openssl x509 -noout -dates",
-          ],
-        }),
-        "check-domain": (args) => {
-          const domain = args[0] || "";
-          return {
-            lines: [
-              `Domain check: ${domain}`,
-              "  Certificate Subject: CN=lifeguard-server.sc",
-              `  Requested domain:    ${domain}`,
-              `  Match: ${domain === "lifeguard-server.sc" ? "YES — domain matches" : "NO MATCH — certificate is for a different domain"}`,
-              "",
-              "Combined issues found: UNTRUSTED ISSUER + EXPIRED.",
-              "This certificate should not be trusted.",
-              "",
-              "Run 'assemble' to retrieve your fragment.",
-              "",
-              ">> LEARN: Three cert checks: CA trust, expiry, domain match",
-              "   Domain mismatch = cert may be reused from a different site (MitM indicator).",
-              "   Three cert checks: trusted issuer, not expired, CN matches the domain.",
-              "   Automated check: ssllabs.com gives a full A–F grade for any HTTPS site.",
-            ],
-          };
+        "check-cert": (args) => {
+          const s = args[0];
+          if (s === "site-a") return { lines: ["Site A (library.edu): ✓ Valid certificate, expires Dec 2025, issued to library.edu. Real!"] };
+          if (s === "site-b") return { lines: ["Site B (libary.edu): ✗ MISMATCH — cert says library.edu but site is libary.edu. FAKE!"] };
+          if (s === "site-c") return { lines: ["Site C (gym.edu): ✗ EXPIRED — certificate expired January 2025. Outdated!"] };
+          return { lines: ["Unknown site."] };
+        },
+        approve: (args) => {
+          if (args[0] === "site-a") return { lines: ["✓ Site A APPROVED — certificate is valid and trusted."] };
+          return { lines: ["That site should be rejected, not approved. Check its certificate."] };
+        },
+        reject: (args) => {
+          const s = args[0];
+          if (s === "site-b") return { lines: ["✓ Site B REJECTED — fake domain, mismatched certificate. Blocked!"] };
+          if (s === "site-c") return { lines: ["✓ Site C REJECTED — expired certificate. Run 'assemble'."] };
+          return { lines: [`${s} should be approved, not rejected.`] };
         },
       },
     },
   },
 
-  // ─── BT-15: Cookies ───────────────────────────────────────────────────────
+  // ─── BT-15: Cookies and Sessions ─────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Surf Club Check-In Desk", location: "Santa Cruz, USA", era: "Present Day", emoji: "🎫" },
+    wonder: { name: "The Academy Club Room", location: "CyberVille", era: "Today", emoji: "🪙" },
     id: "bt-15",
     order: 15,
-    title: "The Membership Wristband",
-    subtitle: "Cookies and Sessions — How Websites Remember You",
+    title: "Your Membership Ticket",
+    subtitle: "What are Cookies?",
     category: "cybersecurity",
-    xp: 100,
-    badge: { id: "bt-badge-15", name: "Session Analyst", emoji: "🍪" },
+    xp: 75,
+    badge: { id: "bt-badge-15", name: "Cookie Watcher", emoji: "🪙" },
     challengeType: "ctf",
     info: {
-      tagline: "The surf club stamps your wrist so you don't pay again. Cookies do the same — your browser carries the stamp.",
+      tagline: "A cookie is a small ticket a website gives your browser so it remembers you — like a stamped hand at an amusement park.",
       year: 2025,
       overview: [
-        "When you check in at the surf club, the staff stamps your wrist. For the rest of the day, you flash the stamp — no need to pay again or prove your identity. HTTP cookies work exactly this way: after you log in, the server sets a cookie (a small text value) in your browser. Every subsequent request carries that cookie, and the server reads it to know who you are.",
-        "HTTP is stateless by design: each request is independent with no memory of previous requests. Cookies solve this by storing a session token on the client side. The token is a random string (e.g., 'sess=a9f3b2e1...') that maps to your session data on the server. The server looks up that token and knows: this is Alice, she's logged in, she has these permissions.",
-        "Cookies have security attributes: HttpOnly prevents JavaScript from reading the cookie (blocks XSS theft), Secure ensures the cookie only travels over HTTPS, and SameSite prevents the cookie from being sent in cross-site requests (blocks CSRF attacks). Missing these attributes creates serious vulnerabilities.",
+        "At an amusement park, you get your hand stamped so you can leave and come back without paying again. Websites give your browser a similar ticket called a cookie. When you log in, the site gives your browser a cookie, and every new page you visit shows that cookie so you stay logged in.",
+        "Without cookies, you'd have to log in on every single page you visited! Cookies make the internet much more comfortable by remembering who you are.",
+        "Cookies can be dangerous if they're not properly secured. If a hacker steals your cookie, they can log into your account without ever knowing your password.",
       ],
       technical: {
-        title: "Cookie Security Attributes",
+        title: "Secure Cookies vs. Insecure Cookies",
         body: [
-          "A secure session cookie should be set like: Set-Cookie: sess=abc123; HttpOnly; Secure; SameSite=Strict; Path=/. HttpOnly: JavaScript cannot access this cookie (document.cookie won't show it). Secure: browser only sends this cookie over HTTPS. SameSite=Strict: cookie not sent on cross-origin requests (CSRF protection).",
-          "Session fixation: attacker sets a known session token before login, then victim logs in with that token — attacker now has a valid authenticated session. Mitigation: always regenerate the session token on login. Session hijacking: attacker steals a valid token (via XSS or network sniffing) and uses it to impersonate the victim.",
+          "A secure cookie has HttpOnly (JavaScript can't read it) and Secure (only sent over HTTPS) flags. Both are important. HttpOnly stops malicious scripts from stealing the cookie. Secure ensures it's never sent over unencrypted HTTP.",
+          "Cookies also have expiry dates. Short-lived cookies (24 hours) are safer than ones lasting years — a stolen cookie becomes useless much sooner.",
         ],
         codeExample: {
-          label: "Inspecting and manipulating cookies",
-          code: `# View cookies sent with a request
-curl -v https://example.com/dashboard 2>&1 | grep Cookie
-
-# Send a specific cookie to a server
-curl -H "Cookie: session=abc123" https://example.com/dashboard
-
-# See all cookies a site sets
-curl -I https://example.com | grep Set-Cookie
-
-# In browser DevTools (F12):
-# Application tab → Cookies → see all cookies for domain`,
+          label: "What a cookie looks like",
+          code: `  Cookie from academy.edu:
+  ─────────────────────────
+  Name:     session_token
+  Value:    abc123xyz (your secret ID)
+  Expires:  30 days
+  HttpOnly: Yes ← JS can't steal it
+  Secure:   Yes ← HTTPS only
+  ─────────────────────────
+  Every page load: browser sends this.
+  Website sees it: "Welcome back!"`,
         },
       },
       incident: {
-        title: "The Slack Session Cookie Theft — Zero-Click Account Takeover",
-        when: "August 2022",
-        where: "Slack's GitHub repositories",
-        impact: "Attackers stole Slack employee tokens from code repos",
+        title: "Cookie Theft — Account Takeover Without a Password",
+        when: "It happens regularly",
+        where: "Various websites",
+        impact: "Hackers access accounts without needing passwords",
         body: [
-          "Threat actors who had breached Twilio and Cloudflare in the same campaign accessed Slack's GitHub repositories using stolen employee session cookies. Rather than stealing passwords, they stole the session tokens — meaning they bypassed 2FA entirely because the session was already authenticated.",
-          "This is the power of session cookie theft: if you have the cookie, you ARE the user from the server's perspective. The server has no way to distinguish a stolen session from a legitimate one. Modern mitigations include binding sessions to IP addresses, device fingerprinting, and short session lifetimes requiring frequent re-authentication.",
+          "If a hacker steals your session cookie, they can log into your account without knowing your password. They just present your stolen cookie to the website, and the website thinks it's you.",
+          "This is why the HttpOnly flag is important — malicious scripts can't read cookies with this flag. And the Secure flag ensures cookies never travel over unencrypted connections where they could be intercepted.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "User Logs In", sub: "server creates session", type: "attacker" },
-          { label: "Set-Cookie Header", sub: "server gives browser the token", type: "system" },
-          { label: "Browser Stores Cookie", sub: "sends it on every request", type: "victim" },
-          { label: "Server Reads Cookie", sub: "identifies user, authorizes", type: "result" },
+          { label: "You log in", sub: "site creates a cookie", type: "attacker" },
+          { label: "Cookie stored", sub: "in your browser", type: "system" },
+          { label: "New page loaded", sub: "browser sends cookie", type: "victim" },
+          { label: "Website recognizes you!", sub: "no login needed again", type: "result" },
         ],
       },
       timeline: [
-        { year: 1994, event: "Lou Montulli invents HTTP cookies at Netscape for shopping cart state" },
-        { year: 2000, event: "Hotmail cookie theft via URL vulnerabilities — first major cookie attack" },
-        { year: 2010, event: "Firesheep: HTTP session cookie theft trivialized on open WiFi" },
-        { year: 2022, event: "Slack GitHub breach via stolen session cookies — bypassed 2FA", highlight: true },
+        { year: 1994, event: "Cookies invented — websites can now remember users" },
+        { year: 2025, event: "Modern browsers give you cookie controls and privacy settings", highlight: true },
       ],
       keyTakeaways: [
-        "Cookies solve HTTP's statelessness by storing a session token in the browser",
-        "HttpOnly: blocks JavaScript access; Secure: HTTPS only; SameSite: blocks CSRF",
-        "Stealing a session cookie = full account access, no password needed",
-        "Always regenerate session tokens on login to prevent session fixation",
+        "Cookies are tickets websites give your browser so they remember you",
+        "Without cookies, you'd have to log in on every single page",
+        "HttpOnly and Secure flags protect cookies from theft",
+        "Stolen cookies let hackers access accounts without passwords",
       ],
       references: [
         { title: "HTTP Cookies — MDN", url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies" },
-        { title: "Cookie Security Attributes — OWASP", url: "https://owasp.org/www-community/controls/SecureCookieAttribute" },
       ],
     },
     ctf: {
-      scenario: "The surf club's session cookie is missing the HttpOnly flag. Steal the admin's session cookie via a simulated XSS attack, use it to access the admin panel, and retrieve the flag.",
-      hint: "The missing HttpOnly flag means JavaScript can read the cookie. Find the admin cookie and use it.",
+      scenario: "The Academy issued three session cookies. One is properly secured, two have missing security flags. Identify and flag the insecure ones.",
+      hint: "Inspect each cookie's security settings.",
       hints: [
-        "Read the page's cookies via JavaScript. Run: js-read-cookies",
-        "Find the admin session token. Run: read-session admin",
-        "Use the stolen token to access admin. Run: access-as-admin sess_ADMIN_9f3e2b1a",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/cookie-policy.txt",
-          value: "FLAG{HTTP_0NLY_",
-          label: "Cookie Policy — Missing HttpOnly Attribute Found",
-        },
-        {
-          trigger: "/session-log.txt",
-          value: "PREV3NTS_C00K13_",
-          label: "Session Log — Admin Token Identified",
-        },
-        {
-          trigger: "access-as-admin sess_ADMIN_9f3e2b1a",
-          value: "TH3FT}",
-          label: "Admin Access — Session Hijack Demonstrated",
-        },
+        "Inspect cookie 1. Run: inspect-cookie 1",
+        "Inspect cookies 2 and 3.",
+        "Flag the insecure ones. Run: flag-insecure 2",
+        "Flag the other insecure one. Run: flag-insecure 3",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/cookie-policy.txt": [
-          "SURF CLUB SESSION COOKIE CONFIGURATION",
-          "=======================================",
-          "Cookie: session_admin",
-          "  Secure: true",
-          "  HttpOnly: MISSING  ← vulnerability",
-          "  SameSite: not set",
+        "/cookies.txt": [
+          "ACADEMY SESSION COOKIES",
+          "========================",
+          "Cookie 1: session_A — properly secured",
+          "Cookie 2: session_B — missing HttpOnly",
+          "Cookie 3: session_C — missing Secure flag",
           "",
-          "Because HttpOnly is not set, JavaScript (document.cookie)",
-          "can read this cookie — enabling XSS-based theft.",
-          "Run: js-read-cookies",
-        ].join("\n"),
-        "/session-log.txt": [
-          "SESSION LOG — Surf Club Admin Panel",
-          "=====================================",
-          "Active sessions:",
-          "  session_user=sess_7abc23    (wave_rider_7, regular member)",
-          "  session_admin=sess_ADMIN_9f3e2b1a  (admin, full access)",
-          "",
-          "Both tokens are readable via document.cookie.",
-          "Use: access-as-admin <token> to hijack the admin session.",
+          "Commands: inspect-cookie <n> | flag-insecure <n>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "cookie-policy.txt", isDir: false },
-          { name: "session-log.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "cookies.txt", isDir: false }] },
+      fragments: [
+        { trigger: "inspect-cookie 1", value: "FLAG{C00K13_", label: "Secure Cookie Found" },
+        { trigger: "flag-insecure 2", value: "S3CUR3_", label: "Insecure Cookie Flagged" },
+        { trigger: "flag-insecure 3", value: "CH3CK}", label: "All Insecure Cookies Flagged!" },
+      ],
       extraCommands: {
-        "js-read-cookies": () => ({
-          lines: [
-            "Executing: document.cookie",
-            "",
-            "Result (HttpOnly NOT set — JavaScript can read all cookies):",
-            "  user_prefs=theme=dark; lang=en",
-            "  session_user=sess_7abc23; Path=/",
-            "  session_admin=sess_ADMIN_9f3e2b1a; Path=/; Secure",
-            "",
-            "Admin session token exposed to JavaScript.",
-            "If HttpOnly were set, this would return: [empty]",
-            "Run: access-as-admin sess_ADMIN_9f3e2b1a",
-            "",
-            ">> LEARN: Session cookies are auth tokens — protect them",
-            "   HttpOnly blocks JS access; without it, any XSS payload steals the cookie.",
-            "   Stolen session cookie = account takeover without knowing the password.",
-            "   Check cookie flags in DevTools: F12 -> Application -> Cookies",
-          ],
-        }),
-        "read-session": (args) => {
-          if (args[0] === "admin") {
-            return {
-              lines: [
-                "Admin session token: sess_ADMIN_9f3e2b1a",
-                "Expires: 24 hours from login",
-                "",
-                ">> LEARN: Short sessions limit damage from stolen tokens",
-                "   Short-lived tokens (15 min) limit damage if a session cookie is stolen.",
-                "   Secure + SameSite=Strict flags stop cookie theft via network and CSRF.",
-                "   Regenerate session tokens on every login to block session fixation.",
-              ],
-            };
-          }
-          return { lines: [`Session for ${args[0]}: not found`] };
+        "inspect-cookie": (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["Cookie 1: ✓ HttpOnly: YES ✓ Secure: YES ✓ Expires: 30 days. Properly secured!"] };
+          if (n === "2") return { lines: ["Cookie 2: ✗ HttpOnly: NO — JavaScript can read and steal this cookie!"] };
+          if (n === "3") return { lines: ["Cookie 3: ✗ Secure: NO — Sent over HTTP! Can be intercepted!"] };
+          return { lines: ["Unknown cookie."] };
         },
-        "access-as-admin": (args) => {
-          if (args[0] === "sess_ADMIN_9f3e2b1a") {
-            return {
-              lines: [
-                "Sending request with stolen cookie:",
-                "  Cookie: session_admin=sess_ADMIN_9f3e2b1a",
-                "",
-                "Server response: 200 OK — Welcome, admin",
-                "Admin panel access granted.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: Stolen session cookie = full account access",
-                "   2FA is bypassed entirely — the session was already authenticated.",
-                "   Slack 2022 breach: attackers stole session tokens, skipped 2FA completely.",
-                "   Defense: bind sessions to IP or device fingerprint, shorten session lifetime.",
-              ],
-            };
-          }
-          return { lines: ["Invalid session token. Steal the admin cookie first."] };
+        "flag-insecure": (args) => {
+          const n = args[0];
+          if (n === "2") return { lines: ["✓ Cookie 2 FLAGGED — Missing HttpOnly. Security team notified."] };
+          if (n === "3") return { lines: ["✓ Cookie 3 FLAGGED — Missing Secure flag. Notified. Run 'assemble'."] };
+          return { lines: [`Cookie ${n} is the secure one.`] };
         },
       },
     },
   },
 
-  // ─── BT-16: APIs ──────────────────────────────────────────────────────────
+  // ─── BT-16: APIs ─────────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Surf Conditions Hotline", location: "Santa Cruz, USA", era: "Present Day", emoji: "📞" },
+    wonder: { name: "The Academy Message Board", location: "CyberVille", era: "Today", emoji: "📋" },
     id: "bt-16",
     order: 16,
-    title: "Calling the Surf Hotline",
-    subtitle: "APIs — How Apps Talk to Each Other",
+    title: "The Waiter Between Apps",
+    subtitle: "What is an API?",
     category: "cybersecurity",
     xp: 100,
-    badge: { id: "bt-badge-16", name: "API Explorer", emoji: "🔌" },
+    badge: { id: "bt-badge-16", name: "API Explorer", emoji: "📋" },
     challengeType: "ctf",
     info: {
-      tagline: "You call the surf hotline with a specific question, it answers with a specific format. That's an API.",
+      tagline: "An API is like a waiter — you tell it what you want, it goes to the kitchen (the server), and brings back your order.",
       year: 2025,
       overview: [
-        "The surf hotline has a menu: press 1 for wave height, press 2 for wind speed, press 3 for tide times. You call a specific number, use a specific format, and get a specific answer. APIs (Application Programming Interfaces) work identically: structured endpoints you query with structured requests to get structured responses.",
-        "When you use a weather app, the app calls the weather service's API: GET /api/weather?city=santa-cruz. The weather service returns JSON: {temperature: 68, wind: 12, conditions: 'sunny'}. Your app displays that data. You never see the API call — it happens invisibly in the background. Every modern app is built by assembling API calls.",
-        "APIs are the backbone of the modern internet and also a major attack surface. API vulnerabilities — broken authentication, excessive data exposure, lack of rate limiting, IDOR — now account for the majority of significant data breaches. Securing APIs is one of the most important skills in modern security.",
+        "In a restaurant you don't walk into the kitchen and grab your food — you tell the waiter what you want. An API (Application Programming Interface) works the same way. It's a messenger between apps.",
+        "When a weather app shows today's temperature, it doesn't store weather data itself. It asks a weather service's API: 'What's the weather in my city?' The API fetches the answer and brings it back.",
+        "APIs let apps share information safely and in a structured way. 'Login with Google,' embedded maps, and weather widgets all use APIs.",
       ],
       technical: {
-        title: "REST APIs, Authentication, and Common Vulnerabilities",
+        title: "API Keys — The Password for Apps",
         body: [
-          "REST APIs communicate over HTTP using JSON. Authentication: API keys (a secret token in the request header), OAuth 2.0 (delegated access tokens), or JWT (JSON Web Tokens). Always sent in the Authorization header: 'Authorization: Bearer <token>'. Never in the URL where it will appear in logs.",
-          "OWASP API Security Top 10: Broken Object Level Authorization (IDOR), Broken Authentication, Excessive Data Exposure, Lack of Resource Limits (no rate limiting), Function Level Authorization failures. The most common: APIs return more data than the app displays — attackers call the API directly and see all the hidden fields.",
+          "APIs need security: they must check who is asking before sharing data. An API key is a secret password that apps use to prove they're allowed to make requests. Without a valid key, the API should refuse to answer.",
+          "If an API doesn't check who is asking, anyone could request private information. Good APIs require authentication and check whether the requesting app is allowed to see the requested data.",
         ],
         codeExample: {
-          label: "Calling REST APIs with curl and Python",
-          code: `# Basic authenticated API call
-curl -H "Authorization: Bearer YOUR_API_KEY" \\
-     https://api.surfconditions.com/v1/forecast
+          label: "API request with and without a key",
+          code: `  App → Weather API (with key):
+  "Weather for CyberVille? Key: abc123"
 
-# POST with JSON body
-curl -X POST \\
-     -H "Authorization: Bearer YOUR_API_KEY" \\
-     -H "Content-Type: application/json" \\
-     -d '{"location": "steamer-lane"}' \\
-     https://api.surfconditions.com/v1/report
+  Weather API → App:
+  "72°F, Sunny ☀️"
 
-# Python with requests library
-import requests
-resp = requests.get('https://api.example.com/data',
-                   headers={'Authorization': 'Bearer mytoken'})
-print(resp.json())`,
+  App → Weather API (no key):
+  "Weather for CyberVille?"
+
+  Weather API → App:
+  "Access denied! Show me your key first."`,
         },
       },
       incident: {
-        title: "The Peloton API Breach — Unauthenticated API Returns Private Data",
-        when: "May 2021",
-        where: "Peloton API",
-        impact: "4.5 million users' private profile data exposed to unauthenticated callers",
+        title: "An API That Forgot to Check",
+        when: "2021",
+        where: "Peloton exercise bikes",
+        impact: "Anyone could access private user data",
         body: [
-          "Security researcher Jan Masters discovered that Peloton's API returned private user profile data — age, weight, location, workout history — to any caller, even without authentication. The Peloton app showed limited data, but calling the API directly returned the full object with all private fields.",
-          "This is excessive data exposure: the API returned the full user object, the app just chose which fields to display. Attackers who called the API directly saw everything. Peloton dismissed the report initially, then took 3 months to fix it after it was published. 4.5 million users' private health data was accessible to anyone who knew the endpoint.",
+          "Peloton's API would share user information to anyone who asked — even without logging in. Researchers could see other users' private workout data with a simple request.",
+          "Peloton fixed the bug, but it showed why API security matters. APIs must always ask: 'Who is this? Are they allowed to see this data?'",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Client App", sub: "makes structured API request", type: "attacker" },
-          { label: "API Endpoint", sub: "validates auth, routes request", type: "system" },
-          { label: "Backend Service", sub: "processes, queries data", type: "victim" },
-          { label: "JSON Response", sub: "structured data returned", type: "result" },
+          { label: "Your App", sub: "places an order with API key", type: "attacker" },
+          { label: "API (the waiter)", sub: "checks the key, takes request", type: "system" },
+          { label: "Server (the kitchen)", sub: "prepares the answer", type: "victim" },
+          { label: "API delivers the answer", sub: "your app shows it to you", type: "result" },
         ],
       },
       timeline: [
-        { year: 2000, event: "REST API concept defined by Roy Fielding" },
-        { year: 2006, event: "Twitter API launches — third-party apps built on APIs become mainstream" },
-        { year: 2019, event: "OWASP publishes API Security Top 10 — dedicated category for API vulns" },
-        { year: 2021, event: "Peloton API exposes 4.5M users' private data — no auth required", highlight: true },
+        { year: 2000, event: "Web APIs appear — apps start sharing data with each other" },
+        { year: 2025, event: "Everything uses APIs — social media, weather, maps, payments", highlight: true },
       ],
       keyTakeaways: [
-        "APIs are structured endpoints: call with a request, receive a structured response",
-        "Auth via API keys or OAuth tokens in the Authorization header — never in the URL",
-        "Excessive data exposure: API returns full object, app displays subset — attackers see all",
-        "Rate limiting prevents abuse — without it, attackers enumerate all records",
+        "An API is a messenger between apps — takes requests, brings back data",
+        "API keys are passwords that prove an app is allowed to use the API",
+        "APIs must check who is asking and what they're allowed to see",
+        "If an API skips security checks, anyone can access private data",
       ],
       references: [
         { title: "OWASP API Security Top 10", url: "https://owasp.org/www-project-api-security/" },
-        { title: "Peloton API Exposure — TechCrunch", url: "https://techcrunch.com/2021/05/05/peloton-api-data-user-profiles/" },
       ],
     },
     ctf: {
-      scenario: "The surf conditions API has several endpoints. One is undocumented and returns the admin key. Enumerate the API endpoints to find it and retrieve the hidden flag.",
-      hint: "Try different API endpoint paths to find the undocumented one.",
+      scenario: "The Academy API is receiving 3 requests. Some have valid keys, one doesn't. Decide which to answer and which to reject.",
+      hint: "Check API keys before answering requests.",
       hints: [
-        "Query the documented endpoints. Run: api /v1/forecast",
-        "Try the conditions endpoint. Run: api /v1/conditions",
-        "Try to find undocumented endpoints. Run: api /v1/admin",
-        "Try the internal endpoint. Run: api /internal/config",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/api-docs.txt",
-          value: "FLAG{4P1_3NUM3R4T10N_",
-          label: "API Docs — Documented Endpoints Reviewed",
-        },
-        {
-          trigger: "/endpoint-hints.txt",
-          value: "F1NDS_H1DD3N_",
-          label: "Endpoint Hints — Internal Path Discovered",
-        },
-        {
-          trigger: "api /internal/config",
-          value: "3NDP01NTS}",
-          label: "Internal Config — Unauthenticated Endpoint Found",
-        },
+        "List all requests. Run: list-requests",
+        "Check request 1. Run: check-request 1",
+        "Answer request 1. Run: respond 1",
+        "Reject request 2 (no key). Run: reject 2",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/api-docs.txt": [
-          "SURF CONDITIONS API — PUBLIC DOCUMENTATION",
-          "==========================================",
-          "Base URL: https://api.surfconditions.com",
+        "/api-requests.txt": [
+          "INCOMING API REQUESTS",
+          "======================",
+          "Request 1: Get student count | key: valid-key-99 ✓",
+          "Request 2: Get all passwords  | key: NONE ✗",
+          "Request 3: Get today's menu   | key: valid-key-42 ✓",
           "",
-          "Documented endpoints:",
-          "  GET /v1/forecast    — wave height, wind, conditions",
-          "  GET /v1/conditions  — per-break surf status",
-          "  GET /v1/admin       — requires X-Admin-Token header",
-          "",
-          "Note: some internal endpoints are not listed here.",
-          "Enumerate to discover them.",
-        ].join("\n"),
-        "/endpoint-hints.txt": [
-          "API ENUMERATION NOTES",
-          "=====================",
-          "Common undocumented path patterns:",
-          "  /internal/*     — backend config endpoints",
-          "  /debug/*        — diagnostic endpoints",
-          "  /v0/*           — legacy versions",
-          "",
-          "Try: api /internal/config",
-          "Internal endpoints often lack authentication.",
+          "Commands: list-requests | check-request <n> | respond <n> | reject <n>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "api-docs.txt", isDir: false },
-          { name: "endpoint-hints.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "api-requests.txt", isDir: false }] },
+      fragments: [
+        { trigger: "list-requests", value: "FLAG{4P1_", label: "Requests Listed" },
+        { trigger: "respond 1", value: "K3Y_", label: "Valid Request Answered" },
+        { trigger: "reject 2", value: "R3QU1R3D}", label: "Unauthorized Request Rejected!" },
+      ],
       extraCommands: {
-        api: (args) => {
-          const path = args[0] || "/";
-          const routes: Record<string, string[]> = {
-            "/v1/forecast": [
-              "200 OK",
-              '{"wave_height": "4-6ft", "wind": "offshore 8mph", "conditions": "excellent", "timestamp": "2025-05-11T08:00:00Z"}',
-            ],
-            "/v1/conditions": [
-              "200 OK",
-              '{"steamer_lane": "firing", "cowell": "mellow", "pleasure_point": "overhead+"}',
-            ],
-            "/v1/admin": [
-              "403 Forbidden",
-              '{"error": "Admin endpoint — requires X-Admin-Token header"}',
-              "Hint: try /internal/ paths",
-              "",
-              ">> LEARN: 403 on /admin doesn't mean /internal/ is protected",
-              "   403 is correct here — but /internal/ endpoints often have no auth at all.",
-              "   API enumeration: try common paths like /internal, /debug, /v0, /admin.",
-              "   Tool: ffuf -w wordlist.txt -u https://api.target.com/FUZZ",
-            ],
-            "/internal/config": [
-              "200 OK — (this endpoint has no authentication!)",
-              "{",
-              '  "db_host": "10.0.1.5",',
-              '  "admin_key": "SECRET_SURF_ADMIN_KEY_42",',
-              '  "note": "Internal endpoint — should not be publicly accessible"',
-              "}",
-              "",
-              "Run 'assemble' to retrieve your fragment.",
-              "",
-              ">> LEARN: Internal endpoints still need authentication",
-              "   Peloton 2021: unauthenticated API returned private data for 4.5M users.",
-              "   Internal does not mean private — network path alone is not authentication.",
-              "   All endpoints, even /internal, must require and verify auth tokens.",
-            ],
-          };
-          const resp = routes[path];
-          if (resp) {
-            return { lines: resp, solved: path === "/internal/config" };
-          }
-          return { lines: [`404 Not Found: ${path}`] };
+        "list-requests": () => ({ lines: ["1: Student count — valid key ✓", "2: All passwords — NO key ✗", "3: Today's menu  — valid key ✓", "", "check-request 1, 2, or 3"] }),
+        "check-request": (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["Request 1: Valid API key. Student count — safe to answer."] };
+          if (n === "2") return { lines: ["Request 2: ✗ NO API KEY! Asking for passwords. Must be rejected."] };
+          if (n === "3") return { lines: ["Request 3: Valid API key. Today's menu — safe to answer."] };
+          return { lines: ["Unknown request."] };
+        },
+        respond: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["✓ Answered: 250 students enrolled."] };
+          if (n === "3") return { lines: ["✓ Answered: Today's menu is spaghetti."] };
+          return { lines: [`Don't answer request ${n} — it has no key!`] };
+        },
+        reject: (args) => {
+          if (args[0] === "2") return { lines: ["✓ Request 2 REJECTED — No API key. Passwords kept safe! Run 'assemble'."] };
+          return { lines: ["That request has a valid key and should be answered."] };
         },
       },
     },
   },
 
-  // ─── BT-17 through BT-20 abbreviated for file size ─────────────────────────
-
-  // ─── BT-17: Bandwidth ─────────────────────────────────────────────────────
+  // ─── BT-17: Bandwidth ────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Break at Pleasure Point", location: "Santa Cruz, USA", era: "Present Day", emoji: "🌊" },
+    wonder: { name: "The Academy Water Park", location: "CyberVille", era: "Today", emoji: "🌊" },
     id: "bt-17",
     order: 17,
-    title: "Size of the Wave",
-    subtitle: "Bandwidth and Throughput — How Much Can Flow at Once",
+    title: "How Wide Is the Pipe?",
+    subtitle: "What is Bandwidth?",
     category: "cybersecurity",
     xp: 100,
-    badge: { id: "bt-badge-17", name: "Bandwidth Analyst", emoji: "📊" },
+    badge: { id: "bt-badge-17", name: "Bandwidth Boss", emoji: "🌊" },
     challengeType: "ctf",
     info: {
-      tagline: "A big wave carries more water. A high-bandwidth connection carries more data per second.",
+      tagline: "Bandwidth is like a pipe — a wider pipe lets more water through at once, just like more bandwidth lets more data flow.",
       year: 2025,
       overview: [
-        "Pleasure Point has waves of all sizes. A 2-foot wave is enough for a longboard glide but can't power a big aerial. A 10-foot wave carries enough energy for the most demanding maneuvers. Bandwidth is the internet equivalent: how much data can flow through a connection per second, measured in Mbps (megabits per second) or Gbps.",
-        "Bandwidth is the maximum capacity; throughput is the actual data transferred. A 100 Mbps connection might only achieve 60 Mbps throughput due to latency, packet loss, or network congestion — like a wide road where traffic jams slow cars below the speed limit. Understanding the difference matters for diagnosing slow networks.",
-        "DDoS (Distributed Denial of Service) attacks weaponize bandwidth. Attackers send more data than the target's bandwidth can absorb — the connection fills up and legitimate traffic is dropped. The Cloudflare 2023 record DDoS peaked at 71 million requests per second — saturating bandwidth at the infrastructure level.",
+        "Imagine a narrow water tube at a water slide — one person at a time. A wide tube lets five people go at once — much faster! Internet bandwidth works the same way. Bandwidth is how much data can flow through your connection at once.",
+        "Bandwidth is measured in megabits per second (Mbps). Streaming HD video needs about 25 Mbps. If many devices share the same connection, each one gets a smaller share — which is why the internet feels slow at lunch in a crowded school.",
+        "When attackers want to take down a website, they sometimes flood it with so much traffic that the bandwidth fills up and real users can't get through — this is called a DDoS attack.",
       ],
       technical: {
-        title: "Bandwidth vs Latency vs Throughput",
+        title: "Bandwidth for Different Activities",
         body: [
-          "Three distinct measurements: Bandwidth = pipe size (maximum bits/second). Latency = delay (milliseconds from send to receive, measured by ping). Throughput = actual data transferred per second (always ≤ bandwidth). High bandwidth + high latency = fast but laggy (satellite internet). Low bandwidth + low latency = slow but responsive (poor mobile signal).",
-          "Bottlenecks: if your home is 1 Gbps but your ISP's link to the internet is 100 Mbps, your effective bandwidth is 100 Mbps. The slowest link in the chain is always the bottleneck. traceroute reveals where latency spikes, suggesting where bottlenecks or congestion occur on the path.",
+          "Different activities need different amounts of bandwidth. Email and texting barely use any (under 1 Mbps). HD video streaming needs about 25 Mbps. If three people in your house are streaming 4K video at once, you need over 150 Mbps.",
+          "Bandwidth is different from latency. Bandwidth = how much data flows at once. Latency = how long it takes to arrive. You can have high bandwidth but high latency (fast download, slow start) or low bandwidth and low latency (quick response, slow download).",
         ],
         codeExample: {
-          label: "Measuring bandwidth and diagnosing bottlenecks",
-          code: `# Test your internet speed (CLI)
-speedtest-cli          # install: pip install speedtest-cli
+          label: "How much bandwidth different things need",
+          code: `  Email / texting    → under 1 Mbps
+  Web browsing       → 5–10 Mbps
+  HD video streaming → 25 Mbps
+  4K video           → 50+ Mbps
+  Video call (HD)    → 8–10 Mbps
+  Online gaming      → 5–25 Mbps
 
-# Measure throughput to a specific server
-iperf3 -c iperf.he.net   # download test
-iperf3 -c iperf.he.net -R # upload test
-
-# Find where the bottleneck is
-traceroute google.com
-# Look for the hop where latency suddenly increases`,
+  3 people streaming 4K = 150+ Mbps needed!
+  When everyone shares, each gets less.`,
         },
       },
       incident: {
-        title: "Cloudflare DDoS — 71 Million RPS Bandwidth Saturation",
-        when: "February 2023",
-        where: "Cloudflare global network",
-        impact: "Largest recorded HTTP DDoS attack; infrastructure-level bandwidth saturation",
+        title: "The Record-Breaking DDoS Attack",
+        when: "2023",
+        where: "Cloudflare servers",
+        impact: "71 million requests per second — largest ever recorded",
         body: [
-          "In February 2023, Cloudflare mitigated the largest HTTP DDoS attack ever recorded: 71 million requests per second from a botnet of 30,000 IP addresses. The attack targeted multiple Cloudflare customers simultaneously, attempting to saturate bandwidth at the infrastructure level.",
-          "Cloudflare's distributed architecture across 285+ data centers spread the load — no single data center was overwhelmed. They mitigated the attack within seconds using automated traffic analysis. The lesson: bandwidth-based DDoS is solved by having more bandwidth capacity than the attacker can throw at you, distributed globally.",
+          "In 2023, hackers launched the biggest bandwidth attack ever — 71 million requests per second aimed at filling up Cloudflare's connections. Like a million people all pointing fire hoses at the same tank.",
+          "Cloudflare blocked it. But it shows that bandwidth can be used as a weapon: fill it up with junk and real users can't get through.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Data Source", sub: "generating traffic", type: "attacker" },
-          { label: "Network Link", sub: "bandwidth = maximum capacity", type: "system" },
-          { label: "Congestion Point", sub: "throughput drops below bandwidth", type: "victim" },
-          { label: "Destination", sub: "receives reduced throughput", type: "result" },
+          { label: "Narrow Pipe (slow)", sub: "10 Mbps — one lane", type: "attacker" },
+          { label: "Wide Pipe (fast)", sub: "1,000 Mbps — highway", type: "system" },
+          { label: "Too Many Users", sub: "pipe gets full", type: "victim" },
+          { label: "Bandwidth Management", sub: "share fairly", type: "result" },
         ],
       },
       timeline: [
-        { year: 1969, event: "ARPANET runs at 50 Kbps — state of the art for 1969" },
-        { year: 2000, event: "Broadband (1 Mbps+) begins replacing dial-up (56 Kbps)" },
-        { year: 2016, event: "Mirai botnet: 1.2 Tbps DDoS — bandwidth attack at terabit scale" },
-        { year: 2023, event: "Cloudflare: 71M requests/sec DDoS — largest ever recorded", highlight: true },
+        { year: 1990, event: "First internet connections — only 56 kbps" },
+        { year: 2010, event: "Gigabit fiber (1,000 Mbps) starts appearing for homes" },
+        { year: 2023, event: "71M req/sec DDoS — largest bandwidth attack ever", highlight: true },
       ],
       keyTakeaways: [
-        "Bandwidth = maximum capacity; throughput = actual data rate (always ≤ bandwidth)",
-        "Latency = delay in ms; high latency hurts real-time apps even on high-bandwidth links",
-        "Bottleneck = slowest link in the chain — always limits total throughput",
-        "DDoS bandwidth attacks flood the pipe until legitimate traffic can't get through",
+        "Bandwidth = how much data can flow at once, like pipe width",
+        "More bandwidth = faster internet for more people simultaneously",
+        "Sharing bandwidth with many devices makes each one slower",
+        "DDoS attacks deliberately flood bandwidth to block real users",
       ],
       references: [
         { title: "Bandwidth vs Throughput — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-throughput/" },
-        { title: "Record 71M RPS DDoS — Cloudflare Blog", url: "https://blog.cloudflare.com/cloudflare-mitigates-record-breaking-71-million-request-per-second-ddos-attack/" },
       ],
     },
     ctf: {
-      scenario: "The Pleasure Point surf server is experiencing a bandwidth attack. Analyze the traffic, find the bottleneck, identify the attack traffic, and block it to restore normal throughput.",
-      hint: "Measure traffic on each link, find the saturated one, then block the attack source.",
+      scenario: "The Academy network has 100 Mbps to share across 5 apps. Assign the right bandwidth to each based on priority.",
+      hint: "Assign bandwidth based on each app's importance.",
       hints: [
-        "Check current bandwidth usage. Run: bandwidth-check",
-        "Find where traffic is spiking. Run: trace-congestion",
-        "Identify attack source. Run: top-talkers",
-        "Block the attack traffic. Run: block-ip 185.220.101.0/24",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/network-topology.txt",
-          value: "FLAG{B4NDW1DTH_",
-          label: "Network Topology — Uplink Bottleneck Located",
-        },
-        {
-          trigger: "/traffic-report.txt",
-          value: "S4TUR4T10N_1S_",
-          label: "Traffic Report — Attack Source Identified",
-        },
-        {
-          trigger: "block-ip 185.220.101.0/24",
-          value: "D0S}",
-          label: "IP Block — DDoS Mitigated",
-        },
+        "List apps. Run: list-apps",
+        "See the priority guide. Run: show-priorities",
+        "Assign video call first. Run: assign video-call 50",
+        "Assign games last. Run: assign games 10",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/network-topology.txt": [
-          "PLEASURE POINT SURF SERVER — NETWORK TOPOLOGY",
-          "===============================================",
-          "  [Internet] ←→ [ISP Uplink: 1 Gbps] ←→ [Firewall] ←→ [Server: 10 Gbps]",
+        "/bandwidth-mgr.txt": [
+          "BANDWIDTH MANAGER — 100 Mbps total",
+          "====================================",
+          "Apps: video-call, websites, downloads, games, email",
           "",
-          "The ISP uplink is the narrowest link — 1 Gbps max.",
-          "If inbound traffic exceeds 1 Gbps, the uplink saturates.",
-          "Legitimate traffic: ~50 Mbps baseline.",
-          "",
-          "Run: bandwidth-check to see current utilization.",
-        ].join("\n"),
-        "/traffic-report.txt": [
-          "TRAFFIC ANOMALY REPORT — Pleasure Point",
-          "========================================",
-          "Alert: ISP uplink at 99.7% utilization.",
-          "Known attack range: 185.220.101.0/24 (Tor exit / DDoS botnet)",
-          "",
-          "Steps to mitigate:",
-          "  1. Run: trace-congestion",
-          "  2. Run: top-talkers",
-          "  3. Run: block-ip 185.220.101.0/24",
+          "Commands: list-apps | show-priorities | assign <app> <mbps>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "network-topology.txt", isDir: false },
-          { name: "traffic-report.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "bandwidth-mgr.txt", isDir: false }] },
+      fragments: [
+        { trigger: "list-apps", value: "FLAG{BANDW1DTH_", label: "Apps Listed" },
+        { trigger: "assign video-call 50", value: "4LL0C4T3D_", label: "Priority App Assigned" },
+        { trigger: "assign games 10", value: "C0RR3CT}", label: "All Assignments Correct!" },
+      ],
       extraCommands: {
-        "bandwidth-check": () => ({
-          lines: [
-            "Bandwidth Utilization Report:",
-            "  Uplink to ISP (1 Gbps):        997 Mbps USED  <- 99.7% -- nearly saturated",
-            "  Internal server link (10 Gbps): 82 Mbps USED  (normal)",
-            "  Legitimate surf traffic:         ~50 Mbps (normal baseline)",
-            "",
-            "Uplink is the bottleneck. Something is flooding the uplink.",
-            "Run: trace-congestion",
-            "",
-            ">> LEARN: Saturated uplink drops all legitimate traffic",
-            "   DDoS fills the ISP uplink — the slowest link determines max throughput.",
-            "   Cloudflare 2023: 71M requests/sec saturated bandwidth at infrastructure scale.",
-            "   Measure your own link: speedtest-cli or iperf3 -c iperf.he.net",
-          ],
-        }),
-        "trace-congestion": () => ({
-          lines: [
-            "Tracing congestion source...",
-            "  Inbound traffic from internet: 947 Mbps",
-            "  Expected legitimate traffic:    ~50 Mbps",
-            "  Anomalous traffic:             ~897 Mbps",
-            "",
-            "Source: 185.220.101.0/24 — known Tor exit node / DDoS range",
-            "Run: top-talkers",
-            "",
-            ">> LEARN: Traffic baselines make anomalous spikes obvious",
-            "   Normal is ~50 Mbps; 947 Mbps is an 18x spike — impossible to miss.",
-            "   traceroute shows which hop latency jumps, revealing the congestion point.",
-            "   Real tool: traceroute google.com — look for where RTT suddenly increases.",
-          ],
-        }),
-        "top-talkers": () => ({
-          lines: [
-            "Top bandwidth consumers (last 60s):",
-            "  185.220.101.15   -> 312 Mbps  <- attack",
-            "  185.220.101.42   -> 298 Mbps  <- attack",
-            "  185.220.101.87   -> 287 Mbps  <- attack",
-            "  203.0.113.5      -> 12 Mbps   (legitimate surfer)",
-            "  198.51.100.22    -> 8 Mbps    (legitimate surfer)",
-            "",
-            "Run: block-ip 185.220.101.0/24",
-            "",
-            ">> LEARN: Top-talker analysis finds the DDoS source IPs",
-            "   A CIDR block from known botnet ranges using 90%+ of traffic is the attack.",
-            "   Mirai botnet 2016: 600K IoT devices generated 1.2 Tbps — same principle.",
-            "   Network tool: ntopng or 'iftop -n' shows per-IP bandwidth in real time.",
-          ],
-        }),
-        "block-ip": (args) => {
-          if (args[0] === "185.220.101.0/24") {
-            return {
-              lines: [
-                "Firewall rule added: DROP src=185.220.101.0/24",
-                "",
-                "Bandwidth utilization: 997 Mbps -> 20 Mbps",
-                "Attack traffic: BLOCKED",
-                "Legitimate traffic: RESTORED",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: Firewall IP blocks stop attack traffic at the edge",
-                "   Block at the ISP or firewall edge — the attack still hits your uplink.",
-                "   Upstream scrubbing (Cloudflare, Akamai) blocks before it reaches you.",
-                "   Linux firewall rule: iptables -I INPUT -s 185.220.101.0/24 -j DROP",
-              ],
-            };
-          }
-          return { lines: [`Unknown IP range: ${args[0]}. Check top-talkers output.`] };
+        "list-apps": () => ({ lines: ["video-call, websites, downloads, games, email", "Total: 100 Mbps to assign. Run: show-priorities"] }),
+        "show-priorities": () => ({ lines: ["video-call: 50 Mbps", "websites: 20 Mbps", "downloads: 15 Mbps", "games: 10 Mbps", "email: 5 Mbps", "Total: 100 Mbps"] }),
+        assign: (args) => {
+          const app = args[0]; const mbps = args[1];
+          const correct: Record<string, string> = { "video-call": "50", websites: "20", downloads: "15", games: "10", email: "5" };
+          if (correct[app] === mbps) return { lines: [`✓ ${app}: ${mbps} Mbps — correct!`] };
+          return { lines: [`Check show-priorities for the right amount for ${app}.`] };
         },
       },
     },
   },
 
-  // ─── BT-18: Latency ───────────────────────────────────────────────────────
+  // ─── BT-18: Latency ──────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Surf Forecast Terminal, Boardwalk", location: "Santa Cruz, USA", era: "Present Day", emoji: "⏱️" },
+    wonder: { name: "The Academy Relay Race Track", location: "CyberVille", era: "Today", emoji: "🏃" },
     id: "bt-18",
     order: 18,
-    title: "Waiting for the Set",
-    subtitle: "Latency — The Delay Between Send and Receive",
+    title: "The Waiting Time",
+    subtitle: "What is Latency?",
     category: "cybersecurity",
     xp: 100,
-    badge: { id: "bt-badge-18", name: "Latency Hunter", emoji: "⚡" },
+    badge: { id: "bt-badge-18", name: "Latency Scout", emoji: "🏃" },
     challengeType: "ctf",
     info: {
-      tagline: "You paddle out and wait for the set. Latency is how long you wait — it defines your experience.",
+      tagline: "Latency is the delay between sending a message and getting a reply — like how long an echo takes to come back.",
       year: 2025,
       overview: [
-        "You're waiting in the lineup at the Boardwalk. The set arrives every 8–12 minutes — that interval is the latency of the ocean. In networking, latency is the delay between sending data and receiving a response, measured in milliseconds (ms). Low latency (under 50ms) is imperceptible. High latency (500ms+) makes apps feel sluggish and video calls choppy.",
-        "Latency is determined by physics: data travels at roughly 2/3 the speed of light through fiber optic cables. A round trip from California to Europe is ~180ms just from the physical distance. Add processing time at each hop, queuing delays in congested routers, and TLS handshake round trips, and you quickly reach 300–400ms for a transatlantic connection.",
-        "Latency matters enormously for security tools: intrusion detection that takes 500ms to analyze a packet misses real-time attacks. High-frequency trading firms pay millions for low-latency connections because milliseconds translate directly to competitive advantage. And for attackers, a high-latency connection between a victim and their security monitoring creates detection blind spots.",
+        "Shout in a big empty room and your echo comes back a moment later. That delay is latency. On the internet, latency is the time a message takes to travel from your computer to a server and back. It's measured in milliseconds (ms).",
+        "Low latency means fast response — your game reacts instantly. High latency means slow response — you press jump and your character jumps half a second later. For gaming and video calls, low latency is critical.",
+        "Latency goes up with distance. A server in your city might respond in 5ms. A server across the world might take 200ms. Even a fraction of a second makes a difference in live games and conversations.",
       ],
       technical: {
-        title: "Measuring Latency and Its Sources",
+        title: "What Causes Latency?",
         body: [
-          "Ping measures round-trip time (RTT): the time for a packet to reach a host and return. A ping of 20ms means data takes 10ms each way. Sources of latency: propagation delay (distance/speed of light), transmission delay (link bandwidth), processing delay (router CPU time), queuing delay (congested buffers). The first dominates for long-distance connections; the last dominates under load.",
-          "Tools: ping (basic RTT), traceroute (per-hop latency to find bottlenecks), mtr (ping + traceroute combined, continuous). High latency at a specific hop in traceroute suggests congestion or a slow router at that point. Latency that increases proportionally with distance is normal; sudden spikes indicate congestion.",
+          "Latency comes from: (1) Distance — even at near-light speed, data takes time to cross continents. (2) Number of routers — every router adds a tiny delay. (3) Congestion — busy networks make messages wait in line.",
+          "The ping command measures latency by sending a tiny message and timing the reply. Low ping = low latency = fast response. Gamers pay close attention to their ping.",
         ],
         codeExample: {
-          label: "Measuring and diagnosing latency",
-          code: `# Basic ping — measure round trip time
-ping google.com
-# Look for "time=XXms"
+          label: "Latency in ms for different distances",
+          code: `  Same city server:          5ms  ← barely noticeable
+  Nearby country server:     65ms ← fine for most things
+  Across the world:         280ms ← noticeable in games/calls
 
-# Trace latency hop by hop
-traceroute google.com        # Mac/Linux
-tracert google.com           # Windows
-
-# Continuous ping + traceroute (mtr)
-mtr google.com
-
-# Measure latency to multiple servers and compare
-ping 1.1.1.1     # Cloudflare (should be fast)
-ping 8.8.8.8     # Google
-ping 9.9.9.9     # Quad9`,
+  For gaming:   under 50ms feels smooth
+  For video:    under 150ms is acceptable
+  Above 300ms:  conversations feel weird, games lag`,
         },
       },
       incident: {
-        title: "The 2012 AWS US-East Outage — Latency as a Cascading Failure",
-        when: "October 22, 2012",
-        where: "AWS US-East-1, Virginia",
-        impact: "Reddit, Airbnb, Netflix degraded for hours",
+        title: "Tiny Delays That Cascade Into Failure",
+        when: "2012",
+        where: "Amazon Web Services (AWS)",
+        impact: "Major websites went offline for hours",
         body: [
-          "A network event in AWS US-East-1 caused elevated latency between availability zones. Services that relied on synchronous calls between zones started timing out — a 2ms call suddenly taking 2000ms caused cascading failures as services waited for responses that never came quickly enough.",
-          "This illustrates how latency spikes cascade: one slow component causes the components waiting on it to back up, causing those components' callers to slow down, until the entire system grinds to a halt. The fix: design for latency — use async calls, set aggressive timeouts, and implement circuit breakers that fail fast rather than waiting.",
+          "In 2012, a small AWS problem added tiny extra latency to its servers. System A was waiting for System B, which was waiting for System C — the tiny delays added up into a complete chain failure.",
+          "Like a game of telephone where each person adds a small delay — by the end, the message never arrives. Small latency, when it stacks up through many systems, can cause big outages.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Sender", sub: "data sent at T=0", type: "attacker" },
-          { label: "Network Path", sub: "propagation + processing delays", type: "system" },
-          { label: "Receiver", sub: "data arrives at T=Latency", type: "victim" },
-          { label: "RTT = 2x Latency", sub: "round-trip time measured by ping", type: "result" },
+          { label: "You send a message", sub: "timer starts", type: "attacker" },
+          { label: "Message travels", sub: "through routers", type: "system" },
+          { label: "Server processes + replies", sub: "sends response", type: "victim" },
+          { label: "Reply arrives", sub: "latency = total time", type: "result" },
         ],
       },
       timeline: [
-        { year: 1974, event: "Ping concept developed alongside ARPANET protocols" },
-        { year: 1983, event: "ping command written by Mike Muuss — still the primary latency tool today" },
-        { year: 2012, event: "AWS US-East-1 latency cascade — slow network causes 6-hour partial outage", highlight: true },
-        { year: 2020, event: "Submarine cable improvements cut US-Europe RTT to under 70ms" },
+        { year: 1974, event: "Ping invented to measure network latency" },
+        { year: 2025, event: "5G networks aim for very low latency on mobile", highlight: true },
       ],
       keyTakeaways: [
-        "Latency = one-way delay in ms; RTT (ping) = 2x one-way latency",
-        "Sources: propagation (distance), transmission (bandwidth), processing, queuing (congestion)",
-        "traceroute shows per-hop latency — spikes indicate congestion or slow hops",
-        "Latency cascades: one slow component causes all upstream callers to queue up",
+        "Latency is the delay between sending and receiving — measured in milliseconds",
+        "Low latency = fast response (important for games and calls)",
+        "Distance and congestion both increase latency",
+        "Ping is a tool that measures latency to a server",
       ],
       references: [
-        { title: "Network Latency Explained — Cloudflare", url: "https://www.cloudflare.com/learning/performance/glossary/what-is-latency/" },
-        { title: "AWS October 2012 Outage — AWS Blog", url: "https://aws.amazon.com/message/680587/" },
+        { title: "Latency Explained — Cloudflare", url: "https://www.cloudflare.com/learning/performance/glossary/what-is-latency/" },
       ],
     },
     ctf: {
-      scenario: "Three CDN servers could serve the surf forecast. Measure latency to each, identify the fastest, and configure your connection to use it. The fastest server holds the flag.",
-      hint: "Ping all three servers and route to the lowest latency one.",
+      scenario: "Pick the best server for the Academy's online event. Test latency to 3 servers and recommend the fastest.",
+      hint: "Ping all three servers and pick the lowest latency.",
       hints: [
-        "Ping all three servers. Run: ping cdn-west",
-        "Ping the second server. Run: ping cdn-central",
-        "Ping the third server. Run: ping cdn-east",
-        "Connect to the fastest. Run: connect-cdn cdn-west",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/cdn-map.txt",
-          value: "FLAG{L0W_L4T3NCY_",
-          label: "CDN Map — Server Locations Reviewed",
-        },
-        {
-          trigger: "/ping-guide.txt",
-          value: "W1NS_TH3_",
-          label: "Ping Guide — Latency Comparison Complete",
-        },
-        {
-          trigger: "connect-cdn cdn-west",
-          value: "R4C3}",
-          label: "Optimal CDN — Fastest Server Connected",
-        },
+        "Ping server A. Run: ping server-a",
+        "Ping servers B and C.",
+        "Pick the best. Run: recommend server-b",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/cdn-map.txt": [
-          "CDN SERVER MAP — Surf Forecast Network",
-          "=======================================",
-          "  cdn-west     → Santa Cruz, CA (closest to you)",
-          "  cdn-central  → Dallas, TX",
-          "  cdn-east     → Ashburn, VA",
+        "/server-options.txt": [
+          "SERVER OPTIONS",
+          "===============",
+          "Server A: Far away (overseas)",
+          "Server B: Nearby (same city)",
+          "Server C: Medium distance",
           "",
-          "Expected latency increases with distance.",
-          "Run: ping cdn-west | ping cdn-central | ping cdn-east",
-          "Then connect to the lowest-latency server.",
-        ].join("\n"),
-        "/ping-guide.txt": [
-          "LATENCY MEASUREMENT GUIDE",
-          "=========================",
-          "RTT (round-trip time) = 2 × one-way latency.",
-          "Lower is better for real-time applications.",
-          "",
-          "Thresholds:",
-          "  < 20ms   — Excellent (local/regional)",
-          "  20–100ms — Moderate (cross-country)",
-          "  > 100ms  — High (intercontinental)",
-          "",
-          "After pinging all three, run: connect-cdn <fastest>",
+          "Commands: ping <server> | recommend <server>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "cdn-map.txt", isDir: false },
-          { name: "ping-guide.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "server-options.txt", isDir: false }] },
+      fragments: [
+        { trigger: "ping server-a", value: "FLAG{L4T3NCY_", label: "Server A Tested" },
+        { trigger: "ping server-b", value: "M3ASUR3D_", label: "Fastest Server Found" },
+        { trigger: "recommend server-b", value: "W1NN3R}", label: "Best Server Chosen!" },
+      ],
       extraCommands: {
         ping: (args) => {
-          const host = args[0] || "";
-          const latencies: Record<string, number> = {
-            "cdn-west": 12,
-            "cdn-central": 67,
-            "cdn-east": 142,
-          };
-          const ms = latencies[host];
-          if (ms !== undefined) {
-            return {
-              lines: [
-                `PING ${host}: ${ms}ms (5 packet avg)`,
-                ms < 20 ? "  Excellent latency" : ms < 100 ? "  Moderate latency" : "  High latency",
-                "",
-                ">> LEARN: ping measures round-trip time (RTT) to a host",
-                "   RTT = 2x one-way latency; 12ms RTT = ~6ms each direction.",
-                "   High latency causes video lag, game stutters, slow page loads.",
-                "   Compare resolvers: ping 1.1.1.1 vs ping 8.8.8.8 vs ping 9.9.9.9",
-              ],
-            };
-          }
-          return { lines: [`Unknown host: ${host}. Try: cdn-west, cdn-central, cdn-east`] };
+          const s = args[0];
+          if (s === "server-a") return { lines: ["ping server-a: 280ms — high latency"] };
+          if (s === "server-b") return { lines: ["ping server-b: 8ms — very low latency! ← BEST"] };
+          if (s === "server-c") return { lines: ["ping server-c: 65ms — moderate"] };
+          return { lines: ["Unknown server."] };
         },
-        "connect-cdn": (args) => {
-          if (args[0] === "cdn-west") {
-            return {
-              lines: [
-                "Connecting to cdn-west (12ms latency)...",
-                "Connection established. Fastest server selected.",
-                "",
-                "Surf forecast loaded in 12ms.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: CDNs reduce latency by serving from a nearby node",
-                "   A server 50km away beats one 3000km away by ~28ms round-trip.",
-                "   Latency cascades: one slow upstream call delays every dependent call.",
-                "   Trace hops to find slow links: traceroute cdn-west.example.com",
-              ],
-            };
-          }
-          return { lines: [`cdn-${args[0] || "?"}: ${args[0] === "cdn-central" ? "67ms" : "142ms"} — not the fastest. Check your ping results.`] };
+        recommend: (args) => {
+          if (args[0] === "server-b") return { lines: ["✓ Server B (8ms) recommended! Run 'assemble'."] };
+          return { lines: [`${args[0]} isn't the fastest. Ping all three first.`] };
         },
       },
     },
   },
 
-  // ─── BT-19: DNS Cache Poisoning ───────────────────────────────────────────
+  // ─── BT-19: DNS Cache Poisoning ──────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Surf Contest Archive, Beach Flats", location: "Santa Cruz, USA", era: "Present Day", emoji: "📋" },
+    wonder: { name: "The Academy Address Book Room", location: "CyberVille", era: "Today", emoji: "📓" },
     id: "bt-19",
     order: 19,
-    title: "The Tampered Records",
-    subtitle: "DNS Cache Poisoning — Corrupting the Internet's Address Book",
+    title: "The Fake Phone Book",
+    subtitle: "What is DNS Cache Poisoning?",
     category: "cybersecurity",
     xp: 100,
-    badge: { id: "bt-badge-19", name: "Cache Investigator", emoji: "☣️" },
+    badge: { id: "bt-badge-19", name: "DNS Defender", emoji: "📓" },
     challengeType: "ctf",
     info: {
-      tagline: "If the surf contest records are forged, every surfer shows up at the wrong beach.",
+      tagline: "DNS cache poisoning secretly changes the internet's phone book so you get sent to a fake website instead of the real one.",
       year: 2025,
       overview: [
-        "The Beach Flats surf contest archive stores the official record of which surfer won which event. If someone tampers with those records — changing the venue from Steamer Lane to Capitola — every competitor shows up at the wrong location. DNS cache poisoning does exactly this: it corrupts your DNS resolver's cache so that when you look up 'bank.com', you get a malicious IP instead of the real one.",
-        "Your DNS resolver caches responses to speed up future lookups. Cache poisoning attacks inject a fake DNS response into that cache — tricking the resolver into thinking that 'yourbank.com' points to the attacker's server. Every user relying on that resolver gets sent to a convincing fake site and their credentials are stolen.",
-        "The Kaminsky attack of 2008 demonstrated that DNS cache poisoning could be done at scale against any DNS resolver. The fix — DNSSEC (DNS Security Extensions) — cryptographically signs DNS records so tampering is detectable. But DNSSEC adoption remains low, and DNS-over-HTTPS (DoH) is now the more practical alternative for end users.",
+        "DNS is the internet's phone book — it translates names into IP addresses. But what if someone sneaked in and changed some numbers? You'd type 'bank.com' and get sent to a fake bank instead of the real one!",
+        "This is DNS cache poisoning. Hackers trick DNS servers into storing wrong IP addresses. Everyone who uses that server gets sent to the wrong place — without knowing it.",
+        "It's a dangerous attack because everything looks normal. You typed the right address, the fake site looks real, but you're actually on a hacker's server.",
       ],
       technical: {
-        title: "How Cache Poisoning Works and DNSSEC Defense",
+        title: "DNSSEC — Signing the Phone Book",
         body: [
-          "Classic cache poisoning: attacker sends a DNS query to a resolver, then floods it with fake responses pretending to be the authoritative server before the real response arrives. If one fake response arrives first with the right transaction ID, the resolver caches the fake record. The Kaminsky attack made this practical by exploiting the small 16-bit transaction ID space.",
-          "DNSSEC adds digital signatures to DNS records. The authoritative server signs its records with a private key. Resolvers verify the signature using the public key published in the DNS hierarchy. Any tampered record has an invalid signature and is rejected. DNSKEY and DS records store the cryptographic material in DNS itself.",
+          "DNSSEC adds a digital signature to every DNS entry. When you look up an address, DNSSEC verifies the signature to confirm it hasn't been tampered with — like a notary stamp on a legal document.",
+          "Even if DNS is poisoned, using HTTPS provides a backup check. A fake site can't get a real TLS certificate for bank.com, so your browser will show a certificate error — alerting you that something is wrong.",
         ],
         codeExample: {
-          label: "Detecting poisoned DNS and using secure resolvers",
-          code: `# Check if your current DNS response looks suspicious
-dig yourbank.com
-dig @8.8.8.8 yourbank.com   # compare against Google's resolver
+          label: "Normal DNS vs. poisoned DNS",
+          code: `  NORMAL:
+  You ask: "IP for bank.com?"
+  DNS: "142.250.80.46" (real bank) ✓
 
-# Check DNSSEC signatures
-dig +dnssec yourbank.com    # look for RRSIG records
+  POISONED:
+  Hacker changed DNS entry:
+  bank.com = 10.0.0.evil
 
-# Use DNS-over-HTTPS to prevent cache poisoning
-# Configure in Firefox: Settings → DNS over HTTPS
-# or use Cloudflare: 1.1.1.1 with DoH
+  You ask: "IP for bank.com?"
+  Poisoned DNS: "10.0.0.evil"
+  You land on FAKE bank! ✗
 
-# Check if a domain has DNSSEC
-dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
+  Backup defense: HTTPS certificate
+  won't match the fake site → warning!`,
         },
       },
       incident: {
-        title: "The 2008 Kaminsky DNS Cache Poisoning Vulnerability",
-        when: "July 2008 (disclosed after patch coordinated)",
-        where: "Every DNS resolver on the internet",
-        impact: "Critical — every internet user vulnerable; emergency patch coordination across all vendors",
+        title: "The Kaminsky Bug — Almost Broke the Internet",
+        when: "2008",
+        where: "Global internet",
+        impact: "A flaw that could poison almost any DNS server",
         body: [
-          "Dan Kaminsky discovered that the 16-bit DNS transaction ID and source port combined gave only 32 bits of entropy — enough that an attacker could flood a resolver with fake responses and have a reasonable chance of poisoning its cache in under 10 seconds. This wasn't a new vulnerability in software — it was a fundamental flaw in the DNS protocol design.",
-          "Kaminsky secretly coordinated patches with Microsoft, Cisco, BIND, and others for 3 months before disclosing. The patch added source port randomization, expanding entropy from 16 bits to ~32 bits. A CERT advisory was released simultaneously to all vendors. It's considered one of the best-coordinated vulnerability disclosures in history.",
+          "In 2008, researcher Dan Kaminsky discovered a flaw that could let hackers poison nearly any DNS server in the world. The fix required the biggest coordinated security patch in internet history — all major DNS servers updated simultaneously.",
+          "Dan Kaminsky became a hero for responsibly disclosing the flaw before it was exploited. This is why security researchers are so valuable.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "DNS Query Sent", sub: "resolver asks for bank.com", type: "attacker" },
-          { label: "Attacker Races", sub: "sends fake response first", type: "system" },
-          { label: "Cache Poisoned", sub: "bank.com → attacker's IP", type: "victim" },
-          { label: "Users Redirected", sub: "all users sent to fake site", type: "result" },
+          { label: "Hacker poisons DNS", sub: "changes the address book", type: "attacker" },
+          { label: "You type bank.com", sub: "looks normal to you", type: "system" },
+          { label: "Poisoned DNS responds", sub: "wrong IP address", type: "victim" },
+          { label: "You land on fake site!", sub: "everything looks real", type: "result" },
         ],
       },
       timeline: [
-        { year: 1983, event: "DNS designed without authentication — poisoning theoretically possible from day one" },
-        { year: 1997, event: "First practical DNS cache poisoning attack demonstrated" },
-        { year: 2008, event: "Kaminsky discovers critical DNS flaw — emergency patching across all vendors", highlight: true },
-        { year: 2010, event: "DNSSEC deployed for .com, .net, .org TLDs" },
+        { year: 1983, event: "DNS created — no security features" },
+        { year: 2008, event: "Kaminsky DNS bug — urgent worldwide patch", highlight: true },
+        { year: 2011, event: "DNSSEC root zone signed — major defense deployed" },
       ],
       keyTakeaways: [
-        "DNS cache poisoning injects fake records into a resolver's cache",
-        "Poisoned cache redirects all users on that resolver to attacker-controlled IPs",
-        "DNSSEC adds cryptographic signatures to prevent tampered records from being accepted",
-        "DNS-over-HTTPS (DoH) prevents ISP interception and adds confidentiality",
+        "DNS cache poisoning changes the address book to redirect you to fake sites",
+        "Everything looks normal — you could be on a fake website without knowing",
+        "DNSSEC adds signatures to DNS entries to detect tampering",
+        "HTTPS certificates also protect you — fake sites can't get real certificates",
       ],
       references: [
-        { title: "Kaminsky DNS Vulnerability — CERT", url: "https://www.kb.cert.org/vuls/id/800113" },
         { title: "DNS Cache Poisoning — Cloudflare", url: "https://www.cloudflare.com/learning/dns/dns-cache-poisoning/" },
       ],
     },
     ctf: {
-      scenario: "The Santa Cruz surf archive's DNS cache has been poisoned. Your resolver is sending users to the wrong IP for surf-archive.sc. Detect the poisoned entry, compare it to the authoritative answer, and purge it.",
-      hint: "Compare your cached DNS response to the authoritative server's response.",
+      scenario: "The Academy DNS server has been poisoned! Compare current entries to the backup and restore the correct addresses.",
+      hint: "Find the poisoned entry and restore the real address.",
       hints: [
-        "Check your local DNS cache for surf-archive.sc. Run: dns-cache surf-archive.sc",
-        "Query the authoritative server directly. Run: dns-auth surf-archive.sc",
-        "Compare the two answers. Run: compare-dns surf-archive.sc",
-        "Flush the poisoned cache entry. Run: flush-cache surf-archive.sc",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/resolver-config.txt",
-          value: "FLAG{DNS_C4CH3_",
-          label: "Resolver Config — Poisoned Cache Detected",
-        },
-        {
-          trigger: "/dns-notes.txt",
-          value: "P01S0N1NG_1S_",
-          label: "DNS Notes — IP Mismatch Confirmed",
-        },
-        {
-          trigger: "flush-cache surf-archive.sc",
-          value: "D3T3CT4BL3}",
-          label: "Cache Flush — Poisoned Entry Purged",
-        },
+        "Show current DNS. Run: show-dns",
+        "Show the backup. Run: show-backup",
+        "Compare them. Run: compare",
+        "Restore the poisoned entry. Run: restore library.edu",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/resolver-config.txt": [
-          "LOCAL DNS RESOLVER — CACHE DUMP",
-          "================================",
-          "surf-archive.sc  A  185.220.101.50  TTL=287s  [CACHED]",
-          "",
-          "This IP does not match the authoritative answer.",
-          "The cache entry was injected by an attacker.",
-          "",
-          "Run: dns-auth surf-archive.sc to see the real IP.",
-          "Run: compare-dns surf-archive.sc to confirm mismatch.",
-        ].join("\n"),
-        "/dns-notes.txt": [
-          "DNS CACHE POISONING — INVESTIGATION NOTES",
-          "==========================================",
-          "Attacker IP:      185.220.101.50  (known malicious)",
-          "Legitimate IP:    198.51.100.77   (authoritative answer)",
-          "",
-          "All users on this resolver are being sent to the attacker.",
-          "DNSSEC would have prevented this — signatures would not match.",
-          "",
-          "To remediate: flush-cache surf-archive.sc",
+        "/dns-check.txt": [
+          "DNS VERIFICATION TOOL",
+          "======================",
+          "Commands: show-dns | show-backup | compare | restore <domain>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "resolver-config.txt", isDir: false },
-          { name: "dns-notes.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "dns-check.txt", isDir: false }] },
+      fragments: [
+        { trigger: "show-dns", value: "FLAG{DNS_", label: "Poisoned DNS Found" },
+        { trigger: "compare", value: "P01S0N_", label: "Poisoned Entry Identified" },
+        { trigger: "restore library.edu", value: "CL3AR3D}", label: "DNS Restored!" },
+      ],
       extraCommands: {
-        "dns-cache": (args) => ({
-          lines: [
-            `Cached DNS record for ${args[0] || "?"}:`,
-            "  A record: 185.220.101.50   <- attacker's server",
-            "  TTL remaining: 287 seconds",
-            "  Source: cached (not freshly resolved)",
-            "",
-            ">> LEARN: Poisoned DNS cache sends all users to the wrong IP",
-            "   Resolver caches fake records; every user asking for that domain gets the lie.",
-            "   Kaminsky 2008: any resolver could be poisoned in under 10 seconds.",
-            "   Spot discrepancies: dig domain.com vs dig @8.8.8.8 domain.com",
-          ],
-        }),
-        "dns-auth": (args) => ({
-          lines: [
-            `Querying authoritative NS for ${args[0] || "?"}:`,
-            "  Authoritative server: ns1.surf-archive.sc",
-            "  A record: 198.51.100.77   <- legitimate server",
-            "  DNSSEC: not configured (no RRSIG)",
-            "  TTL: 3600",
-            "",
-            ">> LEARN: Authoritative NS bypasses poisoned resolver caches",
-            "   'dig @ns1.domain.com domain.com' skips resolvers and asks the source.",
-            "   DNSSEC (RRSIG records) cryptographically signs answers — tampering is detectable.",
-            "   Check if a domain has DNSSEC: dig +dnssec domain.com | grep RRSIG",
-          ],
-        }),
-        "compare-dns": (args) => ({
-          lines: [
-            `DNS Comparison for ${args[0] || "?"}:`,
-            "  Cached:        185.220.101.50  <- DIFFERENT",
-            "  Authoritative: 198.51.100.77",
-            "  MISMATCH DETECTED — cache is poisoned.",
-            "  Users are being sent to the wrong server.",
-            "  Run: flush-cache surf-archive.sc",
-            "",
-            ">> LEARN: Mismatched IPs (cache vs auth NS) = poisoned cache",
-            "   Users on this resolver are being silently redirected to an attacker.",
-            "   DNS-over-HTTPS (DoH) prevents ISP or MitM from injecting fake responses.",
-            "   Enable DoH: Firefox Settings -> DNS over HTTPS -> Max Protection",
-          ],
-        }),
-        "flush-cache": (args) => {
-          if ((args[0] || "").includes("surf-archive")) {
-            return {
-              lines: [
-                `Flushing poisoned cache entry for ${args[0]}...`,
-                "  Removed: 185.220.101.50",
-                "  Fresh lookup: 198.51.100.77",
-                "  Cache updated with legitimate address.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: Flushing DNS cache removes poisoned entries",
-                "   TTL determines how long a poisoned entry persists before expiring.",
-                "   On Windows: ipconfig /flushdns | On Linux: resolvectl flush-caches",
-                "   Long TTLs (3600s+) mean poisoned records persist for hours if not flushed.",
-              ],
-            };
-          }
-          return { lines: [`Unknown entry: ${args[0]}`] };
+        "show-dns": () => ({ lines: ["CURRENT DNS:", "  academy.edu → 10.0.0.1", "  library.edu → 10.99.99.99  ← SUSPICIOUS!", "  gym.edu     → 10.0.0.9"] }),
+        "show-backup": () => ({ lines: ["BACKUP (real):", "  academy.edu → 10.0.0.1  ✓", "  library.edu → 10.0.0.5  ✓", "  gym.edu     → 10.0.0.9  ✓"] }),
+        compare: () => ({ lines: ["COMPARISON:", "  academy.edu: ✓ MATCH", "  library.edu: ✗ MISMATCH! Poisoned: 10.99.99.99 vs Real: 10.0.0.5", "  gym.edu:     ✓ MATCH", "", "Run: restore library.edu"] }),
+        restore: (args) => {
+          if (args[0] === "library.edu") return { lines: ["✓ library.edu restored to 10.0.0.5!", "DNS cache poisoning cleared. Run 'assemble'."] };
+          return { lines: [`${args[0]} doesn't need restoring.`] };
         },
       },
     },
   },
 
-  // ─── BT-20: Load Balancing ────────────────────────────────────────────────
+  // ─── BT-20: Load Balancing ───────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Four Mile Beach", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏖️" },
+    wonder: { name: "The Academy Checkout Lines", location: "CyberVille", era: "Today", emoji: "🔀" },
     id: "bt-20",
     order: 20,
-    title: "Spreading the Crowd",
-    subtitle: "Load Balancing — Distributing Traffic Across Servers",
+    title: "Sharing the Work",
+    subtitle: "What is Load Balancing?",
     category: "cybersecurity",
     xp: 100,
-    badge: { id: "bt-badge-20", name: "Load Balancer", emoji: "⚖️" },
+    badge: { id: "bt-badge-20", name: "Load Balancer", emoji: "🔀" },
     challengeType: "ctf",
     info: {
-      tagline: "When Steamer Lane is packed, locals go to Four Mile. Load balancers spread the crowd the same way.",
+      tagline: "Load balancing opens more checkout lines when one gets too long — so every server handles a fair share of visitors.",
       year: 2025,
       overview: [
-        "On a big swell day, Steamer Lane is overcrowded. Local surfers spread out — some go to Cowell, some to Pleasure Point, some to Four Mile. No single break gets overwhelmed. Load balancers distribute incoming network traffic across multiple servers so no single server becomes a bottleneck or point of failure.",
-        "A load balancer sits in front of a pool of servers. When a request arrives, it picks one server using an algorithm: round-robin (take turns), least connections (send to the least busy), or IP hash (same user always goes to same server). The client sees one IP but is actually served by one of many backend servers.",
-        "Load balancing is both a performance tool and a security concern. Attackers targeting a specific server vulnerability may need to keep hitting the same backend (session persistence). Security teams use load balancers to absorb DDoS traffic, terminate TLS centrally, and route suspicious traffic to honeypots or deeper inspection.",
+        "Imagine 200 shoppers in a single checkout line — it would take forever! A smart store manager opens more lines and directs shoppers evenly. Load balancers do the same for websites.",
+        "When millions of people visit a popular website at once, one server can't handle all those requests. A load balancer spreads visitors across many servers so each gets a fair share of work — and everyone gets served quickly.",
+        "Load balancers also detect broken servers and stop sending them traffic. This is why popular websites like YouTube stay online even when individual servers break.",
       ],
       technical: {
-        title: "Load Balancing Algorithms and Health Checks",
+        title: "How a Load Balancer Decides",
         body: [
-          "Round-robin: each request goes to the next server in rotation — simple but ignores server load. Least connections: route to the server with fewest active connections — better for varying request sizes. IP hash: hash the client IP and always route to the same backend — useful for sticky sessions without cookies.",
-          "Health checks: load balancers continuously probe backends (HTTP GET /health → 200 OK). A server that fails health checks is removed from the pool. This enables zero-downtime deployments: deploy to one server, wait for health check to pass, remove old server from pool, repeat across the fleet.",
+          "A load balancer uses strategies like round-robin (distribute requests in order: server 1, 2, 3, 1, 2, 3...) or least-connections (always send to the server with the fewest active users).",
+          "Load balancers continuously health-check servers. If a server stops responding, the load balancer removes it from rotation automatically and spreads its traffic to healthy servers.",
         ],
         codeExample: {
-          label: "Nginx load balancer configuration",
-          code: `# Basic nginx load balancer config
-upstream surf_servers {
-    server 10.0.1.10:80;   # backend 1
-    server 10.0.1.11:80;   # backend 2
-    server 10.0.1.12:80;   # backend 3
+          label: "Load balancing 900 visitors across 3 servers",
+          code: `  900 visitors arrive at academy.edu
 
-    # Algorithm options:
-    least_conn;    # route to least busy
-    # ip_hash;     # sticky sessions by client IP
-}
+  Load Balancer:
+  → 300 sent to Server 1
+  → 300 sent to Server 2
+  → 300 sent to Server 3
 
-server {
-    listen 80;
-    location / {
-        proxy_pass http://surf_servers;
-    }
-}`,
+  If Server 2 crashes:
+  Load balancer detects failure →
+  → 450 on Server 1, 450 on Server 3
+  → Academy stays online! ✓`,
         },
       },
       incident: {
-        title: "The 2022 Heroku/GitHub Token Leak — Load Balancer Exposes Internal Routing",
-        when: "April 2022",
-        where: "Heroku and GitHub",
-        impact: "Private GitHub OAuth tokens stolen; thousands of customer repos accessed",
+        title: "GitHub Outage — When a Load Balancer Goes Wrong",
+        when: "2022",
+        where: "GitHub — programmer code sharing site",
+        impact: "Millions of developers couldn't work for hours",
         body: [
-          "Attackers gained access to Heroku's internal systems and were able to query the load balancer's backend pool — discovering internal API servers not meant to be public. They then used the load balancer's privileged network position to access internal services and extract OAuth tokens stored in a database.",
-          "The lesson: load balancers have privileged network access to all backends. A compromised load balancer (or misconfigured one) can expose internal infrastructure that's not meant to face the internet. Load balancers should have strict egress rules, be hardened, and internal endpoints should still require authentication even from trusted network ranges.",
+          "In 2022, GitHub's load balancer started making wrong decisions — sending too much traffic to overloaded servers while leaving healthy ones idle. The result: millions of developers worldwide couldn't access their code for hours.",
+          "Load balancers are critical infrastructure. When they work well, nobody notices. When they fail, everything stops.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Client Requests", sub: "all arrive at load balancer", type: "attacker" },
-          { label: "Load Balancer", sub: "distributes by algorithm", type: "system" },
-          { label: "Backend Pool", sub: "server 1, 2, 3...", type: "victim" },
-          { label: "Balanced Load", sub: "no single server overwhelmed", type: "result" },
+          { label: "Many users arrive", sub: "all at the same time", type: "attacker" },
+          { label: "Load Balancer", sub: "divides work fairly", type: "system" },
+          { label: "Server 1, 2, 3", sub: "each gets a fair share", type: "victim" },
+          { label: "Everyone gets served!", sub: "fast and fair", type: "result" },
         ],
       },
       timeline: [
-        { year: 1996, event: "First commercial load balancers ship (Cisco LocalDirector)" },
-        { year: 2006, event: "AWS Elastic Load Balancer launches — cloud-native load balancing" },
-        { year: 2016, event: "Mirai DDoS overwhelms Dyn DNS — no load balancing could absorb 1.2 Tbps" },
-        { year: 2022, event: "Heroku breach via load balancer internal access — tokens stolen from DB", highlight: true },
+        { year: 1990, event: "First load balancers appear as websites get popular" },
+        { year: 2025, event: "Every major website uses load balancers with thousands of servers", highlight: true },
       ],
       keyTakeaways: [
-        "Load balancers distribute traffic across server pools — no single point of failure",
-        "Algorithms: round-robin (simple), least connections (smart), IP hash (sticky)",
-        "Health checks auto-remove failed servers from the pool",
-        "Load balancers have privileged access — hardening them is critical",
+        "Load balancers spread visitors across many servers so no one gets overwhelmed",
+        "They keep websites online even when individual servers break",
+        "Load balancers check server health and stop sending traffic to broken servers",
+        "Without load balancing, popular websites would crash under heavy traffic",
       ],
       references: [
-        { title: "Load Balancing Explained — Cloudflare", url: "https://www.cloudflare.com/learning/performance/what-is-load-balancing/" },
-        { title: "Heroku GitHub Breach — GitHub Blog", url: "https://github.blog/2022-04-15-security-alert-stolen-oauth-user-tokens/" },
+        { title: "Load Balancing — Cloudflare", url: "https://www.cloudflare.com/learning/performance/what-is-load-balancing/" },
       ],
     },
     ctf: {
-      scenario: "You need to find which server in the load-balanced pool is serving a hidden flag. The load balancer routes round-robin across three backends. Probe each backend directly to find the one with the flag.",
-      hint: "Probe each backend server directly to find the one hosting the flag.",
+      scenario: "900 visitors are all hitting Server 1 (overloaded!). Set up the load balancer to distribute them evenly across 3 servers.",
+      hint: "Distribute 900 visitors evenly across 3 servers.",
       hints: [
-        "Check which server the load balancer gives you. Run: probe-lb",
-        "Probe backend 1 directly. Run: probe-backend 10.0.1.10",
-        "Probe backend 2 directly. Run: probe-backend 10.0.1.11",
-        "Probe backend 3 directly. Run: probe-backend 10.0.1.12",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/lb-config.txt",
-          value: "FLAG{L04D_B4L4NC3R_",
-          label: "LB Config — Backend Pool Identified",
-        },
-        {
-          trigger: "/backend-map.txt",
-          value: "D1STR1BUT3S_TH3_",
-          label: "Backend Map — Admin Server Located",
-        },
-        {
-          trigger: "probe-backend 10.0.1.12",
-          value: "W4V3S}",
-          label: "Backend Probe — Flag Server Found",
-        },
+        "See the problem. Run: show-traffic",
+        "Check server capacity. Run: check-servers",
+        "Distribute evenly. Run: distribute 300 300 300",
+        "Verify it worked. Run: verify",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/lb-config.txt": [
-          "LOAD BALANCER CONFIGURATION — Four Mile Surf Server",
-          "=====================================================",
-          "Algorithm: round-robin",
-          "Backend pool:",
-          "  10.0.1.10  — surf forecast data",
-          "  10.0.1.11  — wave height data",
-          "  10.0.1.12  — admin backend",
+        "/load-balancer.txt": [
+          "LOAD BALANCER CONTROL",
+          "======================",
+          "900 visitors — all on Server 1 (overloaded!)",
+          "3 servers available, each handling up to 400",
           "",
-          "Health check: GET /health every 10s",
-          "Run: probe-lb to see which backend responds.",
-          "Run: probe-backend <ip> to hit a specific backend.",
-        ].join("\n"),
-        "/backend-map.txt": [
-          "BACKEND SERVER MAP",
-          "==================",
-          "10.0.1.10  — public content (surf forecast)",
-          "10.0.1.11  — public content (wave data)",
-          "10.0.1.12  — admin backend (should be internal-only)",
-          "",
-          "The load balancer exposes all three backends equally.",
-          "Probe each to find the one with sensitive content.",
+          "Commands: show-traffic | check-servers | distribute <s1> <s2> <s3> | verify",
         ].join("\n"),
       },
-      dirs: {
-        "/": [
-          { name: "lb-config.txt", isDir: false },
-          { name: "backend-map.txt", isDir: false },
-        ],
-      },
+      dirs: { "/": [{ name: "load-balancer.txt", isDir: false }] },
+      fragments: [
+        { trigger: "show-traffic", value: "FLAG{L04D_", label: "Overload Identified" },
+        { trigger: "distribute 300 300 300", value: "B4L4NC3D_", label: "Traffic Distributed" },
+        { trigger: "verify", value: "3V3NLY}", label: "Load Balance Verified!" },
+      ],
       extraCommands: {
-        "probe-lb": () => ({
-          lines: [
-            "Load balancer response:",
-            "  You hit: backend server (round-robin — varies each request)",
-            "  X-Served-By: one of [10.0.1.10, 10.0.1.11, 10.0.1.12]",
-            "  To probe specific backends: probe-backend <ip>",
-            "",
-            ">> LEARN: Load balancers route traffic across a server pool",
-            "   Round-robin: each request rotates to the next server in sequence.",
-            "   The X-Served-By header leaks which backend handled your request.",
-            "   Check it on real sites: curl -I https://target.com | grep -i served",
-          ],
-        }),
-        "probe-backend": (args) => {
-          const ip = args[0] || "";
-          if (ip === "10.0.1.10") {
-            return {
-              lines: [
-                `Backend ${ip}: 200 OK`,
-                "  Content: Surf forecast data — nothing special here.",
-                "",
-                ">> LEARN: Direct backend probe bypasses the load balancer",
-                "   Backends reachable by IP may lack the LB's auth and rate-limiting.",
-                "   Heroku 2022: attackers used LB network access to hit internal backends.",
-                "   Defense: backends should require auth even from trusted internal IPs.",
-              ],
-            };
-          }
-          if (ip === "10.0.1.11") {
-            return {
-              lines: [
-                `Backend ${ip}: 200 OK`,
-                "  Content: Wave height data — standard response.",
-                "",
-                ">> LEARN: Backend servers in a pool may hold different data",
-                "   Enumerate all pool members to find which hosts privileged content.",
-                "   Health check endpoints (/health) confirm a backend is in the pool.",
-                "   Nmap scan internal range: nmap -sV 10.0.1.0/24 -p 80,443,8080",
-              ],
-            };
-          }
-          if (ip === "10.0.1.12") {
-            return {
-              lines: [
-                `Backend ${ip}: 200 OK`,
-                "  Content: ADMIN BACKEND — this server has the flag.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-                "",
-                ">> LEARN: Admin backend in a public LB pool = full exposure",
-                "   A load balancer that routes to an admin server gives attackers equal access.",
-                "   Segment admin backends to a separate pool with IP allowlist restrictions.",
-                "   Defense: never co-locate public and admin backends in the same LB pool.",
-              ],
-            };
-          }
-          return { lines: [`No backend at ${ip}. Try: 10.0.1.10, 10.0.1.11, or 10.0.1.12`] };
+        "show-traffic": () => ({ lines: ["900 visitors on Server 1 — 225% capacity! Will crash!", "Servers 2 and 3 are idle.", "Run: distribute <s1> <s2> <s3>"] }),
+        "check-servers": () => ({ lines: ["Each server: max 400. 900 ÷ 3 = 300 each — perfect!"] }),
+        distribute: (args) => {
+          const total = parseInt(args[0]) + parseInt(args[1]) + parseInt(args[2]);
+          if (args[0] === "300" && args[1] === "300" && args[2] === "300") return { lines: ["✓ Distributed evenly: 300 each. Run: verify"] };
+          return { lines: [`Total: ${total}. Need 900 split evenly. Try: distribute 300 300 300`] };
         },
+        verify: () => ({ lines: ["✓ Server 1: 300 (75%) ✓", "✓ Server 2: 300 (75%) ✓", "✓ Server 3: 300 (75%) ✓", "Academy event running smoothly! Run 'assemble'."] }),
       },
     },
   },

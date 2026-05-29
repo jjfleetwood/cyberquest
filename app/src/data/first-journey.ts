@@ -3,8 +3,8 @@ import type { StageConfig, EpochConfig } from "./types";
 export const firstJourneyEpoch: EpochConfig = {
   id: "first-journey",
   name: "Our First Journey",
-  subtitle: "Athens → Santa Cruz → Monterey Bay",
-  description: "A beginner's journey across the world. Networking is the highway system that gets you from Athens to Santa Cruz. The internet is the surf you ride when you arrive. Security hygiene is what keeps you safe on a fishing trip in Monterey Bay.",
+  subtitle: "Junior Cyber Agent Academy — Your First 10 Missions",
+  description: "Welcome to Cyber Academy! You are a new Junior Cyber Agent. Your job is to learn how computers talk to each other and how to keep them safe. Every mission teaches you one new superpower. Are you ready? Let's go!",
   emoji: "🌊",
   color: "emerald",
   unlocked: true,
@@ -15,1793 +15,1455 @@ export const firstJourneyStages: StageConfig[] = [
   // ─── BT-01: What is a Network ────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Port of Piraeus", location: "Athens, Greece", era: "Present Day", emoji: "⚓" },
+    wonder: { name: "Cyber Academy Headquarters", location: "CyberVille", era: "Today", emoji: "🏫" },
     id: "bt-01",
     order: 1,
-    title: "Leaving Athens",
-    subtitle: "Every Journey Needs a Network",
+    title: "Your First Mission",
+    subtitle: "What is a Network?",
     category: "cybersecurity",
     xp: 50,
-    badge: { id: "bt-badge-01", name: "Network Initiate", emoji: "🗺️" },
+    badge: { id: "bt-badge-01", name: "Network Cadet", emoji: "🗺️" },
     challengeType: "ctf",
     info: {
-      tagline: "A network is just nodes and paths — the same whether it's roads or cables.",
+      tagline: "Computers make friends too — and their friend group is called a network.",
       year: 2025,
       overview: [
-        "You're standing at the Port of Piraeus, the ancient harbor of Athens. Before you can travel anywhere, you need to understand the network of roads, ships, and planes that connect the world. A computer network works exactly the same way: devices (nodes) connected by paths (links), each able to send information to any other.",
-        "The ancient Greeks built road networks to move armies and trade goods. We build computer networks to move data. In both cases, the principles are identical: every node needs an address, every path has a direction, and information travels from source to destination by hopping through intermediate points.",
-        "Your mission begins here. Read the port map, understand how the network of routes connects Athens to the world, and find your path west — toward Santa Cruz, California.",
+        "Welcome, Junior Agent! Today you learn what a network is. A network is a group of computers that are connected together so they can share information. It's like a group of friends passing notes to each other in class.",
+        "When computers are connected in a network, they can send messages, pictures, and files to each other. The internet is the biggest network of all — it connects billions of computers all around the world.",
+        "Think about your school. All the computers in your computer lab are probably connected in a network. That way your teacher can send homework to everyone at the same time!",
       ],
       technical: {
-        title: "How Computer Networks Are Built",
+        title: "How Computers Connect",
         body: [
-          "A network is a collection of devices (computers, phones, routers) connected by physical or wireless links. Each device is a node. Data travels as electrical signals over cables, or as radio waves over WiFi. The internet is just a global network of networks — millions of smaller networks all interconnected.",
-          "Networks are described by their topology: how nodes are arranged. A star topology has all devices connecting through a central hub. A mesh topology has devices connecting directly to each other. The internet uses a mesh-like topology so there's no single point of failure.",
+          "Computers connect to each other using cables (like the ones behind your TV) or using WiFi (invisible radio waves, just like how a radio works). When two computers are connected, they can send messages back and forth.",
+          "A home network usually has a box called a router. The router is like a post office — it makes sure every message gets to the right computer. Your phone, tablet, and laptop all connect to the same router at home.",
         ],
         codeExample: {
-          label: "Checking your network connections on Linux/Mac",
-          code: `# See all network interfaces on your device
-ip addr show          # Linux
-ifconfig              # Mac/older Linux
+          label: "What a network looks like",
+          code: `  YOUR HOME NETWORK:
 
-# See which devices are on your local network
-arp -a
+  [Your Laptop] ──┐
+  [Your Phone]  ──┤── [Router] ── 🌐 Internet
+  [Your Tablet] ──┘
 
-# Trace the path data takes to reach a destination
-traceroute google.com`,
+  The router connects everyone together.
+  Without the router, your devices can't
+  talk to the internet!`,
         },
       },
       incident: {
-        title: "The 2021 Facebook Outage — When a Network Loses Its Map",
-        when: "October 4, 2021",
-        where: "Global — Facebook, Instagram, WhatsApp",
-        impact: "3.5 billion users offline for 6 hours; $60M+ revenue loss",
+        title: "The Day a School Lost Its Network",
+        when: "2022",
+        where: "A school in the United States",
+        impact: "Students couldn't do computer work for a whole week",
         body: [
-          "On October 4, 2021, Facebook's engineers made a routine configuration change that accidentally removed all the routing information telling the internet how to find Facebook's servers. Every road on their network map was erased simultaneously.",
-          "No one could reach Facebook, Instagram, or WhatsApp. Even Facebook's own engineers couldn't log in remotely to fix the problem — they had to physically drive to the data center and manually restore the routing tables. The network still existed; the map of how to traverse it was simply gone.",
+          "One day, a school's network broke down. No computer in the school could talk to any other computer. Teachers couldn't share documents. Students couldn't look things up online. Even the office couldn't print anything!",
+          "A technician (a person who fixes computers) had to come and repair the network. It took a whole week! That's how important networks are — when they break, everything stops.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Device", sub: "the starting node", type: "attacker" },
-          { label: "Local Network", sub: "your home/office LAN", type: "system" },
-          { label: "The Internet", sub: "global mesh of networks", type: "victim" },
-          { label: "Destination Server", sub: "the ending node", type: "result" },
+          { label: "Your Computer", sub: "sends messages", type: "attacker" },
+          { label: "The Router", sub: "like a post office", type: "system" },
+          { label: "The Internet", sub: "biggest network ever", type: "victim" },
+          { label: "Another Computer", sub: "receives messages", type: "result" },
         ],
       },
       timeline: [
-        { year: 1969, event: "ARPANET — first 4 nodes connected; the internet's ancestor born" },
-        { year: 1983, event: "TCP/IP adopted — all ARPANET nodes switch to the modern protocol" },
-        { year: 1991, event: "World Wide Web launched — the internet becomes navigable" },
-        { year: 2021, event: "Facebook BGP outage — 3.5B users offline when routing tables wiped", highlight: true },
+        { year: 1969, event: "First computers connected together — only 4 computers at first!" },
+        { year: 1991, event: "The World Wide Web (websites) is invented — the internet gets easy to use" },
+        { year: 2000, event: "Over 1 billion people start using the internet" },
+        { year: 2025, event: "Over 5 billion people online — that's most of the world!", highlight: true },
       ],
       keyTakeaways: [
-        "A network is nodes (devices) connected by links (cables/WiFi)",
-        "The internet is a network of networks — no single owner",
-        "Routing tables are the 'map' — lose the map, lose the network",
-        "Every device needs an address to send and receive data",
+        "A network is computers connected together so they can share information",
+        "The internet is the biggest network — it connects computers worldwide",
+        "A router connects all devices in your home to the internet",
+        "When networks break, computers can't talk to each other",
       ],
       references: [
         { title: "How the Internet Works — Mozilla", url: "https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Web_mechanics/How_does_the_Internet_work" },
-        { title: "Facebook BGP Outage Analysis — Cloudflare", url: "https://blog.cloudflare.com/october-2021-facebook-outage/" },
       ],
     },
     ctf: {
-      scenario: "You're at the Port of Piraeus. A network map of all routes from Athens has been loaded onto the terminal. Study the network, trace the path west, and confirm your route to begin the journey.",
-      hint: "Read the map, then trace your route step by step.",
+      scenario: "You're at Cyber Academy. The academy's computers are in a network, but someone mixed up the connections! Read the network map, find which computer is disconnected, and reconnect it to complete your first mission.",
+      hint: "Read the map to find the disconnected computer.",
       hints: [
-        "Start by reading the port map. Run: cat port-map.txt",
-        "List all available routes. Run: list-routes",
-        "Trace the route to your destination. Run: trace-route santa-cruz",
-        "Confirm your departure. Run: depart",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Read the network map. Run: map",
+        "See which computers are connected. Run: check-connections",
+        "Find the missing computer. Run: find-missing",
+        "Reconnect it. Run: reconnect",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/port-map.txt": [
-          "PORT OF PIRAEUS — NETWORK MAP",
-          "==============================",
+        "/academy-map.txt": [
+          "CYBER ACADEMY NETWORK MAP",
+          "=========================",
           "",
-          "You are here: Athens, Greece [Node: ATH]",
+          "Connected computers:",
+          "  [Computer A] ✓ Connected to router",
+          "  [Computer B] ✓ Connected to router",
+          "  [Computer C] ✗ NOT connected!",
+          "  [Computer D] ✓ Connected to router",
           "",
-          "Direct connections from ATH:",
-          "  ATH → ROM  (Rome, Italy)       — sea route",
-          "  ATH → IST  (Istanbul, Turkey)  — road route",
-          "  ATH → LHR  (London, UK)        — air route",
-          "",
-          "From LHR you can reach:",
-          "  LHR → JFK  (New York, USA)     — transatlantic air",
-          "",
-          "From JFK you can reach:",
-          "  JFK → ORD  (Chicago, USA)      — domestic air",
-          "  JFK → LAX  (Los Angeles, USA)  — domestic air",
-          "",
-          "From ORD you can reach:",
-          "  ORD → SJC  (San Jose, USA)     — domestic air",
-          "",
-          "From SJC you can reach:",
-          "  SJC → SC   (Santa Cruz, USA)   — ground route",
-          "",
-          "Your destination: Santa Cruz, CA [Node: SC]",
-          "Use: list-routes | trace-route <destination> | depart",
+          "Commands: map | check-connections | find-missing | reconnect",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "port-map.txt", isDir: false }],
+        "/": [{ name: "academy-map.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/port-map.txt", value: "FLAG{N3TW0RK_", label: "Port Map — Network Topology Identified" },
-        { trigger: "trace-route santa-cruz", value: "1S_JUST_N0D3S_", label: "Route Trace — 5-Hop Path Confirmed" },
-        { trigger: "depart", value: "AND_P4THS}", label: "Departure Confirmed — Journey Begins" },
+        { trigger: "/academy-map.txt", value: "FLAG{N3TW0RK_", label: "Map Found — Network Problem Identified" },
+        { trigger: "find-missing", value: "C0MP_", label: "Missing Computer Located" },
+        { trigger: "reconnect", value: "C0NN3CT3D}", label: "Computer Reconnected — Network Restored!" },
       ],
       extraCommands: {
-        "list-routes": () => ({
+        map: () => ({
           lines: [
-            "Available routes from current node [ATH]:",
-            "  ATH → LHR → JFK → ORD → SJC → SC",
-            "  ATH → ROM → LHR → JFK → LAX → SC  (longer)",
+            "CYBER ACADEMY NETWORK MAP",
+            "=========================",
             "",
-            "Shortest path: ATH → LHR → JFK → ORD → SJC → SC",
-            "Hops: 5  |  Each hop = one network router in the real internet",
+            "Connected computers:",
+            "  [Computer A] ✓ Connected to router",
+            "  [Computer B] ✓ Connected to router",
+            "  [Computer C] ✗ NOT connected!",
+            "  [Computer D] ✓ Connected to router",
             "",
-            ">> LEARN: Networks are graphs of nodes and paths",
-            "   A 'hop' = one router. Real internet paths have 10–20 hops.",
-            "   No single router knows the full path — only the NEXT hop.",
-            "   Try it yourself: traceroute google.com (Mac/Linux) or tracert google.com (Windows)",
+            "One computer is missing from the network!",
+            "Run: find-missing",
           ],
         }),
-        "trace-route": (args) => {
-          const dest = args[0] || "";
-          if (dest === "santa-cruz" || dest === "SC" || dest === "sc") {
-            return {
-              lines: [
-                "Tracing route to Santa Cruz [SC]...",
-                "",
-                "  Hop 1: ATH → LHR  (London)     ✓  transit node",
-                "  Hop 2: LHR → JFK  (New York)   ✓  transit node",
-                "  Hop 3: JFK → ORD  (Chicago)    ✓  transit node",
-                "  Hop 4: ORD → SJC  (San Jose)   ✓  transit node",
-                "  Hop 5: SJC → SC   (Santa Cruz) ✓  DESTINATION",
-                "",
-                "Route confirmed. 5 hops. Run: depart",
-                "",
-                ">> LEARN: How traceroute actually works",
-                "   Sends packets with TTL=1, TTL=2, TTL=3... each router decrements TTL.",
-                "   When TTL hits 0, that router replies 'time exceeded' — revealing its IP.",
-                "   Result: a full map of every device between you and the destination.",
-              ],
-            };
-          }
-          return { lines: [`Unknown destination: ${dest}. Try: trace-route santa-cruz`] };
-        },
-        depart: () => ({
+        "check-connections": () => ({
           lines: [
-            "Departure confirmed. Route locked in.",
+            "Checking all connections...",
+            "  Computer A: ✓ Online",
+            "  Computer B: ✓ Online",
+            "  Computer C: ✗ Offline — cable unplugged!",
+            "  Computer D: ✓ Online",
             "",
-            "Every hop you just traced is a ROUTER in the real internet.",
-            "Data travels the same way — hopping from node to node",
-            "until it reaches its destination.",
+            "Computer C is disconnected. Run: find-missing",
+          ],
+        }),
+        "find-missing": () => ({
+          lines: [
+            "Found it! Computer C's cable is unplugged.",
+            "Location: Room 3, left side of the room.",
+            "A network needs ALL computers connected to work properly.",
             "",
-            ">> LEARN: The internet has no center — by design",
-            "   ARPANET was built to survive any single node being destroyed.",
-            "   Packets find alternate paths if a router goes down (BGP reroutes in seconds).",
-            "   This is why the 2021 Facebook outage required a PHYSICAL fix — no remote path in.",
+            "Run: reconnect to fix it!",
+          ],
+        }),
+        reconnect: () => ({
+          lines: [
+            "✓ Plugging in Computer C...",
+            "✓ Computer C is now connected to the router!",
+            "✓ All 4 computers are now in the network!",
             "",
-            "Run 'assemble' to retrieve your fragment.",
+            "Great work, Junior Agent! You fixed the network!",
+            "Run 'assemble' to claim your reward.",
           ],
         }),
       },
     },
   },
 
-  // ─── BT-02: IP Addresses ──────────────────────────────────────────────────
+  // ─── BT-02: IP Addresses ─────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Athens International Airport", location: "Athens, Greece", era: "Present Day", emoji: "✈️" },
+    wonder: { name: "The Academy Mail Room", location: "CyberVille", era: "Today", emoji: "📮" },
     id: "bt-02",
     order: 2,
-    title: "Every Device Needs an Address",
-    subtitle: "IP Addresses — The Postal Code of the Internet",
+    title: "Every Computer Has an Address",
+    subtitle: "What is an IP Address?",
     category: "cybersecurity",
     xp: 50,
     badge: { id: "bt-badge-02", name: "Address Finder", emoji: "📮" },
     challengeType: "ctf",
     info: {
-      tagline: "Without an address, no package — or packet — can reach you.",
+      tagline: "Every computer has a special number called an IP address — like a home address, but for computers.",
       year: 2025,
       overview: [
-        "Before your flight leaves Athens, you need a boarding pass with your seat number and destination. Without those addresses, the airline has no way to route you to the right plane. IP addresses work identically: every device on the internet is assigned a unique numerical address so that data knows where to go and where to come back from.",
-        "An IPv4 address looks like 192.168.1.105 — four numbers (0–255) separated by dots. Every packet of data sent over the internet carries a source IP and a destination IP, just like every envelope carries a from address and a to address. Routers read those addresses and decide which direction to forward the packet.",
-        "There are two address spaces: private IPs (used inside your home network, like 192.168.x.x) and public IPs (globally unique, assigned by your ISP). Your home router translates between them using NAT — Network Address Translation.",
+        "When you send a letter to a friend, you write their home address on the envelope. Without an address, the mail carrier doesn't know where to deliver it! Computers work the same way. Every computer has a special address called an IP address.",
+        "An IP address is a set of numbers that tells the internet where to send information. It looks like this: 192.168.1.5. Those numbers are the computer's 'home address' on the internet.",
+        "When you visit a website, your computer sends a message to the website's IP address. The website sends the page back to YOUR IP address. That's how you see the website on your screen!",
       ],
       technical: {
-        title: "IPv4 vs IPv6 and How Addresses Are Assigned",
+        title: "What an IP Address Looks Like",
         body: [
-          "IPv4 gives us about 4.3 billion unique addresses — not enough for every device on earth. IPv6 expands this to 340 undecillion addresses using 128-bit hex notation (e.g., 2001:0db8:85a3::8a2e:0370:7334). Most networks now run both simultaneously (dual-stack).",
-          "Your device gets an IP address from a DHCP server — usually your router. The router itself gets a public IP from your ISP. Private IP ranges (RFC 1918): 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16. These never appear on the public internet.",
+          "An IP address has four groups of numbers separated by dots. Each number is between 0 and 255. For example: 192.168.1.42. Your home computer has an address like this, and so does every website.",
+          "Your home IP address is private — only computers in your house use it. When you go to the internet, your router has a public IP address that the whole world can use to find your home network.",
         ],
         codeExample: {
-          label: "Finding your IP addresses",
-          code: `# Your private IP (what your router sees)
-ip addr show          # Linux — look for 192.168.x.x
-ipconfig              # Windows
+          label: "IP addresses look like this",
+          code: `  Your home computer:  192.168.1.42
+  Google's computer:   142.250.80.46
+  Your school:         10.0.0.1
 
-# Your public IP (what the internet sees)
-curl ifconfig.me
+  These numbers are like house addresses!
 
-# Every device you ping has an IP
-ping google.com       # shows Google's IP address`,
+  Home address:    42 Elm Street
+  IP address:      192.168.1.42
+
+  Both tell the delivery person WHERE to go.`,
         },
       },
       incident: {
-        title: "The IPv4 Exhaustion Crisis — When Addresses Ran Out",
-        when: "February 3, 2011",
-        where: "IANA Global Address Registry",
-        impact: "Last IPv4 blocks allocated; ISPs forced to share addresses via CGN",
+        title: "The Mysterious Missing Letter",
+        when: "Any day this could happen",
+        where: "Anywhere with computers",
+        impact: "Without the right address, messages get lost",
         body: [
-          "On February 3, 2011, IANA (the internet's address authority) handed out the last blocks of IPv4 addresses to the five regional registries. The internet had officially run out of unique IPv4 addresses after 30 years.",
-          "ISPs responded with Carrier-Grade NAT — hiding thousands of customers behind a single public IP. This broke peer-to-peer applications and made security logging nearly impossible (you can't tell which customer sent an attack if 5,000 share one IP). The fix — IPv6 — had existed since 1998 but adoption remains slow. As of 2025, only ~45% of traffic is IPv6.",
+          "Imagine you want to send a birthday card to your friend, but you accidentally write the wrong house number. Your card goes to a stranger's house! The same thing can happen on the internet.",
+          "If a computer sends data to the wrong IP address, it goes to the wrong computer. That's why IP addresses are so important — every computer needs exactly the right address so messages get delivered to the right place.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Device", sub: "private IP: 192.168.1.5", type: "attacker" },
-          { label: "Your Router", sub: "public IP: 203.0.113.42", type: "system" },
-          { label: "Internet Routers", sub: "forward by destination IP", type: "victim" },
-          { label: "Destination Server", sub: "IP: 142.250.80.46", type: "result" },
+          { label: "Your Computer", sub: "has an IP address", type: "attacker" },
+          { label: "Your Message", sub: "has destination address", type: "system" },
+          { label: "The Router", sub: "reads the address", type: "victim" },
+          { label: "Right Computer", sub: "message delivered!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1981, event: "IPv4 standardized in RFC 791 — 4.3 billion addresses allocated" },
-        { year: 1996, event: "IPv6 designed to solve address exhaustion" },
-        { year: 2011, event: "IANA exhausts all IPv4 blocks — address space officially full", highlight: true },
-        { year: 2025, event: "~45% of internet traffic now uses IPv6" },
+        { year: 1981, event: "IP addresses invented so computers could find each other" },
+        { year: 2011, event: "The internet almost ran out of IP addresses — so a new system was made!" },
+        { year: 2025, event: "Billions of devices all have their own IP address", highlight: true },
       ],
       keyTakeaways: [
-        "Every device needs an IP address to communicate on a network",
-        "IPv4 = 4 numbers (0–255) separated by dots; ~4.3 billion total",
-        "Private IPs (192.168.x.x) stay inside your home; public IPs face the internet",
-        "IPv6 solves exhaustion with 128-bit addresses — 340 undecillion available",
+        "Every computer has an IP address — like a home address for computers",
+        "IP addresses are numbers separated by dots, like 192.168.1.42",
+        "Without the right IP address, messages go to the wrong computer",
+        "Your router has an address that lets you connect to the internet",
       ],
       references: [
-        { title: "IPv4 Address Exhaustion — ARIN", url: "https://www.arin.net/resources/guide/ipv4/exhaustion/" },
-        { title: "How IP Addresses Work — HowStuffWorks", url: "https://computer.howstuffworks.com/internet/basics/what-is-an-ip-address.htm" },
+        { title: "What is an IP Address? — Cloudflare", url: "https://www.cloudflare.com/learning/dns/glossary/what-is-my-ip-address/" },
       ],
     },
     ctf: {
-      scenario: "You're at the airport check-in desk. The system needs your boarding pass — destination IP, seat (port), and origin IP — to route you correctly. Inspect the terminal, find the correct IPs, and check in.",
-      hint: "Read your itinerary to find the IP addresses, then check in.",
+      scenario: "A message was sent to the Academy but went to the wrong computer! Read the delivery log, find the correct IP address for the Academy computer, and redeliver the message.",
+      hint: "Find the correct address in the delivery log and redeliver.",
       hints: [
-        "Read your travel itinerary. Run: cat itinerary.txt",
-        "Look up the destination IP. Run: lookup santacruz",
-        "Check your own device's IP. Run: myip",
-        "Check in with both addresses. Run: checkin",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Read the delivery log. Run: read-log",
+        "Look up the correct address. Run: address-book",
+        "Redeliver to the right address. Run: deliver 10.0.0.5",
+        "Confirm the message arrived. Run: confirm",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/itinerary.txt": [
-          "TRAVEL ITINERARY — AGENT DEPARTURE",
-          "====================================",
+        "/delivery-log.txt": [
+          "DELIVERY LOG",
+          "============",
+          "Message: 'Welcome to Cyber Academy!'",
+          "Sent to: 10.0.0.9  (WRONG ADDRESS!)",
+          "Status: Delivery failed — no computer at that address",
           "",
-          "Origin:       Athens, Greece",
-          "Destination:  Santa Cruz, California",
-          "",
-          "Network addresses for this journey:",
-          "  Your device (origin):      CHECK WITH: myip",
-          "  Santa Cruz server (dest):  CHECK WITH: lookup santacruz",
-          "",
-          "Once you have both addresses, run: checkin",
+          "Correct address in address-book",
+          "Commands: read-log | address-book | deliver <address> | confirm",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "itinerary.txt", isDir: false }],
+        "/": [{ name: "delivery-log.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/itinerary.txt", value: "FLAG{1P_4DDR3SS_", label: "Itinerary Read — Origin and Destination Found" },
-        { trigger: "myip", value: "R0UT3S_EV3RY_", label: "Device IP Confirmed — Source Address Identified" },
-        { trigger: "checkin", value: "P4CK3T}", label: "Check-In Complete — IP Routing Mastered" },
+        { trigger: "/delivery-log.txt", value: "FLAG{1P_", label: "Delivery Log Read — Wrong Address Found" },
+        { trigger: "address-book", value: "4DDR3SS_", label: "Correct Address Found" },
+        { trigger: "confirm", value: "D3L1V3R3D}", label: "Message Delivered to Correct Computer!" },
       ],
       extraCommands: {
-        myip: () => ({
+        "read-log": () => ({
           lines: [
-            "Your device's IP address:",
-            "  Private IP: 192.168.1.42   (visible inside your local network)",
-            "  Public IP:  203.0.113.7    (visible to the internet, via your router)",
+            "DELIVERY LOG",
+            "============",
+            "Message: 'Welcome to Cyber Academy!'",
+            "Sent to: 10.0.0.9  ← WRONG! No computer here",
+            "Status: Message bounced back",
             "",
-            "Your private IP stays local. Your router's public IP is what",
-            "the rest of the internet sees when you send data.",
-            "",
-            ">> LEARN: NAT — Network Address Translation",
-            "   Your home router hides ALL your devices behind ONE public IP.",
-            "   Thousands of 192.168.x.x addresses map to one public-facing IP.",
-            "   Check your own: ip addr show (Linux) | ipconfig (Windows) | curl ifconfig.me",
+            "Check the address-book to find the correct IP.",
+            "Run: address-book",
           ],
         }),
-        lookup: (args) => {
-          const host = args[0] || "";
-          if (host === "santacruz" || host === "santa-cruz") {
+        "address-book": () => ({
+          lines: [
+            "ACADEMY ADDRESS BOOK",
+            "====================",
+            "Principal's Office:  10.0.0.1",
+            "Library Computer:    10.0.0.2",
+            "Computer Lab:        10.0.0.5  ← This is where messages go!",
+            "Gym Office:          10.0.0.8",
+            "",
+            "The message should go to 10.0.0.5",
+            "Run: deliver 10.0.0.5",
+          ],
+        }),
+        deliver: (args) => {
+          const addr = args[0] || "";
+          if (addr === "10.0.0.5") {
             return {
               lines: [
-                "DNS lookup: santacruz.destination",
-                "  Resolved IP: 198.51.100.23",
+                "Sending 'Welcome to Cyber Academy!' to 10.0.0.5...",
+                "✓ Message delivered successfully!",
+                "The Computer Lab received the message.",
                 "",
-                "This is the public IP of the Santa Cruz server.",
-                "Every packet you send will carry this as the destination.",
+                "Run: confirm",
               ],
             };
           }
-          return { lines: [`Unknown host: ${host}. Try: lookup santacruz`] };
+          return { lines: [`${addr} is not in the address book. Run: address-book to find the right one.`] };
         },
-        checkin: () => ({
+        confirm: () => ({
           lines: [
-            "Check-in system:",
-            "  Origin IP:      203.0.113.7    ✓",
-            "  Destination IP: 198.51.100.23  ✓",
+            "✓ Delivery confirmed! The Computer Lab got the message.",
+            "✓ IP address 10.0.0.5 = Computer Lab",
             "",
-            "Every data packet on the internet carries exactly these",
-            "two fields — source IP and destination IP — so routers",
-            "know where the packet came from and where it's going.",
+            "You learned: every computer needs the right IP address",
+            "to receive messages. Without it, they get lost!",
             "",
-            ">> LEARN: IP is in every packet — always",
-            "   Open Wireshark or run: sudo tcpdump -n -c 20",
-            "   Every line shows src and dst IP. Nothing on the internet moves without them.",
-            "   Attackers spoof the source IP in DDoS attacks — that's why attribution is hard.",
-            "",
-            "Run 'assemble' to retrieve your fragment.",
+            "Run 'assemble' to claim your reward!",
           ],
         }),
       },
     },
   },
 
-  // ─── BT-03: Packets ───────────────────────────────────────────────────────
+  // ─── BT-03: Packets ──────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Baggage Claim, JFK Airport", location: "New York, USA", era: "Present Day", emoji: "🧳" },
+    wonder: { name: "The Academy Post Office", location: "CyberVille", era: "Today", emoji: "📦" },
     id: "bt-03",
     order: 3,
-    title: "Packing the Bags",
-    subtitle: "How Data Gets Broken Into Packets",
+    title: "Breaking It Into Pieces",
+    subtitle: "What are Packets?",
     category: "cybersecurity",
     xp: 50,
-    badge: { id: "bt-badge-03", name: "Packet Handler", emoji: "📦" },
+    badge: { id: "bt-badge-03", name: "Packet Agent", emoji: "📦" },
     challengeType: "ctf",
     info: {
-      tagline: "Nobody ships a house whole — you break it into boxes. The internet does the same with data.",
+      tagline: "Big messages are broken into tiny pieces called packets — then put back together like a puzzle.",
       year: 2025,
       overview: [
-        "You've landed at JFK. Your luggage didn't travel as one giant blob — the airline separated it into individual bags, each tagged with your name, destination, and a sequence number. If one bag gets lost, only that piece needs to be resent. Data on the internet travels exactly the same way: broken into small chunks called packets.",
-        "A packet is typically 1,500 bytes (the standard Ethernet MTU). A large file — say, a 10MB photo — gets broken into roughly 6,666 packets. Each packet carries the destination IP, the source IP, a sequence number, and a small piece of the payload. At the destination, the packets are reassembled in order.",
-        "This design is genius: if any single packet is lost or corrupted in transit, only that packet needs to be retransmitted. The rest of the file has already arrived safely. This is what makes TCP reliable.",
+        "Imagine you want to send your friend a huge LEGO set by mail. You can't fit all the pieces in one box! So you put them in many small boxes, number each box, and ship them separately. Your friend receives all the boxes and puts the LEGO together at the end. That's exactly how the internet works with packets!",
+        "When you send a message or watch a video, the computer breaks it into tiny pieces called packets. Each packet travels separately through the internet, and when they all arrive, the computer puts them back together in the right order.",
+        "This is smart because if one packet gets lost, the computer just asks for that one piece again — instead of sending the whole message over!",
       ],
       technical: {
-        title: "Packet Structure and TCP Reassembly",
+        title: "How Packets Work",
         body: [
-          "Every packet has a header and a payload. The header contains: source IP, destination IP, protocol (TCP/UDP), sequence number, and checksum. The payload is the actual data — a fragment of your file, a piece of a web page, part of a video stream.",
-          "TCP (Transmission Control Protocol) guarantees delivery and order. The receiver sends ACK (acknowledgment) packets back for each one received. If no ACK arrives within a timeout, the sender retransmits that packet. UDP skips the ACK — faster but no guarantee of delivery or order (used for video calls, gaming).",
+          "Every packet has a label on it (just like a mailing label) that says: which message it belongs to, what number piece it is, and where it's going. When all the packets arrive, the computer reads the numbers and puts them in order.",
+          "Sometimes packets arrive out of order — packet 3 might arrive before packet 2. That's okay! The computer sorts them by number and still puts the message together perfectly.",
         ],
         codeExample: {
-          label: "Capturing and inspecting packets with tcpdump",
-          code: `# Capture 10 packets on any interface
-sudo tcpdump -c 10
+          label: "A message broken into packets",
+          code: `  Original message:
+  "Hello, I am a Junior Cyber Agent!"
 
-# Show the packet headers in detail
-sudo tcpdump -v -c 5
+  Broken into packets:
+  [Packet 1] "Hello, I am"     → travels path A
+  [Packet 2] " a Junior"       → travels path B
+  [Packet 3] " Cyber Agent!"   → travels path A
 
-# Show packets going to/from a specific IP
-sudo tcpdump host 8.8.8.8
+  When they arrive (maybe out of order):
+  Packet 3 arrives first → saved
+  Packet 1 arrives next  → saved
+  Packet 2 arrives last  → sorted!
 
-# Save packets to a file for analysis in Wireshark
-sudo tcpdump -w capture.pcap`,
+  Final message: "Hello, I am a Junior Cyber Agent!" ✓`,
         },
       },
       incident: {
-        title: "The Mirai Botnet DDoS — Packet Flooding at Scale",
-        when: "October 21, 2016",
-        where: "Dyn DNS — Eastern USA",
-        impact: "Twitter, Netflix, Reddit, CNN offline for hours",
+        title: "When Packets Are Used for Attack",
+        when: "Happens every day",
+        where: "Online gaming servers, websites",
+        impact: "Slow or crashed servers",
         body: [
-          "The Mirai botnet hijacked 600,000 IoT devices (cameras, DVRs, routers) and directed them all to send a flood of packets to Dyn's DNS servers. At peak, the attack delivered 1.2 terabits per second — hundreds of billions of packets per second overwhelming every server.",
-          "The attack exploited the fundamental nature of packets: anyone can send them to any IP. There's no authentication on the packet level. Dyn's servers couldn't distinguish legitimate packets from attack packets, so the connection tables filled up and legitimate traffic was dropped. The lesson: packet volume can be weaponized.",
+          "Sometimes bad people send millions and millions of tiny packets to a computer all at once. This is called a DDoS attack. The computer gets so overwhelmed trying to receive all those packets that it can't help anyone else.",
+          "It's like if 1,000 people all tried to fit through a door at the same time — nobody gets through! Good security systems watch for too many packets from one place and block them.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Large File (10MB)", sub: "too big to send whole", type: "attacker" },
-          { label: "Packetizer", sub: "splits into ~6,666 packets", type: "system" },
-          { label: "Network Transit", sub: "each packet routed independently", type: "victim" },
-          { label: "Reassembly", sub: "destination puts them back in order", type: "result" },
+          { label: "Your Message", sub: "big file or video", type: "attacker" },
+          { label: "Break Into Packets", sub: "numbered pieces", type: "system" },
+          { label: "Travel the Network", sub: "each piece separately", type: "victim" },
+          { label: "Put Back Together", sub: "original message!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1974, event: "TCP invented by Vint Cerf & Bob Kahn — packet-switched networking formalized" },
-        { year: 1983, event: "TCP/IP becomes the standard for ARPANET" },
-        { year: 1998, event: "Ethernet MTU standardized at 1,500 bytes per packet" },
-        { year: 2016, event: "Mirai DDoS — 1.2 Tbps packet flood takes down major internet services", highlight: true },
+        { year: 1969, event: "Packet switching invented — the key idea behind the internet" },
+        { year: 1983, event: "All internet computers start using packets" },
+        { year: 2025, event: "Every message, video, and game you play travels as packets", highlight: true },
       ],
       keyTakeaways: [
-        "Data is broken into ~1,500-byte packets for transmission",
-        "Each packet carries source IP, destination IP, sequence number, and payload",
-        "TCP guarantees delivery and order via ACK acknowledgments",
-        "UDP is faster but unreliable — used for real-time audio/video",
+        "Big messages are broken into small pieces called packets",
+        "Each packet has a number so it can be put back in order",
+        "Packets can take different paths and still arrive correctly",
+        "If a packet is lost, only that piece needs to be sent again",
       ],
       references: [
-        { title: "How Packets Work — Cloudflare Learning", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-packet/" },
-        { title: "Mirai Botnet Analysis — Imperva", url: "https://www.imperva.com/learn/ddos/mirai-botnet/" },
+        { title: "How Packets Work — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-packet/" },
       ],
     },
     ctf: {
-      scenario: "Your luggage arrived at JFK in fragments — the airline's system scrambled the bag tags. You need to inspect each fragment, find the sequence numbers, reassemble them in order, and retrieve the hidden travel code inside.",
-      hint: "Inspect each fragment, sort by sequence number, then reassemble.",
+      scenario: "A secret message was sent to Cyber Academy in 4 packets, but they arrived out of order! Read all 4 packets and put them in the correct order to reveal the message.",
+      hint: "Read all 4 packets and put them in the right order.",
       hints: [
-        "List the luggage fragments. Run: ls fragments/",
-        "Inspect each fragment. Run: inspect fragment-1 (then 2, 3)",
-        "Reassemble in sequence order. Run: reassemble 2 1 3",
-        "Try different orderings until the message is coherent.",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "List the packets. Run: list-packets",
+        "Read packet 1. Run: read 1",
+        "Read packets 2, 3, 4 the same way",
+        "Assemble them in order. Run: assemble-message 3 1 4 2",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/fragments/fragment-1.bag": "SEQ:2 | PAYLOAD: ASSEMBL3D_",
-        "/fragments/fragment-2.bag": "SEQ:1 | PAYLOAD: P4CK3TS_R3",
-        "/fragments/fragment-3.bag": "SEQ:3 | PAYLOAD: 1N_S3QU3NC3",
+        "/packets.txt": [
+          "RECEIVED PACKETS (out of order!)",
+          "================================",
+          "Packet A (order: 3) — 'Cyber '",
+          "Packet B (order: 1) — 'I love '",
+          "Packet C (order: 4) — 'Academy!'",
+          "Packet D (order: 2) — 'Kryptós '",
+          "",
+          "Commands: list-packets | read <1-4> | assemble-message <order>",
+        ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "fragments", isDir: true }],
-        "/fragments": [
-          { name: "fragment-1.bag", isDir: false },
-          { name: "fragment-2.bag", isDir: false },
-          { name: "fragment-3.bag", isDir: false },
-        ],
+        "/": [{ name: "packets.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "inspect fragment-2", value: "FLAG{P4CK3TS_", label: "Fragment SEQ:1 — First Payload Recovered" },
-        { trigger: "inspect fragment-1", value: "R3ASSEMBL3D_", label: "Fragment SEQ:2 — Second Payload Recovered" },
-        { trigger: "inspect fragment-3", value: "1N_S3QU3NC3}", label: "Fragment SEQ:3 — Third Payload Recovered" },
+        { trigger: "list-packets", value: "FLAG{P4CK3T_", label: "Packets Listed — Out of Order Detected" },
+        { trigger: "read 1", value: "PUZZL3_", label: "First Packet Read" },
+        { trigger: "assemble-message", value: "S0LV3D}", label: "Message Reassembled Correctly!" },
       ],
       extraCommands: {
-        inspect: (args) => {
-          const frag = args[0] || "";
-          const data: Record<string, string[]> = {
-            "fragment-1": [
-              "Fragment: fragment-1.bag",
-              "  Sequence number: 2",
-              "  Payload: ASSEMBL3D_",
-              "  Status: arrived",
-              "",
-              ">> LEARN: Packet headers carry metadata, not just data",
-              "   SEQ number tells the receiver how to order this piece.",
-              "   Without sequence numbers, reassembly is just guessing.",
-              "   TCP adds: seq, ack, flags, checksum — all in a 20-byte header.",
-            ],
-            "fragment-2": [
-              "Fragment: fragment-2.bag",
-              "  Sequence number: 1",
-              "  Payload: P4CK3TS_R3",
-              "  Status: arrived",
-              "",
-              ">> LEARN: Packets arrive out of order — always plan for it",
-              "   The internet does NOT guarantee delivery order.",
-              "   TCP buffers out-of-order packets and waits for missing ones.",
-              "   UDP doesn't — that's why video calls sometimes glitch.",
-            ],
-            "fragment-3": [
-              "Fragment: fragment-3.bag",
-              "  Sequence number: 3",
-              "  Payload: 1N_S3QU3NC3",
-              "  Status: arrived",
-              "",
-              ">> LEARN: Reassembly is the receiver's job",
-              "   Sender breaks data into MTU-sized chunks (~1,500 bytes).",
-              "   Receiver buffers all chunks, waits for any gaps, reassembles in order.",
-              "   A missing packet triggers a retransmit request (TCP ACK gap).",
-            ],
+        "list-packets": () => ({
+          lines: [
+            "PACKETS RECEIVED:",
+            "  Packet A — order number: 3",
+            "  Packet B — order number: 1",
+            "  Packet C — order number: 4",
+            "  Packet D — order number: 2",
+            "",
+            "Read each one: read 1, read 2, read 3, read 4",
+          ],
+        }),
+        read: (args) => {
+          const n = args[0];
+          const map: Record<string, string> = {
+            "1": "Packet B (order 1): 'I love '",
+            "2": "Packet D (order 2): 'Kryptós '",
+            "3": "Packet A (order 3): 'Cyber '",
+            "4": "Packet C (order 4): 'Academy!'",
           };
-          return { lines: data[frag] || [`Unknown fragment: ${frag}`] };
+          return { lines: [map[n] || "Unknown packet. Try: read 1, 2, 3, or 4"] };
         },
-        reassemble: (args) => {
-          const order = args.join(" ");
-          if (order === "2 1 3" || order === "fragment-2 fragment-1 fragment-3") {
-            return {
-              lines: [
-                "Reassembling in order: seq 1 → seq 2 → seq 3",
-                "",
-                "  Seq 1: P4CK3TS_R3",
-                "  Seq 2: ASSEMBL3D_",
-                "  Seq 3: 1N_S3QU3NC3",
-                "",
-                "Message: P4CK3TS_R3ASSEMBL3D_1N_S3QU3NC3",
-                "",
-                ">> LEARN: This is exactly how TCP works in production",
-                "   A 10 MB file becomes ~6,666 packets. Each has a sequence number.",
-                "   If packet 3,200 is lost, only 3,200 is retransmitted — not the whole file.",
-                "   Wireshark call: tcp.analysis.retransmission — shows you every retransmit.",
-                "",
-                "Run 'assemble' to view the assembled flag and get the submit command.",
-              ],
-            };
-          }
-          return {
-            lines: [
-              `Reassembling: ${args.map((a, i) => `seq${i + 1}=${a}`).join(", ")}`,
-              "Result: garbled — wrong order.",
-              "(Hint: check sequence numbers with: inspect fragment-1, inspect fragment-2, inspect fragment-3)",
-            ],
-          };
-        },
+        "assemble-message": () => ({
+          lines: [
+            "Putting packets in order 1, 2, 3, 4...",
+            "Packet 1: 'I love '",
+            "Packet 2: 'Kryptós '",
+            "Packet 3: 'Cyber '",
+            "Packet 4: 'Academy!'",
+            "",
+            "✓ FULL MESSAGE: 'I love Kryptós Cyber Academy!'",
+            "",
+            "Run 'assemble' to claim your reward!",
+          ],
+        }),
       },
     },
   },
 
-  // ─── BT-04: Routers ───────────────────────────────────────────────────────
+  // ─── BT-04: Routers ──────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "I-80 West, Denver Interchange", location: "Colorado, USA", era: "Present Day", emoji: "🛣️" },
+    wonder: { name: "The Academy Crossroads", location: "CyberVille", era: "Today", emoji: "🚦" },
     id: "bt-04",
     order: 4,
-    title: "The Highway Interchange",
-    subtitle: "Routers — The Traffic Directors of the Internet",
+    title: "The Traffic Director",
+    subtitle: "What is a Router?",
     category: "cybersecurity",
     xp: 50,
-    badge: { id: "bt-badge-04", name: "Route Master", emoji: "🔀" },
+    badge: { id: "bt-badge-04", name: "Router Recruit", emoji: "🚦" },
     challengeType: "ctf",
     info: {
-      tagline: "A router's only job is to read the destination and decide: which way next?",
+      tagline: "A router is like a crossing guard — it looks at each message and points it in the right direction.",
       year: 2025,
       overview: [
-        "You're driving west on I-80 through Denver. At every highway interchange, a sign tells you: take this exit for San Francisco, stay on I-80 for Salt Lake City. You make decisions at each junction. A router does exactly this — it reads a packet's destination IP address and decides which interface to forward it out of, based on a routing table.",
-        "The internet has no central controller. Millions of routers each make independent forwarding decisions based on their local routing tables. Your packet might hop through 15 different routers between Denver and Santa Cruz, each one reading only the destination IP and sending it one step closer.",
-        "Routing tables are built dynamically using protocols like BGP (Border Gateway Protocol) — the protocol that keeps the global internet's routing maps synchronized. When Facebook's BGP routes were accidentally deleted in 2021, every router on the internet forgot how to reach Facebook.",
+        "Have you ever seen a crossing guard at school? They stand at the crossroads and point people in the right direction — 'You go left! You go right!' A router does the same job for computer messages.",
+        "When your message travels on the internet, it passes through many routers. Each router looks at where the message is going and points it toward the next router — until it finally reaches its destination.",
+        "You have a router at home! It's usually a box with blinking lights. It receives everything from the internet and sends it to the right device — your laptop, your phone, or your tablet.",
       ],
       technical: {
-        title: "How Routing Tables Work",
+        title: "How Routers Decide Where to Send Messages",
         body: [
-          "A routing table maps destination IP ranges to outgoing interfaces. When a packet arrives, the router finds the most specific matching route (longest prefix match) and forwards the packet to the next hop. If no specific route matches, the packet goes to the default route (usually 0.0.0.0/0 — 'send it upstream').",
-          "Home routers are simple: everything local stays on the LAN, everything else goes to your ISP. Core internet routers at major exchange points have tables with 900,000+ routes and forward millions of packets per second in hardware.",
+          "Routers have a list called a routing table. This table is like a map that says 'if a message is going to this address, send it THAT way.' The router looks at each message's destination IP address and finds the best path for it.",
+          "There are routers everywhere on the internet — in buildings, in cities, under the ocean! A message from your computer to a website in another country might pass through 15 to 20 different routers.",
         ],
         codeExample: {
-          label: "Viewing routing tables and tracing packet paths",
-          code: `# View your local routing table
-route -n          # Linux
-netstat -rn       # Mac/Windows
+          label: "How a router decides",
+          code: `  Message arrives at Router:
+  "Deliver this to: 8.8.8.8"
 
-# Trace the actual hops a packet takes
-traceroute google.com      # Mac/Linux
-tracert google.com         # Windows
+  Router checks its map:
+  8.8.8.x → go EAST → next router
 
-# Each line = one router hop, with latency`,
+  Message goes east to next router:
+  "Deliver this to: 8.8.8.8"
+
+  That router checks its map:
+  8.8.8.8 → arrived! Deliver here.
+
+  Just like asking for directions
+  at each street corner!`,
         },
       },
       incident: {
-        title: "The 2010 China Telecom BGP Hijack",
-        when: "April 8, 2010",
-        where: "Global internet traffic",
-        impact: "15% of global internet traffic rerouted through China for 18 minutes",
+        title: "When a Router Gives Wrong Directions",
+        when: "It happens sometimes",
+        where: "On the internet",
+        impact: "Messages go to the wrong place",
         body: [
-          "China Telecom accidentally (or intentionally) announced BGP routes claiming it was the best path to 15% of the internet's IP addresses. Routers worldwide updated their tables and started sending traffic — including US government and military traffic — through China Telecom's network.",
-          "For 18 minutes, emails, web requests, and VPN traffic from US senators, the US Army, and major corporations were flowing through Chinese infrastructure. No encryption was broken — but the traffic was readable if unencrypted. This is why BGP security (RPKI) matters: any router can claim any route.",
+          "Once, some bad people changed a router's map to send everyone's messages to their own computer first. They could read the messages before sending them on! This is called a man-in-the-middle attack.",
+          "It's like if a crossing guard started giving everyone wrong directions so they'd walk past the guard's house. The fix? Security on routers so only authorized people can change the maps.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Packet", sub: "destination: 198.51.100.23", type: "attacker" },
-          { label: "Router at Denver", sub: "checks routing table", type: "system" },
-          { label: "Routing Table", sub: "198.51.100.0/24 → west interface", type: "victim" },
-          { label: "Forwarded West", sub: "one hop closer to Santa Cruz", type: "result" },
+          { label: "Your Message", sub: "needs to get somewhere", type: "attacker" },
+          { label: "Router 1", sub: "points it right direction", type: "system" },
+          { label: "Router 2", sub: "gets closer!", type: "victim" },
+          { label: "Destination", sub: "message arrives!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1969, event: "First ARPANET router (IMP) deployed at UCLA" },
-        { year: 1989, event: "BGP invented — enables routers to share routes across organizations" },
-        { year: 2010, event: "China Telecom BGP hijack — 15% of internet rerouted for 18 minutes", highlight: true },
-        { year: 2021, event: "Facebook BGP outage — routing tables wiped, 3.5B users offline" },
+        { year: 1974, event: "The first routers invented to connect different networks" },
+        { year: 1987, event: "Cisco founded — now makes millions of routers worldwide" },
+        { year: 2025, event: "There are billions of routers directing traffic on the internet", highlight: true },
       ],
       keyTakeaways: [
-        "Routers forward packets hop-by-hop based on destination IP",
-        "Routing tables map IP ranges to outgoing interfaces",
-        "BGP synchronizes routing tables between networks globally",
-        "Any router can announce any route — BGP has no built-in authentication",
+        "A router is like a crossing guard that directs messages on the network",
+        "Every message passes through many routers to reach its destination",
+        "Routers use a routing table (a map) to know where to send messages",
+        "Your home router connects all your devices to the internet",
       ],
       references: [
         { title: "How Routers Work — Cisco", url: "https://www.cisco.com/c/en/us/solutions/small-business/resource-center/networking/how-does-a-router-work.html" },
-        { title: "BGP Hijacking Explained — Cloudflare", url: "https://www.cloudflare.com/learning/security/glossary/bgp-hijacking/" },
       ],
     },
     ctf: {
-      scenario: "You're at the Denver interchange. Your GPS (routing table) has been scrambled. You need to read the routing table, find the correct next hop toward Santa Cruz, and set your route before sunset.",
-      hint: "Read the routing table and find the correct next hop for your destination.",
+      scenario: "A message needs to get from Cyber Academy to the CyberVille Library. There are 3 possible routes through different routers. Figure out which route is fastest and send the message!",
+      hint: "Check each route and pick the fastest one.",
       hints: [
-        "View your current routing table. Run: show-routes",
-        "Look up the route to Santa Cruz. Run: lookup-route 198.51.100.23",
-        "Set the correct next hop. Run: set-route west",
-        "Confirm and drive. Run: drive",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See all routes. Run: show-routes",
+        "Check route A speed. Run: ping route-a",
+        "Check route B speed. Run: ping route-b",
+        "Check route C speed. Run: ping route-c",
+        "Send via the fastest. Run: send route-b",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/routing-table.txt": [
-          "DENVER INTERCHANGE — ROUTING TABLE",
-          "===================================",
+        "/routes.txt": [
+          "AVAILABLE ROUTES TO LIBRARY",
+          "============================",
+          "Route A: Academy → Router1 → Router3 → Library",
+          "Route B: Academy → Router2 → Library (direct!)",
+          "Route C: Academy → Router1 → Router2 → Router3 → Library",
           "",
-          "Destination          Next Hop        Interface",
-          "10.0.0.0/8           192.168.1.1     eth0 (east)",
-          "172.16.0.0/12        10.0.0.1        eth1 (north)",
-          "198.51.100.0/24      203.0.113.1     eth2 (west)  ← your target range",
-          "0.0.0.0/0            203.0.113.1     eth2 (west)  default",
-          "",
-          "Use: show-routes | lookup-route <ip> | set-route <direction> | drive",
+          "Commands: show-routes | ping <route> | send <route>",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "routing-table.txt", isDir: false }],
+        "/": [{ name: "routes.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/routing-table.txt", value: "FLAG{R0UT3R_", label: "Routing Table Read — Denver Interchange Mapped" },
-        { trigger: "lookup-route 198.51.100.23", value: "F0RW4RDS_T0_", label: "Route Lookup — Longest Prefix Match Found" },
-        { trigger: "drive", value: "N3XT_H0P}", label: "Route Confirmed — Hop-by-Hop Forwarding Understood" },
+        { trigger: "show-routes", value: "FLAG{R0UT3R_", label: "Routes Mapped" },
+        { trigger: "ping route-b", value: "B3ST_", label: "Fastest Route Found" },
+        { trigger: "send route-b", value: "PATH}", label: "Message Sent via Optimal Route!" },
       ],
       extraCommands: {
         "show-routes": () => ({
           lines: [
-            "ROUTING TABLE — Denver Node",
-            "===========================",
-            "Destination          Next Hop        Interface",
-            "10.0.0.0/8           192.168.1.1     eth0 (east)",
-            "172.16.0.0/12        10.0.0.1        eth1 (north)",
-            "198.51.100.0/24      203.0.113.1     eth2 (west)  ← your target range",
-            "0.0.0.0/0            203.0.113.1     eth2 (west)  default",
+            "ROUTES TO LIBRARY:",
+            "  Route A: 3 hops — Academy → Router1 → Router3 → Library",
+            "  Route B: 1 hop  — Academy → Router2 → Library  ← shortest!",
+            "  Route C: 4 hops — Academy → Router1 → Router2 → Router3 → Library",
             "",
-            ">> LEARN: Reading a routing table",
-            "   Each row: destination network → where to send packets for that range.",
-            "   The 0.0.0.0/0 'default route' catches everything with no specific match.",
-            "   Run on your machine: route -n (Linux) or netstat -rn (Mac/Windows)",
+            "Test the speed of each route with: ping <route>",
           ],
         }),
-        "lookup-route": (args) => {
-          const ip = args[0] || "";
-          if (ip.startsWith("198.51.100")) {
+        ping: (args) => {
+          const route = args[0];
+          if (route === "route-a") return { lines: ["Route A: 45ms (3 hops)"] };
+          if (route === "route-b") return { lines: ["Route B: 12ms (1 hop) ← FASTEST!"] };
+          if (route === "route-c") return { lines: ["Route C: 89ms (4 hops)"] };
+          return { lines: ["Unknown route. Try: ping route-a, ping route-b, or ping route-c"] };
+        },
+        send: (args) => {
+          const route = args[0];
+          if (route === "route-b") {
             return {
               lines: [
-                `Looking up route for: ${ip}`,
-                "  Longest prefix match: 198.51.100.0/24",
-                "  Next hop: 203.0.113.1",
-                "  Interface: eth2 (west)",
+                "✓ Sending via Route B (fastest: 12ms, 1 hop)...",
+                "✓ Message arrived at Library in 0.012 seconds!",
                 "",
-                "Your packet goes WEST. Run: set-route west",
-                "",
-                ">> LEARN: Longest prefix match — the core routing algorithm",
-                "   198.51.100.23 matches BOTH 198.51.100.0/24 AND 0.0.0.0/0.",
-                "   The router picks the MOST SPECIFIC match: /24 beats /0.",
-                "   This rule is universal — every router on the internet uses it.",
+                "You chose the best route — just like a smart router!",
+                "Run 'assemble' to claim your reward.",
               ],
             };
           }
-          return { lines: [`No specific route for ${ip}. Would use default: west`] };
+          return { lines: [`Route ${route} works, but it's not the fastest. Try: send route-b`] };
         },
-        "set-route": (args) => {
-          const dir = args[0] || "";
-          if (dir === "west") {
-            return { lines: ["Route set: west via eth2. Run: drive"] };
-          }
-          return { lines: [`Wrong direction: ${dir}. Hint: check lookup-route 198.51.100.23`] };
-        },
-        drive: () => ({
-          lines: [
-            "Driving west on I-80...",
-            "Next router: Salt Lake City interchange",
-            "Next router: Reno interchange",
-            "Next router: Sacramento interchange",
-            "Arrived: San Jose → Santa Cruz",
-            "",
-            "Each interchange = one router hop.",
-            "The internet works the same way — no single router",
-            "knows the full path, just the next hop.",
-            "",
-            ">> LEARN: BGP — the protocol that keeps routing tables synchronized",
-            "   BGP lets routers advertise which IP ranges they can reach.",
-            "   When China Telecom advertised 15% of the internet in 2010, every",
-            "   router updated its table — routing global traffic through China for 18 min.",
-            "   There's no authentication in BGP. That's still true today.",
-            "",
-            "Run 'assemble' to retrieve your fragment.",
-          ],
-        }),
       },
     },
   },
 
-  // ─── BT-05: DNS ───────────────────────────────────────────────────────────
+  // ─── BT-05: DNS ──────────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "AAA Travel Office", location: "Chicago, USA", era: "Present Day", emoji: "🗺️" },
+    wonder: { name: "The Academy Library", location: "CyberVille", era: "Today", emoji: "📚" },
     id: "bt-05",
     order: 5,
-    title: "The Internet's GPS",
-    subtitle: "DNS — Translating Names to Addresses",
+    title: "The Internet's Phone Book",
+    subtitle: "What is DNS?",
     category: "cybersecurity",
     xp: 50,
-    badge: { id: "bt-badge-05", name: "Name Resolver", emoji: "🔍" },
+    badge: { id: "bt-badge-05", name: "DNS Detective", emoji: "📚" },
     challengeType: "ctf",
     info: {
-      tagline: "You type 'google.com'. Your computer has no idea where that is — until it asks DNS.",
+      tagline: "Computers use numbers, but we use names. DNS translates names into numbers so computers understand us.",
       year: 2025,
       overview: [
-        "You stop at the AAA travel office in Chicago. You know you want to go to Santa Cruz — but you need the exact address to put in the GPS. DNS (Domain Name System) does this for the internet: you type 'google.com' and DNS silently translates that into an IP address like 142.250.80.46 so your computer knows where to actually send the request.",
-        "DNS is a distributed database. There are 13 sets of root name servers worldwide, below them hundreds of top-level domain servers (.com, .org, .net), and below them millions of authoritative servers for individual domains. Your router's DNS resolver queries this hierarchy every time you type a domain name.",
-        "DNS responses are cached — your computer remembers the answer for a period defined by the TTL (Time To Live). This keeps DNS fast. But caching also creates risk: if an attacker poisons your DNS cache with a fake answer, you could be sent to a malicious server while thinking you're on the real one.",
+        "When you want to call a friend, you look up their name in your contacts. Your phone finds their phone number and dials it for you. You don't have to remember the number — just the name! DNS does the same thing for the internet.",
+        "Websites have IP addresses (like 142.250.80.46) but those are hard to remember. So we use names like google.com. When you type google.com, a special computer called a DNS server looks up the number and tells your computer where to go.",
+        "DNS stands for Domain Name System. It's like a giant phone book for the whole internet — with billions of names and their matching numbers.",
       ],
       technical: {
-        title: "The DNS Resolution Process",
+        title: "How DNS Works Step by Step",
         body: [
-          "When you type google.com: (1) Your OS checks its local cache. (2) If not cached, it asks your DNS resolver (usually your router or ISP). (3) The resolver asks a root name server for .com. (4) The root refers it to Verisign's .com servers. (5) Verisign refers it to Google's authoritative server. (6) Google's server returns 142.250.80.46. (7) Your OS caches it and connects.",
-          "This full lookup takes 50–200ms. Cached lookups take <1ms. The resolver your device uses is set in network settings — you can change it to any public resolver: 1.1.1.1 (Cloudflare), 8.8.8.8 (Google), or 9.9.9.9 (Quad9). Using an encrypted resolver (DNS-over-HTTPS) prevents your ISP from seeing what sites you're looking up.",
+          "When you type a website name: (1) Your computer asks the DNS server 'What is the IP address for google.com?' (2) The DNS server looks it up and replies '142.250.80.46' (3) Your computer goes to that IP address and gets the website.",
+          "This all happens in less than one second! The DNS server remembers answers it has looked up recently (this is called a cache) so it doesn't have to look everything up every single time.",
         ],
         codeExample: {
-          label: "Querying DNS from the command line",
-          code: `# Basic DNS lookup
-nslookup google.com
+          label: "DNS translation",
+          code: `  You type:  google.com
+           ↓
+  DNS Server looks it up:
+  google.com → 142.250.80.46
+           ↓
+  Your computer goes to:
+  142.250.80.46
+           ↓
+  You see: Google's homepage! ✓
 
-# Detailed DNS query with dig
-dig google.com
-dig google.com MX        # mail records
-dig google.com TXT       # text records (SPF, DKIM)
-
-# Query a specific DNS server
-dig @8.8.8.8 google.com  # ask Google's resolver
-
-# Check what DNS server you're using
-cat /etc/resolv.conf     # Linux/Mac`,
+  Without DNS, you would need to type
+  142.250.80.46 every time — much harder!`,
         },
       },
       incident: {
-        title: "The 2016 Dyn DNS Attack — Taking Down the Internet's GPS",
+        title: "When the Internet's Phone Book Was Attacked",
         when: "October 21, 2016",
-        where: "Dyn DNS, Manchester NH",
-        impact: "Twitter, GitHub, Netflix, Spotify, Reddit unreachable across the US East Coast",
+        where: "United States",
+        impact: "Popular websites went down for millions of people",
         body: [
-          "Dyn is one of the largest DNS providers — it answers 'where is Twitter.com?' for millions of queries per second. The Mirai botnet targeted Dyn directly with a massive DDoS attack. When Dyn's servers went down, millions of users' DNS queries got no answer, so browsers couldn't find Twitter even though Twitter's servers were running fine.",
-          "The lesson: DNS is as critical as the servers themselves. Websites use multiple DNS providers now for redundancy. If DNS fails, it doesn't matter that your server is up — nobody can find it. DNS is the GPS of the internet. Turn off the GPS and everyone gets lost.",
+          "In 2016, hackers attacked a company that runs DNS servers. Without the DNS servers working, people couldn't reach popular websites like Twitter and Netflix — even though those websites were perfectly fine! It's like if someone stole all the phone books so nobody could look up numbers.",
+          "The lesson: DNS is so important that if it breaks, much of the internet stops working. That's why security experts work hard to protect DNS servers.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "You type google.com", sub: "browser has no IP yet", type: "attacker" },
-          { label: "DNS Resolver", sub: "asks the hierarchy", type: "system" },
-          { label: "Authoritative DNS", sub: "google.com = 142.250.80.46", type: "victim" },
-          { label: "IP Address Returned", sub: "browser connects to server", type: "result" },
+          { label: "You type google.com", sub: "a name you remember", type: "attacker" },
+          { label: "DNS Server", sub: "the phone book lookup", type: "system" },
+          { label: "Returns IP address", sub: "142.250.80.46", type: "victim" },
+          { label: "Website loads!", sub: "your computer found it", type: "result" },
         ],
       },
       timeline: [
-        { year: 1983, event: "DNS invented by Paul Mockapetris — replaces the hosts.txt file" },
-        { year: 1987, event: "DNS formalized in RFC 1034/1035 — still the standard today" },
-        { year: 2008, event: "Kaminsky DNS Cache Poisoning vulnerability discovered — critical flaw patched" },
-        { year: 2016, event: "Dyn DNS DDoS attack — major sites unreachable for hours", highlight: true },
+        { year: 1983, event: "DNS invented — before this, everyone used a single shared file to look up names!" },
+        { year: 1993, event: "Web browsers start using DNS to let us type website names" },
+        { year: 2016, event: "Dyn DNS attack — major websites go offline because DNS was hacked", highlight: true },
       ],
       keyTakeaways: [
-        "DNS translates human-readable names (google.com) into IP addresses",
-        "Resolution walks a hierarchy: root → TLD → authoritative server",
-        "Responses are cached for TTL seconds to avoid repeated lookups",
-        "DNS is critical infrastructure — attack DNS and you attack the entire internet",
+        "DNS is like a phone book — it translates website names into IP numbers",
+        "You type google.com; DNS finds the number 142.250.80.46 for you",
+        "DNS servers remember recent lookups (cache) to work faster",
+        "If DNS goes down, websites become unreachable even if they're working fine",
       ],
       references: [
         { title: "How DNS Works — Cloudflare", url: "https://www.cloudflare.com/learning/dns/what-is-dns/" },
-        { title: "Dyn DDoS Attack — Dyn Blog", url: "https://dyn.com/blog/dyn-analysis-summary-of-friday-october-21-attack/" },
       ],
     },
     ctf: {
-      scenario: "Your GPS won't start without the correct coordinates for Santa Cruz. The DNS oracle at the travel office can translate the name to an address — but you need to query it correctly and verify the result isn't a forgery.",
-      hint: "Query the DNS oracle for the Santa Cruz server, then verify the response is legitimate.",
+      scenario: "The Academy's DNS lookup list is scrambled! Match each website name to its correct IP address to restore the phone book.",
+      hint: "Match each website name to its IP address.",
       hints: [
-        "Query the DNS oracle. Run: dns-lookup santacruz.ca",
-        "Check if the response is cached or fresh. Run: check-ttl santacruz.ca",
-        "Verify the response against the authoritative server. Run: verify-dns santacruz.ca",
-        "Accept the verified address. Run: accept-route 198.51.100.23",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See the scrambled list. Run: show-list",
+        "Try matching academy.edu. Run: match academy.edu 10.0.0.1",
+        "Match library.edu. Run: match library.edu 10.0.0.5",
+        "Match gym.edu. Run: match gym.edu 10.0.0.9",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/dns-cache.txt": [
-          "LOCAL DNS CACHE — Travel Office Terminal",
-          "=========================================",
+        "/dns-scrambled.txt": [
+          "SCRAMBLED DNS LIST — NEEDS FIXING!",
+          "=====================================",
+          "Names: academy.edu, library.edu, gym.edu",
+          "IPs:   10.0.0.9,  10.0.0.1,  10.0.0.5",
           "",
-          "Cached entries:",
-          "  santacruz.ca    → 198.51.100.23  TTL: 300s  (fresh)",
-          "  chicago.hub     → 10.0.0.1       TTL: 60s   (expiring)",
-          "  aaa-office.local → 192.168.5.1   TTL: 86400s (permanent)",
+          "CLUES:",
+          "  The Academy has IP ending in .1 (the first one!)",
+          "  The Library has IP ending in .5 (fifth room built)",
+          "  The Gym has IP ending in .9 (the newest building)",
           "",
-          "Use: dns-lookup <host> | check-ttl <host> | verify-dns <host>",
-          "Then: accept-route <ip> once verified.",
+          "Commands: show-list | match <name> <ip>",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "dns-cache.txt", isDir: false }],
+        "/": [{ name: "dns-scrambled.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/dns-cache.txt", value: "FLAG{DNS_TR4NSL4T3S_", label: "DNS Cache Read — Cached Records Inspected" },
-        { trigger: "verify-dns santacruz.ca", value: "N4M3S_T0_", label: "DNS Verified — Response Not Poisoned" },
-        { trigger: "accept-route 198.51.100.23", value: "1PS}", label: "Route Accepted — GPS Locked to Destination" },
+        { trigger: "show-list", value: "FLAG{DNS_", label: "Scrambled List Found" },
+        { trigger: "match academy.edu 10.0.0.1", value: "PH0N3_", label: "Academy Matched Correctly" },
+        { trigger: "match gym.edu 10.0.0.9", value: "B00K}", label: "All Names Matched — DNS Restored!" },
       ],
       extraCommands: {
-        "dns-lookup": (args) => {
-          const host = args[0] || "";
-          if (host.includes("santacruz") || host.includes("santa")) {
-            return {
-              lines: [
-                `Querying DNS for: ${host}`,
-                "  Checking local cache... miss",
-                "  Querying resolver: 1.1.1.1",
-                "  Querying root servers...",
-                "  Querying .ca TLD servers...",
-                "  Querying authoritative server for santacruz.ca...",
-                "",
-                "  ANSWER: santacruz.ca → 198.51.100.23",
-                "  TTL: 300 seconds",
-                "",
-                ">> LEARN: DNS resolution walks a hierarchy",
-                "   Your request went: resolver → root server → .ca TLD → authoritative NS.",
-                "   The answer is now cached for 300 seconds (the TTL value).",
-                "   Try: dig santacruz.ca +trace — watch the full hierarchy resolve live.",
-                "",
-                "Run: verify-dns santacruz.ca to confirm this isn't spoofed.",
-              ],
-            };
-          }
-          return { lines: [`DNS lookup: ${host} → NXDOMAIN (not found)`] };
-        },
-        "check-ttl": (args) => ({
+        "show-list": () => ({
           lines: [
-            `TTL for ${args[0] || "unknown"}: 300 seconds (5 minutes)`,
-            "Response is fresh — not a stale cached entry.",
+            "SCRAMBLED DNS:",
+            "  academy.edu → ???",
+            "  library.edu → ???",
+            "  gym.edu     → ???",
+            "",
+            "Available IPs: 10.0.0.1, 10.0.0.5, 10.0.0.9",
+            "Use clues in dns-scrambled.txt to match them!",
+            "Run: match <name> <ip>",
           ],
         }),
-        "verify-dns": (args) => {
-          const host = args[0] || "";
-          if (host.includes("santacruz")) {
-            return {
-              lines: [
-                "Verifying DNS response against authoritative server...",
-                "  Authoritative NS: ns1.santacruz.ca",
-                "  Response from auth server: 198.51.100.23",
-                "  Cached response:           198.51.100.23",
-                "  MATCH — response is legitimate. Not poisoned.",
-                "",
-                ">> LEARN: DNS cache poisoning is a real and serious attack",
-                "   An attacker who poisons your DNS cache sends you to their server,",
-                "   even when you type the correct domain name.",
-                "   DNSSEC adds cryptographic signatures to prevent this — but adoption is low.",
-                "   Use: dig google.com +dnssec to see if a domain has DNSSEC enabled.",
-              ],
-            };
-          }
-          return { lines: ["Verification failed — unknown host."] };
-        },
-        "accept-route": (args) => {
-          if (args[0] === "198.51.100.23") {
-            return {
-              lines: [
-                "Route accepted: Santa Cruz = 198.51.100.23",
-                "GPS locked. You know where you're going.",
-                "",
-                ">> LEARN: DNS is critical infrastructure — the target, not the server",
-                "   The 2016 Dyn attack took down Twitter, Reddit, Netflix — not by hacking",
-                "   the sites, but by DDoS-ing their DNS provider. Servers were fine; nobody",
-                "   could find them. Attack DNS, and you attack the whole internet.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-              ],
-            };
-          }
-          return { lines: [`Wrong IP: ${args[0]}. Run: dns-lookup santacruz.ca first.`] };
+        match: (args) => {
+          const name = args[0];
+          const ip = args[1];
+          const correct: Record<string, string> = {
+            "academy.edu": "10.0.0.1",
+            "library.edu": "10.0.0.5",
+            "gym.edu": "10.0.0.9",
+          };
+          if (correct[name] === ip) return { lines: [`✓ Correct! ${name} → ${ip}`] };
+          return { lines: [`✗ Wrong match for ${name}. Check the clues and try again.`] };
         },
       },
     },
   },
 
-  // ─── BT-06: MAC Addresses ─────────────────────────────────────────────────
+  // ─── BT-06: MAC Addresses / Device Identity ──────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "US Customs & Border Protection", location: "Los Angeles, USA", era: "Present Day", emoji: "🛂" },
+    wonder: { name: "The Academy ID Office", location: "CyberVille", era: "Today", emoji: "🪪" },
     id: "bt-06",
     order: 6,
-    title: "Your Hardware Passport",
-    subtitle: "MAC Addresses — The Identity Burned Into Every Device",
+    title: "Every Device Has an ID Card",
+    subtitle: "What is a MAC Address?",
     category: "cybersecurity",
     xp: 50,
-    badge: { id: "bt-badge-06", name: "Device Identifier", emoji: "🪪" },
+    badge: { id: "bt-badge-06", name: "Identity Agent", emoji: "🪪" },
     challengeType: "ctf",
     info: {
-      tagline: "Every network card ships from the factory with a unique serial number. That's its MAC address.",
+      tagline: "Every device has a special ID number burned in at the factory — like a device's birthday number that never changes.",
       year: 2025,
       overview: [
-        "At LAX customs, the agent scans your passport. Your passport number is globally unique — no two people share it, and it's linked to you permanently. Every network interface card (WiFi chip, Ethernet port) ships from its manufacturer with a MAC address: a 48-bit hardware identifier burned into the chip at the factory.",
-        "MAC addresses look like this: 00:1A:2B:3C:4D:5E. The first three bytes (00:1A:2B) identify the manufacturer — this is called the OUI (Organizationally Unique Identifier). The last three bytes are the device serial. IEEE assigns OUI blocks to manufacturers: Apple, Intel, Cisco, etc.",
-        "While IP addresses operate at layer 3 (routing across the internet), MAC addresses operate at layer 2 (within your local network). Your router uses MAC addresses to identify which device on the LAN is which. When a device leaves the local network, its MAC address never appears — only the IP.",
+        "When you start at a new school, you get a student ID card with your name and a number. No two students have the same ID number! Every computer, phone, and tablet also has a unique ID number — it's called a MAC address, and it's burned into the device when it's made.",
+        "A MAC address looks like this: A4:C3:F0:27:B3:12. It's a mix of letters and numbers. The manufacturer (the company that made your device) programs this number into the device's hardware before it's sold.",
+        "Your MAC address never changes — it's permanently part of your device. This is different from an IP address, which can change. MAC addresses help routers identify which device on your local network sent a message.",
       ],
       technical: {
-        title: "MAC Address Structure and ARP",
+        title: "MAC vs IP — Two Different IDs",
         body: [
-          "When your device wants to send data to another device on the same local network, it uses ARP (Address Resolution Protocol) to find that device's MAC address. ARP broadcasts 'Who has IP 192.168.1.1?' and the router replies 'That's me — my MAC is 00:1A:2B:3C:4D:5E'. Your device caches this in its ARP table.",
-          "Modern operating systems support MAC address randomization — each time you connect to a new WiFi network, your device uses a randomly generated MAC instead of its permanent one. This prevents retail stores and access points from tracking your device across locations using your MAC address.",
+          "Think of it this way: your student ID number never changes (that's like a MAC address). But your classroom number changes every year (that's like an IP address). Both help identify you, but in different ways.",
+          "IP addresses are used to find devices across the whole internet. MAC addresses are used only on your local network (like inside your home or school). When a message leaves your router to the wider internet, only the IP address matters.",
         ],
         codeExample: {
-          label: "Finding and working with MAC addresses",
-          code: `# View your MAC address (Linux)
-ip link show
-# Look for "link/ether xx:xx:xx:xx:xx:xx"
+          label: "MAC address vs IP address",
+          code: `  MAC address:  A4:C3:F0:27:B3:12
+                (never changes, set at factory)
 
-# View ARP cache (devices on your local network)
-arp -a
+  IP address:   192.168.1.42
+                (can change, set by router)
 
-# Look up manufacturer from MAC OUI
-curl https://api.macvendors.com/00:1A:2B
+  MAC = your permanent ID card
+  IP  = your room number (can change)
 
-# MAC address format: OO:OO:OO:SS:SS:SS
-# First 3 bytes (OUI) = manufacturer
-# Last 3 bytes = device serial`,
+  Both identify your device,
+  but in different situations!`,
         },
       },
       incident: {
-        title: "ARP Spoofing — Impersonating Devices on a Local Network",
-        when: "Ongoing attack technique",
-        where: "Any local network (coffee shops, hotels, offices)",
-        impact: "Attacker intercepts all traffic between victim and router",
+        title: "How MAC Addresses Help Catch Bad Guys",
+        when: "Regularly used by security teams",
+        where: "Home networks and offices",
+        impact: "Helps identify unknown devices",
         body: [
-          "ARP has no authentication. An attacker on the same WiFi network can broadcast fake ARP replies: 'The router's IP is mine — send all traffic to my MAC address.' Every device on the network updates its ARP cache with the lie. The attacker becomes a man-in-the-middle, reading and modifying all unencrypted traffic.",
-          "ARP spoofing is the reason you should never use unencrypted HTTP on public WiFi. The attacker doesn't need to crack any passwords — they just poison ARP and read your traffic as it flows through their machine. HTTPS prevents this because even with the traffic intercepted, they can't decrypt it without the certificate's private key.",
+          "Imagine someone drives to your neighborhood and connects to your WiFi without permission. Even if they hide their IP address, their MAC address is still visible on your local network. Security systems can spot a MAC address that shouldn't be there.",
+          "That's why routers can have a 'guest list' — only devices with approved MAC addresses can connect. It's like having a school door that only opens for students with valid ID cards.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Network Card", sub: "MAC burned in at factory", type: "attacker" },
-          { label: "Local Network", sub: "layer 2 — MAC addressing", type: "system" },
-          { label: "ARP Protocol", sub: "IP → MAC resolution", type: "victim" },
-          { label: "Data Delivered", sub: "to the correct hardware", type: "result" },
+          { label: "Device Made at Factory", sub: "MAC address burned in", type: "attacker" },
+          { label: "Device Connects to WiFi", sub: "shows MAC to router", type: "system" },
+          { label: "Router Checks MAC", sub: "do I recognize this device?", type: "victim" },
+          { label: "Access Granted (or Denied)", sub: "based on ID check", type: "result" },
         ],
       },
       timeline: [
-        { year: 1980, event: "Ethernet invented at Xerox PARC — MAC addresses introduced" },
-        { year: 1982, event: "IEEE standardizes MAC address format (48-bit, OUI structure)" },
-        { year: 1985, event: "ARP (RFC 826) standardized — no authentication ever added" },
-        { year: 2014, event: "iOS 8 introduces MAC randomization — tracking prevention begins", highlight: true },
+        { year: 1980, event: "MAC addresses invented to give every network device a unique ID" },
+        { year: 1990, event: "WiFi uses MAC addresses to manage who can connect" },
+        { year: 2025, event: "Every smartphone, laptop, and smart TV has a MAC address", highlight: true },
       ],
       keyTakeaways: [
-        "MAC addresses are 48-bit hardware identifiers burned into network cards at manufacture",
-        "First 3 bytes = manufacturer OUI; last 3 bytes = device serial",
-        "MAC operates at layer 2 (local network); IP operates at layer 3 (global internet)",
-        "ARP has no authentication — ARP spoofing is a real and easy local network attack",
+        "A MAC address is a permanent ID number burned into every device at the factory",
+        "No two devices have the same MAC address",
+        "MAC addresses are used on local networks; IP addresses are used on the internet",
+        "Routers can use MAC addresses to control which devices are allowed to connect",
       ],
       references: [
-        { title: "MAC Address Explained — Cisco", url: "https://www.cisco.com/c/en/us/support/docs/lan-switching/ethernet/10561-3.html" },
-        { title: "ARP Spoofing — OWASP", url: "https://owasp.org/www-community/attacks/ARP_spoofing" },
+        { title: "What is a MAC Address? — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-mac-address/" },
       ],
     },
     ctf: {
-      scenario: "Customs has flagged an unknown device on the airport's secure network. You need to scan the local network, identify each device's MAC address, match the unknown device to its manufacturer, and flag the unauthorized hardware.",
-      hint: "Scan the network, inspect MAC addresses, and identify the unauthorized device.",
+      scenario: "An unknown device connected to the Cyber Academy network! Check the device list, find the unknown MAC address, and block it from the network.",
+      hint: "Find the unknown device and block it.",
       hints: [
-        "Scan devices on the local network. Run: arp-scan",
-        "Look up the manufacturer of each MAC. Run: oui-lookup 00:1A:2B",
-        "Find the device that doesn't belong. Run: flag-device <mac>",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See all connected devices. Run: list-devices",
+        "Check the approved list. Run: approved-list",
+        "Identify the unknown device. Run: find-unknown",
+        "Block it. Run: block XX:XX:XX:XX:XX:XX (use the unknown MAC)",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/device-registry.txt": [
-          "AIRPORT SECURE NETWORK — DEVICE REGISTRY",
-          "==========================================",
+        "/connected-devices.txt": [
+          "CURRENTLY CONNECTED DEVICES",
+          "============================",
+          "A4:C3:F0:27:B3:12 — Principal's laptop ✓",
+          "B8:27:EB:11:22:33 — Teacher's computer ✓",
+          "DC:A6:32:44:55:66 — UNKNOWN DEVICE ✗",
+          "F4:60:E2:77:88:99 — Library computer ✓",
           "",
-          "Authorized devices:",
-          "  00:1A:2B:AA:BB:CC   router.local         (Cisco Systems)",
-          "  F8:FF:C2:11:22:33   agent-laptop         (Apple, Inc.)",
-          "  DC:A6:32:44:55:66   customs-terminal     (Raspberry Pi Trading)",
-          "",
-          "Unknown devices flagged for review:",
-          "  B8:27:EB:DE:AD:BE   ??? NOT IN REGISTRY ???",
-          "",
-          "Use: arp-scan | oui-lookup <oui> | flag-device <mac>",
+          "Commands: list-devices | approved-list | find-unknown | block <mac>",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "device-registry.txt", isDir: false }],
+        "/": [{ name: "connected-devices.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/device-registry.txt", value: "FLAG{MAC_4DDR3SS_", label: "Device Registry Read — Authorized Devices Listed" },
-        { trigger: "arp-scan", value: "1D3NT1F13S_", label: "ARP Scan Complete — Unknown Device Detected" },
-        { trigger: "flag-device b8:27:eb:de:ad:be", value: "H4RDW4R3}", label: "Unauthorized Device Flagged — Hardware ID Confirmed" },
+        { trigger: "list-devices", value: "FLAG{M4C_", label: "Device List Read — Unknown Found" },
+        { trigger: "find-unknown", value: "1D_", label: "Unknown Device Identified" },
+        { trigger: "block DC:A6:32:44:55:66", value: "BL0CK3D}", label: "Unknown Device Blocked!" },
       ],
       extraCommands: {
-        "arp-scan": () => ({
+        "list-devices": () => ({
           lines: [
-            "ARP Scan — Local Network (192.168.50.0/24)",
-            "===========================================",
-            "IP Address        MAC Address         Hostname",
-            "192.168.50.1      00:1A:2B:AA:BB:CC   router.local",
-            "192.168.50.10     F8:FF:C2:11:22:33   agent-laptop",
-            "192.168.50.42     DC:A6:32:44:55:66   customs-terminal",
-            "192.168.50.99     B8:27:EB:DE:AD:BE   ??? UNKNOWN DEVICE ???",
+            "CONNECTED DEVICES:",
+            "  A4:C3:F0:27:B3:12 — Principal's laptop",
+            "  B8:27:EB:11:22:33 — Teacher's computer",
+            "  DC:A6:32:44:55:66 — UNKNOWN!",
+            "  F4:60:E2:77:88:99 — Library computer",
             "",
-            ">> LEARN: ARP maps IP addresses to hardware (MAC) addresses",
-            "   ARP has NO authentication. Anyone can claim any IP on the local network.",
-            "   ARP spoofing lets an attacker become a man-in-the-middle on any LAN.",
-            "   Try it: arp -a (shows your own ARP cache, devices on your local network)",
-            "",
-            "Run: oui-lookup <first-3-bytes> to identify manufacturers",
+            "Check approved-list then find-unknown.",
           ],
         }),
-        "oui-lookup": (args) => {
-          const oui = (args[0] || "").toUpperCase().replace(/-/g, ":");
-          const db: Record<string, string> = {
-            "00:1A:2B": "Cisco Systems, Inc.",
-            "F8:FF:C2": "Apple, Inc.",
-            "DC:A6:32": "Raspberry Pi Trading Ltd",
-            "B8:27:EB": "Raspberry Pi Foundation — but this device is NOT registered on this network",
-          };
-          return { lines: [`OUI ${oui}: ${db[oui] || "Unknown manufacturer"}`] };
-        },
-        "flag-device": (args) => {
-          const mac = (args[0] || "").toLowerCase();
-          if (mac.includes("b8:27") || mac.includes("de:ad:be") || mac === "192.168.50.99") {
+        "approved-list": () => ({
+          lines: [
+            "APPROVED DEVICES:",
+            "  A4:C3:F0:27:B3:12 ✓",
+            "  B8:27:EB:11:22:33 ✓",
+            "  F4:60:E2:77:88:99 ✓",
+            "",
+            "NOT APPROVED: DC:A6:32:44:55:66",
+          ],
+        }),
+        "find-unknown": () => ({
+          lines: [
+            "UNKNOWN DEVICE FOUND!",
+            "  MAC: DC:A6:32:44:55:66",
+            "  Not on the approved list!",
+            "  This device should not be here.",
+            "",
+            "Run: block DC:A6:32:44:55:66",
+          ],
+        }),
+        block: (args) => {
+          const mac = args[0];
+          if (mac === "DC:A6:32:44:55:66") {
             return {
               lines: [
-                "Device flagged: B8:27:EB:DE:AD:BE",
-                "Manufacturer: Raspberry Pi Foundation",
-                "Status: NOT AUTHORIZED — not in device registry",
-                "Action: Device isolated from network.",
+                `✓ Device ${mac} has been BLOCKED!`,
+                "✓ Unknown device can no longer connect to the academy network.",
                 "",
-                ">> LEARN: Rogue device detection is a real SOC task",
-                "   Every enterprise runs NAC (Network Access Control) to enforce device allowlists.",
-                "   Unknown MACs = unauthorized hardware, compromised device, or insider threat.",
-                "   Real tools: 802.1X port authentication blocks any device not in the registry.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
+                "Great detective work, Junior Agent!",
+                "Run 'assemble' to claim your reward.",
               ],
             };
           }
-          return { lines: [`Device ${args[0]} is authorized. The unknown device has MAC B8:27:EB:DE:AD:BE`] };
+          return { lines: [`${mac} is an approved device. Look for the unknown one.`] };
         },
       },
     },
   },
 
-  // ─── BT-07: Firewalls ─────────────────────────────────────────────────────
+  // ─── BT-07: Firewalls ────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "City Limits — Santa Cruz", location: "Santa Cruz, USA", era: "Present Day", emoji: "🚧" },
+    wonder: { name: "The Academy Security Gate", location: "CyberVille", era: "Today", emoji: "🛡️" },
     id: "bt-07",
     order: 7,
-    title: "The City Checkpoint",
-    subtitle: "Firewalls — What Gets In and What Stays Out",
+    title: "The School Security Guard",
+    subtitle: "What is a Firewall?",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-07", name: "Gate Keeper", emoji: "🛡️" },
+    badge: { id: "bt-badge-07", name: "Firewall Agent", emoji: "🛡️" },
     challengeType: "ctf",
     info: {
-      tagline: "A firewall is just a bouncer: it reads your ID and decides — allowed or denied.",
+      tagline: "A firewall is like a school security guard — it checks everyone trying to get in and keeps the bad stuff out.",
       year: 2025,
       overview: [
-        "You've almost reached Santa Cruz. At the city limits there's a checkpoint: commercial trucks take the Highway 17 bypass, tourists go through downtown, and unauthorized vehicles get turned around. A firewall works identically: it inspects each packet's source IP, destination IP, port, and protocol, then applies a ruleset — allow or deny.",
-        "Firewalls sit between your network and the internet (or between network segments within an organization). Every packet attempting to cross the boundary is evaluated against the rules in order. The first rule that matches wins. Most firewalls end with a default-deny rule: anything not explicitly permitted is blocked.",
-        "Modern 'next-generation' firewalls (NGFWs) go deeper — they can inspect packet contents, identify applications, detect malware signatures, and block based on domain reputation. But the core concept is always the same: rules-based packet filtering.",
+        "Imagine your school has a security guard at the front door. The guard checks everyone who wants to come in — students and teachers are allowed, but strangers without ID are not. A firewall does exactly this for a computer network.",
+        "A firewall is a security system that watches all the messages coming in and going out of a network. It has a list of rules — some messages are allowed through, and some are blocked. Bad messages (like viruses trying to sneak in) get stopped at the door.",
+        "Every computer and network needs a firewall. Without one, anyone on the internet could try to send harmful things directly to your computer.",
       ],
       technical: {
-        title: "Firewall Rule Structure and Types",
+        title: "How Firewalls Make Decisions",
         body: [
-          "A firewall rule specifies: source IP (or range), destination IP (or range), protocol (TCP/UDP/ICMP), port (or range), and action (allow/deny/log). Rules are evaluated top-to-bottom; first match wins. This means rule order matters — a broad allow rule above a narrow deny rule will never let the deny fire.",
-          "Types: packet-filtering firewalls (stateless — each packet evaluated independently), stateful firewalls (track connection state — only allow return traffic for established sessions), and application-layer firewalls (deep packet inspection, can read HTTP/HTTPS content). Your home router runs a stateful firewall by default.",
+          "Firewalls work by checking rules, one by one. Each rule says something like: 'Block messages from unknown places' or 'Allow messages from websites I visited.' If a message matches a blocked rule, it stops. If it matches an allowed rule, it goes through.",
+          "Your home router has a built-in firewall. Windows and Mac computers also have firewalls built in. They're always running in the background, quietly protecting you.",
         ],
         codeExample: {
-          label: "Basic firewall rules with iptables (Linux)",
-          code: `# View current rules
-sudo iptables -L -v
+          label: "Example firewall rules",
+          code: `  FIREWALL RULES (checked in order):
 
-# Allow established connections (return traffic)
-sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+  Rule 1: BLOCK anything from banned sites ✗
+  Rule 2: ALLOW websites I visit (HTTP/HTTPS) ✓
+  Rule 3: ALLOW email (coming in and going out) ✓
+  Rule 4: BLOCK everything else ✗
 
-# Allow SSH from specific IP only
-sudo iptables -A INPUT -p tcp --dport 22 -s 192.168.1.0/24 -j ACCEPT
+  Message arrives → check Rule 1 → no match
+                  → check Rule 2 → MATCH! → ALLOW ✓
 
-# Block all other inbound traffic
-sudo iptables -A INPUT -j DROP
-
-# Allow all outbound traffic
-sudo iptables -A OUTPUT -j ACCEPT`,
+  It's like a checklist the security guard goes through.`,
         },
       },
       incident: {
-        title: "The 2003 Slammer Worm — What Happens Without a Firewall",
-        when: "January 25, 2003",
-        where: "Worldwide — SQL Server systems",
-        impact: "75,000 servers infected in 10 minutes; Bank of America ATMs offline",
+        title: "When No Firewall Means Disaster",
+        when: "2003",
+        where: "The early internet",
+        impact: "Hundreds of thousands of computers infected in minutes",
         body: [
-          "The SQL Slammer worm spread through port 1434 (SQL Server Resolution Protocol). It fit entirely in a single 376-byte UDP packet and needed no user interaction — just an open port. In 10 minutes it infected 75,000 servers worldwide. South Korea lost internet access. Bank of America's 13,000 ATMs went offline.",
-          "The fix was simple: block UDP port 1434 at the firewall. Organizations that had proper firewall rules in place were completely unaffected. Those that didn't — or that had internal servers exposed directly — were compromised within minutes of the worm spreading to their network segment.",
+          "In 2003, a computer virus called Slammer spread across the internet in just 10 minutes. It attacked computers that didn't have firewalls protecting them. It was so fast that it slowed down the entire internet!",
+          "The computers that had firewalls were safe — the firewall blocked the virus at the door. The ones without firewalls got infected. This showed the world that firewalls are not optional — they're essential.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Incoming Packet", sub: "src IP, dst IP, port, protocol", type: "attacker" },
-          { label: "Firewall Ruleset", sub: "rules evaluated top-to-bottom", type: "system" },
-          { label: "First Match Wins", sub: "ALLOW or DENY", type: "victim" },
-          { label: "Packet Forwarded", sub: "or silently dropped", type: "result" },
+          { label: "Message Arrives", sub: "from the internet", type: "attacker" },
+          { label: "Firewall Checks Rules", sub: "is this allowed?", type: "system" },
+          { label: "Decision Made", sub: "allow or block", type: "victim" },
+          { label: "Safe Network Inside", sub: "protected!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1988, event: "First firewall concept described after Morris Worm infects ARPANET" },
-        { year: 1992, event: "First commercial firewall (DEC SEAL) shipped" },
-        { year: 2003, event: "SQL Slammer — unpatched + no firewall = 75K servers in 10 minutes", highlight: true },
-        { year: 2010, event: "Next-gen firewalls (NGFW) with deep packet inspection become standard" },
+        { year: 1988, event: "First firewalls invented after a computer worm spread across the internet" },
+        { year: 2003, event: "SQL Slammer worm — computers without firewalls got infected in minutes" },
+        { year: 2010, event: "Firewalls built into every home router and operating system", highlight: true },
       ],
       keyTakeaways: [
-        "Firewalls filter packets based on IP, port, protocol, and direction",
-        "Rules are evaluated top-to-bottom — first match wins",
-        "Default-deny is the gold standard: block everything not explicitly allowed",
-        "Stateful firewalls track connections — return traffic is allowed automatically",
+        "A firewall is like a security guard — it checks every message going in and out",
+        "Firewalls follow rules to decide what to allow and what to block",
+        "Every computer should have a firewall for protection",
+        "Without a firewall, bad programs can try to sneak into your computer",
       ],
       references: [
-        { title: "Firewalls Explained — Cloudflare", url: "https://www.cloudflare.com/learning/security/what-is-a-firewall/" },
-        { title: "SQL Slammer Worm — CAIDA Analysis", url: "https://www.caida.org/publications/papers/2003/sapphire/" },
+        { title: "What is a Firewall? — Cloudflare", url: "https://www.cloudflare.com/learning/security/what-is-a-firewall/" },
       ],
     },
     ctf: {
-      scenario: "You've arrived at the Santa Cruz city limits checkpoint. The firewall ruleset is misconfigured — it's blocking legitimate traffic and allowing unauthorized connections. Fix the rules and prove you understand firewall logic.",
-      hint: "Read the current rules, identify the problems, and apply the correct fixes.",
+      scenario: "The Academy's firewall has 3 suspicious messages waiting for review. Read each message and decide: ALLOW it or BLOCK it based on the firewall rules.",
+      hint: "Read the rules, then judge each message.",
       hints: [
-        "View the current firewall rules. Run: show-rules",
-        "Test which traffic is currently blocked. Run: test-traffic",
-        "Fix the misconfigured rules. Run: fix-rule <rule-number>",
-        "Verify the firewall is correctly configured. Run: verify",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Read the firewall rules. Run: show-rules",
+        "Inspect message 1. Run: inspect 1",
+        "Inspect messages 2 and 3 the same way.",
+        "Make your decisions: allow 2 and block 1 and 3",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/firewall-rules.txt": [
-          "SANTA CRUZ CHECKPOINT — FIREWALL RULESET",
-          "==========================================",
+        "/firewall-queue.txt": [
+          "FIREWALL QUEUE",
+          "==============",
+          "Message 1: From: UNKNOWN STRANGER, trying to access all files",
+          "Message 2: From: Teacher (known address), requesting homework files",
+          "Message 3: From: VIRUS.BAD, trying to delete things",
           "",
-          "Rule 1: ALLOW  src=ANY          dst=ANY       port=ANY  ← MISCONFIGURED",
-          "Rule 2: DENY   src=ANY          dst=10.0.0.5  port=22   (SSH block — never fires)",
-          "Rule 3: ALLOW  src=10.0.0.0/24  dst=ANY      port=443  (HTTPS — correct)",
-          "Rule 4: DENY   src=ANY          dst=ANY       port=ANY  (default deny — never reached)",
-          "",
-          "Problem: Rule 1 is too broad. Fix it with: fix-rule 1",
-          "Then verify with: verify",
+          "RULES: allow known senders / block unknown strangers / block viruses",
+          "Commands: show-rules | inspect <1-3> | allow <n> | block <n>",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "firewall-rules.txt", isDir: false }],
+        "/": [{ name: "firewall-queue.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/firewall-rules.txt", value: "FLAG{F1R3W4LL_", label: "Firewall Rules Read — Misconfiguration Identified" },
-        { trigger: "test-traffic", value: "RUL3S_PR0T3CT_", label: "Traffic Tested — Attack Surface Measured" },
-        { trigger: "verify", value: "TH3_N3TW0RK}", label: "Firewall Verified — Checkpoint Secured" },
+        { trigger: "show-rules", value: "FLAG{F1R3W4LL_", label: "Rules Read" },
+        { trigger: "block 1", value: "GU4RD_", label: "Threat Blocked" },
+        { trigger: "block 3", value: "0N}", label: "Virus Blocked — Network Secured!" },
       ],
       extraCommands: {
         "show-rules": () => ({
           lines: [
-            "Current Firewall Ruleset:",
-            "========================",
-            "Rule 1: ALLOW  src=ANY       dst=ANY       port=ANY  ← PROBLEM: allows everything",
-            "Rule 2: DENY   src=ANY       dst=10.0.0.5  port=22   (SSH to server — unreachable due to Rule 1)",
-            "Rule 3: ALLOW  src=10.0.0.0/24  dst=ANY   port=443  (HTTPS — correct)",
-            "Rule 4: DENY   src=ANY       dst=ANY       port=ANY  (default deny — never reached)",
+            "FIREWALL RULES:",
+            "  ✓ ALLOW: Messages from known senders (teachers, students)",
+            "  ✗ BLOCK: Messages from unknown strangers",
+            "  ✗ BLOCK: Messages from known viruses or malware",
             "",
-            "Problem: Rule 1 is too broad — it allows all traffic before any deny rules can fire.",
-            "Fix Rule 1 to only allow established connections.",
-            "",
-            ">> LEARN: Rule ordering is the most common firewall misconfiguration",
-            "   Rules evaluate top-to-bottom. First match wins. Order is everything.",
-            "   A broad ALLOW above a specific DENY makes the DENY unreachable (dead rule).",
-            "   Real audit step: review rule order, look for shadowed (never-matching) rules.",
-            "",
-            "Run: fix-rule 1",
+            "Inspect each message: inspect 1, inspect 2, inspect 3",
           ],
         }),
-        "test-traffic": () => ({
-          lines: [
-            "Testing traffic against current ruleset:",
-            "  Attack from 1.2.3.4 → port 3389 (RDP):  ALLOWED  ← should be DENIED",
-            "  Agent SSH → 10.0.0.5 port 22:            ALLOWED  (but wrong — Rule 2 never fires)",
-            "  HTTPS browsing port 443:                 ALLOWED  ✓",
-            "  Inbound port scan from internet:         ALLOWED  ← should be DENIED",
-            "",
-            ">> LEARN: Testing firewall rules = measuring your actual attack surface",
-            "   A rule that looks right on paper may not behave correctly in practice.",
-            "   Real tools: nmap, hping3, or netcat to probe what actually gets through.",
-            "   Penetration testers always test rules — not just read them.",
-          ],
-        }),
-        "fix-rule": (args) => {
-          if (args[0] === "1") {
-            return {
-              lines: [
-                "Rule 1 updated:",
-                "  BEFORE: ALLOW src=ANY dst=ANY port=ANY",
-                "  AFTER:  ALLOW src=ANY dst=ANY state=ESTABLISHED,RELATED",
-                "",
-                "Now only return traffic for existing connections is allowed inbound.",
-                "New traffic from the internet must match a specific ALLOW rule or hit the default DENY.",
-                "",
-                ">> LEARN: Stateful vs stateless firewalls",
-                "   Stateless: evaluates each packet independently (no memory of connections).",
-                "   Stateful: tracks connection state — knows this packet is a REPLY to your request.",
-                "   ESTABLISHED,RELATED lets your outbound traffic come back without opening ports.",
-                "   Your home router uses a stateful firewall. This is why you can browse freely.",
-                "",
-                "Run: verify",
-              ],
-            };
-          }
-          return { lines: [`No issue with Rule ${args[0]}. Fix Rule 1 first.`] };
+        inspect: (args) => {
+          const n = args[0];
+          const msgs: Record<string, string> = {
+            "1": "Message 1: SUSPICIOUS! From unknown stranger. Wants to read ALL files. This should be BLOCKED.",
+            "2": "Message 2: SAFE! From teacher@academy.edu (known address). Wants homework files only. This should be ALLOWED.",
+            "3": "Message 3: DANGEROUS! From VIRUS.BAD. Trying to delete system files! This should be BLOCKED.",
+          };
+          return { lines: [msgs[n] || "Unknown message number."] };
         },
-        verify: () => ({
-          lines: [
-            "Verifying firewall configuration:",
-            "  Attack from 1.2.3.4 → port 3389:  DENIED  ✓",
-            "  Inbound port scan:                 DENIED  ✓",
-            "  HTTPS browsing (established):      ALLOWED ✓",
-            "  SSH to 10.0.0.5 from internet:     DENIED  ✓",
-            "",
-            ">> LEARN: Default-deny is the gold standard",
-            "   Everything not explicitly allowed is blocked. Explicit permission model.",
-            "   SQL Slammer (2003): 75,000 servers infected in 10 minutes via port 1434.",
-            "   A single iptables rule blocking that port would have stopped the entire worm.",
-            "",
-            "Run 'assemble' to retrieve your fragment.",
-          ],
-        }),
+        allow: (args) => {
+          const n = args[0];
+          if (n === "2") return { lines: ["✓ Message 2 ALLOWED — Teacher's request is safe. Homework files shared."] };
+          return { lines: [`Message ${n} should be BLOCKED, not allowed! Check the rules again.`] };
+        },
+        block: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["✓ Message 1 BLOCKED — Unknown stranger turned away!"] };
+          if (n === "3") return { lines: ["✓ Message 3 BLOCKED — Virus stopped at the firewall! Run 'assemble'."] };
+          return { lines: [`Message ${n} doesn't need to be blocked. Check the rules.`] };
+        },
       },
     },
   },
 
-  // ─── BT-08: Ports ─────────────────────────────────────────────────────────
+  // ─── BT-08: Ports ────────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Santa Cruz Harbor", location: "Santa Cruz, USA", era: "Present Day", emoji: "⛵" },
+    wonder: { name: "The Academy Building", location: "CyberVille", era: "Today", emoji: "🚪" },
     id: "bt-08",
     order: 8,
-    title: "The Harbor Gates",
-    subtitle: "Ports — Different Doors for Different Services",
+    title: "Doors Have Numbers Too",
+    subtitle: "What are Ports?",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-08", name: "Port Scanner", emoji: "🔭" },
+    badge: { id: "bt-badge-08", name: "Port Patrol", emoji: "🚪" },
     challengeType: "ctf",
     info: {
-      tagline: "Ports are like gates at a harbor — each vessel docks at a designated slip.",
+      tagline: "Your computer has thousands of numbered doors called ports — different apps use different doors.",
       year: 2025,
       overview: [
-        "You've arrived at Santa Cruz Harbor. Every slip has a number: slip 22 is for sailboats, slip 80 is for fishing vessels, slip 443 is for the ferry. You don't just arrive at 'the harbor' — you dock at a specific slip. Network ports work the same way: a server running multiple services assigns each to a different port number so data goes to the right service.",
-        "Port numbers range from 0 to 65535. The well-known ports (0–1023) are standardized: port 22 (SSH), port 80 (HTTP), port 443 (HTTPS), port 25 (SMTP email), port 53 (DNS), port 3306 (MySQL). A packet arriving at a server includes both a destination IP and a destination port — together they tell the OS which application should receive the data.",
-        "Port scanning is the technique of probing a server to discover which ports have services listening. It's a fundamental recon step in both legitimate network administration and in attacks. Understanding which ports are open — and which services those ports run — is essential to understanding your attack surface.",
+        "Think about a big apartment building. There's one street address, but inside there are many apartments — apartment 1, apartment 2, and so on. Ports are like apartment numbers for your computer! Your computer has one IP address, but thousands of numbered ports.",
+        "Different programs use different port numbers. When you visit a website, your computer uses port 80 or 443. When your email arrives, it uses port 25. This way, many programs can all share the same computer without getting confused.",
+        "Most ports are closed and locked — they don't need to be open. Security experts always close ports that aren't being used, because open ports can be entry points for hackers.",
       ],
       technical: {
-        title: "TCP vs UDP Ports and Common Port Numbers",
+        title: "Important Port Numbers to Know",
         body: [
-          "Both TCP and UDP use port numbers. A server 'listens' on a port by calling bind() and listen() in code. Your OS accepts connections and passes them to the correct application process. Running 'netstat -tlnp' on Linux shows every port that's currently listening and which process owns it.",
-          "Common ports to memorize: 21 (FTP), 22 (SSH), 23 (Telnet — unencrypted, obsolete), 25 (SMTP), 53 (DNS), 80 (HTTP), 110 (POP3), 143 (IMAP), 443 (HTTPS), 3306 (MySQL), 5432 (PostgreSQL), 6379 (Redis), 27017 (MongoDB). Attackers scan for these to find exposed databases and services.",
+          "Port numbers go from 0 to 65,535 (that's a lot of doors!). The most important ones have been given names: port 80 is for websites (HTTP), port 443 is for secure websites (HTTPS), port 22 is for SSH (secure remote control), and port 25 is for email.",
+          "Your firewall controls which ports are open and which are closed. If a port is closed, no program can receive messages through it — the messages just bounce back. This is a key part of keeping computers safe.",
         ],
         codeExample: {
-          label: "Port scanning and checking open ports",
-          code: `# Scan a host for open ports (nmap)
-nmap 192.168.1.1             # basic scan
-nmap -p 1-1024 192.168.1.1  # scan first 1024 ports
-nmap -sV 192.168.1.1        # detect service versions
+          label: "Famous port numbers",
+          code: `  PORT 80   → Websites (http://)
+  PORT 443  → Secure websites (https://)
+  PORT 22   → Remote computer control (SSH)
+  PORT 25   → Email delivery
+  PORT 3389 → Windows remote desktop
 
-# Check what's listening on your machine
-netstat -tlnp    # Linux
-netstat -an      # Mac/Windows
+  If nobody needs email, close port 25!
+  Fewer open doors = harder to break in.
 
-# Test if a specific port is open
-nc -zv 192.168.1.1 22    # test port 22 (SSH)`,
+  Apartment building analogy:
+  IP Address = building address
+  Port = apartment number`,
         },
       },
       incident: {
-        title: "The 2017 WannaCry Ransomware — Port 445 Left Open",
-        when: "May 12, 2017",
-        where: "Worldwide — 200,000 computers in 150 countries",
-        impact: "NHS UK paralyzed; $4B+ in damages",
+        title: "WannaCry — A Virus That Walked Through an Open Door",
+        when: "May 2017",
+        where: "Worldwide — hospitals, companies, government offices",
+        impact: "Over 200,000 computers infected in 150 countries",
         body: [
-          "WannaCry exploited EternalBlue, an NSA-developed vulnerability in Microsoft's SMB protocol (port 445). Any Windows machine with port 445 exposed to the internet and unpatched was vulnerable. WannaCry spread automatically — no user action needed — by scanning for open port 445 and exploiting the vulnerability.",
-          "The UK's National Health Service was devastated: hospitals cancelled 19,000 appointments, ambulances were diverted, and MRI machines went offline. The fix? Block port 445 at the network perimeter (something that should have been done years earlier) and apply the MS17-010 patch. Firewall rules on a single port would have stopped the entire outbreak.",
+          "In 2017, a dangerous virus called WannaCry spread to over 200,000 computers in just a few days. It got in through port 445, which was left open on computers that hadn't been updated.",
+          "Hospitals were hit hard — some had to turn away patients because their computers were locked! The fix was simple in hindsight: close port 445 if you're not using it, and keep your computer updated. Both lessons teach the same thing: unnecessary open ports are a danger.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Incoming Packet", sub: "destination: 10.0.0.5:443", type: "attacker" },
-          { label: "OS Network Stack", sub: "reads destination port", type: "system" },
-          { label: "Port 443 Listener", sub: "HTTPS web server process", type: "victim" },
-          { label: "Web Server App", sub: "handles the HTTPS request", type: "result" },
+          { label: "Your Computer", sub: "one IP address", type: "attacker" },
+          { label: "Many Ports", sub: "like apartment doors", type: "system" },
+          { label: "Each App Uses Its Port", sub: "browser → 443, email → 25", type: "victim" },
+          { label: "Unused Ports Stay Closed", sub: "fewer open doors = safer", type: "result" },
         ],
       },
       timeline: [
-        { year: 1981, event: "TCP port numbers standardized in RFC 793" },
-        { year: 1988, event: "IANA assigned as authority for well-known port numbers (0–1023)" },
-        { year: 2017, event: "WannaCry exploits open port 445 — 200K machines in 150 countries", highlight: true },
-        { year: 2017, event: "EternalBlue patch (MS17-010) released by Microsoft — most orgs hadn't applied it" },
+        { year: 1982, event: "Port numbers standardized so all computers agree on which number means what" },
+        { year: 2017, event: "WannaCry ransomware spreads through open port 445 — 200,000 computers hit", highlight: true },
+        { year: 2025, event: "Security best practice: always close ports you don't need" },
       ],
       keyTakeaways: [
-        "Ports 0–65535 route traffic to specific services on a server",
-        "Well-known ports (0–1023) are standardized: 22=SSH, 80=HTTP, 443=HTTPS",
-        "Port scanning reveals which services are exposed — attackers use this for recon",
-        "Closing unnecessary open ports is a fundamental security hardening step",
+        "Ports are like numbered doors on your computer — each app uses a different door",
+        "Port 80 = websites, port 443 = secure websites, port 22 = remote control",
+        "Closed ports can't be attacked — always close ports you don't use",
+        "Leaving unnecessary ports open is like leaving a door unlocked",
       ],
       references: [
-        { title: "Port Numbers Explained — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/" },
-        { title: "WannaCry Ransomware Attack — NCSC", url: "https://www.ncsc.gov.uk/news/joint-technical-advisory-wannacry-ransomware-attack" },
+        { title: "What is a Port? — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-computer-port/" },
       ],
     },
     ctf: {
-      scenario: "Someone left several harbor slips open that should be closed. Scan the Santa Cruz Harbor server, identify all open ports, find the one with the hidden flag service, and connect to retrieve it.",
-      hint: "Scan all ports, then connect to the interesting one.",
+      scenario: "The Academy server has some ports open that should be closed! Check which ports are open, identify the unnecessary ones, and close them.",
+      hint: "Find the ports that shouldn't be open and close them.",
       hints: [
-        "Scan the harbor server for open ports. Run: port-scan harbor-server",
-        "Connect to the web port. Run: connect 80",
-        "Connect to the SSH port. Run: connect 22",
-        "Connect to the unusual port. Run: connect 8888",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Scan all ports. Run: scan-ports",
+        "See which ones are needed. Run: check-needed",
+        "Close unnecessary port 23. Run: close 23",
+        "Close unnecessary port 8080. Run: close 8080",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/port-list.txt": [
-          "SANTA CRUZ HARBOR — KNOWN SERVICE SLIPS",
-          "=========================================",
+        "/port-scan.txt": [
+          "OPEN PORTS ON ACADEMY SERVER",
+          "=============================",
+          "Port 22   — SSH (needed for remote admin) ✓",
+          "Port 23   — Telnet (old, insecure, NOT needed) ✗",
+          "Port 443  — HTTPS (needed for website) ✓",
+          "Port 8080 — Old test server (NOT needed) ✗",
           "",
-          "Standard slips (well-known ports):",
-          "  Slip 22   — SSH   (secure shell access)",
-          "  Slip 80   — HTTP  (web traffic)",
-          "  Slip 443  — HTTPS (encrypted web)",
-          "  Slip 3306 — MySQL (database — should be internal only!)",
-          "",
-          "Non-standard slips:",
-          "  Slip 8888 — ??? (unknown service — investigate)",
-          "",
-          "Use: port-scan <host> to enumerate open slips.",
-          "Then: connect <port> to interact with each service.",
+          "Commands: scan-ports | check-needed | close <port>",
         ].join("\n"),
       },
       dirs: {
-        "/": [{ name: "port-list.txt", isDir: false }],
+        "/": [{ name: "port-scan.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/port-list.txt", value: "FLAG{P0RTS_AR3_", label: "Port List Read — Harbor Slip Map Reviewed" },
-        { trigger: "port-scan harbor-server", value: "D00RS_T0_", label: "Port Scan Complete — Open Services Enumerated" },
-        { trigger: "connect 8888", value: "S3RV1C3S}", label: "Hidden Service Found — Port 8888 Unlocked" },
+        { trigger: "scan-ports", value: "FLAG{P0RT_", label: "Ports Scanned" },
+        { trigger: "close 23", value: "CL0S3D_", label: "Insecure Port Closed" },
+        { trigger: "close 8080", value: "S4F3}", label: "Unnecessary Port Closed — Server Secured!" },
       ],
       extraCommands: {
-        "port-scan": (args) => {
-          const host = args[0] || "target";
-          return {
-            lines: [
-              `Scanning ${host} for open ports...`,
-              "",
-              "PORT      STATE   SERVICE",
-              "22/tcp    open    ssh",
-              "80/tcp    open    http",
-              "443/tcp   closed",
-              "3306/tcp  open    mysql  ← database exposed to network!",
-              "8888/tcp  open    ???    ← unusual port, unknown service",
-              "",
-              ">> LEARN: Port scanning is step 1 of every security assessment",
-              "   Real tool: nmap -sV -p- <target> — scans all 65,535 ports, detects versions.",
-              "   Open port = running service = potential attack surface.",
-              "   3306 exposed to the network is a critical finding — databases must be internal.",
-              "",
-              "Run: connect <port> to interact with each service",
-            ],
-          };
-        },
-        connect: (args) => {
-          const port = parseInt(args[0] || "0");
-          const responses: Record<number, string[]> = {
-            22: ["SSH-2.0-OpenSSH_8.9", "Connection established. (No credentials to proceed further.)"],
-            80: ["HTTP/1.1 200 OK", "Content: Santa Cruz Harbor homepage. Nothing unusual here."],
-            3306: [
-              "ERROR 1130: Host not allowed to connect to MySQL",
-              "⚠ But this port should NOT be open to the network — database ports must be internal.",
-              "",
-              ">> LEARN: Exposed database ports = critical vulnerability",
-              "   MySQL on 3306, PostgreSQL on 5432, MongoDB on 27017, Redis on 6379.",
-              "   If any of these are reachable from the internet, it's a critical finding.",
-              "   WannaCry spread via port 445 (SMB). Same class of problem — exposed service.",
-            ],
-            8888: [
-              "Connected to port 8888.",
-              "",
-              "HARBOR FLAG SERVICE",
-              "====================",
-              "Welcome, agent. You found the hidden service.",
-              "",
-              ">> LEARN: Non-standard ports are common for hiding services",
-              "   Attackers run backdoors on unusual ports (4444, 8888, 31337) to evade basic scans.",
-              "   Defenders run full-range scans: nmap -p- (all 65,535 ports) not just top 1,000.",
-              "   Any unexpected open port is a finding — ask 'what is this and who authorized it?'",
-              "",
-              "Run 'assemble' to retrieve your fragment.",
-            ],
-          };
-          const resp = responses[port];
-          if (resp) {
-            return { lines: resp, solved: port === 8888 ? false : undefined };
-          }
-          return { lines: [`Connection to port ${port} refused or timed out.`] };
-        },
-      },
-    },
-  },
-
-  // ─── BT-09: Subnets ───────────────────────────────────────────────────────
-  {
-    epochId: "first-journey",
-    wonder: { name: "Downtown Santa Cruz", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏙️" },
-    id: "bt-09",
-    order: 9,
-    title: "Neighborhoods and Districts",
-    subtitle: "Subnets — Dividing the Network Into Zones",
-    category: "cybersecurity",
-    xp: 75,
-    badge: { id: "bt-badge-09", name: "Subnet Architect", emoji: "🏘️" },
-    challengeType: "ctf",
-    info: {
-      tagline: "Santa Cruz has neighborhoods. Networks have subnets. Same idea — zones with controlled crossings.",
-      year: 2025,
-      overview: [
-        "Santa Cruz is divided into neighborhoods: the Westside, the Eastside, Downtown, and Live Oak. You can drive freely within your neighborhood, but to reach another district you go through a specific intersection. Subnets work the same way: a subnet is a logical division of an IP network. Devices on the same subnet communicate directly; devices on different subnets must go through a router.",
-        "A subnet is defined by an IP address and a subnet mask. The mask tells you which bits of the IP address are the 'network' part and which are the 'host' part. For example: 192.168.1.0/24 means the first 24 bits are the network (192.168.1) and the last 8 bits identify devices (0–255). This subnet holds up to 254 devices.",
-        "Subnetting is a core tool for network security and organization. An organization might put servers on 10.0.1.0/24, workstations on 10.0.2.0/24, and IoT devices on 10.0.3.0/24. Traffic between subnets must pass through a firewall, allowing strict control over what can talk to what.",
-      ],
-      technical: {
-        title: "Reading CIDR Notation and Subnet Masks",
-        body: [
-          "CIDR notation (/24, /16, /8) tells you how many bits are in the network portion. /24 = 255.255.255.0 = 254 hosts. /16 = 255.255.0.0 = 65,534 hosts. /8 = 255.0.0.0 = 16 million hosts. To find if two IPs are on the same subnet: apply the mask to both IPs with bitwise AND — if the results match, they're in the same subnet.",
-          "Private IP ranges (RFC 1918) for internal networks: 10.0.0.0/8 (large enterprises), 172.16.0.0/12 (medium networks), 192.168.0.0/16 (home/small office). These addresses are never routed on the public internet — your router NATs them to your public IP.",
-        ],
-        codeExample: {
-          label: "Subnet calculation and network inspection",
-          code: `# Find your IP and subnet mask
-ip addr show     # Linux — look for "192.168.1.5/24"
-
-# ipcalc tool for subnet math
-ipcalc 192.168.1.0/24
-# Shows: network, broadcast, first/last host, num hosts
-
-# Are two IPs on the same subnet?
-# 192.168.1.5 and 192.168.1.100 with /24:
-# Both have network part 192.168.1.x → same subnet ✓
-# 192.168.1.5 and 192.168.2.100 with /24:
-# 192.168.1 ≠ 192.168.2 → different subnets, need router`,
-        },
-      },
-      incident: {
-        title: "Flat Networks and the Target Breach — No Subnetting = No Containment",
-        when: "November 2013",
-        where: "Target Corporation, Minneapolis MN",
-        impact: "40 million credit cards stolen; $290M in damages",
-        body: [
-          "Target's network was insufficiently segmented. Attackers entered through the HVAC vendor's credentials — Fazio Mechanical had remote access to Target's network for monitoring heating systems. In a properly segmented network, the HVAC subnet would have no route to the payment processing subnet.",
-          "Instead, Target's POS (point-of-sale) terminals and HVAC systems were on the same flat network. Once attackers had Fazio's credentials, they could reach the POS systems directly and install credit card skimming malware. Proper subnetting with firewall rules between segments would have contained the breach. The lesson: network segmentation limits blast radius.",
-        ],
-      },
-      diagram: {
-        nodes: [
-          { label: "10.0.1.0/24", sub: "servers subnet", type: "attacker" },
-          { label: "10.0.2.0/24", sub: "workstations subnet", type: "system" },
-          { label: "Router/Firewall", sub: "controls inter-subnet traffic", type: "victim" },
-          { label: "10.0.3.0/24", sub: "IoT/guest subnet — isolated", type: "result" },
-        ],
-      },
-      timeline: [
-        { year: 1981, event: "Classful networking (Class A/B/C) — rigid, wasteful subnetting" },
-        { year: 1993, event: "CIDR (Classless Inter-Domain Routing) introduced — flexible /notation" },
-        { year: 2013, event: "Target breach — flat network allows HVAC vendor → POS lateral movement", highlight: true },
-        { year: 2016, event: "Zero-trust networking emerges — 'assume breach, verify everything'" },
-      ],
-      keyTakeaways: [
-        "A subnet groups devices that communicate directly without a router",
-        "CIDR /notation tells you network size: /24 = 254 hosts, /16 = 65,534 hosts",
-        "Devices on different subnets must go through a router or firewall",
-        "Network segmentation limits breach blast radius — compromise one subnet, not all",
-      ],
-      references: [
-        { title: "Subnetting Explained — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-subnet/" },
-        { title: "Target Breach — US Senate Commerce Committee Report", url: "https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883" },
-      ],
-    },
-    ctf: {
-      scenario: "Santa Cruz city network is supposed to be segmented into three districts. Discover which subnet each device is on, identify the device that's on the wrong subnet (security violation), and report it.",
-      hint: "Calculate subnet membership for each device and find the one that doesn't belong.",
-      hints: [
-        "View the network map. Run: show-network",
-        "Check subnet membership for each device. Run: subnet-check 10.0.1.50",
-        "Find the device on the wrong subnet. Run: subnet-check 10.0.2.15",
-        "Report the violation. Run: report-violation <ip>",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      files: {
-        "/network-map.txt": [
-          "SANTA CRUZ CITY NETWORK — SUBNET MAP",
-          "======================================",
-          "",
-          "Defined subnets:",
-          "  10.0.1.0/24  — Servers district    (web, database)",
-          "  10.0.2.0/24  — Workstations district (staff computers)",
-          "  10.0.3.0/24  — IoT/Cameras district  (sensors, cameras)",
-          "",
-          "Registered devices:",
-          "  10.0.1.5   web-server-01      → Servers       ✓",
-          "  10.0.1.20  database-01        → Servers       ✓",
-          "  10.0.2.15  camera-lobby-01    → Workstations  ← WRONG SUBNET",
-          "  10.0.3.8   iot-sensor-01      → IoT           ✓",
-          "  10.0.2.44  workstation-alice  → Workstations  ✓",
-          "",
-          "Use: subnet-check <ip> to verify placement.",
-          "Then: report-violation <ip> to flag misplaced devices.",
-        ].join("\n"),
-      },
-      dirs: {
-        "/": [{ name: "network-map.txt", isDir: false }],
-      },
-      fragments: [
-        { trigger: "/network-map.txt", value: "FLAG{SUBN3TS_", label: "Network Map Read — Subnet Layout Inspected" },
-        { trigger: "subnet-check 10.0.2.15", value: "1S0L4T3_N3TW0RK_", label: "Violation Found — Camera on Wrong Subnet" },
-        { trigger: "report-violation 10.0.2.15", value: "Z0N3S}", label: "Violation Reported — Segmentation Mastered" },
-      ],
-      extraCommands: {
-        "show-network": () => ({
+        "scan-ports": () => ({
           lines: [
-            "Santa Cruz City Network — Subnet Map",
-            "=====================================",
-            "Subnet 10.0.1.0/24  — Servers district",
-            "Subnet 10.0.2.0/24  — Workstations district",
-            "Subnet 10.0.3.0/24  — IoT/Cameras district",
+            "PORT SCAN RESULTS:",
+            "  Port 22:   OPEN — SSH (remote admin)",
+            "  Port 23:   OPEN — Telnet (insecure!)",
+            "  Port 443:  OPEN — HTTPS (website)",
+            "  Port 8080: OPEN — Old test server",
             "",
-            "Registered devices:",
-            "  10.0.1.5   — web-server-01      (should be: servers)",
-            "  10.0.1.20  — database-01        (should be: servers)",
-            "  10.0.2.15  — camera-lobby-01    (should be: IoT!)",
-            "  10.0.3.8   — iot-sensor-01      (should be: IoT)",
-            "  10.0.2.44  — workstation-alice  (should be: workstations)",
-            "",
-            ">> LEARN: Network segmentation limits lateral movement",
-            "   If a camera is compromised, it should ONLY reach other cameras — not workstations.",
-            "   Traffic between subnets must pass through a router/firewall = a chokepoint.",
-            "   Target breach (2013): HVAC vendor reached POS terminals — flat network, no segments.",
+            "Run: check-needed to see which are necessary.",
           ],
         }),
-        "subnet-check": (args) => {
-          const ip = args[0] || "";
-          const map: Record<string, { subnet: string; expected: string; ok: boolean }> = {
-            "10.0.1.5": { subnet: "10.0.1.0/24 (Servers)", expected: "Servers", ok: true },
-            "10.0.1.20": { subnet: "10.0.1.0/24 (Servers)", expected: "Servers", ok: true },
-            "10.0.2.15": { subnet: "10.0.2.0/24 (Workstations)", expected: "IoT/Cameras", ok: false },
-            "10.0.3.8": { subnet: "10.0.3.0/24 (IoT)", expected: "IoT", ok: true },
-            "10.0.2.44": { subnet: "10.0.2.0/24 (Workstations)", expected: "Workstations", ok: true },
-          };
-          const result = map[ip];
-          if (!result) return { lines: [`Unknown device: ${ip}`] };
-          const learnLine = result.ok
-            ? "   This device is correctly isolated in its designated subnet."
-            : "   This device CAN REACH workstations — that's unacceptable for a camera.";
-          return {
-            lines: [
-              `Device: ${ip}`,
-              `  Current subnet:  ${result.subnet}`,
-              `  Expected subnet: ${result.expected}`,
-              `  Status: ${result.ok ? "✓ Correct" : "⚠ VIOLATION — wrong subnet!"}`,
-              "",
-              ">> LEARN: CIDR notation tells you which devices share a subnet",
-              "   10.0.2.15/24: network = 10.0.2.x, host = .15. Same /24 = same subnet.",
-              "   Two IPs on different /24 subnets MUST go through a router to communicate.",
-              learnLine,
-            ],
-          };
-        },
-        "report-violation": (args) => {
-          const ip = args[0] || "";
-          if (ip === "10.0.2.15") {
-            return {
-              lines: [
-                "Violation reported: 10.0.2.15 (camera-lobby-01)",
-                "  Camera is on the Workstations subnet — should be IoT subnet.",
-                "  Risk: if camera is compromised, attacker is on workstations network.",
-                "",
-                ">> LEARN: Misplaced devices expand the blast radius of any compromise",
-                "   Blast radius = how far an attacker can move from an initial foothold.",
-                "   Proper segmentation: compromise a camera → attacker stuck in IoT subnet.",
-                "   Without segmentation: compromise a camera → attacker on every workstation.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-              ],
-            };
-          }
-          return { lines: [`${ip} is correctly placed. Check all devices with subnet-check.`] };
+        "check-needed": () => ({
+          lines: [
+            "NEEDED PORTS:",
+            "  Port 22:  ✓ SSH — needed for admin",
+            "  Port 443: ✓ HTTPS — needed for website",
+            "",
+            "NOT NEEDED:",
+            "  Port 23:   ✗ Telnet — old and insecure, should be closed",
+            "  Port 8080: ✗ Old test server — not used, should be closed",
+            "",
+            "Close them: close 23 and close 8080",
+          ],
+        }),
+        close: (args) => {
+          const port = args[0];
+          if (port === "23") return { lines: ["✓ Port 23 (Telnet) CLOSED! Old insecure door is now locked."] };
+          if (port === "8080") return { lines: ["✓ Port 8080 (Old test server) CLOSED! Unnecessary door locked. Run 'assemble'."] };
+          return { lines: [`Port ${port} is needed — don't close it. Close 23 and 8080 instead.`] };
         },
       },
     },
   },
 
-  // ─── BT-10: Protocols ─────────────────────────────────────────────────────
+  // ─── BT-09: Subnets ──────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Highway 1, Pacific Coast", location: "California, USA", era: "Present Day", emoji: "🌅" },
-    id: "bt-10",
-    order: 10,
-    title: "Rules of the Road",
-    subtitle: "Protocols — The Agreed Language of the Internet",
+    wonder: { name: "The Academy Neighborhoods", location: "CyberVille", era: "Today", emoji: "🏘️" },
+    id: "bt-09",
+    order: 9,
+    title: "The School Has Different Wings",
+    subtitle: "What is a Subnet?",
     category: "cybersecurity",
     xp: 75,
-    badge: { id: "bt-badge-10", name: "Protocol Analyst", emoji: "📡" },
+    badge: { id: "bt-badge-09", name: "Network Mapper", emoji: "🏘️" },
     challengeType: "ctf",
     info: {
-      tagline: "A protocol is just an agreement: here's how we talk so we can understand each other.",
+      tagline: "A subnet divides a big network into smaller groups — like how a school has different wings or floors.",
       year: 2025,
       overview: [
-        "Driving Highway 1 along the Pacific coast, you follow agreed rules: drive on the right, signal before turning, stop at red lights. These rules let strangers from different countries share the same road safely. Network protocols are the same: agreed-upon rules for how devices communicate. Without protocols, two devices would be sending data neither could interpret.",
-        "The internet runs on a layered protocol stack. At the bottom, Ethernet and WiFi handle physical transmission. Above that, IP handles addressing and routing. Above that, TCP or UDP handle reliable or fast delivery. At the top, application protocols like HTTP, SMTP, and SSH handle the actual service being used. Each layer only talks to the layer directly above and below it.",
-        "Understanding protocols is fundamental to security. Every vulnerability is ultimately a violation of a protocol's assumptions — a crafted packet that exploits the way TCP handles sequence numbers, a request that abuses how HTTP handles headers, a DNS response that lies about a name-to-IP mapping.",
+        "Your school has different areas — maybe a math wing, a science wing, and a gym. Students in the math wing mostly stay there, and only go to the science wing when they need to. Networks have the same idea, called subnets!",
+        "A subnet is a smaller group of computers inside a bigger network. The computers in one subnet can talk to each other easily. To talk to computers in a different subnet, the message has to go through a router first.",
+        "This is really useful for security! If someone sneaks into one part of the network, the subnets keep them from easily getting to all the other parts. It's like having locked doors between school wings.",
       ],
       technical: {
-        title: "The TCP/IP Model and Protocol Layers",
+        title: "How Subnets Help Security",
         body: [
-          "Layer 1 (Physical): bits over wire/air. Layer 2 (Data Link): MAC addresses, Ethernet frames. Layer 3 (Network): IP addresses, routing. Layer 4 (Transport): TCP (reliable) or UDP (fast). Layer 5-7 (Application): HTTP, DNS, SMTP, SSH, TLS. Each layer adds a header wrapping the layer above — a process called encapsulation.",
-          "TCP uses a three-way handshake to establish a connection: SYN → SYN-ACK → ACK. It guarantees delivery, ordering, and error correction. UDP sends datagrams with no handshake, no acknowledgment, no guaranteed order — faster and lower overhead, used for DNS, video calls, games, and streaming.",
+          "In a home, all your devices are usually in one subnet. In a school or company, different subnets might separate students from teachers, or separate the finance department from engineering.",
+          "If a hacker gets into the student subnet, they still can't reach the teacher subnet without getting through a router with firewall rules. Subnets are like compartments in a submarine — if one floods, the others are protected!",
         ],
         codeExample: {
-          label: "Observing protocols in action",
-          code: `# Watch the TCP handshake and HTTP traffic
-sudo tcpdump -i any port 80 -v
+          label: "Subnets in a school network",
+          code: `  CYBER ACADEMY SUBNETS:
 
-# See what protocol a connection uses
-netstat -tlnp
+  Student Computers:  10.0.1.0 - 10.0.1.255
+  Teacher Computers:  10.0.2.0 - 10.0.2.255
+  Admin Computers:    10.0.3.0 - 10.0.3.255
+  Guest WiFi:         10.0.4.0 - 10.0.4.255
 
-# HTTP request (unencrypted — visible on network)
-curl -v http://example.com
-
-# TLS handshake details (HTTPS)
-curl -v https://example.com 2>&1 | grep -E "SSL|TLS|Connected"`,
+  Students can't see teacher files!
+  Guests can't reach admin computers!
+  Each group is in its own safe zone.`,
         },
       },
       incident: {
-        title: "The TCP SYN Flood — Exploiting Protocol Design",
-        when: "1996 — First documented large-scale attacks",
-        where: "Early internet servers",
-        impact: "Servers overwhelmed; basis for all modern DDoS attacks",
+        title: "The Store That Didn't Use Subnets",
+        when: "2013",
+        where: "Target stores, United States",
+        impact: "40 million credit card numbers stolen",
         body: [
-          "The TCP handshake has an inherent flaw: when a server receives a SYN, it allocates memory for the half-open connection and waits for the ACK that completes the handshake. If the ACK never comes — because the source IP was spoofed — the server waits (typically 75 seconds) before releasing that memory.",
-          "A SYN flood sends millions of SYN packets with fake source IPs. The server fills its connection table with half-open connections and can no longer accept legitimate traffic. This attack exploits the protocol design itself — TCP's designers in the 1970s never anticipated malicious actors. Modern mitigations include SYN cookies, which avoid allocating memory until the handshake completes.",
+          "In 2013, hackers broke into Target's network through a heating and cooling company that had computer access. Because Target's network had no subnets separating the heating computers from the payment computers, the hackers could reach everything!",
+          "They stole 40 million credit card numbers. If Target had used subnets — keeping heating computers in one zone and payment computers in another — the hackers would have been stopped. Subnets would have been the locked door that saved them.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Application Data", sub: "what you actually send", type: "attacker" },
-          { label: "TCP/UDP Layer", sub: "reliable or fast delivery", type: "system" },
-          { label: "IP Layer", sub: "addressing and routing", type: "victim" },
-          { label: "Ethernet/WiFi", sub: "physical transmission", type: "result" },
+          { label: "Subnet A (Students)", sub: "can't reach Subnet B", type: "attacker" },
+          { label: "Router Between Subnets", sub: "controls who crosses over", type: "system" },
+          { label: "Subnet B (Teachers)", sub: "protected from students", type: "victim" },
+          { label: "If A is hacked", sub: "B stays safe!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1974, event: "TCP/IP designed by Vint Cerf and Bob Kahn" },
-        { year: 1983, event: "TCP/IP replaces NCP as ARPANET's protocol — the modern internet is born" },
-        { year: 1996, event: "SYN flood attacks first documented — TCP design flaw exploited at scale", highlight: true },
-        { year: 2000, event: "SYN cookies standardized — mitigates SYN flood without state" },
+        { year: 1985, event: "Subnets invented to organize large networks" },
+        { year: 2013, event: "Target breach — no subnets meant hackers could reach everything", highlight: true },
+        { year: 2025, event: "All good network designs use subnets to protect sensitive areas" },
       ],
       keyTakeaways: [
-        "Protocols are agreed rules for communication — without them, data is noise",
-        "The internet uses a 4-layer model: Link → Network → Transport → Application",
-        "TCP = reliable (handshake, ACK); UDP = fast (no guarantee)",
-        "Every vulnerability exploits a flaw or unintended behavior in a protocol",
+        "A subnet divides a network into smaller, separate groups",
+        "Computers in different subnets must go through a router to talk to each other",
+        "Subnets improve security by limiting how far a hacker can move",
+        "Good networks separate sensitive areas (like payment systems) into their own subnets",
+      ],
+      references: [
+        { title: "What is a Subnet? — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-a-subnet/" },
+      ],
+    },
+    ctf: {
+      scenario: "The Academy network needs to be divided into 3 subnets: Students, Teachers, and Guests. Assign each computer to the right subnet to secure the network.",
+      hint: "Assign computers to their correct subnets.",
+      hints: [
+        "See all computers. Run: list-computers",
+        "See the subnet plan. Run: subnet-plan",
+        "Assign student computer. Run: assign SC-1 students",
+        "Assign teacher computer. Run: assign TC-1 teachers",
+        "Assign guest device. Run: assign GD-1 guests",
+        "Run 'assemble' to collect your reward, then submit the flag",
+      ],
+      files: {
+        "/network-plan.txt": [
+          "ACADEMY NETWORK — SUBNET PLAN",
+          "==============================",
+          "Computers to assign:",
+          "  SC-1: Student laptop",
+          "  TC-1: Teacher's computer",
+          "  GD-1: Parent visiting (guest)",
+          "",
+          "Subnets: students | teachers | guests",
+          "Commands: list-computers | subnet-plan | assign <device> <subnet>",
+        ].join("\n"),
+      },
+      dirs: {
+        "/": [{ name: "network-plan.txt", isDir: false }],
+      },
+      fragments: [
+        { trigger: "subnet-plan", value: "FLAG{SUBN3T_", label: "Subnet Plan Reviewed" },
+        { trigger: "assign SC-1 students", value: "Z0N3_", label: "Student Computer Assigned" },
+        { trigger: "assign GD-1 guests", value: "S3CUR3}", label: "All Devices Assigned — Network Secured!" },
+      ],
+      extraCommands: {
+        "list-computers": () => ({
+          lines: [
+            "COMPUTERS WAITING FOR SUBNET ASSIGNMENT:",
+            "  SC-1 — Student laptop (belongs with students)",
+            "  TC-1 — Teacher's computer (belongs with teachers)",
+            "  GD-1 — Parent's device (belongs with guests)",
+            "",
+            "Run: subnet-plan to see the plan.",
+          ],
+        }),
+        "subnet-plan": () => ({
+          lines: [
+            "SUBNET PLAN:",
+            "  students: 10.0.1.x — only student computers",
+            "  teachers: 10.0.2.x — only teacher computers",
+            "  guests:   10.0.4.x — visitors, no access to school files",
+            "",
+            "Assign each device: assign <device> <subnet>",
+          ],
+        }),
+        assign: (args) => {
+          const device = args[0];
+          const subnet = args[1];
+          const correct: Record<string, string> = { "SC-1": "students", "TC-1": "teachers", "GD-1": "guests" };
+          if (correct[device] === subnet) {
+            return { lines: [`✓ ${device} assigned to ${subnet} subnet! Correct!`] };
+          }
+          return { lines: [`✗ ${device} doesn't belong in ${subnet}. Think about what kind of device it is.`] };
+        },
+      },
+    },
+  },
+
+  // ─── BT-10: Protocols ────────────────────────────────────────────────────
+  {
+    epochId: "first-journey",
+    wonder: { name: "The Academy Playground", location: "CyberVille", era: "Today", emoji: "🎮" },
+    id: "bt-10",
+    order: 10,
+    title: "Speaking the Same Language",
+    subtitle: "What is a Protocol?",
+    category: "cybersecurity",
+    xp: 75,
+    badge: { id: "bt-badge-10", name: "Protocol Pioneer", emoji: "📡" },
+    challengeType: "ctf",
+    info: {
+      tagline: "Protocols are agreed rules that let computers talk to each other — like the rules of a game everyone has to follow.",
+      year: 2025,
+      overview: [
+        "Imagine two kids who want to play a game, but one speaks only English and the other speaks only Spanish. They need a shared language to play together! Protocols are the shared languages that computers use so they can understand each other.",
+        "A protocol is a set of rules that says: 'Here's exactly how we send messages, how we start conversations, and how we end them.' If both computers follow the same rules, they can communicate perfectly even if they're made by different companies.",
+        "The most important protocols on the internet are called TCP and IP. TCP makes sure messages arrive completely and in order. IP handles addressing (getting messages to the right computer). Together, TCP/IP is the language of the internet.",
+      ],
+      technical: {
+        title: "Two Important Protocols: TCP and UDP",
+        body: [
+          "TCP is like sending a registered letter — you get a confirmation that every piece arrived safely, and if something is missing, it gets resent. Websites use TCP because all the content needs to arrive perfectly.",
+          "UDP is like shouting across a field — it's fast but you don't always know if the other person heard you. Games and video calls use UDP because a tiny bit of missing data is okay, but slowness is not.",
+        ],
+        codeExample: {
+          label: "TCP vs UDP — when to use which",
+          code: `  TCP — reliable, confirms delivery:
+  ✓ Loading websites
+  ✓ Downloading files
+  ✓ Sending emails
+  (We need every piece to arrive!)
+
+  UDP — fast, no confirmation:
+  ✓ Video calls (Zoom, FaceTime)
+  ✓ Online games (Minecraft, Roblox)
+  ✓ Live streaming
+  (Speed matters more than perfection!)`,
+        },
+      },
+      incident: {
+        title: "When Rules Are Broken — SYN Flood Attack",
+        when: "1996 and still happening today",
+        where: "Servers across the internet",
+        impact: "Servers get overwhelmed and crash",
+        body: [
+          "TCP has a rule: when you start a connection, you shake hands. Computer A says 'Hello!' (SYN). Server says 'Hello back!' (SYN-ACK). Computer A says 'Got it!' (ACK). Then they talk.",
+          "A SYN flood attack sends millions of 'Hello!' messages but never completes the handshake. The server is left waiting for millions of 'Got it!' responses that never come. It gets so busy waiting that it can't talk to real users. Knowing the rules helps us understand how attackers break them.",
+        ],
+      },
+      diagram: {
+        nodes: [
+          { label: "Computer A", sub: "speaks TCP/IP", type: "attacker" },
+          { label: "Protocol Rules", sub: "the agreed language", type: "system" },
+          { label: "Computer B", sub: "also speaks TCP/IP", type: "victim" },
+          { label: "They Understand Each Other!", sub: "communication works", type: "result" },
+        ],
+      },
+      timeline: [
+        { year: 1974, event: "TCP/IP invented — the language of the internet" },
+        { year: 1983, event: "All internet computers switch to TCP/IP" },
+        { year: 2025, event: "Every message you send online uses TCP/IP", highlight: true },
+      ],
+      keyTakeaways: [
+        "Protocols are rules that let computers speak the same language",
+        "TCP delivers messages reliably and in order — used for websites and files",
+        "UDP is faster but doesn't guarantee delivery — used for games and video calls",
+        "Knowing protocols helps us understand both how to use networks and how to protect them",
       ],
       references: [
         { title: "TCP/IP Explained — Cloudflare", url: "https://www.cloudflare.com/learning/ddos/glossary/tcp-ip/" },
-        { title: "SYN Flood Attack — OWASP", url: "https://owasp.org/www-community/attacks/SYN_Flood" },
       ],
     },
     ctf: {
-      scenario: "You're on Highway 1. Two transmissions have been intercepted — one TCP, one UDP. Analyze each, identify the protocol from its characteristics, and decode the hidden message carried inside the TCP stream.",
-      hint: "Analyze the traffic captures to identify TCP vs UDP, then decode the TCP payload.",
+      scenario: "Two Academy computers are trying to send data but something went wrong. One is using TCP (needs to be perfect) and one is using UDP (needs to be fast). Match each file type to the right protocol.",
+      hint: "Match each file type to the right protocol.",
       hints: [
-        "Inspect the first capture. Run: analyze capture-1",
-        "Inspect the second capture. Run: analyze capture-2",
-        "Identify which is TCP. Run: identify tcp",
-        "Decode the TCP stream payload. Run: decode capture-1",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See the files waiting. Run: list-files",
+        "Check which needs TCP. Run: info homework.pdf",
+        "Check which needs UDP. Run: info game-update",
+        "Send each correctly: send homework.pdf tcp and send game-update udp",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/capture-1.log": [
-          "PACKET CAPTURE — capture-1.log",
-          "================================",
-          "[0.000] SYN     seq=0            src=10.0.0.5:54321  dst=198.51.100.23:80",
-          "[0.012] SYN-ACK seq=0  ack=1     src=198.51.100.23:80  dst=10.0.0.5:54321",
-          "[0.013] ACK     seq=1  ack=1     src=10.0.0.5:54321  dst=198.51.100.23:80",
-          "[0.014] DATA    seq=1  len=512   PAYLOAD: [encoded]",
-          "[0.089] ACK     ack=513          (delivery confirmed)",
-          "[0.090] DATA    seq=513 len=256  PAYLOAD: [encoded]",
-          "[0.150] ACK     ack=769          (delivery confirmed)",
-        ].join("\n"),
-        "/capture-2.log": [
-          "PACKET CAPTURE — capture-2.log",
-          "================================",
-          "[0.000] DGRAM  src=10.0.0.5:5353   dst=224.0.0.251:5353  len=64",
-          "[0.001] DGRAM  src=10.0.0.5:5353   dst=224.0.0.251:5353  len=64",
-          "[0.040] DGRAM  src=10.0.0.5:5353   dst=224.0.0.251:5353  len=64",
-          "No acknowledgments. No sequence numbers. No handshake.",
-          "Fire and forget.",
+        "/files-to-send.txt": [
+          "FILES WAITING TO BE SENT",
+          "========================",
+          "homework.pdf     — must arrive PERFECT, not a byte missing!",
+          "game-update      — needs to be FAST, tiny errors OK",
+          "video-call-data  — speed matters most",
+          "test-scores.xlsx — must arrive PERFECT",
+          "",
+          "Commands: list-files | info <file> | send <file> <tcp|udp>",
         ].join("\n"),
       },
       dirs: {
-        "/": [
-          { name: "capture-1.log", isDir: false },
-          { name: "capture-2.log", isDir: false },
-        ],
+        "/": [{ name: "files-to-send.txt", isDir: false }],
       },
       fragments: [
-        { trigger: "/capture-1.log", value: "FLAG{TCP_1S_R3L14BL3_", label: "TCP Capture Read — Three-Way Handshake Observed" },
-        { trigger: "/capture-2.log", value: "UDP_1S_", label: "UDP Capture Read — Connectionless Datagrams Observed" },
-        { trigger: "decode capture-1", value: "F4ST}", label: "TCP Stream Decoded — Protocol Stack Mastered" },
+        { trigger: "list-files", value: "FLAG{PR0T0C0L_", label: "Files Listed" },
+        { trigger: "send homework.pdf tcp", value: "TCPvUDP_", label: "File Sent via Correct Protocol" },
+        { trigger: "send game-update udp", value: "M4ST3R}", label: "All Files Sent Correctly — Protocol Expert!" },
       ],
       extraCommands: {
-        analyze: (args) => {
-          const cap = args[0] || "";
-          if (cap === "capture-1") {
-            return {
-              lines: [
-                "Analysis: capture-1.log",
-                "  Three-way handshake detected: SYN → SYN-ACK → ACK",
-                "  Sequence numbers present: YES",
-                "  Acknowledgments present: YES",
-                "  Delivery guaranteed: YES",
-                "  Protocol: TCP (Transmission Control Protocol)",
-                "",
-                ">> LEARN: The TCP three-way handshake establishes a connection",
-                "   SYN = 'I want to connect.'  SYN-ACK = 'OK, I'm ready.'  ACK = 'Great, starting.'",
-                "   SYN flood attack: send millions of SYN packets, never send the ACK.",
-                "   Server fills its connection table with half-open connections → crashes.",
-              ],
-            };
-          }
-          if (cap === "capture-2") {
-            return {
-              lines: [
-                "Analysis: capture-2.log",
-                "  Handshake: NONE",
-                "  Sequence numbers: NONE",
-                "  Acknowledgments: NONE",
-                "  Delivery guaranteed: NO",
-                "  Protocol: UDP (User Datagram Protocol)",
-                "  Use case: DNS, mDNS, video streaming, gaming",
-                "",
-                ">> LEARN: UDP trades reliability for speed — choose deliberately",
-                "   DNS uses UDP because a retry is cheaper than a handshake for 1-packet queries.",
-                "   Video calls use UDP because a dropped frame is better than a 1-second freeze.",
-                "   UDP amplification DDoS: attacker sends small UDP request, gets huge UDP reply.",
-              ],
-            };
-          }
-          return { lines: [`Unknown capture: ${cap}. Try: analyze capture-1 or analyze capture-2`] };
+        "list-files": () => ({
+          lines: [
+            "FILES WAITING:",
+            "  homework.pdf     — student homework",
+            "  game-update      — game data",
+            "  video-call-data  — live video",
+            "  test-scores.xlsx — grade data",
+            "",
+            "Use: info <file> to see what protocol it needs.",
+          ],
+        }),
+        info: (args) => {
+          const file = args[0];
+          const info: Record<string, string> = {
+            "homework.pdf": "homework.pdf: Must arrive PERFECTLY. Every word matters. Use TCP.",
+            "game-update": "game-update: Speed is most important. A tiny glitch is OK. Use UDP.",
+            "video-call-data": "video-call-data: Live video — speed over perfection. Use UDP.",
+            "test-scores.xlsx": "test-scores.xlsx: Grade data — must be exact! Use TCP.",
+          };
+          return { lines: [info[file] || "Unknown file."] };
         },
-        identify: (args) => {
-          if (args[0] === "tcp") {
-            return { lines: ["capture-1 is TCP. Confirmed by: three-way handshake, sequence numbers, ACKs."] };
+        send: (args) => {
+          const file = args[0];
+          const protocol = args[1];
+          const correct: Record<string, string> = {
+            "homework.pdf": "tcp",
+            "game-update": "udp",
+            "video-call-data": "udp",
+            "test-scores.xlsx": "tcp",
+          };
+          if (correct[file] === protocol) {
+            return { lines: [`✓ ${file} sent via ${protocol.toUpperCase()} — correct choice! Run 'assemble' after all are sent.`] };
           }
-          if (args[0] === "udp") {
-            return { lines: ["capture-2 is UDP. Confirmed by: no handshake, no ACKs, datagrams only."] };
-          }
-          return { lines: ["Usage: identify tcp  OR  identify udp"] };
-        },
-        decode: (args) => {
-          if ((args[0] || "").includes("1")) {
-            return {
-              lines: [
-                "Decoding TCP stream payload from capture-1...",
-                "  Reassembling 2 segments (512 + 256 bytes)...",
-                "  Decoded message:",
-                "",
-                "  'TCP is reliable — every byte delivered in order.",
-                "   UDP is fast — no handshake, no guarantees.",
-                "   Protocols are just agreed rules.'",
-                "",
-                ">> LEARN: Every vulnerability exploits a protocol's assumptions",
-                "   TCP SYN flood exploits the three-way handshake state memory.",
-                "   BGP hijacking exploits unauthenticated route announcements.",
-                "   DNS poisoning exploits unauthenticated resolver responses.",
-                "   Security = knowing which assumptions each protocol makes.",
-                "",
-                "Run 'assemble' to retrieve your fragment.",
-              ],
-            };
-          }
-          return { lines: [`Decode which capture? Try: decode capture-1`] };
+          return { lines: [`✗ Wrong protocol for ${file}. Think: does it need to be perfect or just fast?`] };
         },
       },
     },

@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. 36 curriculum epochs, 438 CTF/qui
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.16.0 (as of 2026-05-28)
+**Current version:** v1.18.1 (as of 2026-05-29)
 
 ---
 
@@ -65,32 +65,44 @@ CI runs on: pushes to `dev` or `master`, and PRs targeting `master`. Config: `.g
 **Stack:** Next.js 16 App Router + Upstash Redis + Resend email  
 **Middleware:** `src/proxy.ts` — admin protection + per-request CSP nonce generation (Next.js 16 Turbopack uses `proxy` export)  
 **Admin:** HMAC cookie via `/api/admin-session`; `/admin/**` blocked at edge  
-**Auth:** PBKDF2-SHA-256 (100k iterations), server-side; user records in Redis  
+**Auth:** PBKDF2-SHA-256 (600k iterations), server-side; Supabase Auth parallel (v1.15.0+); user records in Redis  
 **Sessions:** HMAC-signed HttpOnly `session_token` cookie (30 days) + `admin_token` (24h)  
+**Account lockout:** 5 failed logins → 15-min lock (`lockout:user:{username}`)  
 **Leaderboard:** Upstash Redis sorted sets (`leaderboard`, `lb:d:YYYY-MM-DD`, `lb:w:YYYY-MM-DD`)  
 **Progress:** Redis (`progress:<username>`) — XP computed server-side  
 **Email:** Resend API for registration alerts + password reset  
 **AI:** Claude Haiku (`claude-haiku-4-5`) for ARIA chatbot via `/api/hint`  
 **Docs:** `app/secured-docs/` — gated behind admin cookie via `/api/docs/[file]`  
+**Audit log:** Redis list `audit:log` (max 1000 entries) — all mutating admin actions logged via `src/lib/audit.ts`  
+**Vouchers:** `voucher:{CODE}` hash + `voucher:redeemers:{CODE}` set — atomic SADD dedup + HINCRBY supply  
 
 ---
 
-## Navigation Flow (v1.6.0)
+## Navigation Flow
 
 ```
 /           → homepage with 10 track marketing cards
-/stages     → stage map hub: all epochs as clickable cards per track group
-/stages/epoch/[epochId]   → per-epoch page: hero + stage grid + progress bar
+/stages     → stage map hub: Security / Non-Security sections, epoch cards per track group
+/stages/epoch/[epochId]   → per-epoch page: hero + stage grid + progress bar + cert/CyberOps banner
 /stages/[stageId]         → individual stage (StageInfo → CTF/Quiz challenge)
-/leaderboard              → XP rankings (daily / weekly / all-time)
+/leaderboard              → XP rankings (daily / weekly / all-time) + PDF certificate download
+/certs                    → CompTIA Security+ SY0-701 + ISC² CC readiness rings, per-domain progress
+/resume                   → resume builder — skills auto-suggested from completed epochs, PDF export
+/cyberops                 → Cisco CyberOps Associate (CBROPS 200-201) exam readiness dashboard
 /shop                     → avatar item shop (🛒 Shop tab) + daily trophy showcase (💎 Treasures tab)
 /trophies                 → owned trophy collection vault (admin: full library with supply counters)
 /avatar                   → avatar customization — equip/unequip owned items
-/admin                    → admin dashboard (HMAC cookie required)
+/account                  → user profile, tier status, voucher expiry, delete account
+/survey                   → 9-question user survey; completion grants 30-day Pro to free/trial users
+/downloads                → 24 Python MCP server templates; access gated per admin settings
+/admin                    → admin dashboard (HMAC cookie required) — fixed left-nav sidebar
 /attribution              → public legal attributions & licenses page
+/terms                    → Terms of Service
+/privacy                  → Privacy Policy
+/demo                     → clickwrap NDA gate
 ```
 
-Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons go to `/stages/epoch/[epochId]` (not `/stages`).
+Back navigation: `BackLink` uses `backHref` prop (passed from `StageContainer`) → always returns to epoch page.
 
 ---
 
@@ -148,31 +160,30 @@ Back navigation: `BackLink` uses `router.back()`. "Stage Map →" exit buttons g
 | `src/data/stages.ts` | Epoch registry + stage array — import all epoch files here; NOT for "use client" listing pages |
 | `src/data/stages-meta.ts` | Client-safe listing metadata (no ctf/quiz/info) — import this in "use client" listing pages |
 | `src/data/stage-flags.ts` | Server-only flag store (`import "server-only"`) — used only by `/api/check-flag` |
-| `src/data/first-journey*.ts` | Our First Journey epoch (30 stages, 3 files: first-journey, first-journey-2, first-journey-3) |
-| `src/data/tech-audit-1.ts` | Tech Audit: Foundations (12 stages, ISACA/COBIT/CISA) |
-| `src/data/tech-audit-2.ts` | Tech Audit: Technical (12 stages, APIs/secrets/cloud/IAM) |
-| `src/data/tech-audit-3.ts` | Tech Audit: Agentic (12 stages, Claude tool use / MCP) |
-| `src/data/tech-audit-4.ts` | Continuous Monitoring 2.0 (12 stages) |
-| `src/data/mitre.ts` | MITRE ATT&CK (12 stages, all 12 tactic phases) |
-| `src/data/mitre-atlas.ts` | MITRE ATLAS (12 stages, AI/ML adversarial attacks) |
-| `src/data/owasp-llm.ts` | OWASP LLM Top 10 2025 (12 stages) |
-| `src/data/nails.ts` | Nail Arts epoch (10 stages) |
-| `src/data/hair-color.ts` | Hair Coloring epoch (10 stages) |
-| `src/data/hair-styling.ts` | Hair Styling epoch (10 stages) |
-| `src/app/stages/epoch-theme.ts` | Shared color theme records (epochAccent, cardBorder, cardEmojiBg) — add new epochs here |
-| `src/app/stages/page.tsx` | Stage map hub — epoch group nav, links to epoch pages |
-| `src/app/stages/epoch/[epochId]/page.tsx` | Per-epoch detail page with stage grid |
-| `src/lib/auth.ts` | PBKDF2 hashing — don't change without testing |
+| `src/data/cert-domains.ts` | CompTIA Security+ SY0-701 + ISC² CC domain mappings; `computeCertReadiness()` |
+| `src/data/cyberops-domains.ts` | Cisco CBROPS 200-201 domain mappings (5 domains); `computeCyberOpsReadiness()` |
+| `src/data/content-flags.ts` | Per-epoch IP risk registry (risk level, license, attribution text) — drives epoch-page banners |
+| `src/lib/auth.ts` | Client-side session cache (sessionStorage) |
+| `src/lib/server-session.ts` | HMAC session token sign/verify; `getServerSession()` |
+| `src/lib/crypto-utils.ts` | PBKDF2-SHA256 (600k iterations); auto-rehash on login |
+| `src/lib/supabase.ts` | Supabase parallel auth client — `supabaseAdmin`, `createSupabaseServerClient()` |
 | `src/lib/redis.ts` | Upstash client — needs `UPSTASH_REDIS_*` env vars |
+| `src/lib/audit.ts` | Admin audit log — `logAdminAction()` writes to `audit:log` Redis list |
+| `src/lib/access.ts` | Server-only tier gate — `getUserTier()`, `canAccessStage()` |
+| `src/lib/difficulty.ts` | Adaptive difficulty engine — `computeStageScore()`, `computeBonusXp()`, `getRecommendedNext()` |
 | `src/app/api/progress/route.ts` | GET reads from session cookie (not query param); POST awards stage in Redis |
+| `src/app/api/admin/vouchers/route.ts` | GET list / POST generate / PATCH revoke vouchers; requires admin token |
+| `src/app/api/redeem/route.ts` | POST redeem voucher code — atomic SADD dedup + HINCRBY supply |
+| `src/app/api/resume/generate/route.ts` | POST → PDF via @react-pdf/renderer; skills from completed epochs |
 | `src/data/trophies.ts` | 51 trophies across 8 tiers; `dailyShopTrophies()` seeded Fisher-Yates shuffle |
-| `src/app/api/trophies/route.ts` | GET: admin sees full library + claimed counts; user sees daily 10 + owned. POST: buy with atomic supply reservation |
 | `src/app/trophies/page.tsx` | Owned trophy collection vault; admin sees full library with tier filter |
 | `src/app/shop/page.tsx` | 🛒 Shop (avatar items) + 💎 Treasures (daily trophy showcase + buy) |
 | `src/app/avatar/page.tsx` | Avatar equip/unequip page |
-| `src/data/content-flags.ts` | Per-epoch IP risk registry (risk level, license, attribution text) — drives epoch-page banners |
-| `src/app/attribution/page.tsx` | Public legal attributions page — canonical third-party license notices |
-| `next.config.ts` | Static security headers (HSTS, X-Frame-Options, etc.) + secured-docs file tracing. CSP is set dynamically in middleware. |
+| `src/app/certs/page.tsx` | CompTIA Security+ + ISC² CC readiness rings, per-domain progress |
+| `src/app/resume/page.tsx` | Resume builder form — guided input + PDF export |
+| `src/app/cyberops/page.tsx` | CyberOps Associate exam readiness dashboard |
+| `src/app/admin/page.tsx` | Admin dashboard — fixed left-nav sidebar; sections anchored with IDs |
+| `next.config.ts` | Static security headers (HSTS, X-Frame-Options, etc.) + secured-docs file tracing. CSP set dynamically in middleware. |
 | `secured-docs/` | Admin-only docs — never move to public/ |
 
 ---
@@ -198,11 +209,15 @@ RESEND_API_KEY
 ADMIN_EMAIL
 ADMIN_USERNAME
 ADMIN_SECRET              ← 32+ char random string for HMAC cookie signing
+SESSION_SECRET            ← 32+ char random string for session token signing (separate from ADMIN_SECRET)
 ANTHROPIC_API_KEY         ← Claude Haiku for ARIA chatbot
 STRIPE_SECRET_KEY         ← Stripe secret key (sk_live_... or sk_test_...)
 STRIPE_WEBHOOK_SECRET     ← Stripe webhook signing secret (whsec_...)
 STRIPE_PRO_MONTHLY_PRICE_ID  ← Stripe price ID for $13.99/mo
 STRIPE_PRO_YEARLY_PRICE_ID   ← Stripe price ID for $99/yr
+NEXT_PUBLIC_SUPABASE_URL  ← Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY ← Supabase anon key
+SUPABASE_SERVICE_ROLE_KEY ← Supabase service role key (server-side only)
 ```
 
 Local dev: `.env.local` in `app/` (gitignored).
@@ -213,41 +228,61 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 | Route | Purpose |
 |---|---|
-| `POST /api/auth/register` | Server-side PBKDF2 registration; sets session + admin cookies |
-| `POST /api/auth/login` | Server-side PBKDF2 login; sets session + admin cookies |
-| `DELETE /api/auth/session` | Clear session cookie (logout) |
+| `POST /api/auth/register` | Server-side PBKDF2 registration; sets session + admin cookies; parallel Supabase account |
+| `POST /api/auth/login` | PBKDF2 login with 5-attempt lockout (15 min); auto-rehash to 600k iterations; Supabase parallel |
+| `DELETE /api/auth/session` | Clear session cookie (logout); Supabase signOut |
 | `GET /api/auth/me` | Returns `{ username, email, isAdmin }` from session cookie |
 | `POST /api/admin-session` | Issue admin HMAC cookie |
 | `GET /api/docs/[file]` | Serve secured-docs (admin only) |
 | `POST /api/forgot-password` | Send reset email (rate: 3/IP/15min) |
 | `GET/POST /api/progress` | Fetch/update Redis progress |
-| `GET /api/leaderboard` | Top XP rankings (daily/weekly/alltime) |
+| `GET /api/progress/certificate` | Server-rendered PDF via @react-pdf/renderer |
+| `GET /api/leaderboard` | Top XP rankings (daily/weekly/alltime); rate limited 30 req/min/IP |
 | `POST /api/feedback` | Store user feedback |
 | `POST /api/check-flag` | Validate CTF flag server-side |
 | `POST /api/check-answer` | Validate quiz answer server-side |
-| `POST /api/hint` | ARIA AI hint (Claude Haiku, rate-limited) |
+| `POST /api/hint` | ARIA AI hint (Claude Haiku, adaptive cooldown for Pro) |
 | `POST /api/nda` | Record NDA acceptance; GET returns admin list |
 | `GET /api/trophies` | Admin: full library + claimed counts. User: daily 10 shop rotation + owned |
-| `POST /api/trophies` | Buy trophy — verifies in daily rotation, atomic Redis INCR supply check, deducts coinsSpent |
-| `GET /api/progress/certificate` | Server-rendered PDF via @react-pdf/renderer — coins, stages, badges, streak, per-epoch breakdown |
-| `POST /api/stripe/checkout` | Create Stripe checkout session (monthly/yearly); returns `{ url }` for redirect |
-| `POST /api/webhooks/stripe` | Stripe webhook: `checkout.session.completed` → sets `tier: pro`; `customer.subscription.deleted` → sets `tier: free` |
+| `POST /api/trophies` | Buy trophy — atomic Redis INCR supply check |
+| `POST /api/stripe/checkout` | Create Stripe checkout session (monthly/yearly); returns `{ url }` |
+| `GET /api/stripe/portal` | Redirect to Stripe customer portal |
+| `POST /api/webhooks/stripe` | `checkout.session.completed` → tier=pro; `subscription.deleted` → tier=free; clears voucherExpiry |
 | `GET /api/admin/users` | Admin: list all users with tier, coins, stages, badges, streak |
-| `POST /api/admin/set-tier` | Admin: set `tier: pro|free` for a user (manual comp override) |
+| `POST /api/admin/set-tier` | Admin: set tier (pro/free/all-star); audit logged |
+| `POST /api/admin/set-group` | Admin: set user group (career/curious); audit logged |
+| `POST /api/admin/set-skin` | Admin: set user avatar skin; audit logged |
+| `POST /api/admin/grant-admin` | Admin: promote user to admin; audit logged |
+| `POST /api/admin/award-stage` | Admin: manually award stage completion; audit logged |
 | `GET /api/admin/cms/stage/[stageId]` | Admin: get CMS override for a stage |
 | `POST /api/admin/cms/stage/[stageId]` | Admin: save CMS override for a stage |
+| `GET /api/admin/vouchers` | Admin: list all voucher codes (requires admin token) |
+| `POST /api/admin/vouchers` | Admin: generate voucher codes (requires admin token); audit logged |
+| `PATCH /api/admin/vouchers` | Admin: revoke a voucher code; audit logged |
+| `POST /api/redeem` | Redeem voucher — atomic SADD dedup + HINCRBY; sets tier=pro + voucherExpiry |
+| `GET /api/admin/downloads-access` | Admin: get downloads access setting |
+| `POST /api/admin/downloads-access` | Admin: set downloads access (Off/Allowlist/All); per-user toggles (requires admin token) |
+| `POST /api/survey` | Store survey response in Redis; awards 30-day Pro to free/trial users (one-time) |
+| `POST /api/resume/generate` | Generate PDF resume with epoch-based skills; returns PDF buffer |
+| `POST /api/delete-account` | Purge user record from Redis |
 
 ---
 
-## Security Posture (v1.3.0+)
+## Security Posture (v1.17.0+)
 
-- Passwords: PBKDF2-SHA256, 100k iterations, hashed server-side only
+- Passwords: PBKDF2-SHA256, **600k iterations** (OWASP 2024); auto-rehash on login upgrades legacy users
 - Sessions: HMAC-signed HttpOnly cookies (session_token 30d, admin_token 24h)
+- **Account lockout:** 5 failed login attempts → 15-min lock per username (`lockout:user:{username}`)
 - No credentials in localStorage — eliminated entirely
 - All flag/answer/XP validation server-side
-- Rate limiting on all auth + email endpoints
+- Rate limiting on all auth + email endpoints; leaderboard rate-limited (30 req/min/IP)
+- Admin routes require HMAC `admin_token` (not just session cookie) — vouchers, downloads-access, etc.
 - HSTS, X-Frame-Options, X-Content-Type-Options set in `next.config.ts`
-- Nonce-based CSP (per-request) — `src/proxy.ts` generates nonce; `layout.tsx` reads `x-nonce` header and applies to anti-FOUC script; no `unsafe-inline` in script-src
+- Nonce-based CSP (per-request) — `src/proxy.ts` generates nonce; no `unsafe-inline` in script-src
+- **Admin audit log** — all mutating admin actions (set-tier, grant-admin, vouchers, award-stage, CMS, etc.) written to Redis `audit:log`
+- Stripe checkout origin-whitelisted to kryptoscronos.com + localhost
+- Survey GET admin-token guarded; downloads-access admin-token guarded
+- Login: admin username no longer exempt from IP rate limiting
 
 ---
 
@@ -256,11 +291,12 @@ Local dev: `.env.local` in `app/` (gitignored).
 | Service | Role |
 |---|---|
 | **Vercel** | Hosting, CDN, serverless |
-| **Upstash** | Serverless Redis (progress, leaderboard, sessions) |
+| **Upstash** | Serverless Redis (progress, leaderboard, sessions, survey, audit log, vouchers) |
 | **Resend** | Transactional email |
 | **GitHub** | Source control + CI (Actions: lint + tsc + build) |
 | **Anthropic** | Claude Haiku for ARIA AI chatbot |
-| **Stripe** | Payment processing — Pro subscriptions (monthly/yearly); webhook for lifecycle events |
+| **Stripe** | Payment processing — Pro subscriptions (monthly/yearly); voucher expiry cleared on subscription.deleted |
+| **Supabase** | Parallel auth (parallel PBKDF2 migration; v1.15.0+) |
 
 ---
 
@@ -269,10 +305,45 @@ Local dev: `.env.local` in `app/` (gitignored).
 - **Stage:** Pre-seed, seeking $1.5M seed round
 - **Legal entity:** Bolotin Enterprises, Inc. — Delaware C-Corp (incorporated May 23, 2026)
 - **Domain:** kryptoscronos.com
-- **Model:** B2C 7-day free trial → Pro ($13.99/mo or $99/yr) + B2B enterprise ($8/seat/mo) + sponsor integrations
+- **Model:** B2C 7-day free trial → Pro ($13.99/mo or $99/yr) + B2B enterprise ($8/seat/mo) + sponsor integrations + voucher distribution
 - **Target sponsors:** CrowdStrike, AWS, SentinelOne, CompTIA, ISC²
 
 ---
+
+## What's Shipped (v1.18.1)
+
+- ✅ HOURS_LOG.md added — session hours + cost tracking; wired into admin docs panel (⏱ Hours & Cost tab); deploy skill updated with step 10 (log hours + cost after every session)
+
+## What's Shipped (v1.18.0)
+
+- ✅ **Images for all stages** — 154 new Wikimedia Commons images: baseball (70 stages, all 7 epochs), driving (24 stages), quantum (30 stages — Bloch sphere, IBM Q, BB84, lattice diagrams), nails/hair (30 stages — nail anatomy, hair microscopy, styling tools)
+- ✅ **Certificate paths (/certs)** — `src/data/cert-domains.ts`: 230+ stages mapped to CompTIA Security+ SY0-701 (6 domains) + ISC² CC (5 domains); dual readiness rings, per-domain progress bars, salary ranges, exam CTAs; banner on /stages + security epoch pages
+- ✅ **Resume builder (/resume)** — multi-section form: personal info, headline, summary, skills, experience, education; skills auto-suggested from completed training epochs; `POST /api/resume/generate` → PDF via @react-pdf/renderer with Kryptós achievements
+- ✅ **Incentive system** — survey completion → 30-day Pro access (idempotent via `survey:rewarded:{user}` key); survey success screen shows "Pro Unlocked!"; streak milestone coin bonuses: 3-day +50🪙, 7-day +150🪙, 30-day +500🪙 (awarded once per milestone)
+- ✅ Docs updated to v1.17.0 facts — BUSINESS_PROPOSAL_PRO/CASUAL, PITCH_TARGETS, FINANCIALS
+
+## What's Shipped (v1.17.0)
+
+- ✅ **OWASP Top 10 hardening audit** — downloads-access + survey GET admin-token guarded; login admin username no longer exempt from rate limiting; Stripe checkout origin-whitelisted; leaderboard rate-limited (30/min/IP)
+- ✅ **Voucher fixes** — admin voucher routes require HMAC admin_token; redeem race condition fixed (SADD atomic dedup + optimistic HINCRBY with rollback); Stripe webhook clears voucherExpiry; revoke endpoint (PATCH); 365-day + 500-use options added
+- ✅ **PBKDF2 600k iterations** (OWASP 2024); auto-rehash upgrades existing users on login
+- ✅ **Account lockout** — 5 failed login attempts → 15-min lock per username (`lockout:user:{username}`)
+- ✅ **Admin audit log** — `src/lib/audit.ts`; all mutating admin actions written to Redis `audit:log` list (max 1000 entries); displayed in admin dashboard
+- ✅ Account page shows voucher expiry date for voucher-based Pro users
+- ✅ Security briefing updated to v4.1
+
+## What's Shipped (v1.16.3)
+
+- ✅ Admin dashboard — fixed left-nav sidebar (always visible); anchor IDs on all sections for direct linking
+- ✅ Voucher list — no-flicker on page refresh (SSR-safe)
+
+## What's Shipped (v1.16.2)
+
+- ✅ **Voucher code system** — `KRYPTOS-XXXX-XXXX` format; admin generate/list/revoke; `POST /api/redeem` for user redemption; atomic Redis SADD dedup + HINCRBY supply reservation; ProPaywall redeem input field; voucher expiry check in `getUserTier()`
+
+## What's Shipped (v1.16.1)
+
+- ✅ Downloads access control — admin radio (Off/Allowlist/All) + per-user toggles; `/downloads` page gated by `GET /api/admin/downloads-access`
 
 ## What's Shipped (v1.16.0)
 
@@ -283,130 +354,49 @@ Local dev: `.env.local` in `app/` (gitignored).
 - ✅ BackLink fix: StageContainer passes backHref to StageInfo reliably; admin username column widened
 - ✅ Paris stages 9–20 and Milan stages 9–20: Wikimedia Commons images added
 - ✅ content-flags.ts: cisco-advanced, paris-july, milan-july, french-basics, italian-basics entries added
-- ✅ Docs: BUSINESS_PROPOSAL_PRO/CASUAL, PITCH_TARGETS, FINANCIALS corrected to v1.16.0 facts; TODO.md new deferred items A–F
+- ✅ Docs: BUSINESS_PROPOSAL_PRO/CASUAL, PITCH_TARGETS, FINANCIALS corrected to v1.16.0 facts
 
 ## What's Shipped (v1.15.1)
 
-- ✅ RichParagraph bold lead sentence — light blue (overview/technical) and pink (incident) topic sentences across all 438 stages
+- ✅ RichParagraph: boldLead=false in overview (one consistent font); sky-400/pink-400 lead colors in tech/incident sections
 
 ## What's Shipped (v1.15.0)
 
-- ✅ Supabase Auth migration — parallel auth; register/login/logout/forgot-password/reset-password all wired to Supabase; PBKDF2 fallback + transparent migration for existing users; all existing sessions unchanged
+- ✅ Supabase Auth migration — parallel auth; register/login/logout/forgot-password/reset-password all wired to Supabase; PBKDF2 fallback + transparent migration; all existing sessions unchanged
 
-## What's Shipped (v1.14.1)
+## What's Shipped (v1.14.0–v1.14.1)
 
-- ✅ DocuSign NDA integration removed — lib, routes, admin send form, docs all cleaned; clickwrap at /demo retained
+- ✅ DocuSign NDA removed — clickwrap at /demo retained; lib, routes, admin send form all cleaned
+- ✅ `/cyberops` — CyberOps Associate exam readiness dashboard; `cyberops-domains.ts` maps 50 Cisco/Umbrella stages to CBROPS 200-201 domains
 
-## What's Shipped (v1.14.0)
+## What's Shipped (v1.13.0–v1.13.1)
 
-- ✅ `/cyberops` — CyberOps Associate exam readiness dashboard with weighted ring, 5 domain cards, stage-level detail, Cisco exam CTA
-- ✅ `cyberops-domains.ts` — 50 Cisco/Umbrella stages mapped to CBROPS 200-201 domains
-- ✅ Cisco epoch banner linking to `/cyberops`
-- ✅ Stage briefing domain badge for all mapped stages
-
-## What's Shipped (v1.13.1)
-
-- ✅ RichText.tsx — auto-highlights CVEs (green), quoted terms (amber), figures (cyan), versions (teal), CVSS scores (orange) across all briefing paragraphs; zero data changes
-
-## What's Shipped (v1.13.0)
-
-- ✅ StageInfo visual redesign — wonder hero, CVSS severity bar, pull-quote overview, section color identities, incident report styling, numbered takeaway badges, gradient CTA
-- ✅ Category-aware section labels — 5 category themes (cybersecurity/ai/owasp, sports, arts, driving, health) with distinct icons, colors, and incident badge text
-
-## What's Shipped (v1.12.1)
-
-- ✅ ProPaywall copy corrected: 438 stages, 36 epochs, 10 tracks
-- ✅ OG / Twitter card meta corrected: 438 stages, 36 epochs
+- ✅ StageInfo visual redesign — wonder hero, CVSS bar, pull-quote overview, section color identities, numbered takeaway badges, gradient CTA
+- ✅ Category-aware section labels — 5 category themes with distinct icons and colors
+- ✅ RichText auto-highlighter — CVEs, quoted terms, figures, versions, CVSS, SQL, file paths, IPs
 
 ## What's Shipped (v1.12.0)
 
-- ✅ Adaptive difficulty engine (`src/lib/difficulty.ts`) — `computeStageScore`, `computeBonusXp`, `adaptiveCooldownSeconds`, `getRecommendedNext`, Redis skill-level rolling average, per-stage hint/attempt counters
-- ✅ XP bonus — +20% coins for clean solves (score ≥ 80); shown in terminal and FlagSuccessModal; tracked in Redis `bonus` field
-- ✅ Adaptive ARIA cooldown (Pro) — 0s/15s/30s based on skill level; `nextCooldownS` returned from `/api/hint`
-- ✅ Recommended Next — post-flag modal shows best incomplete stage in epoch based on skill
-- ✅ Wrong attempt tracking — Redis counters feed into score; 48 h TTL
-- ✅ Stages visibility fix — `career` and `curious` `GROUP_EPOCHS` now mirror each other so all users see full curriculum
-- ✅ ESLint fix — `src/data/**/*.js` added to `globalIgnores`; 0 errors
-
-## What's Shipped (v1.11.0)
-
-- ✅ French Basics expanded 10 → 20 stages (french-11 through french-20): boulangerie, menu reading, wine, pharmacy, hotel, time, weather, digital French, faux pas, Paris arrondissements
-- ✅ Italian Basics expanded 10 → 20 stages (italian-11 through italian-20): gelateria, food vocabulary, wine (DOCG/methanol scandal), farmacia, hotel/Grand Tour, time/1335 Milan clock, weather/nebbia/afa, calcio (AC Milan vs Inter 1908), faux pas/bella figura, Milan neighbourhoods with metro stops
-- ✅ Admin-only age/skin toggle — Age column in user table cycles youth/standard/mature; `/api/admin/set-skin` route; `AgePrompt` modal remains disabled
-- ✅ Investor Metrics panel in admin dashboard — WAU, 7-day return rate, avg stages/user, user funnel (registered→started→engaged→retained→power), growth stats, tier breakdown, per-epoch completion rates
-- ✅ Default registration tier reverted to `free` — 7-day trial → ProPaywall → Stripe conversion funnel active
-- ✅ Welcome email updated — 438 stages, 36 epochs, 50+ CVEs
-
-## What's Shipped (v1.9.0)
-
-- ✅ Bolotin Enterprises, Inc. incorporated (Delaware C-Corp, May 23, 2026, Stripe Atlas)
-- ✅ Terms of Service page at `/terms` — subscriptions, 7-day refund, acceptable use, IP, Delaware governing law
-- ✅ Business email `hello@kryptoscronos.com` via Cloudflare Email Routing — replaces Yahoo everywhere
-- ✅ Pricing updated: $13.99/mo, $99/yr (SAVE 41%); ProPaywall + homepage updated
-- ✅ Crafts / Driving / Baseball hidden from public homepage and stage map
-- ✅ Homepage duplicate "How it works" section removed
-- ✅ Homepage + demo page stats corrected (358 stages, 10 tracks)
-- ✅ Brief icon and functionality fully removed from CtfChallenge
-- ✅ Admin `canAccessStage()` bypass — admin no longer hits ProPaywall
-- ✅ VC Readiness Analysis doc wired into admin docs panel
-- ✅ Deploy skill updated with new doc file wiring rule
-
-## What's Shipped (v1.8.0)
-
-- ✅ Epoch #32 `cisco-advanced` — 12 stages (stage-m39 → stage-m50), Cyan theme, unlocked
-- ✅ Pro tier access model — 7-day free trial (based on `createdAt`), then Stripe paywall; `src/lib/access.ts` (server-only)
-- ✅ Stripe integration — `/api/stripe/checkout` (lazy init), `/api/webhooks/stripe` (lazy init); monthly $5.99, yearly $55.99 (SAVE 22%)
-- ✅ `ProPaywall` component — inline upgrade wall shown when trial expired; back link to epoch page
-- ✅ Server-side tier enforcement — `canAccessStage()` called in `check-flag`, `check-answer`, and stage page; flag/answer/quiz secrets stripped before client pass
-- ✅ Pro hints — HintDrawer gate: hints 2+ require Pro; HintChatbot: no cooldown + ∞ message counter for Pro
-- ✅ Admin tier toggle — toggle switch per user row in `/admin`; calls `/api/admin/set-tier` to write `tier: pro|free` to Redis; overrides trial
-- ✅ Admin Remote Desktop link → https://remotedesktop.google.com/access
-- ✅ CI/CD pipeline — `dev` branch + `.github/workflows/ci.yml` (lint + tsc --skipLibCheck + build + audit on dev + master pushes)
-- ✅ `src/proxy.ts` — active Turbopack middleware (Next.js 16 requires `proxy` export, not `middleware`); merged from deleted `middleware.ts`
-
-## What's Shipped (v1.7.5)
-
-- ✅ Nonce-based CSP — `src/proxy.ts` generates per-request nonce; `layout.tsx` async reads `x-nonce`; `next.config.ts` static CSP removed; no `unsafe-inline` in script-src
-- ✅ Docs refreshed to v1.7.5: PITCH_TARGETS.md (346 stages, 10 tracks), PARTNERS.md v3.1, BUSINESS_PROPOSAL_PRO.md + BUSINESS_PROPOSAL_CASUAL.md (346 stages, 31 epochs, 10 tracks, v1.7.4 live features)
-
-## What's Shipped (v1.7.4)
-
-- ✅ 31 epochs, 346 stages — Core Security, Tech Audit, Threat Frameworks, AI Security, Quantum Era, Defend the Enterprise (3 Cisco + Umbrella), Crafts, Driving, Health, Baseball
-- ✅ Crafts track: Nail Arts (10), Hair Coloring (10), Hair Styling (10)
-- ✅ Per-epoch pages at `/stages/epoch/[epochId]` — hero card, progress bar, stage grid
-- ✅ Stage map hub (`/stages`) — epoch cards per track group, links to epoch pages
-- ✅ Breadcrumb back navigation — "Stage Map →" returns to epoch page, not root
-- ✅ FeedbackWidget — minimizable, fixed top-left
-- ✅ ARIA AI chatbot (Socratic, Haiku, stage-aware, 30s cooldown, 10-msg limit)
-- ✅ Server-side auth v1.3.0 — PBKDF2, HMAC cookies, no localStorage credentials
-- ✅ Daily streaks + milestone badges
-- ✅ NDA gate at /demo + admin signatories panel
-- ✅ 24 downloadable MCP server templates (audit-a / audit-cm stages)
-- ✅ Terminal learning annotations (`>> LEARN:`) across all epochs
-- ✅ Skills Acquired debrief in FlagSuccessModal
-- ✅ Trophy system — 51 trophies, 8 tiers (Field→Apex), steep supply curve (50k→1), daily rotating showcase of 10 per user
-- ✅ Shop with 💎 Treasures tab (daily trophy purchases) + 🛒 avatar item shop
-- ✅ `/trophies` — owned collection vault; admin sees full library with live supply counters
-- ✅ `/avatar` — avatar equip/unequip page; nav link for logged-in users
-- ✅ CTF localStorage state scoped by username (`ctf-state:{username}:{stageId}`) — prevents cross-user bleed
-- ✅ `GET /api/progress` fixed to use session cookie (was requiring unused `?username=` query param, breaking all progress display)
-- ✅ `/attribution` page — full legal attribution notices for all third-party IP (MITRE, OWASP, ISACA/COBIT, CIS Benchmarks, ITIL, PCI DSS, Anthropic/Claude/MCP, HashiCorp Vault, STIX/TAXII/OASIS, NIST, CVE/NVD)
-- ✅ `content-flags.ts` — per-epoch IP risk registry with risk classification, license info, and attribution text for all 20+ epochs
-- ✅ Stage completion emails — fire-and-forget via Resend on every new stage capture; shows XP, badge, streak, next stage link; wired in `awardStageInRedis` (`server-progress.ts`)
-- ✅ `GET /api/progress/certificate` — server-rendered PDF (@react-pdf/renderer): username, coins, stages, badges, streak, per-epoch breakdown; "Download Progress Report" on leaderboard page
-- ✅ Mobile responsiveness audit — leaderboard responsive grid (3-col mobile → 6-col sm+); FeedbackWidget touch-action fix; CTF terminal / stage map confirmed mobile-ready
-- ✅ Stage count corrected: 346 total (was 338); per-track numbers audited; "Nine" → "Ten" tracks across homepage, pricing, CTA, stages page, welcome email
+- ✅ Adaptive difficulty engine (`src/lib/difficulty.ts`) — score-based XP bonus (+20% for clean solves ≥80); adaptive ARIA cooldown for Pro; Recommended Next stage in FlagSuccessModal; wrong attempt + hint usage tracking in Redis
 
 ## Trophy System Notes
 
 - Redis key `trophy:claimed:{id}` — atomic INCR/DECR for supply reservation
 - Daily shop: seeded Fisher-Yates shuffle using `hashString(username + dayNumber)`; 10 trophies, refreshes at UTC midnight
-- Admin bypasses daily rotation check on purchase; regular users can only buy from their daily 10
+- Admin bypasses daily rotation check on purchase
 - Tier supply curve: Field 50k · Enlisted 10k · Commended 2.5k · Decorated 500 · Distinguished 100 · Elite 25 · Legendary 5 · Apex 1
+
+## Voucher System Notes
+
+- Code format: `KRYPTOS-XXXX-XXXX` (8 alphanumeric, avoids O/0/I/1 confusion)
+- Redis: `voucher:{CODE}` hash, `voucher:redeemers:{CODE}` set, `voucher:index` sorted set
+- Atomic redemption: SADD dedup → HINCRBY supply decrement → rollback if negative
+- Stripe webhook (`subscription.deleted`) clears `voucherExpiry` to prevent downgrade conflicts
+- Use cases: sponsor integrations, partner promotions, enterprise seat distribution
 
 ## Genuine Remaining Work
 
-1. **Production auth migration** — Supabase Auth or Lucia, server-side sessions (intentionally deferred)
+1. **Elementary section redesign** — bt-01–bt-30 content too advanced for 5-10 yr olds; needs kid-friendly rewrite (TODO item A — in progress)
 
 ---
 
@@ -418,3 +408,5 @@ Local dev: `.env.local` in `app/` (gitignored).
 - REST conventions for API routes under `/api/`
 - No comments unless the WHY is non-obvious
 - No Co-Authored-By lines in git commits
+- When editing docs, always sync `docs/` → `app/secured-docs/` for updated files
+- New `.md` docs require: API allowlist entry in `/api/docs/[file]/route.ts` + DocsViewer tab in `src/components/DocsViewer.tsx` + file placed in `app/secured-docs/`

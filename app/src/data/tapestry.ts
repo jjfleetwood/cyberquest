@@ -2041,7 +2041,7 @@ export const tapestryStages: StageConfig[] = [
       technical: {
         title: "Your First Tapestry: Step by Step",
         body: [
-          "Step 1: Choose a simple design — three horizontal color zones work beautifully. Draw your cartoon at full size and mark the boundary lines on your warp threads with a fine marker. Step 2: Start weaving at the bottom with a few rows of plain weft in your background color — this stabilizes the warp and gives you a clean starting edge. Step 3: Work from bottom to top, changing colors as your design requires. Beat each row down firmly so no warp peeks through. Step 4: When you reach the top, leave a few extra rows of the final color and secure your last row with a lark's head knot or by weaving the tail back through the finished rows.",
+          "Step 1: Choose a simple design — three horizontal color zones work beautifully. Draw your cartoon at full size and mark the boundary lines on your warp threads with a fine marker. Step 2: Start weaving at the bottom with a few rows of plain weft in your background color — this stabilizes the warp and gives you a clean starting edge. Step 3: Work from bottom to top, changing colors as your design requires. Beat each row down firmly so no warp peeks through. Step 4: When you reach the top, secure your last weft thread. The easiest method is the lark's head knot: fold a short length of yarn in half to make a loop; lay the loop over the last warp thread from front to back; bring both yarn tails forward through the loop and pull snug. This knot grips the warp and holds the final row firmly without a loom to keep tension. Alternatively, simply weave the tail back under 3–4 warp threads in the opposite direction — this is equally secure. Either method prevents the final rows from unravelling when you remove the piece from the loom.",
           "Step 5: Removing the tapestry from the loom. Carefully slide the warp loops off the pegs (or cut them if there's no other way). Tie warp ends in pairs with overhand knots close to the weaving. Trim or tuck weft tails into the back of the weaving with your tapestry needle. Step 6: Wet-finish your tapestry. Fill a bowl with cool water, gently submerge your tapestry, squeeze gently (never wring), and press out excess water in a towel. Lay flat to dry. This final step opens the wool fibers, evens the weave, and transforms your tapestry from 'woven object' into something that looks and feels finished.",
         ],
         codeExample: {
@@ -2060,10 +2060,24 @@ export const tapestryStages: StageConfig[] = [
   ☐ Check for consistent width (warp shouldn't pull in)
   ☐ Step back every 20 rows to see the whole
 
-  FINISHING:
-  ☐ Secure last row
-  ☐ Remove from loom, knot warp ends
-  ☐ Tuck or trim weft tails
+  FINISHING — LARK'S HEAD KNOT (to secure last row):
+  Step 1: Fold a short yarn length in half → makes a loop
+          [====loop====]----tail-A----tail-B----
+
+  Step 2: Lay loop over the warp thread, front to back
+          warp thread: |
+                        |  ← loop goes over the top
+                       [=]
+
+  Step 3: Pull both tails FORWARD through the loop & snug
+          Result: a small, firm knot gripping the warp ✓
+
+  OR (even simpler): weave the last tail back under
+  3–4 warp threads in the opposite direction. Done.
+
+  AFTER THE LOOM:
+  ☐ Remove from loom, knot warp ends in pairs
+  ☐ Tuck or trim weft tails with tapestry needle
   ☐ Wet-finish (cool water, lay flat to dry)
   ☐ Hang and admire 🌟`,
         },

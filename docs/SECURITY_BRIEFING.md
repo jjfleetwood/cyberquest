@@ -1,8 +1,34 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 4.1  
-**Date:** 2026-05-28  
-**Current version:** v1.16.0
+**Version:** 5.0  
+**Date:** 2026-05-29  
+**Current version:** v1.18.1
+
+---
+
+## Changelog — v5.0 (2026-05-29) — Full Deep Security Review
+
+Full manual audit of all API routes, auth flows, Redis key patterns, CSP configuration, and client-side exposure against OWASP Top 10. Two new medium findings; several accepted low/informational items documented.
+
+### New Findings — v5.0
+
+| Severity | Location | Finding | Resolution |
+|---|---|---|---|
+| **Medium** | `POST /api/admin/vouchers` — `randomSegment()` | Voucher codes use `Math.random()` (not CSPRNG). With 32 chars × 8 positions, the space is ~1.1 trillion codes, but predictable sequences are possible given VM timing. | **Fix below**: replace `Math.random()` with `crypto.randomBytes()` |
+| **Low** | `POST /api/survey` | No per-field size limit on survey body. A malicious user could submit 1 MB+ field values and fill Redis indefinitely. | **Fix below**: add `BODY_LIMIT_BYTES = 10_000` check |
+| **Low** | `POST /api/feedback` | `username` field accepted directly from request body without session verification. Attacker can submit feedback claiming to be any user. Email-content only — no access impact. | Accepted. Add note in code to treat this as unverified. |
+| **Low** | `POST /api/hint` | Rate limiting is IP-only. A determined user with multiple IPs or a VPN can exceed the 15/15min global limit. | Accepted for AI tutor. Pro/free distinction is the primary gate. |
+| **Info** | `check-flag` admin flag log | `admin:flag-log` stores actual correct flag values alongside submissions. This is intentional for auditing but means admin Redis contains all flag answers. | Accepted. `audit.ts` is server-only. Threat model: Redis compromise is assumed catastrophic regardless. |
+| **Info** | CSP `connect-src` | Missing `https://*.supabase.co` from CSP connect-src. Supabase is called server-side only; no client-side direct calls detected. | Accepted. Monitor if any client-side Supabase SDKs are added. |
+| **Info** | `timeTakenMs` client-supplied | `check-flag` accepts client-reported time for penalty calculation (capped at 20% XP penalty). Cannot be used to gain XP — only to reduce it — so client manipulation is self-punishing. | Accepted by design. |
+
+### Voucher Code CSPRNG Fix (Medium)
+
+Replaced `Math.random()` with `crypto.randomBytes()` in `randomSegment()`:
+
+### Survey Body Size Fix (Low)
+
+Added `SURVEY_BODY_LIMIT = 10_000` bytes check to POST handler.
 
 ---
 

@@ -2,1849 +2,1256 @@ import type { StageConfig } from "./types";
 
 export const firstJourneyStages3: StageConfig[] = [
 
-  // ─── BT-21: Phishing ──────────────────────────────────────────────────────
+  // ─── BT-21: Phishing ─────────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Fisherman's Wharf", location: "Monterey, USA", era: "Present Day", emoji: "🎣" },
+    wonder: { name: "The Academy Fishing Pond", location: "CyberVille", era: "Today", emoji: "🎣" },
     id: "bt-21",
     order: 21,
-    title: "Spotting Fake Bait",
-    subtitle: "Phishing — When the Lure Looks Real",
+    title: "Don't Take the Bait!",
+    subtitle: "What is Phishing?",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-21", name: "Phish Spotter", emoji: "🪝" },
+    xp: 100,
+    badge: { id: "bt-badge-21", name: "Phish Spotter", emoji: "🎣" },
     challengeType: "ctf",
     info: {
-      tagline: "A lure is designed to look exactly like real food. Phishing emails are designed to look exactly like real emails.",
+      tagline: "Phishing is when a bad person sends a fake message that looks real — trying to trick you into giving away your password or personal information.",
       year: 2025,
       overview: [
-        "You're at Fisherman's Wharf preparing for a fishing trip. The tackle shop sells dozens of lures — fake shrimp, fake squid, fake anchovies — all designed to fool a fish into biting. Phishing emails work identically: they mimic real emails from banks, employers, government agencies, or tech companies to trick you into clicking a link or entering credentials.",
-        "Phishing is the #1 initial access vector for cyberattacks. Over 90% of breaches start with a phishing email. Attackers craft emails that look legitimate: correct logos, familiar sender names, urgent language, and links to convincing fake websites. The goal is to steal credentials, install malware, or trick you into wire-transferring money.",
-        "Recognizing phishing requires looking past the visual design to the technical details: the actual sender email domain (not the display name), the real URL behind a link (hover before clicking), unexpected urgency or requests, and requests for information the sender should already have.",
+        "Imagine getting a text message that says: 'You won a free gaming console! Click here to claim it!' That sounds exciting — but it's probably a trick. Phishing is when bad people send fake messages pretending to be someone you trust, trying to get you to click a bad link or give up your password.",
+        "Phishing messages often look like they're from real companies — your bank, your school, Amazon, or even a friend. They create urgency ('Your account will be deleted in 24 hours!') to make you panic and act without thinking.",
+        "The most important rule: STOP and THINK before you click. If something seems too good to be true or too scary to be real, it probably is a trick.",
       ],
       technical: {
-        title: "Phishing Indicators and Types",
+        title: "How to Spot a Phishing Message",
         body: [
-          "Key indicators: mismatched sender domain (display name says 'PayPal Support' but email is from paypa1-support@gmail.com), urgent or threatening language ('Your account will be closed in 24 hours'), requests for credentials or payment, links that don't match the stated destination (hover to see real URL), unexpected attachments.",
-          "Types: spear phishing (targeted at a specific person, uses personal details to seem credible), whaling (targets executives for wire transfer fraud — 'CEO fraud'), vishing (voice phishing — phone calls), smishing (SMS phishing). Business Email Compromise (BEC) costs organizations $2.7B per year — the most financially damaging cybercrime category.",
+          "Signs of phishing: (1) You weren't expecting the message. (2) It creates urgency ('Act NOW!'). (3) It asks for your password, credit card, or personal info. (4) The sender's email address looks slightly wrong (like support@amaz0n.com instead of amazon.com). (5) Links go to weird-looking addresses.",
+          "When in doubt: don't click the link. Go directly to the website by typing the address yourself. Call the company using a number from their official website — not from the suspicious message.",
         ],
         codeExample: {
-          label: "Analyzing a suspicious email from the command line",
-          code: `# View raw email headers (shows real sender path)
-# In Gmail: '...' menu → Show Original
+          label: "Real email vs phishing email",
+          code: `  REAL email from Amazon:
+  From: order-update@amazon.com
+  Subject: Your order shipped
+  Link: https://amazon.com/orders/...
 
-# Check the sending domain's SPF record
-dig TXT example.com | grep spf
+  PHISHING email pretending to be Amazon:
+  From: amazon-support@gmail.com ← wrong!
+  Subject: URGENT: Account suspended!
+  Link: https://amaz0n-login.fake.com ← wrong!
 
-# Check DKIM signature
-# Look for "DKIM-Signature:" in raw headers
-
-# Analyze links without clicking
-# Hover over the link and check the URL in your status bar
-# Or use: curl -I "https://suspicious-url.com" to check redirect chain`,
+  Spot the differences:
+  ✗ Wrong email address
+  ✗ Fake urgency
+  ✗ Weird website link`,
         },
       },
       incident: {
-        title: "The 2016 DNC Hack — Spear Phishing Email Cracked the Election",
-        when: "March 2016",
-        where: "Democratic National Committee, Washington DC",
-        impact: "51,000 emails stolen; significant influence on 2016 US Presidential election",
+        title: "The Phishing Email That Changed an Election",
+        when: "2016",
+        where: "United States",
+        impact: "A campaign was hacked because of one phishing click",
         body: [
-          "A spear phishing email was sent to John Podesta, Hillary Clinton's campaign chairman. The email appeared to be a Google security alert: 'Someone has your password. Change it immediately.' The link went to a convincing fake Google login page. Podesta's aide told him the email was legitimate (a typo — they meant to say 'illegitimate'). Podesta entered his credentials.",
-          "Russian intelligence (APT28/Fancy Bear) had his Gmail password within seconds. They downloaded 51,000 emails over months. WikiLeaks published them in October 2016. The entire operation began with a single convincing phishing email. There was no technical exploit — just social engineering through a well-crafted lure.",
+          "In 2016, a political campaign official received an email saying 'Someone tried to access your Google account. Change your password here.' He clicked the link and entered his password on a fake Google site. Hackers got into his email and many private emails were stolen.",
+          "One click. One moment of not checking carefully. That's all it takes. The lesson: always check the web address before typing your password, and when in doubt, go to the real site yourself.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Phishing Email", sub: "fake sender, urgent language", type: "attacker" },
-          { label: "Victim Opens It", sub: "sees convincing branding", type: "system" },
-          { label: "Clicks Fake Link", sub: "goes to credential harvester", type: "victim" },
-          { label: "Credentials Stolen", sub: "attacker logs in as victim", type: "result" },
+          { label: "Hacker sends fake email", sub: "looks like it's real", type: "attacker" },
+          { label: "You get urgent message", sub: "'Act now or lose access!'", type: "system" },
+          { label: "You click link", sub: "goes to fake website", type: "victim" },
+          { label: "You type password", sub: "hacker now has it!", type: "result" },
         ],
       },
       timeline: [
-        { year: 1996, event: "Term 'phishing' coined on AOL — attackers pose as AOL staff to steal passwords" },
-        { year: 2003, event: "PayPal phishing campaigns begin — financial phishing becomes mainstream" },
-        { year: 2016, event: "DNC spear phish — one email leads to 51K stolen messages, election impact", highlight: true },
-        { year: 2023, event: "BEC (Business Email Compromise) costs $2.7B — ICCC report" },
+        { year: 1996, event: "First phishing attacks recorded — criminals fake AOL emails" },
+        { year: 2016, event: "Spear phishing email hacks political campaign", highlight: true },
+        { year: 2025, event: "Billions of phishing emails sent every day — stay alert!" },
       ],
       keyTakeaways: [
-        "Check the actual sender email domain, not just the display name",
-        "Hover over links before clicking — the real URL shows in the status bar",
-        "Urgency and threats are manipulation tactics — slow down and verify",
-        "Spear phishing uses personal details to seem credible — don't trust familiarity alone",
+        "Phishing = fake messages pretending to be real to steal your info",
+        "Warning signs: urgency, wrong email address, unexpected messages, suspicious links",
+        "Never click links in unexpected emails — go to the site directly",
+        "When in doubt, call the real company using their official number",
       ],
       references: [
         { title: "Phishing Explained — CISA", url: "https://www.cisa.gov/sites/default/files/publications/phishing-infographic-508c.pdf" },
-        { title: "DNC Hack Attribution — Mueller Report", url: "https://www.justice.gov/archives/sco/file/1373816/dl" },
       ],
     },
     ctf: {
-      scenario: "Your inbox has three emails — one is a phishing attempt. Inspect each email's headers, sender domain, and links to identify the fake and report it before you click anything.",
-      hint: "Inspect headers and links carefully — don't trust the display name.",
+      scenario: "Three messages arrived in the Academy inbox. Some are real, some are phishing. Identify the phishing messages and report them.",
+      hint: "Check each message for phishing signs and report the fakes.",
       hints: [
-        "Read the first email. Run: read-email 1",
-        "Read the second email. Run: read-email 2",
-        "Read the third email. Run: read-email 3",
-        "Report the phishing email. Run: report-phish <email-number>",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Read all messages. Run: list-messages",
+        "Inspect message 1. Run: inspect 1",
+        "Inspect messages 2 and 3.",
+        "Report the phishing ones. Run: report 2 and report 3",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/inbox.txt": [
+          "ACADEMY INBOX",
+          "==============",
+          "1. From: principal@academy.edu — 'Assembly tomorrow at 9am'",
+          "2. From: academy-admin@gmail.com — 'URGENT: Password expires in 1 hour!'",
+          "3. From: freegames@prizes.click — 'You won! Click here!'",
+          "",
+          "Commands: list-messages | inspect <n> | report <n>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "inbox.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "read-email 1",
-          value: "FLAG{PH1SH1NG_",
-          label: "Inbox Scan — Legitimate Email Identified",
-        },
-        {
-          trigger: "read-email 2",
-          value: "H1D3S_B3H1ND_",
-          label: "Header Analysis — Typosquatted Domain Spotted",
-        },
-        {
-          trigger: "report-phish 2",
-          value: "F4K3_D0M41NS}",
-          label: "Threat Reported — Phishing Campaign Neutralised",
-        },
+        { trigger: "list-messages", value: "FLAG{PH1SH_", label: "Messages Listed" },
+        { trigger: "inspect 2", value: "SP0TT3D_", label: "Phishing Email Identified" },
+        { trigger: "report 3", value: "BLOCK3D}", label: "All Phishing Reported!" },
       ],
       extraCommands: {
-        "read-email": (args) => {
-          const num = args[0] || "1";
-          const emails: Record<string, string[]> = {
-            "1": [
-              "FROM: Monterey Bay Fishing Club <newsletter@montereyfishingclub.org>",
-              "TO: you@example.com",
-              "SUBJECT: June Fishing Calendar",
-              "HEADERS: DKIM=pass; SPF=pass; DMARC=pass",
-              "",
-              "Hi member, here's your June fishing schedule...",
-              "Link: https://montereyfishingclub.org/calendar  ← matches sender domain ✓",
-              "",
-              "Verdict: LEGITIMATE",
-            ],
-            "2": [
-              "FROM: PayPal Security <security@paypa1-alert.com>",
-              "TO: you@example.com",
-              "SUBJECT: ⚠ URGENT: Your PayPal account has been limited!",
-              "HEADERS: DKIM=fail; SPF=fail; DMARC=fail",
-              "",
-              "Your account has been LIMITED. Verify immediately or lose access!",
-              "Link: https://paypa1-alert.com/verify  ← NOT paypal.com",
-              "Display name says PayPal but domain is paypa1-alert.com (1 not l)",
-              "",
-              "Verdict: PHISHING — mismatched domain, failed auth, urgent threat",
-              "",
-              ">> LEARN: Phishing hides behind display names — check the domain",
-              "   DKIM/SPF/DMARC failures mean the email wasn't sent by the real domain.",
-              "   Typosquatting swaps one character (l → 1) to slip past visual inspection.",
-              "   Real check: hover links before clicking; verify sender domain matches brand.",
-            ],
-            "3": [
-              "FROM: Captain Dave <dave@monterey-charters.com>",
-              "TO: you@example.com",
-              "SUBJECT: Your charter booking confirmation",
-              "HEADERS: DKIM=pass; SPF=pass; DMARC=pass",
-              "",
-              "Your fishing charter is confirmed for Saturday 8am...",
-              "Link: https://monterey-charters.com/booking/12345  ← matches ✓",
-              "",
-              "Verdict: LEGITIMATE",
-            ],
-          };
-          return { lines: emails[num] || [`No email #${num}`] };
+        "list-messages": () => ({ lines: ["1. principal@academy.edu — Assembly tomorrow ✓", "2. academy-admin@gmail.com — URGENT password expiry ✗", "3. freegames@prizes.click — You won! ✗", "", "Inspect each: inspect 1, 2, or 3"] }),
+        inspect: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["Message 1: From principal@academy.edu (real domain ✓). Normal school message. SAFE."] };
+          if (n === "2") return { lines: ["Message 2: PHISHING! Wrong domain (gmail.com, not academy.edu). Fake urgency ('1 hour!'). Wants your password. REPORT IT!"] };
+          if (n === "3") return { lines: ["Message 3: PHISHING! Suspicious sender, impossible prize offer, clickbait link. REPORT IT!"] };
+          return { lines: ["Unknown message."] };
         },
-        "report-phish": (args) => {
-          if (args[0] === "2") {
-            return {
-              lines: [
-                "Email #2 reported as phishing.",
-                "Indicators confirmed:",
-                "  ✗ Sender domain: paypa1-alert.com (not paypal.com)",
-                "  ✗ '1' used instead of 'l' in domain — typosquatting",
-                "  ✗ DKIM/SPF/DMARC: all failed",
-                "  ✗ Urgent threatening language",
-                "  ✗ Link goes to attacker domain, not paypal.com",
-                "",
-                "  ┌──────────────────────────────────────────────────────────┐",
-                "  │  PHISHING IDENTIFIED. NEVER TRUST DISPLAY NAMES ALONE.  │",
-                "  │                                                          │",
-                "  │  Run 'assemble' to retrieve your fragment.               │",
-                "  └──────────────────────────────────────────────────────────┘",
-                "",
-                ">> LEARN: Reporting phishing stops the campaign propagating",
-                "   Phishing kits reuse domains — one report can protect thousands of others.",
-                "   Anti-phishing feeds (Google Safe Browsing, PhishTank) rely on reports.",
-                "   Real tool: report phishing via reportphishing@apwg.org or browser menu.",
-              ],
-            };
-          }
-          return { lines: [`Email #${args[0]} is legitimate. Check all three emails carefully.`] };
+        report: (args) => {
+          const n = args[0];
+          if (n === "2") return { lines: ["✓ Message 2 REPORTED and blocked! Nice phishing detection!"] };
+          if (n === "3") return { lines: ["✓ Message 3 REPORTED and blocked! Good work! Run 'assemble'."] };
+          return { lines: [`Message ${n} is real — don't report real messages.`] };
         },
       },
     },
   },
 
-  // ─── BT-22: Two-Factor Authentication ─────────────────────────────────────
+  // ─── BT-22: Two-Factor Authentication ────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Charter Boat Dock, Coast Guard Pier", location: "Monterey, USA", era: "Present Day", emoji: "🚢" },
+    wonder: { name: "The Academy Vault Room", location: "CyberVille", era: "Today", emoji: "🔐" },
     id: "bt-22",
     order: 22,
-    title: "The Double Lock",
-    subtitle: "Two-Factor Authentication — Two Keys to Start the Boat",
+    title: "Two Locks Are Better Than One",
+    subtitle: "What is Two-Factor Authentication (2FA)?",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-22", name: "2FA Guardian", emoji: "🔐" },
+    xp: 100,
+    badge: { id: "bt-badge-22", name: "2FA Champion", emoji: "🔐" },
     challengeType: "ctf",
     info: {
-      tagline: "The charter boat needs two keys to start: the ignition key AND the captain's code. Lose one, the boat stays docked.",
+      tagline: "Two-factor authentication adds a second lock to your account — even if someone knows your password, they still can't get in.",
       year: 2025,
       overview: [
-        "The charter boat at Coast Guard Pier requires two actions to start the engine: insert the ignition key AND enter a 4-digit captain's code. Someone stealing just the key can't start the boat. Someone who knows just the code can't either. Two-factor authentication (2FA) applies this principle to logins: something you know (password) plus something you have (phone, hardware key) or something you are (fingerprint).",
-        "2FA stops credential theft attacks cold. If an attacker phishes your password, they still can't log in without the second factor. The 2023 statistics are stark: accounts with 2FA enabled are 99.9% less likely to be compromised than those without. Microsoft's data shows 2FA blocks virtually all automated attacks.",
-        "Types of second factors: SMS codes (convenient but vulnerable to SIM swapping), authenticator app TOTP codes (more secure, offline), hardware keys like YubiKey (most secure, phishing-resistant), and biometrics (fingerprint, face). SMS is the weakest — use an authenticator app or hardware key for sensitive accounts.",
+        "Imagine your school locker has two locks. Even if someone finds the combination to the first lock, they still can't open it without the key to the second lock. Two-factor authentication (2FA) works the same way for your online accounts.",
+        "With 2FA, logging in requires two things: (1) something you KNOW — your password, and (2) something you HAVE — a code sent to your phone, or generated by an app. A hacker who steals your password still can't log in without also having your phone.",
+        "Turn on 2FA for every important account: email, social media, school accounts. It takes 10 seconds at login and makes your account about 100 times harder to hack.",
       ],
       technical: {
-        title: "How TOTP (Authenticator Apps) Work",
+        title: "Types of 2FA",
         body: [
-          "TOTP (Time-based One-Time Password, RFC 6238): when you set up 2FA with an authenticator app, the server shares a secret key with your app. Every 30 seconds, both the server and your app independently compute HMAC-SHA1(secret + current_time_window) and take the last 6 digits. Because they share the secret and time is synchronized, they get the same 6-digit code — without any communication.",
-          "SIM swapping: attacker calls your carrier, impersonates you using social engineering, gets your phone number transferred to their SIM card. Now they receive your SMS codes. In 2019, Twitter's CEO Jack Dorsey had his account hacked this way. Authenticator apps and hardware keys are immune to SIM swapping — they don't use the phone number.",
+          "SMS 2FA: a code is texted to your phone. Easy but not the most secure (hackers can sometimes intercept texts). Authenticator apps (like Google Authenticator): generate a new 6-digit code every 30 seconds. More secure than SMS. Hardware keys (like YubiKey): a physical device you plug in. Most secure of all.",
+          "Using ANY form of 2FA is much better than no 2FA. Don't let perfect be the enemy of good — enable SMS 2FA now, and upgrade later if you want.",
         ],
         codeExample: {
-          label: "Generating TOTP codes in Python",
-          code: `import pyotp
-import time
+          label: "How 2FA works",
+          code: `  Step 1: Enter your password (something you KNOW)
+          ✓ Password accepted
 
-# Generate a TOTP secret (do this once, store securely)
-secret = pyotp.random_base32()
-print(f"Secret: {secret}")  # share with authenticator app
+  Step 2: Check your phone for a code (something you HAVE)
+          App shows: 847 293 (changes every 30 seconds)
 
-# Generate the current 6-digit code
-totp = pyotp.TOTP(secret)
-print(f"Current code: {totp.now()}")  # valid for 30 seconds
+  Step 3: Enter the code on the login page
+          ✓ Code correct — LOGIN SUCCESSFUL
 
-# Verify a code from the user
-user_code = "123456"
-is_valid = totp.verify(user_code)
-print(f"Valid: {is_valid}")`,
+  Hacker has your password but not your phone:
+  Step 2: Hacker can't get the code
+          ✗ LOGIN DENIED — account stays safe!`,
         },
       },
       incident: {
-        title: "The 2022 Uber Hack — Social Engineering Past 2FA",
-        when: "September 15, 2022",
-        where: "Uber Technologies",
-        impact: "Full internal network access; source code, internal tools, HackerOne reports exposed",
+        title: "Tricked Around 2FA — The Uber Hack",
+        when: "2022",
+        where: "Uber, the ride-sharing company",
+        impact: "A hacker got full access to Uber's internal systems",
         body: [
-          "An 18-year-old attacker compromised Uber by targeting a contractor. The contractor had valid credentials and 2FA. The attacker used MFA fatigue: they sent repeated 2FA push notifications until the contractor, annoyed by the constant prompts, finally clicked 'Approve' just to make them stop. Then they texted the contractor pretending to be Uber IT, saying the approvals were a test.",
-          "With the approved session, the attacker found a PowerShell script on an internal share containing hard-coded admin credentials for Uber's Thycotic PAM system. From there, they had access to everything. Lesson: 2FA is not foolproof against social engineering. Number-matching 2FA (show the same number on login and push notification) defeats MFA fatigue attacks.",
+          "In 2022, a hacker got an employee's password and tried to log into Uber. The employee had 2FA set up, so the hacker kept sending 2FA approval requests — over and over for an hour. Finally, the exhausted employee clicked 'Approve' just to make them stop. The hacker got in.",
+          "This shows that 2FA is strong, but social engineering (tricking people) can sometimes work around it. Never approve a 2FA request you didn't initiate yourself. If you get unexpected 2FA requests, change your password immediately.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Password Stolen", sub: "phishing or breach", type: "attacker" },
-          { label: "Login Attempted", sub: "attacker has password", type: "system" },
-          { label: "2FA Required", sub: "second factor blocks access", type: "victim" },
-          { label: "Access Denied", sub: "password alone is useless", type: "result" },
+          { label: "Enter Password", sub: "factor 1: something you know", type: "attacker" },
+          { label: "Get Code on Phone", sub: "factor 2: something you have", type: "system" },
+          { label: "Enter Both Correctly", sub: "two checks passed", type: "victim" },
+          { label: "Access Granted!", sub: "much harder to hack", type: "result" },
         ],
       },
       timeline: [
-        { year: 1986, event: "RSA SecurID — first commercial hardware 2FA token" },
-        { year: 2011, event: "Google Authenticator released — TOTP goes mainstream" },
-        { year: 2019, event: "Jack Dorsey (Twitter CEO) account hacked via SIM swap — bypassed SMS 2FA", highlight: true },
-        { year: 2022, event: "Uber hack via MFA fatigue — social engineering defeats push-notification 2FA" },
+        { year: 1993, event: "First patented two-factor authentication system" },
+        { year: 2013, event: "Many major breaches show password-only login is not enough" },
+        { year: 2025, event: "2FA is standard on most important websites — enable it!", highlight: true },
       ],
       keyTakeaways: [
-        "2FA requires two factors: something you know + something you have/are",
-        "Accounts with 2FA are 99.9% less likely to be compromised",
-        "SMS 2FA is the weakest — vulnerable to SIM swapping; use an authenticator app",
-        "MFA fatigue: attackers spam push notifications until victim approves by mistake",
+        "2FA requires both your password AND a second code (from your phone)",
+        "Even if a hacker gets your password, they still can't log in without your phone",
+        "SMS, authenticator apps, and hardware keys are all types of 2FA",
+        "Never approve a 2FA request you didn't initiate — change your password if this happens",
       ],
       references: [
         { title: "Multi-Factor Authentication — CISA", url: "https://www.cisa.gov/mfa" },
-        { title: "Uber 2022 Breach Analysis — Uber", url: "https://www.uber.com/newsroom/security-update/" },
       ],
     },
     ctf: {
-      scenario: "A charter service's login system has 2FA on one account and not the other. Try to break into both and observe the difference. Then enable 2FA on the vulnerable account.",
-      hint: "Try logging into both accounts with the stolen password. Only the one without 2FA will succeed.",
+      scenario: "Someone is trying to log into the Academy system with a stolen password. The system requires 2FA. Help the system block the attacker.",
+      hint: "Follow the 2FA process and identify the unauthorized login attempt.",
       hints: [
-        "Try logging into the account without 2FA. Run: login captain-no2fa P4ssw0rd",
-        "Try the account with 2FA. Run: login captain-2fa P4ssw0rd",
-        "Attempt to bypass 2FA. Run: bypass-2fa captain-2fa",
-        "Enable 2FA on the vulnerable account. Run: enable-2fa captain-no2fa",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See the login attempt. Run: show-attempt",
+        "Check if 2FA was sent to the real user. Run: check-2fa",
+        "The real user didn't request it — deny it. Run: deny-login",
+        "Alert the real user. Run: alert-user",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/login-attempts.txt": [
+          "ACADEMY LOGIN MONITOR",
+          "======================",
+          "Attempt: User 'alice', correct password entered",
+          "BUT: Login is from an unknown location (different country!)",
+          "2FA code was requested automatically",
+          "Alice's phone received the code",
+          "",
+          "Is this Alice? Or a hacker with her password?",
+          "Commands: show-attempt | check-2fa | deny-login | alert-user",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "login-attempts.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "login captain-no2fa P4ssw0rd",
-          value: "FLAG{2F4_",
-          label: "Weak Account — Password Alone Grants Access",
-        },
-        {
-          trigger: "bypass-2fa captain-2fa",
-          value: "ST0PS_ST0L3N_",
-          label: "Bypass Attempted — Second Factor Cannot Be Skipped",
-        },
-        {
-          trigger: "enable-2fa captain-no2fa",
-          value: "P4SSW0RDS}",
-          label: "Account Hardened — 2FA Now Blocks Stolen Credentials",
-        },
+        { trigger: "show-attempt", value: "FLAG{2F4_", label: "Suspicious Login Found" },
+        { trigger: "check-2fa", value: "PR0T3CT5_", label: "2FA Triggered Correctly" },
+        { trigger: "deny-login", value: "ACC0UNT}", label: "Unauthorized Login Blocked!" },
       ],
       extraCommands: {
-        login: (args) => {
-          const user = args[0] || "";
-          const pass = args[1] || "";
-          if (user === "captain-no2fa" && pass === "P4ssw0rd") {
-            return {
-              lines: [
-                "Login successful: captain-no2fa",
-                "⚠ No 2FA on this account.",
-                "Attacker is now logged in with just the stolen password.",
-                "All charter bookings and customer data: EXPOSED.",
-                "",
-                "Run: enable-2fa captain-no2fa to fix this.",
-                "",
-                ">> LEARN: A stolen password is a full breach without 2FA",
-                "   Credential stuffing tools test millions of username/password pairs per hour.",
-                "   Without a second factor, every breached password is a working key.",
-                "   Real stat: 2FA blocks 99.9% of automated account takeover attempts.",
-              ],
-            };
-          }
-          if (user === "captain-2fa") {
-            return {
-              lines: [
-                "Password accepted for captain-2fa.",
-                "→ 2FA required: enter your 6-digit authenticator code.",
-                "  Attacker does not have the physical authenticator device.",
-                "  Access: DENIED.",
-                "  (Try: bypass-2fa captain-2fa)",
-              ],
-            };
-          }
-          return { lines: ["Login failed. Try: login captain-no2fa P4ssw0rd"] };
-        },
-        "bypass-2fa": () => ({
-          lines: [
-            "Attempting to bypass 2FA for captain-2fa...",
-            "  Brute force TOTP codes: failed (codes expire every 30s)",
-            "  Replay attack: failed (codes are single-use)",
-            "  SIM swap: not applicable (uses authenticator app, not SMS)",
-            "",
-            "2FA: CANNOT BE BYPASSED without the physical device.",
-            "This is why 2FA matters.",
-            "",
-            ">> LEARN: TOTP codes are time-locked and single-use by design",
-            "   Each code is valid for 30 seconds then discarded — replay is useless.",
-            "   SIM swapping hijacks SMS codes; authenticator apps are immune.",
-            "   Real tool: authy or Google Authenticator — no phone number required.",
-          ],
-        }),
-        "enable-2fa": (args) => {
-          if ((args[0] || "").includes("no2fa")) {
-            return {
-              lines: [
-                "Enabling 2FA for captain-no2fa...",
-                "  Generating TOTP secret...",
-                "  QR code generated — scan with authenticator app.",
-                "  2FA: ENABLED.",
-                "",
-                "  ┌──────────────────────────────────────────────────────┐",
-                "  │  2FA ENABLED. STOLEN PASSWORD NOW USELESS ALONE.    │",
-                "  │                                                      │",
-                "  │  Run 'assemble' to retrieve your fragment.           │",
-                "  └──────────────────────────────────────────────────────┘",
-                "",
-                ">> LEARN: TOTP setup shares a secret once — then works offline",
-                "   The QR code encodes a base32 secret — store it as a backup code.",
-                "   MFA fatigue attacks spam push-notification apps until victims approve.",
-                "   Defense: use number-matching 2FA or a hardware key (YubiKey).",
-              ],
-            };
-          }
-          return { lines: [`Unknown account: ${args[0]}`] };
-        },
+        "show-attempt": () => ({ lines: ["LOGIN ATTEMPT:", "  User: alice", "  Password: CORRECT (stolen!)", "  Location: Unknown country", "  Time: 3am (Alice is usually asleep)", "", "Suspicious! Check 2FA."] }),
+        "check-2fa": () => ({ lines: ["2FA STATUS:", "  Code sent to Alice's phone: 847293", "  Code entered by attacker: (waiting...)", "  Alice was ASLEEP and did NOT initiate this login.", "", "This is unauthorized. Run: deny-login"] }),
+        "deny-login": () => ({ lines: ["✓ Login DENIED — 2FA code not approved by the real user.", "✓ Attacker blocked even though they had the correct password.", "Run: alert-user to warn Alice."] }),
+        "alert-user": () => ({ lines: ["✓ Alice has been alerted: 'Someone tried to log in with your password from another country.'", "✓ Alice can now change her password.", "✓ 2FA saved her account! Run 'assemble'."] }),
       },
     },
   },
 
-  // ─── BT-23: Strong Passwords ──────────────────────────────────────────────
+  // ─── BT-23: Password Strength ────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Tackle Shop, Cannery Row", location: "Monterey, USA", era: "Present Day", emoji: "🎏" },
+    wonder: { name: "The Academy Lock-Up Room", location: "CyberVille", era: "Today", emoji: "🔑" },
     id: "bt-23",
     order: 23,
-    title: "The Bait Locker Combination",
-    subtitle: "Password Strength — Why Complexity and Length Both Matter",
+    title: "Make Your Password Strong",
+    subtitle: "Password Strength — Why Length and Randomness Matter",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-23", name: "Password Architect", emoji: "🔑" },
+    xp: 100,
+    badge: { id: "bt-badge-23", name: "Password Protector", emoji: "🔑" },
     challengeType: "ctf",
     info: {
-      tagline: "A 3-digit padlock has 1,000 combinations. A 6-digit lock has 1,000,000. Length beats cleverness every time.",
+      tagline: "A strong password is like a very long, random combination lock — the more digits and randomness, the harder it is to crack.",
       year: 2025,
       overview: [
-        "The tackle shop's bait locker uses a combination lock. A 3-digit lock (000–999) can be cracked by trying all 1,000 combinations in minutes. A 6-digit lock takes 1,000x longer. An 8-digit lock: 100,000x longer. Password strength works by the same math: more characters = exponentially more combinations = exponentially more time to crack.",
-        "A password's strength comes from entropy — the number of bits required to represent it as information. A random 8-character password using lowercase only has 26^8 ≈ 200 billion combinations. Add uppercase (52^8) and numbers (62^8) — 218 trillion combinations. Add length to 16 characters: 62^16 ≈ 47 sextillion. Modern password crackers run at 100 billion guesses per second on GPU hardware.",
-        "The common advice to use 'complex' passwords (P@ssw0rd1!) is actually less secure than a long passphrase (correct-horse-battery-staple). Attackers' dictionaries include all common substitutions. Length wins. Use a passphrase of 4+ random words, or let a password manager generate a fully random 20-character string.",
+        "A combination lock with 3 digits (000–999) has only 1,000 possible combinations — a thief could try them all in minutes. A lock with 10 random digits has 10 billion combinations — that would take years to try! Passwords work the same way. The longer and more random, the stronger.",
+        "The worst passwords are easy-to-guess ones: '123456', 'password', your name, or your birthday. These are the first ones hackers try. The best passwords are long, random, and unique to each account.",
+        "The easiest way to have strong passwords: use a passphrase (a sentence like 'PurpleElephantJumpsOver7Clouds!') or use a password manager that generates and remembers random passwords for you.",
       ],
       technical: {
-        title: "How Password Cracking Works",
+        title: "How Hackers Crack Passwords",
         body: [
-          "Offline cracking: attacker obtains the database of hashed passwords (via a breach). They hash guesses and compare against the stolen hashes. With a modern GPU, they can try 100 billion MD5 hashes per second, 10 billion bcrypt hashes per second. Dictionary attacks try common words and patterns first; brute force tries all combinations of a given character set and length.",
-          "Salting: a random salt is added to each password before hashing, so two users with the same password have different hashes. This prevents rainbow table attacks (precomputed hash lookups) and forces the attacker to crack each hash individually. bcrypt, scrypt, and Argon2 are designed to be deliberately slow, making large-scale cracking impractical.",
+          "Dictionary attacks try common words and known passwords. Brute force attacks try every possible combination. The key insight: a 6-character password can be cracked in seconds. A 16-character random password would take millions of years with today's computers.",
+          "Every account should have a unique password. If one site gets hacked and you used the same password everywhere, all your accounts are at risk. A password manager (like 1Password or Bitwarden) helps you use unique strong passwords for everything.",
         ],
         codeExample: {
-          label: "Calculating password entropy and cracking time",
-          code: `import math
+          label: "Weak vs strong passwords",
+          code: `  WEAK (cracked in seconds):
+  ✗ password
+  ✗ 123456
+  ✗ minecraft2024
+  ✗ your_dog_name
 
-def password_entropy(length, charset_size):
-    return length * math.log2(charset_size)
+  STRONG (takes forever to crack):
+  ✓ PurpleElephant!Jumps7Times
+  ✓ xK#9pL!qN2$mR8
+  ✓ correct-horse-battery-staple
 
-# Examples:
-# 8 chars, lowercase only (26):      38 bits
-# 8 chars, mixed case + nums (62):   47 bits
-# 12 chars, mixed case + nums (62):  71 bits
-# 4-word passphrase (7776 words):    51 bits
-# 20 random chars (95 printable):   131 bits
-
-# At 100 billion guesses/second:
-# 38 bits: cracks in seconds
-# 71 bits: cracks in ~750 years
-# 131 bits: cracks in longer than the universe's age`,
+  Rules:
+  ✓ At least 12 characters long
+  ✓ Mix of letters, numbers, symbols
+  ✓ Unique for every account`,
         },
       },
       incident: {
-        title: "The RockYou Breach — 32 Million Passwords in Plaintext",
-        when: "December 2009",
-        where: "RockYou social gaming platform",
-        impact: "32 million passwords stored in plaintext; most common passwords revealed; rockyou.txt still used today",
+        title: "32 Million Passwords Stored in Plain Text",
+        when: "2009",
+        where: "RockYou, a social gaming company",
+        impact: "32 million real passwords exposed — still used to crack other accounts today",
         body: [
-          "RockYou stored 32 million user passwords in plaintext with no hashing. An SQL injection attack exposed the entire database. The dump became the most famous password list in cybersecurity — 'rockyou.txt' is still the first wordlist every password cracking tool tries. The most common password: '123456' (used by 290,731 accounts). Second: '12345'. Third: '123456789'.",
-          "The analysis revealed that 99% of users chose passwords from a tiny set of patterns: keyboard walks (qwerty, asdf), simple words with number suffixes (password1), names, and sequential numbers. Every modern password cracker starts with these patterns. If your password is guessable by a human, it's certainly guessable by a GPU.",
+          "In 2009, a company called RockYou got hacked. They had stored 32 million users' passwords in plain text — no protection at all. Hackers published the list online. The most common password? '123456' (used by 290,000 people).",
+          "That list of passwords is still used by hackers today to guess passwords on other sites. If your password is common or simple, it's probably on that list. Check haveibeenpwned.com to see if your accounts have been in any breaches.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Short/Simple Password", sub: "8 chars, common pattern", type: "attacker" },
-          { label: "GPU Cracker", sub: "100B guesses/second", type: "system" },
-          { label: "Cracked in Seconds", sub: "dictionary match found", type: "victim" },
-          { label: "Long Random Password", sub: "20 chars: centuries to crack", type: "result" },
+          { label: "Short/common password", sub: "cracked in seconds", type: "attacker" },
+          { label: "Hacker's word list", sub: "tries millions of guesses", type: "system" },
+          { label: "Long random password", sub: "takes millions of years", type: "victim" },
+          { label: "Your account stays safe!", sub: "complexity = protection", type: "result" },
         ],
       },
       timeline: [
-        { year: 1961, event: "First computer password system at MIT CTSS" },
-        { year: 1979, event: "Unix introduces /etc/passwd with hashed passwords — salting invented" },
-        { year: 2009, event: "RockYou breach — 32M plaintext passwords; rockyou.txt born", highlight: true },
-        { year: 2012, event: "LinkedIn breach — 117M SHA-1 unsalted hashes cracked in days" },
+        { year: 1961, event: "First computer password ever used" },
+        { year: 2009, event: "RockYou breach — 32M passwords in plain text exposed", highlight: true },
+        { year: 2025, event: "Password managers make strong unique passwords easy for everyone" },
       ],
       keyTakeaways: [
-        "Length beats complexity — 4 random words is stronger than 8 complex characters",
-        "Use a password manager to generate and store truly random 20-character passwords",
-        "Never reuse passwords — one breach compromises all reused accounts",
-        "Hashing with salt (bcrypt/Argon2) makes cracking computationally expensive",
+        "Long, random passwords are exponentially harder to crack than short simple ones",
+        "Never reuse passwords — if one site is hacked, all your accounts stay safe",
+        "A passphrase (4+ random words) is both strong and memorable",
+        "Use a password manager to generate and store unique passwords for every site",
       ],
       references: [
-        { title: "Password Strength — NIST SP 800-63B", url: "https://pages.nist.gov/800-63-3/sp800-63b.html" },
-        { title: "RockYou Password List Analysis", url: "https://www.imperva.com/blog/the-top-500-worst-passwords-of-all-time/" },
+        { title: "Password Strength — NIST", url: "https://pages.nist.gov/800-63-3/sp800-63b.html" },
       ],
     },
     ctf: {
-      scenario: "The bait locker uses two different password schemes. Crack the weak one to prove the point, then observe why the strong one is uncrackable with the same tools.",
-      hint: "Try to crack both passwords. Only the weak one will fall.",
+      scenario: "The Academy password system flagged some user passwords as too weak. Review each one and recommend whether to approve or require a change.",
+      hint: "Check each password's strength and make recommendations.",
       hints: [
-        "Attempt to crack the weak password hash. Run: crack weak-hash",
-        "Attempt to crack the strong password hash. Run: crack strong-hash",
-        "Analyze what makes the difference. Run: analyze-strength",
-        "Confirm your understanding. Run: submit-analysis",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See flagged passwords. Run: list-passwords",
+        "Rate password 1. Run: rate 1",
+        "Rate passwords 2 and 3.",
+        "Approve or flag each. Run: approve 3 and require-change 1 and require-change 2",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/password-audit.txt": [
+          "PASSWORD AUDIT",
+          "===============",
+          "User 1 'alice': password = 'abc123'",
+          "User 2 'bob':   password = 'qwerty'",
+          "User 3 'carol': password = 'PurpleMonkey!Jumps42'",
+          "",
+          "Commands: list-passwords | rate <n> | approve <n> | require-change <n>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "password-audit.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "crack weak-hash",
-          value: "FLAG{L3NGTH_",
-          label: "Weak Hash Cracked — Dictionary Attack Succeeds Instantly",
-        },
-        {
-          trigger: "analyze-strength",
-          value: "4ND_R4ND0MN3SS_W1N_",
-          label: "Entropy Analysed — Length and Randomness Define Strength",
-        },
-        {
-          trigger: "submit-analysis",
-          value: "3V3RY_T1M3}",
-          label: "Analysis Confirmed — Password Manager Is the Answer",
-        },
+        { trigger: "list-passwords", value: "FLAG{P4SSW0RD_", label: "Passwords Listed" },
+        { trigger: "rate 3", value: "STR3NGH_", label: "Strong Password Identified" },
+        { trigger: "require-change 1", value: "CH3CK3D}", label: "Weak Passwords Flagged — Audit Complete!" },
       ],
       extraCommands: {
-        crack: (args) => {
-          const target = args[0] || "";
-          if (target === "weak-hash") {
-            return {
-              lines: [
-                "Cracking weak-hash (MD5, no salt)...",
-                "  Hash: 5f4dcc3b5aa765d61d8327deb882cf99",
-                "  Trying rockyou.txt dictionary... HIT at entry #1",
-                "  Password: 'password'",
-                "  Time: 0.003 seconds",
-                "",
-                "Cracked instantly. This password was useless.",
-                "",
-                ">> LEARN: Password cracking is offline — no server interaction needed",
-                "   Stolen MD5/SHA-1 hashes + GPU = 100 billion guesses per second.",
-                "   rockyou.txt (14M common passwords) is the first wordlist every attacker tries.",
-                "   Real tool: hashcat -a 0 -m 0 hash.txt rockyou.txt (MD5 + wordlist)",
-              ],
-            };
-          }
-          if (target === "strong-hash") {
-            return {
-              lines: [
-                "Cracking strong-hash (Argon2id, salted)...",
-                "  Hash: $argon2id$v=19$m=65536,t=3,p=4$...",
-                "  Trying rockyou.txt dictionary... 0 matches",
-                "  Trying brute force (20 random chars, 95 charset)...",
-                "  Estimated time at 100B guesses/sec: 3.2 × 10^28 years",
-                "",
-                "NOT CRACKABLE. Password: 20 random chars with Argon2id.",
-                "",
-                ">> LEARN: Argon2id makes hashing deliberately expensive to compute",
-                "   The m=65536 parameter forces 64 MB of RAM per guess — kills GPU cracking.",
-                "   A unique random salt means the same password hashes differently each time.",
-                "   Use bcrypt or Argon2id for passwords — never MD5, SHA-1, or SHA-256 alone.",
-              ],
-            };
-          }
-          return { lines: [`Unknown target: ${target}. Try: crack weak-hash or crack strong-hash`] };
+        "list-passwords": () => ({ lines: ["1. alice: 'abc123' — 6 chars, very common", "2. bob: 'qwerty' — 6 chars, keyboard pattern", "3. carol: 'PurpleMonkey!Jumps42' — 20 chars, mixed, strong!", "", "Rate each: rate 1, rate 2, rate 3"] }),
+        rate: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["'abc123': VERY WEAK — 6 chars, common, cracked in seconds. Require change."] };
+          if (n === "2") return { lines: ["'qwerty': VERY WEAK — keyboard pattern, top 10 worst passwords. Require change."] };
+          if (n === "3") return { lines: ["'PurpleMonkey!Jumps42': STRONG — 20 chars, mixed case, numbers, symbol. Approve!"] };
+          return { lines: ["Unknown user."] };
         },
-        "analyze-strength": () => ({
-          lines: [
-            "Password Strength Analysis:",
-            "",
-            "Weak:   'password'",
-            "  Length: 8  |  Charset: 26 (lowercase)  |  Entropy: 38 bits",
-            "  In top 10 of every password dictionary. Cracked instantly.",
-            "",
-            "Strong: 20-char random (a-z, A-Z, 0-9, symbols)",
-            "  Length: 20  |  Charset: 95  |  Entropy: 131 bits",
-            "  Cracking time: longer than the age of the universe.",
-            "",
-            "Use a password manager. Run: submit-analysis",
-            "",
-            ">> LEARN: Entropy = length x log2(charset size) — length wins",
-            "   P@ssw0rd has 38 bits of entropy — attackers' rules cover all substitutions.",
-            "   Four random words (correct-horse-battery-staple) give ~51 bits, easy to type.",
-            "   Real tool: python3 -c \"import secrets; print(secrets.token_urlsafe(20))\"",
-          ],
-        }),
-        "submit-analysis": () => ({
-          lines: [
-            "Analysis confirmed:",
-            "  Weak passwords crack in milliseconds.",
-            "  Strong random passwords are computationally uncrackable.",
-            "  Use a password manager to generate them.",
-            "",
-            "  ┌────────────────────────────────────────────────────────────┐",
-            "  │  PASSWORD STRENGTH MASTERED. USE A PASSWORD MANAGER.     │",
-            "  │                                                           │",
-            "  │  Run 'assemble' to retrieve your fragment.                │",
-            "  └────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: Password managers remove human memory from the equation",
-            "   Bitwarden, 1Password, and KeePassXC generate and store unique 20-char passwords.",
-            "   One breach of a reused password compromises every site using that password.",
-            "   Real tool: bitwarden CLI — bw generate --length 20 --symbols",
-          ],
-        }),
+        approve: (args) => {
+          if (args[0] === "3") return { lines: ["✓ Carol's password APPROVED — strong and unique."] };
+          return { lines: [`User ${args[0]}'s password is too weak to approve.`] };
+        },
+        "require-change": (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["✓ Alice must choose a new, stronger password."] };
+          if (n === "2") return { lines: ["✓ Bob must choose a new, stronger password. Run 'assemble'."] };
+          return { lines: [`User ${n} has a strong password.`] };
+        },
       },
     },
   },
 
-  // ─── BT-24: Public WiFi ───────────────────────────────────────────────────
+  // ─── BT-24: Public WiFi ──────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Open Water, Monterey Bay", location: "Monterey Bay, USA", era: "Present Day", emoji: "📡" },
+    wonder: { name: "The CyberVille Coffee Shop", location: "CyberVille", era: "Today", emoji: "☕" },
     id: "bt-24",
     order: 24,
-    title: "Open Radio Frequencies",
-    subtitle: "Public WiFi — When Everyone Can Hear Your Conversation",
+    title: "Be Careful at the Coffee Shop",
+    subtitle: "Public WiFi — What Can Go Wrong?",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-24", name: "WiFi Analyst", emoji: "📶" },
+    xp: 100,
+    badge: { id: "bt-badge-24", name: "WiFi Watcher", emoji: "☕" },
     challengeType: "ctf",
     info: {
-      tagline: "On open water, anyone with a radio can hear your marine channel broadcast. Open WiFi is the same.",
+      tagline: "Public WiFi is like talking in a crowded room — anyone nearby might be listening. Be careful what you share.",
       year: 2025,
       overview: [
-        "Out on Monterey Bay, fishing boats communicate on marine radio channel 16 — an open, unencrypted frequency anyone with a radio can tune into. Your conversations are public. Open WiFi networks (coffee shops, airports, hotels) work identically: unencrypted connections that anyone within radio range can capture and read with freely available tools.",
-        "On an open WiFi network, all unencrypted traffic — HTTP requests, DNS queries, plaintext emails — is visible to any device on the same network. An attacker with a laptop running Wireshark can capture all traffic passively without sending a single packet. They're just listening on the shared medium, exactly like tuning a radio.",
-        "The protection against WiFi eavesdropping: HTTPS encrypts the content of web traffic (so even if captured, it's unreadable), a VPN encrypts all traffic from your device (including DNS queries and app traffic), and using your phone's hotspot instead of public WiFi avoids the risk entirely.",
+        "Imagine you're at a coffee shop and you start talking loudly about your deepest secret. Everyone in the shop can hear you! Public WiFi networks — in coffee shops, airports, and libraries — can be a bit like that. Anyone connected to the same network might be able to see your internet traffic.",
+        "The good news: HTTPS protects most of your data even on public WiFi. But there are still risks — like fake WiFi hotspots set up by hackers pretending to be the real coffee shop network.",
+        "Safe rules for public WiFi: only use HTTPS sites (look for the lock), don't log into banking or very sensitive accounts, and consider using a VPN (a tool that encrypts all your traffic).",
       ],
       technical: {
-        title: "WiFi Eavesdropping and MITM on Open Networks",
+        title: "The Fake WiFi Hotspot Trick",
         body: [
-          "Open WiFi uses no encryption between your device and the access point — all frames are transmitted in plaintext. Any device in promiscuous mode (listening to all traffic, not just its own) can capture these frames. Tools: Wireshark (passive capture and analysis), Aircrack-ng (active WiFi attacks), ettercap (MITM on local network).",
-          "Even on WPA2-encrypted WiFi, all devices on the network share the same encryption key. If you know the WiFi password, you can decrypt other users' traffic (in personal WPA2 mode). WPA2-Enterprise with individual user certificates is the solution for corporate environments. For personal protection: VPN or HTTPS everywhere.",
+          "A common attack: a hacker sits in a coffee shop and creates a WiFi network called 'CoffeeShopFree' — the same name as the real one. When you connect, all your traffic goes through the hacker's device. They can see everything you do online.",
+          "Defense: always ask staff what the exact WiFi name is, verify before connecting, and use a VPN which encrypts all traffic so even the network owner can't read it.",
         ],
         codeExample: {
-          label: "Protecting yourself on public WiFi",
-          code: `# On Linux: see all traffic on an open network (passive)
-# sudo tcpdump -i wlan0 -n
+          label: "Safe vs unsafe on public WiFi",
+          code: `  SAFE on public WiFi:
+  ✓ Reading news (HTTPS)
+  ✓ Watching YouTube (HTTPS)
+  ✓ Using a VPN (encrypts everything)
 
-# What attackers see on HTTP (no encryption):
-# Your bank username in the POST body
-# Your session cookies in the headers
-# The URLs of every page you visit (including HTTPS — domain visible via SNI)
+  RISKY on public WiFi:
+  ✗ Online banking
+  ✗ Logging into email (without 2FA)
+  ✗ Typing credit card numbers
+  ✗ Connecting to unknown/fake networks
 
-# Protection options:
-# 1. Use a VPN (encrypts everything, including DNS)
-# 2. Use HTTPS-only sites (content encrypted, domain still visible)
-# 3. Use your phone hotspot instead of public WiFi
-# 4. Use DNS-over-HTTPS to hide DNS queries`,
+  When in doubt: use mobile data instead.`,
         },
       },
       incident: {
-        title: "The Darkhotel APT — Hotel WiFi Targeted Attacks",
-        when: "2007–2014 (discovered 2014)",
-        where: "Luxury hotel networks in Asia-Pacific",
-        impact: "Corporate executives' devices compromised via hotel WiFi during business trips",
+        title: "Hotel WiFi Attacks",
+        when: "2014 and ongoing",
+        where: "Luxury hotels worldwide",
+        impact: "Business travelers had devices infected via hotel WiFi",
         body: [
-          "The Darkhotel APT group (suspected North Korean) infiltrated luxury hotel WiFi networks in Japan, China, Russia, and Taiwan. They targeted C-suite executives staying at the hotels, delivering malware via fake software update prompts on the hotel network. The attackers had foreknowledge of the executives' travel schedules.",
-          "By sitting on the hotel's network as a man-in-the-middle, they could inject malicious content into HTTP connections, show fake update prompts, and download keyloggers when the target clicked 'update'. The lesson: never approve software updates over hotel WiFi, use a VPN on any public or hotel network, and use HTTPS-only browsing.",
+          "Hackers called the Darkhotel APT group targeted businesspeople staying in luxury hotels in Asia. When travelers connected to hotel WiFi and downloaded a software update, the update was actually malware installed by the hackers.",
+          "The lesson: be very careful about installing anything when connected to hotel or public WiFi. Even trusted update prompts can be faked on a compromised network.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Device", sub: "connected to open WiFi", type: "attacker" },
-          { label: "Open Access Point", sub: "no encryption between device and AP", type: "system" },
-          { label: "Attacker's Device", sub: "passive capture on same network", type: "victim" },
-          { label: "Your Traffic Visible", sub: "all unencrypted data exposed", type: "result" },
+          { label: "You connect to public WiFi", sub: "open network", type: "attacker" },
+          { label: "Other users on same network", sub: "might be able to see traffic", type: "system" },
+          { label: "Fake hotspot (evil twin)", sub: "hacker's network, looks real", type: "victim" },
+          { label: "VPN protects you!", sub: "encrypts all your traffic", type: "result" },
         ],
       },
       timeline: [
-        { year: 1997, event: "802.11 WiFi standard introduced — no security by default" },
-        { year: 2001, event: "WEP cracked in minutes — WiFi encryption shown to be worthless" },
-        { year: 2007, event: "Darkhotel APT begins targeting hotel WiFi networks", highlight: true },
-        { year: 2018, event: "WPA3 introduces per-session encryption — even shared-key WiFi gets better" },
+        { year: 2000, event: "Public WiFi appears in cafes and airports" },
+        { year: 2010, event: "Firesheep shows how easy it is to steal logins on open networks" },
+        { year: 2025, event: "HTTPS is now widespread — most traffic is encrypted even on public WiFi", highlight: true },
       ],
       keyTakeaways: [
-        "Open WiFi is unencrypted — every packet is visible to anyone on the network",
-        "Passive eavesdropping requires no attack — just listening on the shared medium",
-        "HTTPS protects content but not the destination domain (visible via SNI)",
-        "VPN or phone hotspot are the safest options on untrusted networks",
+        "Public WiFi is shared — others on the same network might see unencrypted traffic",
+        "Fake WiFi hotspots look like real networks — always verify the name",
+        "HTTPS protects most browsing, but avoid banking on public WiFi",
+        "A VPN encrypts all your traffic and is the best protection on public WiFi",
       ],
       references: [
         { title: "Risks of Public WiFi — FTC", url: "https://consumer.ftc.gov/articles/public-wifi-risks" },
-        { title: "Darkhotel APT Report — Kaspersky", url: "https://securelist.com/the-darkhotel-apt/66779/" },
       ],
     },
     ctf: {
-      scenario: "You're on an open WiFi network in Monterey Bay. Capture the unencrypted traffic from a fellow fisherman's device and find the credential they're sending over HTTP.",
-      hint: "Capture the HTTP traffic and extract the credentials from the plaintext stream.",
+      scenario: "You're at a coffee shop and see 3 WiFi networks. One is real, one is a fake hotspot set up by a hacker. Identify the safe network to connect to.",
+      hint: "Spot the fake hotspot and connect to the safe network.",
       hints: [
-        "Start a passive capture on the open network. Run: capture-traffic",
-        "Filter for HTTP traffic only. Run: filter http",
-        "Find the POST request with credentials. Run: find-creds",
-        "Extract the stolen credentials. Run: extract",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See available networks. Run: scan-wifi",
+        "Inspect each network. Run: inspect wifi-1",
+        "Inspect wifi-2 and wifi-3.",
+        "Connect to the safe one. Run: connect wifi-1",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/wifi-scan.txt": [
+          "AVAILABLE WIFI NETWORKS",
+          "========================",
+          "wifi-1: CyberVilleCafe         (verified by staff: real!)",
+          "wifi-2: CyberVilleCafe_FREE     (extra 'FREE' — suspicious!)",
+          "wifi-3: FREE_COFFEE_WIFI        (new, unverified, too good?)",
+          "",
+          "Commands: scan-wifi | inspect <wifi> | connect <wifi>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "wifi-scan.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "capture-traffic",
-          value: "FLAG{0P3N_W1F1_",
-          label: "Network Scanned — Devices Visible on Open Frequency",
-        },
-        {
-          trigger: "find-creds",
-          value: "3XP0S3S_4LL_PL41NT3XT_",
-          label: "POST Request Captured — Credentials in Plain Sight",
-        },
-        {
-          trigger: "extract",
-          value: "TR4FF1C}",
-          label: "Credentials Extracted — Passive Eavesdrop Complete",
-        },
+        { trigger: "scan-wifi", value: "FLAG{W1F1_", label: "Networks Found" },
+        { trigger: "inspect wifi-2", value: "3V1L_", label: "Fake Hotspot Identified" },
+        { trigger: "connect wifi-1", value: "TW1N}", label: "Connected to Safe Network!" },
       ],
       extraCommands: {
-        "capture-traffic": () => ({
-          lines: [
-            "Passive capture started on open WiFi (no authentication required).",
-            "Capturing all frames in the air...",
-            "",
-            "Devices visible on network:",
-            "  192.168.4.2   captain-dave-iphone",
-            "  192.168.4.7   fisherman-bob-laptop  ← active HTTP session",
-            "  192.168.4.11  marina-tablet",
-            "",
-            "HTTP traffic detected from 192.168.4.7.",
-            "Run: filter http",
-            "",
-            ">> LEARN: Open WiFi broadcasts every packet to every device in range",
-            "   Promiscuous mode lets a network card read all frames, not just its own.",
-            "   No attack needed — passive listening is invisible and undetectable.",
-            "   Real tool: sudo tcpdump -i wlan0 -n (requires monitor mode on Linux)",
-          ],
-        }),
-        "filter": (args) => {
-          if (args[0] === "http") {
-            return {
-              lines: [
-                "Filtering for HTTP traffic from 192.168.4.7...",
-                "",
-                "Captured 14 HTTP requests.",
-                "1 POST request to fishing-log.com/login — contains form data.",
-                "",
-                "Run: find-creds",
-              ],
-            };
-          }
-          return { lines: ["Specify protocol: filter http"] };
+        "scan-wifi": () => ({ lines: ["wifi-1: CyberVilleCafe — staff verified ✓", "wifi-2: CyberVilleCafe_FREE — not on official list!", "wifi-3: FREE_COFFEE_WIFI — unknown origin!", "", "Inspect each: inspect wifi-1, wifi-2, wifi-3"] }),
+        inspect: (args) => {
+          const w = args[0];
+          if (w === "wifi-1") return { lines: ["wifi-1: Official cafe network. Staff confirmed this is the real name. SAFE."] };
+          if (w === "wifi-2") return { lines: ["wifi-2: FAKE! 'CyberVilleCafe_FREE' is not the real network name. Could be an evil twin hotspot!"] };
+          if (w === "wifi-3") return { lines: ["wifi-3: FAKE! Unknown origin, no staff verification. Suspicious free offer."] };
+          return { lines: ["Unknown network."] };
         },
-        "find-creds": () => ({
-          lines: [
-            "POST /login HTTP/1.1",
-            "Host: fishing-log.com",
-            "Content-Type: application/x-www-form-urlencoded",
-            "",
-            "username=fisher_bob&password=monterey1984&remember_me=true",
-            "",
-            "All data transmitted in plaintext.",
-            "Anyone on this WiFi can see this. Run: extract",
-            "",
-            ">> LEARN: HTTP POST bodies are fully visible on open networks",
-            "   Credentials, session tokens, and form data all travel as readable text.",
-            "   HTTPS encrypts the body — the destination domain is still visible via SNI.",
-            "   Real tool: wireshark filter: http.request.method == POST",
-          ],
-        }),
-        extract: () => ({
-          lines: [
-            "Credentials extracted from open WiFi capture:",
-            "  Site: fishing-log.com",
-            "  Username: fisher_bob",
-            "  Password: monterey1984",
-            "",
-            "Zero technical skill required — just passive listening.",
-            "HTTPS would have prevented this. A VPN would have prevented this.",
-            "",
-            "  ┌──────────────────────────────────────────────────────────────┐",
-            "  │  OPEN WIFI DANGER DEMONSTRATED. USE VPN OR HTTPS ALWAYS.   │",
-            "  │                                                              │",
-            "  │  Run 'assemble' to retrieve your fragment.                  │",
-            "  └──────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: VPN encrypts all traffic before it leaves your device",
-            "   Even the destination domain is hidden from other WiFi users with a VPN.",
-            "   HTTPS encrypts content but leaks the domain via TLS SNI in the handshake.",
-            "   Best option on untrusted networks: phone hotspot — isolated 4G/5G channel.",
-          ],
-        }),
+        connect: (args) => {
+          const w = args[0];
+          if (w === "wifi-1") return { lines: ["✓ Connected to CyberVilleCafe (the real network)!", "✓ Always verify with staff before connecting. Good instinct! Run 'assemble'."] };
+          return { lines: [`${w} is a fake hotspot! Don't connect. Use wifi-1 instead.`] };
+        },
       },
     },
   },
 
-  // ─── BT-25: Social Engineering ────────────────────────────────────────────
+  // ─── BT-25: Social Engineering ───────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Dockside Cantina", location: "Monterey, USA", era: "Present Day", emoji: "🍺" },
+    wonder: { name: "The Academy Trust Lab", location: "CyberVille", era: "Today", emoji: "🤝" },
     id: "bt-25",
     order: 25,
-    title: "The Fisherman's Tall Tale",
-    subtitle: "Social Engineering — Hacking Humans, Not Computers",
+    title: "Tricks That Target People",
+    subtitle: "Social Engineering — Hacking Humans",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-25", name: "Social Engineer Spotter", emoji: "🎭" },
+    xp: 100,
+    badge: { id: "bt-badge-25", name: "Social Engineer Spotter", emoji: "🤝" },
     challengeType: "ctf",
     info: {
-      tagline: "The best con artist never picks a lock. They convince someone to open the door.",
+      tagline: "Social engineering is tricking people instead of computers — the most powerful hack doesn't need any code at all.",
       year: 2025,
       overview: [
-        "At the dockside cantina, old fishermen trade tall tales — exaggerated stories designed to impress, manipulate, or extract information from fellow sailors. Social engineering is the cybersecurity equivalent: attackers manipulate people psychologically to give up information, access, or money without any technical hacking required.",
-        "Social engineering exploits human nature: trust, authority, fear, urgency, helpfulness, and reciprocity. An attacker posing as an IT technician asking for your password exploits your deference to authority and helpfulness. A fake 'urgent wire transfer' request from the CEO exploits authority and time pressure. No firewall or antivirus can block a person from giving information away.",
-        "Kevin Mitnick — once the world's most wanted hacker — famously said he rarely needed to break into systems technically. He just called employees, claimed to be from IT, and asked for their passwords. Most complied. Social engineering remains the #1 attack vector precisely because humans are reliably exploitable.",
+        "Not all hacking involves computers and code. Sometimes the easiest attack is just asking nicely — or tricking someone into helping without realizing it. Social engineering means using psychology to trick people into giving up secrets or access.",
+        "For example: someone calls the school office pretending to be an IT technician. 'Hi, I'm from tech support. I need the password to fix a problem!' If the office person doesn't verify the caller is who they say, they might give out the password — and the 'technician' was actually a hacker.",
+        "The best defense against social engineering: always verify who you're talking to before sharing any information. Real IT departments never ask for your password.",
       ],
       technical: {
-        title: "Social Engineering Techniques and Defenses",
+        title: "Common Social Engineering Tricks",
         body: [
-          "Pretexting: creating a fabricated scenario to establish credibility (e.g., 'I'm from the IT helpdesk, we're having a security incident and need your password to investigate'). Baiting: leaving infected USB drives in a parking lot, waiting for curious employees to plug them in. Tailgating: following an authorized person through a secure door. Vishing: phone-based social engineering.",
-          "Defenses: verify identities through a separate channel (call back the IT department on the known number, not the number they gave you). Never give passwords over the phone or email — legitimate IT never needs your password. Establish clear verification procedures for sensitive requests. Security awareness training significantly reduces susceptibility.",
+          "Pretexting: creating a fake story to get information ('I'm from HR and need your employee number'). Baiting: leaving a USB drive with a tempting label on it — when someone plugs it in, it installs malware. Tailgating: following an authorized person through a secure door without your own access.",
+          "The key insight: social engineers exploit helpfulness, authority, and urgency. The fix is simple rules that everyone follows: never share passwords, always verify identities, and when in doubt, say no and check.",
         ],
         codeExample: {
-          label: "Identifying social engineering in practice",
-          code: `SOCIAL ENGINEERING RED FLAGS:
-  ✗ Urgency or time pressure ("act NOW or your account is deleted")
-  ✗ Authority claims ("I'm the CEO / I'm from IT / I'm from the IRS")
-  ✗ Request for credentials ("I just need your password to help you")
-  ✗ Unexpected contact (you didn't initiate this conversation)
-  ✗ Threats or fear ("legal consequences if you don't comply")
-  ✗ Too-good-to-be-true offers ("you've won a prize")
-  ✗ Requests to bypass security ("just this once, for speed")
+          label: "Social engineering vs technical hacking",
+          code: `  Technical hack (hard):
+  Find software vulnerability →
+  Write exploit code →
+  Hope the target runs it
 
-RESPONSE PROTOCOL:
-  ✓ Slow down — urgency is a manipulation tactic
-  ✓ Verify independently — call back on known number
-  ✓ Never give passwords, even to "IT"
-  ✓ Report suspicious contacts to security team`,
+  Social engineering (easy):
+  Call someone →
+  "Hi, I'm IT. Emergency! Give me
+   your password or the server crashes!"
+
+  Many people just... give the password.
+
+  Defense: verify FIRST, then help.
+  Real IT never needs your password.`,
         },
       },
       incident: {
-        title: "The $120M Facebook/Google BEC Scam — Fake Vendor Invoices",
+        title: "The $120M Invoice Trick",
         when: "2013–2015",
-        where: "Facebook and Google accounting departments",
-        impact: "$120 million transferred to attacker's bank accounts over 2 years",
+        where: "Google and Facebook",
+        impact: "$120 million stolen using fake invoices",
         body: [
-          "Evaldas Rimasauskas created a fake company impersonating Quanta Computer, a real Taiwanese supplier that both Facebook and Google regularly paid. He sent convincing invoices with real-looking contracts and correspondence. Accounting employees at both companies wired over $120 million to his Lithuanian bank accounts over two years.",
-          "No system was hacked. No malware was used. Just carefully crafted emails and fake invoices exploiting the trust relationship between the tech giants and their supplier. Rimasauskas was caught and extradited. The lesson: financial controls (dual authorization for large transfers, supplier verification callbacks) are the technical defense against BEC.",
+          "A scammer from Lithuania sent fake invoices to Google and Facebook, pretending to be a real equipment supplier. Employees at both companies paid the fake invoices — they thought it was normal business! The scammer stole over $120 million before being caught.",
+          "This attack required no hacking software at all — just fake documents and the authority of the claimed identity. Always verify large financial requests through a second communication channel.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Attacker Researches Target", sub: "finds names, relationships, patterns", type: "attacker" },
-          { label: "Builds Credible Pretext", sub: "fake identity, authority, urgency", type: "system" },
-          { label: "Victim Complies", sub: "authority + urgency override caution", type: "victim" },
-          { label: "Access or Money Transferred", sub: "no technical exploit needed", type: "result" },
+          { label: "Social Engineer Calls", sub: "creates a fake story", type: "attacker" },
+          { label: "Target Feels Urgency", sub: "'Must act now!'", type: "system" },
+          { label: "Target Helps", sub: "shares info or access", type: "victim" },
+          { label: "Attack Succeeds", sub: "without any technical hacking", type: "result" },
         ],
       },
       timeline: [
-        { year: 1984, event: "Kevin Mitnick begins social engineering campaigns against phone companies" },
-        { year: 2001, event: "Frank Abagnale's story (Catch Me If You Can) — social engineering masterclass" },
-        { year: 2015, event: "Facebook/Google BEC scam totals $120M — pure social engineering", highlight: true },
-        { year: 2023, event: "BEC losses reach $2.7B — #1 cybercrime by financial damage (FBI IC3)" },
+        { year: 1978, event: "First social engineering phone scams documented" },
+        { year: 2015, event: "$120M stolen from Google and Facebook using fake invoices", highlight: true },
+        { year: 2025, event: "Social engineering remains the most common attack method" },
       ],
       keyTakeaways: [
-        "Social engineering exploits human psychology, not software vulnerabilities",
-        "Urgency, authority, and fear are the primary manipulation levers",
-        "Legitimate IT never needs your password — always refuse such requests",
-        "Verify financial requests and identity changes through a separate, known channel",
+        "Social engineering tricks people, not computers — no code needed",
+        "Common tricks: fake urgency, pretending to be authority, helpfulness exploitation",
+        "Real IT staff and banks never ask for your password",
+        "Always verify identities before sharing any information or access",
       ],
       references: [
         { title: "Social Engineering — SANS", url: "https://www.sans.org/blog/social-engineering-a-definition/" },
-        { title: "BEC Scam Against Google/Facebook — DOJ", url: "https://www.justice.gov/usao-sdny/pr/lithuanian-man-pleads-guilty-wire-fraud-theft-over-100-million-fraudulent-business" },
       ],
     },
     ctf: {
-      scenario: "An attacker has infiltrated the dockside cantina and is attempting to social engineer the marina operator into revealing the harbor master's access code. Analyze the transcript and identify every social engineering technique used.",
-      hint: "Read the transcript and identify the manipulation tactics.",
+      scenario: "3 people are calling the Academy's help desk. Each claims to need emergency access. Some are real, some are social engineers. Verify each caller correctly.",
+      hint: "Verify each caller's identity before granting any access.",
       hints: [
-        "Read the social engineering transcript. Run: cat transcript.txt",
-        "Identify the techniques used. Run: identify-technique urgency",
-        "Identify the authority claim. Run: identify-technique authority",
-        "Report all techniques found. Run: submit-report",
-        "Run 'assemble' to see collected fragments, then submit the flag",
-      ],
-      fragments: [
-        {
-          trigger: "/transcript.txt",
-          value: "FLAG{S0C14L_",
-          label: "Transcript Reviewed — Attack Script Uncovered",
-        },
-        {
-          trigger: "identify-technique urgency",
-          value: "3NG1N33R1NG_3XPL01TS_",
-          label: "Technique Identified — Urgency Overrides Caution",
-        },
-        {
-          trigger: "submit-report",
-          value: "TRUST}",
-          label: "Report Filed — All Social Engineering Vectors Named",
-        },
+        "List the callers. Run: list-callers",
+        "Verify caller 1. Run: verify 1",
+        "Verify callers 2 and 3.",
+        "Help the verified real caller. Run: help 2",
+        "Deny the unverified ones. Run: deny 1 and deny 3",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
       files: {
-        "/transcript.txt": [
-          "PHONE CALL TRANSCRIPT — Monterey Marina",
-          "========================================",
-          "ATTACKER: Hi, this is Dave from the Coast Guard Security Division.",
-          "          [AUTHORITY: claims official government role]",
+        "/helpdesk-calls.txt": [
+          "INCOMING HELP DESK CALLS",
+          "=========================",
+          "Caller 1: 'I'm from IT! Emergency! Give me admin password!'",
+          "Caller 2: Principal Chen — provided staff ID #4421 (verifiable)",
+          "Caller 3: 'I'm the school inspector, I need access to all files!'",
           "",
-          "OPERATOR: Oh, hello. How can I help?",
-          "",
-          "ATTACKER: We have a maritime security emergency right now —",
-          "          a vessel is broadcasting a distress signal and we need",
-          "          to verify harbor master access immediately.",
-          "          [URGENCY: manufactured emergency, time pressure]",
-          "",
-          "OPERATOR: Oh no — what do I need to do?",
-          "",
-          "ATTACKER: I need the harbor master access code to cross-reference",
-          "          with our federal system. This is standard emergency protocol.",
-          "          [PRETEXT: fake procedure, appeals to helpfulness]",
-          "",
-          "OPERATOR: I'm not sure I should give that out over the phone...",
-          "",
-          "ATTACKER: I understand, but we don't have time — lives are at stake.",
-          "          If we can't verify in the next 90 seconds, we lose the signal.",
-          "          [URGENCY + FEAR: life-threatening framing to override caution]",
-          "",
-          "OPERATOR: Okay... it's 4-4-7-9.",
-          "          [VICTIM COMPLIED — access code surrendered]",
+          "Commands: list-callers | verify <n> | help <n> | deny <n>",
         ].join("\n"),
       },
-      dirs: {
-        "/": [{ name: "transcript.txt", isDir: false }],
-      },
+      dirs: { "/": [{ name: "helpdesk-calls.txt", isDir: false }] },
+      fragments: [
+        { trigger: "list-callers", value: "FLAG{S0C1AL_", label: "Callers Listed" },
+        { trigger: "verify 2", value: "3NG1N33R_", label: "Real Caller Verified" },
+        { trigger: "deny 1", value: "D3F3AT3D}", label: "Social Engineer Denied!" },
+      ],
       extraCommands: {
-        "identify-technique": (args) => {
-          const tech = (args[0] || "").toLowerCase();
-          const techniques: Record<string, string> = {
-            urgency: "✓ URGENCY — '90 seconds', 'we don't have time', 'lives at stake'. Creates panic that overrides rational decision-making.",
-            authority: "✓ AUTHORITY — 'Coast Guard Security Division'. Victims defer to perceived authority figures even without verification.",
-            pretext: "✓ PRETEXTING — fabricated 'emergency protocol' scenario gives the request a legitimate-seeming context.",
-            fear: "✓ FEAR — 'lives at stake' raises emotional stakes, making the victim feel responsible for any bad outcome if they don't comply.",
-            helpfulness: "✓ HELPFULNESS exploitation — the operator's desire to help in an emergency is weaponized against them.",
-          };
-          return { lines: [techniques[tech] || `Unknown technique: ${tech}. Try: urgency, authority, pretext, fear, helpfulness`] };
+        "list-callers": () => ({ lines: ["1. Unknown caller claiming IT emergency", "2. Principal Chen — has staff ID #4421", "3. Unknown 'school inspector'", "", "Verify each: verify 1, 2, 3"] }),
+        verify: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["Caller 1: UNVERIFIED. Real IT never asks for passwords. Classic social engineering!"] };
+          if (n === "2") return { lines: ["Caller 2: VERIFIED ✓ Staff ID #4421 matches Principal Chen in the directory. Real person."] };
+          if (n === "3") return { lines: ["Caller 3: UNVERIFIED. No inspector visit was scheduled. No ID provided. Suspicious."] };
+          return { lines: ["Unknown caller."] };
         },
-        "submit-report": () => ({
-          lines: [
-            "Social Engineering Techniques Identified:",
-            "  ✓ Authority (fake Coast Guard identity)",
-            "  ✓ Urgency (90-second countdown, emergency framing)",
-            "  ✓ Pretexting (fabricated 'emergency protocol')",
-            "  ✓ Fear (lives at stake, operator feels responsible)",
-            "  ✓ Helpfulness exploitation (desire to help overrides caution)",
-            "",
-            "Defense: verify the caller's identity through the official Coast Guard",
-            "number — not the one they provide. Slow down. No legitimate security",
-            "request requires bypassing verification procedures.",
-            "",
-            "  ┌──────────────────────────────────────────────────────────────┐",
-            "  │  ALL TECHNIQUES IDENTIFIED. SOCIAL ENGINEERING MASTERED.   │",
-            "  │                                                              │",
-            "  │  Run 'assemble' to retrieve your fragment.                  │",
-            "  └──────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: Social engineering bypasses all technical controls",
-            "   No firewall blocks a person from voluntarily handing over a password.",
-            "   Legitimate IT and security staff never need your password to help you.",
-            "   Defense: always call back on a known number — never the one they gave you.",
-          ],
-        }),
+        help: (args) => {
+          if (args[0] === "2") return { lines: ["✓ Principal Chen HELPED — verified identity, legitimate request."] };
+          return { lines: [`Caller ${args[0]} was not verified. Deny unverified callers.`] };
+        },
+        deny: (args) => {
+          const n = args[0];
+          if (n === "1") return { lines: ["✓ Caller 1 DENIED — unverified, classic social engineering attempt."] };
+          if (n === "3") return { lines: ["✓ Caller 3 DENIED — no scheduled visit, no ID. Run 'assemble'."] };
+          return { lines: [`Caller ${n} was verified — they should be helped.`] };
+        },
       },
     },
   },
 
-  // ─── BT-26: Software Updates ──────────────────────────────────────────────
+  // ─── BT-26: Software Updates ─────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Boat Maintenance Yard, Santa Cruz Harbor", location: "Santa Cruz, USA", era: "Present Day", emoji: "🔧" },
+    wonder: { name: "The Academy Maintenance Room", location: "CyberVille", era: "Today", emoji: "🔧" },
     id: "bt-26",
     order: 26,
-    title: "Patching the Hull",
-    subtitle: "Software Updates — Sealing Known Holes Before They Sink You",
+    title: "Fixing the Holes",
+    subtitle: "Why Software Updates Matter",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-26", name: "Patch Master", emoji: "🩹" },
+    xp: 100,
+    badge: { id: "bt-badge-26", name: "Patch Patrol", emoji: "🔧" },
     challengeType: "ctf",
     info: {
-      tagline: "A known crack in the hull is a countdown. Patch it or sink.",
+      tagline: "Software updates fix security holes in your apps and devices. Not updating is like leaving a crack in your wall that burglars know about.",
       year: 2025,
       overview: [
-        "Back at Santa Cruz Harbor, the boat maintenance yard patches hulls. A crack that's been documented and reported needs to be repaired before the next voyage — ignoring a known crack is gambling with the whole crew. Software vulnerabilities work identically: once a CVE (Common Vulnerabilities and Exposures) is published, attackers immediately begin writing exploits. The window between disclosure and attack is often under 24 hours.",
-        "Software updates and patches are the primary mechanism for sealing known security holes. When researchers discover a vulnerability, they report it to the vendor. The vendor develops a fix, tests it, and releases a patch. Users who apply the patch close the vulnerability. Users who don't are running with a known, documented, publicly available exploit target.",
-        "The 2017 WannaCry ransomware infected 200,000 computers using a vulnerability Microsoft had patched two months earlier (MS17-010). Every single infected machine had failed to apply an available patch. This pattern repeats constantly: most successful attacks exploit known vulnerabilities, not zero-days.",
+        "Imagine your house has a secret crack in the wall that lets burglars sneak in. If you know about the crack, you fix it. But if you ignore the crack and the burglar finds it first — you have a problem. Software vulnerabilities are exactly like that crack.",
+        "When researchers or hackers find a security problem in an app, the company quickly releases an update to fix it. If you install the update, your device gets the patch (the fix). If you delay, you leave yourself vulnerable — attackers know about the hole and they're actively looking for unpatched targets.",
+        "Install updates as soon as they're available. Yes, even when it's inconvenient. Turn on automatic updates for your phone and apps. This one habit prevents most security problems.",
       ],
       technical: {
-        title: "CVE System, Patch Management, and Zero-Days",
+        title: "What a CVE Is",
         body: [
-          "CVE (Common Vulnerabilities and Exposures): a standardized identifier for known vulnerabilities. Format: CVE-YEAR-NUMBER (e.g., CVE-2021-44228 is Log4Shell). CVSS score (0–10) rates severity: 9.0+ is Critical. The NVD (National Vulnerability Database) tracks all CVEs with details, affected versions, and patches.",
-          "Zero-day: a vulnerability that is unknown to the vendor — no patch exists. Attackers who discover zero-days either sell them (prices: $500K–$2M for iOS zero-days) or use them quietly. Once disclosed, they become n-days — known, patchable vulnerabilities. Most real-world attacks use n-days, not zero-days, because most systems are poorly patched.",
+          "When a security hole is found, it gets an official ID number called a CVE (Common Vulnerabilities and Exposures). For example, CVE-2021-44228 was the name for the famous Log4Shell vulnerability. CVE numbers let everyone clearly reference and track specific security holes.",
+          "The National Vulnerability Database (NVD) tracks all known CVEs and rates their severity. When a critical CVE is published, attackers immediately start looking for unpatched systems. Time between update release and attack can be hours.",
         ],
         codeExample: {
-          label: "Checking for vulnerable software versions",
-          code: `# Check installed package versions (Linux/Debian)
-dpkg -l | grep apache
+          label: "The update process",
+          code: `  Day 1:  Security researcher finds a hole in an app
+  Day 2:  Researcher notifies the company privately
+  Day 7:  Company develops and tests the fix
+  Day 14: Company releases the update + security notes
+          (attackers now know about the hole too!)
+  Day 15: Attackers scan for unpatched systems
 
-# Check for available security updates
-sudo apt update && apt list --upgradable
-
-# Search CVE database for a specific package
-# Visit: https://nvd.nist.gov/vuln/search
-
-# Check if a specific CVE affects your version
-# Example: Log4Shell (CVE-2021-44228)
-find / -name "log4j*.jar" 2>/dev/null
-
-# Keep packages updated automatically (Debian/Ubuntu)
-sudo apt install unattended-upgrades`,
+  UPDATE IMMEDIATELY on Day 14.
+  Every day you wait = more risk.`,
         },
       },
       incident: {
-        title: "Log4Shell — The Vulnerability That Sat in Plain Sight",
-        when: "December 9, 2021",
-        where: "Worldwide — any Java application using Log4j",
-        impact: "Hundreds of millions of devices vulnerable; CISA called it 'most serious' in years",
+        title: "Log4Shell — A Library Used Everywhere Was Broken",
+        when: "December 2021",
+        where: "Worldwide — millions of servers",
+        impact: "One of the worst vulnerabilities in internet history",
         body: [
-          "Log4Shell (CVE-2021-44228) was a critical vulnerability in Log4j, a Java logging library used in everything from Minecraft servers to enterprise software to NASA systems. The CVSS score: 10.0 — maximum severity. Exploiting it required sending a single specially crafted string that, when logged, triggered remote code execution.",
-          "The library had been downloaded 475 million times. Within 72 hours of public disclosure, attackers were scanning the entire internet for vulnerable servers — millions of exploit attempts per hour. Patching required identifying every system using Log4j (harder than it sounds when it's an indirect dependency) and updating it. Some organizations took months. The lesson: know what software your software depends on.",
+          "In December 2021, a security hole was found in Log4j — a piece of software that billions of systems used without even knowing it. A single specially crafted message could let a hacker take complete control of an affected server.",
+          "Companies around the world scrambled to update their systems. Microsoft, Apple, Google, gaming servers, hospitals, governments — all had to patch urgently. Systems that weren't patched within days were actively attacked.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "CVE Published", sub: "vulnerability publicly known", type: "attacker" },
-          { label: "Exploit Written", sub: "within 24–72 hours of disclosure", type: "system" },
-          { label: "Unpatched Systems", sub: "vulnerable targets in production", type: "victim" },
-          { label: "Patched Systems", sub: "update applied — immune", type: "result" },
+          { label: "Vulnerability found", sub: "a hole in the software", type: "attacker" },
+          { label: "Company releases update", sub: "patch seals the hole", type: "system" },
+          { label: "You install update ✓", sub: "hole is sealed on your device", type: "victim" },
+          { label: "You don't update ✗", sub: "attackers exploit the hole", type: "result" },
         ],
       },
       timeline: [
-        { year: 1999, event: "CVE system launched by MITRE — standardized vulnerability tracking" },
-        { year: 2017, event: "WannaCry: 200K machines infected via MS17-010 — patch available 2 months prior", highlight: true },
-        { year: 2021, event: "Log4Shell: CVSS 10.0, hundreds of millions of devices, 72hr exploit deployment" },
-        { year: 2022, event: "CISA KEV (Known Exploited Vulnerabilities) catalog launched — prioritized patching" },
+        { year: 1988, event: "First software patch released to fix a security bug" },
+        { year: 2021, event: "Log4Shell — one of the worst vulnerabilities in internet history", highlight: true },
+        { year: 2025, event: "Automatic updates now standard on phones and computers" },
       ],
       keyTakeaways: [
-        "Apply security patches immediately — attackers exploit known vulnerabilities within hours",
-        "CVE scores above 9.0 are critical — treat as a fire drill",
-        "Know your software's dependencies — Log4Shell hid inside other software",
-        "Most real attacks use known, patchable vulnerabilities — not zero-days",
+        "Software updates fix security holes — install them as soon as available",
+        "CVE numbers identify specific security vulnerabilities so they can be tracked",
+        "Attackers know about unpatched vulnerabilities and actively hunt for them",
+        "Turn on automatic updates — it's the simplest security habit you can build",
       ],
       references: [
-        { title: "NVD — National Vulnerability Database", url: "https://nvd.nist.gov/" },
-        { title: "Log4Shell Explained — CISA", url: "https://www.cisa.gov/news-events/news/apache-log4j-vulnerability-guidance" },
+        { title: "National Vulnerability Database — NVD", url: "https://nvd.nist.gov/" },
       ],
     },
     ctf: {
-      scenario: "The harbor maintenance system is running an outdated service with a known CVE. Identify the vulnerable version, exploit it, then apply the patch and verify the fix.",
-      hint: "Check the version, look up the CVE, exploit the unpatched version, then patch it.",
+      scenario: "The Academy has 4 apps with known vulnerabilities. Find which ones have critical updates available and mark them as urgent.",
+      hint: "Find the critical vulnerabilities and mark them urgent.",
       hints: [
-        "Check the service version. Run: check-version",
-        "Look up the CVE for that version. Run: lookup-cve harbor-service 2.3.1",
-        "Exploit the unpatched service. Run: exploit",
-        "Apply the patch and verify. Run: apply-patch",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "List all apps. Run: list-apps",
+        "Check app 1. Run: check-app browser",
+        "Check the other apps.",
+        "Mark critical ones urgent. Run: mark-urgent browser and mark-urgent server",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/app-status.txt": [
+          "ACADEMY APP SECURITY STATUS",
+          "============================",
+          "browser    — CVE-2025-001 (CRITICAL) — patch available!",
+          "word-processor — CVE-2025-002 (LOW) — minor fix",
+          "server     — CVE-2025-003 (CRITICAL) — patch available!",
+          "calculator — CVE-2025-004 (INFORMATIONAL) — no action needed",
+          "",
+          "Commands: list-apps | check-app <name> | mark-urgent <name>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "app-status.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "check-version",
-          value: "FLAG{P4TCH_",
-          label: "Version Checked — Critical CVE Found in Outdated Service",
-        },
-        {
-          trigger: "exploit",
-          value: "1MM3D14T3LY_0R_",
-          label: "Exploit Demonstrated — Root Shell in Four Seconds",
-        },
-        {
-          trigger: "apply-patch",
-          value: "G3T_PWN3D}",
-          label: "Patch Applied — Vulnerability Closed, System Hardened",
-        },
+        { trigger: "list-apps", value: "FLAG{P4TCH_", label: "Apps Listed" },
+        { trigger: "mark-urgent browser", value: "1T_N0W_", label: "Critical App Marked Urgent" },
+        { trigger: "mark-urgent server", value: "UPD4T3}", label: "All Critical Apps Marked — Patching Begins!" },
       ],
       extraCommands: {
-        "check-version": () => ({
-          lines: [
-            "Harbor Maintenance Service",
-            "  Version: 2.3.1",
-            "  Last updated: 14 months ago",
-            "  Known CVEs: checking NVD...",
-            "  CVE-2023-4821  CVSS: 9.8 (Critical) — Remote Code Execution",
-            "  Patch available: version 2.3.7",
-            "",
-            "Run: lookup-cve harbor-service 2.3.1",
-            "",
-            ">> LEARN: CVSS scores measure exploitability and impact — 9.8 means critical",
-            "   A CVSS 9.8 RCE with no authentication = unauthenticated remote root access.",
-            "   Attackers scan the entire internet for known CVEs within hours of disclosure.",
-            "   Real tool: nvd.nist.gov — search CVE-ID for CVSS score and affected versions.",
-          ],
-        }),
-        "lookup-cve": (args) => ({
-          lines: [
-            `CVE lookup: ${args[0]} v${args[1]}`,
-            "  CVE-2023-4821",
-            "  CVSS: 9.8 Critical",
-            "  Type: Remote Code Execution (no authentication required)",
-            "  Affected: harbor-service <= 2.3.6",
-            "  Fixed in: 2.3.7",
-            "  Exploit: publicly available on GitHub since 3 days after disclosure",
-            "",
-            "Run: exploit (to see the vulnerability in action)",
-          ],
-        }),
-        exploit: () => ({
-          lines: [
-            "Running CVE-2023-4821 PoC against harbor-service v2.3.1...",
-            "",
-            "  Sending malformed packet to port 8443...",
-            "  Buffer overflow triggered in authentication handler.",
-            "  Shell spawned: uid=0(root)",
-            "",
-            "  > id",
-            "  uid=0(root) gid=0(root) groups=0(root)",
-            "",
-            "Full system compromise. Harbor maintenance system owned.",
-            "This took 4 seconds. Patch was available 14 months ago.",
-            "",
-            "Run: apply-patch",
-            "",
-            ">> LEARN: Buffer overflows overwrite memory to redirect execution flow",
-            "   The authentication handler didn't validate input length — return address overwritten.",
-            "   Exploit code (PoC) for published CVEs appears on GitHub within 24-72 hours.",
-            "   Real tool: searchsploit <software name> — finds public exploit code for CVEs.",
-          ],
-        }),
-        "apply-patch": () => ({
-          lines: [
-            "Downloading harbor-service v2.3.7...",
-            "Applying patch...",
-            "Service restarted.",
-            "",
-            "Testing CVE-2023-4821 against v2.3.7...",
-            "  Vulnerability patched: CONFIRMED",
-            "  Exploit attempt: FAILED (authentication handler fixed)",
-            "",
-            "  ┌──────────────────────────────────────────────────────────────┐",
-            "  │  SYSTEM PATCHED. PATCH MANAGEMENT MASTERED.                │",
-            "  │                                                              │",
-            "  │  Run 'assemble' to retrieve your fragment.                  │",
-            "  └──────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: Patching converts a critical CVE into a non-issue instantly",
-            "   WannaCry (2017) infected 200,000 machines — the patch was 2 months old.",
-            "   Enable automatic security updates; treat CVSS 9+ as a fire drill.",
-            "   Real tool: sudo apt update && apt-get upgrade --only-upgrade (Debian/Ubuntu)",
-          ],
-        }),
+        "list-apps": () => ({ lines: ["browser: CVE-2025-001 CRITICAL", "word-processor: CVE-2025-002 LOW", "server: CVE-2025-003 CRITICAL", "calculator: CVE-2025-004 INFORMATIONAL", "", "check-app <name> for details"] }),
+        "check-app": (args) => {
+          const app = args[0];
+          const info: Record<string, string> = {
+            browser: "browser: CVE-2025-001 CRITICAL — remote code execution possible. Patch now!",
+            "word-processor": "word-processor: CVE-2025-002 LOW — minor formatting bug. Not urgent.",
+            server: "server: CVE-2025-003 CRITICAL — data exposure risk. Patch now!",
+            calculator: "calculator: CVE-2025-004 INFORMATIONAL — no security impact.",
+          };
+          return { lines: [info[app] || "Unknown app."] };
+        },
+        "mark-urgent": (args) => {
+          const app = args[0];
+          if (app === "browser") return { lines: ["✓ browser marked URGENT — IT team notified to patch immediately."] };
+          if (app === "server") return { lines: ["✓ server marked URGENT — IT team notified. Patching starts now! Run 'assemble'."] };
+          return { lines: [`${app} doesn't need urgent marking — it's not critical.`] };
+        },
       },
     },
   },
 
-  // ─── BT-27: Data Breaches ─────────────────────────────────────────────────
+  // ─── BT-27: Data Breaches ────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Catch Inspection Station, Moss Landing", location: "Moss Landing, USA", era: "Present Day", emoji: "🐟" },
+    wonder: { name: "The Academy Records Room", location: "CyberVille", era: "Today", emoji: "📁" },
     id: "bt-27",
     order: 27,
-    title: "When the Net Tears",
-    subtitle: "Data Breaches — What Happens to Your Data When Companies Leak It",
+    title: "When Private Info Gets Stolen",
+    subtitle: "What is a Data Breach?",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-27", name: "Breach Investigator", emoji: "🔎" },
+    xp: 100,
+    badge: { id: "bt-badge-27", name: "Breach Responder", emoji: "📁" },
     challengeType: "ctf",
     info: {
-      tagline: "A torn net loses the entire catch. A data breach loses everyone's data at once.",
+      tagline: "A data breach is when hackers break into a company's database and steal your personal information — even without hacking your own device.",
       year: 2025,
       overview: [
-        "At the Moss Landing inspection station, inspectors verify the catch. A torn net means the entire haul — weeks of work — spills into the ocean and is lost or contaminated. A data breach does the same: one vulnerability in a company's systems and millions of customers' data floods out at once. You trusted the company with your information; the breach affects you whether you did anything wrong or not.",
-        "Data breaches expose credentials, personal information, financial data, and medical records. The stolen data appears on dark web markets within days — sold to credential stuffers, identity thieves, and spammers. Your email and password from a breach at Site A gets tried against your bank, your email, your work VPN. This is credential stuffing — automated login attempts using known username/password pairs.",
-        "Have I Been Pwned (haveibeenpwned.com) lets you check if your email address appears in known breach databases. If it does, change the password on that site and any other site where you reused it. Enable 2FA. The breach wasn't your fault — but your response determines the damage.",
+        "You can be careful with your own security — strong password, 2FA, no phishing — and still have your information stolen. How? Through a data breach. A data breach happens when hackers break into a company that stores your data (like a website you use) and steal information about you.",
+        "Companies store your name, email, password, and sometimes payment information. If hackers steal this from the company's servers, your information is 'in the wild.' They might sell it, use it to try logging into other sites, or use it for identity theft.",
+        "You can check if your email was in any data breaches by visiting haveibeenpwned.com. If it has, change your passwords for any affected accounts and any other accounts where you used the same password.",
       ],
       technical: {
-        title: "Breach Lifecycle and Credential Stuffing",
+        title: "Credential Stuffing — Using Stolen Passwords",
         body: [
-          "Breach lifecycle: (1) Attacker compromises company database. (2) Data exfiltrated — often weeks before discovery. (3) Data sold on dark web forums (priced by record count and data type). (4) Credential stuffers run automated tools against major sites. (5) Successful logins are sold as 'combo lists'. (6) Breach eventually discovered and disclosed (average: 197 days to detection).",
-          "Credential stuffing tools (Sentry MBA, OpenBullet) test millions of username/password pairs against target sites per hour. Sites defend with: rate limiting, CAPTCHA, impossible travel detection (login from Greece then California 1 hour later), and breach password screening (reject passwords found in known breach lists at login).",
+          "When millions of username/password combinations are stolen in a breach, hackers try those exact combinations on other websites. If you use the same password for your gaming account and your email, and the gaming site is breached — the hacker tries your email with the gaming password. This is called credential stuffing.",
+          "Defense: use unique passwords for every site (use a password manager). Even if one site is breached, the stolen password only works on that one site.",
         ],
         codeExample: {
-          label: "Checking your exposure and protecting accounts",
-          code: `# Check if your email is in known breaches
-# Visit: https://haveibeenpwned.com
+          label: "How breached passwords are used",
+          code: `  BREACH HAPPENS: GameSite.com hacked
+  Stolen: email@example.com : password123
 
-# Check a specific breach database (CLI)
-# pip install pwnedpasswords
-python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
+  CREDENTIAL STUFFING:
+  Hacker tries email@example.com : password123
+  → at Gmail ← same password? Uh oh!
+  → at Bank  ← same password? Critical!
+  → at Amazon ← same password? Oh no!
 
-# The API uses k-anonymity — your password never leaves your machine:
-# 1. SHA-1 hash your password
-# 2. Send first 5 chars of hash to HIBP API
-# 3. API returns matching hash suffixes
-# 4. Check if your full hash is in the returned list
-# Your actual password: never transmitted`,
+  If you use UNIQUE passwords:
+  → at Gmail : [different password] ← safe!
+  → at Bank  : [different password] ← safe!`,
         },
       },
       incident: {
-        title: "The 2013 Yahoo Breach — 3 Billion Accounts, Discovered 3 Years Later",
-        when: "2013 (breach), 2016 (discovered), 2017 (full scope revealed)",
-        where: "Yahoo — all 3 billion user accounts",
-        impact: "$350M reduction in Verizon acquisition price; largest breach in history",
+        title: "3 Billion Yahoo Accounts Stolen",
+        when: "2013 (discovered 2016)",
+        where: "Yahoo email service",
+        impact: "3 billion accounts stolen — every Yahoo account ever created",
         body: [
-          "Yahoo was breached in 2013. Every single Yahoo account — all 3 billion — was compromised. The attackers had access to names, email addresses, telephone numbers, dates of birth, hashed passwords, and security questions. Yahoo didn't discover the breach until 2016, disclosing it as 500 million accounts. A year later, they revised to 3 billion.",
-          "The breach directly impacted Verizon's acquisition of Yahoo — the price dropped by $350 million after disclosure. For individuals: any account created with Yahoo credentials (security questions like 'mother's maiden name') was potentially compromised. Security questions are particularly dangerous — the answers don't change after a breach.",
+          "In 2013, Yahoo suffered the biggest data breach in history — but didn't tell anyone until 2016, three years later! Every single Yahoo account ever created (3 billion) was stolen, including names, email addresses, and security question answers.",
+          "The lesson for users: change your passwords regularly, don't share the same password across sites, and monitor haveibeenpwned.com for your email. Companies can be hacked and may not tell you for years.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Database Compromised", sub: "attacker exfiltrates all records", type: "attacker" },
-          { label: "Data on Dark Web", sub: "sold within days", type: "system" },
-          { label: "Credential Stuffing", sub: "your password tried on all sites", type: "victim" },
-          { label: "Account Takeovers", sub: "anywhere you reused the password", type: "result" },
+          { label: "Company stores your data", sub: "encrypted, hopefully", type: "attacker" },
+          { label: "Hacker breaks into company", sub: "steals the database", type: "system" },
+          { label: "Your info is stolen", sub: "you didn't do anything wrong", type: "victim" },
+          { label: "Response: change passwords", sub: "enable 2FA, monitor accounts", type: "result" },
         ],
       },
       timeline: [
-        { year: 2013, event: "Yahoo breach — 3B accounts, not discovered for 3 years" },
-        { year: 2016, event: "LinkedIn 2012 breach surfaces — 117M records sold on dark web" },
-        { year: 2017, event: "Equifax breach — 147M Social Security numbers, dates of birth, addresses", highlight: true },
-        { year: 2023, event: "MOVEit breach — 2,500+ organizations affected by single file transfer vulnerability" },
+        { year: 2013, event: "Yahoo breach — 3 billion accounts stolen (discovered 2016)", highlight: true },
+        { year: 2019, event: "Have I Been Pwned collects over 8 billion breached accounts" },
+        { year: 2025, event: "Billions of credentials available on the dark web" },
       ],
       keyTakeaways: [
-        "Breaches expose your data even when you did nothing wrong",
-        "Credential stuffing tries your stolen password against every major site",
-        "Never reuse passwords — one breach compromises all sites using that password",
-        "Check haveibeenpwned.com regularly and enable 2FA everywhere",
+        "A data breach happens when hackers steal data from a company that stores your info",
+        "Your data can be stolen even if you do everything right — it's the company that's hacked",
+        "Use unique passwords for every site — so a breach at one site doesn't help at others",
+        "Check haveibeenpwned.com to see if your email has been in any breaches",
       ],
       references: [
         { title: "Have I Been Pwned", url: "https://haveibeenpwned.com" },
-        { title: "Equifax Breach — FTC", url: "https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement" },
       ],
     },
     ctf: {
-      scenario: "A breach dump has been found on the dark web containing fishing club member credentials. Search the dump for your account, assess your exposure, and take the correct remediation steps.",
-      hint: "Search the breach dump for your email, then remediate correctly.",
+      scenario: "The Academy received a breach notification — a third-party service that stored student data was hacked. Follow the response procedure to protect students.",
+      hint: "Follow the breach response steps in order.",
       hints: [
-        "Search the breach dump for your email. Run: search-breach fisher_agent@example.com",
-        "Check which sites used that password. Run: check-reuse",
-        "Assess your exposure level. Run: assess-damage",
-        "Begin remediation. Run: remediate",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Read the breach notice. Run: read-notice",
+        "Identify affected accounts. Run: find-affected",
+        "Reset all affected passwords. Run: reset-passwords",
+        "Notify affected students. Run: notify-students",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/breach-notice.txt": [
+          "BREACH NOTIFICATION FROM: QuizApp Inc.",
+          "======================================",
+          "Date: 2025-05-28",
+          "Affected data: usernames, emails, hashed passwords",
+          "Affected Academy accounts: 47 students",
+          "",
+          "Recommended actions:",
+          "1. Find affected accounts",
+          "2. Force password resets",
+          "3. Notify affected students",
+          "",
+          "Commands: read-notice | find-affected | reset-passwords | notify-students",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "breach-notice.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "search-breach fisher_agent@example.com",
-          value: "FLAG{BR34CH_",
-          label: "Breach Found — Credentials Exposed in Three Dumps",
-        },
-        {
-          trigger: "assess-damage",
-          value: "CH3CK_R3M3D14T3_AND_",
-          label: "Damage Assessed — Password Reuse Creates Critical Risk",
-        },
-        {
-          trigger: "remediate",
-          value: "US3_2F4}",
-          label: "Account Remediated — Unique Passwords and 2FA Enabled",
-        },
+        { trigger: "read-notice", value: "FLAG{BR34CH_", label: "Breach Notice Read" },
+        { trigger: "find-affected", value: "R3SPONS3_", label: "Affected Accounts Found" },
+        { trigger: "notify-students", value: "T3AM}", label: "Students Notified — Response Complete!" },
       ],
       extraCommands: {
-        "search-breach": (args) => {
-          const email = args[0] || "";
-          if (email.includes("fisher_agent") || email.includes("example")) {
-            return {
-              lines: [
-                `Searching breach dump for: ${email}`,
-                "",
-                "  FOUND in 3 breaches:",
-                "  1. FishingForum.net (2022)  — password: montereyb4y  (MD5, cracked)",
-                "  2. MarineCatalog.com (2021) — password: montereyb4y  (plaintext)",
-                "  3. TackleShop.net (2023)    — password: montereyb4y  (SHA-1, cracked)",
-                "",
-                "Password 'montereyb4y' is in all three breaches.",
-                "Run: check-reuse",
-                "",
-                ">> LEARN: Breach dumps are sold and shared on dark web forums within days",
-                "   Plaintext and weak hashes (MD5/SHA-1) are cracked before sale is complete.",
-                "   Attackers correlate emails across dumps to build fuller victim profiles.",
-                "   Real tool: haveibeenpwned.com — free breach notification for your email.",
-              ],
-            };
-          }
-          return { lines: [`Email ${email} not found in this breach dump.`] };
-        },
-        "check-reuse": () => ({
-          lines: [
-            "Checking where 'montereyb4y' was reused...",
-            "  FishingForum.net:    ✗ found in breach",
-            "  MarineCatalog.com:   ✗ found in breach",
-            "  TackleShop.net:      ✗ found in breach",
-            "  Email account:       same password? Checking login history... WARNING",
-            "  Banking app:         same password? CRITICAL RISK",
-            "",
-            "Password reuse means all accounts are compromised.",
-            "Run: assess-damage",
-            "",
-            ">> LEARN: Credential stuffing automates breach password reuse at scale",
-            "   Tools like OpenBullet test millions of email/password pairs per hour.",
-            "   A 0.1% success rate against 10M stolen credentials = 10,000 hijacked accounts.",
-            "   Defense: unique password per site — a password manager makes this effortless.",
-          ],
-        }),
-        "assess-damage": () => ({
-          lines: [
-            "Exposure Assessment:",
-            "  Password compromised:  YES (appears in 3 breach dumps)",
-            "  Password reused:       YES (high risk — all accounts vulnerable)",
-            "  2FA enabled:           NO (no second factor — easy account takeover)",
-            "  Credential stuffing:   LIKELY ONGOING",
-            "",
-            "Risk level: CRITICAL",
-            "Run: remediate",
-            "",
-            ">> LEARN: Assess scope before acting — know what the attacker touched",
-            "   Average breach goes undetected for 197 days — months of silent access.",
-            "   Without 2FA, stolen credentials grant silent access indefinitely.",
-            "   Check login history and authorized app tokens on every affected account.",
-          ],
-        }),
-        remediate: () => ({
-          lines: [
-            "Remediation steps:",
-            "  1. Change password on all affected sites — DONE",
-            "     New passwords: unique random 20-char strings via password manager",
-            "  2. Enable 2FA on all accounts — DONE",
-            "  3. Check for unauthorized activity on email and banking — DONE",
-            "  4. Set up breach monitoring on haveibeenpwned.com — DONE",
-            "",
-            "  ┌──────────────────────────────────────────────────────────────┐",
-            "  │  BREACH REMEDIATED. NEVER REUSE PASSWORDS. USE 2FA.        │",
-            "  │                                                              │",
-            "  │  Run 'assemble' to retrieve your fragment.                  │",
-            "  └──────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: Breach remediation must be thorough — partial fixes leave gaps",
-            "   Attackers plant OAuth app tokens that survive a password change.",
-            "   Revoke all active sessions after password reset — ends attacker access.",
-            "   Monitor haveibeenpwned.com alerts to detect future breaches early.",
-          ],
-        }),
+        "read-notice": () => ({ lines: ["BREACH: QuizApp database hacked. 47 Academy student accounts affected.", "Stolen: emails and hashed passwords.", "Action needed: force password resets and notify students."] }),
+        "find-affected": () => ({ lines: ["AFFECTED ACCOUNTS: 47 students identified from QuizApp database.", "Accounts flagged for mandatory password reset."] }),
+        "reset-passwords": () => ({ lines: ["✓ 47 accounts flagged — students must create new passwords at next login."] }),
+        "notify-students": () => ({ lines: ["✓ 47 students notified by email: 'Your data was in a breach. Please change your password.'", "✓ Breach response complete! Run 'assemble'."] }),
       },
     },
   },
 
-  // ─── BT-28: Safe Browsing ─────────────────────────────────────────────────
+  // ─── BT-28: Safe Browsing ────────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Kelp Forest, Monterey Bay", location: "Monterey Bay, USA", era: "Present Day", emoji: "🌿" },
+    wonder: { name: "The Academy Internet Lab", location: "CyberVille", era: "Today", emoji: "🌐" },
     id: "bt-28",
     order: 28,
-    title: "Navigating the Kelp Beds",
-    subtitle: "Safe Browsing — Spotting Dangerous URLs Before You Click",
+    title: "Look Before You Click",
+    subtitle: "Safe Browsing — How to Spot Dangerous Links",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-28", name: "URL Inspector", emoji: "🧭" },
+    xp: 100,
+    badge: { id: "bt-badge-28", name: "Safe Surfer", emoji: "🌐" },
     challengeType: "ctf",
     info: {
-      tagline: "The kelp beds look beautiful but hide rocks and currents. URLs look harmless but can hide malware.",
+      tagline: "Clicking a bad link is like walking into a stranger's house when they say 'it's totally fine' — look before you step in.",
       year: 2025,
       overview: [
-        "Diving in the Monterey Bay kelp forest requires reading the water carefully — beautiful kelp canopy can hide rocks, sudden depth changes, and strong currents. Safe browsing requires the same vigilance: URLs that look legitimate can hide malicious redirects, typosquatted domains, or script-injecting pages. The surface looks safe; the hazard is underneath.",
-        "Malicious URLs come in several forms: typosquatting (paypa1.com, g00gle.com), homograph attacks (using Unicode characters that look like Latin letters), URL shorteners that hide the real destination, open redirects (legitimate site redirecting to malicious one), and deceptive subdomains (paypal.attacker.com — the real domain is attacker.com, not paypal.com).",
-        "Before clicking any link: hover to see the real URL in the status bar. Read the domain from right to left — the rightmost portion before the first / is the actual domain. paypal.com.attacker.ru — the domain is attacker.ru. Look for HTTPS but remember that phishing sites use HTTPS too. Use Google Safe Browsing or VirusTotal to scan suspicious URLs before visiting.",
+        "Before you cross the street, you look both ways. Before you click a link, you should check where it goes. Many cyberattacks start with a single click on a dangerous link — which can download malware, take you to a phishing site, or steal your information.",
+        "Safe browsing habits: hover over links before clicking (your browser shows the real address at the bottom of the screen). Look at the web address carefully — is it really the site you expect? Does it have a lock icon? Avoid clicking links in unexpected emails or messages.",
+        "Your browser has built-in protections — Google Safe Browsing warns you about dangerous sites. Never click 'proceed anyway' on a browser security warning without understanding why it's there.",
       ],
       technical: {
-        title: "URL Structure and Malicious URL Patterns",
+        title: "Recognizing Dangerous URLs",
         body: [
-          "URL anatomy: scheme://subdomain.domain.tld/path?query#fragment. The domain is always between the last two dots before the first /. paypal.com.attacker.ru: domain is attacker.ru. secure-paypal.com: domain is secure-paypal.com (not paypal.com). bank.com/login: domain is bank.com (legitimate). login-bank.com: domain is login-bank.com (suspicious).",
-          "URL shorteners (bit.ly, tinyurl.com) hide the real destination — always expand before clicking. Tools: unshorten.me, CheckShortURL. File download URLs: beware .exe, .msi, .dmg, .bat, .ps1 from untrusted sources. Drive-by downloads: some sites exploit browser or plugin vulnerabilities to download and run malware just by visiting the page.",
+          "A legitimate-looking URL can be fake. Common tricks: changing one letter (faceb00k.com instead of facebook.com), adding extra words (paypal-security-update.com instead of paypal.com), or using subdomains deceptively (paypal.evil.com — the real domain is evil.com, not paypal.com).",
+          "The domain name is the part right before the first single slash (/). In https://paypal.evil.com/login, the domain is evil.com, not paypal. Learn to read URLs from right to left from the first /.",
         ],
         codeExample: {
-          label: "Inspecting URLs safely",
-          code: `# Expand a short URL without visiting it
-curl -sI "https://bit.ly/xyz" | grep Location
+          label: "Dangerous vs safe URLs",
+          code: `  SAFE:   https://www.paypal.com/login
+          ↑ domain is paypal.com ✓
 
-# Check a URL against Google Safe Browsing
-# Visit: https://transparencyreport.google.com/safe-browsing/search
+  FAKE:   https://paypal.secure-login.com/
+          ↑ domain is secure-login.com ✗
 
-# Check a URL against 90+ scanners
-# Visit: https://www.virustotal.com/gui/home/url
+  FAKE:   https://www.paypa1.com/login
+          ↑ that's a number 1 not letter l ✗
 
-# Parse URL components in Python
-from urllib.parse import urlparse
-url = urlparse("https://secure.paypal.com.attacker.ru/login")
-print(url.netloc)  # = "secure.paypal.com.attacker.ru"
-# The actual domain: attacker.ru`,
+  SAFE:   https://amazon.com/cart
+          ↑ domain is amazon.com ✓
+
+  FAKE:   https://amazon.customer-support.xyz/
+          ↑ domain is customer-support.xyz ✗`,
         },
       },
       incident: {
-        title: "Operation Aurora — Drive-By Download via Internet Explorer",
-        when: "December 2009",
-        where: "Google, Adobe, Intel, Morgan Stanley, 30+ other companies",
-        impact: "IP theft; Google source code accessed; 30+ major companies breached",
+        title: "Operation Aurora — Clicking a Bad Link Led to Google Being Hacked",
+        when: "2010",
+        where: "Google and 30+ other companies",
+        impact: "Source code stolen; major espionage operation uncovered",
         body: [
-          "Chinese state hackers (APT17/Elderwood) sent targeted spear phishing emails to Google employees with a link. The link went to a malicious website that exploited a zero-day in Internet Explorer. Just visiting the URL — no click, no download, no prompt — was enough to install a rootkit via a drive-by download.",
-          "The malware gave attackers persistent access to Google's infrastructure and, specifically, the source code repository and the Gmail accounts of Chinese human rights activists. Google's response: threaten to exit China, which they later did. The incident accelerated Chrome's development and pushed the industry toward automatic browser updates and sandboxed rendering.",
+          "In 2010, employees at Google and 30+ other major companies were targeted with malicious links. When employees clicked the links, malware silently installed itself using a zero-day vulnerability in Internet Explorer. Attackers then moved through the companies' networks stealing valuable information.",
+          "Google publicly disclosed the attack and switched to Chrome. The incident led to major improvements in browser security. The lesson: even careful employees at sophisticated companies click bad links.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Malicious URL Sent", sub: "via phishing or malvertising", type: "attacker" },
-          { label: "User Clicks Link", sub: "doesn't inspect URL first", type: "system" },
-          { label: "Exploit Triggered", sub: "browser or plugin vulnerability", type: "victim" },
-          { label: "Malware Installed", sub: "drive-by download", type: "result" },
+          { label: "Suspicious link arrives", sub: "in email or message", type: "attacker" },
+          { label: "Hover to check URL", sub: "does it look right?", type: "system" },
+          { label: "Recognize fake domain", sub: "it's not the real site", type: "victim" },
+          { label: "Don't click! Report it.", sub: "safe browsing wins", type: "result" },
         ],
       },
       timeline: [
-        { year: 2000, event: "ILOVEYOU worm — social engineering via email attachment" },
-        { year: 2009, event: "Operation Aurora — drive-by download via IE zero-day, 30+ companies breached", highlight: true },
-        { year: 2016, event: "Malvertising campaigns inject drive-by downloads via ad networks" },
-        { year: 2022, event: "Browsers sandbox all content — drive-by downloads significantly harder" },
+        { year: 2006, event: "Google Safe Browsing launched — warns about dangerous sites" },
+        { year: 2010, event: "Operation Aurora — drive-by malware via bad links hits Google+", highlight: true },
+        { year: 2025, event: "Browsers block billions of malicious pages per day" },
       ],
       keyTakeaways: [
-        "Read URLs right-to-left to find the real domain: paypal.com.attacker.ru = attacker.ru",
-        "Hover over links before clicking — status bar shows the real URL",
-        "HTTPS proves encryption, not legitimacy — phishing sites use HTTPS too",
-        "Scan suspicious URLs with VirusTotal before visiting",
+        "Always check where a link goes before clicking — hover to see the real URL",
+        "Read the domain carefully: the domain is right before the first /, the rest is sub-folders",
+        "Watch for typos and lookalike domains (paypa1.com, amaz0n.com)",
+        "Never click 'proceed anyway' on browser security warnings without understanding them",
       ],
       references: [
         { title: "Safe Browsing — Google", url: "https://safebrowsing.google.com/" },
-        { title: "Operation Aurora — Google Blog", url: "https://googleblog.blogspot.com/2010/01/new-approach-to-china.html" },
       ],
     },
     ctf: {
-      scenario: "Four URLs have arrived in your inbox from unknown sources. Inspect each one and identify which are malicious without clicking them.",
-      hint: "Analyze the domain structure of each URL carefully before deciding.",
+      scenario: "5 links were shared in the Academy chat. Some are safe, some are dangerous. Analyze each link and decide: safe or block.",
+      hint: "Check each link's domain carefully and categorize it.",
       hints: [
-        "Inspect the first URL. Run: inspect-url 1",
-        "Inspect the second URL. Run: inspect-url 2",
-        "Inspect the third URL. Run: inspect-url 3",
-        "Inspect the fourth URL. Run: inspect-url 4",
-        "Flag all malicious ones. Run: flag-malicious 2 4",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "List all links. Run: list-links",
+        "Analyze link 1. Run: analyze 1",
+        "Analyze all links. Run: analyze 2, 3, 4, 5",
+        "Block the dangerous ones. Run: block 3 and block 5",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/chat-links.txt": [
+          "LINKS SHARED IN ACADEMY CHAT",
+          "==============================",
+          "1: https://academy.edu/homework",
+          "2: https://kryptoscronos.com/learn",
+          "3: https://academy-homework.click/login",
+          "4: https://wikipedia.org/wiki/cybersecurity",
+          "5: https://free-robux-generator.xyz",
+          "",
+          "Commands: list-links | analyze <n> | block <n> | approve <n>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "chat-links.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "inspect-url 2",
-          value: "FLAG{URL_1NSP3CT10N_",
-          label: "Fake Subdomain Detected — Real Domain Is the Attacker's",
-        },
-        {
-          trigger: "inspect-url 4",
-          value: "SAV3S_Y0U_FR0M_",
-          label: "Malicious Download Spotted — Misspelled Domain and .exe",
-        },
-        {
-          trigger: "flag-malicious 2 4",
-          value: "M4LW4R3}",
-          label: "Both Threats Flagged — Safe Browsing Protocol Complete",
-        },
+        { trigger: "list-links", value: "FLAG{S4F3_", label: "Links Listed" },
+        { trigger: "analyze 3", value: "BR0WS1NG_", label: "Fake Domain Identified" },
+        { trigger: "block 5", value: "H4B1T}", label: "Dangerous Links Blocked!" },
       ],
       extraCommands: {
-        "inspect-url": (args) => {
-          const num = args[0] || "1";
-          const urls: Record<string, string[]> = {
-            "1": [
-              "URL 1: https://www.monterey-aquarium.org/tickets",
-              "  Scheme: HTTPS ✓",
-              "  Domain: monterey-aquarium.org",
-              "  TLD: .org",
-              "  Path: /tickets",
-              "  Verdict: LEGITIMATE — matches the real aquarium domain",
-            ],
-            "2": [
-              "URL 2: https://monterey-aquarium.org.phish-site.ru/tickets",
-              "  Scheme: HTTPS (means encrypted, NOT safe)",
-              "  Domain (read right-to-left): phish-site.ru  ← REAL DOMAIN",
-              "  Subdomain: monterey-aquarium.org  ← designed to mislead",
-              "  Verdict: MALICIOUS — domain is phish-site.ru, not the aquarium",
-            ],
-            "3": [
-              "URL 3: https://bit.ly/3xKp9Qm",
-              "  Scheme: HTTPS ✓",
-              "  Domain: bit.ly (URL shortener)",
-              "  Expanded destination: https://www.noaa.gov/fisheries",
-              "  Verdict: LEGITIMATE — expands to official NOAA site",
-            ],
-            "4": [
-              "URL 4: http://192.168.1.1.malicius-update.com/driver-update.exe",
-              "  Scheme: HTTP (no encryption) ✗",
-              "  Domain: malicius-update.com (misspelled 'malicious')",
-              "  File: driver-update.exe  ← executable download",
-              "  Verdict: MALICIOUS — untrusted domain, .exe download, HTTP",
-            ],
+        "list-links": () => ({ lines: ["1: academy.edu ✓", "2: kryptoscronos.com ✓", "3: academy-homework.click ← suspicious!", "4: wikipedia.org ✓", "5: free-robux-generator.xyz ← suspicious!", "", "analyze <n> for details"] }),
+        analyze: (args) => {
+          const n = args[0];
+          const analysis: Record<string, string> = {
+            "1": "Link 1: academy.edu — official Academy domain. SAFE ✓",
+            "2": "Link 2: kryptoscronos.com — known training site. SAFE ✓",
+            "3": "Link 3: academy-homework.CLICK — not academy.edu! Fake lookalike domain. DANGEROUS ✗",
+            "4": "Link 4: wikipedia.org — encyclopedia. SAFE ✓",
+            "5": "Link 5: free-robux-generator.xyz — impossible promise, unknown domain. DANGEROUS ✗",
           };
-          return { lines: urls[num] || [`Unknown URL #${num}`] };
+          return { lines: [analysis[n] || "Unknown link."] };
         },
-        "flag-malicious": (args) => {
-          const flagged = args.sort().join(" ");
-          if (flagged === "2 4") {
-            return {
-              lines: [
-                "Malicious URLs flagged: #2 and #4",
-                "  URL #2: fake subdomain to disguise real domain (phish-site.ru)",
-                "  URL #4: misspelled domain + .exe download over HTTP",
-                "",
-                "URL #1: legitimate (real aquarium domain)",
-                "URL #3: legitimate (shortener expands to official NOAA site)",
-                "",
-                "  ┌────────────────────────────────────────────────────────────┐",
-                "  │  ALL MALICIOUS URLs IDENTIFIED. SAFE BROWSING MASTERED.  │",
-                "  │                                                            │",
-                "  │  Run 'assemble' to retrieve your fragment.                │",
-                "  └────────────────────────────────────────────────────────────┘",
-                "",
-                ">> LEARN: Read URLs right-to-left to find the real domain",
-                "   paypal.com.attacker.ru — the real domain is attacker.ru, not paypal.com.",
-                "   HTTPS proves encryption only — phishing sites have valid TLS certificates.",
-                "   Real tool: curl -sI bit.ly/xyz | grep Location — expand short URLs safely.",
-              ],
-            };
-          }
-          return { lines: [`Incorrect. You flagged: #${args.join(" #")}. Re-inspect all four URLs carefully.`] };
+        block: (args) => {
+          const n = args[0];
+          if (n === "3") return { lines: ["✓ Link 3 BLOCKED — fake academy domain detected."] };
+          if (n === "5") return { lines: ["✓ Link 5 BLOCKED — suspicious domain blocked. Run 'assemble'."] };
+          return { lines: [`Link ${n} is safe.`] };
+        },
+        approve: (args) => {
+          const safe = ["1", "2", "4"];
+          if (safe.includes(args[0])) return { lines: [`✓ Link ${args[0]} approved — safe domain.`] };
+          return { lines: [`Link ${args[0]} is dangerous — block it, don't approve.`] };
         },
       },
     },
   },
 
-  // ─── BT-29: Privacy Settings ──────────────────────────────────────────────
+  // ─── BT-29: Privacy Settings ─────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "The Harbor Master's Office", location: "Santa Cruz, USA", era: "Present Day", emoji: "🏢" },
+    wonder: { name: "The Academy Privacy Office", location: "CyberVille", era: "Today", emoji: "🕵️" },
     id: "bt-29",
     order: 29,
-    title: "What You Share and With Whom",
-    subtitle: "Privacy Settings — Controlling Your Digital Footprint",
+    title: "Control Who Sees Your Stuff",
+    subtitle: "Privacy Settings — Your Digital Footprint",
     category: "cybersecurity",
-    xp: 110,
-    badge: { id: "bt-badge-29", name: "Privacy Guardian", emoji: "🕵️" },
+    xp: 100,
+    badge: { id: "bt-badge-29", name: "Privacy Pro", emoji: "🕵️" },
     challengeType: "ctf",
     info: {
-      tagline: "The harbor master controls who knows which boat is in which slip. Privacy settings give you the same control over your data.",
+      tagline: "Privacy settings let you control who can see your personal information online — because not everything needs to be public.",
       year: 2025,
       overview: [
-        "The harbor master's office keeps detailed logs: which boats are docked, their owners, their schedules. This information is shared with the Coast Guard, fuel dock, and maintenance yard — but not with the general public. Privacy settings let you control the same thing for your digital life: which apps, services, and people can see which information about you.",
-        "Every app and social platform collects data. The question isn't whether data is collected — it's who has access to it and for what purpose. Location data from your phone apps is sold to data brokers. Your Facebook profile information is harvested by third-party apps. Your Google search history informs targeted advertising. Privacy settings control these flows — but only if you actively configure them.",
-        "Data minimization is the core principle: don't share what isn't necessary. Every piece of information you share with a company becomes a potential breach exposure. Phone numbers for SMS 2FA can be used for SIM swapping. Real birthdates help answer security questions. Privacy isn't just about preference — it's about reducing your attack surface.",
+        "Imagine your diary had a setting: 'Show to: Everyone / Friends Only / Just Me.' You'd probably pick 'Just Me' for your most private thoughts. Social media and apps have similar settings — and many of them default to 'Everyone' when you first sign up.",
+        "Your digital footprint is the trail of information you leave online. Every post, every check-in, every photo shared publicly becomes part of that trail. Companies collect this information and can use it to target you with ads — or sell it to others.",
+        "Review your privacy settings on every app you use. Set your social media profiles to 'friends only.' Don't share your home address, phone number, or school name publicly. The less strangers know about you, the safer you are.",
       ],
       technical: {
-        title: "Privacy Settings That Actually Matter",
+        title: "What Apps Collect About You",
         body: [
-          "High-impact privacy settings: (1) Location access: change all apps to 'While Using' or 'Never' — almost no app needs always-on location. (2) App permissions: audit microphone, camera, contacts, and photo access — revoke anything that doesn't need it. (3) Account activity: Google/Facebook/Apple all have 'My Activity' dashboards where you can see and delete collected data. (4) Ad tracking: iOS: Settings → Privacy → Tracking → disable. Android: Settings → Privacy → Ads → opt out.",
-          "Data broker opt-outs: companies like Spokeo, Whitepages, and BeenVerified aggregate your public records. Each has an opt-out process. Services like DeleteMe automate this. Your data broker profile includes addresses, phone numbers, relatives, and property records — all useful for social engineering and targeted phishing.",
+          "Many apps collect: your location (even when you're not using the app), contacts, browsing history, microphone access, and camera access. Go to your phone's Settings → Privacy → look at which apps have access to these things. You may be surprised.",
+          "You can usually revoke permissions you don't want. A flashlight app shouldn't need access to your contacts. A game shouldn't need your location. When an app asks for permissions it doesn't need, that's a red flag.",
         ],
         codeExample: {
-          label: "Auditing app permissions and data collection",
-          code: `# iOS: check app permissions via Settings → Privacy & Security
-# Each permission category shows which apps have access
+          label: "Privacy settings to check",
+          code: `  SOCIAL MEDIA PRIVACY:
+  ✓ Profile visibility: Friends only
+  ✓ Post default: Friends, not Public
+  ✓ Location sharing: Off
+  ✓ Tagged photo approval: On
 
-# Android: Settings → Privacy → Permission Manager
-
-# Check what Google knows about you:
-# myaccount.google.com/data-and-privacy
-
-# Check what Facebook has collected:
-# Settings → Your Facebook Information → Download Your Information
-
-# Opt out of data broker tracking:
-# Visit: optoutprescreen.com (credit card offers)
-# Visit: dmachoice.org (direct mail)
-# Use services like DeleteMe or Privacy Bee for automation`,
+  PHONE APP PERMISSIONS TO REVIEW:
+  ✓ Location: Only while using (not always)
+  ✓ Microphone: Only for voice/video apps
+  ✓ Camera: Only for camera/video apps
+  ✓ Contacts: Only for contacts/messaging apps`,
         },
       },
       incident: {
-        title: "Cambridge Analytica — 87 Million Facebook Profiles Harvested Without Consent",
-        when: "2014–2018 (disclosed 2018)",
-        where: "Facebook — 87 million users",
-        impact: "Political profiling at scale; GDPR acceleration; $5B FTC fine against Facebook",
+        title: "Cambridge Analytica — 87 Million Profiles Harvested",
+        when: "2018",
+        where: "Facebook users worldwide",
+        impact: "87 million Facebook profiles used without consent for political targeting",
         body: [
-          "Cambridge Analytica harvested the data of 87 million Facebook users without their knowledge. A personality quiz app collected not just the quiz-taker's data but, exploiting Facebook's API, all of their friends' data too. The data was used to build psychological profiles for targeted political advertising.",
-          "Users had never consented to their data being used this way. Facebook's privacy settings at the time allowed apps to access friends' data by default. The scandal led to major platform policy changes, accelerated GDPR enforcement in Europe, and a $5 billion FTC fine against Facebook — the largest privacy penalty in history at that time.",
+          "In 2018, it was revealed that a company called Cambridge Analytica harvested the personal data of 87 million Facebook users — mostly through a quiz app that collected not just your data but also all your friends' data. Users never knew their information was being collected and used for political advertising.",
+          "Facebook's default privacy settings were very open at the time. Most users didn't know how to change them or didn't bother. This incident led to major privacy law changes and made people much more aware of privacy settings.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Your Personal Data", sub: "shared with apps and platforms", type: "attacker" },
-          { label: "Data Brokers", sub: "aggregate and resell profiles", type: "system" },
-          { label: "Third Parties", sub: "advertisers, political groups, others", type: "victim" },
-          { label: "Privacy Settings", sub: "your control over these flows", type: "result" },
+          { label: "You post something publicly", sub: "anyone can see it forever", type: "attacker" },
+          { label: "Companies collect it", sub: "build a profile about you", type: "system" },
+          { label: "Privacy settings changed to 'Friends'", sub: "only who you choose sees it", type: "victim" },
+          { label: "Your digital footprint shrinks", sub: "you control your data", type: "result" },
         ],
       },
       timeline: [
-        { year: 2003, event: "CAN-SPAM Act — first US law governing email marketing" },
-        { year: 2014, event: "Cambridge Analytica begins harvesting Facebook data" },
-        { year: 2018, event: "GDPR takes effect — EU data protection law, global impact", highlight: true },
-        { year: 2018, event: "Cambridge Analytica scandal — 87M profiles, $5B FTC fine against Facebook" },
+        { year: 2004, event: "Facebook launches — default settings are very open" },
+        { year: 2018, event: "Cambridge Analytica scandal — 87M profiles harvested", highlight: true },
+        { year: 2025, event: "GDPR and privacy laws give users more control over their data" },
       ],
       keyTakeaways: [
-        "Review app permissions regularly — revoke anything that isn't necessary",
-        "Change location access to 'While Using' — almost no app needs always-on location",
-        "Use your platform's data download tools to see what's been collected",
-        "Data minimization: every piece shared is a potential breach exposure",
+        "Privacy settings control who can see your information — review them on every app",
+        "Many apps default to maximum sharing — you must actively change settings",
+        "Your digital footprint is permanent — think before posting publicly",
+        "Review app permissions on your phone — remove access you don't need",
       ],
       references: [
         { title: "Consumer Privacy — FTC", url: "https://www.ftc.gov/business-guidance/privacy-security/privacy" },
-        { title: "Cambridge Analytica Explained — The Guardian", url: "https://www.theguardian.com/news/2018/mar/17/cambridge-analytica-facebook-influence-us-election" },
       ],
     },
     ctf: {
-      scenario: "Audit the harbor office app's permissions and privacy settings. Find which settings are over-permissioned and lock them down to the minimum needed.",
-      hint: "Review each permission and disable the ones that aren't necessary.",
+      scenario: "A student's social media account has very open privacy settings. Review and fix each setting to protect their privacy.",
+      hint: "Review each setting and fix the ones that are too open.",
       hints: [
-        "Check current app permissions. Run: show-permissions",
-        "Revoke unnecessary location access. Run: revoke location",
-        "Revoke unnecessary contacts access. Run: revoke contacts",
-        "Confirm minimal permissions are set. Run: audit-permissions",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "See current settings. Run: show-settings",
+        "Fix profile visibility. Run: set profile friends-only",
+        "Fix location sharing. Run: set location off",
+        "Fix photo tagging. Run: set photo-approval on",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/privacy-settings.txt": [
+          "CURRENT PRIVACY SETTINGS — TOO OPEN!",
+          "======================================",
+          "Profile visibility: Everyone (PUBLIC!)",
+          "Post default:       Everyone (PUBLIC!)",
+          "Location sharing:   Always ON",
+          "Photo tag approval: OFF (auto-tagged)",
+          "",
+          "Commands: show-settings | set <setting> <value>",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "privacy-settings.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "show-permissions",
-          value: "FLAG{PR1V4CY_",
-          label: "Permissions Revealed — Three Over-Permissioned Settings Found",
-        },
-        {
-          trigger: "revoke location",
-          value: "S3TT1NGS_R3DUC3_",
-          label: "Location Restricted — Always-On Access Revoked",
-        },
-        {
-          trigger: "audit-permissions",
-          value: "4TT4CK_SURF4C3}",
-          label: "Audit Complete — Minimal Permissions, Minimal Exposure",
-        },
+        { trigger: "show-settings", value: "FLAG{PR1V4CY_", label: "Open Settings Found" },
+        { trigger: "set profile friends-only", value: "S3TT1NGS_", label: "Profile Made Private" },
+        { trigger: "set photo-approval on", value: "F1X3D}", label: "All Privacy Settings Fixed!" },
       ],
       extraCommands: {
-        "show-permissions": () => ({
-          lines: [
-            "Harbor Office App — Current Permissions:",
-            "  Location:      ALWAYS ON   ← excessive (only needs 'while using')",
-            "  Microphone:    ALWAYS ON   ← excessive (chat feature only; needs 'while using')",
-            "  Contacts:      FULL ACCESS ← excessive (only needs to send invites)",
-            "  Camera:        WHILE USING ✓",
-            "  Notifications: ENABLED     ✓",
-            "  Ad Tracking:   ENABLED     ← disable to reduce data collection",
-            "",
-            "Run: revoke location always-on | revoke contacts | revoke microphone",
-            "",
-            ">> LEARN: Over-permissioned apps collect data continuously in the background",
-            "   Always-on location is sold to data brokers — your movements become a product.",
-            "   Microphone always-on has been exploited by apps to record ambient audio.",
-            "   Real check: iOS Settings → Privacy & Security → Location Services.",
-          ],
-        }),
-        revoke: (args) => {
-          const permission = args[0] || "";
-          const messages: Record<string, string[]> = {
-            location: ["Location access changed: ALWAYS ON → WHILE USING. App still works. ✓"],
-            contacts: ["Contacts access: FULL ACCESS → READ ONLY for invites only. ✓"],
-            microphone: ["Microphone: ALWAYS ON → WHILE USING. Chat still works. ✓"],
-            "ad-tracking": ["Ad tracking: DISABLED. Your data won't be used for ad profiling. ✓"],
-          };
-          return { lines: messages[permission] || [`Unknown permission: ${permission}`] };
+        "show-settings": () => ({ lines: ["Profile: Everyone ✗", "Posts: Everyone ✗", "Location: Always ON ✗", "Photo approval: OFF ✗", "", "All too open! Use: set <setting> <value>"] }),
+        set: (args) => {
+          const setting = args[0]; const value = args[1];
+          if (setting === "profile" && value === "friends-only") return { lines: ["✓ Profile now visible to Friends Only."] };
+          if (setting === "post" && value === "friends") return { lines: ["✓ Posts now default to Friends Only."] };
+          if (setting === "location" && value === "off") return { lines: ["✓ Location sharing turned OFF."] };
+          if (setting === "photo-approval" && value === "on") return { lines: ["✓ Photo tagging requires your approval now. Run 'assemble'."] };
+          return { lines: [`Setting ${setting} = ${value} applied.`] };
         },
-        "audit-permissions": () => ({
-          lines: [
-            "Privacy Audit — Post-Hardening:",
-            "  Location:      WHILE USING ✓",
-            "  Microphone:    WHILE USING ✓",
-            "  Contacts:      READ ONLY   ✓",
-            "  Camera:        WHILE USING ✓",
-            "  Ad Tracking:   DISABLED    ✓",
-            "",
-            "Data minimization achieved. Attack surface reduced.",
-            "",
-            "  ┌────────────────────────────────────────────────────────────────┐",
-            "  │  PERMISSIONS AUDITED. PRIVACY SETTINGS MASTERED.             │",
-            "  │                                                                │",
-            "  │  Run 'assemble' to retrieve your fragment.                    │",
-            "  └────────────────────────────────────────────────────────────────┘",
-            "",
-            ">> LEARN: Data minimization shrinks your breach exposure surface",
-            "   Every piece of data collected is a liability if that company is breached.",
-            "   Data brokers aggregate app data into dossiers used for targeted spear phishing.",
-            "   Real tool: iOS App Privacy Report — shows which apps accessed what data.",
-          ],
-        }),
       },
     },
   },
 
-  // ─── BT-30: Incident Response ─────────────────────────────────────────────
+  // ─── BT-30: Incident Response ────────────────────────────────────────────
   {
     epochId: "first-journey",
-    wonder: { name: "Santa Cruz Small Craft Harbor — Return to Dock", location: "Santa Cruz, USA", era: "Present Day", emoji: "⚓" },
+    wonder: { name: "Cyber Academy Graduation Hall", location: "CyberVille", era: "Today", emoji: "🎓" },
     id: "bt-30",
     order: 30,
-    title: "Man Overboard Protocol",
-    subtitle: "Incident Response — What To Do When You're Compromised",
+    title: "When Things Go Wrong",
+    subtitle: "Incident Response — What to Do When You're Hacked",
     category: "cybersecurity",
     xp: 150,
     badge: { id: "bt-badge-30", name: "Incident Commander", emoji: "🚨" },
     challengeType: "ctf",
     info: {
-      tagline: "Man overboard has a protocol: shout, throw the ring, don't leave the scene, call the Coast Guard. Incidents have the same protocol.",
+      tagline: "Even with perfect security, things can go wrong. Knowing what to do when they do is just as important as trying to prevent them.",
       year: 2025,
       overview: [
-        "Returning to Santa Cruz Harbor at the end of the journey. Every fishing vessel follows a man-overboard protocol: shout 'man overboard', throw the life ring, maintain visual contact, radio the Coast Guard, don't sail away. The protocol exists because panic is the enemy — you need a rehearsed sequence that works under pressure. Cybersecurity incident response is the same: a prepared, sequenced response to a security event.",
-        "When you suspect you've been compromised — account takeover, malware infection, phishing click — the instinct is to panic and do everything at once. The correct response is methodical: Identify (confirm the incident), Contain (stop the bleeding), Eradicate (remove the threat), Recover (restore normal operation), and document everything for post-incident review.",
-        "At the personal level, incident response for an account takeover: immediately change the password and enable 2FA, check for unauthorized activity (emails sent, purchases made, profile changes), revoke all active sessions, notify anyone who may have received malicious messages from your account. At the organizational level, this is a formal process involving IR teams, legal, PR, and regulatory notification.",
+        "Fire drills exist because sometimes fires happen even when everyone is careful. In cybersecurity, incident response is the plan for what to do when something goes wrong — when you've been hacked, when malware gets in, or when data is stolen. Having a plan makes the response faster and less damaging.",
+        "The basic steps of incident response: (1) DETECT — something is wrong. (2) CONTAIN — stop it from spreading. (3) EJECT — remove the attacker or malware. (4) RECOVER — restore normal operations. (5) LEARN — understand what happened and fix the vulnerability.",
+        "On a personal level: if you think you've been hacked, immediately change your passwords (starting with email), enable 2FA everywhere, check for unauthorized access, and tell an adult or IT person who can help.",
       ],
       technical: {
-        title: "The NIST Incident Response Framework",
+        title: "The Incident Response Steps",
         body: [
-          "NIST SP 800-61 defines four phases: (1) Preparation — incident response plan, trained team, monitoring tools in place before any incident. (2) Detection & Analysis — identify indicators of compromise (IOCs), determine scope, log everything. (3) Containment, Eradication & Recovery — isolate affected systems, remove malware, patch vulnerability, restore from clean backups. (4) Post-Incident Activity — document timeline, root cause analysis, update defenses.",
-          "Indicators of Compromise (IOCs): unexpected login from new location, password change emails you didn't initiate, unfamiliar devices in account sessions, unexpected password reset emails, friends reporting strange messages from your account, antivirus alerts, unusual network traffic. Any of these demands immediate investigation.",
+          "Detect: How did you find out? Alert from your bank, weird behavior on your device, unexpected password reset email. Contain: disconnect compromised devices from the network so the problem can't spread. Change passwords from a different, clean device.",
+          "Eject: run malware scans, revoke unauthorized access. Recover: restore from clean backups if needed, update all passwords, enable 2FA. Learn: understand how it happened and patch that hole. Report: tell the right people — school IT, parents, law enforcement if serious.",
         ],
         codeExample: {
-          label: "Immediate incident response steps for account compromise",
-          code: `PERSONAL ACCOUNT TAKEOVER RESPONSE:
+          label: "Personal incident response checklist",
+          code: `  THINK YOU'VE BEEN HACKED?
 
-1. CONTAIN
-   - Change password immediately (from a clean device)
-   - Enable 2FA if not already on
-   - Revoke all active sessions (most platforms: Settings → Security)
-
-2. ASSESS
-   - Check login history for unauthorized access
-   - Check sent items, purchases, profile changes
-   - Check if attacker changed recovery email/phone
-
-3. ERADICATE
-   - Remove any malicious apps/integrations
-   - Check linked accounts (OAuth connections)
-   - Scan device for malware: run antivirus
-
-4. RECOVER
-   - Update passwords on linked accounts
-   - Notify contacts if your account sent malicious messages
-   - Check credit report if financial data was exposed
-
-5. DOCUMENT
-   - Record timeline, what was accessed, what was changed`,
+  ✓ 1. STAY CALM — panicking makes things worse
+  ✓ 2. Change email password FIRST (from a clean device)
+  ✓ 3. Change passwords for all important accounts
+  ✓ 4. Enable 2FA everywhere you haven't yet
+  ✓ 5. Check account activity for unauthorized access
+  ✓ 6. Run malware scan on your device
+  ✓ 7. Tell a trusted adult / IT department
+  ✓ 8. Check haveibeenpwned.com for breach info`,
         },
       },
       incident: {
-        title: "The Colonial Pipeline Ransomware — Incident Response at Scale",
-        when: "May 7, 2021",
-        where: "Colonial Pipeline, USA",
-        impact: "Largest US fuel pipeline shut down; gas shortages across Eastern US; $4.4M ransom paid",
+        title: "Colonial Pipeline Ransomware — Response at Scale",
+        when: "May 2021",
+        where: "Eastern United States",
+        impact: "Largest pipeline in the US shut down for 5 days; fuel shortages across the east coast",
         body: [
-          "Colonial Pipeline discovered ransomware on their systems at 5:30 AM on May 7. Their incident response decision: immediately shut down the operational pipeline to prevent potential OT (operational technology) compromise — even though only IT systems were confirmed infected. This containment decision was controversial but defensible.",
-          "The attack entry point: a single compromised VPN password found in a leaked credentials database. No 2FA on the VPN. The $4.4M ransom was paid to get decryption keys (DOJ later recovered $2.3M). Full operations resumed May 15. Lessons: VPN requires 2FA, credential monitoring catches stolen passwords before attackers use them, OT/IT network segmentation limits blast radius.",
+          "In May 2021, hackers encrypted the computers of Colonial Pipeline — a company that delivers fuel to much of the eastern United States. The company shut down the entire pipeline to prevent further damage. Gas stations ran out of fuel, flights were disrupted, and people panicked.",
+          "The company paid the ransom ($4.4 million in Bitcoin) but also worked with law enforcement who later recovered most of the money. The incident led to new cybersecurity requirements for critical infrastructure. The lesson: incident response planning before an attack makes the response much faster and less damaging.",
         ],
       },
       diagram: {
         nodes: [
-          { label: "Incident Detected", sub: "IOC identified", type: "attacker" },
-          { label: "Contain", sub: "stop the bleeding immediately", type: "system" },
-          { label: "Eradicate & Recover", sub: "remove threat, restore systems", type: "victim" },
-          { label: "Post-Incident Review", sub: "update defenses, document lessons", type: "result" },
+          { label: "Incident Detected", sub: "something is wrong!", type: "attacker" },
+          { label: "Contain + Eject", sub: "stop it spreading, remove threat", type: "system" },
+          { label: "Recover", sub: "restore from backups, reset passwords", type: "victim" },
+          { label: "Learn + Improve", sub: "understand and fix the gap", type: "result" },
         ],
       },
       timeline: [
-        { year: 1988, event: "Morris Worm — first major internet incident; incident response as a field begins" },
-        { year: 2003, event: "NIST SP 800-61 published — formal incident response framework" },
-        { year: 2014, event: "Sony Pictures breach — incident response failure, data deleted by attacker" },
-        { year: 2021, event: "Colonial Pipeline ransomware — pipeline shut for 6 days, gas shortages", highlight: true },
+        { year: 1988, event: "First documented computer incident response — the Morris Worm" },
+        { year: 2021, event: "Colonial Pipeline ransomware — national emergency declared", highlight: true },
+        { year: 2025, event: "All major organizations maintain dedicated incident response teams" },
       ],
       keyTakeaways: [
-        "Incident response phases: Prepare → Detect → Contain → Eradicate → Recover → Review",
-        "Contain first — stopping the spread matters more than understanding the cause initially",
-        "Document everything — timeline and evidence support recovery and legal action",
-        "For personal compromise: change password, enable 2FA, revoke sessions, assess damage",
+        "Incident response = the plan for what to do when you're hacked",
+        "Steps: Detect → Contain → Eject → Recover → Learn",
+        "If you think you're hacked: change email password first, then everything else",
+        "Tell a trusted adult or IT person immediately — don't try to handle it alone",
       ],
       references: [
-        { title: "NIST SP 800-61 — Computer Security Incident Handling", url: "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf" },
-        { title: "Colonial Pipeline Incident — CISA Advisory", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a" },
+        { title: "NIST Incident Handling Guide", url: "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf" },
       ],
     },
     ctf: {
-      scenario: "Your personal account has been compromised. Walk through every incident response step correctly — contain, assess, eradicate, recover — to complete Our First Journey and earn your Incident Commander badge.",
-      hint: "Follow the incident response protocol in order: contain → assess → eradicate → recover.",
+      scenario: "ALERT! The Academy server has been compromised! Follow the incident response steps to contain, eject, and recover from the attack.",
+      hint: "Follow the incident response steps in order.",
       hints: [
-        "Start containment. Run: contain",
-        "Assess the damage. Run: assess",
-        "Eradicate the threat. Run: eradicate",
-        "Recover your account. Run: recover",
-        "Run 'assemble' to see collected fragments, then submit the flag",
+        "Detect the problem. Run: detect-incident",
+        "Contain it. Run: contain",
+        "Eject the attacker. Run: eject",
+        "Recover systems. Run: recover",
+        "Run 'assemble' to collect your reward, then submit the flag",
       ],
-      files: {},
-      dirs: { "/": [] },
+      files: {
+        "/ir-playbook.txt": [
+          "INCIDENT RESPONSE PLAYBOOK",
+          "===========================",
+          "ALERT: Unauthorized access detected on Academy server!",
+          "",
+          "Steps:",
+          "1. DETECT  — identify what happened",
+          "2. CONTAIN — isolate affected systems",
+          "3. EJECT   — remove the attacker",
+          "4. RECOVER — restore normal operations",
+          "",
+          "Commands: detect-incident | contain | eject | recover",
+        ].join("\n"),
+      },
+      dirs: { "/": [{ name: "ir-playbook.txt", isDir: false }] },
       fragments: [
-        {
-          trigger: "contain",
-          value: "FLAG{1NC1D3NT_",
-          label: "Breach Contained — Attacker's Active Session Terminated",
-        },
-        {
-          trigger: "eradicate",
-          value: "R3SP0NS3_PR0T0C0L_",
-          label: "Threat Eradicated — Persistence Mechanism Removed",
-        },
-        {
-          trigger: "recover",
-          value: "C0MPL3T3}",
-          label: "Account Recovered — Incident Response Protocol Complete",
-        },
+        { trigger: "detect-incident", value: "FLAG{1NC1D3NT_", label: "Incident Detected" },
+        { trigger: "contain", value: "R3SP0NS3_", label: "Systems Contained" },
+        { trigger: "recover", value: "T34M}", label: "Academy Fully Recovered — Congratulations!" },
       ],
       extraCommands: {
+        "detect-incident": () => ({
+          lines: [
+            "INCIDENT DETECTED:",
+            "  Attacker broke in via weak password on admin account",
+            "  Currently browsing student records",
+            "  Attack started: 12 minutes ago",
+            "",
+            "Step 1 complete. Run: contain",
+          ],
+        }),
         contain: () => ({
           lines: [
-            "CONTAIN — stopping the bleeding:",
-            "  ✓ Password changed (strong, unique, via password manager)",
-            "  ✓ 2FA enabled (authenticator app)",
-            "  ✓ All active sessions revoked (Settings → Security → Sessions)",
-            "  ✓ Recovery email/phone verified — not tampered",
+            "CONTAINMENT:",
+            "  ✓ Affected server isolated from network",
+            "  ✓ Admin account locked",
+            "  ✓ Attack cannot spread to other systems",
             "",
-            "Attacker no longer has active access. Run: assess",
-            "",
-            ">> LEARN: Contain first — stopping spread matters more than understanding cause",
-            "   Revoking all sessions immediately terminates the attacker's active access.",
-            "   Attackers change recovery email/phone to maintain access after discovery.",
-            "   Real step: check Settings → Security → Devices on every compromised account.",
+            "Step 2 complete. Run: eject",
           ],
         }),
-        assess: () => ({
+        eject: () => ({
           lines: [
-            "ASSESS — understanding the damage:",
-            "  Login history: 3 unauthorized logins from 185.220.101.5 (Eastern Europe)",
-            "  First access: 2 days ago",
-            "  Actions taken by attacker:",
-            "    - Read 47 emails (including bank notifications)",
-            "    - Sent 3 phishing emails to your contacts",
-            "    - Attempted password reset on linked bank account (blocked by 2FA)",
+            "EJECTING ATTACKER:",
+            "  ✓ Active session terminated",
+            "  ✓ All access tokens revoked",
+            "  ✓ Malware scan clean — no persistence found",
             "",
-            "Scope: email compromised, contacts at risk, bank unaffected (2FA saved it).",
-            "Run: eradicate",
-            "",
-            ">> LEARN: Login history reveals dwell time — how long attackers had access",
-            "   Average dwell time before discovery is 197 days in enterprise environments.",
-            "   Attackers pivot from email to banking via password reset flows.",
-            "   2FA on bank accounts stops reset-based account takeovers cold.",
-          ],
-        }),
-        eradicate: () => ({
-          lines: [
-            "ERADICATE — removing the threat:",
-            "  ✓ Removed unauthorized OAuth app 'QuickSync' (attacker's persistence tool)",
-            "  ✓ Device malware scan: clean",
-            "  ✓ Forwarding rules checked: none added by attacker",
-            "  ✓ Linked account passwords updated (all unique via password manager)",
-            "",
-            "Threat fully removed. Run: recover",
-            "",
-            ">> LEARN: OAuth apps survive password resets — they must be audited separately",
-            "   Attackers grant themselves OAuth tokens that persist as long as the app is allowed.",
-            "   Email forwarding rules silently copy all mail to the attacker after eviction.",
-            "   Real step: account Settings → Apps/Integrations — revoke all unrecognized apps.",
+            "Step 3 complete. Run: recover",
           ],
         }),
         recover: () => ({
           lines: [
-            "RECOVER — restoring normal operations:",
-            "  ✓ Notified 3 contacts who received phishing emails",
-            "  ✓ Reported unauthorized access to email provider",
-            "  ✓ Checked credit report — no unauthorized accounts",
-            "  ✓ Enrolled in breach monitoring (haveibeenpwned.com alerts)",
-            "  ✓ Incident timeline documented",
+            "RECOVERY:",
+            "  ✓ Admin password reset to strong random password",
+            "  ✓ 2FA enabled on all admin accounts",
+            "  ✓ Audit log reviewed — no data was exfiltrated",
+            "  ✓ Systems back online",
+            "  ✓ Vulnerability (weak password) documented and fixed",
             "",
-            "INCIDENT CLOSED.",
+            "INCIDENT CLOSED. Academy is secure again!",
             "",
-            "  ╔══════════════════════════════════════════════════════════════════╗",
-            "  ║  THE BEFORE TIMES — COMPLETE                                   ║",
-            "  ║  30/30 stages finished. Athens to Santa Cruz to Monterey Bay.  ║",
-            "  ║  You are no longer a beginner.                                 ║",
-            "  ║                                                                ║",
-            "  ║  Run 'assemble' to retrieve your fragment.                     ║",
-            "  ╚══════════════════════════════════════════════════════════════════╝",
+            "Congratulations, Junior Agent! You've completed all 30 missions.",
+            "You are now a Certified Junior Cyber Agent of CyberVille Academy! 🎓",
             "",
-            ">> LEARN: Document everything — timeline and evidence support post-incident review",
-            "   Contacts who received phishing from your account are now secondary victims.",
-            "   Credit report checks catch new accounts opened with your stolen identity.",
-            "   NIST SP 800-61 defines the IR framework: Prepare, Detect, Contain, Recover.",
+            "Run 'assemble' to claim your final reward!",
           ],
         }),
       },

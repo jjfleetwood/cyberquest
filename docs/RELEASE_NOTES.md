@@ -2,6 +2,61 @@
 
 ---
 
+## v1.18.1 — 2026-05-29
+
+**Hours & cost log added to admin docs panel**
+
+- **`docs/HOURS_LOG.md` + `app/secured-docs/HOURS_LOG.md`** — session hours + estimated cost log; wired into admin docs panel (⏱ Hours & Cost tab); added to `/api/docs/[file]` allowlist and `DocsViewer` tab list
+- **Deploy skill updated** — step 10 added: log hours + estimated cost to HOURS_LOG after every deploy session
+
+---
+
+## v1.18.0 — 2026-05-29
+
+**Images (154 stages), certificate paths, resume builder, incentive system, docs**
+
+- **Images — 154 new stages** — Wikimedia Commons images added: baseball (70 stages across all 7 epochs), driving (24 stages across 3 epochs), quantum (30 stages — Bloch sphere, Shor/Grover SVGs, IBM Q system, BB84 photon diagrams, lattice cryptography), nails/hair (30 stages — nail anatomy cross-section, hair microscopy, styling tools)
+- **`/certs` page** — `src/data/cert-domains.ts`: 230+ stages mapped to CompTIA Security+ SY0-701 (6 domains) + ISC² CC (5 domains); dual readiness rings, per-domain progress bars, salary ranges, exam registration CTAs, job listing links; Certificate Paths banner added to `/stages` Security section header and all security epoch pages
+- **`/resume` page** — multi-section form: personal info, headline, summary, skills, experience, education; skills auto-suggested from completed training epochs (grouped by epoch); `POST /api/resume/generate` → PDF via @react-pdf/renderer; includes Kryptós CronOS achievement section in PDF
+- **Incentive system** — survey completion (`/survey`) grants 30 days Pro access to free/trial users (one-time, idempotent via `survey:rewarded:{user}` Redis key); survey success screen shows "Pro Unlocked!" with activation details; streak milestone coin bonuses: 3-day +50🪙, 7-day +150🪙, 30-day +500🪙 (awarded once per milestone in `server-progress.ts`)
+- **Docs updated to v1.17.0** — BUSINESS_PROPOSAL_PRO/CASUAL: track table reconciled (438 stages, 36 epochs, 10 tracks + extended); /certs + Stripe + i18n added to live features; PITCH_TARGETS: /certs added to VC angles, CompTIA/ISC² partner network warm intro paths; FINANCIALS: version bump, Supabase complete
+
+---
+
+## v1.17.0 — 2026-05-29
+
+**Security hardening — OWASP Top 10 audit + voucher system fixes**
+
+- **Voucher fixes** — admin voucher routes now require HMAC `admin_token` (was session-only); redeem race condition fixed (SADD atomic dedup + optimistic HINCRBY with rollback on negative); Stripe webhook (`subscription.deleted`) clears `voucherExpiry` to prevent downgrade conflict; revoke endpoint (`PATCH /api/admin/vouchers`) + Revoke button in admin panel; account page shows voucher expiry for voucher-based Pro users; 365-day duration + 500-use limit options added
+- **OWASP Top 10 fixes** — `downloads-access` POST/GET: admin token guard added (was open to any logged-in user); survey GET: admin token guard added (was fully unauthenticated); login: admin username no longer exempt from IP rate limiting; Stripe checkout: origin header whitelisted to kryptoscronos.com + localhost; leaderboard: rate limited 30 req/min/IP
+- **PBKDF2 600k iterations** (OWASP SP 800-132 2024 recommendation); auto-rehash on login upgrades existing users transparently
+- **Account lockout** — 5 failed login attempts → 15-min lock per username (`lockout:user:{username}`)
+- **Admin audit log** — `src/lib/audit.ts`: `logAdminAction()` writes all mutating admin actions to Redis `audit:log` list (max 1000 entries, LPUSH recency); logged: set-tier, set-skin, set-group, award-stage, grant-admin, vouchers (create/revoke), downloads-access, CMS overrides
+- Security briefing updated to v4.1
+
+---
+
+## v1.16.3 — 2026-05-29
+
+**Admin left nav (fixed sidebar) + anchor IDs + voucher list no-flicker**
+
+- **Admin dashboard** — fixed left-nav sidebar always visible (was collapsible); all major sections given anchor IDs (`#users`, `#vouchers`, `#metrics`, `#audit`, `#docs`) for direct deep-linking from other pages
+- **Voucher list** — no-flicker on page refresh (SSR-safe hydration pattern; was causing client/server mismatch)
+
+---
+
+## v1.16.2 — 2026-05-29
+
+**Voucher code system — admin generate, user redeem, ProPaywall input**
+
+- **Voucher system** — `KRYPTOS-XXXX-XXXX` format codes (8 alphanumeric, avoids O/0/I/1 confusion); admin generate batch (1–50 codes, configurable uses/duration); `POST /api/redeem` for user redemption
+- **Atomic redemption** — SADD to `voucher:redeemers:{CODE}` set for per-user dedup (returns 0 if duplicate); HINCRBY to decrement `usesLeft` with rollback if result goes negative (race condition safe); sets `tier: pro` + `voucherExpiry` timestamp on user hash
+- **Admin voucher panel** — list all codes with uses/redeemers/expiry; generate form; revoke button
+- **ProPaywall** — redeem input field for voucher codes; calls `/api/redeem` before Stripe fallback
+- **`getUserTier()`** — checks `voucherExpiry` timestamp; returns `free` if expired, `pro` if active
+
+---
+
 ## v1.16.0 — 2026-05-28
 
 **Security/Non-Security sections, full i18n, Paris/Milan images, survey, downloads page, back link fix, admin UX**

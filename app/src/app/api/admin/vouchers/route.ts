@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createHmac, timingSafeEqual } from "crypto";
+import { createHmac, timingSafeEqual, randomBytes } from "crypto";
 import { redis } from "@/lib/redis";
 import { logAdminAction } from "@/lib/audit";
 
@@ -22,8 +22,9 @@ function verifyAdminToken(token: string): boolean {
 
 function randomSegment() {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no 0/O/1/I confusion
+  const bytes = randomBytes(4);
   let s = "";
-  for (let i = 0; i < 4; i++) s += chars[Math.floor(Math.random() * chars.length)];
+  for (let i = 0; i < 4; i++) s += chars[bytes[i] % chars.length];
   return s;
 }
 

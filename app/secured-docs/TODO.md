@@ -1,19 +1,30 @@
 # Kryptós CronOS — To-Do & Roadmap
 
-**Last updated:** 2026-05-28 (v1.16.0-pre)
+**Last updated:** 2026-05-29 (v1.18.1)
 
 ---
 
-## New Items — Added 2026-05-28
+## New Items — Added 2026-05-29
 
-| # | Item | Effort | Priority | Notes |
+| # | Item | Effort | Priority | Status |
 |---|---|---|---|---|
-| A | **Elementary section redesign (5-10 yr perspective)** | 3-5 days | P2 | The "Our First Journey" (bt-01–bt-30) content is too advanced for 5-10 year olds. Redesign quiz/CTF content, language, and examples with age-appropriate framing. Think Duolingo Kids / PBS Kids security awareness. Current content should be moved to a "Foundations" level. |
-| B | **Incentive system to drive stage completion** | 2-3 days | P2 | Ideas: sponsor prizes (AWS/CrowdStrike swag), free certificate training vouchers, free Pro month (requires completing a detailed survey), streak-based rewards, leaderboard prizes for top-10, shareable completion badges (LinkedIn-optimized), milestone certificates (25/50/100 stages). Coordinate with sponsor outreach in P4. |
-| C | **Certificate paths (Cisco CyberOps / CompTIA / ISC²)** | 5-7 days | P2 | Full guided paths per cert: prerequisite map using Kryptós CronOS content, per-domain stage-to-exam mapping, study plan with multiple options (self-study, bootcamp, Udemy), exam registration links (Pearson VUE / Prometric), cost breakdown, passing score info, job listings from Indeed/LinkedIn that the certification unlocks. Start with CyberOps Associate (50+ Cisco stages already mapped at /cyberops). |
-| D | **Resume building module** | 3-5 days | P3 | Interactive module: guided questions about experience + skills + goals → generates a security-focused resume template. Stage completions auto-populate skill bullets (e.g., "Exploited CVE-2023-20198 in simulated lab environment"). Export as PDF or copy-paste text. Link to real job listings by role. |
-| E | **Images for all stage briefing pages** | 5-7 days | P2 | Paris (stages 9-20) and Milan (stages 9-20) done with Wikimedia Commons images. Need: security stages (abstract/cyberpunk), baseball stages, driving stages, hair/nail stages, quantum stages. Use CC0 / Unsplash / Wikimedia Commons. Validate license for each image before adding. |
-| F | **Update docs to v1.15.1 facts** | 1 day | P1 | BUSINESS_PROPOSAL_PRO.md, BUSINESS_PROPOSAL_CASUAL.md, PITCH_TARGETS.md, VC_READINESS_ANALYSIS.md, FINANCIALS.md all contain stale stage counts, prices, and feature descriptions. Update to: 438 stages, 36 epochs, 10 tracks, $13.99/mo or $99/yr, Supabase Auth, CyberOps tracker, adaptive difficulty. (Documentation review spawned as background task 2026-05-28.) |
+| G | **Analytics — install Plausible or PostHog** | 2 hours | P1 | ⚠️ OPEN. Cannot pitch to investors without user data. $9/mo Plausible recommended (privacy-compliant, GDPR). Install before public launch. |
+| H | **83(b) election filing** | Legal | P1 | ⚠️ CONFIRM with attorney. Deadline ~June 22, 2026 (30 days from May 23 incorporation). Missing this has catastrophic tax consequences on future vesting. |
+| I | **Public launch campaign** | 1 day | P1 | r/netsec, DEF CON Discord, HackerNews Show HN, security Twitter/LinkedIn. First 1,000 MAU is the only thing that makes this fundable. |
+| J | **First paying user** | At launch | P1 | Even $13.99/mo from one real user changes the conversation from "$0 revenue" to "revenue exists." |
+| K | **Named advisor** | 1–3 conversations | P2 | A CISO, security researcher, or recognized practitioner willing to be named publicly. Changes single-founder risk perception for investors. |
+| L | **One enterprise pilot conversation** | 2–4 weeks outreach | P2 | A community college cybersecurity program, regional MSSP, or corporate SOC team willing to pilot. Even an LOI counts. |
+
+## Completed Items — Added 2026-05-28, Done 2026-05-29
+
+| # | Item | Status |
+|---|---|---|
+| A | **Elementary section redesign (5-10 yr perspective)** | ✅ Done — all 30 bt-01–bt-30 stages rewritten as "Junior Cyber Agent Academy." Kid-friendly language, simple analogies, simplified CTF commands, age-appropriate scenarios. |
+| B | **Incentive system to drive stage completion** | ✅ Done (v1.18.0) — survey → 30-day Pro; streak milestones → coin bonuses |
+| C | **Certificate paths (Cisco CyberOps / CompTIA / ISC²)** | ✅ Done (v1.18.0) — /certs page, CompTIA Security+ + ISC² CC, 230+ stage mappings |
+| D | **Resume building module** | ✅ Done (v1.18.0) — /resume with PDF export, epoch-based skill suggestions |
+| E | **Images for all stage briefing pages** | ✅ Done (v1.18.0) — 154 new images: baseball (70), driving (24), quantum (30), nails/hair (30) |
+| F | **Update docs to current facts** | ✅ Done (v1.18.0 + v1.18.1 session) — CLAUDE.md v1.18.1, RELEASE_NOTES updated, VC_READINESS_ANALYSIS v3.0, TODO.md refreshed |
 
 ---
 

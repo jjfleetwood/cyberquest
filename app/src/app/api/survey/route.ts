@@ -21,9 +21,14 @@ function verifyAdminToken(token: string): boolean {
 }
 
 const SURVEY_REWARD_DAYS = 30;
+const SURVEY_BODY_LIMIT = 10_000;
 
 export async function POST(req: NextRequest) {
-  const body = await req.json() as Record<string, unknown>;
+  const raw = await req.text();
+  if (raw.length > SURVEY_BODY_LIMIT) {
+    return NextResponse.json({ error: "Survey body too large." }, { status: 413 });
+  }
+  const body = JSON.parse(raw) as Record<string, unknown>;
   const username = getServerSession(req) ?? "anonymous";
   const ts = Date.now();
   const key = `survey:${ts}:${username}`;
