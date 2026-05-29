@@ -24,16 +24,6 @@ type UserRow = {
   userGroups: string[];
 };
 
-type NdaRow = {
-  name: string;
-  email: string;
-  acceptedAt?: string;
-  ip?: string;
-  sentAt?: string;
-  signedAt?: string;
-  envelopeId?: string;
-  status?: string;
-};
 
 type FlagCapture = { username: string; stageId: string; flagValue: string; ts: number };
 
@@ -79,63 +69,6 @@ function SortBtn({
   );
 }
 
-function NdaStatusBadge() {
-  return <span className="text-xs px-2 py-0.5 rounded-full border border-cyan-500/40 bg-cyan-500/10 text-cyan-400">Signed ✓</span>;
-}
-
-function NdaSignatories() {
-  const [rows, setRows] = useState<NdaRow[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/nda")
-      .then((r) => (r.ok ? r.json() : []))
-      .then((data) => setRows(data as NdaRow[]))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  }, []);
-
-  return (
-    <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
-      <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between">
-        <div>
-          <h2 className="text-white font-bold">NDA Signatories</h2>
-          <p className="text-xs text-gray-600 mt-0.5">
-            Clickwrap via <span className="font-mono text-gray-500">/demo</span>
-          </p>
-        </div>
-        <span className="text-xs text-gray-600">{loading ? "…" : rows.length} total</span>
-      </div>
-
-      {loading ? (
-        <div className="px-6 py-8 text-center text-gray-600 text-sm">Loading…</div>
-      ) : rows.length === 0 ? (
-        <div className="px-6 py-8 text-center text-gray-700 text-sm">
-          No signatories yet. Share <span className="font-mono text-gray-600">/demo</span> to collect NDAs.
-        </div>
-      ) : (
-        <div className="divide-y divide-white/5">
-          {rows.map((row, i) => {
-            const ts = row.signedAt ?? row.acceptedAt ?? row.sentAt;
-            return (
-              <div key={i} className="px-6 py-3 flex items-center gap-4 flex-wrap">
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm text-white font-medium">{row.name}</div>
-                  <div className="text-xs text-gray-600">{row.email}</div>
-                </div>
-                {row.ip && <div className="text-xs text-gray-700 font-mono hidden sm:block">{row.ip}</div>}
-                <NdaStatusBadge />
-                <div className="text-xs text-gray-600">
-                  {ts ? new Date(Number(ts)).toLocaleString() : "—"}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
 
 // ── Flag Capture Log ──────────────────────────────────────────────────────────
 
@@ -1474,7 +1407,6 @@ export default function AdminPage() {
     { id: "admin-metrics",  label: "Metrics" },
     { id: "admin-users",    label: "Users" },
     { id: "admin-analytics",label: "Analytics" },
-    { id: "admin-nda",      label: "NDA" },
     { id: "admin-flags",    label: "Flags" },
     { id: "admin-cms",      label: "CMS" },
     { id: "admin-pipeline", label: "Pipeline" },
@@ -1765,9 +1697,6 @@ export default function AdminPage() {
             </div>
           </div>
         )}
-
-        {/* NDA Signatories */}
-        <div id="admin-nda"><NdaSignatories /></div>
 
         {/* Flag Capture Log */}
         <div id="admin-flags"><FlagCaptureLog /></div>

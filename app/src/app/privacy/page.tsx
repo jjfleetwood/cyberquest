@@ -47,7 +47,7 @@ export default function PrivacyPage() {
               <div className="space-y-3">
                 {[
                   { name: "Vercel", purpose: "Hosting, CDN, and HTTP access logs (IP + user agent)", url: "https://vercel.com/legal/privacy-policy" },
-                  { name: "Upstash Redis", purpose: "Server-side storage for user accounts, progress, streaks, leaderboard data, and NDA records", url: "https://upstash.com/trust/privacy.pdf" },
+                  { name: "Upstash Redis", purpose: "Server-side storage for user accounts, progress, streaks, leaderboard data, and survey responses", url: "https://upstash.com/trust/privacy.pdf" },
                   { name: "Resend", purpose: "Transactional email — registration, stage completion, and password reset emails", url: "https://resend.com/privacy" },
                   { name: "Anthropic Claude", purpose: "AI hint assistant (ARIA) — stage context is sent; no personal data is included in hint requests", url: "https://www.anthropic.com/privacy" },
                   { name: "Stripe", purpose: "Payment processing for Pro subscriptions — payment data is handled by Stripe directly and never stored on our servers", url: "https://stripe.com/privacy" },
