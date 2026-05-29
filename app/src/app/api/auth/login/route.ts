@@ -50,8 +50,6 @@ export async function POST(req: NextRequest) {
   if (await isAccountLocked(username)) {
     return NextResponse.json({ error: "Account temporarily locked. Try again in 15 minutes." }, { status: 429 });
   }
-  const adminUser = process.env.ADMIN_USERNAME?.toLowerCase();
-
   const data = await redis.hgetall<{
     passwordHash: string; salt: string; email: string;
     hashIterations?: string; isAdmin?: string;

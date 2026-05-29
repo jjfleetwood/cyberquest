@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     "scripts/**",
     // Data merge/build utilities — Node CJS scripts, not app code
     "src/data/**/*.js",
+    // One-off root-level utility scripts (CJS, not app code)
+    "fix-pl-quotes.js",
   ]),
   {
     rules: {
