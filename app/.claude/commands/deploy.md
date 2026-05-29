@@ -144,6 +144,34 @@ Never edit a file directly in `app/secured-docs/` if it has a counterpart in `do
 
 9. **Report completion** — confirm both Vercel projects are updated and summarize what was shipped.
 
+10. **Log hours and cost** — append an entry to `docs/HOURS_LOG.md` for this session.
+
+    Estimate hours based on the scope of work in this deploy (git log since last deploy, number of files changed, nature of changes):
+    - Tiny fix / single-file patch: 0.25–0.5 h
+    - Small feature or bug fix: 0.5–1.5 h
+    - Medium feature (2–5 files, new route or component): 1–3 h
+    - Large feature or multi-agent session: 3–6 h
+    - Full sprint with multiple features + deploy: 5–10 h
+
+    Append to `docs/HOURS_LOG.md` in this format:
+    ```
+    | YYYY-MM-DD | vX.Y.Z | N.N h | One-line summary of what shipped | X.X h |
+    ```
+
+    Then recompute the summary block at the top of the file:
+    - **Total hours logged** — sum of all session hours
+    - **Sessions logged** — count of rows
+    - **Estimated AI cost this month** — sessions this calendar month × $10/session (Claude Max flat rate estimate; update if plan changes)
+    - **Equivalent developer cost** — total hours × $150/hr (senior contractor rate for comparison)
+
+    After updating `docs/HOURS_LOG.md`, sync it to `app/secured-docs/HOURS_LOG.md` via `cp docs/HOURS_LOG.md app/secured-docs/`.
+
+    Also wire it into the admin docs panel if not already done:
+    - Add `"HOURS_LOG.md"` to `ALLOWED_FILES` in `app/src/app/api/docs/[file]/route.ts`
+    - Add `{ id: "hours-log", label: "Hours Log", file: "HOURS_LOG.md" }` to the `DOCS` array in `app/src/components/DocsViewer.tsx`
+
+    Print the updated summary line at the end of the deploy report.
+
 ## Rules
 
 - Never add Co-Authored-By lines to commits.

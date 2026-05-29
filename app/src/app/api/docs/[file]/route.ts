@@ -33,6 +33,7 @@ const ALLOWED_FILES = new Set([
   "CICD_PIPELINE.md",
   "API_REFERENCE.md",
   "ADR.md",
+  "HOURS_LOG.md",
 ]);
 
 function verifyAdminToken(token: string): boolean {
