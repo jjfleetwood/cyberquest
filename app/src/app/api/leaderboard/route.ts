@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
 
+async function isRateLimited(ip: string): Promise<boolean> {
+  const key = `rate:lb:${ip}`;
+  const count = await redis.incr(key);
+  if (count === 1) await redis.expire(key, 60); // 1-minute window
+  return count > 30;
+}
+
 type PlayerRow = {
   username: string;
   coins: number;
@@ -49,6 +56,11 @@ async function buildPlayers(pairs: unknown[]): Promise<PlayerRow[]> {
 }
 
 export async function GET(req: NextRequest) {
+  const ip = req.headers.get("x-real-ip") ?? req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  if (await isRateLimited(ip)) {
+    return NextResponse.json({ error: "Too many requests." }, { status: 429 });
+  }
+
   try {
     const period = req.nextUrl.searchParams.get("period") ?? "alltime";
 

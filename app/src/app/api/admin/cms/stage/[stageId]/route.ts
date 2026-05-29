@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { getStageOverride, saveStageOverride, deleteStageOverride, type StageOverride } from "@/lib/cms";
 import { getStage } from "@/data/stages";
+import { logAdminAction } from "@/lib/audit";
 
 function verifyAdmin(req: NextRequest): boolean {
   const token = req.cookies.get("admin_token")?.value;
@@ -55,6 +56,8 @@ export async function PUT(req: NextRequest, { params }: Params) {
 
   const body = (await req.json()) as StageOverride;
   await saveStageOverride(stageId, body);
+  const adminName = req.cookies.get("admin_token")?.value?.split(":").slice(0, -1).join(":") ?? "admin";
+  logAdminAction(adminName, "cms-stage-save", stageId).catch(() => {});
   return NextResponse.json({ ok: true });
 }
 
@@ -64,5 +67,7 @@ export async function DELETE(req: NextRequest, { params }: Params) {
 
   const { stageId } = await params;
   await deleteStageOverride(stageId);
+  const adminName = req.cookies.get("admin_token")?.value?.split(":").slice(0, -1).join(":") ?? "admin";
+  logAdminAction(adminName, "cms-stage-delete", stageId).catch(() => {});
   return NextResponse.json({ ok: true });
 }

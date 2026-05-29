@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
+import { logAdminAction } from "@/lib/audit";
 
 function extractCallerUsername(token: string): string | null {
   const secret = process.env.ADMIN_SECRET;
@@ -52,5 +53,6 @@ export async function POST(req: NextRequest) {
     await redis.hdel(`user:${target}`, "isAdmin");
   }
 
+  logAdminAction(callerUsername, grant ? "grant-admin" : "revoke-admin", target).catch(() => {});
   return NextResponse.json({ ok: true, username: target, isAdmin: grant });
 }

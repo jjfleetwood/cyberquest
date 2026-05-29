@@ -28,7 +28,9 @@ export async function POST(req: NextRequest) {
   }
 
   const email = await redis.hget(`user:${username}`, "email") as string | null;
-  const origin = req.headers.get("origin") ?? "https://kryptoscronos.com";
+  const rawOrigin = req.headers.get("origin") ?? "";
+  const ALLOWED_ORIGINS = ["https://kryptoscronos.com", "http://localhost:3000"];
+  const origin = ALLOWED_ORIGINS.includes(rawOrigin) ? rawOrigin : "https://kryptoscronos.com";
 
   try {
     const session = await stripe.checkout.sessions.create({

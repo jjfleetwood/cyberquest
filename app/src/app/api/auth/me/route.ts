@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
 
   if (!username) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const data = await redis.hgetall<{ email: string; tier: string; createdAt: string }>(`user:${username}`);
+  const data = await redis.hgetall<{ email: string; tier: string; createdAt: string; voucherExpiry: string }>(`user:${username}`);
   if (!data && !isAdmin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const superAdmin = process.env.ADMIN_USERNAME?.toLowerCase();
@@ -58,5 +58,6 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ username, email: data?.email ?? "", isAdmin, isSuperAdmin, tier, trialDaysLeft });
+  const voucherExpiry = rawTier === "pro" && data?.voucherExpiry ? Number(data.voucherExpiry) : null;
+  return NextResponse.json({ username, email: data?.email ?? "", isAdmin, isSuperAdmin, tier, trialDaysLeft, voucherExpiry });
 }

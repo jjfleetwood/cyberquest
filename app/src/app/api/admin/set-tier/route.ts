@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
+import { logAdminAction, extractAdminUsername } from "@/lib/audit";
 
 function verifyAdminToken(token: string): boolean {
   const secret = process.env.ADMIN_SECRET;
@@ -37,5 +38,6 @@ export async function POST(req: NextRequest) {
   if (!exists) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   await redis.hset(`user:${username}`, { tier });
+  logAdminAction(extractAdminUsername(token!) ?? "admin", "set-tier", `${username}:${tier}`).catch(() => {});
   return NextResponse.json({ ok: true, username, tier });
 }

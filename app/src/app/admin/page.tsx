@@ -589,6 +589,20 @@ function VouchersPanel() {
     setTimeout(() => setMsg(null), 2000);
   }
 
+  async function revokeVoucher(code: string) {
+    if (!window.confirm(`Revoke ${code}? This will zero out remaining uses.`)) return;
+    const r = await fetch("/api/admin/vouchers", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code }),
+    });
+    if (r.ok) {
+      setMsg(`Revoked ${code}.`);
+      setTimeout(() => setMsg(null), 3000);
+      loadVouchers(false);
+    }
+  }
+
   return (
     <div className="bg-white/2 border border-white/8 rounded-2xl overflow-hidden mb-8">
       <div className="px-6 py-4 border-b border-white/8 flex items-center justify-between flex-wrap gap-2">
@@ -620,7 +634,7 @@ function VouchersPanel() {
               onChange={(e) => setUsesLimit(Number(e.target.value))}
               className="bg-white/5 border border-white/10 text-gray-300 text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-cyan-500/50"
             >
-              {[1, 5, 10, 25, 100].map((n) => <option key={n} value={n}>{n} use{n !== 1 ? "s" : ""}</option>)}
+              {[1, 5, 10, 25, 100, 500].map((n) => <option key={n} value={n}>{n} use{n !== 1 ? "s" : ""}</option>)}
             </select>
           </div>
           <div>
@@ -633,6 +647,7 @@ function VouchersPanel() {
               <option value={30}>30 days</option>
               <option value={60}>60 days</option>
               <option value={90}>90 days</option>
+              <option value={365}>365 days</option>
             </select>
           </div>
           <button
@@ -688,6 +703,15 @@ function VouchersPanel() {
                 <span className="text-xs text-gray-700 flex-shrink-0">
                   {new Date(v.createdAt).toLocaleDateString()}
                 </span>
+                {!exhausted && (
+                  <button
+                    onClick={() => revokeVoucher(v.code)}
+                    className="text-xs text-gray-700 hover:text-red-400 transition-colors flex-shrink-0"
+                    title="Revoke code"
+                  >
+                    Revoke
+                  </button>
+                )}
               </div>
             );
           })

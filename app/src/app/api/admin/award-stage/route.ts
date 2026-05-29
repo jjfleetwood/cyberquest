@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
 import { getServerSession } from "@/lib/server-session";
+import { logAdminAction, extractAdminUsername } from "@/lib/audit";
 import { awardStageInRedis } from "@/lib/server-progress";
 import { stages } from "@/data/stages";
 import { TROPHIES, dailyShopTrophies } from "@/data/trophies";
@@ -69,6 +70,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  logAdminAction(extractAdminUsername(adminToken) ?? "admin", "award-stage", `${username}:${stage.id}`).catch(() => {});
   return NextResponse.json({
     ok: true,
     username,

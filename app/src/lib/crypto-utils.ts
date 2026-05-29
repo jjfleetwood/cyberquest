@@ -1,6 +1,6 @@
 /** Shared crypto helpers — safe to import on both client and server. */
 
-export const PBKDF2_ITERATIONS = 310_000;
+export const PBKDF2_ITERATIONS = 600_000;
 
 export function generateSalt(): string {
   const bytes = new Uint8Array(16);

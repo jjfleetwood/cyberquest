@@ -11,6 +11,7 @@ type MeData = {
   email: string;
   tier: "free" | "trial" | "pro" | "all-star";
   trialDaysLeft: number | null;
+  voucherExpiry: number | null;
 };
 
 const TIER_LABEL: Record<string, string> = {
@@ -135,9 +136,17 @@ export default function AccountPage() {
                   Free plan — limited to introductory stages
                 </p>
               )}
-              {me.tier === "pro" && (
+              {me.tier === "pro" && !me.voucherExpiry && (
                 <p className="text-xs mt-1" style={{ color: skin.textMuted }}>
                   All 438 stages unlocked · Unlimited ARIA hints
+                </p>
+              )}
+              {me.tier === "pro" && me.voucherExpiry && (
+                <p className="text-xs mt-1" style={{ color: skin.textMuted }}>
+                  All 438 stages unlocked · Expires{" "}
+                  <span style={{ color: "#22d3ee" }}>
+                    {new Date(me.voucherExpiry).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
+                  </span>
                 </p>
               )}
               {me.tier === "all-star" && (

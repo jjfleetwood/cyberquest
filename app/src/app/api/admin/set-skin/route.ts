@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
+import { logAdminAction, extractAdminUsername } from "@/lib/audit";
 
 const VALID_SKINS = new Set(["youth", "standard", "mature"]);
 
@@ -35,5 +36,6 @@ export async function POST(req: NextRequest) {
   }
 
   await redis.hset(`progress:${body.username.toLowerCase()}`, { skin: body.skin });
+  logAdminAction(extractAdminUsername(token!) ?? "admin", "set-skin", `${body.username.toLowerCase()}:${body.skin}`).catch(() => {});
   return NextResponse.json({ ok: true });
 }

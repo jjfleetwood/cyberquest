@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
+import { logAdminAction, extractAdminUsername } from "@/lib/audit";
 
 const VALID_GROUPS = new Set(["elementary", "junior-hs", "high-school", "university", "career", "curious"]);
 
@@ -35,6 +36,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "invalid params" }, { status: 400 });
   }
 
-  await redis.hset(`user:${body.username.toLowerCase()}`, { userGroups: JSON.stringify(groups) });
+  const lower = body.username.toLowerCase();
+  await redis.hset(`user:${lower}`, { userGroups: JSON.stringify(groups) });
+  logAdminAction(extractAdminUsername(token!) ?? "admin", "set-group", `${lower}:${(groups as string[]).join(",")}`).catch(() => {});
   return NextResponse.json({ ok: true });
 }

@@ -11,33 +11,45 @@ export async function POST(req: NextRequest) {
 
   const normalized = code.trim().toUpperCase();
   const key = `voucher:${normalized}`;
+  const dedupKey = `voucher:redeemers:${normalized}`;
+  const lower = username.toLowerCase();
 
   const data = await redis.hgetall(key);
   if (!data || !data.durationDays) {
     return NextResponse.json({ error: "Invalid or expired code." }, { status: 400 });
   }
 
-  const usesLeft = Number(data.usesLeft ?? 0);
-  if (usesLeft <= 0) {
+  // Fast fail before touching anything
+  if (Number(data.usesLeft ?? 0) <= 0) {
     return NextResponse.json({ error: "This code has already been fully redeemed." }, { status: 400 });
   }
 
-  // Check this user hasn't already used this code
-  const uses: { username: string; redeemedAt: number }[] = data.uses
-    ? JSON.parse(data.uses as string)
-    : [];
-  if (uses.some((u) => u.username.toLowerCase() === username.toLowerCase())) {
+  // Atomic per-user deduplication via Redis Set (SADD returns 0 if already a member)
+  const added = await redis.sadd(dedupKey, lower);
+  if (added === 0) {
     return NextResponse.json({ error: "You have already redeemed this code." }, { status: 400 });
+  }
+
+  // Optimistic atomic decrement — roll back if another request raced us to the last use
+  const newLeft = await redis.hincrby(key, "usesLeft", -1);
+  if (newLeft < 0) {
+    await Promise.all([
+      redis.hincrby(key, "usesLeft", 1),
+      redis.srem(dedupKey, lower),
+    ]);
+    return NextResponse.json({ error: "This code has already been fully redeemed." }, { status: 400 });
   }
 
   const durationDays = Number(data.durationDays);
   const expiresAt = Date.now() + durationDays * 24 * 60 * 60 * 1000;
-  const lower = username.toLowerCase();
 
-  // Atomically decrement uses and record redemption
+  // Update uses log (display only — enforcement is done atomically above)
+  const uses: { username: string; redeemedAt: number }[] = data.uses
+    ? JSON.parse(data.uses as string)
+    : [];
   uses.push({ username: lower, redeemedAt: Date.now() });
+
   await Promise.all([
-    redis.hincrby(key, "usesLeft", -1),
     redis.hset(key, { uses: JSON.stringify(uses) }),
     redis.hset(`user:${lower}`, {
       tier: "pro",

@@ -1,6 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createHmac, timingSafeEqual } from "crypto";
 import { redis } from "@/lib/redis";
 import { getServerSession } from "@/lib/server-session";
+
+function verifyAdminToken(token: string): boolean {
+  const secret = process.env.ADMIN_SECRET;
+  if (!secret) return false;
+  const colonIdx = token.lastIndexOf(":");
+  if (colonIdx === -1) return false;
+  const username = token.slice(0, colonIdx);
+  const signature = token.slice(colonIdx + 1);
+  if (!username || !signature) return false;
+  const expected = createHmac("sha256", secret).update(username).digest("hex");
+  try {
+    const sigBuf = Buffer.from(signature, "hex");
+    const expBuf = Buffer.from(expected, "hex");
+    if (sigBuf.length !== expBuf.length) return false;
+    return timingSafeEqual(sigBuf, expBuf);
+  } catch { return false; }
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json() as Record<string, unknown>;
@@ -23,7 +41,11 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  // Admin-only: list all survey responses
+  const adminToken = req.cookies.get("admin_token")?.value;
+  if (!adminToken || !verifyAdminToken(adminToken)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { searchParams } = new URL(req.url);
   const limit = Math.min(Number(searchParams.get("limit") ?? "50"), 200);
 

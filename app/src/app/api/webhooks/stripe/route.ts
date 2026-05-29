@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
         tier: "pro",
         stripeCustomerId: session.customer ?? "",
         stripeSubscriptionId: session.subscription ?? "",
+        voucherExpiry: "", // clear any prior voucher expiry so Stripe Pro isn't auto-downgraded
       });
 
       // Pro welcome email — fire-and-forget

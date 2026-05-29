@@ -12,6 +12,17 @@ async function isRateLimited(ip: string): Promise<boolean> {
   return count > 5;
 }
 
+async function isAccountLocked(username: string): Promise<boolean> {
+  const key = `lockout:user:${username}`;
+  const count = await redis.incr(key);
+  if (count === 1) await redis.expire(key, 900); // 15-min window
+  return count > 5;
+}
+
+async function clearAccountLockout(username: string): Promise<void> {
+  await redis.del(`lockout:user:${username}`);
+}
+
 function safeCompare(a: string, b: string): boolean {
   try {
     const ab = Buffer.from(a);
@@ -33,10 +44,13 @@ export async function POST(req: NextRequest) {
 
   const username = body.username.toLowerCase().trim();
 
-  const adminUser = process.env.ADMIN_USERNAME?.toLowerCase();
-  if (username !== adminUser && await isRateLimited(ip)) {
+  if (await isRateLimited(ip)) {
     return NextResponse.json({ error: "Too many attempts. Try again later." }, { status: 429 });
   }
+  if (await isAccountLocked(username)) {
+    return NextResponse.json({ error: "Account temporarily locked. Try again in 15 minutes." }, { status: 429 });
+  }
+  const adminUser = process.env.ADMIN_USERNAME?.toLowerCase();
 
   const data = await redis.hgetall<{
     passwordHash: string; salt: string; email: string;
@@ -65,6 +79,7 @@ export async function POST(req: NextRequest) {
     const storedIterations = data.hashIterations ? Number(data.hashIterations) : 100_000;
     const hash = await hashPassword(body.password, data.salt, storedIterations);
     if (!safeCompare(hash, data.passwordHash)) {
+      // Don't clear lockout on wrong password — let it count toward the limit
       return NextResponse.json({ error: "Invalid username or password." }, { status: 401 });
     }
 
@@ -90,6 +105,9 @@ export async function POST(req: NextRequest) {
       }).catch(() => {});
     }
   }
+
+  // Auth succeeded — clear account lockout counter
+  clearAccountLockout(username).catch(() => {});
 
   // ── Issue HMAC session cookie (keeps all existing API routes working) ──────
   const token = signSessionToken(username);
