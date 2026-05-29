@@ -220,6 +220,7 @@ STRIPE_PRO_YEARLY_PRICE_ID   ← Stripe price ID for $99/yr
 NEXT_PUBLIC_SUPABASE_URL  ← Supabase project URL
 NEXT_PUBLIC_SUPABASE_ANON_KEY ← Supabase anon key
 SUPABASE_SERVICE_ROLE_KEY ← Supabase service role key (server-side only)
+CRON_SECRET               ← 32+ char random string; Vercel passes as Authorization: Bearer {CRON_SECRET} to cron routes
 ```
 
 Local dev: `.env.local` in `app/` (gitignored).
@@ -267,6 +268,7 @@ Local dev: `.env.local` in `app/` (gitignored).
 | `POST /api/survey` | Store survey response in Redis; awards 30-day Pro to free/trial users (one-time) |
 | `POST /api/resume/generate` | Generate PDF resume with epoch-based skills; returns PDF buffer |
 | `POST /api/delete-account` | Purge user record from Redis |
+| `GET /api/admin/daily-digest` | Vercel Cron (7:00 UTC daily) — reads audit:log last 24h, sends HTML digest email to hello@kryptoscronos.com; guarded by `Authorization: Bearer {CRON_SECRET}` |
 
 ---
 
