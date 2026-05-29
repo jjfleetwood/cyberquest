@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { redis } from "@/lib/redis";
+import { logAdminAction } from "@/lib/audit";
 
 export async function POST(req: NextRequest) {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
@@ -31,6 +32,7 @@ export async function POST(req: NextRequest) {
         stripeSubscriptionId: session.subscription ?? "",
         voucherExpiry: "", // clear any prior voucher expiry so Stripe Pro isn't auto-downgraded
       });
+      logAdminAction("stripe", "upgrade-pro", `${lower}:subscription`).catch(() => {});
 
       // Pro welcome email — fire-and-forget
       const apiKey = process.env.RESEND_API_KEY;

@@ -5,6 +5,7 @@ import { redis } from "@/lib/redis";
 type AuditEntry = { admin: string; action: string; target?: string; ts: number };
 
 const ACTION_LABELS: Record<string, string> = {
+  "upgrade-pro":         "⭐ Upgraded to Pro",
   "set-tier":            "Changed user tier",
   "set-skin":            "Changed avatar skin",
   "set-group":           "Changed user group",
@@ -18,6 +19,13 @@ const ACTION_LABELS: Record<string, string> = {
   "downloads-revoke":    "Revoked downloads access",
   "cms-stage-save":      "Saved CMS stage override",
   "cms-stage-delete":    "Deleted CMS stage override",
+};
+
+// Source labels for upgrade-pro events
+const UPGRADE_SOURCE_LABELS: Record<string, string> = {
+  stripe:  "Stripe subscription",
+  voucher: "Voucher code",
+  survey:  "Survey reward",
 };
 
 const SENSITIVE = new Set([
@@ -45,6 +53,7 @@ function buildHtml(
 ): string {
   const totalActions = entries.length;
   const sensitiveActions = entries.filter(e => SENSITIVE.has(e.action));
+  const upgradeEvents = entries.filter(e => e.action === "upgrade-pro");
   const uniqueAdmins = byAdmin.size;
 
   const summaryColor = sensitiveActions.length > 0 ? "#f97316" : "#22d3ee";
@@ -97,6 +106,21 @@ function buildHtml(
       </div>`
     : "";
 
+  const upgradeBlock = upgradeEvents.length > 0
+    ? `<div style="margin-bottom:20px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:14px 16px;">
+        <div style="color:#34d399;font-weight:700;font-size:13px;margin-bottom:8px;">⭐ Pro upgrades today (${upgradeEvents.length})</div>
+        ${upgradeEvents.sort((a, b) => b.ts - a.ts).map(e => {
+          const [user, ...rest] = (e.target ?? "").split(":");
+          const sourceKey = e.admin; // "stripe" | "voucher" | "survey"
+          const sourceLabel = UPGRADE_SOURCE_LABELS[sourceKey] ?? sourceKey;
+          const detail = rest.join(":"); // e.g. "subscription" or "KRYPTOS-XXXX-XXXX:30d"
+          return `<div style="font-size:12px;color:#6ee7b7;margin-bottom:4px;font-family:'Courier New',monospace;">
+            ${fmtTime(e.ts)} &nbsp;·&nbsp; ${user} &nbsp;·&nbsp; <span style="color:#34d399;">${sourceLabel}</span>${detail ? ` &nbsp;·&nbsp; ${detail}` : ""}
+          </div>`;
+        }).join("")}
+      </div>`
+    : "";
+
   return `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -127,6 +151,10 @@ function buildHtml(
                   <div style="font-size:24px;font-weight:900;color:#a78bfa;">${uniqueAdmins}</div>
                   <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Active Admins</div>
                 </td>
+                <td align="center" style="padding:14px 8px;border-right:1px solid rgba(255,255,255,0.06);">
+                  <div style="font-size:24px;font-weight:900;color:#34d399;">${upgradeEvents.length}</div>
+                  <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Pro Upgrades</div>
+                </td>
                 <td align="center" style="padding:14px 8px;">
                   <div style="font-size:24px;font-weight:900;color:${sensitiveActions.length > 0 ? "#f97316" : "#4ade80"};">${sensitiveActions.length}</div>
                   <div style="font-size:10px;color:rgba(75,85,99,1);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">Sensitive</div>
@@ -135,6 +163,9 @@ function buildHtml(
             </table>
           </td>
         </tr>
+
+        <!-- Pro upgrades (if any) -->
+        ${upgradeEvents.length > 0 ? `<tr><td style="padding:0 28px;">${upgradeBlock}</td></tr>` : ""}
 
         <!-- Sensitive alert (if any) -->
         ${sensitiveActions.length > 0 ? `<tr><td style="padding:0 28px;">${sensitiveBlock}</td></tr>` : ""}
@@ -193,9 +224,15 @@ export async function GET(req: NextRequest) {
 
   const html = buildHtml(entries, byAdmin, dateStr, periodEnd);
   const sensitiveCount = entries.filter(e => SENSITIVE.has(e.action)).length;
+  const upgradeCount = entries.filter(e => e.action === "upgrade-pro").length;
   const subject = entries.length === 0
     ? `Admin Digest — ${dateStr} — No activity`
-    : `Admin Digest — ${dateStr} — ${entries.length} action${entries.length !== 1 ? "s" : ""}${sensitiveCount > 0 ? ` (${sensitiveCount} sensitive ⚠️)` : ""}`;
+    : [
+        `Admin Digest — ${dateStr}`,
+        upgradeCount > 0 ? `${upgradeCount} Pro upgrade${upgradeCount !== 1 ? "s" : ""} ⭐` : null,
+        sensitiveCount > 0 ? `${sensitiveCount} sensitive ⚠️` : null,
+        `${entries.length} total`,
+      ].filter(Boolean).join(" · ");
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return NextResponse.json({ error: "RESEND_API_KEY not configured" }, { status: 500 });

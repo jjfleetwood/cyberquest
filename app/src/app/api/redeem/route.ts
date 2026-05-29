@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { redis } from "@/lib/redis";
 import { getServerSession } from "@/lib/server-session";
+import { logAdminAction } from "@/lib/audit";
 
 export async function POST(req: NextRequest) {
   const username = getServerSession(req);
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
       voucherExpiry: String(expiresAt),
     }),
   ]);
+  logAdminAction("voucher", "upgrade-pro", `${lower}:${normalized}:${durationDays}d`).catch(() => {});
 
   return NextResponse.json({
     ok: true,
