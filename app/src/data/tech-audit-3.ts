@@ -2,7 +2,7 @@ import type { StageConfig, EpochConfig } from "./types";
 
 export const techAudit3Epoch: EpochConfig = {
   id: "tech-audit-3",
-  name: "Tech Audit: Agentic Continuous Monitoring",
+  name: "Agentic Continuous Monitoring",
   subtitle: "Automated Audit with Claude Tools",
   description: "Automate the full audit lifecycle using Claude's tool use API and MCP servers — agentic API enumeration, AI-powered secrets scanning, automated compliance report generation, and multi-agent audit pipeline design.",
   emoji: "🤖",
@@ -22,6 +22,9 @@ export const techAudit3Stages: StageConfig[] = [
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-01", name: "Tool Architect", emoji: "🔧" },
+    easeScore: 8,
+    valueScore: 9,
+    rank: 1,
     challengeType: "ctf",
     info: {
       tagline: "An AI auditor without tools is just a text generator. Tools give Claude hands.",
@@ -207,6 +210,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-02", name: "API Cartographer", emoji: "🗺️" },
+    easeScore: 7,
+    valueScore: 9,
+    rank: 4,
     challengeType: "ctf",
     info: {
       tagline: "You can't audit what you can't see. Claude's first job is building the map.",
@@ -376,6 +382,9 @@ This directory contains the output of an agentic API enumeration run.
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-03", name: "Secrets Hunter", emoji: "🕵️" },
+    easeScore: 7,
+    valueScore: 10,
+    rank: 2,
     challengeType: "ctf",
     info: {
       tagline: "Regex catches patterns. Claude understands context. Both are necessary.",
@@ -624,6 +633,9 @@ Final fragment: TR14G3}
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-04", name: "Cloud Cartographer", emoji: "☁️" },
+    easeScore: 5,
+    valueScore: 9,
+    rank: 7,
     challengeType: "ctf",
     info: {
       tagline: "The cloud is not a place. It's a configuration. And configurations drift.",
@@ -786,6 +798,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-05", name: "Policy Whisperer", emoji: "🪪" },
+    easeScore: 6,
+    valueScore: 10,
+    rank: 3,
     challengeType: "ctf",
     info: {
       tagline: "IAM policies are the access control layer. Claude reads them faster than any human auditor.",
@@ -957,6 +972,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-06", name: "MCP Integrator", emoji: "🔗" },
+    easeScore: 6,
+    valueScore: 8,
+    rank: 8,
     challengeType: "ctf",
     info: {
       tagline: "MCP is the USB standard for AI tools. One protocol, every system.",
@@ -1116,6 +1134,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-07", name: "IaC Auditor", emoji: "📐" },
+    easeScore: 6,
+    valueScore: 9,
+    rank: 5,
     challengeType: "ctf",
     info: {
       tagline: "The terraform plan is the audit artifact. Claude reads it before apply.",
@@ -1291,6 +1312,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-08", name: "Evidence Collector", emoji: "📋" },
+    easeScore: 7,
+    valueScore: 8,
+    rank: 6,
     challengeType: "ctf",
     info: {
       tagline: "Evidence collection is 60% of audit time. Agents do it in 6 minutes.",
@@ -1471,6 +1495,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-09", name: "Orchestrator", emoji: "🎼" },
+    easeScore: 4,
+    valueScore: 9,
+    rank: 11,
     challengeType: "ctf",
     info: {
       tagline: "One agent audits a control. A pipeline of agents audits an organization.",
@@ -1646,6 +1673,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-10", name: "Report Writer", emoji: "✍️" },
+    easeScore: 8,
+    valueScore: 7,
+    rank: 9,
     challengeType: "ctf",
     info: {
       tagline: "The finding is only as useful as the report. Claude writes faster than any auditor.",
@@ -1814,6 +1844,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-11", name: "The Sentinel", emoji: "📡" },
+    easeScore: 5,
+    valueScore: 8,
+    rank: 10,
     challengeType: "ctf",
     info: {
       tagline: "Annual audits find last year's problems. Continuous monitoring finds today's.",
@@ -1990,6 +2023,9 @@ WHAT YOU'RE LEARNING:
     category: "ai",
     xp: 200,
     badge: { id: "audit-a-badge-12", name: "Agentic Auditor", emoji: "🎯" },
+    easeScore: 4,
+    valueScore: 10,
+    rank: 12,
     challengeType: "ctf",
     info: {
       tagline: "The future of audit: define scope, press run, receive report.",

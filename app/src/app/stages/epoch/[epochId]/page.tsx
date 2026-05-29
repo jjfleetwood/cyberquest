@@ -83,7 +83,12 @@ export default function EpochPage() {
   }, [epochId]);
 
   const epoch = epochs.find((e) => e.id === epochId);
-  const allEpochStages = allStages.filter((s) => s.epochId === epochId).sort((a, b) => a.order - b.order);
+  const allEpochStages = allStages.filter((s) => s.epochId === epochId).sort((a, b) => {
+    const ra = (a as { rank?: number }).rank;
+    const rb = (b as { rank?: number }).rank;
+    if (ra !== undefined && rb !== undefined) return ra - rb;
+    return a.order - b.order;
+  });
   const epochStages = filterStagesByGroup(allEpochStages, groups);
   const accent = epochAccent[epochId] ?? epochAccent.ancient;
   const contentFlag = getContentFlag(epochId);

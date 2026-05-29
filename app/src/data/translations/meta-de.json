@@ -1451,7 +1451,7 @@
       "d": "Hands-On technisches Audit-Testing — enumere und nutze API-Fehlkonfigurationen, suche nach exposed Secrets, prüfe IAM Policies, teste Cloud Guardrails, scanne IaC Templates und validiere Container Security Controls."
     },
     "tech-audit-3": {
-      "n": "Tech Audit: Agentic Continuous Monitoring",
+      "n": "Agentic Continuous Monitoring",
       "s": "Automatisiertes Audit mit Claude Tools",
       "d": "Automatisiere den vollständigen Audit-Lebenszyklus mit Claudes Tool Use API und MCP Servern — agentic API Enumeration, KI-gesteuerte Secrets Scanning, automatisierte Compliance Report-Generierung und Multi-Agent Audit Pipeline Design."
     },

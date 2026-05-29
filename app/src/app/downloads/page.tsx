@@ -9,7 +9,7 @@ const ALL_DOWNLOADS = Object.entries(stageDownloads).flatMap(([stageId, files]) 
 );
 
 const STAGE_GROUP_LABELS: Record<string, string> = {
-  "audit-a": "Tech Audit: Agentic (Claude Tool Use + MCP)",
+  "audit-a": "Agentic Continuous Monitoring (Claude Tool Use + MCP)",
   "audit-cm": "Continuous Monitoring 2.0 (SIEM · UEBA · NDR · CSPM)",
 };
 
