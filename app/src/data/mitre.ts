@@ -61,10 +61,11 @@ exiftool annual-report.pdf | grep -E "Author|Creator|Producer|Company"`,
         title: "APT29 / Cozy Bear — SolarWinds Pre-Attack Recon (2019–2020)",
         when: "2019–December 2020",
         where: "SolarWinds, US Government agencies, Fortune 500 companies",
-        impact: "18,000+ organizations compromised; access to NSA, Treasury, State Dept networks",
+        impact: "18,000+ organizations compromised; access to NSA, Treasury, State Dept networks; Executive Order 14028 issued",
         body: [
-          "Before inserting the SUNBURST backdoor into SolarWinds Orion, APT29 (Cozy Bear) conducted extensive reconnaissance on SolarWinds' development environment, customer list, and build pipeline. They identified that Orion was used by thousands of government and enterprise organizations — making it an ideal supply chain target.",
-          "The reconnaissance phase lasted months before the first malicious code was written. APT29 monitored SolarWinds' GitHub activity, studied their build documentation, and identified the specific build server to target. This level of pre-attack intelligence is characteristic of nation-state actors using T1589, T1591, and T1596.",
+          "Before inserting the SUNBURST backdoor into SolarWinds Orion, APT29 (Cozy Bear) conducted extensive reconnaissance on SolarWinds' development environment, customer list, and build pipeline. They identified that Orion was used by thousands of government and enterprise organizations — making it an ideal supply chain target. The reconnaissance phase lasted months before the first malicious code was written. APT29 monitored SolarWinds' GitHub activity, studied their build documentation, and identified the specific build server to target.",
+          "The reconnaissance phase lasted months before the first malicious code was written. APT29 monitored SolarWinds' GitHub activity, studied their build documentation, and identified the specific build server to target. This level of pre-attack intelligence is characteristic of nation-state actors using T1589, T1591, and T1596. Organizations that had deployed threat intelligence feeds monitoring for their own domain names, employee names, and IP ranges in public scanning data would have seen early indicators of this reconnaissance activity — but none were looking.",
+          "The SolarWinds breach triggered the most significant cybersecurity executive order in US history: Executive Order 14028 (May 2021), which mandated zero-trust architecture adoption, software bill of materials (SBOM) for federal software procurement, and supply chain security requirements across all federal civilian agencies. CISA, FBI, NSA, and ODNI issued a joint advisory retrospectively documenting the reconnaissance techniques used — specifically T1589 (Gather Victim Identity Information), T1591 (Gather Victim Org Information), and T1596 (Search Open Technical Databases) — to guide defenders on what passive recon detection looks like before an attack is ever launched. The SolarWinds case established that sophisticated adversaries invest months in understanding the target's environment before writing a single line of malicious code, and that pre-attack reconnaissance leaves detectable signals in Certificate Transparency logs, GitHub, Shodan, and threat intelligence feeds if defenders know where to look.",
         ],
       },
       diagram: {
@@ -192,11 +193,12 @@ zeek -r capture.pcap -e 'print c$ssl$ja3' | sort | uniq -c`,
       incident: {
         title: "Lazarus Group — Operation AppleJeus Infrastructure (2018)",
         when: "2018–ongoing",
-        where: "Global — cryptocurrency exchanges, financial institutions",
-        impact: "$2B+ stolen; sophisticated multi-layer C2 infrastructure used across 30+ countries",
+        where: "Global — cryptocurrency exchanges, financial institutions across 30+ countries",
+        impact: "$2B+ stolen in cryptocurrency; DPRK nuclear program partially funded by crypto theft; UN Panel of Experts documented $3B in total Lazarus theft 2017–2023",
         body: [
-          "North Korea's Lazarus Group (APT38) built elaborate resource development pipelines for Operation AppleJeus: registered legitimate-looking cryptocurrency software companies, built real-looking websites and GitHub profiles, developed trojanized crypto trading software, and signed it with legitimate code signing certificates purchased under the fake company identities.",
-          "The infrastructure was so convincing that victims willingly downloaded and ran the malware. The entire operation — company registration, website development, software development, certificate acquisition — was complete before any target was approached. This is resource development at nation-state scale.",
+          "North Korea's Lazarus Group (APT38) built elaborate resource development pipelines for Operation AppleJeus: they registered legitimate-looking cryptocurrency software companies, built real websites and GitHub profiles, developed trojanized crypto trading software (QTBitcoinTrader, Celas Trade Pro), and signed the malware with legitimate code signing certificates purchased under the fake company identities. The infrastructure was so convincing that victims willingly downloaded and ran the malware from what appeared to be a legitimate software vendor.",
+          "The entire operation — company registration, website development, software development, certificate acquisition — was complete before any target was approached. This is resource development at nation-state scale: building the attack infrastructure as a business before engaging any victim. Lazarus continued the same pattern through 2023, expanding to DeFi protocols, NFT platforms, and Web3 game companies — adapting the fake company model to each new cryptocurrency sector.",
+          "Lazarus Group's financial motivation is directly connected to North Korea's sanctions-constrained economy. UN Panel of Experts reports have documented that DPRK used cryptocurrency theft to fund its nuclear and ballistic missile programs — citing approximately $3 billion in losses attributable to Lazarus/APT38 between 2017 and 2023, including $625M from the Ronin Network (Axie Infinity) bridge in March 2022. After AppleJeus, CISA and US-CERT published indicators including certificate thumbprints, domain patterns, and JA3 TLS fingerprints associated with Lazarus infrastructure. Certificate Transparency (CT) log monitoring for newly-issued certificates matching lookalike domain patterns is now a standard enterprise threat intelligence practice specifically because Lazarus and similar actors rely on building convincing digital identities — and every certificate they acquire leaves a permanent, searchable record in the CT log.",
         ],
       },
       diagram: {
@@ -320,11 +322,12 @@ dig TXT selector._domainkey.sender.com
       incident: {
         title: "DNC Hack — Spear Phishing Delivers Initial Access (2016)",
         when: "March 2016",
-        where: "Democratic National Committee, Washington D.C.",
-        impact: "Thousands of emails stolen and published; significant US election interference",
+        where: "Democratic National Committee, John Podesta — Washington D.C.",
+        impact: "Thousands of emails stolen and published by WikiLeaks; significant US election interference; Mueller investigation; DMARC mandated for .gov domains",
         body: [
-          "APT28 (Fancy Bear) gained initial access to the DNC via a spear phishing email sent to John Podesta. The email spoofed a Google security alert claiming his Gmail account had been accessed from Ukraine. Podesta's aide forwarded it to IT, who mistakenly confirmed it was 'legitimate' — Podesta clicked the link and entered his credentials.",
-          "The phishing page was a pixel-perfect Google login clone hosted on a domain registered by APT28 days earlier. DMARC was not configured on google.com to block the spoofed sender. The entire operation — recon, domain registration, phishing page, credential harvest — cost the attackers approximately $5 in infrastructure and netted a geopolitical impact worth billions.",
+          "APT28 (Fancy Bear, GRU Unit 26165) gained initial access to the DNC via a spear phishing email sent to John Podesta. The email spoofed a Google security alert claiming his Gmail account had been accessed from Ukraine. Podesta's aide forwarded it to IT, who mistakenly confirmed it was 'legitimate' — Podesta clicked the link and entered his credentials on a pixel-perfect Google login clone hosted on a domain registered by APT28 days earlier.",
+          "DMARC was not configured on google.com to block the spoofed sender at the time. The entire operation — recon, domain registration, phishing page, credential harvest — cost the attackers approximately $5 in infrastructure and netted a geopolitical impact worth billions. The stolen emails were passed to WikiLeaks and published strategically during the Democratic National Convention and in October 2016 before the election.",
+          "The political consequences — Russian interference in the 2016 US presidential election, the Mueller investigation, Senate Intelligence Committee reports — made the DNC breach the highest-profile case of a nation-state cyberattack achieving strategic geopolitical impact via a $5 infrastructure investment. The breach catalyzed major security improvements: the DNC hired a dedicated CISO, US government agencies began providing cybersecurity threat briefings to political campaigns, and election security became a formally funded federal program (EAC, CISA election security programs). DMARC adoption by government organizations accelerated dramatically: the US State Department mandated DMARC p=reject for all .gov domains by 2018, specifically citing email phishing as the primary threat addressed. The $5 infrastructure cost versus billions in geopolitical impact remains the canonical illustration of why phishing prevention — with its clear, measurable ROI — deserves the highest priority in any security program.",
         ],
       },
       diagram: {
@@ -447,11 +450,12 @@ Get-WinEvent -LogName "Microsoft-Windows-PowerShell/Operational" |
       incident: {
         title: "NotPetya — WMI and PSEXEC for Execution (2017)",
         when: "June 27, 2017",
-        where: "Ukraine, spreading globally",
-        impact: "$10B+ damages; Maersk, FedEx, Merck, Mondelez all crippled",
+        where: "Ukraine, spreading globally — Maersk, FedEx, Merck, Mondelez, Reckitt Benckiser",
+        impact: "$10B+ damages (highest cyberattack cost in history); first multilateral government attribution of Russia for destructive cyberattack",
         body: [
-          "NotPetya used multiple execution techniques after gaining initial access: WMI (T1047) for remote execution, PsExec (T1569.002) for lateral movement execution, and WMIC to spread across the network. It combined stolen credentials (via credential dumping) with legitimate Windows remote execution tools — a classic LOLBin attack.",
-          "Because NotPetya used only legitimate Windows tools for execution (WMI, PsExec, Task Scheduler), traditional AV products based on malware signatures didn't trigger. The execution chain looked identical to legitimate system administration.",
+          "NotPetya used multiple execution techniques after gaining initial access: WMI (T1047) for remote execution, PsExec (T1569.002) for lateral movement execution, and WMIC to spread across the network. It combined stolen credentials (via credential dumping) with legitimate Windows remote execution tools — a classic LOLBin attack. Because NotPetya used only legitimate Windows tools for execution, traditional signature-based AV products did not trigger — the execution chain looked identical to legitimate system administration.",
+          "The combination was devastating: Maersk, the world's largest shipping company, had its entire global network of 45,000 PCs and 4,000 servers wiped in hours. The credential cascade meant that compromising one system with an admin who had logged on recently was enough to reach every other system that admin had ever touched. FedEx's TNT subsidiary suffered $400M in losses. Merck's pharmaceutical manufacturing was disrupted. Reckitt Benckiser lost £100M. Total global damages exceeded $10 billion.",
+          "The US, UK, EU, Canada, Australia, and New Zealand jointly attributed NotPetya to Russian GRU Unit 74455 (Sandworm) in February 2018 — the first time multiple allied governments publicly named Russia for a destructive cyberattack. The attribution led to indictments of six GRU officers in October 2020 and became the predicate for subsequent sanctions. For defenders, NotPetya established PowerShell Script Block Logging (Event 4104), WMI activity monitoring (Sysmon Events 19/20/21), and PsExec detection as baseline SOC controls — specifically because NotPetya demonstrated what $10 billion of damage looks like when defenders cannot see LOLBin execution chains that are indistinguishable from legitimate administration traffic.",
         ],
       },
       diagram: {
@@ -580,11 +584,12 @@ Get-ScheduledTask | Where-Object {$_.TaskPath -notmatch "\\\\Microsoft\\\\"} |
       incident: {
         title: "APT1 / Comment Crew — Long-Term Persistence via Services (2006–2013)",
         when: "2006–2013",
-        where: "US Defense, Aerospace, Technology firms — 141 companies",
-        impact: "Terabytes of IP stolen over 7 years; Mandiant APT1 report exposes operation",
+        where: "141 US Defense, Aerospace, and Technology firms",
+        impact: "Terabytes of IP stolen over 7 years; 356-day average dwell time; Mandiant APT1 report triggers first nation-state indictments",
         body: [
-          "APT1 (Comment Crew, PLA Unit 61398) maintained persistence in victim networks for an average of 356 days — nearly a year — before detection. They used a combination of Windows Services, registry run keys, and web shells on internet-facing servers. When one persistence mechanism was discovered and removed, others remained active.",
-          "The 2013 Mandiant APT1 report documented 46 malware families and 20+ persistence techniques used by APT1. The key lesson: defenders need to find all persistence mechanisms simultaneously or the attacker simply uses the backup. Comprehensive persistence hunting requires both endpoint forensics and network traffic analysis.",
+          "APT1 (Comment Crew, PLA Unit 61398) maintained persistence in victim networks for an average of 356 days — nearly a year — before detection. They used a combination of Windows Services, registry run keys, and web shells on internet-facing servers. When one persistence mechanism was discovered and removed, others remained active. The 2013 Mandiant APT1 report documented 46 malware families and 20+ persistence techniques used by APT1.",
+          "The key defensive lesson: defenders need to find all persistence mechanisms simultaneously or the attacker simply uses the backup. Comprehensive persistence hunting requires both endpoint forensics (registry, scheduled tasks, services, startup folders) and network traffic analysis (recurring beaconing patterns, DNS requests). Removing one persistence mechanism while others remain is not remediation — it is pruning.",
+          "The Mandiant APT1 report, published February 18, 2013, was a watershed moment in public cybersecurity reporting. For the first time, a private security firm published detailed technical evidence attributing a nation-state cyber espionage campaign with named perpetrators — including photographs of PLA Unit 61398's building in Shanghai and the English-language online handles of specific operators (UglyGorilla, SUPERHARD). The diplomatic consequences were significant: the US Department of Justice indicted five PLA members in May 2014 — the first-ever criminal indictments of state-sponsored hackers. The report also popularized the concept of persistence hunting as a discipline: the systematic search for all persistence mechanisms rather than response to individual alerts, recognizing that APT actors layer persistence specifically to survive partial detection and remediation efforts.",
         ],
       },
       diagram: {
@@ -716,11 +721,12 @@ Get-WinEvent -LogName Security | Where-Object {
       incident: {
         title: "SolarWinds — SAML Token Forgery for Cloud Privilege Escalation (2020)",
         when: "2020",
-        where: "SolarWinds victim organizations, Microsoft 365 / Azure AD",
-        impact: "Access to US government email; Treasury, Justice, State Department compromised",
+        where: "SolarWinds victim organizations — Microsoft 365 / Azure AD for US government and Fortune 500 tenants",
+        impact: "US Treasury, Justice, State Department email compromised; Microsoft published hybrid identity hardening guidance; ADFS certificate protection elevated to Tier 0",
         body: [
-          "After gaining on-premises access via SUNBURST, APT29 escalated to cloud privileges using a SAML token forgery technique (T1606.002 — Golden SAML). By stealing the ADFS token-signing certificate from the victim's on-premises Active Directory Federation Services server, they could forge SAML tokens and authenticate as any user in Microsoft 365 — including global admins — bypassing MFA entirely.",
-          "This escalation path from on-premises compromise to full cloud admin is one of the most dangerous in modern hybrid environments. It works because Microsoft 365 trusts SAML tokens signed by the organization's own ADFS certificate — and that certificate is stored on-premises, not in the cloud.",
+          "After gaining on-premises access via SUNBURST, APT29 escalated to cloud privileges using a SAML token forgery technique (T1606.002 — Golden SAML). By stealing the ADFS token-signing certificate from the victim's on-premises Active Directory Federation Services server, they could forge SAML tokens and authenticate as any user in Microsoft 365 — including global admins — bypassing MFA entirely. This worked because Microsoft 365 trusts SAML tokens signed by the organization's own ADFS certificate — and that certificate is stored on-premises, where APT29 already had access.",
+          "This escalation path from on-premises compromise to full cloud admin is one of the most dangerous in modern hybrid environments. APT29 used this technique to access the email accounts of senior officials at the US Treasury, Justice, State, Homeland Security, and Energy departments — reading emails for months before the breach was discovered in December 2020 by FireEye, which had itself been compromised via the same SUNBURST supply chain attack.",
+          "The ADFS Golden SAML technique prompted a fundamental re-evaluation of hybrid identity security architecture. Microsoft published 'Protecting Microsoft 365 from On-Premises Attacks' specifically in response to the SolarWinds campaign, recommending that on-premises Active Directory and Azure AD be treated as separate trust boundaries rather than an integrated trust chain. The guidance included storing ADFS token-signing certificates in HSMs rather than on ADFS server local storage, enabling ADFS Extended Protection for Authentication, and monitoring for anomalous SAML token issuance. NSA and CISA published joint guidance in December 2020 specifically addressing cloud service hardening for SolarWinds victims — with Golden SAML detection and ADFS hardening as primary recommendations. The attack established that ADFS token-signing certificates require Tier 0 protection equivalent to domain admin credentials, a principle now reflected in Microsoft's Privileged Access Workstation guidance and NIST's enterprise identity security standards.",
         ],
       },
       diagram: {
@@ -853,13 +859,14 @@ New-NetFirewallRule -DisplayName "Block certutil outbound" \`
         },
       },
       incident: {
-        title: "BlackCat/ALPHV — BYOVD EDR Killer (2022)",
+        title: "BlackCat/ALPHV — BYOVD EDR Killer (2022–2023)",
         when: "2022–2023",
-        where: "Global ransomware campaigns",
-        impact: "MGM ($100M), Caesars, Reddit, Western Digital — EDR disabled before encryption",
+        where: "Global ransomware campaigns — MGM Resorts, Caesars Entertainment, Reddit, Western Digital",
+        impact: "MGM $100M loss (10-day disruption); Caesars paid ~$15M ransom; HVCI and kernel driver blocklist accelerated as defenses; CrowdStrike adds kernel-level tamper protection",
         body: [
-          "ALPHV (BlackCat) ransomware operators developed a tool called 'mpsvc.dll' that exploited a vulnerable Dell driver (DBUtil_2_3.sys) to kill EDR sensors from the kernel. By loading the vulnerable driver and exploiting it to write to kernel memory, they could terminate CrowdStrike Falcon, SentinelOne, and other EDR agents — leaving the environment blind before deploying ransomware.",
-          "BYOVD is particularly dangerous because it operates at a privilege level higher than the EDR itself. Standard EDR products run as kernel drivers — but a BYOVD attack runs at the same level, able to modify the EDR's own kernel callbacks. Defense requires HVCI and a strict driver allowlist.",
+          "ALPHV (BlackCat) ransomware operators, working with affiliate group Scattered Spider, developed a technique exploiting a vulnerable Dell driver (DBUtil_2_3.sys — known vulnerable since 2021) to kill EDR sensors from kernel space. By loading the vulnerable signed driver and using its unintended kernel write capability to overwrite EDR callback registrations, they could terminate CrowdStrike Falcon, SentinelOne, and other EDR agents — leaving the environment blind before deploying ransomware. The technique is called Bring Your Own Vulnerable Driver (BYOVD) because the attacker brings their own signed-but-vulnerable driver rather than exploiting a zero-day.",
+          "BYOVD is particularly dangerous because it operates at the same privilege level as the EDR kernel driver it's killing. Standard EDR products protect themselves by registering kernel callbacks — but a BYOVD attack writes directly to kernel memory, removing those registrations. The MGM Resorts breach in September 2023 — causing $100M in losses and 10 days of disruption to hotel, casino, and online systems — demonstrated BYOVD's impact at scale.",
+          "MGM's breach drove Microsoft to accelerate Windows kernel driver security improvements. Microsoft expanded the Windows Kernel Driver Blocklist (now updated via Windows Defender definition updates) to include all drivers known to have been exploited in BYOVD attacks, and enabled HVCI (Hypervisor-Protected Code Integrity) by default on new hardware certified for Windows 11. CrowdStrike's response was to add kernel-level tamper protection to Falcon using HVCI technology to protect the EDR agent itself from BYOVD attacks. CISA published a #StopRansomware advisory on Scattered Spider specifically identifying BYOVD as a primary defense evasion method, and recommended HVCI + driver allowlist enforcement as mandatory controls for organizations deploying EDR products — recognizing that an EDR that can be killed from the kernel provides a false sense of security.",
         ],
       },
       diagram: {
@@ -997,11 +1004,12 @@ Get-WinEvent -LogName "Microsoft-Windows-Sysmon/Operational" | Where-Object {
       incident: {
         title: "NotPetya — Mimikatz + EternalBlue Credential Cascade (2017)",
         when: "June 27, 2017",
-        where: "Ukraine → Global",
-        impact: "$10B+ damages; Maersk, Merck, FedEx, Mondelez, Reckitt Benckiser",
+        where: "Ukraine → Global — Maersk, Merck, FedEx, Mondelez, Reckitt Benckiser",
+        impact: "$10B+ global damage; Maersk 45,000 PCs wiped; Credential Guard + Windows LAPS deployment accelerated",
         body: [
-          "NotPetya used a dual-path credential harvesting and lateral movement strategy. It ran a Mimikatz-equivalent module to dump credentials from LSASS on the initial infected system, then used those credentials to spread via PsExec. For systems where credentials didn't work, it used the NSA's EternalBlue exploit (MS17-010) — the same exploit used by WannaCry weeks earlier.",
-          "The combination was devastating: Maersk, the world's largest shipping company, had its entire global network of 45,000 PCs and 4,000 servers wiped in hours. The credential cascade meant that compromising one system with an admin who had logged on recently was enough to reach every other system that admin had ever touched.",
+          "NotPetya used a dual-path credential harvesting and lateral movement strategy. It ran a Mimikatz-equivalent module to dump credentials from LSASS on the initial infected system, then used those credentials to spread via PsExec. For systems where credentials didn't work, it fell back to EternalBlue (MS17-010) — the same NSA exploit WannaCry had used weeks earlier. The combination was devastating: Maersk, the world's largest shipping company, had its entire global network of 45,000 PCs and 4,000 servers wiped in hours.",
+          "The credential cascade mechanism was the key force multiplier: compromising one system where an administrator had recently logged on yielded their credentials, which were then used to reach every other system that administrator had ever touched. In most enterprise environments, a small number of shared domain admin accounts had logged on to hundreds or thousands of systems — meaning a single credential dump could reach the entire organization's endpoint fleet within minutes.",
+          "Benjamin Delpy created Mimikatz as a proof-of-concept after discovering Windows stored plaintext WDigest credentials in LSASS memory — a design decision made for backward compatibility. His 2012 disclosure to Microsoft resulted in patches disabling WDigest by default, but the fix required explicit registry deployment and was not retroactive. By 2017, most enterprise Windows systems still had WDigest enabled. NotPetya drove two specific control adoptions: Windows Credential Guard became a NIST SP 800-53 rev 5 recommended baseline (published 2020), and Microsoft rebuilt Local Administrator Password Solution (LAPS) as 'Windows LAPS' — integrated natively into Windows in 2023 rather than as an optional download — directly addressing the local admin credential reuse that enabled NotPetya's spread. The incident established that credential hygiene is not an abstract best practice; it is the specific control that would have reduced NotPetya's $10B damage to a localized outbreak.",
         ],
       },
       diagram: {
@@ -1138,11 +1146,12 @@ Get-WinEvent -LogName Security | Where-Object {
       incident: {
         title: "Colonial Pipeline — DarkSide Ransomware Lateral Movement (2021)",
         when: "May 7, 2021",
-        where: "Colonial Pipeline, Alpharetta, Georgia",
-        impact: "Largest US fuel pipeline shut down for 5 days; $4.4M ransom paid; fuel shortages on East Coast",
+        where: "Colonial Pipeline, Alpharetta, Georgia — 45% of US East Coast fuel supply",
+        impact: "$4.4M ransom paid; 5-day pipeline shutdown; TSA Security Directives mandate MFA + OT/IT segmentation for US pipeline operators",
         body: [
-          "DarkSide ransomware operators gained initial access to Colonial Pipeline through a compromised VPN account with a leaked password — no MFA. From there, they moved laterally through the IT network using stolen credentials, reached the billing and business systems, and deployed ransomware. Colonial shut down the pipeline preemptively out of concern the OT network might also be compromised.",
-          "The lateral movement from a single compromised VPN account to the systems that disrupted 45% of US East Coast fuel supply took hours — not days. The absence of network segmentation between IT and OT, combined with credential reuse across systems, enabled the rapid spread.",
+          "DarkSide ransomware operators gained initial access to Colonial Pipeline through a compromised VPN account with a leaked password — the account had no MFA. From there, they moved laterally through the IT network using stolen credentials, reached the billing and business systems, and deployed ransomware. Colonial shut down the 5,500-mile pipeline preemptively out of concern the OT network might also be compromised — a conservative decision that created the US East Coast fuel shortage.",
+          "The lateral movement from a single compromised VPN account to the systems that disrupted 45% of US East Coast fuel supply took hours — not days. The absence of network segmentation between IT and OT, combined with credential reuse across systems, enabled the rapid spread. The VPN account had been inactive but remained enabled — it had been used months earlier by an employee who was no longer at the company.",
+          "The Colonial Pipeline attack had direct regulatory consequences. The Transportation Security Administration issued Security Directive Pipeline-2021-01 in May 2021 and Pipeline-2021-02 in July 2021, mandating MFA for all remote access, network segmentation between IT and OT environments, and annual cybersecurity assessments for critical pipeline operators — the first mandatory cybersecurity regulations for US pipeline infrastructure. The $4.4M ransom payment was partially recovered in June 2021 — DOJ seized $2.3M from a Bitcoin wallet used by DarkSide, the first major federal cryptocurrency seizure from a ransomware group. CISA's subsequent Emergency Directive 22-02 (January 2022) required MFA across all federal civilian executive branch agencies for remote access — a policy directly descended from Colonial Pipeline's demonstration of what a single set of compromised VPN credentials without MFA can achieve.",
         ],
       },
       diagram: {
@@ -1274,13 +1283,14 @@ Get-ChildItem -Path \\\\fileserver\\shares -Recurse -Include *.docx,*.xlsx,*.pdf
         },
       },
       incident: {
-        title: "APT29 — M365 Email Collection (2023 Microsoft Breach)",
-        when: "November 2023 – January 2024",
-        where: "Microsoft corporate email, Azure AD",
-        impact: "Microsoft senior leadership emails stolen; source code repositories accessed",
+        title: "APT29 — M365 Email Collection via Legacy OAuth App (2023–2024)",
+        when: "November 2023 – January 2024 (disclosed)",
+        where: "Microsoft corporate email environment — senior leadership, security team, legal staff",
+        impact: "Microsoft senior leadership emails stolen; CSRB investigation; Microsoft removes all legacy OAuth apps; Microsoft security culture cited by CSRB as contributing factor",
         body: [
-          "APT29 (Midnight Blizzard) accessed Microsoft's corporate email environment by exploiting a legacy test OAuth application that had excessive permissions. They used this access to collect emails from Microsoft senior leadership, security team, and legal staff — specifically searching for emails related to APT29 itself (a sophisticated counter-intelligence collection operation).",
-          "The collection was targeted and automated: APT29 used the OAuth application's Microsoft Graph API access to query specific mailboxes for keywords related to their own operations. This is T1114.002 (Remote Email Collection) combined with T1119 (Automated Collection) — a highly efficient, API-driven data harvest.",
+          "APT29 (Midnight Blizzard, SVR) accessed Microsoft's corporate email environment by exploiting a legacy test OAuth application that had been provisioned with excessive permissions and never removed. Using password spray to compromise the test account, they leveraged the OAuth application's Microsoft Graph API access to query specific mailboxes for keywords related to APT29's own operations — a counter-intelligence collection operation targeting the company that had been most publicly documenting their techniques.",
+          "The collection was targeted and automated: APT29 queried the Microsoft Graph API for emails containing terms like 'Midnight Blizzard,' 'Cozy Bear,' 'APT29,' and references to Microsoft's own threat intelligence reports about SVR operations. This is T1114.002 (Remote Email Collection) combined with T1119 (Automated Collection) — a highly efficient, API-driven harvest requiring no additional credential theft beyond the initial OAuth app compromise.",
+          "Microsoft's public disclosure of the breach on January 12, 2024, was unusually candid, acknowledging that APT29 had accessed emails of senior leadership, cybersecurity team members, and legal staff. Microsoft's response included revoking all legacy OAuth applications with excessive permissions and tightening Microsoft Graph API permission grants. The Cybersecurity Review Board (CSRB) opened an investigation and published an April 2024 report that explicitly identified Microsoft's security culture and legacy architecture decisions as contributing factors to the breach — an unusually pointed assessment of a major technology company's security practices by a US government oversight body. The report recommended Microsoft prioritize security above all other product features and make the architectural changes necessary to prevent similar breaches — a directive that drove Microsoft's 'Secure Future Initiative' and significant engineering security investments in 2024.",
         ],
       },
       diagram: {
@@ -1413,11 +1423,12 @@ cat dns.log | awk '{print $10}' | awk -F'.' '{print length($1), $0}' | sort -rn 
       incident: {
         title: "Equifax — 76 Days of Exfiltration Undetected (2017)",
         when: "May–July 2017",
-        where: "Equifax, Atlanta, Georgia",
-        impact: "147.9M Americans' PII stolen; $575M FTC settlement; $1.4B in total costs",
+        where: "Equifax, Atlanta, Georgia — 147.9 million Americans' consumer credit records",
+        impact: "$575M FTC settlement (largest data breach penalty at time); $1.4B total costs; PLA Unit 54938 indicted; SSL inspection becomes mandatory control",
         body: [
-          "After exploiting the Apache Struts vulnerability (CVE-2017-5638) in mid-May 2017, the attackers exfiltrated data from Equifax's systems over 76 days — nearly two and a half months — before discovery on July 29. The exfiltration went undetected because Equifax's SSL inspection certificate had expired 19 months earlier, making the network monitoring system blind to encrypted traffic.",
-          "The attackers split the stolen data into small chunks and exfiltrated through 20 different IP addresses to avoid volume-based detection. The expired SSL certificate was the critical control failure — it turned the network monitoring system from an active defense into a decorative checkbox.",
+          "After exploiting the Apache Struts vulnerability (CVE-2017-5638) in mid-May 2017, attackers exfiltrated data from Equifax's systems over 76 days — nearly two and a half months — before discovery on July 29. The exfiltration went undetected because Equifax's SSL inspection certificate had expired 19 months earlier, making the network monitoring system completely blind to HTTPS-encrypted traffic leaving the network.",
+          "The attackers ran 9,000 data queries over 76 days, staged results in small encrypted archives, and exfiltrated through 20 different IP addresses across 20 countries to avoid volume-based detection. The expired SSL certificate was the critical control failure — it turned the network monitoring system from an active defense into a decorative checkbox. The stolen data included names, Social Security numbers, birth dates, addresses, and driver's license numbers for 147.9 million Americans.",
+          "The FTC Equifax settlement of $575M — the largest data breach penalty in US history at the time — required Equifax to implement SSL inspection with certificate management controls, mandatory vulnerability scanning with defined remediation timelines, and annual third-party security assessments. DOJ indicted four members of PLA Unit 54938 (linked to the 2015 OPM breach) for the Equifax hack in February 2020 — documenting the attack chain and exfiltration technique in the indictment. SSL inspection became a mandatory control in NIST SP 800-53 rev 5 baselines specifically because Equifax demonstrated that monitoring systems blind to encrypted traffic provide no protection against the vast majority of modern exfiltration, which uses HTTPS. The case is now cited in every major data breach regulatory framework as the canonical example of a monitoring control rendered ineffective by operational neglect.",
         ],
       },
       diagram: {
@@ -1553,11 +1564,12 @@ aws s3api put-bucket-object-lock-configuration \
       incident: {
         title: "Kaseya VSA — REvil Supply Chain Ransomware (July 4, 2021)",
         when: "July 2–5, 2021",
-        where: "Kaseya VSA, Miami FL → 1,500 businesses globally",
-        impact: "1,500 businesses encrypted; $70M ransom demand; Swedish grocery chain Coop forced to close 800 stores",
+        where: "Kaseya VSA (Miami FL) → ~50 MSPs → 1,500 businesses globally across 17 countries",
+        impact: "$70M ransom demand; 800 Coop grocery stores closed; Biden-Putin direct call; FBI possessed universal decryption key for 3 weeks before disclosing to victims",
         body: [
-          "REvil ransomware operators exploited a zero-day in Kaseya VSA (an RMM platform used by managed service providers) to push a malicious 'update' to all VSA-connected agents. The update deployed ransomware to every endpoint managed by the ~50 MSPs running Kaseya VSA — approximately 1,500 businesses across 17 countries.",
-          "The attack was timed for July 4th weekend when IT staff would be minimal. The ransomware encrypted all files simultaneously across thousands of organizations within hours. Sweden's Coop grocery chain closed 800 stores because their point-of-sale systems ran on a Kaseya-managed MSP. The entire ATT&CK kill chain — from initial access to ransomware detonation — executed in under 48 hours.",
+          "REvil ransomware operators exploited a zero-day in Kaseya VSA (a Remote Monitoring and Management platform used by managed service providers) to push a malicious 'update' to all VSA-connected agents. The update deployed ransomware to every endpoint managed by approximately 50 MSPs running Kaseya VSA — reaching approximately 1,500 businesses across 17 countries. The attack was timed for July 4th weekend, when IT staff coverage was minimal and change management controls were relaxed.",
+          "The ransomware encrypted all files simultaneously across thousands of organizations within hours. Sweden's Coop grocery chain closed 800 stores because their point-of-sale systems ran on a Kaseya-managed MSP. The entire ATT&CK kill chain — from initial Kaseya VSA exploitation (T1195 Supply Chain Compromise) to ransomware detonation (T1486 Data Encrypted for Impact) — executed in under 48 hours. The $70M ransom demand was addressed to Kaseya rather than to individual victims, reflecting the scale of the supply chain compromise.",
+          "The Kaseya attack triggered the first direct US government engagement with ransomware operators at the presidential level: President Biden called Russian President Putin on July 9, 2021, specifically raising the Kaseya attack. REvil's infrastructure went offline shortly after — widely attributed to US government offensive action, though never officially acknowledged. The FBI held the universal decryption key for Kaseya victims for three weeks before providing it to Kaseya in late July 2021, generating significant controversy about delayed victim notification. The case accelerated adoption of immutable backup solutions: S3 Object Lock and Azure Immutable Storage deployments grew significantly in the MSP sector in H2 2021, and CISA's StopRansomware guidance expanded to make immutable offline backups a primary recommendation — acknowledging that while prevention was ideal, survivable recovery was essential when prevention failed at the supply chain level.",
         ],
       },
       diagram: {
