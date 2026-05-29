@@ -6,22 +6,22 @@ type GaugeBarProps = {
   compact?: boolean; // smaller version for stage cards
 };
 
+// Muted interpolation: slate-blue → indigo → teal — avoids traffic-light loudness
 function valueToColor(v: number): string {
-  // 1=red, 5=amber, 10=green — smooth interpolation
   const pct = (v - 1) / 9; // 0..1
   if (pct < 0.5) {
-    // red → amber
+    // slate → indigo
     const t = pct / 0.5;
-    const r = 239;
-    const g = Math.round(68 + (160 - 68) * t);
-    const b = Math.round(68 + (0 - 68) * t);
+    const r = Math.round(100 + (99 - 100) * t);
+    const g = Math.round(116 + (102 - 116) * t);
+    const b = Math.round(139 + (241 - 139) * t);
     return `rgb(${r},${g},${b})`;
   } else {
-    // amber → green
+    // indigo → teal
     const t = (pct - 0.5) / 0.5;
-    const r = Math.round(239 + (34 - 239) * t);
-    const g = Math.round(160 + (197 - 160) * t);
-    const b = Math.round(0 + (94 - 0) * t);
+    const r = Math.round(99 + (45 - 99) * t);
+    const g = Math.round(102 + (212 - 102) * t);
+    const b = Math.round(241 + (191 - 241) * t);
     return `rgb(${r},${g},${b})`;
   }
 }
@@ -35,15 +35,15 @@ export default function GaugeBar({ value, label, compact = false }: GaugeBarProp
   if (compact) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-gray-500 text-xs whitespace-nowrap">{label}</span>
-        <div className="relative flex-1 h-1.5 rounded-full overflow-hidden"
-          style={{ background: "linear-gradient(to right, #ef4444, #f59e0b, #22c55e)" }}>
+        <span className="text-gray-600 text-[10px] whitespace-nowrap">{label}</span>
+        <div className="relative flex-1 h-1 rounded-full overflow-hidden"
+          style={{ background: "linear-gradient(to right, rgba(100,116,139,0.35), rgba(99,102,241,0.45), rgba(45,212,191,0.4))" }}>
           <div
-            className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-white/40 -translate-x-1/2"
+            className="absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full border border-white/20 -translate-x-1/2"
             style={{ left: needleLeft, background: color }}
           />
         </div>
-        <span className="text-xs font-bold font-mono w-4 text-right" style={{ color }}>{clampedValue}</span>
+        <span className="text-[10px] font-bold font-mono w-4 text-right" style={{ color, opacity: 0.8 }}>{clampedValue}</span>
       </div>
     );
   }
@@ -51,32 +51,29 @@ export default function GaugeBar({ value, label, compact = false }: GaugeBarProp
   return (
     <div>
       <div className="flex justify-between items-baseline mb-1.5">
-        <span className="text-xs text-gray-400 font-medium">{label}</span>
-        <span className="text-sm font-black font-mono" style={{ color }}>{clampedValue}<span className="text-gray-600 text-xs">/10</span></span>
+        <span className="text-xs text-gray-500 font-medium">{label}</span>
+        <span className="text-sm font-black font-mono" style={{ color, opacity: 0.85 }}>
+          {clampedValue}<span className="text-gray-700 text-xs">/10</span>
+        </span>
       </div>
 
       {/* Track */}
-      <div className="relative h-3 rounded-full" style={{ background: "linear-gradient(to right, #ef4444 0%, #f59e0b 50%, #22c55e 100%)" }}>
-        {/* Tick marks */}
-        {[0, 25, 50, 75, 100].map((p) => (
-          <div key={p} className="absolute top-0 bottom-0 w-px bg-black/20" style={{ left: `${p}%` }} />
-        ))}
-
+      <div className="relative h-2.5 rounded-full"
+        style={{ background: "linear-gradient(to right, rgba(100,116,139,0.3) 0%, rgba(99,102,241,0.4) 50%, rgba(45,212,191,0.35) 100%)" }}>
         {/* Needle */}
         <div
           className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-700"
           style={{ left: needleLeft }}
         >
-          <div className="w-4 h-4 rounded-full border-2 border-white/80 shadow-lg shadow-black/50"
-            style={{ background: color }} />
+          <div className="w-3.5 h-3.5 rounded-full border border-white/25 shadow shadow-black/40"
+            style={{ background: color, opacity: 0.85 }} />
         </div>
       </div>
 
       {/* Scale labels */}
       <div className="flex justify-between mt-1">
-        <span className="text-xs text-red-500/60">Low</span>
-        <span className="text-xs text-amber-500/60">Mid</span>
-        <span className="text-xs text-green-500/60">High</span>
+        <span className="text-[10px] text-gray-700">Low</span>
+        <span className="text-[10px] text-gray-700">High</span>
       </div>
     </div>
   );
