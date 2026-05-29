@@ -5,15 +5,15 @@ import { stagesMeta } from "@/data/stages-meta";
 const TRIAL_DAYS = 7;
 const TRIAL_MS = TRIAL_DAYS * 24 * 60 * 60 * 1000;
 
-export async function getUserTier(username: string): Promise<"free" | "pro" | "all-star" | "trial"> {
+export async function getUserTier(username: string): Promise<"free" | "pro" | "trial"> {
   const lower = username.toLowerCase();
   const [tier, createdAt, voucherExpiry] = await Promise.all([
     redis.hget(`user:${lower}`, "tier"),
     redis.hget(`user:${lower}`, "createdAt"),
     redis.hget(`user:${lower}`, "voucherExpiry"),
   ]);
-  if (tier === "all-star") return "all-star";
-  if (tier === "pro") {
+  // "all-star" was a legacy tier — treat as pro
+  if (tier === "pro" || tier === "all-star") {
     // If this pro access came from a voucher, check if it has expired
     if (voucherExpiry && Date.now() > Number(voucherExpiry)) {
       await redis.hset(`user:${lower}`, { tier: "free", voucherExpiry: "" });
@@ -36,7 +36,7 @@ function parseArr(val: unknown): string[] {
 
 /**
  * Returns true if username may access stageId.
- * - all-star / admin / trial → always allowed
+ * - admin / trial → always allowed
  * - pro → sequential gate: must have completed all prior stages in the epoch
  * - free → blocked
  */
@@ -49,7 +49,7 @@ export async function canAccessStage(stageId: string, username: string | null): 
 
   const tier = await getUserTier(lower);
 
-  if (tier === "all-star" || tier === "trial") return true;
+  if (tier === "trial") return true;
   if (tier === "free") return false;
 
   // Pro: sequential gate — must complete all prior stages in the same epoch

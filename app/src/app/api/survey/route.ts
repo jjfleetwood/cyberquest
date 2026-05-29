@@ -49,8 +49,8 @@ export async function POST(req: NextRequest) {
     const alreadyRewarded = await redis.get(`survey:rewarded:${lower}`);
     if (!alreadyRewarded) {
       const tier = await redis.hget(`user:${lower}`, "tier");
-      // Only reward free/trial users (don't clobber active Stripe subs or all-star)
-      if (tier !== "all-star" && tier !== "pro") {
+      // Only reward free/trial users (don't clobber active Stripe Pro)
+      if (tier !== "pro" && tier !== "all-star") {
         const expiresAt = ts + SURVEY_REWARD_DAYS * 24 * 60 * 60 * 1000;
         await Promise.all([
           redis.hset(`user:${lower}`, { tier: "pro", voucherExpiry: String(expiresAt) }),

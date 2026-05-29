@@ -9,7 +9,7 @@ import { clearSession } from "@/lib/auth";
 type MeData = {
   username: string;
   email: string;
-  tier: "free" | "trial" | "pro" | "all-star";
+  tier: "free" | "trial" | "pro";
   trialDaysLeft: number | null;
   voucherExpiry: number | null;
 };
@@ -18,14 +18,12 @@ const TIER_LABEL: Record<string, string> = {
   free: "Free",
   trial: "Free Trial",
   pro: "Pro",
-  "all-star": "All-Star",
 };
 
 const TIER_COLOR: Record<string, string> = {
   free: "#6b7280",
   trial: "#f59e0b",
   pro: "#22d3ee",
-  "all-star": "#a78bfa",
 };
 
 export default function AccountPage() {
@@ -91,7 +89,7 @@ export default function AccountPage() {
     );
   }
 
-  const isPro = me.tier === "pro" || me.tier === "all-star";
+  const isPro = me.tier === "pro";
   const tierColor = TIER_COLOR[me.tier] ?? "#6b7280";
 
   return (
@@ -149,15 +147,10 @@ export default function AccountPage() {
                   </span>
                 </p>
               )}
-              {me.tier === "all-star" && (
-                <p className="text-xs mt-1" style={{ color: "#a78bfa" }}>
-                  All-Star access · Full platform unlocked
-                </p>
-              )}
             </div>
           </div>
 
-          {isPro && me.tier !== "all-star" && (
+          {isPro && (
             <button
               onClick={openBillingPortal}
               disabled={portalLoading}
@@ -166,12 +159,6 @@ export default function AccountPage() {
             >
               {portalLoading ? "Opening portal…" : "Manage Billing & Subscription →"}
             </button>
-          )}
-
-          {me.tier === "all-star" && (
-            <p className="text-xs text-center py-2" style={{ color: skin.textMuted }}>
-              All-Star access is managed by your administrator.
-            </p>
           )}
 
           {!isPro && (

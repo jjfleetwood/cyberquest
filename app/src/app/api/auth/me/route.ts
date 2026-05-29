@@ -43,10 +43,10 @@ export async function GET(req: NextRequest) {
   const TRIAL_MS = 7 * 24 * 60 * 60 * 1000;
   const rawTier = data?.tier ?? null;
   const createdAt = Number(data?.createdAt ?? 0);
-  let tier: "free" | "pro" | "all-star" | "trial";
+  let tier: "free" | "pro" | "trial";
   let trialDaysLeft: number | null = null;
-  if (rawTier === "all-star") tier = "all-star";
-  else if (rawTier === "pro") tier = "pro";
+  // "all-star" is a legacy tier — treat as pro
+  if (rawTier === "pro" || rawTier === "all-star") tier = "pro";
   else if (rawTier === "free") tier = "free";
   else {
     const msLeft = createdAt + TRIAL_MS - Date.now();

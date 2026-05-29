@@ -143,7 +143,7 @@ export default async function StagePage({
   }
 
   const tier = username ? await getUserTier(username) : null;
-  const isPro = tier === "pro" || tier === "all-star";
+  const isPro = tier === "pro";
 
   let stage: StageConfig | null = stageBase;
 

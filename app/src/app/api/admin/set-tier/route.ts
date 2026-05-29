@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => null) as { username?: string; tier?: string } | null;
   const username = body?.username?.toLowerCase().trim();
-  const VALID_TIERS = ["pro", "all-star", "free"] as const;
+  const VALID_TIERS = ["pro", "free"] as const;
   type ValidTier = typeof VALID_TIERS[number];
   const tier: ValidTier = VALID_TIERS.includes(body?.tier as ValidTier) ? (body!.tier as ValidTier) : "free";
 

@@ -1183,10 +1183,9 @@ function MetricsPanel({ users, loading }: { users: UserRow[]; loading: boolean }
       return { epochId, stageCount: stageIds.length, completedCount, rate: Math.round((completedCount / users.length) * 100) };
     }).sort((a, b) => b.completedCount - a.completedCount || b.rate - a.rate);
 
-    const tiers = { "all-star": 0, pro: 0, free: 0 };
+    const tiers = { pro: 0, free: 0 };
     for (const u of users) {
-      if (u.tier === "all-star") tiers["all-star"]++;
-      else if (u.tier === "pro") tiers.pro++;
+      if (u.tier === "pro" || u.tier === "all-star") tiers.pro++;
       else tiers.free++;
     }
 
@@ -1273,11 +1272,10 @@ function MetricsPanel({ users, loading }: { users: UserRow[]; loading: boolean }
                     </div>
                   ))}
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2">
                   {[
-                    { label: "All-Star", value: metrics.tiers["all-star"], color: "text-yellow-300" },
-                    { label: "Pro",      value: metrics.tiers.pro,         color: "text-cyan-400" },
-                    { label: "Free",     value: metrics.tiers.free,        color: "text-gray-500" },
+                    { label: "Pro",  value: metrics.tiers.pro,  color: "text-cyan-400" },
+                    { label: "Free", value: metrics.tiers.free, color: "text-gray-500" },
                   ].map(({ label, value, color }) => (
                     <div key={label} className="bg-white/3 border border-white/5 rounded-lg px-3 py-2 text-center">
                       <div className={`text-xl font-black ${color}`}>{value}</div>
@@ -1334,8 +1332,8 @@ export default function AdminPage() {
   const [error, setError] = useState<string | null>(null);
 
   async function toggleTier(username: string, currentTier: string) {
-    // Cycle: free → pro → all-star → free
-    const newTier = currentTier === "free" ? "pro" : currentTier === "pro" ? "all-star" : "free";
+    // Cycle: free → pro → free
+    const newTier = currentTier === "free" ? "pro" : "free";
     setTogglingTier(username);
     try {
       const res = await fetch("/api/admin/set-tier", {
@@ -1655,14 +1653,12 @@ export default function AdminPage() {
                       disabled={togglingTier === user.username}
                       title={`Tier: ${user.tier} — click to cycle`}
                       className={`text-xs font-mono px-2 py-0.5 rounded border transition-colors disabled:opacity-50 ${
-                        user.tier === "all-star"
-                          ? "bg-yellow-500/20 border-yellow-500/40 text-yellow-300"
-                          : user.tier === "pro"
+                        user.tier === "pro" || user.tier === "all-star"
                           ? "bg-cyan-500/15 border-cyan-500/30 text-cyan-400"
                           : "bg-white/5 border-white/10 text-gray-600"
                       }`}
                     >
-                      {user.tier === "all-star" ? "⭐ all-star" : user.tier === "pro" ? "pro" : "free"}
+                      {user.tier === "pro" || user.tier === "all-star" ? "pro" : "free"}
                     </button>
                   </div>
 
