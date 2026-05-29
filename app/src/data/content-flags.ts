@@ -197,12 +197,14 @@ export const CONTENT_FLAGS: ContentFlag[] = [
   },
   {
     epochId: "emerging-tech",
-    risk: "verified-safe",
-    source: "Academic research papers / NIST AI RMF / EU AI Act / MITRE ATLAS / WEF Global Risks Report",
+    risk: "fair-use",
+    source: "MITRE ATLAS™ / OWASP Top 10 for LLMs / NIST AI RMF / EU AI Act / Academic research",
+    license: "CC BY 4.0 (MITRE ATLAS); CC BY-SA 4.0 (OWASP LLM Top 10)",
+    attributionUrl: "https://atlas.mitre.org/",
     attributionText:
-      "References to NIST AI RMF 1.0, EU AI Act (public EU regulation), MITRE ATLAS (public domain), WEF Global Risks Report (publicly released), and academic papers (Zhu et al. DLG, Tramèr et al., Goodfellow et al. FGSM) are citations of open publications. C2PA is an open standard. All incidents (Hong Kong fraud, Microsoft/OpenAI disclosure, JFrog ShadowRay) are from public reporting.",
+      "This module references MITRE ATLAS™ (The MITRE Corporation, CC BY 4.0) and the OWASP Top 10 for Large Language Model Applications (OWASP Foundation, CC BY-SA 4.0) as educational references. MITRE ATLAS™ is a trademark of The MITRE Corporation. OWASP® is a registered trademark of the OWASP Foundation. Additional references include NIST AI RMF 1.0 (public domain), EU AI Act (public EU regulation), C2PA (open standard), and published academic research cited by title and author.",
     adminNote:
-      "All content is based on public domain government standards (NIST, EU), open framework documentation (MITRE ATLAS, OWASP Top 10 for LLMs), publicly disclosed security incidents, and published academic research. No verbatim reproduction of copyrighted text. Safe.",
+      "emerging-tech.ts cites MITRE ATLAS (CC BY 4.0) in stages emerging-01 and emerging-08, and OWASP LLM Top 10 (CC BY-SA 4.0) in emerging-08. Content cites these frameworks as external authorities without reproducing structured technique listings (those are covered by the dedicated mitre-atlas and owasp-llm epochs). Risk is fair-use, not verified-safe. MITRE ATLAS is NOT public domain — it is CC BY 4.0, same license as MITRE ATT&CK. All other sources (NIST AI RMF, EU AI Act, academic papers, news incidents) are public domain or factual citation. Company logos (Keras, Hugging Face, Google, OpenAI, NVIDIA, Anthropic, WEF) are nominative trademark fair use consistent with umbrella and Cisco epoch practice.",
     reviewedAt: "2026-05-29",
   },
   {
