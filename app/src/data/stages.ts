@@ -4736,14 +4736,14 @@ curl -sk "https://TARGET_RV320/cgi-bin/export_debug_msg.exp?export=cat+/tmp/out.
       year: 2020,
       overview: [
         "The Great Wall of China was never a single continuous barrier — it was fifteen centuries of construction by different dynasties, with gaps, overlapping segments, and local passes that the builders had not fully closed. Armies that could not breach the wall at a guarded gate sent scouts to find the passes through the mountains: the Juyongguan pass, the Shanhaiguan gap, the Gubeikou route. These paths existed in the wall's shadow, invisible to the gate guards, requiring no credentials. The wall checked papers at its gates. The mountain passes had no gates.",
-        "CVE-2020-3452 is a path traversal vulnerability in Cisco ASA and FTD's WebVPN portal — the web endpoint that powers Cisco AnyConnect VPN. The WebVPN server served files from a virtual filesystem at `/+CSCOE+/files/`, taking the file path directly from the URL. The path handling code failed to strip `../` directory traversal sequences before constructing the real filesystem path. An unauthenticated attacker could include `../../` in the URL to climb above the WebVPN root and read any file on the ASA filesystem — running configurations, SSL private keys, LDAP credentials, VPN pre-shared keys — with a single curl command. No authentication. No firewall log entry beyond the HTTP request itself.",
+        "CVE-2020-3452 is a path traversal vulnerability in Cisco ASA and FTD's WebVPN portal — the web endpoint that powers Cisco AnyConnect VPN. The WebVPN server served files from a virtual filesystem at `/+CSCOE+/files/`, taking the file path directly from the URL. The path handling code failed to strip `../` directory traversal sequences before constructing the real filesystem path. An unauthenticated attacker could include `../../` in the URL to climb above the WebVPN root and read any file on the ASA filesystem with a single curl command:\n- Running configurations\n- SSL private keys\n- LDAP credentials\n- VPN pre-shared keys\nNo authentication. No firewall log entry beyond the HTTP request itself.",
         "Cisco disclosed CVE-2020-3452 on July 22, 2020, with a patch available simultaneously. Within 90 minutes of the advisory going live, security researcher Mikhail Klyuchnikov published a working curl payload on Twitter. By morning, automated scanners were hitting every internet-exposed ASA. The timing was devastating: COVID-19 had pushed enterprise VPN usage to record levels, and hundreds of thousands of organizations had recently stood up AnyConnect concentrators quickly, without hardening. Those concentrators were internet-facing by design — and they contained LDAP/Active Directory credentials that opened a path directly into the corporate network they were meant to protect.",
       ],
       technical: {
         title: "WebVPN Path Traversal — How `../` Reads the ASA Filesystem",
         body: [
           "The WebVPN portal's file handler at `/+CSCOE+/files/` extracted the requested path from the URL and used it to construct a full filesystem path without normalizing traversal sequences. The internal path prefix `+CSCOU+` referenced a different root directory. By chaining traversal sequences — `../../+CSCOU+/../` — an attacker moved the effective root to the ASA's base filesystem, making every file readable. The full traversal path `https://asa/+CSCOE+/files/../../+CSCOU+/../asa/priv/asdm.cfg` returned the ASA's ASDM configuration file, which contained the complete running configuration with all credentials. The request produced HTTP 200 with the file contents — no authentication, no session, no special headers.",
-          "Files commonly targeted in real exploitation: the ASA running configuration (`asdm.cfg`) containing VPN pre-shared keys, enable password (MD5 hash, often crackable), local user credentials, and SNMP community strings; LDAP configuration files containing Active Directory service account credentials (these gave direct access to the corporate directory); SSL private keys; and WebVPN session databases. Organizations that had configured AnyConnect with LDAP authentication stored AD service account credentials on the ASA — extracting them via the traversal gave an attacker valid credentials for the corporate Active Directory without ever touching a domain controller.",
+          "Files commonly targeted in real exploitation:\n- The ASA running configuration (`asdm.cfg`) — VPN pre-shared keys, enable password (MD5 hash, often crackable), local user credentials, and SNMP community strings\n- LDAP configuration files — Active Directory service account credentials giving direct access to the corporate directory\n- SSL private keys\n- WebVPN session databases\nOrganizations that had configured AnyConnect with LDAP authentication stored AD service account credentials on the ASA — extracting them via the traversal gave an attacker valid credentials for the corporate Active Directory without ever touching a domain controller.",
         ],
         codeExample: {
           label: "CVE-2020-3452 — path traversal reads the ASA filesystem",
@@ -4782,7 +4782,7 @@ show logging | include CSCOE
         impact: "Exploit on Twitter within 90 minutes; 400,000+ exposed ASAs; AD credentials and VPN keys harvested at scale during COVID VPN surge",
         body: [
           "Cisco published CVE-2020-3452 on Wednesday July 22, 2020 at approximately 11:00 AM ET, with the patch available simultaneously. By 12:30 PM — 90 minutes later — security researcher Mikhail Klyuchnikov had posted a working curl command on Twitter demonstrating the full traversal. By that afternoon, the curl command was screenshot and circulating in hacker forums and Telegram channels. By the next morning, Bishop Fox had published a comprehensive technical analysis and Shodan searches for Cisco ASA SSL VPN portals were returning over 400,000 results. Automated scanners were hitting all of them.",
-          "The specific impact of extracting LDAP credentials from ASA configurations was particularly severe. Many enterprise organizations configured AnyConnect with LDAP/Active Directory authentication — the ASA needed a service account credential to query Active Directory for VPN user authentication. This credential was stored in the ASA configuration. An attacker who downloaded the ASA configuration via CVE-2020-3452 obtained a valid Active Directory service account credential — often with read access to all users, groups, and organizational units in the domain. From there, standard AD enumeration tools (BloodHound, ldapsearch) mapped the path to domain admin without touching any server or generating unusual authentication events.",
+          "The specific impact of extracting LDAP credentials from ASA configurations was particularly severe:\n- Many enterprises configured AnyConnect with LDAP/Active Directory authentication, so the ASA stored a service account credential to query AD for VPN logins\n- Downloading the ASA configuration via CVE-2020-3452 handed the attacker that valid AD service account — often with read access to all users, groups, and organizational units in the domain\n- From there, standard AD enumeration tools (BloodHound, ldapsearch) mapped the path to domain admin without touching a server or generating unusual authentication events",
           "Several major healthcare organizations and a US federal agency were identified during responsible disclosure processes as having had their ASA configurations accessible before patching — their LDAP service credentials were in the open for the window between exploit publication and patch deployment. Cisco tracked active exploitation in the wild for over a week after disclosure. The lesson from the mountain passes: perimeter security devices are perimeter security by location, not by immunity. They run web servers, they have filesystems, they store credentials — and they must be patched with the same urgency as any internet-facing server. A VPN concentrator with a file read vulnerability is not protecting the network; it is handing over the keys to it.",
         ],
       },
@@ -4812,6 +4812,412 @@ show logging | include CSCOE
         { title: "Cisco Advisory — CVE-2020-3452", url: "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-ro-path-KJuQhB86" },
         { title: "CVE-2020-3452 — NVD Detail", url: "https://nvd.nist.gov/vuln/detail/CVE-2020-3452" },
         { title: "Rapid7 Analysis", url: "https://www.rapid7.com/blog/post/2020/07/23/cisco-asa-cve-2020-3452-path-traversal-exploitation/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        {
+          id: "stage-m05-q1",
+          type: "CVE-2020-3452",
+          challenge: `  An attacker appends ../../ sequences to a Cisco ASA
+  WebVPN URL and receives the contents of a file outside
+  the web root.`,
+          text: "What class of vulnerability is this?",
+          options: [
+            "SQL injection",
+            "Path (directory) traversal — unsanitized ../ sequences let the request climb above the intended root",
+            "Cross-site scripting",
+            "Buffer overflow",
+          ],
+          correctIndex: 1,
+          explanation:
+            "CVE-2020-3452 is a path-traversal flaw: the WebVPN file handler did not strip ../ sequences, so a crafted URL reads files outside the WebVPN root.",
+        },
+        {
+          id: "stage-m05-q2",
+          type: "Endpoint",
+          challenge: `  The vulnerable file handler lived under a specific WebVPN
+  URL path on the ASA/FTD.`,
+          text: "Which endpoint served files from the virtual filesystem?",
+          options: [
+            "/admin/login",
+            "/+CSCOE+/files/",
+            "/api/v2/config",
+            "/cgi-bin/config.exp",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The WebVPN portal served files from /+CSCOE+/files/, taking the path from the URL. Failing to normalize traversal sequences there is what allowed reading arbitrary files.",
+        },
+        {
+          id: "stage-m05-q3",
+          type: "Auth",
+          challenge: `  A defender asks what privileges an attacker needs to read
+  ASA files via CVE-2020-3452.`,
+          text: "What authentication is required?",
+          options: [
+            "Valid VPN user credentials",
+            "None — the read is fully unauthenticated, returning HTTP 200 with file contents to any caller",
+            "Admin/enable access",
+            "A client certificate",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The traversal needs no authentication or session. Any unauthenticated request to the crafted URL returns the file with HTTP 200.",
+        },
+        {
+          id: "stage-m05-q4",
+          type: "Target file",
+          challenge: `  In real exploitation, attackers prioritized one file
+  that contained the device's complete running configuration.`,
+          text: "Which file was that, and why does it matter?",
+          options: [
+            "index.html — it reveals the portal theme",
+            "asdm.cfg — the running config with VPN PSKs, enable hash, local users, and SNMP strings",
+            "robots.txt — it lists hidden paths",
+            "favicon.ico — it identifies the model",
+          ],
+          correctIndex: 1,
+          explanation:
+            "asdm.cfg held the full running configuration, including VPN pre-shared keys, the (crackable MD5) enable password, local users, and SNMP strings — a credential goldmine.",
+        },
+        {
+          id: "stage-m05-q5",
+          type: "AD impact",
+          challenge: `  An enterprise configured AnyConnect to authenticate VPN
+  users against Active Directory via LDAP.`,
+          text: "Why did CVE-2020-3452 become a domain-level problem for them?",
+          options: [
+            "It does not affect AD at all",
+            "The ASA stored an AD service account credential for LDAP queries; reading the config handed the attacker valid domain credentials",
+            "It only exposed the VPN client version",
+            "AD credentials were stored only on domain controllers",
+          ],
+          correctIndex: 1,
+          explanation:
+            "LDAP-integrated AnyConnect requires an AD service account stored on the ASA. Extracting the config gave the attacker that account — valid domain credentials, often with broad read access.",
+        },
+        {
+          id: "stage-m05-q6",
+          type: "Post-exploitation",
+          challenge: `  After obtaining an AD service account from a compromised
+  ASA config, an attacker runs BloodHound and ldapsearch.`,
+          text: "What are they doing, and why is it stealthy?",
+          options: [
+            "Encrypting files for ransom; it is loud",
+            "Enumerating users, groups, and OUs to map a path to domain admin — using legitimate LDAP reads that generate no unusual authentication events",
+            "Rebooting domain controllers",
+            "Scanning for open ports only",
+          ],
+          correctIndex: 1,
+          explanation:
+            "With valid read credentials, AD enumeration tools map privilege paths to domain admin using normal directory queries — blending in and avoiding the alerts that failed logins or malware would trigger.",
+        },
+        {
+          id: "stage-m05-q7",
+          type: "Timeline",
+          challenge: `  Cisco disclosed CVE-2020-3452 at ~11:00 AM ET on July 22,
+  2020, with a patch available simultaneously.`,
+          text: "How quickly did a working exploit appear?",
+          options: [
+            "Several months later",
+            "Within about 90 minutes — a working curl payload was posted publicly on Twitter the same morning",
+            "Never; it was only theoretical",
+            "Exactly one year later",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Roughly 90 minutes after disclosure, researcher Mikhail Klyuchnikov posted a working curl command, and mass scanning followed within a day.",
+        },
+        {
+          id: "stage-m05-q8",
+          type: "Patch reality",
+          challenge: `  A manager notes the patch was available the moment the
+  CVE was disclosed and assumes patched-on-day-one orgs were
+  never at risk.`,
+          text: "Why is 'patch available at disclosure' not the same as 'safe'?",
+          options: [
+            "Patches are always installed instantly everywhere",
+            "Exploits shipped the same hour; any device not patched in those first hours was exposed during active mass scanning",
+            "The patch was fake",
+            "Disclosure prevents all exploitation",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Availability is not deployment. With an exploit public within 90 minutes and scanning within a day, the gap between disclosure and each org's patch was the window of exposure.",
+        },
+        {
+          id: "stage-m05-q9",
+          type: "Context",
+          challenge: `  The disclosure landed in mid-2020.`,
+          text: "Why did the timing amplify the impact?",
+          options: [
+            "VPN usage was at an all-time low",
+            "COVID-19 had pushed enterprise VPN usage to record levels, with many AnyConnect concentrators stood up quickly and internet-facing by design",
+            "Most companies had shut down their networks",
+            "ASAs were rare in 2020",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The pandemic VPN surge meant hundreds of thousands of internet-facing AnyConnect concentrators — many hastily deployed — were exactly the exposed, credential-laden targets the flaw hit.",
+        },
+        {
+          id: "stage-m05-q10",
+          type: "Exposure",
+          challenge: `  Researchers queried Shodan for Cisco ASA SSL VPN portals
+  the day after disclosure.`,
+          text: "Roughly how many were exposed?",
+          options: [
+            "About 1,000",
+            "Over 400,000",
+            "About 20",
+            "Zero",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Shodan returned over 400,000 internet-exposed ASA SSL VPN portals — all reachable for the unauthenticated traversal once the exploit was public.",
+        },
+        {
+          id: "stage-m05-q11",
+          type: "Detection",
+          challenge: `  A SOC wants to detect attempts to exploit the traversal
+  in ASA HTTP logs.`,
+          text: "Which indicators should they search for?",
+          options: [
+            "Successful VPN logins only",
+            "../ sequences or their URL-encoded form (%2e%2e%2f) in requests to /+CSCOE+/files/ paths",
+            "ICMP echo requests",
+            "DNS TXT queries",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Traversal attempts contain ../ or encoded equivalents like %2e%2e%2f against the WebVPN file paths — the most direct log signature for CVE-2020-3452 exploitation.",
+        },
+        {
+          id: "stage-m05-q12",
+          type: "Evasion",
+          challenge: `  An attacker replaces ../ with %2e%2e%2f in the request.`,
+          text: "Why might they do this?",
+          options: [
+            "To compress the request",
+            "URL-encoding the traversal can evade naive filters and signatures that only look for literal ../",
+            "It changes the file being read",
+            "It is required by HTTP/2",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Encoded traversal (%2e%2e%2f) is functionally identical but can slip past detection or input filters that only match the literal ../ — so defenders must normalize before matching.",
+        },
+        {
+          id: "stage-m05-q13",
+          type: "Remediation",
+          challenge: `  An org cannot immediately patch but must stop the
+  traversal on an internet-facing ASA today.`,
+          text: "Which temporary mitigation closes the hole (at a cost)?",
+          options: [
+            "Disable logging",
+            "'no webvpn' — disabling WebVPN/AnyConnect closes the traversal, at the cost of VPN availability until patched",
+            "Change the admin banner",
+            "Enable SNMPv3",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Disabling WebVPN removes the vulnerable endpoint entirely. It interrupts AnyConnect service, so it is a stopgap until patching to a fixed ASA/FTD release.",
+        },
+        {
+          id: "stage-m05-q14",
+          type: "Remediation",
+          challenge: `  A team confirms an ASA served its config to an unknown
+  party before patching.`,
+          text: "What credential action is mandatory afterward?",
+          options: [
+            "Only reboot the ASA",
+            "Rotate every secret the config exposed — especially the LDAP/AD service account, VPN PSKs, enable password, and SSL private key",
+            "Change only the device hostname",
+            "Nothing, once patched",
+          ],
+          correctIndex: 1,
+          explanation:
+            "If the config leaked, all contained secrets are compromised. The AD service account is the most urgent to rotate, alongside VPN PSKs, the enable password, and any exposed SSL key.",
+        },
+        {
+          id: "stage-m05-q15",
+          type: "CVSS",
+          challenge: `  CVE-2020-3452 is scored 7.5 — a read-only file disclosure.`,
+          text: "Why is a 'read-only' flaw still rated High and treated as critical in practice?",
+          options: [
+            "Because it deletes files",
+            "Network-exploitable with no auth and high confidentiality impact; the files it reads (configs, AD creds, keys) enable full downstream compromise",
+            "Because it requires physical access",
+            "Because it only affects availability",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The base 7.5 reflects unauthenticated remote confidentiality loss. In practice the exposed credentials lead to domain compromise, so defenders treated it with critical urgency.",
+        },
+        {
+          id: "stage-m05-q16",
+          type: "Principle",
+          challenge: `  A security architect argues that an ASA is a security
+  device and therefore inherently safe.`,
+          text: "What does CVE-2020-3452 demonstrate about that view?",
+          options: [
+            "Security devices never have vulnerabilities",
+            "A perimeter device runs a web server with a filesystem and stored credentials; it is a web application and must be patched like any internet-facing server",
+            "Only servers need patching, not appliances",
+            "WebVPN cannot be attacked",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Being a 'security' appliance does not confer immunity. The ASA's WebVPN is a web app with files and secrets, so a web flaw turns the protector into the point of entry.",
+        },
+        {
+          id: "stage-m05-q17",
+          type: "Mechanics",
+          challenge: `  The exploit chained traversal with an internal path
+  prefix to relocate the effective root, e.g.
+  /+CSCOE+/files/../../+CSCOU+/../asa/priv/asdm.cfg`,
+          text: "What is the role of the +CSCOU+ segment in that path?",
+          options: [
+            "It encrypts the request",
+            "It references a different internal root directory, which combined with ../ sequences moves the effective root to the ASA base filesystem",
+            "It authenticates the request",
+            "It is meaningless padding",
+          ],
+          correctIndex: 1,
+          explanation:
+            "+CSCOU+ points at a separate root; chaining it with traversal sequences shifts the effective base directory so arbitrary files (like asdm.cfg) become reachable.",
+        },
+        {
+          id: "stage-m05-q18",
+          type: "Impact",
+          challenge: `  During responsible disclosure, some healthcare orgs and a
+  US federal agency were found to have had ASA configs
+  accessible before patching.`,
+          text: "What was the core exposure for those organizations?",
+          options: [
+            "Only their public website was defaced",
+            "Their LDAP service credentials sat in the open during the window between exploit publication and patch deployment",
+            "Their printers were taken offline",
+            "Nothing of value was reachable",
+          ],
+          correctIndex: 1,
+          explanation:
+            "With configs readable pre-patch, their AD/LDAP service credentials were exposed — a direct path toward the internal directory during the exposure window.",
+        },
+        {
+          id: "stage-m05-q19",
+          type: "Analogy",
+          challenge: `  The stage frames the flaw with the Great Wall's mountain
+  passes — routes through the terrain that bypassed the
+  guarded gates entirely.`,
+          text: "What does the analogy convey?",
+          options: [
+            "Walls are always sufficient defense",
+            "A defense that only checks credentials at the front gate is defeated by an unguarded side path — like the traversal bypassing WebVPN auth",
+            "Mountains make networks secure",
+            "Gates should be removed",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The traversal is the mountain pass: it never approaches the authenticated 'gate', reaching the protected files by a route the gate guards never watch.",
+        },
+        {
+          id: "stage-m05-q20",
+          type: "Operations",
+          challenge: `  Leadership asks what 'mean time to patch' target is
+  appropriate for internet-facing VPN concentrators after
+  this incident.`,
+          text: "Which target reflects the lesson?",
+          options: [
+            "Weeks to months is fine",
+            "Hours — exploits for such flaws appear the same hour, so patching must be measured in hours, not days",
+            "Patch only at annual maintenance",
+            "Patch only after a breach is confirmed",
+          ],
+          correctIndex: 1,
+          explanation:
+            "With weaponization within 90 minutes, the defensible target for internet-facing concentrators is hours. Day- or week-scale patching leaves a wide exploitation window.",
+        },
+        {
+          id: "stage-m05-q21",
+          type: "Service",
+          challenge: `  An engineer needs to explain which Cisco feature exposes
+  the vulnerable file handler.`,
+          text: "Which service/feature must be enabled for CVE-2020-3452 to be reachable?",
+          options: [
+            "Telnet",
+            "WebVPN / AnyConnect (the SSL VPN web portal)",
+            "DHCP relay",
+            "NetFlow export",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The traversal lives in the WebVPN portal that powers AnyConnect SSL VPN. Devices without WebVPN enabled do not expose the vulnerable /+CSCOE+/files/ handler.",
+        },
+        {
+          id: "stage-m05-q22",
+          type: "Logging",
+          challenge: `  A responder notes the exploit left almost no trace beyond
+  the HTTP request line itself.`,
+          text: "Why is there so little additional evidence?",
+          options: [
+            "The ASA encrypts all logs",
+            "No authentication or session is involved, so there are no login or auth events — only the raw HTTP GET in access logs",
+            "The attacker always disables logging first",
+            "ASAs never log HTTP",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Because the read is unauthenticated, there are no auth/session events to record. The only artifact is the HTTP request in access logs — which is why log retention and ../ detection matter.",
+        },
+        {
+          id: "stage-m05-q23",
+          type: "Edge devices",
+          challenge: `  A policy debate questions whether edge devices should
+  store directory service credentials at all.`,
+          text: "What design takeaway does the incident support?",
+          options: [
+            "Store all domain admin credentials on every edge device",
+            "Minimize and tightly scope any credentials stored on internet-facing edge devices; a file-read flaw turns them into a domain foothold",
+            "Edge devices should never authenticate users",
+            "Credentials on edge devices are always safe",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Credentials on internet-facing devices become high-value loot the moment a read flaw appears. Scoping LDAP service accounts to least privilege limits the blast radius of such a leak.",
+        },
+        {
+          id: "stage-m05-q24",
+          type: "Scope",
+          challenge: `  An analyst classifies what the attacker can and cannot do
+  with CVE-2020-3452 alone.`,
+          text: "Which statement is accurate?",
+          options: [
+            "It grants direct write/code execution on the ASA",
+            "It grants unauthenticated read of files; the severe outcomes come from the credentials and keys those files contain",
+            "It only reads non-sensitive static assets",
+            "It requires chaining with a buffer overflow to read any file",
+          ],
+          correctIndex: 1,
+          explanation:
+            "By itself the flaw is arbitrary file read, not code execution. Its danger is that the readable files (configs, AD creds, SSL keys) enable full network compromise downstream.",
+        },
+        {
+          id: "stage-m05-q25",
+          type: "Principle",
+          challenge: `  A CISO writes the one-line takeaway for the board.`,
+          text: "Which best captures the CVE-2020-3452 lesson?",
+          options: [
+            "VPN concentrators protect the network simply by existing",
+            "A perimeter device with a file-read flaw is not protecting the network — it is handing over the keys; patch edge web services in hours and rotate any exposed credentials",
+            "Read-only flaws can be ignored",
+            "Internet-facing management is acceptable with a strong password",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The durable lesson: edge security devices are web apps holding the network's keys. Treat their vulnerabilities with top urgency and assume any exposed credential is burned.",
+        },
       ],
     },
     ctf: {
