@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useLocale } from "@/contexts/LocaleContext";
+import HomeCtfDemo from "@/components/HomeCtfDemo";
+import Logo from "@/components/Logo";
 
 const TRACK_STATIC = [
   {
@@ -70,28 +72,6 @@ const ticker = [
   "🔴  HARVEST NOW DECRYPT LATER — Post-Quantum Threat Active",
   "🟠  CVE-2023-20198 — Cisco IOS XE Privilege Escalation",
   "🔴  Godlua Trojan — DoH Evasion via 1.1.1.1:443",
-];
-
-const terminalLines = [
-  { type: "sys",  text: "╔══════════════════════════════════════════╗" },
-  { type: "sys",  text: "║   Kryptós CronOS Terminal  v1.0          ║" },
-  { type: "sys",  text: "║   Stage 07: VOLT TYPHOON — ERCOT Grid    ║" },
-  { type: "sys",  text: "╚══════════════════════════════════════════╝" },
-  { type: "out",  text: "" },
-  { type: "out",  text: "Objective: Lateral movement detected in SCADA network." },
-  { type: "out",  text: "Identify the C2 beacon before the threat actor pivots." },
-  { type: "out",  text: "" },
-  { type: "cmd",  text: "ls network-captures/" },
-  { type: "out",  text: "dns-beacon.pcap   lateral-movement.log   c2-traffic.bin" },
-  { type: "cmd",  text: "dns-analyze --file dns-beacon.pcap" },
-  { type: "warn", text: "[ALERT] Suspicious subdomain pattern detected" },
-  { type: "warn", text: "[MATCH] Tunnel encoding: base64 in query labels" },
-  { type: "out",  text: "[INFO]  Query rate: 1,247/hr  →  C2 exfil confirmed" },
-  { type: "cmd",  text: "talos-lookup --ioc volt-typhoon-c2.net" },
-  { type: "ok",   text: "✓ TID: G1017 | VOLT TYPHOON | State-sponsored APT" },
-  { type: "out",  text: "  Targets: US critical infrastructure (energy, water)" },
-  { type: "out",  text: "" },
-  { type: "cursor", text: "❯ " },
 ];
 
 export default function Home() {
@@ -297,55 +277,8 @@ export default function Home() {
               </Link>
             </div>
 
-            {/* 3D Terminal */}
-            <div className="hidden md:block">
-              <div className="terminal-wrap" style={{ transformOrigin: "center center" }}>
-                <div
-                  className="rounded-xl overflow-hidden border"
-                  style={{
-                    borderColor: "rgba(34,211,238,0.2)",
-                    background: "#0d1117",
-                    boxShadow: "0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(34,211,238,0.08), inset 0 1px 0 rgba(255,255,255,0.05)",
-                  }}
-                >
-                  {/* Title bar */}
-                  <div className="flex items-center gap-2 px-4 py-3 border-b border-white/5"
-                    style={{ background: "rgba(255,255,255,0.03)" }}>
-                    <span className="w-3 h-3 rounded-full bg-red-500/70" />
-                    <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                    <span className="w-3 h-3 rounded-full bg-green-500/70" />
-                    <span className="ml-auto text-xs font-mono" style={{ color: "rgba(75,85,99,1)" }}>
-                      kryptos-cronos — bash
-                    </span>
-                  </div>
-                  {/* Terminal output */}
-                  <div className="p-4 font-mono text-xs leading-relaxed space-y-0.5">
-                    {terminalLines.map((line, i) => {
-                      const colors: Record<string, string> = {
-                        sys:    "rgba(34,211,238,0.5)",
-                        out:    "rgba(134,239,172,0.75)",
-                        cmd:    "rgba(229,231,235,0.9)",
-                        warn:   "rgba(250,204,21,0.9)",
-                        ok:     "rgba(74,222,128,1)",
-                        cursor: "rgba(34,211,238,0.9)",
-                      };
-                      return (
-                        <div key={i} style={{ color: colors[line.type] ?? colors.out }}>
-                          {line.type === "cmd" && (
-                            <span style={{ color: "rgba(34,211,238,0.7)" }}>❯ </span>
-                          )}
-                          {line.text}
-                          {line.type === "cursor" && (
-                            <span className="cursor-blink inline-block w-1.5 h-3.5 align-middle ml-0.5"
-                              style={{ background: "rgba(34,211,238,0.8)" }} />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* Playable mini-CTF terminal */}
+            <HomeCtfDemo />
           </div>
         </section>
 
@@ -607,7 +540,7 @@ export default function Home() {
                   glow: "rgba(168,85,247,0.08)", highlight: true,
                 },
                 {
-                  name: "Enterprise", price: "$8", perKey: "pricing.perMonth",
+                  name: "Small Business & Enterprise", price: "$8", perKey: "pricing.perMonth",
                   descKey: "home.pricingEntDesc",
                   featureKeys: ["home.pricingEntF1", "home.pricingEntF2", "home.pricingEntF3", "home.pricingEntF4"],
                   ctaKey: "home.pricingEntCta", href: "mailto:hello@kryptoscronos.com",
@@ -716,7 +649,7 @@ export default function Home() {
         {/* ── Footer ── */}
         <footer className="border-t py-8 px-4 text-center" style={{ borderColor: "rgba(255,255,255,0.05)" }}>
           <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-xl">🛡️</span>
+            <Logo size={24} />
             <span className="text-white font-bold">Kryptós <span style={{ color: "#22d3ee" }}>CronOS</span></span>
           </div>
           <div className="flex justify-center gap-6 text-sm mb-3" style={{ color: "rgba(75,85,99,1)" }}>

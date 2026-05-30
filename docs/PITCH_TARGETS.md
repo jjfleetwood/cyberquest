@@ -5,7 +5,7 @@
 
 ## The ask: $1.5M seed
 
-Gamified cybersecurity + AI training platform. 458 stages live across 38 epochs and 10 curriculum tracks (v1.22.0). Deployed at kryptoscronos.com. CI fully green, 0 ESLint errors. Adaptive difficulty engine live. Certificate paths for CompTIA Security+, ISC² CC, Network+, CySA+, CompTIA AI+, ISACA CISA/CISM/CRISC live at /certs. CyberOps Associate exam readiness tracker live at /cyberops. Quantum Risk Management and Emerging Tech & Deep Learning Risk epochs added. Seeking first institutional check.
+Gamified cybersecurity + AI training platform. 458 stages live across 38 epochs and 10 curriculum tracks (v1.23.0). Deployed at kryptoscronos.com. CI fully green, 0 ESLint errors. Adaptive difficulty engine live. Every CTF stage is now dual-mode — learners pick a multiple-choice Quiz or the hands-on CTF. Certificate paths for CompTIA Security+, ISC² CC, Network+, CySA+, CompTIA AI+, ISACA CISA/CISM/CRISC live at /certs. CyberOps Associate exam readiness tracker live at /cyberops. Quantum Risk Management and Emerging Tech & Deep Learning Risk epochs added. Seeking first institutional check.
 
 ---
 

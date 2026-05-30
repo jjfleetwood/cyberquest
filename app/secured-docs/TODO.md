@@ -19,7 +19,7 @@
 
 | # | Item | Status |
 |---|---|---|
-| A | **Elementary section redesign (5-10 yr perspective)** | ✅ Done — all 30 bt-01–bt-30 stages rewritten as "Junior Cyber Agent Academy." Kid-friendly language, simple analogies, simplified CTF commands, age-appropriate scenarios. |
+| A | **Elementary section redesign (5-10 yr perspective)** | 🔲 OPEN (correction 2026-05-29) — previously marked Done in error; bt-01–bt-30 are still at HS/adult reading level. The ages 5–10 "Junior Cyber Agent Academy" rewrite has not been done. |
 | B | **Incentive system to drive stage completion** | ✅ Done (v1.18.0) — survey → 30-day Pro; streak milestones → coin bonuses |
 | C | **Certificate paths (Cisco CyberOps / CompTIA / ISC²)** | ✅ Done (v1.18.0) — /certs page, CompTIA Security+ + ISC² CC, 230+ stage mappings |
 | D | **Resume building module** | ✅ Done (v1.18.0) — /resume with PDF export, epoch-based skill suggestions |

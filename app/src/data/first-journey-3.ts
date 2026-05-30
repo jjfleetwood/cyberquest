@@ -79,6 +79,18 @@ dig TXT example.com | grep spf
         { title: "DNC Hack Attribution — Mueller Report", url: "https://www.justice.gov/archives/sco/file/1373816/dl" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-21-q1", type: "Core Idea", challenge: "The fake lure.", text: "What is phishing?", options: ["A fake message that imitates a real one to trick you into clicking or sharing info", "A type of firewall", "A strong password", "A WiFi setting"], correctIndex: 0, explanation: "Phishing mimics legitimate emails/messages to steal credentials, money, or install malware." },
+        { id: "bt-21-q2", type: "Scale", challenge: "How common.", text: "Roughly how big a role does phishing play in breaches?", options: ["It's the #1 way attacks start — over 90% of breaches begin with it", "It's extremely rare", "Only governments are targeted", "It never works"], correctIndex: 0, explanation: "Phishing is the most common initial access vector by a wide margin." },
+        { id: "bt-21-q3", type: "Telltale Sign", challenge: "Look past the logo.", text: "Which is the best clue an email is phishing?", options: ["The real sender domain doesn't match (e.g. paypa1-support@gmail.com)", "It has a company logo", "It's written in English", "It arrived in the morning"], correctIndex: 0, explanation: "Display names are easily faked; the actual sending domain and link targets reveal the truth." },
+        { id: "bt-21-q4", type: "Before You Click", challenge: "Check the link.", text: "How can you check a link without clicking it?", options: ["Hover over it to see the real URL", "Click it quickly", "Forward it to friends", "Reply asking if it's safe"], correctIndex: 0, explanation: "Hovering reveals the true destination, which often differs from the link text." },
+        { id: "bt-21-q5", type: "Real Incident", challenge: "2016.", text: "How did the 2016 DNC hack begin?", options: ["A spear-phishing email tricked a target into entering his Google password on a fake page", "A server was physically stolen", "A firewall failed", "A password was brute-forced"], correctIndex: 0, explanation: "One convincing phishing email — no technical exploit — led to 51,000 stolen emails." },
+        { id: "bt-21-q6", type: "Manipulation", challenge: "Why urgency?", text: "Why do phishing emails create urgency ('act in 24 hours')?", options: ["Pressure makes people act before they stop to verify", "It's a legal requirement", "It makes email load faster", "It's random"], correctIndex: 0, explanation: "Urgency and fear short-circuit careful thinking — slow down and verify." },
+        { id: "bt-21-q7", type: "Targeted", challenge: "Knowing your name.", text: "What is spear phishing?", options: ["Phishing tailored to a specific person using personal details", "Phishing sent to millions at random", "A phishing-proof email app", "Phishing over the phone only"], correctIndex: 0, explanation: "Spear phishing uses personal context to seem credible — familiarity isn't proof." },
+        { id: "bt-21-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "A phishing email is most like…", options: ["A fishing lure designed to look exactly like real food", "A locked door", "A traffic light", "A library card"], correctIndex: 0, explanation: "It's crafted to look real enough that you 'bite' — then you're hooked." },
+      ],
+    },
     ctf: {
       scenario: "Your inbox has three emails — one is a phishing attempt. Inspect each email's headers, sender domain, and links to identify the fake and report it before you click anything.",
       hint: "Inspect headers and links carefully — don't trust the display name.",
@@ -263,6 +275,18 @@ print(f"Valid: {is_valid}")`,
       references: [
         { title: "Multi-Factor Authentication — CISA", url: "https://www.cisa.gov/mfa" },
         { title: "Uber 2022 Breach Analysis — Uber", url: "https://www.uber.com/newsroom/security-update/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-22-q1", type: "Core Idea", challenge: "Two keys to start.", text: "What is two-factor authentication (2FA)?", options: ["Requiring two different proofs to log in (e.g. a password plus a phone code)", "Using two passwords", "Logging in twice", "A type of firewall"], correctIndex: 0, explanation: "2FA combines something you know with something you have or are." },
+        { id: "bt-22-q2", type: "Why It Helps", challenge: "When your password leaks.", text: "If an attacker steals your password, how does 2FA help?", options: ["They still can't log in without the second factor", "It changes your password automatically", "It deletes the attacker's computer", "It does nothing"], correctIndex: 0, explanation: "2FA blocks the vast majority of account-takeover attempts even when the password is known." },
+        { id: "bt-22-q3", type: "Factors", challenge: "The categories.", text: "Which is an example of 'something you have'?", options: ["A code from an authenticator app on your phone", "Your password", "Your username", "Your email address"], correctIndex: 0, explanation: "Possession factors include phones, authenticator apps, and hardware keys." },
+        { id: "bt-22-q4", type: "Weakest Factor", challenge: "Not all 2FA is equal.", text: "Which second factor is the weakest?", options: ["SMS text codes (vulnerable to SIM swapping)", "A hardware security key", "An authenticator app", "A fingerprint"], correctIndex: 0, explanation: "SMS can be hijacked via SIM swapping; authenticator apps and hardware keys are stronger." },
+        { id: "bt-22-q5", type: "Real Incident", challenge: "September 2022.", text: "How did the 2022 Uber attacker get past 2FA?", options: ["MFA fatigue — spamming push prompts until the contractor approved one to stop them", "Brute-forcing the code", "Stealing the phone", "Cutting the power"], correctIndex: 0, explanation: "Repeated push notifications wore the user down into approving — a social-engineering bypass." },
+        { id: "bt-22-q6", type: "Defense", challenge: "Beating MFA fatigue.", text: "What defends against MFA-fatigue attacks?", options: ["Number-matching prompts (type the number shown at login)", "More push notifications", "Turning off 2FA", "Using SMS only"], correctIndex: 0, explanation: "Number matching requires proof the approver is the one logging in, defeating blind approvals." },
+        { id: "bt-22-q7", type: "SIM Swap", challenge: "Why apps beat texts.", text: "Why are authenticator apps immune to SIM swapping?", options: ["They don't rely on your phone number", "They use SMS more securely", "They call you instead", "They're not — they're vulnerable too"], correctIndex: 0, explanation: "TOTP apps generate codes locally, so transferring your number to a new SIM doesn't help an attacker." },
+        { id: "bt-22-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "2FA is most like…", options: ["A boat needing both the ignition key and the captain's code to start", "A single house key", "A loud alarm", "A parking spot"], correctIndex: 0, explanation: "Two independent factors are required — having just one isn't enough." },
       ],
     },
     ctf: {
@@ -451,6 +475,18 @@ def password_entropy(length, charset_size):
       references: [
         { title: "Password Strength — NIST SP 800-63B", url: "https://pages.nist.gov/800-63-3/sp800-63b.html" },
         { title: "RockYou Password List Analysis", url: "https://www.imperva.com/blog/the-top-500-worst-passwords-of-all-time/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-23-q1", type: "Core Idea", challenge: "What makes a password strong.", text: "What matters most for resisting password cracking?", options: ["Length — more characters mean exponentially more combinations", "Using your name", "Changing it daily", "Making it short and memorable"], correctIndex: 0, explanation: "Each added character multiplies the possibilities, so length beats clever tricks." },
+        { id: "bt-23-q2", type: "The Math", challenge: "Count the combinations.", text: "A 3-digit code has 1,000 combinations. A 6-digit code has…", options: ["1,000,000", "2,000", "6,000", "100"], correctIndex: 0, explanation: "Each extra digit multiplies by 10, so 6 digits = 10^6 = 1,000,000." },
+        { id: "bt-23-q3", type: "Attack", challenge: "Trying everything.", text: "What is a brute-force attack?", options: ["Automatically trying many possible passwords until one works", "Asking nicely for the password", "Reading the password aloud", "Resetting the router"], correctIndex: 0, explanation: "Brute force tries combinations rapidly; length makes the search space impractically large." },
+        { id: "bt-23-q4", type: "Best Practice", challenge: "The modern advice.", text: "What's the best way to manage strong passwords?", options: ["Use a password manager to generate a long, unique password per site", "Reuse one strong password everywhere", "Write them on a sticky note", "Use your birthday"], correctIndex: 0, explanation: "A manager creates and stores unique, long passwords so you don't have to remember them." },
+        { id: "bt-23-q5", type: "Reuse Risk", challenge: "One leak, many doors.", text: "Why is reusing a password across sites dangerous?", options: ["One site's breach lets attackers into every site sharing that password", "It slows your computer", "It uses more storage", "It's fine — reuse is safe"], correctIndex: 0, explanation: "Credential stuffing tries breached passwords everywhere, so reuse multiplies the damage." },
+        { id: "bt-23-q6", type: "Complexity Myth", challenge: "Is P@ssw0rd clever?", text: "Why isn't 'P@ssw0rd' actually strong?", options: ["Attackers know the common letter-to-symbol swaps; it's short and predictable", "It has no numbers", "It's too long", "It's perfectly secure"], correctIndex: 0, explanation: "Predictable substitutions on a short word are easy for cracking tools — length and randomness matter more." },
+        { id: "bt-23-q7", type: "Passphrase", challenge: "Long but memorable.", text: "Why can a passphrase like 'correct-horse-battery-staple' be strong?", options: ["Its length creates a huge number of combinations while staying memorable", "It uses famous words", "It's short", "It has a symbol"], correctIndex: 0, explanation: "Several random words make a long, high-entropy secret that's still human-friendly." },
+        { id: "bt-23-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Password length vs cleverness is most like…", options: ["More padlock digits = more combinations to try", "A bigger key ring", "A shinier lock", "A faster door"], correctIndex: 0, explanation: "Adding digits to a combination lock grows the possibilities far faster than a 'clever' short one." },
       ],
     },
     ctf: {
@@ -644,6 +680,18 @@ def password_entropy(length, charset_size):
         { title: "Darkhotel APT Report — Kaspersky", url: "https://securelist.com/the-darkhotel-apt/66779/" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-24-q1", type: "Core Idea", challenge: "The open airwaves.", text: "What's the main risk of open (no-password) public WiFi?", options: ["Anyone nearby can capture your unencrypted traffic", "It's always slow", "It charges money", "It drains your battery"], correctIndex: 0, explanation: "On an open network the WiFi link isn't encrypted, so others can intercept what you send." },
+        { id: "bt-24-q2", type: "Why", challenge: "What's missing.", text: "Why is open WiFi traffic interceptable?", options: ["There's no encryption on the wireless link — it's effectively broadcast", "The router is broken", "Your password is weak", "The internet is down"], correctIndex: 0, explanation: "Without link-layer encryption, nearby devices can read the radio traffic." },
+        { id: "bt-24-q3", type: "Protection", challenge: "Staying safe out there.", text: "What protects you on public WiFi?", options: ["Using HTTPS sites and/or a VPN", "Turning your screen brightness down", "Sitting closer to the router", "Using a longer username"], correctIndex: 0, explanation: "HTTPS encrypts each site's traffic; a VPN encrypts everything you send." },
+        { id: "bt-24-q4", type: "VPN", challenge: "The tunnel.", text: "What does a VPN do on untrusted WiFi?", options: ["Encrypts all your traffic through a protected tunnel", "Makes WiFi faster", "Blocks all websites", "Charges your phone"], correctIndex: 0, explanation: "A VPN wraps your traffic so the local network can't read it." },
+        { id: "bt-24-q5", type: "The Attack", challenge: "Plaintext on the air.", text: "If someone logs into an HTTP (non-HTTPS) site on open WiFi, an attacker nearby can…", options: ["Read their username and password directly from the captured traffic", "Only see their screen brightness", "Do nothing", "Improve their connection"], correctIndex: 0, explanation: "HTTP over open WiFi sends credentials in plaintext — trivial to capture." },
+        { id: "bt-24-q6", type: "Home WiFi", challenge: "Locking your own network.", text: "How should you secure your home WiFi?", options: ["Use WPA2/WPA3 encryption with a strong password", "Leave it open for convenience", "Hide it and use no password", "Use HTTP only"], correctIndex: 0, explanation: "WPA2/WPA3 encrypt the link; a strong passphrase keeps outsiders off." },
+        { id: "bt-24-q7", type: "Evil Twin", challenge: "The fake hotspot.", text: "What is an 'evil twin' WiFi attack?", options: ["A fake hotspot that mimics a real one to capture your traffic", "Two routers in one house", "A duplicate password", "A backup network"], correctIndex: 0, explanation: "Attackers run a lookalike access point so victims connect and expose their traffic." },
+        { id: "bt-24-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Open WiFi is most like…", options: ["A marine radio channel anyone with a receiver can hear", "A locked diary", "A private phone call", "A sealed letter"], correctIndex: 0, explanation: "Broadcasting in the clear means anyone listening can hear it." },
+      ],
+    },
     ctf: {
       scenario: "You're on an open WiFi network in Monterey Bay. Capture the unencrypted traffic from a fellow fisherman's device and find the credential they're sending over HTTP.",
       hint: "Capture the HTTP traffic and extract the credentials from the plaintext stream.",
@@ -830,6 +878,18 @@ RESPONSE PROTOCOL:
         { title: "BEC Scam Against Google/Facebook — DOJ", url: "https://www.justice.gov/usao-sdny/pr/lithuanian-man-pleads-guilty-wire-fraud-theft-over-100-million-fraudulent-business" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-25-q1", type: "Core Idea", challenge: "Hacking the human.", text: "What is social engineering?", options: ["Manipulating people (not technology) into giving access or information", "A type of encryption", "A network cable", "A password manager"], correctIndex: 0, explanation: "It targets human trust and behavior rather than exploiting software." },
+        { id: "bt-25-q2", type: "Why It Works", challenge: "The human levers.", text: "Which feelings do social engineers most exploit?", options: ["Trust, helpfulness, fear, and urgency", "Boredom and hunger", "Curiosity about math", "Love of reading"], correctIndex: 0, explanation: "Attackers push these buttons to get people to act before verifying." },
+        { id: "bt-25-q3", type: "Pretexting", challenge: "Inventing a story.", text: "What is pretexting?", options: ["Inventing a believable role or scenario (e.g. posing as IT support)", "Sending a text before calling", "Writing the password down", "A type of firewall"], correctIndex: 0, explanation: "A convincing pretext makes the target comply with the attacker's 'legitimate' request." },
+        { id: "bt-25-q4", type: "Physical", challenge: "Through the door.", text: "What is tailgating (piggybacking)?", options: ["Following an authorized person through a secure door", "Driving too close", "Sending spam", "Guessing a PIN"], correctIndex: 0, explanation: "Attackers slip into secure areas behind someone with legitimate access." },
+        { id: "bt-25-q5", type: "Defense", challenge: "Don't act under pressure.", text: "What's the best defense against social engineering?", options: ["Verify identity through a known, trusted channel before acting", "Comply quickly to be polite", "Trust anyone who sounds official", "Give info if they're in a hurry"], correctIndex: 0, explanation: "Independent verification defeats impersonation and pressure tactics." },
+        { id: "bt-25-q6", type: "Authority", challenge: "Sounding important.", text: "Why do attackers often claim to be a boss or IT/authority figure?", options: ["People tend to comply with perceived authority", "It's required by law", "It makes calls cheaper", "It's random"], correctIndex: 0, explanation: "Claimed authority lowers people's resistance to unusual requests." },
+        { id: "bt-25-q7", type: "Key Insight", challenge: "Where the weak point is.", text: "Why is social engineering so effective even at secure companies?", options: ["Strong technology can still be bypassed by tricking a person", "Computers are never secure", "It only works on small companies", "Firewalls invite it"], correctIndex: 0, explanation: "People are often the easiest path in — 'the human is the weakest link.'" },
+        { id: "bt-25-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Social engineering is most like…", options: ["A con artist talking their way in instead of picking the lock", "A locksmith", "A security camera", "A guard dog"], correctIndex: 0, explanation: "The best con never breaks in — it convinces someone to open the door." },
+      ],
+    },
     ctf: {
       scenario: "An attacker has infiltrated the dockside cantina and is attempting to social engineer the marina operator into revealing the harbor master's access code. Analyze the transcript and identify every social engineering technique used.",
       hint: "Read the transcript and identify the manipulation tactics.",
@@ -1009,6 +1069,18 @@ sudo apt install unattended-upgrades`,
       references: [
         { title: "NVD — National Vulnerability Database", url: "https://nvd.nist.gov/" },
         { title: "Log4Shell Explained — CISA", url: "https://www.cisa.gov/news-events/news/apache-log4j-vulnerability-guidance" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-26-q1", type: "Core Idea", challenge: "The known flaw.", text: "What is a CVE?", options: ["A publicly catalogued, known security vulnerability", "A type of password", "A WiFi standard", "A backup file"], correctIndex: 0, explanation: "CVE = Common Vulnerabilities and Exposures — a public ID for a known flaw." },
+        { id: "bt-26-q2", type: "Why Patch", challenge: "Closing the hole.", text: "Why is applying patches important?", options: ["Patches fix known vulnerabilities that attackers actively exploit", "They make the screen brighter", "They add new wallpapers", "They speed up typing"], correctIndex: 0, explanation: "Once a flaw is public, attackers scan for unpatched systems — patching removes the opening." },
+        { id: "bt-26-q3", type: "The Clock", challenge: "Why delay is dangerous.", text: "What's the risk of leaving a known CVE unpatched?", options: ["Attackers can scan for and exploit the known weakness at any time", "Nothing — known flaws are safe", "The software runs faster", "It improves security"], correctIndex: 0, explanation: "A known, unpatched vulnerability is a published, open door — a countdown to exploitation." },
+        { id: "bt-26-q4", type: "Known vs Zero-Day", challenge: "Two kinds of bug.", text: "How does a known CVE differ from a zero-day?", options: ["A known CVE usually has a fix available; a zero-day has none yet", "They're identical", "A zero-day is always harmless", "A known CVE can't be exploited"], correctIndex: 0, explanation: "For known CVEs the defense often already exists — you just have to apply it." },
+        { id: "bt-26-q5", type: "Real-World Pattern", challenge: "Breaches from neglect.", text: "Many major breaches happened because an organization…", options: ["Failed to apply an available patch for a known vulnerability", "Used too many passwords", "Had too much encryption", "Updated too often"], correctIndex: 0, explanation: "Unpatched known CVEs (e.g. the 2017 Equifax Struts flaw) are a leading breach cause." },
+        { id: "bt-26-q6", type: "Process", challenge: "Staying current.", text: "What is patch management?", options: ["Tracking software and applying updates in a timely, organized way", "Sewing torn clothes", "Deleting old emails", "Changing your username"], correctIndex: 0, explanation: "Knowing what you run and keeping it updated systematically closes known holes." },
+        { id: "bt-26-q7", type: "Verify", challenge: "Trust but check.", text: "After patching, what should you do?", options: ["Verify the fix — re-check the version/that the vulnerability is gone", "Assume it worked and move on", "Reboot 10 times", "Uninstall the software"], correctIndex: 0, explanation: "Confirming the patch applied (e.g. version check) ensures the hole is actually closed." },
+        { id: "bt-26-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "An unpatched known vulnerability is most like…", options: ["A known crack in the hull — patch it or sink", "A full fuel tank", "A clean deck", "A calm sea"], correctIndex: 0, explanation: "A known leak left unrepaired is just a countdown to disaster." },
       ],
     },
     ctf: {
@@ -1195,6 +1267,18 @@ python -c "import pwnedpasswords; print(pwnedpasswords.check('yourpassword'))"
       references: [
         { title: "Have I Been Pwned", url: "https://haveibeenpwned.com" },
         { title: "Equifax Breach — FTC", url: "https://www.ftc.gov/enforcement/refunds/equifax-data-breach-settlement" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-27-q1", type: "Core Idea", challenge: "When the net tears.", text: "What is a data breach?", options: ["When a company's stored data is exposed or stolen", "When your WiFi is slow", "When you forget a password", "When a website is redesigned"], correctIndex: 0, explanation: "A breach leaks data the company held — affecting you even if you did nothing wrong." },
+        { id: "bt-27-q2", type: "Aftermath", challenge: "Where stolen data goes.", text: "What typically happens to breached data?", options: ["It's sold on dark-web markets and reused against other sites", "It's deleted immediately", "It's returned to users", "Nothing"], correctIndex: 0, explanation: "Stolen credentials are sold and fed into automated attacks within days." },
+        { id: "bt-27-q3", type: "Credential Stuffing", challenge: "Reused-password attack.", text: "What is credential stuffing?", options: ["Automatically trying breached username/password pairs on many other sites", "Stuffing a server with cables", "A type of CAPTCHA", "Adding characters to a password"], correctIndex: 0, explanation: "Attackers replay leaked credentials everywhere, banking on password reuse." },
+        { id: "bt-27-q4", type: "Real Incident", challenge: "2013, 3 billion.", text: "What made the Yahoo breach historic?", options: ["All 3 billion accounts were compromised — and it wasn't discovered for ~3 years", "Only 10 accounts were affected", "It was fixed the same day", "No data was taken"], correctIndex: 0, explanation: "It's the largest breach on record, and the years-long detection gap made it worse." },
+        { id: "bt-27-q5", type: "Your Defense", challenge: "Stopping the spread.", text: "What's the single best defense against credential stuffing?", options: ["Never reuse passwords (use a unique one per site)", "Use the same strong password everywhere", "Avoid the internet", "Change your username often"], correctIndex: 0, explanation: "Unique passwords mean one breach can't unlock your other accounts." },
+        { id: "bt-27-q6", type: "Check Exposure", challenge: "Am I affected?", text: "How can you check if your email appears in known breaches?", options: ["Use a service like haveibeenpwned.com", "Ask the attacker", "Reinstall your browser", "Turn off your phone"], correctIndex: 0, explanation: "HIBP lets you see which breaches include your email so you can respond." },
+        { id: "bt-27-q7", type: "Response", challenge: "After a breach.", text: "If your password was in a breach, you should…", options: ["Change it there and anywhere you reused it, and enable 2FA", "Do nothing", "Email everyone the new password", "Keep using the old one"], correctIndex: 0, explanation: "Rotate the exposed password everywhere and add 2FA — your response limits the damage." },
+        { id: "bt-27-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "A data breach is most like…", options: ["A torn net spilling the whole catch at once", "A single lost fish", "A calm harbor", "A new boat"], correctIndex: 0, explanation: "One tear and everyone's data spills out together." },
       ],
     },
     ctf: {
@@ -1390,6 +1474,18 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         { title: "Operation Aurora — Google Blog", url: "https://googleblog.blogspot.com/2010/01/new-approach-to-china.html" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-28-q1", type: "Core Idea", challenge: "Look before you leap.", text: "What should you do before clicking a link from an unknown source?", options: ["Inspect the real URL/domain it points to", "Click it fast", "Forward it to friends", "Reply to the sender"], correctIndex: 0, explanation: "A link's text can lie; the real destination is what matters." },
+        { id: "bt-28-q2", type: "Lookalikes", challenge: "Spot the fake.", text: "Which is a classic malicious lookalike domain?", options: ["paypa1.com (number 1 instead of letter l)", "paypal.com", "google.com", "wikipedia.org"], correctIndex: 0, explanation: "Typosquatting and homoglyphs swap characters to imitate trusted brands." },
+        { id: "bt-28-q3", type: "Hover", challenge: "The reveal.", text: "How do you see a link's true destination?", options: ["Hover over it and read the URL shown", "Squint at the link text", "Trust the words shown", "Click and see"], correctIndex: 0, explanation: "Hovering shows the actual URL, which often differs from the displayed text." },
+        { id: "bt-28-q4", type: "Short Links", challenge: "Hidden destinations.", text: "Why are shortened links (bit.ly/...) risky in unexpected messages?", options: ["They hide the true destination until you visit", "They're always malware", "They load slower", "They cost money"], correctIndex: 0, explanation: "Shorteners mask where you'll actually land — expand/preview before trusting." },
+        { id: "bt-28-q5", type: "Subdomain Trick", challenge: "Read it right.", text: "Where does 'login.yourbank.com.evil.com' actually take you?", options: ["evil.com — the real domain is the part just before the final slash/TLD", "yourbank.com", "login.com", "It's safe"], correctIndex: 0, explanation: "The true domain is the rightmost part (evil.com); the bank name is just a deceptive subdomain." },
+        { id: "bt-28-q6", type: "Padlock Myth", challenge: "HTTPS isn't a safety badge.", text: "Does a padlock/HTTPS mean a link is safe?", options: ["No — phishing sites can have valid HTTPS certificates too", "Yes, always safe", "Only on weekends", "It means it's government-run"], correctIndex: 0, explanation: "HTTPS only means encrypted, not trustworthy — malicious sites use it as well." },
+        { id: "bt-28-q7", type: "Best Practice", challenge: "When in doubt.", text: "If you're unsure about a link claiming to be from your bank, you should…", options: ["Go to the bank's site directly via a known address, not the link", "Click the link to check", "Reply with your password", "Ignore your account forever"], correctIndex: 0, explanation: "Reaching the site through a trusted route avoids the trap entirely." },
+        { id: "bt-28-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "A malicious URL is most like…", options: ["A calm-looking kelp bed that hides rocks and currents", "A clear road sign", "An open field", "A lighthouse"], correctIndex: 0, explanation: "It looks harmless on the surface but hides danger beneath." },
+      ],
+    },
     ctf: {
       scenario: "Four URLs have arrived in your inbox from unknown sources. Inspect each one and identify which are malicious without clicking them.",
       hint: "Analyze the domain structure of each URL carefully before deciding.",
@@ -1567,6 +1663,18 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
         { title: "Cambridge Analytica Explained — The Guardian", url: "https://www.theguardian.com/news/2018/mar/17/cambridge-analytica-facebook-influence-us-election" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-29-q1", type: "Core Idea", challenge: "What apps can touch.", text: "What do app 'permissions' control?", options: ["What data and device features an app is allowed to access", "How fast the app runs", "The app's color theme", "Your internet speed"], correctIndex: 0, explanation: "Permissions govern access to things like contacts, location, camera, and files." },
+        { id: "bt-29-q2", type: "Principle", challenge: "Just enough.", text: "What is the principle of least privilege?", options: ["Grant only the minimum access something actually needs", "Grant everything to be safe", "Never grant any access", "Grant access randomly"], correctIndex: 0, explanation: "Minimizing access shrinks what can be misused or leaked." },
+        { id: "bt-29-q3", type: "Red Flag", challenge: "Asking for too much.", text: "Which is a sign an app is over-permissioned?", options: ["A flashlight app requesting your contacts and location", "A map app requesting location", "A camera app requesting the camera", "A phone app requesting the microphone for calls"], correctIndex: 0, explanation: "Access unrelated to the app's function is a warning sign." },
+        { id: "bt-29-q4", type: "Why It Matters", challenge: "More access, more risk.", text: "Why is over-permissioning risky?", options: ["The more access an app has, the more data is exposed if it's compromised or misbehaves", "It makes the app prettier", "It speeds up the phone", "It saves battery"], correctIndex: 0, explanation: "Excess permissions expand the damage from a buggy, malicious, or breached app." },
+        { id: "bt-29-q5", type: "Maintenance", challenge: "A regular habit.", text: "What's good practice for app permissions over time?", options: ["Periodically review and revoke ones you don't need", "Grant all and never look again", "Reinstall every app weekly", "Disable your screen lock"], correctIndex: 0, explanation: "Auditing and trimming permissions keeps your exposure minimal." },
+        { id: "bt-29-q6", type: "Data Minimization", challenge: "Less to lose.", text: "Why share as little personal data as possible?", options: ["Data you don't share can't be leaked or misused", "It makes apps slower", "It's required by WiFi", "It boosts your signal"], correctIndex: 0, explanation: "Data minimization reduces what's available to leak in a breach." },
+        { id: "bt-29-q7", type: "Privacy Settings", challenge: "Who sees what.", text: "What do privacy settings let you control?", options: ["Who can see your information and how it's used", "The weather", "Your battery level", "Your typing speed"], correctIndex: 0, explanation: "Privacy settings put you in charge of your data's visibility and use." },
+        { id: "bt-29-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Privacy settings are most like…", options: ["A harbor master controlling who knows which boat is in which slip", "An open notice board", "A loudspeaker", "A megaphone"], correctIndex: 0, explanation: "You decide who gets to know what — controlled access to your information." },
+      ],
+    },
     ctf: {
       scenario: "Audit the harbor office app's permissions and privacy settings. Find which settings are over-permissioned and lock them down to the minimum needed.",
       hint: "Review each permission and disable the ones that aren't necessary.",
@@ -1739,6 +1847,18 @@ print(url.netloc)  # = "secure.paypal.com.attacker.ru"
       references: [
         { title: "NIST SP 800-61 — Computer Security Incident Handling", url: "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf" },
         { title: "Colonial Pipeline Incident — CISA Advisory", url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-30-q1", type: "Core Idea", challenge: "Having a plan.", text: "What is incident response?", options: ["A planned process for handling a security incident", "A type of antivirus", "A password rule", "A WiFi setting"], correctIndex: 0, explanation: "Incident response is the structured set of steps you follow when something goes wrong." },
+        { id: "bt-30-q2", type: "The Steps", challenge: "The order of operations.", text: "Which sequence captures the core incident-response steps?", options: ["Contain, assess, eradicate, recover", "Recover, ignore, repeat", "Panic, blame, quit", "Delete everything immediately"], correctIndex: 0, explanation: "First stop the spread, understand the scope, remove the threat, then restore safely." },
+        { id: "bt-30-q3", type: "First Move", challenge: "Stop the bleeding.", text: "On discovering your account is compromised, what comes first?", options: ["Contain it — e.g. change the password and sign out other sessions", "Post about it online", "Wait a week", "Do nothing"], correctIndex: 0, explanation: "Containment limits further damage before you investigate and clean up." },
+        { id: "bt-30-q4", type: "Why a Plan", challenge: "Beating panic.", text: "Why follow a defined incident-response protocol?", options: ["Panic causes mistakes; a protocol guides the correct steps in order", "It's just paperwork", "It slows recovery for no reason", "Plans never help"], correctIndex: 0, explanation: "A rehearsed protocol keeps you effective under stress, like a man-overboard drill." },
+        { id: "bt-30-q5", type: "Don't", challenge: "What not to do.", text: "What's the wrong move during a security incident?", options: ["Hiding it and hoping it goes away", "Containing the damage", "Assessing the scope", "Recovering from clean backups"], correctIndex: 0, explanation: "Concealing an incident lets it spread — like leaving the scene of a man overboard." },
+        { id: "bt-30-q6", type: "Recovery", challenge: "Getting back safely.", text: "What does the recover step involve?", options: ["Restoring from clean backups and verifying systems before monitoring", "Reusing the compromised account as-is", "Turning off all security", "Deleting your backups"], correctIndex: 0, explanation: "Recovery restores known-good state and confirms the threat is gone before resuming." },
+        { id: "bt-30-q7", type: "Learn", challenge: "After it's over.", text: "What should happen after an incident is resolved?", options: ["A lessons-learned review to prevent it happening again", "Forget it immediately", "Blame one person and move on", "Disable all logging"], correctIndex: 0, explanation: "Post-incident review turns a painful event into stronger future defenses." },
+        { id: "bt-30-q8", type: "Everyday Analogy", challenge: "Tie it together — and finish the journey.", text: "Incident response is most like…", options: ["A man-overboard protocol: act fast, follow the steps, call for help", "Ignoring an alarm", "Taking a nap", "Repainting the boat"], correctIndex: 0, explanation: "A clear, practiced protocol turns a crisis into a survivable, recoverable event. Journey complete — Incident Commander." },
       ],
     },
     ctf: {

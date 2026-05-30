@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { useLocale } from "@/contexts/LocaleContext";
 
 export default function OnboardingModal() {
@@ -35,7 +36,7 @@ export default function OnboardingModal() {
         style={{ background: "linear-gradient(145deg, #0d1117 0%, #080d1a 100%)", boxShadow: "0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(34,211,238,0.06)" }}
       >
         <div className="text-center mb-6">
-          <div className="text-4xl mb-3">🛡️</div>
+          <div className="mb-3 flex justify-center"><Logo size={48} /></div>
           <h2 className="text-2xl font-black text-white mb-2">{t("onboarding.welcome")}</h2>
           <p className="text-sm text-gray-500 leading-relaxed">
             {t("onboarding.subtitle")}

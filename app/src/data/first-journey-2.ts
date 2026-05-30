@@ -79,6 +79,18 @@ curl -I http://google.com
         { title: "Firesheep and the HTTPS Push — EFF", url: "https://www.eff.org/https-everywhere" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-11-q1", type: "Core Idea", challenge: "Two ways to send web traffic.", text: "What's the key difference between HTTP and HTTPS?", options: ["HTTPS encrypts the traffic; HTTP sends it in readable plaintext", "HTTPS is just a faster version of HTTP", "HTTP is more secure than HTTPS", "There is no difference"], correctIndex: 0, explanation: "HTTPS wraps the connection in TLS encryption; HTTP sends everything as readable text." },
+        { id: "bt-11-q2", type: "The Risk", challenge: "Who's watching on open WiFi.", text: "On a plain HTTP connection, who can read your data?", options: ["Anyone on the network path — same WiFi, the ISP, in-between routers", "Only you", "Only the website owner", "Nobody"], correctIndex: 0, explanation: "HTTP is plaintext, so anyone able to see the traffic can read passwords and personal data." },
+        { id: "bt-11-q3", type: "The Padlock", challenge: "What the lock means.", text: "The padlock and https:// in your address bar means…", options: ["The connection is encrypted with TLS", "The site is government-approved", "The page loads faster", "The site has no ads"], correctIndex: 0, explanation: "It indicates a valid TLS certificate and an encrypted connection." },
+        { id: "bt-11-q4", type: "Vocabulary", challenge: "What does the encrypting.", text: "What technology encrypts HTTPS traffic?", options: ["TLS (Transport Layer Security)", "HTML", "DNS", "WiFi"], correctIndex: 0, explanation: "TLS adds the encryption layer on top of HTTP." },
+        { id: "bt-11-q5", type: "Real Incident", challenge: "October 2010.", text: "What did the Firesheep tool demonstrate?", options: ["Anyone on shared WiFi could grab unencrypted session cookies and log in as other users", "How to crack any password", "That HTTPS is unsafe", "How to delete websites"], correctIndex: 0, explanation: "Firesheep captured plaintext session cookies on open WiFi, hijacking logged-in sessions in a click." },
+        { id: "bt-11-q6", type: "Lesson", challenge: "Login isn't enough.", text: "The big lesson from Firesheep was…", options: ["Encrypt the whole session, not just the login step", "Use shorter passwords", "Avoid all WiFi forever", "Log in twice"], correctIndex: 0, explanation: "A login over HTTPS is pointless if the session then continues over HTTP — so everything must be encrypted." },
+        { id: "bt-11-q7", type: "Vocabulary", challenge: "Define the term.", text: "'Plaintext' means the data is…", options: ["Readable exactly as sent, not scrambled", "Written in plain English", "Compressed", "Deleted"], correctIndex: 0, explanation: "Plaintext is unencrypted — anyone who sees it can read it directly." },
+        { id: "bt-11-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "HTTP vs HTTPS is most like…", options: ["A postcard anyone can read vs a sealed envelope", "A car vs a bicycle", "A book vs a movie", "Day vs night"], correctIndex: 0, explanation: "HTTP is an open postcard; HTTPS seals the message so only the recipient can read it." },
+      ],
+    },
     ctf: {
       scenario: "You're intercepting traffic at Steamer Lane. Two streams are captured — one HTTP, one HTTPS. Read the HTTP stream to extract the credentials being sent in plaintext. Show why HTTP is dangerous.",
       hint: "Read the HTTP capture and extract the credentials. The HTTPS capture will be unreadable.",
@@ -281,6 +293,18 @@ curl -A "Mozilla/5.0" https://example.com`,
         { title: "British Airways Breach Analysis — RiskIQ", url: "https://www.riskiq.com/blog/labs/magecart-british-airways-breach/" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-12-q1", type: "Core Idea", challenge: "What the browser really does.", text: "What does a web browser do?", options: ["Turns HTML, CSS, and JavaScript into the visual page you see", "Stores all your files", "Provides your internet connection", "Creates passwords"], correctIndex: 0, explanation: "A browser fetches code and renders it into an interactive page." },
+        { id: "bt-12-q2", type: "Building Blocks", challenge: "Three languages of the web.", text: "Which best describes HTML, CSS, and JavaScript?", options: ["HTML = structure, CSS = style, JavaScript = behavior", "They're all the same thing", "They're types of WiFi", "They're antivirus tools"], correctIndex: 0, explanation: "HTML lays out content, CSS styles it, and JavaScript makes it interactive." },
+        { id: "bt-12-q3", type: "Where Code Runs", challenge: "Whose computer.", text: "Where does a web page's JavaScript run?", options: ["In your browser, on your device", "Only on the server", "On the WiFi router", "Nowhere"], correctIndex: 0, explanation: "Client-side JavaScript executes in your browser — which is why malicious scripts there are dangerous." },
+        { id: "bt-12-q4", type: "Tools", challenge: "The detective's toolkit.", text: "What do browser developer tools (F12) let you see?", options: ["Every request, response, cookie, and script a page uses", "Other people's passwords", "The website owner's identity", "Your antivirus status"], correctIndex: 0, explanation: "DevTools expose the underlying requests and code, invaluable for inspection and debugging." },
+        { id: "bt-12-q5", type: "Real Incident", challenge: "2018, 500K cards.", text: "In the British Airways (Magecart) breach, how were card numbers stolen?", options: ["Malicious JavaScript injected into the page skimmed details as users typed", "BA's database was deleted", "Customers were phoned", "Cards were stolen in the mail"], correctIndex: 0, explanation: "A few lines of injected JS captured card data in the browser and sent it to the attackers." },
+        { id: "bt-12-q6", type: "Defense", challenge: "Controlling scripts.", text: "What helps stop unauthorized scripts from running on a page?", options: ["A Content Security Policy (CSP) limiting allowed script sources", "A longer password", "Turning off CSS", "Using a bigger monitor"], correctIndex: 0, explanation: "CSP tells the browser which script sources are trusted, blocking injected ones." },
+        { id: "bt-12-q7", type: "Same-Origin", challenge: "Why one site can't read another.", text: "The same-origin policy mainly…", options: ["Stops one site's scripts from reading another site's data", "Makes pages load faster", "Encrypts your files", "Picks your DNS server"], correctIndex: 0, explanation: "It prevents a malicious page from reading your Gmail or bank data in another tab." },
+        { id: "bt-12-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "A browser is most like…", options: ["A translation machine that turns code into a page", "A filing cabinet", "A car engine", "A telephone"], correctIndex: 0, explanation: "It translates raw HTML/CSS/JS into the visual, interactive page you use." },
+      ],
+    },
     ctf: {
       scenario: "A surf shop's website has a hidden admin page. Use browser inspection techniques to find the hidden link in the page source, discover the admin path, and access the flag inside the admin panel.",
       hint: "Inspect the page source and HTTP response headers for hidden paths.",
@@ -470,6 +494,18 @@ print(resp.json())   # parse JSON response`,
         { title: "IDOR — OWASP", url: "https://owasp.org/www-community/attacks/Insecure_Direct_Object_Reference" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-13-q1", type: "Core Idea", challenge: "Two roles.", text: "In the client-server model, who does what?", options: ["The client asks (request); the server answers (response)", "Both do the same job", "The server asks the client for help", "Neither sends anything"], correctIndex: 0, explanation: "A client makes requests; a server processes them and responds. The roles are fixed for that exchange." },
+        { id: "bt-13-q2", type: "Examples", challenge: "Spot the client.", text: "Which is acting as the client?", options: ["Your phone's app requesting your feed", "The database storing posts", "The company's web server", "The data center"], correctIndex: 0, explanation: "Your browser or app is the client making requests to the server." },
+        { id: "bt-13-q3", type: "HTTP Methods", challenge: "The verbs of the web.", text: "Which HTTP method is used to read/retrieve data?", options: ["GET", "DELETE", "PUT", "POST"], correctIndex: 0, explanation: "GET retrieves; POST creates; PUT updates; DELETE removes." },
+        { id: "bt-13-q4", type: "Trust", challenge: "A core security rule.", text: "What must a server do with input from a client?", options: ["Validate and authorize every request — never trust the client", "Trust it completely", "Ignore it", "Forward it unchecked"], correctIndex: 0, explanation: "A malicious client can send anything, so the server must validate and check authorization." },
+        { id: "bt-13-q5", type: "Real Vulnerability", challenge: "Changing a number in the URL.", text: "What is an IDOR vulnerability?", options: ["Accessing someone else's record by changing an ID, because the server didn't check authorization", "A type of strong encryption", "A faster API", "A password manager"], correctIndex: 0, explanation: "Insecure Direct Object Reference: the server returns data for any ID without verifying the requester is allowed to see it." },
+        { id: "bt-13-q6", type: "Fix", challenge: "Closing the hole.", text: "How do you fix an IDOR?", options: ["The server must verify the requester is authorized for that specific record", "Hide the ID in the URL", "Use a longer ID", "Trust the client's claim"], correctIndex: 0, explanation: "Authorization must be checked server-side on every object access, not assumed from the ID." },
+        { id: "bt-13-q7", type: "Real Incident", challenge: "2019.", text: "The 2019 Facebook IDOR exposed user phone numbers because the server…", options: ["Returned data for any user ID without checking authorization", "Was physically broken into", "Had a weak admin password", "Lost power"], correctIndex: 0, explanation: "It trusted the client-supplied user ID and returned the phone number without an authorization check." },
+        { id: "bt-13-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "The client-server exchange is most like…", options: ["A student asking a question and the instructor answering", "Two instructors arguing", "An empty classroom", "A locked door"], correctIndex: 0, explanation: "Client asks, server answers — like student and instructor, roles fixed per exchange." },
+      ],
+    },
     ctf: {
       scenario: "The surf school's API has an IDOR vulnerability. You're logged in as student ID 7. Find the admin student record by manipulating the student ID in the API request.",
       hint: "Change the student ID in the API request to find other records.",
@@ -620,6 +656,18 @@ curl -v https://example.com 2>&1 | grep -A5 "SSL connection"`,
       references: [
         { title: "TLS/SSL Explained — Cloudflare", url: "https://www.cloudflare.com/learning/ssl/what-is-ssl/" },
         { title: "DigiNotar Incident — Mozilla Blog", url: "https://blog.mozilla.org/security/2011/09/02/diginotar-removal-follow-up/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-14-q1", type: "Core Idea", challenge: "What a certificate is for.", text: "What does a TLS certificate prove?", options: ["That a server really is who it claims to be", "That a website is virus-free", "That a site is popular", "That your password is strong"], correctIndex: 0, explanation: "A certificate, signed by a trusted authority, proves the server's identity before you trust it with data." },
+        { id: "bt-14-q2", type: "Vocabulary", challenge: "Who vouches.", text: "What is a Certificate Authority (CA)?", options: ["A trusted third party that verifies identity and signs certificates", "A type of firewall", "A password vault", "A web browser"], correctIndex: 0, explanation: "CAs (DigiCert, Let's Encrypt, etc.) issue and sign certificates that browsers trust." },
+        { id: "bt-14-q3", type: "Warnings", challenge: "The scary red page.", text: "Your browser shows 'Your connection is not private.' You should…", options: ["Not proceed — the server may be an impostor", "Always click through; it's nothing", "Turn off your firewall", "Enter your password faster"], correctIndex: 0, explanation: "A certificate error means the server's identity can't be verified — proceeding risks talking to an impersonator." },
+        { id: "bt-14-q4", type: "The Three Checks", challenge: "What makes a cert valid.", text: "Which set of checks should a certificate pass?", options: ["Trusted issuer, not expired, and the domain matches", "Short, memorable, and colorful", "Cheap, fast, and free", "Long, random, and hidden"], correctIndex: 0, explanation: "A good cert is signed by a trusted CA, still within its validity dates, and issued for the domain you're visiting." },
+        { id: "bt-14-q5", type: "Real Incident", challenge: "2011, Netherlands.", text: "In the DigiNotar hack, what made it so dangerous?", options: ["A CA was breached and issued fake certificates used to spy on Gmail users", "A password leaked", "A server caught fire", "A website was defaced"], correctIndex: 0, explanation: "Fraudulent certs let attackers impersonate Google with a valid-looking padlock and intercept Iranian Gmail users." },
+        { id: "bt-14-q6", type: "Why It Matters", challenge: "Trust at the root.", text: "Why is a compromised CA so catastrophic?", options: ["Attackers can impersonate trusted sites while the padlock still looks valid", "It slows the internet", "It deletes certificates", "Nothing — it's minor"], correctIndex: 0, explanation: "Everything trusts the CA, so its compromise lets attackers forge trust for any site." },
+        { id: "bt-14-q7", type: "Caveat", challenge: "A padlock isn't everything.", text: "A valid Let's Encrypt certificate proves…", options: ["Control of the domain — not that the site is honest", "The site is safe to buy from", "The owner's real name", "That there's no malware"], correctIndex: 0, explanation: "Free certs prove domain control; phishing sites can have valid certs too, so a padlock ≠ trustworthy." },
+        { id: "bt-14-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Checking a TLS certificate is most like…", options: ["Checking a lifeguard's badge before trusting them", "Reading a menu", "Buying a ticket", "Charging your phone"], correctIndex: 0, explanation: "You verify the credential (badge/certificate) before you rely on the person/server." },
       ],
     },
     ctf: {
@@ -828,6 +876,18 @@ curl -I https://example.com | grep Set-Cookie
         { title: "Cookie Security Attributes — OWASP", url: "https://owasp.org/www-community/controls/SecureCookieAttribute" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-15-q1", type: "Core Idea", challenge: "How sites remember you.", text: "What is an HTTP cookie?", options: ["A small token the browser stores so the site can remember you", "A snack", "A type of virus", "Your IP address"], correctIndex: 0, explanation: "After login, the server sets a cookie; your browser sends it on each request so the site knows who you are." },
+        { id: "bt-15-q2", type: "Sessions", challenge: "Staying logged in.", text: "What does a session cookie do?", options: ["Proves you're logged in as you move between pages", "Stores your photos", "Speeds up WiFi", "Picks a website's colors"], correctIndex: 0, explanation: "HTTP is stateless; the session cookie carries the token that keeps you logged in across requests." },
+        { id: "bt-15-q3", type: "Protection", challenge: "One important flag.", text: "What does the HttpOnly flag on a cookie do?", options: ["Stops JavaScript from reading the cookie (limits theft via XSS)", "Makes the cookie load faster", "Encrypts your whole disk", "Shares the cookie with other sites"], correctIndex: 0, explanation: "HttpOnly hides the cookie from page scripts, blocking a common cookie-theft path." },
+        { id: "bt-15-q4", type: "The Risk", challenge: "If it's stolen.", text: "If an attacker steals your session cookie, they can…", options: ["Act as you with no password needed", "Only see your username", "Do nothing useful", "Change your screen brightness"], correctIndex: 0, explanation: "To the server, whoever holds the session cookie IS you — no password required." },
+        { id: "bt-15-q5", type: "Real Incident", challenge: "2022.", text: "In the 2022 Slack breach, stolen session cookies were powerful because they…", options: ["Bypassed two-factor authentication entirely (the session was already authenticated)", "Contained everyone's passwords", "Deleted the codebase", "Disabled the firewall"], correctIndex: 0, explanation: "A valid session token skips login and 2FA — the attacker is already 'logged in.'" },
+        { id: "bt-15-q6", type: "Defense", challenge: "Protecting the token.", text: "Which combination best protects session cookies?", options: ["HttpOnly + Secure + SameSite, plus short lifetimes", "A longer username", "Disabling cookies entirely", "Using HTTP instead of HTTPS"], correctIndex: 0, explanation: "These flags block JS theft, force HTTPS, limit cross-site sending, and shrink the stolen-token window." },
+        { id: "bt-15-q7", type: "Why Cookies", challenge: "The problem they solve.", text: "Cookies exist mainly because HTTP is…", options: ["Stateless — it doesn't remember previous requests on its own", "Too fast", "Encrypted", "Free"], correctIndex: 0, explanation: "Each HTTP request is independent; cookies add the memory of who you are." },
+        { id: "bt-15-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "A session cookie is most like…", options: ["A wristband stamp that lets you back in without paying again", "A car key", "A library book", "A street sign"], correctIndex: 0, explanation: "Flash the stamp (cookie) and you're recognized — which is also why a stolen stamp is dangerous." },
+      ],
+    },
     ctf: {
       scenario: "The surf club's session cookie is missing the HttpOnly flag. Steal the admin's session cookie via a simulated XSS attack, use it to access the admin panel, and retrieve the flag.",
       hint: "The missing HttpOnly flag means JavaScript can read the cookie. Find the admin cookie and use it.",
@@ -1026,6 +1086,18 @@ print(resp.json())`,
         { title: "Peloton API Exposure — TechCrunch", url: "https://techcrunch.com/2021/05/05/peloton-api-data-user-profiles/" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-16-q1", type: "Core Idea", challenge: "How apps talk.", text: "What is an API?", options: ["A structured way for programs to request and exchange data", "A type of password", "A web browser", "A WiFi network"], correctIndex: 0, explanation: "An API exposes structured endpoints so apps can request and receive data in a predictable format." },
+        { id: "bt-16-q2", type: "Vocabulary", challenge: "Naming the parts.", text: "An API 'endpoint' is…", options: ["A specific address/function the API exposes (e.g. /v1/forecast)", "The end of the internet", "A password field", "A type of cable"], correctIndex: 0, explanation: "Each endpoint is a specific URL/function you can call to do one thing." },
+        { id: "bt-16-q3", type: "Auth", challenge: "Where the key goes.", text: "Where should an API token normally be sent?", options: ["In the Authorization header — not in the URL", "In the URL where it's logged everywhere", "In the page title", "Nowhere"], correctIndex: 0, explanation: "Tokens in the URL leak into logs and history; the Authorization header is the safe place." },
+        { id: "bt-16-q4", type: "Common Flaw", challenge: "Seeing more than the app shows.", text: "What is 'excessive data exposure' in an API?", options: ["The API returns more data than the app displays, so attackers see hidden fields", "The API is too slow", "The API has too few endpoints", "The API uses HTTPS"], correctIndex: 0, explanation: "Apps often hide fields client-side; calling the API directly reveals everything it returned." },
+        { id: "bt-16-q5", type: "Real Incident", challenge: "2021, 4.5M users.", text: "In the Peloton API breach, what went wrong?", options: ["The API returned private profile data to callers with no authentication", "Passwords were guessed", "Bikes were stolen", "The website was defaced"], correctIndex: 0, explanation: "Anyone could query the API and get private user data — no login required." },
+        { id: "bt-16-q6", type: "Lesson", challenge: "The fix.", text: "What should every API endpoint do?", options: ["Check authentication and authorization on each request", "Trust all callers", "Only work on weekends", "Skip HTTPS"], correctIndex: 0, explanation: "Each endpoint must verify who's calling and whether they're allowed to access that data." },
+        { id: "bt-16-q7", type: "Enumeration", challenge: "Hidden ≠ safe.", text: "Why is an 'undocumented' endpoint still risky?", options: ["Attackers can discover it by guessing/enumeration", "It can never be found", "It doesn't exist", "It's automatically encrypted"], correctIndex: 0, explanation: "Obscurity isn't security — unlisted endpoints can be enumerated and called." },
+        { id: "bt-16-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "An API is most like…", options: ["A phone hotline menu: specific question in, specific answer out", "A blank notebook", "A car wash", "A photo album"], correctIndex: 0, explanation: "You call with a structured request and get a structured response — like a hotline menu." },
+      ],
+    },
     ctf: {
       scenario: "The surf conditions API has several endpoints. One is undocumented and returns the admin key. Enumerate the API endpoints to find it and retrieve the hidden flag.",
       hint: "Try different API endpoint paths to find the undocumented one.",
@@ -1208,6 +1280,18 @@ traceroute google.com
       references: [
         { title: "Bandwidth vs Throughput — Cloudflare", url: "https://www.cloudflare.com/learning/network-layer/what-is-throughput/" },
         { title: "Record 71M RPS DDoS — Cloudflare Blog", url: "https://blog.cloudflare.com/cloudflare-mitigates-record-breaking-71-million-request-per-second-ddos-attack/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-17-q1", type: "Core Idea", challenge: "Size of the pipe.", text: "What is bandwidth?", options: ["How much data a connection can carry per second", "How far data travels", "How secure a connection is", "How old a router is"], correctIndex: 0, explanation: "Bandwidth is the maximum capacity, measured in Mbps or Gbps." },
+        { id: "bt-17-q2", type: "Bandwidth vs Throughput", challenge: "Capacity vs reality.", text: "How do bandwidth and throughput differ?", options: ["Bandwidth is the max capacity; throughput is the actual rate achieved (≤ bandwidth)", "They're identical", "Throughput is always higher", "Bandwidth is the delay"], correctIndex: 0, explanation: "A 100 Mbps link may only deliver 60 Mbps of throughput due to congestion or loss." },
+        { id: "bt-17-q3", type: "Bottleneck", challenge: "The weakest link.", text: "In a chain of links, what sets the real limit?", options: ["The slowest link — the bottleneck", "The fastest link", "The longest cable", "The newest device"], correctIndex: 0, explanation: "Effective throughput can't exceed the narrowest link on the path." },
+        { id: "bt-17-q4", type: "Attack", challenge: "Flooding the pipe.", text: "How does a volumetric DDoS attack work?", options: ["It sends more traffic than the target's bandwidth can absorb, crowding out real users", "It guesses passwords", "It deletes files", "It steals cookies"], correctIndex: 0, explanation: "By saturating the pipe, legitimate traffic gets dropped — a denial of service." },
+        { id: "bt-17-q5", type: "Real Incident", challenge: "February 2023.", text: "How did Cloudflare absorb the record 71-million-requests-per-second DDoS?", options: ["By spreading the load across its many global data centers", "By unplugging the internet", "By paying the attackers", "By guessing the botnet's password"], correctIndex: 0, explanation: "Distributed capacity across 285+ data centers meant no single site was overwhelmed." },
+        { id: "bt-17-q6", type: "Not the Same", challenge: "Two different measures.", text: "Bandwidth and latency are…", options: ["Different things — bandwidth is capacity, latency is delay", "The same thing", "Both about encryption", "Both passwords"], correctIndex: 0, explanation: "A link can be high-bandwidth but high-latency (e.g., satellite) — capacity ≠ delay." },
+        { id: "bt-17-q7", type: "Units", challenge: "How it's measured.", text: "Bandwidth is measured in…", options: ["Bits per second (Mbps, Gbps)", "Degrees Celsius", "Megabytes of storage", "Volts"], correctIndex: 0, explanation: "It's a rate: bits per second, commonly Mbps or Gbps." },
+        { id: "bt-17-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Bandwidth is most like…", options: ["A bigger wave carrying more water at once", "A clock", "A door lock", "A street name"], correctIndex: 0, explanation: "More bandwidth = more data per second, like a bigger wave carrying more water." },
       ],
     },
     ctf: {
@@ -1422,6 +1506,18 @@ ping 9.9.9.9     # Quad9`,
         { title: "AWS October 2012 Outage — AWS Blog", url: "https://aws.amazon.com/message/680587/" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "bt-18-q1", type: "Core Idea", challenge: "The wait.", text: "What is latency?", options: ["The delay for data to travel from sender to receiver", "The total data per second", "The number of devices online", "The strength of WiFi"], correctIndex: 0, explanation: "Latency is the time delay, measured in milliseconds — separate from bandwidth (capacity)." },
+        { id: "bt-18-q2", type: "Measuring", challenge: "What ping tells you.", text: "Ping measures round-trip time (RTT). RTT is about…", options: ["Twice the one-way latency", "Half the bandwidth", "The number of hops", "The packet size"], correctIndex: 0, explanation: "RTT is the time there and back, roughly double the one-way latency." },
+        { id: "bt-18-q3", type: "Physics", challenge: "Why distance matters.", text: "Why does a far-away server usually have higher latency?", options: ["Data is limited by the speed of light through cables, so distance adds delay", "Far servers are slower computers", "WiFi gets weaker with distance only", "It doesn't — distance is irrelevant"], correctIndex: 0, explanation: "Even at ~2/3 light speed in fiber, long distances add measurable delay (e.g., ~180ms across the Atlantic)." },
+        { id: "bt-18-q4", type: "CDN", challenge: "Bringing content closer.", text: "How does a CDN reduce latency?", options: ["It places servers physically closer to users", "It increases passwords", "It deletes old data", "It blocks ads"], correctIndex: 0, explanation: "Serving from a nearby edge server shortens the distance and the delay." },
+        { id: "bt-18-q5", type: "Real Incident", challenge: "October 2012.", text: "In the 2012 AWS US-East outage, why did one latency spike cause a big failure?", options: ["Slow responses cascaded — services waiting on each other backed up", "A hacker deleted everything", "The building flooded", "Passwords expired"], correctIndex: 0, explanation: "A call that normally took 2ms took 2000ms, and the backlog cascaded across dependent services." },
+        { id: "bt-18-q6", type: "Design Lesson", challenge: "Failing gracefully.", text: "A good defense against latency cascades is…", options: ["Async calls, aggressive timeouts, and circuit breakers that fail fast", "Longer passwords", "Bigger monitors", "Disabling logging"], correctIndex: 0, explanation: "Don't block forever waiting on a slow component — time out and fail fast." },
+        { id: "bt-18-q7", type: "Where It Hurts", challenge: "Who feels lag.", text: "Low latency matters most for…", options: ["Real-time apps like video calls and online gaming", "Saving a file overnight", "Reading an old email", "Printing a document"], correctIndex: 0, explanation: "Interactive, real-time experiences are where delay is felt most." },
+        { id: "bt-18-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Latency is most like…", options: ["How long you wait in the lineup for the next set of waves", "How big the wave is", "How many surfers there are", "The color of the board"], correctIndex: 0, explanation: "Latency is the wait/delay; bandwidth (last stage) is the size/capacity." },
+      ],
+    },
     ctf: {
       scenario: "Three CDN servers could serve the surf forecast. Measure latency to each, identify the fastest, and configure your connection to use it. The fastest server holds the flag.",
       hint: "Ping all three servers and route to the lowest latency one.",
@@ -1605,6 +1701,18 @@ dig DS yourbank.com @8.8.8.8  # DS = Delegation Signer record`,
       references: [
         { title: "Kaminsky DNS Vulnerability — CERT", url: "https://www.kb.cert.org/vuls/id/800113" },
         { title: "DNS Cache Poisoning — Cloudflare", url: "https://www.cloudflare.com/learning/dns/dns-cache-poisoning/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-19-q1", type: "Core Idea", challenge: "Corrupting the address book.", text: "What is DNS cache poisoning?", options: ["Tricking a DNS resolver into storing a fake name-to-IP mapping", "Deleting a website", "Guessing a password", "Slowing down WiFi"], correctIndex: 0, explanation: "A forged DNS answer gets cached, so the resolver hands out the attacker's IP for a real name." },
+        { id: "bt-19-q2", type: "The Effect", challenge: "Where you end up.", text: "What happens to users of a poisoned resolver?", options: ["They're silently sent to an attacker's server even when the name looks right", "Their files are deleted", "Their WiFi speeds up", "Nothing changes"], correctIndex: 0, explanation: "The name looks correct but resolves to a malicious IP — ideal for phishing." },
+        { id: "bt-19-q3", type: "Real Incident", challenge: "2008.", text: "Why was the 2008 Kaminsky discovery so serious?", options: ["A flaw in DNS itself made poisoning fast against nearly every resolver, forcing a coordinated emergency patch", "It only affected one company", "It was a minor bug", "It required physical access"], correctIndex: 0, explanation: "Kaminsky showed the small transaction-ID space let attackers poison caches in seconds — an internet-wide problem." },
+        { id: "bt-19-q4", type: "Defense", challenge: "Making tampering detectable.", text: "How does DNSSEC defend against poisoning?", options: ["It cryptographically signs DNS records so forged ones are rejected", "It hides the DNS server", "It speeds up lookups", "It blocks all DNS"], correctIndex: 0, explanation: "Signed records let resolvers verify authenticity and reject tampered answers." },
+        { id: "bt-19-q5", type: "Detection", challenge: "Spotting the lie.", text: "How can you detect a poisoned cache entry?", options: ["Compare the cached answer to the authoritative server's answer and flush if they differ", "Restart your phone", "Change your password", "Buy a new router"], correctIndex: 0, explanation: "A mismatch between the cached and authoritative records reveals the poison; flushing removes it." },
+        { id: "bt-19-q6", type: "Why Dangerous", challenge: "The convincing fake.", text: "Poisoning is especially dangerous because…", options: ["The address bar shows the real name while you're on a fake server", "It makes a loud alarm", "It only works once a year", "It can't steal anything"], correctIndex: 0, explanation: "There's no obvious sign — the name is right, so users enter credentials on the fake site." },
+        { id: "bt-19-q7", type: "Tradeoff", challenge: "The thing being abused.", text: "DNS caching is useful because it speeds up lookups, but…", options: ["It's also exactly what poisoning attacks corrupt", "It uses no memory", "It encrypts traffic", "It blocks ads"], correctIndex: 0, explanation: "The cache that makes DNS fast is the target attackers poison." },
+        { id: "bt-19-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "DNS cache poisoning is most like…", options: ["Forging contest records so surfers show up at the wrong beach", "Losing your car keys", "A flat tire", "A sunny day"], correctIndex: 0, explanation: "Tamper with the trusted records and everyone is sent to the wrong place." },
       ],
     },
     ctf: {
@@ -1811,6 +1919,18 @@ server {
       references: [
         { title: "Load Balancing Explained — Cloudflare", url: "https://www.cloudflare.com/learning/performance/what-is-load-balancing/" },
         { title: "Heroku GitHub Breach — GitHub Blog", url: "https://github.blog/2022-04-15-security-alert-stolen-oauth-user-tokens/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "bt-20-q1", type: "Core Idea", challenge: "Spreading the work.", text: "What does a load balancer do?", options: ["Spreads incoming traffic across multiple servers", "Stores all passwords", "Encrypts your files", "Picks website names"], correctIndex: 0, explanation: "It distributes requests across a pool of servers so none is overwhelmed." },
+        { id: "bt-20-q2", type: "Why", challenge: "The benefit.", text: "Why use a load balancer?", options: ["So no single server becomes a bottleneck or single point of failure", "To slow traffic down", "To use fewer servers", "To hide the website"], correctIndex: 0, explanation: "It provides scale and redundancy — traffic is shared and failures are tolerated." },
+        { id: "bt-20-q3", type: "Algorithm", challenge: "Taking turns.", text: "What is round-robin load balancing?", options: ["Sending each new request to the next server in rotation", "Sending everything to one server", "Random encryption", "Blocking all traffic"], correctIndex: 0, explanation: "Round-robin cycles through the backends in turn — simple and even." },
+        { id: "bt-20-q4", type: "Health Checks", challenge: "Routing around failure.", text: "What do load balancer health checks accomplish?", options: ["They detect failed servers and stop sending traffic to them", "They speed up the CPU", "They store backups", "They create passwords"], correctIndex: 0, explanation: "A backend failing its health check is pulled from the pool, enabling zero-downtime operation." },
+        { id: "bt-20-q5", type: "Real Incident", challenge: "2022.", text: "In the 2022 Heroku/GitHub breach, how did the load balancer matter?", options: ["Its privileged network position was used to reach internal services and steal OAuth tokens", "It physically exploded", "It guessed passwords", "It blocked all users"], correctIndex: 0, explanation: "Load balancers can reach every backend; abusing that access exposed internal infrastructure and secrets." },
+        { id: "bt-20-q6", type: "Lesson", challenge: "Hardening the gatekeeper.", text: "A key takeaway from that breach is…", options: ["Harden load balancers and still require auth on internal endpoints", "Remove all load balancers", "Trust all internal traffic", "Disable health checks"], correctIndex: 0, explanation: "Because LBs are privileged, they must be hardened and internal services shouldn't blindly trust 'internal' callers." },
+        { id: "bt-20-q7", type: "Client View", challenge: "One door, many rooms.", text: "From the client's perspective, a load-balanced service looks like…", options: ["One address, even though many backend servers handle requests", "Hundreds of separate websites", "No server at all", "A single physical computer only"], correctIndex: 0, explanation: "Clients hit one IP; the balancer quietly routes each request to one of several backends." },
+        { id: "bt-20-q8", type: "Everyday Analogy", challenge: "Tie it together.", text: "Load balancing is most like…", options: ["Surfers spreading out to other breaks when one gets crowded", "Everyone sharing one surfboard", "Leaving the beach", "Checking the tide"], correctIndex: 0, explanation: "Spread the crowd across breaks (servers) so none is overwhelmed." },
       ],
     },
     ctf: {

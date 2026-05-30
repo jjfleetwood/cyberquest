@@ -146,8 +146,8 @@ function RichParagraph({ text, lead = "blue", context = "security", boldLead = t
   const leadText = split !== -1 ? text.slice(0, split) : text;
   const restText = split !== -1 ? text.slice(split) : "";
   const leadClass = lead === "pink"
-    ? "text-pink-400 font-semibold"
-    : "text-sky-400 font-semibold";
+    ? "text-pink-300/80 font-medium"
+    : "text-sky-300/80 font-medium";
   return (
     <span>
       <span className={leadClass}><RichText text={leadText} context={context} /></span>
@@ -245,11 +245,13 @@ function RichBlock({
 export default function StageInfo({
   stage,
   onStart,
+  isDual = false,
   translation = null,
   backHref,
 }: {
   stage: StageConfig;
-  onStart: () => void;
+  onStart: (mode?: "quiz" | "ctf") => void;
+  isDual?: boolean;
   translation?: StageTranslation | null;
   backHref?: string;
 }) {
@@ -657,21 +659,52 @@ export default function StageInfo({
         {/* ── CTA ───────────────────────────────────────────────────────────── */}
         <div className="rounded-2xl overflow-hidden border border-cyan-500/30"
           style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.08) 0%, rgba(99,102,241,0.08) 100%)" }}>
-          <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
+          {isDual ? (
+            <div className="px-6 py-5">
               <p className="text-white font-bold text-lg">{t("stage.readyForChallenge")}</p>
-              <p className="text-gray-400 text-sm mt-0.5">
-                {stage.challengeType === "ctf" ? t("stage.ctfExploit") : t("stage.quizTest")}
-              </p>
+              <p className="text-gray-400 text-sm mt-0.5 mb-4">Choose how you want to clear this stage.</p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                <button
+                  onClick={() => onStart("ctf")}
+                  className="text-left rounded-xl border-2 border-green-500/40 hover:border-green-400 bg-green-500/5 hover:bg-green-500/10 p-4 transition-all hover:-translate-y-0.5"
+                >
+                  <div className="text-3xl mb-2">🚩</div>
+                  <h3 className="text-white font-bold mb-0.5">Run the CTF</h3>
+                  <p className="text-gray-400 text-xs mb-3">Work the terminal and capture the flag.</p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-green-400 border border-green-500/30 bg-green-500/10 rounded-full px-2.5 py-1">
+                    ✓ Full clear · +{stage.xp} 🪙
+                  </span>
+                </button>
+                <button
+                  onClick={() => onStart("quiz")}
+                  className="text-left rounded-xl border-2 border-amber-500/40 hover:border-amber-400 bg-amber-500/5 hover:bg-amber-500/10 p-4 transition-all hover:-translate-y-0.5"
+                >
+                  <div className="text-3xl mb-2">📝</div>
+                  <h3 className="text-white font-bold mb-0.5">Take the Quiz</h3>
+                  <p className="text-gray-400 text-xs mb-3">5 quick questions to test what you know.</p>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-mono text-amber-400 border border-amber-500/30 bg-amber-500/10 rounded-full px-2.5 py-1">
+                    ◗ Half clear
+                  </span>
+                </button>
+              </div>
             </div>
-            <button
-              onClick={onStart}
-              className="px-8 py-3 font-black rounded-xl transition-all text-black flex-shrink-0 hover:scale-105 active:scale-95"
-              style={{ background: "linear-gradient(90deg, #22d3ee, #818cf8)" }}
-            >
-              {stage.challengeType === "ctf" ? t("stage.startCtf") : t("stage.startQuiz")} →
-            </button>
-          </div>
+          ) : (
+            <div className="px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <p className="text-white font-bold text-lg">{t("stage.readyForChallenge")}</p>
+                <p className="text-gray-400 text-sm mt-0.5">
+                  {stage.challengeType === "ctf" ? t("stage.ctfExploit") : t("stage.quizTest")}
+                </p>
+              </div>
+              <button
+                onClick={() => onStart()}
+                className="px-8 py-3 font-black rounded-xl transition-all text-black flex-shrink-0 hover:scale-105 active:scale-95"
+                style={{ background: "linear-gradient(90deg, #22d3ee, #818cf8)" }}
+              >
+                {stage.challengeType === "ctf" ? t("stage.startCtf") : t("stage.startQuiz")} →
+              </button>
+            </div>
+          )}
         </div>
 
       </div>

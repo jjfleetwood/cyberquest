@@ -104,6 +104,18 @@ APO12 Risk Mgmt      2        4      2    HIGH`,
         { title: "SOX Section 404 — SEC Guidance", url: "https://www.sec.gov/rules/interp/2007/33-8810.pdf" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-01-q1", type: "Core Idea", challenge: "Two distinct roles.", text: "What is the difference between governance and management in IT?", options: ["Governance sets direction and oversees; management executes within that direction","They are the same thing","Management oversees governance","Governance writes code"], correctIndex: 0, explanation: "Confusing the two is where audit failures begin — governance directs, management executes." },
+        { id: "audit-01-q2", type: "COBIT", challenge: "Know the domain.", text: "In COBIT 2019, the EDM domain (Evaluate, Direct, Monitor) represents which layer?", options: ["The governance layer — board-level oversight of IT direction and outcomes","The coding layer","The networking layer","The billing layer"], correctIndex: 0, explanation: "EDM is COBIT's governance layer; APO/BAI/DSS/MEA are the management domains." },
+        { id: "audit-01-q3", type: "COBIT", challenge: "Count the domains.", text: "How many governance and management domains does COBIT 2019 define?", options: ["Five — EDM for governance, plus APO, BAI, DSS, MEA for management","Three","Ten","One"], correctIndex: 0, explanation: "COBIT 2019 has five domains: one governance (EDM) and four management." },
+        { id: "audit-01-q4", type: "Regulation", challenge: "Post-Enron law.", text: "Which 2002 law formalized IT controls requirements for public companies after Enron?", options: ["The Sarbanes-Oxley Act (Section 404)","GDPR","HIPAA","The Patriot Act"], correctIndex: 0, explanation: "SOX §404 established IT controls requirements for public companies." },
+        { id: "audit-01-q5", type: "Real Incident", challenge: "Enron, 2001.", text: "What did the Enron collapse illustrate about IT governance?", options: ["Governance failures and lack of independent oversight enable catastrophic fraud","Servers must be faster","Encryption was missing","It was a network outage"], correctIndex: 0, explanation: "Enron's governance breakdown triggered SOX and modern IT controls requirements." },
+        { id: "audit-01-q6", type: "Auditing", challenge: "Trust but verify.", text: "Is management's self-reporting to the board sufficient evidence that governance objectives are met?", options: ["No — auditors must independently verify both governance and management layers","Yes — self-reporting is enough","Only for small companies","Only if signed"], correctIndex: 0, explanation: "Independent verification is required; self-attestation isn't evidence." },
+        { id: "audit-01-q7", type: "Maturity", challenge: "The regulated baseline.", text: "What COBIT capability level is the typical minimum for regulated industries?", options: ["Level 3 (Established)","Level 1 (Initial)","Level 2 (Managed)","Level 0 (Incomplete)"], correctIndex: 0, explanation: "Level 3 (Established) is the usual regulated-industry minimum, not level 2." },
+        { id: "audit-01-q8", type: "Concept", challenge: "Where failures start.", text: "Why does confusing governance with management cause audit problems?", options: ["Oversight and execution blur, so no one independently checks direction is followed","It speeds up audits","It has no effect","It only matters for startups"], correctIndex: 0, explanation: "Separation of direction and execution is what makes oversight meaningful." },
+      ],
+    },
     ctf: {
       scenario: "You have been granted access to the ISACA audit terminal at a financial services firm. The COBIT assessment files are loaded. Read the governance charter, identify the five domains, and locate the capability gap that puts this company at regulatory risk.",
       hint: "Read COBIT-ASSESSMENT.txt first, then explore the domains directory.",
@@ -290,6 +302,18 @@ R-004    Ransomware via RDP        4       5      20       None       20     CRI
         { title: "NIST SP 800-30 — Guide for Conducting Risk Assessments", url: "https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-02-q1", type: "Core Idea", challenge: "Why controls exist.", text: "What is the relationship between risk and controls?", options: ["Every control exists to mitigate a risk; without the risk, it's just overhead","Controls are random","Risks have no controls","Controls create risk"], correctIndex: 0, explanation: "Controls are justified by the risks they reduce." },
+        { id: "audit-02-q2", type: "CRISC", challenge: "What's left over.", text: "What is 'residual risk'?", options: ["The risk remaining after existing controls reduce the inherent risk","Risk before any controls","Risk that can't be measured","A type of audit report"], correctIndex: 0, explanation: "Residual = what remains after controls are applied to inherent risk." },
+        { id: "audit-02-q3", type: "CRISC", challenge: "Raw exposure.", text: "How is inherent risk calculated?", options: ["Likelihood × Impact, before any controls are applied","After controls only","By counting employees","Likelihood minus Impact"], correctIndex: 0, explanation: "Inherent risk is raw exposure (L × I) with no controls factored in." },
+        { id: "audit-02-q4", type: "Risk Response", challenge: "Spot the fake.", text: "Which is NOT one of the valid risk response options?", options: ["Ignore — defer the decision until the next audit","Avoid","Mitigate","Transfer"], correctIndex: 0, explanation: "The four responses are avoid, mitigate, transfer, accept — 'ignore' isn't one." },
+        { id: "audit-02-q5", type: "Risk Appetite", challenge: "When you can't just accept.", text: "Is 'Accept' valid when residual risk exceeds the board-approved risk appetite?", options: ["No — risks above appetite require a board-approved treatment plan","Yes — accept anything","Only on weekends","Only for IT risks"], correctIndex: 0, explanation: "Above-appetite risk can't be unilaterally accepted; it needs board treatment." },
+        { id: "audit-02-q6", type: "Real Incident", challenge: "Capital One, 2019.", text: "What did the Capital One breach reveal about risk registers?", options: ["A stale/mis-scored register leaves critical risk treated as acceptable","Cloud is always safe","Encryption is pointless","Risk registers are unnecessary"], correctIndex: 0, explanation: "Misconfiguration risk was under-scored, leaving real exposure unmitigated." },
+        { id: "audit-02-q7", type: "Concept", challenge: "Keep it current.", text: "Why must a risk register be kept current?", options: ["Outdated scores hide real exposure and misdirect controls","It looks tidy","Regulators ignore it","It speeds up the network"], correctIndex: 0, explanation: "A stale register creates blind spots where risk is actually critical." },
+        { id: "audit-02-q8", type: "Definition", challenge: "Order of operations.", text: "Controls are applied to inherent risk to produce…", options: ["Residual risk","More inherent risk","Risk appetite","A finding"], correctIndex: 0, explanation: "Inherent risk minus the effect of controls = residual risk." },
+      ],
+    },
     ctf: {
       scenario: "The Federal Reserve's internal audit team has flagged three high-severity items in the risk register. Read each risk file, determine which risk exceeds the board's appetite, and confirm the treatment plan.",
       hint: "Read the risk register, then examine each flagged risk individually.",
@@ -467,6 +491,18 @@ Compare-Object active_accounts terminated | Where {$_.SideIndicator -eq "=="}
         { title: "ISACA ITGC Audit Program", url: "https://www.isaca.org/resources/isaca-journal/issues/2016/volume-4/it-general-controls" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-03-q1", type: "Core Idea", challenge: "Foundations first.", text: "How do IT General Controls (ITGCs) differ from application controls?", options: ["ITGCs apply across the whole IT environment and underpin all application controls","ITGCs are app-specific","They are identical","ITGCs only cover printers"], correctIndex: 0, explanation: "Application controls mean nothing if the ITGCs beneath them are broken." },
+        { id: "audit-03-q2", type: "Pervasiveness", challenge: "One crack, many doubts.", text: "Why is a single ITGC failure (e.g., emergency changes bypassing approval) so serious?", options: ["It's pervasive — it casts doubt on every report the affected system produced","It only affects one record","It's a minor cosmetic issue","It speeds up audits"], correctIndex: 0, explanation: "ITGC failures invalidate reliance on all application controls in that system." },
+        { id: "audit-03-q3", type: "ITGC Pillars", challenge: "Who gets in.", text: "Which ITGC pillar ensures only authorized users can access systems and data?", options: ["Logical Access — least privilege and individual accountability","Physical HVAC","Network speed","Marketing"], correctIndex: 0, explanation: "Logical Access enforces who can reach systems, with accountability." },
+        { id: "audit-03-q4", type: "SoD", challenge: "Marking your own homework.", text: "Which is a Segregation of Duties (SoD) violation in change management?", options: ["The developer who wrote the code also approved their own change ticket","Two different people review a change","A CAB approves a change","An auditor reads logs"], correctIndex: 0, explanation: "Self-approval with no independent review is a classic SoD violation." },
+        { id: "audit-03-q5", type: "Real Incident", challenge: "MF Global, 2011.", text: "What did the MF Global collapse demonstrate about ITGCs?", options: ["Multiple simultaneous ITGC failures together created the permissive environment for fraud","A single access failure alone caused it","It had no control issues","It was purely market risk"], correctIndex: 0, explanation: "It was several concurrent ITGC failures, not one isolated gap." },
+        { id: "audit-03-q6", type: "Reliance", challenge: "Why ITGCs matter to financials.", text: "Why do auditors care so much about ITGCs in a financial audit?", options: ["If ITGCs fail, they can't rely on the system's financial data","They don't care about ITGCs","ITGCs set prices","ITGCs are optional"], correctIndex: 0, explanation: "Reliable financial reporting depends on sound general controls." },
+        { id: "audit-03-q7", type: "Definition", challenge: "Name the layer.", text: "Logical access, change management, and operations are examples of…", options: ["IT General Controls","Application controls","Marketing controls","Physical locks only"], correctIndex: 0, explanation: "These environment-wide controls are ITGCs." },
+        { id: "audit-03-q8", type: "Concept", challenge: "Build order.", text: "Why test ITGCs before relying on application controls?", options: ["Application controls are only trustworthy if the general controls beneath them hold","App controls come first","ITGCs don't affect apps","It's faster to skip them"], correctIndex: 0, explanation: "Weak ITGCs undermine every application control above them." },
+      ],
+    },
     ctf: {
       scenario: "You are auditing the NYSE trading platform's ITGCs. The change management log has been pulled for Q1. Find the unauthorized production change that bypassed the approval process.",
       hint: "Read the change log and compare against the approved changes list.",
@@ -624,6 +660,18 @@ ORDER BY last_recert_date ASC;
       references: [
         { title: "NIST SP 800-53 — Access Control Family", url: "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final" },
         { title: "ISACA Access Control Audit Program", url: "https://www.isaca.org/resources/isaca-journal" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-04-q1", type: "Core Idea", challenge: "Just enough access.", text: "What does the principle of least privilege mean?", options: ["Each user has exactly the permissions needed for their job, and nothing more","Everyone is an admin","No one has access","Access never changes"], correctIndex: 0, explanation: "Least privilege minimizes what any account can do or expose." },
+        { id: "audit-04-q2", type: "Recertification", challenge: "Review the access.", text: "How often must user access be reviewed/recertified under ISACA standards?", options: ["At least annually for all in-scope accounts","Never","Only when hacked","Every five years"], correctIndex: 0, explanation: "Annual recertification is mandatory — it's not optional for non-privileged accounts." },
+        { id: "audit-04-q3", type: "Deprovisioning", challenge: "The clock on termination.", text: "How quickly must privileged accounts be deprovisioned when an employee is terminated?", options: ["Within 24 hours","Within 90 days","At the next annual review","Never"], correctIndex: 0, explanation: "Privileged access must be removed within 24 hours of termination." },
+        { id: "audit-04-q4", type: "Real Incident", challenge: "Snowden, 2013.", text: "Which access-control failure does the Snowden case illustrate?", options: ["Privilege accumulation — access never removed after role changes — plus weak recertification","A zero-day exploit","A phishing email","A DDoS attack"], correctIndex: 0, explanation: "Accumulated, un-reviewed access enabled mass data access." },
+        { id: "audit-04-q5", type: "Shared Accounts", challenge: "Who did it?", text: "Is a shared admin account used by four people acceptable if the password is complex and rotated?", options: ["No — shared accounts provide no individual accountability or forensic attribution","Yes — complexity is enough","Only for IT staff","Only on weekends"], correctIndex: 0, explanation: "Shared accounts destroy accountability regardless of password strength." },
+        { id: "audit-04-q6", type: "Concept", challenge: "Access creep.", text: "Why is 'access granted and never reviewed' dangerous?", options: ["It becomes permanent access regardless of role changes","It expires automatically","It improves security","It saves money"], correctIndex: 0, explanation: "Without review, stale access accumulates into excess privilege." },
+        { id: "audit-04-q7", type: "Accountability", challenge: "Individual identity.", text: "Why does each user need their own account?", options: ["So actions can be attributed to an individual for forensics and accountability","To use more licenses","To slow logins","It's not required"], correctIndex: 0, explanation: "Individual accounts enable attribution; shared ones don't." },
+        { id: "audit-04-q8", type: "Definition", challenge: "Name the practice.", text: "Periodically confirming each user still needs their access is called…", options: ["Access recertification (review)","Encryption","Patching","Tokenization"], correctIndex: 0, explanation: "Recertification re-validates access against current job needs." },
       ],
     },
     ctf: {
@@ -793,6 +841,18 @@ ORDER BY change_date;
         { title: "Knight Capital Post-Incident SEC Filing", url: "https://www.sec.gov/litigation/admin/2013/34-70694.pdf" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-05-q1", type: "Core Idea", challenge: "Controlled experiments.", text: "Why is change management a control?", options: ["Every production change is a controlled experiment — without control you're flying blind","Changes never fail","It slows developers for no reason","It only matters for hardware"], correctIndex: 0, explanation: "Controlled change reduces the risk that a deployment breaks production." },
+        { id: "audit-05-q2", type: "ITIL", challenge: "Who reviews it.", text: "Which ITIL change type requires Change Advisory Board (CAB) review before production?", options: ["Normal changes","Standard (pre-approved) changes","Trivial changes","No changes need review"], correctIndex: 0, explanation: "Normal changes go through CAB to assess risk and confirm testing." },
+        { id: "audit-05-q3", type: "Red Flag", challenge: "Too many 'emergencies'.", text: "Why is an emergency-change rate above ~10% a red flag?", options: ["It signals teams are bypassing normal controls by labeling changes 'emergency'","Emergencies are always fine","It means the system is healthy","It speeds approvals legitimately"], correctIndex: 0, explanation: "High emergency rates indicate process circumvention, not real emergencies." },
+        { id: "audit-05-q4", type: "Real Incident", challenge: "Knight Capital, 2012.", text: "What change-management failure caused Knight Capital's $440M loss?", options: ["A deployment not verified across all servers, with no automated rollback","A stolen password","A DDoS attack","A phishing email"], correctIndex: 0, explanation: "A partial deployment caused erroneous trades with no rollback to stop them." },
+        { id: "audit-05-q5", type: "Rollback", challenge: "Undo or don't ship.", text: "When is a rollback plan required?", options: ["For all production changes — if you can't undo it, you can't approve it","Only for critical systems","Never","Only after a failure"], correctIndex: 0, explanation: "A rollback plan is mandatory for every production change." },
+        { id: "audit-05-q6", type: "Counting Violations", challenge: "Two distinct failures.", text: "A change deployed out-of-window by the same person who developed it represents how many control violations?", options: ["Two — a Segregation of Duties failure AND an out-of-window deployment","One","Zero","Four"], correctIndex: 0, explanation: "SoD failure and out-of-window deployment are two separate violations." },
+        { id: "audit-05-q7", type: "Maintenance Window", challenge: "When changes happen.", text: "Deploying outside the approved maintenance window is…", options: ["A control violation — changes must occur in the approved window","Encouraged for speed","Irrelevant","Only an issue if it fails"], correctIndex: 0, explanation: "Out-of-window deployment bypasses the agreed change control." },
+        { id: "audit-05-q8", type: "Concept", challenge: "Why control change.", text: "What does change management primarily protect against?", options: ["Untested or unauthorized changes breaking production","Slow typing","High electricity bills","Marketing errors"], correctIndex: 0, explanation: "It ensures changes are tested, approved, and reversible." },
+      ],
+    },
     ctf: {
       scenario: "NASA's mission control software change log has been pulled for audit. Identify the change that violated segregation of duties and was deployed outside the approved maintenance window.",
       hint: "Read the change log and maintenance window policy.",
@@ -946,6 +1006,18 @@ FINDINGS:
       references: [
         { title: "NIST SP 800-34 — Contingency Planning Guide for IT Systems", url: "https://csrc.nist.gov/publications/detail/sp/800-34/rev-1/final" },
         { title: "ISACA BCP/DR Audit Program", url: "https://www.isaca.org/resources/isaca-journal" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-06-q1", type: "Core Idea", challenge: "Tested, not hoped.", text: "Why is an untested recovery plan not a real control?", options: ["A plan never tested is a hope — only tested recovery with documented results counts","Tests are optional","Plans never fail","Testing weakens the plan"], correctIndex: 0, explanation: "ISACA requires test evidence with results for a DR plan to be a control." },
+        { id: "audit-06-q2", type: "RPO", challenge: "How much data loss.", text: "What does RPO (Recovery Point Objective) define?", options: ["The maximum data loss the business can accept — driving backup frequency","How fast the system restarts","The number of backups","The cost of recovery"], correctIndex: 0, explanation: "RPO sets the acceptable data-loss window, which drives backup cadence." },
+        { id: "audit-06-q3", type: "RTO vs MTD", challenge: "Leave a buffer.", text: "Is an RTO of 2 hours acceptable when the Maximum Tolerable Downtime (MTD) is also 2 hours?", options: ["No — RTO must be less than MTD to leave margin for complications","Yes — equal is fine","Only if RPO is zero","Only for small systems"], correctIndex: 0, explanation: "RTO must be below MTD; equal leaves no buffer." },
+        { id: "audit-06-q4", type: "Real Incident", challenge: "Katrina, 2005.", text: "What DR design flaw did Hurricane Katrina expose at New Orleans institutions?", options: ["Primary and backup data centers were in the same flood zone — both lost at once","Backups were encrypted too strongly","RTO was too short","They had too many sites"], correctIndex: 0, explanation: "Co-located primary and backup sites failed together." },
+        { id: "audit-06-q5", type: "Finding", challenge: "Missed the target.", text: "A DR test shows actual RTO of 5h20m against a 4-hour target. The auditor's finding?", options: ["A HIGH finding — the plan doesn't meet its approved RTO; remediation required","No finding — close enough","A LOW finding only","Praise the team"], correctIndex: 0, explanation: "Missing the approved RTO is a high finding even if MTD isn't breached." },
+        { id: "audit-06-q6", type: "Definition", challenge: "Time to restore.", text: "RTO (Recovery Time Objective) measures…", options: ["The target time to restore a system after disruption","Acceptable data loss","Backup storage size","The audit duration"], correctIndex: 0, explanation: "RTO is the restoration-time target; RPO is the data-loss target." },
+        { id: "audit-06-q7", type: "Geographic Separation", challenge: "Don't co-locate.", text: "Why must primary and backup data centers be geographically separated?", options: ["So a single regional disaster can't take out both at once","To save money","To slow recovery","It's not required"], correctIndex: 0, explanation: "Separation prevents one event from destroying both sites — the Katrina lesson." },
+        { id: "audit-06-q8", type: "Concept", challenge: "Evidence of recovery.", text: "What turns a DR plan into a control an auditor can rely on?", options: ["A successful test with documented results","A nicely formatted document","Management's verbal assurance","A large budget"], correctIndex: 0, explanation: "Documented successful tests are the evidence that makes it a control." },
       ],
     },
     ctf: {
@@ -1111,6 +1183,18 @@ ORDER BY severity DESC;
       references: [
         { title: "NIST SP 800-61 Rev 2 — Computer Security Incident Handling Guide", url: "https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final" },
         { title: "CISA Incident Response Resources", url: "https://www.cisa.gov/topics/cyber-threats-and-advisories/information-sharing/information-sharing-and-awareness" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-07-q1", type: "Core Idea", challenge: "Exercised, not filed.", text: "Why is an IR plan that was never exercised not a real control?", options: ["An untested plan sitting in a folder won't work under pressure — exercises make it a control","Plans never need testing","It's a control if it's long","Filing it is enough"], correctIndex: 0, explanation: "An incident response plan must be exercised to count as effective." },
+        { id: "audit-07-q2", type: "NIST 800-61", challenge: "Most auditable phase.", text: "Which NIST SP 800-61 IR phase is most auditable?", options: ["Preparation — plans, role assignments, tabletop records, contact lists are verifiable","Eradication","Recovery","There are no phases"], correctIndex: 0, explanation: "Preparation produces the most documentary evidence to verify." },
+        { id: "audit-07-q3", type: "Real Incident", challenge: "Equifax, 2017.", text: "Why did Equifax fail to detect the breach for 76 days?", options: ["Its SSL inspection tool's certificate had been expired for 19 months","Attackers used an undetectable zero-day","There was no internet","Staff were on holiday"], correctIndex: 0, explanation: "An expired cert blinded monitoring — a control failure, not a novel exploit." },
+        { id: "audit-07-q4", type: "Plan Currency", challenge: "Stale and overdue.", text: "An IR plan last updated 21 months ago with 3 overdue tabletop action items rates as…", options: ["INEFFECTIVE — currency and follow-through both failed","EFFECTIVE","Not auditable","LOW risk only"], correctIndex: 0, explanation: "Annual update and action-item follow-through are both requirements." },
+        { id: "audit-07-q5", type: "Metric", challenge: "Detect speed.", text: "What does Mean Time to Detect (MTTD) measure?", options: ["Time from when the incident occurred to when it was detected","Time to write the report","Time to recover","Time between audits"], correctIndex: 0, explanation: "MTTD is the incident-occurrence-to-detection interval." },
+        { id: "audit-07-q6", type: "Playbooks", challenge: "Cover the threats.", text: "Is it acceptable to have no ransomware playbook if the org has never had a ransomware incident?", options: ["No — playbooks must cover the primary threat landscape regardless of past incidents","Yes — only after an incident","Only for large firms","Playbooks aren't needed"], correctIndex: 0, explanation: "Absence of a relevant playbook is itself a finding." },
+        { id: "audit-07-q7", type: "Concept", challenge: "Monitoring upkeep.", text: "The Equifax detection failure shows that security tools…", options: ["Must be maintained (e.g., cert renewals) or they silently stop working","Never need maintenance","Are always reliable","Should be disabled"], correctIndex: 0, explanation: "An unmaintained tool is a decorative checkbox, not a control." },
+        { id: "audit-07-q8", type: "Framework", challenge: "The standard.", text: "NIST SP 800-61 is the standard framework for…", options: ["Computer security incident handling","Password complexity","Network cabling","Tax filing"], correctIndex: 0, explanation: "800-61 defines the incident-handling lifecycle and phases." },
       ],
     },
     ctf: {
@@ -1281,6 +1365,18 @@ ORDER BY tier, days_since_assessment DESC;`,
         { title: "NIST SP 800-161 — Cybersecurity Supply Chain Risk Management", url: "https://csrc.nist.gov/publications/detail/sp/800-161/rev-1/final" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-08-q1", type: "Core Idea", challenge: "Weakest vendor.", text: "What is the core supply-chain risk principle?", options: ["Your security is only as strong as the weakest vendor with access to your systems","Vendors are always safe","Only internal staff are risks","Vendors need no review"], correctIndex: 0, explanation: "Third-party access extends your attack surface." },
+        { id: "audit-08-q2", type: "Vendor Tiering", challenge: "Tier 1 vs Tier 2.", text: "What distinguishes a Tier 1 (Critical) vendor?", options: ["Access to sensitive data/critical systems, often single-source, needing the highest assessment frequency","It's the cheapest vendor","It has no system access","It's a new vendor"], correctIndex: 0, explanation: "Tier 1 vendors carry the most risk and need the most scrutiny." },
+        { id: "audit-08-q3", type: "Assessment Depth", challenge: "Beyond a questionnaire.", text: "Is a questionnaire-only assessment enough for a Tier 1 vendor with admin access?", options: ["No — Tier 1 needs SOC 2 Type II (or equivalent) plus contractual right-to-audit","Yes — a questionnaire suffices","Only a phone call is needed","No assessment is needed"], correctIndex: 0, explanation: "Critical vendors require evidence-based assurance, not self-reported forms." },
+        { id: "audit-08-q4", type: "Real Incident", challenge: "SolarWinds, 2020.", text: "Why did the SolarWinds supply-chain attack succeed at so many orgs?", options: ["They failed to classify SolarWinds as a critical vendor needing enhanced monitoring","SolarWinds had no customers","It was an insider","It used a zero-day in browsers"], correctIndex: 0, explanation: "Trusted vendor software wasn't monitored as the critical dependency it was." },
+        { id: "audit-08-q5", type: "Lapsed Assessment", challenge: "Past due.", text: "What's required when a Tier 1 vendor's annual assessment lapses beyond 365 days?", options: ["Suspend the vendor's access until a current assessment is completed","Wait until next quarter","Nothing","Give them a discount"], correctIndex: 0, explanation: "Continued access with a lapsed assessment is an unmitigated risk." },
+        { id: "audit-08-q6", type: "Offboarding", challenge: "When the deal ends.", text: "When must a vendor's access be deprovisioned?", options: ["When the relationship ends — not at the next scheduled review","At the next quarterly review","Never","Only if they ask"], correctIndex: 0, explanation: "Access must be removed at relationship end, immediately." },
+        { id: "audit-08-q7", type: "Monitoring", challenge: "Watch the software.", text: "A lesson from SolarWinds for critical vendors is to…", options: ["Monitor the vendor's software network activity, not just trust its updates","Auto-install all updates blindly","Avoid all vendors","Disable logging"], correctIndex: 0, explanation: "Enhanced monitoring of trusted software can catch supply-chain compromise." },
+        { id: "audit-08-q8", type: "Concept", challenge: "Trust boundary.", text: "Why are vendors with system access in audit scope?", options: ["Their access and security posture directly affect your risk","They pay you","They're outside your control entirely","Auditors like paperwork"], correctIndex: 0, explanation: "Vendor risk is your risk when they can touch your systems." },
+      ],
+    },
     ctf: {
       scenario: "The Pentagon's vendor register has been pulled for audit. Identify the Tier 1 vendor with an overdue security assessment that has active privileged access to defense systems.",
       hint: "Check the vendor register and cross-reference assessment dates.",
@@ -1448,6 +1544,18 @@ ORDER BY days_retained DESC;
       references: [
         { title: "GDPR Full Text — EUR-Lex", url: "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32016R0679" },
         { title: "ISACA Privacy Audit Framework", url: "https://www.isaca.org/resources/privacy" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-09-q1", type: "Core Idea", challenge: "Data you don't need.", text: "Why is collecting data you don't need a liability?", options: ["Unneeded data is risk to store and protect, not an asset","More data is always better","Data has no risk","Regulators reward hoarding"], correctIndex: 0, explanation: "Excess data expands breach impact and compliance burden." },
+        { id: "audit-09-q2", type: "GDPR", challenge: "Storage limitation.", text: "What does GDPR Article 5(1)(e) (storage limitation) require?", options: ["Delete personal data once it's no longer needed, per the retention schedule","Keep all data forever","Encrypt data only","Sell old data"], correctIndex: 0, explanation: "Data must not be kept longer than necessary for its purpose." },
+        { id: "audit-09-q3", type: "GDPR", challenge: "The 72-hour clock.", text: "Under GDPR, how quickly must a breach be reported to the supervisory authority?", options: ["Within 72 hours of discovery","Within 30 days","Within 1 year","Never"], correctIndex: 0, explanation: "GDPR requires authority notification within 72 hours of discovery." },
+        { id: "audit-09-q4", type: "Violation", challenge: "Over-retained data.", text: "A table kept 450,000 records for 3,353 days against a 730-day policy violates what — and the action?", options: ["Article 5(1)(e) storage limitation — delete records older than 730 days and notify the DPO","Nothing — retention is optional","Article 17 only, no action","Encryption rules only"], correctIndex: 0, explanation: "Over-retention breaches storage limitation; purge and notify the DPO." },
+        { id: "audit-09-q5", type: "Real Incident", challenge: "Meta, 2023.", text: "Meta's €1.2B GDPR fine in 2023 was for…", options: ["Transferring EU personal data to US servers after the legal basis was invalidated","A data breach of passwords","Selling data to spammers","Not encrypting disks"], correctIndex: 0, explanation: "Invalid EU-US data transfers drove the record fine." },
+        { id: "audit-09-q6", type: "Right to Erasure", challenge: "Delete everywhere.", text: "Under GDPR Article 17 (right to erasure), a deletion request must be fulfilled…", options: ["Within 30 days, removing data from all systems including accessible backups","Whenever convenient","Only from the main database","Within 1 year"], correctIndex: 0, explanation: "Erasure covers all stores the data can be accessed from, including backups." },
+        { id: "audit-09-q7", type: "Principle", challenge: "Minimize.", text: "Data minimization means…", options: ["Collect and keep only the data actually needed for a stated purpose","Collect as much as possible","Never collect data","Keep data indefinitely"], correctIndex: 0, explanation: "Less data held means less to leak and less to govern." },
+        { id: "audit-09-q8", type: "Concept", challenge: "Retention schedules.", text: "Why do organizations need documented retention schedules?", options: ["To prove data is deleted when no longer needed, satisfying storage limitation","To slow down deletes","For decoration","They're not needed"], correctIndex: 0, explanation: "Schedules operationalize and evidence the storage-limitation principle." },
       ],
     },
     ctf: {
@@ -1625,6 +1733,18 @@ def is_authorized(target_ip):
       references: [
         { title: "NIST SP 800-115 — Technical Guide to Information Security Testing", url: "https://csrc.nist.gov/publications/detail/sp/800-115/final" },
         { title: "AWS Penetration Testing Policy", url: "https://aws.amazon.com/security/penetration-testing/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-10-q1", type: "Core Idea", challenge: "Crime vs job.", text: "What single thing separates a penetration tester from a criminal hacker?", options: ["Written authorization from the system owner for the systems and tests performed","A better laptop","A certification alone","A friendly attitude"], correctIndex: 0, explanation: "Authorization is the legal protection that makes testing lawful." },
+        { id: "audit-10-q2", type: "Cloud", challenge: "The provider's rules.", text: "If a cloud workload is within the authorized IP range, is more approval needed before testing?", options: ["Yes — cloud providers (AWS/Azure/GCP) each have their own pentest approval policies","No — IP range is enough","Only for on-prem","Never"], correctIndex: 0, explanation: "Cloud workloads require explicit provider authorization too." },
+        { id: "audit-10-q3", type: "Out of Scope", challenge: "You hit the wrong net.", text: "A tester scans an explicitly out-of-scope core banking subnet. What must happen?", options: ["Document it, disclose to the client within 24 hours, and cease testing immediately","Keep going quietly","Delete the logs","Ignore it"], correctIndex: 0, explanation: "Out-of-scope access must be stopped, documented, and disclosed." },
+        { id: "audit-10-q4", type: "Real Incident", challenge: "AT&T / iPad, 2010.", text: "What did the 2010 AT&T iPad incident illustrate?", options: ["Without written authorization, access — even with defensive intent — can be prosecuted","Encryption is unnecessary","Cloud testing is always legal","Pentests need no scope"], correctIndex: 0, explanation: "Good intentions don't substitute for authorization." },
+        { id: "audit-10-q5", type: "Scope Document", challenge: "List the no-go zones.", text: "Does listing only authorized IPs (without listing out-of-scope systems) adequately protect the tester?", options: ["No — out-of-scope systems must be explicitly listed; ambiguity protects no one","Yes — listing in-scope is enough","Only for cloud","Scope docs are optional"], correctIndex: 0, explanation: "Explicit out-of-scope listings remove dangerous ambiguity." },
+        { id: "audit-10-q6", type: "Authorization", challenge: "Who signs.", text: "Whose signature makes a pentest authorization valid?", options: ["The system owner authorizing the specific systems and test types","Any employee","The tester themselves","No one — it's implied"], correctIndex: 0, explanation: "The owner must authorize the defined scope and test types." },
+        { id: "audit-10-q7", type: "Concept", challenge: "Rules of engagement.", text: "Why are clear rules of engagement essential before testing?", options: ["They define what's permitted, protecting both client and tester legally","They slow the test","They're just paperwork","They help attackers"], correctIndex: 0, explanation: "Defined scope and ROE keep the engagement lawful and bounded." },
+        { id: "audit-10-q8", type: "Definition", challenge: "The key document.", text: "The document that authorizes and bounds a penetration test is the…", options: ["Scope / rules-of-engagement (authorization) document","Invoice","Marketing brief","Org chart"], correctIndex: 0, explanation: "Scope/authorization defines and legally protects the engagement." },
       ],
     },
     ctf: {
@@ -1806,6 +1926,18 @@ if sample_deviation_rate > 0.05:  # exceeds 5% tolerable rate
         { title: "ISACA Audit Standards", url: "https://www.isaca.org/resources/isaca-journal/issues/2017/volume-3/it-audit-evidence" },
       ],
     },
+    quiz: {
+      questions: [
+        { id: "audit-11-q1", type: "Core Idea", challenge: "Back it up.", text: "Why does an audit finding require evidence?", options: ["An assertion without evidence is just an opinion — evidence makes a finding valid","Findings need no support","Opinions are enough","Evidence slows audits"], correctIndex: 0, explanation: "Evidence is what makes an audit conclusion defensible." },
+        { id: "audit-11-q2", type: "Evidence Quality", challenge: "Three attributes.", text: "What three attributes make audit evidence adequate?", options: ["Sufficient, reliable, and relevant","Cheap, fast, and pretty","Long, encrypted, and signed","Verbal, recent, and short"], correctIndex: 0, explanation: "Evidence must be enough, credible, and actually address the control tested." },
+        { id: "audit-11-q3", type: "Sampling", challenge: "Over the threshold.", text: "In attribute sampling, if the sample deviation rate exceeds the tolerable rate, the auditor must…", options: ["Conclude the control is not operating effectively (or expand testing)","Pass the control anyway","Ignore the deviations","Reduce the sample"], correctIndex: 0, explanation: "Exceeding the tolerable rate means the control fails the test." },
+        { id: "audit-11-q4", type: "Calculation", challenge: "Do the math.", text: "5 of 60 change tickets lack CAB approval; tolerable rate is 5%. The conclusion?", options: ["8.3% deviation exceeds 5% — the change-management control is not operating effectively","8.3% is fine","It's exactly at tolerance","The sample is invalid"], correctIndex: 0, explanation: "5/60 = 8.3% > 5%, so the control fails." },
+        { id: "audit-11-q5", type: "Evidence Hierarchy", challenge: "Rank the evidence.", text: "Which is true about audit evidence quality?", options: ["Documentary evidence ranks higher than testimonial; directly observed physical evidence is highest","Interviews outrank documents","All evidence is equal","Hearsay is best"], correctIndex: 0, explanation: "Physical > documentary > testimonial in reliability." },
+        { id: "audit-11-q6", type: "Real Incident", challenge: "Arthur Andersen.", text: "What principle did the Arthur Andersen case establish about evidence?", options: ["Evidence must be preserved (≈7 years); destroying it is obstruction of justice","Evidence can be shredded after review","Only digital evidence counts","Evidence is optional"], correctIndex: 0, explanation: "Collection isn't enough — evidence must be retained, not destroyed." },
+        { id: "audit-11-q7", type: "Definition", challenge: "Tolerable rate.", text: "The 'tolerable deviation rate' is…", options: ["The maximum error rate at which the auditor can still rely on the control","The number of samples","The audit fee","The number of findings"], correctIndex: 0, explanation: "It's the threshold beyond which the control is deemed ineffective." },
+        { id: "audit-11-q8", type: "Concept", challenge: "From opinion to fact.", text: "What elevates an audit finding from opinion to fact?", options: ["Sufficient, reliable, relevant evidence supporting it","A confident tone","Management agreement","A long report"], correctIndex: 0, explanation: "Quality evidence is what substantiates a finding." },
+      ],
+    },
     ctf: {
       scenario: "The SEC audit team has sampled change tickets from a broker-dealer. The sample results are loaded. Determine whether the deviation rate exceeds the tolerable threshold and what conclusion the auditor must reach.",
       hint: "Read the sample results and calculate the deviation rate.",
@@ -1982,6 +2114,18 @@ ORDER BY risk_rating DESC, status;`,
       references: [
         { title: "ISACA IS Audit Standards", url: "https://www.isaca.org/resources/isaca-journal/issues/2016/volume-6/is-auditing-guideline-g16-use-of-caat" },
         { title: "IIA International Standards for the Professional Practice of Internal Auditing", url: "https://www.theiia.org/en/standards/" },
+      ],
+    },
+    quiz: {
+      questions: [
+        { id: "audit-12-q1", type: "Core Idea", challenge: "The deliverable.", text: "Why is the audit report described as 'the product'?", options: ["It communicates the findings and risk — everything before it is just the work","It's optional","It's only for the auditor","Reports don't matter"], correctIndex: 0, explanation: "The report is what conveys value and drives remediation." },
+        { id: "audit-12-q2", type: "Finding Structure", challenge: "Four elements.", text: "What four elements make a complete CISA audit finding?", options: ["Condition, Criteria, Cause, and Effect","Who, What, When, Where","Start, Middle, End, Summary","Risk, Cost, Time, Scope"], correctIndex: 0, explanation: "Condition/Criteria/Cause/Effect: what was found, the standard, why, and the risk." },
+        { id: "audit-12-q3", type: "Repeat Findings", challenge: "Seen this before.", text: "How should a repeat finding (unchanged from a prior audit) be handled?", options: ["Escalate directly to the audit committee — management accountability has failed","Give management another remediation period","Drop it","Mark it low risk"], correctIndex: 0, explanation: "Repeat findings go straight to the audit committee." },
+        { id: "audit-12-q4", type: "Remediation Tracking", challenge: "30/60/90.", text: "Tracking remediation at 30, 60, and 90 days after the report is best described as…", options: ["An audit control itself — untracked remediation is indistinguishable from none","A formality","Optional follow-up","The client's private matter"], correctIndex: 0, explanation: "Without tracking, remediation can't be verified to have happened." },
+        { id: "audit-12-q5", type: "Real Incident", challenge: "Wells Fargo, 2016–2023.", text: "What audit risk does the Wells Fargo case illustrate?", options: ["Management agrees to remediation plans but fails to implement them — producing repeat findings","Auditors fabricated findings","There were no findings","It was a single one-time error"], correctIndex: 0, explanation: "Acknowledged-but-unimplemented findings signal a broken control environment." },
+        { id: "audit-12-q6", type: "Definition", challenge: "Spot the repeat.", text: "When is a current finding a 'repeat finding'?", options: ["Same condition and control as a prior-year finding, not remediated in 12+ months","Any new finding","A finding about a different system","A low-risk finding"], correctIndex: 0, explanation: "Same unremediated condition across cycles makes it a repeat." },
+        { id: "audit-12-q7", type: "Escalation", challenge: "Why straight to the committee.", text: "Why are repeat findings escalated to the audit committee rather than re-issued to management?", options: ["Management has demonstrably failed to act, so higher oversight is required","Management is always right","The committee writes the code","It's faster to ignore"], correctIndex: 0, explanation: "Repeat failure is an accountability problem for governance to address." },
+        { id: "audit-12-q8", type: "Concept", challenge: "Close the loop.", text: "What completes the audit lifecycle after the report is issued?", options: ["Tracked remediation of the findings to verified closure","Filing the report away","Starting an unrelated audit","Deleting the evidence"], correctIndex: 0, explanation: "Verified remediation closes the loop; untracked remediation isn't a control." },
       ],
     },
     ctf: {

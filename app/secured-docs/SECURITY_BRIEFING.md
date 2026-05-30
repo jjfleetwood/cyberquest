@@ -1,8 +1,14 @@
 # Kryptós CronOS — Security Briefing
 **Classification:** Internal  
-**Version:** 5.1  
-**Date:** 2026-05-29  
-**Current version:** v1.22.0
+**Version:** 5.2  
+**Date:** 2026-05-30  
+**Current version:** v1.23.0
+
+---
+
+## Changelog — v5.2 (2026-05-30) — Dual-mode quiz rollout + brand/UI refresh (v1.23.0)
+
+No new attack surface. The quiz-rollout work adds only `stage.quiz` data blocks to existing stage files — answers are validated server-side by the pre-existing `POST /api/check-answer` route (no new routes, Redis keys, or env vars). The new client components (`HomeCtfDemo.tsx`, `Logo.tsx`) are static/presentational: the homepage mini-CTF is a self-contained simulation with no backend calls and no real flag (the displayed `FLAG{...}` is a demo string, not a server secret), and `Logo.tsx` is an inline SVG. `RichText.tsx` highlighting changes are render-only string tokenization (no `dangerouslySetInnerHTML`). All existing security controls unchanged.
 
 ---
 

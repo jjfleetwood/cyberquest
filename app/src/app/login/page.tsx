@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { useRouter } from "next/navigation";
 import { login, register } from "@/lib/auth";
 import { useSkin } from "@/contexts/SkinContext";
@@ -100,7 +101,7 @@ export default function LoginPage() {
               border: `1px solid ${skin.cardBorder}`,
             }}
           >
-            🛡️
+            <Logo size={40} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight" style={{ color: skin.textPrimary }}>
             Kryptós <span style={{ color: skin.accent }}>CronOS</span>

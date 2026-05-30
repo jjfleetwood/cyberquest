@@ -6,7 +6,7 @@ Gamified cybersecurity + AI training platform. 38 curriculum epochs, 458 CTF/qui
 
 **Live:** kryptoscronos.com  
 **Repo:** github.com/jjfleetwood/kryptos-cronos  
-**Current version:** v1.22.0 (as of 2026-05-29)
+**Current version:** v1.23.0 (as of 2026-05-30)
 
 ---
 
@@ -312,6 +312,14 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 ---
 
+## What's Shipped (v1.23.0)
+
+- ✅ **Dual-mode quiz rollout COMPLETE — 203/203 CTF stages.** Every `challengeType: "ctf"` stage now has an 8-question MCQ `stage.quiz` alongside the CTF (Quiz = cosmetic half-clear / 0 XP / no unlock; CTF = full clear). Final 69 stages shipped this release: quantum-3 (c01–c10), quantum-4 (d01–d10), cisco-2 (m13–m25), cisco-3 (m26/m28/m30), cisco-4 (m34/m36/m37), cisco-5 (m39/m41/m42/m44/m46/m48/m50), umbrella (01–10), ancient stages.ts (stage-01–12 + stage-m12). Authored via idempotent `app/scripts/inject-quizzes.mjs`; tracker at repo-root `QUIZ_ROLLOUT.md`
+- ✅ **New brand logo** (`src/components/Logo.tsx`) — guilloché watch-dial mark (4:21 hands, cyan→indigo gradient, dark-purple ring + cyan bezel); replaces 🛡️ emoji in Nav/footer/login/onboarding + favicon (`src/app/icon.svg`); gradients use `gradientUnits="userSpaceOnUse"`
+- ✅ **Playable homepage hero** (`src/components/HomeCtfDemo.tsx`) — interactive mini-CTF terminal (ls → cat → submit flag) with `hint` command + suggestion chips; replaces static terminal
+- ✅ **Certs UX** — sticky left-sidebar jump-nav, CyberOps first/featured, `max-w-6xl`, Resume moved into certs "Career" section (removed from top nav)
+- ✅ **Content formatting** — `RichText.tsx` renders backtick `` `code` `` → cyan mono pills and `'single-quoted'` → restrained amber pills; `RichParagraph` lead colors chilled (sky/pink 80%); bulleted-with-dialogue reformat begun on tech-audit-3 (audit-a07/a01) — see `CONTENT_REFORMAT.md`
+
 ## What's Shipped (v1.22.0)
 
 - ✅ **quantum-4 epoch — Quantum Risk Management** (10 CTF stages, quantum-d01..d10, emerald): CBOM / Cryptographic Bill of Materials, Harvest Now Decrypt Later (HNDL) threat assessment, NIST FIPS 203/204/205 deployment, CNSA 2.0 NSS mandate, CISA migration roadmap (5-phase), sector risk (finance/healthcare/SCADA/blockchain), board briefing + SEC disclosure, hybrid cryptography (X25519+ML-KEM-768), quantum-safe architecture (crypto agility, Let's Encrypt model), third-party quantum supply chain risk
@@ -335,7 +343,7 @@ Local dev: `.env.local` in `app/` (gitignored).
 ## What's Shipped (v1.19.0)
 
 - ✅ Docs full refresh — CLAUDE.md corrected to v1.18.1 facts; RELEASE_NOTES recovered 6 missing versions (v1.12.1 through v1.18.1)
-- ✅ Elementary redesign — all 30 bt-01..bt-30 stages rewritten for ages 5–10 (Junior Cyber Agent Academy theme)
+- ⚠️ Elementary redesign — logged as shipped in error; bt-01..bt-30 remain HS/adult-level and still need the ages 5–10 rewrite (open — see Genuine Remaining Work)
 - ✅ Network+ N10-009 and CySA+ CS0-003 cert paths added to /certs; all security stages remapped
 - ✅ Deep security review — CSPRNG fix, survey payload size limit, harsh VC assessment v3.0
 - ✅ All-star tier removed from admin panel and tier logic
@@ -426,7 +434,7 @@ Local dev: `.env.local` in `app/` (gitignored).
 
 ## Genuine Remaining Work
 
-1. **Elementary section redesign** — bt-01–bt-30 content too advanced for 5-10 yr olds; needs kid-friendly rewrite (TODO item A — in progress)
+1. **Elementary section redesign** — bt-01–bt-30 content too advanced for 5-10 yr olds; needs kid-friendly rewrite (TODO item A — open, not started)
 
 ---
 

@@ -1,6 +1,6 @@
 # Kryptós CronOS — The Pitch
 **May 2026 | For people who get it**
-**Last updated: 2026-05-29 (v1.22.0)**
+**Last updated: 2026-05-30 (v1.23.0)**
 
 ---
 

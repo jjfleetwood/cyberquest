@@ -138,6 +138,22 @@ const PATTERNS: PatternDef[] = [
       <span className="text-gray-300 font-medium">{m}</span>
     ),
   },
+
+  // ── Backtick code spans — cyan monospace pill ────────────────────────────
+  {
+    regex: /`([^`]+)`/g,
+    render: (_m, g) => (
+      <span className="text-cyan-200 font-mono text-[0.85em] bg-cyan-400/10 px-1 rounded">{g[1]}</span>
+    ),
+  },
+
+  // ── Single-quoted terms — amber pill (contraction-safe: not after a letter) ─
+  {
+    regex: /(?<![A-Za-z])'([^']{2,80})'(?=[\s.,;:!?)]|$)/g,
+    render: (m) => (
+      <span className="text-amber-300 font-semibold bg-amber-400/10 px-1 rounded">{m}</span>
+    ),
+  },
 ];
 
 // ── Tokeniser ─────────────────────────────────────────────────────────────────

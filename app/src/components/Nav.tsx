@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Logo from "@/components/Logo";
 import { useEffect, useRef, useState } from "react";
 import { getSession, clearSession, setSession } from "@/lib/auth";
 import { useRouter, usePathname } from "next/navigation";
@@ -81,7 +82,7 @@ export default function Nav() {
     >
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-2xl">🛡️</span>
+          <Logo size={30} />
           <span className="text-white font-bold text-lg tracking-tight">
             Kryptós <span className="text-cyan-400">CronOS</span>
           </span>
@@ -91,6 +92,7 @@ export default function Nav() {
         <nav className="hidden md:flex items-center gap-6 text-sm">
           {[
             { href: "/stages", label: t("nav.stages") },
+            { href: "/certs", label: t("nav.certs", "Certs") },
             { href: "/journey", label: t("nav.journey") },
             { href: "/leaderboard", label: t("nav.leaderboard") },
           ].map(({ href, label }) => (
@@ -229,6 +231,7 @@ export default function Nav() {
         >
           {[
             { href: "/stages", label: `🗺️ ${t("nav.stages")}` },
+            { href: "/certs", label: `📜 ${t("nav.certs", "Certs")}` },
             { href: "/journey", label: `🌍 ${t("nav.journey")}` },
             { href: "/leaderboard", label: `🏆 ${t("nav.leaderboard")}` },
           ].map(({ href, label }) => (

@@ -92,10 +92,14 @@ export default function EpochPage() {
   const epochStages = filterStagesByGroup(allEpochStages, groups);
   const accent = epochAccent[epochId] ?? epochAccent.ancient;
   const contentFlag = getContentFlag(epochId);
-  // A stage counts as "done for progression" once it's at least half cleared (quiz)
-  // or fully cleared (CTF). quizStages only ever holds dual-mode half-completions.
+  // Quiz half-clears only advance progression in audit epochs, where the quiz is an
+  // accepted alternate clear. Everywhere else only the CTF (full clear) counts toward
+  // the progress bar and the next-stage pointer — a quiz half is cosmetic (amber card
+  // marker) and never fills the bar or unlocks the next stage. This mirrors the unlock
+  // gate in canAccessStage so display and gating can't disagree.
+  const isAuditEpoch = epochId.startsWith("tech-audit-");
   const doneForProgression = (id: string) =>
-    completedStages.includes(id) || quizCompletedStages.includes(id);
+    completedStages.includes(id) || (isAuditEpoch && quizCompletedStages.includes(id));
   const doneCount = epochStages.filter((s) => doneForProgression(s.id)).length;
   const nextStageId = epochStages.find((s) => !doneForProgression(s.id))?.id ?? null;
 

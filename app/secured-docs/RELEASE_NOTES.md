@@ -2,6 +2,18 @@
 
 ---
 
+## v1.23.0 — 2026-05-30
+
+**Every CTF stage is now dual-mode (Quiz + CTF) + brand & homepage refresh**
+
+- **Dual-mode quiz rollout — COMPLETE (203/203 CTF stages).** Every `challengeType: "ctf"` stage now ships an 8-question multiple-choice `stage.quiz` alongside its CTF, so learners can choose Quiz mode (cosmetic half-clear, 0 XP, no unlock) or CTF mode (full clear). This release authored and shipped the final 69 stages: quantum-3 (QKD, c01–c10), quantum-4 (quantum risk mgmt, d01–d10), cisco-2 (m13–m25), cisco-3 (m26/m28/m30), cisco-4 (m34/m36/m37), cisco-5 (m39/m41/m42/m44/m46/m48/m50), umbrella (01–10), and the ancient foundations set in stages.ts (stage-01–12 + stage-m12). Each quiz is grounded in the stage's real content + the `ctf-quiz-data.json` fact bank, authored via the idempotent `scripts/inject-quizzes.mjs` injector.
+- **New brand logo** — replaced the 🛡️ emoji with a guilloché watch-dial mark (`Logo.tsx`): cyan→indigo gradient hands reading 4:21, dark-purple outer ring + cyan bezel, 60 minute ticks and a 6-o'clock subdial. Applied in Nav, footer, login, onboarding, and as the favicon (`icon.svg`). Uses `gradientUnits="userSpaceOnUse"` so gradients paint correctly on line elements.
+- **Playable homepage hero** — `HomeCtfDemo.tsx`: an interactive mini-CTF terminal (ls → cat vault.lock → submit FLAG{…}) with a `hint` command and suggestion chips, replacing the static terminal animation. Success CTA routes to /login.
+- **Certs page UX** — added a sticky left-sidebar jump-nav (like /admin), made CyberOps the first/featured card, widened to `max-w-6xl`, and moved the Resume builder link into a "Career" section in the certs menu (removed from the top nav).
+- **Content formatting** — `RichText.tsx` now renders backtick `` `code` `` as cyan monospace pills and `'single-quoted'` terms as restrained amber pills; `RichParagraph` lead colors chilled (sky/pink at 80% opacity). Briefing-section reformat to bulleted-with-dialogue begun on tech-audit-3 (audit-a07, audit-a01).
+
+---
+
 ## v1.22.0 — 2026-05-29
 
 **Two new epochs: Quantum Risk Management + Emerging Tech & Deep Learning Risk (20 stages, 458 total)**
@@ -40,7 +52,7 @@
 **Docs refresh + elementary redesign + cert expansion + security audit**
 
 - **Docs full refresh** — CLAUDE.md corrected to v1.18.1 facts (epoch count, stage count, cert paths, Stripe, i18n); RELEASE_NOTES recovered 6 missing versions (v1.12.1 through v1.18.1)
-- **Elementary redesign** — all 30 bt-01..bt-30 stages rewritten for ages 5–10: "Junior Cyber Agent Academy" theme, age-appropriate scenarios, simplified CTF terminals, kid-friendly writing
+- **Elementary redesign — DEFERRED (logged in error):** this entry originally claimed the bt-01..bt-30 rewrite shipped, but the stages remain at high-school/adult reading level. The ages 5–10 "Junior Cyber Agent Academy" rewrite was not completed and is still open as item A in TODO.md.
 - **cert expansion** — CompTIA Network+ N10-009 (5 domains) and CySA+ CS0-003 (4 domains) added to /certs; all security stages remapped across Security+, ISC² CC, Network+, CySA+
 - **Deep security review** — CSPRNG fix: replaced `Math.random()` with `crypto.getRandomValues()` in voucher/session generation; survey JSON payload size limit added (50KB); removed emergency admin bypass in login rate limit
 - **Harsh VC assessment v3.0** — updated VC_READINESS_ANALYSIS.md with candid strengths/weaknesses; all-star tier removed from admin panel and `getUserTier()` logic

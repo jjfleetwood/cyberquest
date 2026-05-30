@@ -582,12 +582,17 @@ export default function CertsPage() {
     }).finally(() => setLoading(false));
   }, []);
 
+  const navItems = [
+    { id: "cyberops", label: "Cisco CyberOps", emoji: "🎓" },
+    ...CERTS.map((c) => ({ id: c.id, label: c.name, emoji: c.emoji })),
+  ];
+
   return (
     <div
       className="min-h-screen px-4 py-10"
       style={{ background: "linear-gradient(135deg, #0d1117 0%, #0a0e1a 100%)" }}
     >
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-6xl mx-auto">
 
         <Link href="/stages" className="text-gray-500 hover:text-indigo-400 text-sm mb-6 inline-block transition-colors">
           ← Stage Map
@@ -604,30 +609,89 @@ export default function CertsPage() {
           <p className="text-gray-400 leading-relaxed max-w-2xl">
             Track your readiness for four industry-leading certifications. Every stage you complete maps
             to real exam domains — see exactly where you stand and which stages to tackle next.
-            Also check the <Link href="/cyberops" className="text-cyan-400 hover:text-cyan-300 transition-colors">CyberOps Associate tracker</Link> for the Cisco-specific path.
+            Also check the <Link href="/cyberops" className="text-cyan-400 hover:text-cyan-300 transition-colors">CyberOps Associate tracker</Link> for the Cisco-specific path, or build a <Link href="/resume" className="text-cyan-400 hover:text-cyan-300 transition-colors">resume</Link> from your completed stages.
           </p>
         </div>
 
-        <PathGuide />
+        <div className="flex gap-8 items-start">
+          {/* Left sidebar — jump nav (like /admin) */}
+          <aside className="hidden lg:block w-52 flex-shrink-0 sticky top-20">
+            <p className="text-[10px] font-mono uppercase tracking-widest text-gray-600 mb-3 px-3">Certifications</p>
+            <nav className="space-y-0.5">
+              {navItems.map(({ id, label, emoji }) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                >
+                  <span className="flex-shrink-0">{emoji}</span>
+                  <span className="truncate">{label}</span>
+                </a>
+              ))}
+            </nav>
+            <div className="mt-4 pt-3 border-t border-white/5">
+              <p className="text-[10px] font-mono uppercase tracking-widest text-gray-600 mb-3 px-3">Career</p>
+              <Link href="/resume" className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                <span className="flex-shrink-0">📄</span>
+                <span className="truncate">Resume Builder</span>
+              </Link>
+            </div>
+          </aside>
 
-        {/* 2-column grid: Network+ and Security+ on top, CC and CySA+ below */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {CERTS.map((cert) => (
-            <CertCard
-              key={cert.id}
-              cert={cert}
-              completedIds={completedIds}
-              loading={loading}
-              username={username}
-            />
-          ))}
+          {/* Main column */}
+          <div className="flex-1 min-w-0">
+            <PathGuide />
+
+            {/* CyberOps — featured first */}
+            <div id="cyberops" className="scroll-mt-24 mb-6 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-6">
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div className="min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <span className="text-2xl">🎓</span>
+                    <h2 className="text-xl font-black text-white">Cisco CyberOps Associate</h2>
+                    <span className="text-xs font-mono px-2 py-0.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">CBROPS 200-201</span>
+                  </div>
+                  <p className="text-gray-400 text-sm max-w-xl leading-relaxed">
+                    The SOC-analyst entry cert — security monitoring, host and network intrusion analysis,
+                    and incident response. Your Cisco, Umbrella, and threat-framework stages map to its five exam domains.
+                  </p>
+                  <div className="flex flex-wrap items-center gap-2 mt-3 text-xs text-gray-500">
+                    <span>💼 $60k–$95k</span><span className="text-gray-700">·</span>
+                    <span>⏱ 50–70 hrs</span><span className="text-gray-700">·</span>
+                    <span>5 exam domains</span>
+                  </div>
+                </div>
+                <Link
+                  href="/cyberops"
+                  className="flex-shrink-0 px-5 py-2.5 rounded-xl text-sm font-bold text-black transition-all hover:scale-105"
+                  style={{ background: "linear-gradient(90deg, #22d3ee, #818cf8)" }}
+                >
+                  Open the CyberOps tracker →
+                </Link>
+              </div>
+            </div>
+
+            {/* Certification cards */}
+            <div className="grid grid-cols-1 2xl:grid-cols-2 gap-6">
+              {CERTS.map((cert) => (
+                <div key={cert.id} id={cert.id} className="scroll-mt-24">
+                  <CertCard
+                    cert={cert}
+                    completedIds={completedIds}
+                    loading={loading}
+                    username={username}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <p className="mt-8 text-center text-gray-700 text-xs leading-relaxed">
+              Stage-to-domain mappings reflect official exam blueprints (SY0-701, N10-009, CS0-003, CC v1.0).
+              Completing all mapped stages does not guarantee exam passage — use this as a readiness guide alongside
+              official study materials and practice exams.
+            </p>
+          </div>
         </div>
-
-        <p className="mt-8 text-center text-gray-700 text-xs leading-relaxed">
-          Stage-to-domain mappings reflect official exam blueprints (SY0-701, N10-009, CS0-003, CC v1.0).
-          Completing all mapped stages does not guarantee exam passage — use this as a readiness guide alongside
-          official study materials and practice exams.
-        </p>
       </div>
     </div>
   );
