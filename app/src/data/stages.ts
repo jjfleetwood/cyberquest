@@ -5954,6 +5954,405 @@ curl -X POST http://HX_NODE_IP/hxinstall/install \
         { title: "CVE-2021-1497 — NVD Detail", url: "https://nvd.nist.gov/vuln/detail/CVE-2021-1497" },
       ],
     },
+    quiz: {
+      questions: [
+        {
+          id: "stage-m07-q1",
+          type: "CVE-2021-1497",
+          challenge: `  A HyperFlex install API takes a pkg_url value and runs
+  it inside a shell command; adding a semicolon causes the
+  rest of the input to execute as a separate command.`,
+          text: "What class of vulnerability is this?",
+          options: [
+            "Path traversal",
+            "OS command injection — unsanitized input is concatenated into a shell command",
+            "Cross-site scripting",
+            "Insecure deserialization",
+          ],
+          correctIndex: 1,
+          explanation:
+            "CVE-2021-1497 is OS command injection: user input (pkg_url) is placed into a shell string, so shell metacharacters like ; let an attacker run arbitrary commands.",
+        },
+        {
+          id: "stage-m07-q2",
+          type: "Endpoint",
+          challenge: `  An analyst wants the specific API path that processed the
+  malicious package URL.`,
+          text: "Which endpoint was vulnerable?",
+          options: [
+            "/admin/login",
+            "/hxinstall/install",
+            "/api/v2/storage",
+            "/cgi-bin/status",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The cluster installation API at /hxinstall/install accepted the pkg_url parameter and passed it to a shell, making it the injection point.",
+        },
+        {
+          id: "stage-m07-q3",
+          type: "Injected character",
+          challenge: `  The attacker appends a single shell metacharacter to a
+  valid URL to break out of the intended command.`,
+          text: "Which character terminates the curl command and starts a new one?",
+          options: [
+            "A semicolon ( ; )",
+            "An at-sign ( @ )",
+            "A percent sign ( % )",
+            "A hash ( # )",
+          ],
+          correctIndex: 0,
+          explanation:
+            "A semicolon is a shell command separator. `curl -k <url>;id` runs curl, then runs id as a second command — the essence of the injection.",
+        },
+        {
+          id: "stage-m07-q4",
+          type: "Privilege",
+          challenge: `  A defender asks what privileges the injected command
+  runs with.`,
+          text: "As which user do the injected commands execute?",
+          options: [
+            "A sandboxed low-privilege web user",
+            "root — the hxinstall process runs as root",
+            "Guest, with no filesystem access",
+            "A read-only service account",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The installation process ran as root, so injected commands inherited root — turning a single request into full control of the node.",
+        },
+        {
+          id: "stage-m07-q5",
+          type: "Auth",
+          challenge: `  The team scopes how much access an attacker needs to
+  trigger CVE-2021-1497.`,
+          text: "What authentication is required?",
+          options: [
+            "Valid cluster admin credentials",
+            "None — the API call is unauthenticated",
+            "A signed installation token",
+            "vCenter administrator rights",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The install API required no authentication; any caller able to reach it on the network could inject commands.",
+        },
+        {
+          id: "stage-m07-q6",
+          type: "Root cause",
+          challenge: `  Researchers traced all three related CVEs to one coding
+  anti-pattern.`,
+          text: "What is the underlying anti-pattern?",
+          options: [
+            "Using HTTPS without certificate pinning",
+            "Python subprocess calls with shell=True and user-supplied input",
+            "Storing passwords in plaintext",
+            "Disabling CSRF tokens",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The shared root cause was subprocess invocation with shell=True passing unsanitized user input — an explicitly documented Python security anti-pattern.",
+        },
+        {
+          id: "stage-m07-q7",
+          type: "Secure fix",
+          challenge: `  A developer rewrites the vulnerable call to remove the
+  injection entirely.`,
+          text: "Which approach most directly prevents shell injection?",
+          options: [
+            "Escape only spaces in the input",
+            "Use shell=False with an argument list (or a proper API), never building a shell string from input",
+            "Run the same command but as a non-root user",
+            "Add a regex that strips the word 'rm'",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Passing arguments as a list with shell=False (or using a library API) means the OS never interprets metacharacters in the input — the only robust fix. Blocklists and escaping are fragile.",
+        },
+        {
+          id: "stage-m07-q8",
+          type: "Related CVEs",
+          challenge: `  Cisco disclosed CVE-2021-1496, 1497, and 1498 together.`,
+          text: "What did the three CVEs have in common?",
+          options: [
+            "They were all in the web login page",
+            "They all affected the install/management API and shared the command-injection root cause",
+            "They were all denial-of-service only",
+            "They each required a different valid credential",
+          ],
+          correctIndex: 1,
+          explanation:
+            "All three were command-injection flaws in the HyperFlex installation/management component, differing only in endpoint/parameter but sharing the shell=True root cause.",
+        },
+        {
+          id: "stage-m07-q9",
+          type: "Platform impact",
+          challenge: `  An architect explains why root on one HyperFlex node is
+  so consequential.`,
+          text: "What does HyperFlex converge into a single platform?",
+          options: [
+            "Only network switching",
+            "Compute (ESXi VMs), storage (distributed filesystem), and networking",
+            "Only email and calendaring",
+            "Only backup tape management",
+          ],
+          correctIndex: 1,
+          explanation:
+            "HyperFlex is hyperconverged — compute, storage, and networking on one stack. Root on a node reaches the hypervisor, all its VMs, and the shared storage fabric.",
+        },
+        {
+          id: "stage-m07-q10",
+          type: "VM access",
+          challenge: `  With root on the hypervisor an attacker enumerates guest
+  virtual machines.`,
+          text: "Which capability does hypervisor root grant over guests?",
+          options: [
+            "None — guests are fully isolated from the host root",
+            "List, pause, snapshot, and read the disk images and memory of all hosted VMs",
+            "Only the ability to reboot the host",
+            "Only read access to the host's NTP config",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Root on the hypervisor can manage every guest: listing, pausing, snapshotting, and attaching to VM disk images and memory — full access to the workloads it hosts.",
+        },
+        {
+          id: "stage-m07-q11",
+          type: "Ransomware",
+          challenge: `  A CISO models the worst-case outcome for a ransomware
+  operator who reaches a HyperFlex cluster.`,
+          text: "Why is hyperconverged infrastructure a 'ransomware multiplier'?",
+          options: [
+            "It automatically restores from backup, so impact is low",
+            "Encrypting the shared storage fabric denies data to every VM on the cluster at once",
+            "It only affects a single test VM",
+            "Ransomware cannot run on Linux-based nodes",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Because all VMs share the storage fabric, encrypting it takes down every workload on every node simultaneously — maximum impact from a single foothold.",
+        },
+        {
+          id: "stage-m07-q12",
+          type: "Threat model",
+          challenge: `  The management network for HyperFlex is usually internal,
+  not internet-facing.`,
+          text: "How is CVE-2021-1497 most realistically exploited?",
+          options: [
+            "As a drive-by from the public internet only",
+            "As an insider threat or post-breach lateral movement from a reachable internal network",
+            "Only with physical console access",
+            "Only through a malicious USB device",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The management API sits on internal VLANs reachable from admin workstations and tooling. The realistic path is an insider or an attacker who already has an internal foothold pivoting to it.",
+        },
+        {
+          id: "stage-m07-q13",
+          type: "CVSS",
+          challenge: `  Cisco scored CVE-2021-1497 at 9.8.`,
+          text: "What does a 9.8 (vs a 10.0) most commonly reflect here?",
+          options: [
+            "It is a trivial, low-impact issue",
+            "Critical severity — unauthenticated network RCE with full impact, just short of the 10.0 maximum",
+            "It requires high privileges and physical access",
+            "It only affects availability",
+          ],
+          correctIndex: 1,
+          explanation:
+            "9.8 is critical: unauthenticated, network-reachable, full confidentiality/integrity/availability impact. It is treated with the same emergency urgency as a 10.0.",
+        },
+        {
+          id: "stage-m07-q14",
+          type: "Patch",
+          challenge: `  The remediation owner needs the fixed HyperFlex versions.`,
+          text: "Which releases address the HyperFlex injection CVEs?",
+          options: [
+            "HX 3.0(1a) only",
+            "HyperFlex HX 4.0(2d) / 4.5(1a) or later",
+            "No fix was released",
+            "Any 2.x release",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Cisco fixed the flaws in HyperFlex 4.0(2d) and 4.5(1a), which replaced the shell invocations with calls that never pass user input to a shell.",
+        },
+        {
+          id: "stage-m07-q15",
+          type: "Network control",
+          challenge: `  Before patching completes, the team adds a compensating
+  control.`,
+          text: "What network-level mitigation is recommended?",
+          options: [
+            "Open the management API to all VLANs for easier patching",
+            "Restrict the install/management API to a dedicated provisioning VLAN no user workstation can reach",
+            "Move the API to the guest Wi-Fi",
+            "Expose it to the internet behind a longer password",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Isolating the management/provisioning API to a dedicated VLAN unreachable from user workstations removes the network path an attacker would use.",
+        },
+        {
+          id: "stage-m07-q16",
+          type: "Design lesson",
+          challenge: `  Reviewers note the install API was never security-reviewed
+  because it was 'only for setup'.`,
+          text: "What design lesson does this carry?",
+          options: [
+            "Setup-only APIs need no review because they run in trusted environments",
+            "Provisioning/installation APIs need the same security review as production APIs — 'internal-only' is not a control",
+            "APIs should never require authentication",
+            "Only internet-facing code needs review",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The flawed assumption was that 'initial setup' code runs in a trusted environment. Installation and provisioning APIs are reachable and must be reviewed like any production surface.",
+        },
+        {
+          id: "stage-m07-q17",
+          type: "Detection",
+          challenge: `  A SOC engineer writes a detection for exploitation
+  attempts.`,
+          text: "Which signal is most useful?",
+          options: [
+            "CPU fan speed on the HX node",
+            "hxinstall logs showing pkg_url values containing ; | && or backticks, plus unexpected outbound connections from the management IP",
+            "The number of VMs powered on",
+            "DNS TTL values on the storage VLAN",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Look for shell metacharacters in pkg_url within hxinstall logs and for anomalous outbound traffic from the HyperFlex management IP — both indicate injection and post-exploitation.",
+        },
+        {
+          id: "stage-m07-q18",
+          type: "Sensitive data",
+          challenge: `  After gaining root, an attacker reads raw block devices on
+  the storage fabric.`,
+          text: "Why is direct storage-fabric access especially dangerous?",
+          options: [
+            "It only exposes the OS boot logo",
+            "Raw block devices map to VM disk images — including unencrypted databases and backups",
+            "Block devices contain only random noise",
+            "Storage is always encrypted at rest, so reads are useless",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The block devices correspond to VM virtual disks. Reading them directly can expose unencrypted database files, backups, and AD data without ever logging into a guest.",
+        },
+        {
+          id: "stage-m07-q19",
+          type: "Sector risk",
+          challenge: `  HyperFlex is widely deployed in regulated industries.`,
+          text: "Which workloads make this CVE particularly high-impact?",
+          options: [
+            "Only public marketing websites",
+            "Healthcare patient records/PACS imaging, financial trading and account databases, government workloads",
+            "Only home lab environments",
+            "Only printer spoolers",
+          ],
+          correctIndex: 1,
+          explanation:
+            "HyperFlex runs high-availability workloads in healthcare, finance, and government — exactly where a single-node compromise has the largest regulatory and operational consequences.",
+        },
+        {
+          id: "stage-m07-q20",
+          type: "Secure coding",
+          challenge: `  A team audits its own infrastructure-automation code after
+  reading about CVE-2021-1497.`,
+          text: "What is the right systematic action?",
+          options: [
+            "Assume internal tools are safe and skip the review",
+            "Review all subprocess/exec calls for shell injection and fix them before deployment",
+            "Only review code that is internet-facing",
+            "Replace Python with a different language",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The durable practice is to audit every subprocess/exec call that touches external input — regardless of where it runs — and remediate before shipping.",
+        },
+        {
+          id: "stage-m07-q21",
+          type: "Defense in depth",
+          challenge: `  An architect wants layers so one injection bug is not
+  catastrophic.`,
+          text: "Which combination best limits HyperFlex exposure?",
+          options: [
+            "A longer admin password only",
+            "Provisioning-VLAN isolation + least-privilege service accounts + prompt patching + monitoring of the management API",
+            "Disabling logging to reduce alert noise",
+            "Exposing the API publicly for convenience",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Network isolation, least privilege (so install code need not be root), fast patching, and monitoring together ensure a single appliance flaw is not an instant cluster takeover.",
+        },
+        {
+          id: "stage-m07-q22",
+          type: "Contrast",
+          challenge: `  A student compares CVE-2021-1497 (HyperFlex) with
+  CVE-2022-20695 (WLC auth bypass).`,
+          text: "What is the key difference in the initial primitive?",
+          options: [
+            "Both are pure authentication bypasses",
+            "1497 is command injection yielding root code execution; 20695 is an auth bypass yielding an admin session",
+            "Both only read files",
+            "Neither leads to code execution",
+          ],
+          correctIndex: 1,
+          explanation:
+            "CVE-2021-1497 gives direct root command execution via injection; CVE-2022-20695 grants an authenticated admin session by bypassing the login check. Different primitives, both critical.",
+        },
+        {
+          id: "stage-m07-q23",
+          type: "Persistence window",
+          challenge: `  An organization never applied the HyperFlex patch.`,
+          text: "How long does the exposure realistically last?",
+          options: [
+            "It auto-resolves after one reboot",
+            "As long as the unpatched management API remains reachable — potentially years",
+            "Exactly 30 days, then it expires",
+            "Only while an admin is actively logged in",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Without patching or isolation, the vulnerable API stays exploitable indefinitely. Infrastructure appliances are often left unpatched for years, extending the window.",
+        },
+        {
+          id: "stage-m07-q24",
+          type: "Scope",
+          challenge: `  A reviewer states precisely what CVE-2021-1497 grants on
+  its own.`,
+          text: "Which statement is most accurate?",
+          options: [
+            "It only lists installed packages",
+            "It grants unauthenticated arbitrary command execution as root on the HyperFlex node",
+            "It requires a second exploit to gain any code execution",
+            "It only causes a temporary service restart",
+          ],
+          correctIndex: 1,
+          explanation:
+            "By itself the flaw yields unauthenticated root command execution on the node — the highest-impact primitive, from which cluster-wide compromise follows.",
+        },
+        {
+          id: "stage-m07-q25",
+          type: "Principle",
+          challenge: `  A CISO writes the one-line takeaway for the board.`,
+          text: "Which best captures the CVE-2021-1497 lesson?",
+          options: [
+            "Internal setup APIs are safe and need no hardening",
+            "Never build shell commands from user input, review provisioning APIs like production, and isolate hyperconverged management planes — one node equals the whole cluster",
+            "Command injection only matters on public websites",
+            "Root services are acceptable as long as they are internal",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The durable lesson: user input must never reach a shell, 'internal-only' is not a security boundary, and hyperconverged management planes are tier-0 — a single node compromise can mean total cluster loss.",
+        },
+      ],
+    },
     ctf: {
       scenario: "Cisco HyperFlex — the hyperconverged infrastructure platform managing enterprise data center compute, storage, and networking — was disclosed with a CVSS 9.8 command injection in May 2021. The provisioning API passes a URL parameter directly to a shell command without sanitizing special characters. Unauthenticated. Root on the node. For APT groups targeting data center infrastructure, this is the kind of access ransomware deployments and long-term implants are built on. Inject through the URL parameter.",
       hint: "The provisioning API passes the URL parameter to a shell command. Append your own command after a semicolon — both will execute.",
