@@ -219,6 +219,19 @@ export default function EpochPage() {
           </Link>
         )}
 
+        {/* DMV practice-test banner — shown on driving epochs */}
+        {epochId.startsWith("driving-") && (
+          <Link href="/exam/dmv"
+            className="flex items-center gap-3 bg-yellow-500/6 border border-yellow-500/25 rounded-xl px-4 py-3 mb-6 hover:border-yellow-400/50 hover:bg-yellow-500/10 transition-colors group">
+            <span className="text-xl flex-shrink-0">📝</span>
+            <div className="flex-1 min-w-0">
+              <p className="text-yellow-300 font-semibold text-sm">DMV Practice Test</p>
+              <p className="text-gray-500 text-xs">A timed, randomized knowledge exam drawn from every driving lesson — different every attempt →</p>
+            </div>
+            <span className="text-yellow-600 group-hover:text-yellow-400 text-sm flex-shrink-0 transition-colors">→</span>
+          </Link>
+        )}
+
         {/* Attribution banner */}
         {contentFlag && contentFlag.risk !== "verified-safe" && (
           <div className="flex items-start gap-3 bg-amber-500/5 border border-amber-500/20 rounded-xl px-4 py-3 mb-6 text-xs text-amber-200/60">

@@ -487,15 +487,23 @@ function CertCard({
             ? `${totalCompleted} of ${totalMapped} stages completed`
             : "Sign in to track your readiness"}
         </p>
-        <a
-          href={cert.examUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-105 border"
-          style={{ borderColor: cert.ringColor + "60", background: cert.ringColor + "20", color: cert.ringColor }}
-        >
-          Register →
-        </a>
+        <div className="flex-shrink-0 flex items-center gap-2">
+          <Link
+            href={`/exam/cert/${cert.id}`}
+            className="px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-105 border border-white/15 bg-white/5 text-gray-200 hover:bg-white/10"
+          >
+            📝 Practice Exam
+          </Link>
+          <a
+            href={cert.examUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-105 border"
+            style={{ borderColor: cert.ringColor + "60", background: cert.ringColor + "20", color: cert.ringColor }}
+          >
+            Register →
+          </a>
+        </div>
       </div>
 
       {/* Domain breakdown accordion */}
