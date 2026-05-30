@@ -7102,6 +7102,400 @@ find /opt/CSCOlumos/tomcat -name "*.jsp" -newer /opt/CSCOlumos/tomcat/webapps/RO
         { title: "CVE-2019-1821 — NVD Detail", url: "https://nvd.nist.gov/vuln/detail/CVE-2019-1821" },
       ],
     },
+    quiz: {
+      questions: [
+        {
+          id: "stage-m09-q1",
+          type: "CVE-2019-1821",
+          challenge: `  An attacker POSTs a .jsp file to a Prime Infrastructure
+  health endpoint with no credentials; browsing to it runs
+  the file as root.`,
+          text: "What class of vulnerability is this?",
+          options: [
+            "Unrestricted/unauthenticated file upload leading to remote code execution",
+            "SQL injection",
+            "Cross-site scripting",
+            "Open redirect",
+          ],
+          correctIndex: 0,
+          explanation:
+            "CVE-2019-1821 is an unauthenticated file-upload-to-RCE flaw: an executable JSP is uploaded without auth into a Tomcat-served directory and then executed.",
+        },
+        {
+          id: "stage-m09-q2",
+          type: "Endpoint",
+          challenge: `  An analyst wants the specific API path that accepted the
+  malicious upload.`,
+          text: "Which endpoint processed the upload?",
+          options: [
+            "/admin/login",
+            "/pi/health/v1/health (port 8082)",
+            "/webui/dashboard",
+            "/api/v2/config",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The health monitoring endpoint /pi/health/v1/health accepted multipart uploads without authentication, making it the entry point.",
+        },
+        {
+          id: "stage-m09-q3",
+          type: "Auth",
+          challenge: `  A defender scopes how much access the attacker needs.`,
+          text: "What authentication was required to upload?",
+          options: [
+            "Valid Prime Infrastructure admin credentials",
+            "None — the upload endpoint performed no authentication check",
+            "An API token issued by Cisco",
+            "Physical console access",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The endpoint executed the upload with no authentication, so any caller able to reach the server could place a web shell.",
+        },
+        {
+          id: "stage-m09-q4",
+          type: "Execution",
+          challenge: `  The uploaded file ends in .jsp and is written to a
+  directory served by the app server.`,
+          text: "Why does the .jsp extension matter?",
+          options: [
+            "It is rejected by Tomcat automatically",
+            "Tomcat processes .jsp files as JavaServer Pages and executes them",
+            "It is treated as a static image",
+            "It only renders as plain text",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Apache Tomcat compiles and runs .jsp files as code. Writing one into a served directory and requesting it executes the attacker's logic server-side.",
+        },
+        {
+          id: "stage-m09-q5",
+          type: "Privilege",
+          challenge: `  The web shell runs commands and returns uid=0(root).`,
+          text: "As which user does the JSP execute?",
+          options: [
+            "A sandboxed low-privilege web user",
+            "root — the Tomcat process running Prime Infrastructure runs as root",
+            "An anonymous guest with no filesystem access",
+            "A read-only service account",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Tomcat ran as root, so the JSP shell inherited root — full OS control with no separate privilege escalation needed.",
+        },
+        {
+          id: "stage-m09-q6",
+          type: "Platform role",
+          challenge: `  A CISO asks why one compromised server is so consequential.`,
+          text: "What is Cisco Prime Infrastructure's role?",
+          options: [
+            "A single end-user laptop agent",
+            "The network management platform that monitors and configures thousands of Cisco devices from one console",
+            "A guest captive-portal server",
+            "An email relay",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Prime Infrastructure is the management plane — it monitors and pushes config to thousands of routers, switches, and APs, so compromising it reaches the whole network.",
+        },
+        {
+          id: "stage-m09-q7",
+          type: "Credential store",
+          challenge: `  After gaining root, an attacker locates the managed-device
+  credential database.`,
+          text: "What does that database contain?",
+          options: [
+            "Only public SNMP MIB definitions",
+            "SSH credentials, SNMP community strings, and RADIUS secrets for every managed device",
+            "Only the web UI theme settings",
+            "Nothing sensitive",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Prime Infrastructure stores management credentials (SSH, SNMP, RADIUS) for all managed devices — the crown jewels that enable network-wide access.",
+        },
+        {
+          id: "stage-m09-q8",
+          type: "Decryption",
+          challenge: `  The credential store is encrypted, yet the attacker still
+  reads it.`,
+          text: "Why does encryption-at-rest fail to protect it here?",
+          options: [
+            "The data is not really encrypted",
+            "The site-specific decryption key is stored on the same server the attacker now controls",
+            "Tomcat decrypts it for any web request",
+            "The key is printed on the device label",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The decryption key lived on the same server. With root, the attacker holds both ciphertext and key — encryption-at-rest provides no protection against host compromise.",
+        },
+        {
+          id: "stage-m09-q9",
+          type: "Silent access",
+          challenge: `  An attacker uses the stolen credentials against managed
+  devices.`,
+          text: "Why does this generate no authentication alerts on those devices?",
+          options: [
+            "Because the devices have logging disabled by default",
+            "The traffic looks like normal management activity from the Prime Infrastructure server's IP using valid credentials",
+            "Because SSH never logs anything",
+            "Because the credentials are one-time-use",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Valid credentials used from the expected management source appear as routine management traffic, so managed devices raise no alerts — the access is effectively silent.",
+        },
+        {
+          id: "stage-m09-q10",
+          type: "Blast radius",
+          challenge: `  A CISO frames the impact in business terms.`,
+          text: "What does control of Prime Infrastructure enable?",
+          options: [
+            "Reading one router's uptime",
+            "Pushing config changes to all managed devices at once — backdoor accounts, ACL changes, disabling logging — without touching each device",
+            "Only changing the console banner",
+            "Nothing beyond the PI server itself",
+          ],
+          correctIndex: 1,
+          explanation:
+            "From PI, an attacker can push simultaneous changes across thousands of devices — creating backdoors, altering ACLs, and disabling logging — with full, silent network visibility.",
+        },
+        {
+          id: "stage-m09-q11",
+          type: "Root cause",
+          challenge: `  A developer reviews why the upload succeeded without
+  credentials.`,
+          text: "What is the core coding failure?",
+          options: [
+            "The endpoint logged too much",
+            "A file-upload endpoint that did not authenticate each request and allowed executable file types into a served directory",
+            "An overly strong password policy",
+            "Excessive TLS cipher suites",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The endpoint failed to authenticate the request and allowed an executable (.jsp) to land where Tomcat would run it — two compounding upload-security failures.",
+        },
+        {
+          id: "stage-m09-q12",
+          type: "Secure fix",
+          challenge: `  The team hardens the upload functionality.`,
+          text: "Which controls best prevent this class of upload RCE?",
+          options: [
+            "Authenticate every upload request + allowlist non-executable types + store uploads outside any web-served/executable path",
+            "Rename .jsp to .jsP and hope Tomcat ignores it",
+            "Trust the client-supplied content-type header",
+            "Increase the maximum upload size",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Authenticate each upload, restrict to safe content types, and store files outside executable/served directories so they can never be run by the app server.",
+        },
+        {
+          id: "stage-m09-q13",
+          type: "Exposure",
+          challenge: `  Shodan searches after disclosure found hundreds of PI
+  servers reachable from the internet.`,
+          text: "What does Cisco hardening guidance say about this?",
+          options: [
+            "Internet exposure of PI is recommended for convenience",
+            "PI management interfaces should never be internet-facing; access must be restricted to designated admin workstations",
+            "Exposure is fine behind a strong password",
+            "PI is safe to expose if SNMP is disabled",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Cisco documentation explicitly warns against exposing PI's management interface. It belongs on an isolated management VLAN reachable only by admin workstations.",
+        },
+        {
+          id: "stage-m09-q14",
+          type: "Detection",
+          challenge: `  A SOC engineer writes detections for exploitation.`,
+          text: "Which signals are most relevant?",
+          options: [
+            "CPU fan speed on the PI server",
+            "POST requests to /pi/health/v1/health in nmsserver.log and newly created .jsp files in the Tomcat webapps directory",
+            "The number of managed APs",
+            "DNS TTL values",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Watch for unexpected POSTs to the health endpoint and for new/modified .jsp files under the Tomcat directory — both indicate upload and web-shell placement.",
+        },
+        {
+          id: "stage-m09-q15",
+          type: "Patch",
+          challenge: `  The remediation owner needs the fixed version.`,
+          text: "Which release fixes CVE-2019-1821?",
+          options: [
+            "Prime Infrastructure 3.4.1 Update 02 or later",
+            "Prime Infrastructure 1.0",
+            "No patch was released",
+            "Any 2.x build",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Cisco fixed the upload authentication gap (and the related CVE-2019-1820) in Prime Infrastructure 3.4.1 Update 02.",
+        },
+        {
+          id: "stage-m09-q16",
+          type: "Compensating control",
+          challenge: `  Before patching completes, the team isolates the server.`,
+          text: "What network control does Cisco recommend?",
+          options: [
+            "Open the health port to all VLANs",
+            "Isolate PI on a dedicated management VLAN with ACLs allowing access only from designated admin workstations",
+            "Move PI onto the guest Wi-Fi",
+            "Expose PI publicly behind a CAPTCHA",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Restricting reachability to the health endpoint via a dedicated management VLAN and ACLs removes the attacker's network path to the upload.",
+        },
+        {
+          id: "stage-m09-q17",
+          type: "Disclosure speed",
+          challenge: `  Public exploit code appeared almost immediately after
+  disclosure.`,
+          text: "What does the ~24-hour PoC timeline imply for defenders?",
+          options: [
+            "There is plenty of time before exploitation",
+            "Patch/isolate on an emergency timeline — exploitation can begin within a day of disclosure",
+            "PoC code never affects real systems",
+            "Exposure only matters after a year",
+          ],
+          correctIndex: 1,
+          explanation:
+            "With public PoC within 24 hours, the window between disclosure and mass exploitation is very short — critical management-plane bugs demand emergency response.",
+        },
+        {
+          id: "stage-m09-q18",
+          type: "Principle — management plane",
+          challenge: `  An architect generalizes the lesson beyond this one
+  product.`,
+          text: "What broader principle does PI exemplify?",
+          options: [
+            "End-user laptops are the highest-value targets",
+            "The management plane is the highest-value target — it holds credentials to everything it manages",
+            "Management servers are low-risk because they are internal",
+            "Credentials are safe once encrypted anywhere",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Management platforms concentrate credentials for every managed device, making them the highest-value target in a network — they warrant the strongest isolation and monitoring.",
+        },
+        {
+          id: "stage-m09-q19",
+          type: "Misconfiguration",
+          challenge: `  Post-incident analysis found recurring deployment
+  mistakes.`,
+          text: "Which misconfigurations amplified exposure?",
+          options: [
+            "PI reachable from general corporate workstations, default service credentials, and no ACLs on the management port",
+            "Too many backups",
+            "Overly aggressive patching",
+            "Excessive use of MFA",
+          ],
+          correctIndex: 0,
+          explanation:
+            "Broad reachability, default credentials, and missing port ACLs each widened the attack surface — hardening guidance existed but was not enforced by default.",
+        },
+        {
+          id: "stage-m09-q20",
+          type: "Lateral movement",
+          challenge: `  After credential extraction the attacker pivots across the
+  network.`,
+          text: "How does PI compromise translate into network-wide control?",
+          options: [
+            "It does not; PI is isolated from devices",
+            "Stolen SSH/SNMP credentials give authenticated access to every managed device, enabling silent config changes everywhere",
+            "Only the PI server itself is affected",
+            "Devices reject any credential from PI",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The extracted credentials authenticate to all managed devices, so the attacker can reconfigure the entire fleet silently from a single foothold.",
+        },
+        {
+          id: "stage-m09-q21",
+          type: "Defense in depth",
+          challenge: `  An architect wants layers so one upload bug is not total
+  compromise.`,
+          text: "Which combination best limits PI exposure?",
+          options: [
+            "A longer admin password only",
+            "Management-VLAN isolation + non-root service account + prompt patching + monitoring uploads and new JSP files + credential rotation after any incident",
+            "Disabling logging to cut noise",
+            "Exposing PI publicly for convenience",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Isolation, least privilege (so Tomcat is not root), patching, upload monitoring, and post-incident credential rotation together prevent one flaw from yielding the whole network.",
+        },
+        {
+          id: "stage-m09-q22",
+          type: "Contrast",
+          challenge: `  A student compares CVE-2019-1821 with CVE-2021-1497
+  (HyperFlex).`,
+          text: "What is the key difference in the initial primitive?",
+          options: [
+            "Both are authentication bypasses",
+            "1821 is an unauthenticated file-upload-to-RCE; 1497 is unauthenticated command injection — different primitives, both yielding root",
+            "Both only read files",
+            "Neither leads to code execution",
+          ],
+          correctIndex: 1,
+          explanation:
+            "CVE-2019-1821 achieves RCE by uploading and running a web shell; CVE-2021-1497 injects commands into a shell. Different mechanisms, both unauthenticated and both reaching root.",
+        },
+        {
+          id: "stage-m09-q23",
+          type: "Post-incident",
+          challenge: `  An organization confirms PI was compromised.`,
+          text: "Beyond patching, what is essential for recovery?",
+          options: [
+            "Nothing — patching restores trust in the credentials",
+            "Rotate all device credentials (SSH, SNMP, RADIUS) the attacker could have extracted and audit managed-device configs for unauthorized changes",
+            "Only reboot the PI server",
+            "Only change the PI web theme",
+          ],
+          correctIndex: 1,
+          explanation:
+            "Because the credential store was readable, every managed-device credential must be rotated and device configs audited for backdoor accounts or ACL/logging changes.",
+        },
+        {
+          id: "stage-m09-q24",
+          type: "Scope",
+          challenge: `  A reviewer states what CVE-2019-1821 grants on its own.`,
+          text: "Which statement is most accurate?",
+          options: [
+            "It only reveals the server version banner",
+            "It grants an unauthenticated root shell on the PI server, from which managed-device credentials can be extracted",
+            "It requires valid admin credentials first",
+            "It only causes a temporary service restart",
+          ],
+          correctIndex: 1,
+          explanation:
+            "On its own the flaw yields an unauthenticated root shell on Prime Infrastructure — the gateway to extracting credentials and controlling the managed device fleet.",
+        },
+        {
+          id: "stage-m09-q25",
+          type: "Principle",
+          challenge: `  A CISO writes the one-line takeaway for the board.`,
+          text: "Which best captures the CVE-2019-1821 lesson?",
+          options: [
+            "Internal management servers need no isolation",
+            "The network management platform is tier-0: isolate it, authenticate and constrain every upload, run it non-root, and assume managed-device credentials are burned if it is breached",
+            "File uploads are only risky on public websites",
+            "Encryption-at-rest fully protects credentials even after host compromise",
+          ],
+          correctIndex: 1,
+          explanation:
+            "The durable lesson: treat the management plane as tier-0 — isolate it, harden uploads, avoid running as root, and rotate every managed credential if the platform is compromised.",
+        },
+      ],
+    },
     ctf: {
       scenario: "Cisco Prime Infrastructure is the nerve center of enterprise Cisco networks — one compromise exposes credentials for every router, switch, and access point it manages. CVE-2019-1821 gave unauthenticated attackers file upload to root via the health monitoring endpoint. Nation-state operators actively target network management platforms because a single foothold cascades into total network visibility. Upload the payload. Own the platform.",
       hint: "The health endpoint takes unauthenticated file uploads. Upload a .jsp payload, then execute it to get a root shell.",
